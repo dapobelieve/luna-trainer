@@ -1,0 +1,13 @@
+body {
+  font-family: "Source Sans Pro", sans-serif !important;
+  background-color: #f0f5fa;
+}
+.btn-primary {
+  background-color: #56ccf2;
+}
+.btn-primary:hover {
+  background-color: #56ccf2;
+}
+.or-secondary {
+  background-color: rgba(240, 245, 250, 0.9);
+}
