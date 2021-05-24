@@ -1,6 +1,7 @@
 body {
-  font-family: "Source Sans Pro", sans-serif !important;
+  font-family: "Rubik", sans-serif !important;
   background-color: #f0f5fa;
+  margin: auto;
 }
 .btn-primary {
   background-color: #56ccf2;
@@ -11,3 +12,9 @@ body {
 .or-secondary {
   background-color: rgba(240, 245, 250, 0.9);
 }
+
+.form-size {
+  width: 29rem;
+  height: 32rem;
+}
+

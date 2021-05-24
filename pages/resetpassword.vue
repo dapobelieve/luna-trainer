@@ -7,32 +7,34 @@
             <h4>Create new passowrd</h4>
           </div>
           <div class="col-12 mb-3">
-            <span class="text-muted"
-              >Your new password must be different from previously used
-              passwords.</span
-            >
+            <span
+              class="text-muted"
+            >Your new password must be different from previously used
+              passwords.</span>
           </div>
           <div>
             <form>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label"
-                  >Password</label
-                >
+                <label
+                  for="exampleInputPassword1"
+                  class="form-label"
+                >Password</label>
                 <input
+                  id="exampleInputPassword1"
                   type="password"
                   class="form-control"
-                  id="exampleInputPassword1"
-                />
+                >
               </div>
               <div class="mb-3">
-                <label for="exampleInputConfirmPassword1" class="form-label"
-                  >Confirm Password</label
-                >
+                <label
+                  for="exampleInputConfirmPassword1"
+                  class="form-label"
+                >Confirm Password</label>
                 <input
+                  id="exampleInputConfirmPassword1"
                   type="password"
                   class="form-control"
-                  id="exampleInputConfirmPassword1"
-                />
+                >
               </div>
 
               <button type="submit" class="btn btn-primary border-0 w-100">
@@ -46,6 +48,6 @@
   </div>
 </template>
 <script>
-export default {};
+export default {}
 </script>
 <style scoped></style>
