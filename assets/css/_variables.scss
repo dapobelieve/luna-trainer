@@ -1,0 +1,29 @@
+$primary-color:  #56CCF2;
+$primary-hover-color: #46A6C8;
+$secondary-color: #172942;
+$warning-color: #FFEFC0;
+$success-color: #4BA695;
+$info-color: #4F638C;
+$danger-color: #D50000;
+$text-disabled-color: #8F97A6;
+$white-color: #FFFFFF;
+$black-color: #000000;
+$primary-active-color: #3890A8;
+$primary-disabled-color: #B6EAF8;
+$border-color: #D7D9E2;
+$body-background-color: #F0F5FA;
+$location-onsite-color: #00BFA5;
+$location-onsite-light-color: #E6F6FF;
+$location-remote-color: #FFAB00;
+$location-remote-light-color: #E5FDFF;
+$danger-light-color: #FBEAEA;
+$request-color: #D38F29;
+$request-opacity-color: rgba(211, 143, 41, 0.15);
+
+@mixin font-details {
+    font-family: "Rubik";
+    font-style: normal;
+    color: #000000;
+}
+
+
