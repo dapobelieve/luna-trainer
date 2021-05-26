@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main :style="$store.state.bodyClass">
     <div class="d-flex flex-column align-items-center">
       <header class="py-4">
         <img src="~/assets/img/getWelpLogo.png" alt="getWelp logo">
@@ -12,13 +12,14 @@
     </div>
   </main>
 </template>
-
+<script>
+export default {
+  middleware: 'switchBackgroundImages'
+}
+</script>
 <style lang="scss">
 body {
   background: rgba(240, 245, 250, 1);
-  background-image: url('~/assets/img/leftDogImg.png');
-  background-repeat: no-repeat;
-  background-position: left bottom;
 }
 
 main {
