@@ -1,6 +1,6 @@
 <template>
   <main :style="$store.state.bodyClass">
-    <div class="d-flex flex-column align-items-center">
+    <div class="d-flex flex-column align-items-center pb-4">
       <header class="py-4">
         <img src="~/assets/img/getWelpLogo.png" alt="getWelp logo">
       </header>

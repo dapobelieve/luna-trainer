@@ -21,12 +21,12 @@
           <input id="location" type="text" class="form-control">
         </div>
         <div class="">
-          <label
-            for="location"
-            class="form-label"
-          >Profile Image</label>
+          <label for="location" class="form-label">Profile Image</label>
           <div class="border-dashed d-flex align-items-center rounded p-2">
-            <img class="p-4 rounded-circle border bg-info" src="~/assets/img/user.svg">
+            <img
+              class="p-4 rounded-circle border bg-info"
+              src="~/assets/img/user.svg"
+            >
             <div class="ms-4">
               <small class="d-block"> Drop images here or <u>browse</u> </small>
               <small class="text-muted">Image format: jpeg, png or gif</small>
@@ -35,10 +35,7 @@
         </div>
         <hr>
         <div class="">
-          <label
-            for="experience"
-            class="form-label"
-          >Years of experience</label>
+          <label for="experience" class="form-label">Years of experience</label>
           <input id="experience" type="text" class="form-control">
         </div>
         <div class="">
@@ -72,8 +69,9 @@
           </div>
         </div>
         <button
-          type="submit"
+          type="button"
           class="btn primary-color text-white border-0 w-100 mt-2"
+          @click="$router.push({ name: 'Dashboard' })"
         >
           Proceed
         </button>
@@ -88,8 +86,8 @@ export default {
 }
 </script>
 <style scoped>
-.border-dashed{
-    border: 1px solid gray;
-    border-style: dashed;
+.border-dashed {
+  border: 1px solid gray;
+  border-style: dashed;
 }
 </style>
