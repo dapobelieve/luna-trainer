@@ -1,5 +1,5 @@
 <template>
-  <div class="d-grid gap-4">
+  <div class="d-grid gap-4 tail-pb-4 md:tail-pb-0">
     <div class="col-12">
       <h3>Setup your profile</h3>
       <small class="text-muted">Kindly provide all necessary information</small>
@@ -7,7 +7,7 @@
     <div>
       <form class="d-grid gap-4">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-6 tail-pb-4 md:tail-pb-0">
             <label for="firstname" class="form-label">First name</label>
             <input id="firstname" type="text" class="form-control">
           </div>

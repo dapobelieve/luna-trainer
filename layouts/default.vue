@@ -1,9 +1,7 @@
 <template>
   <main>
-    <header class="d-flex py-3 bg-danger">
-      <img class="" src="~/assets/img/getWelpLogo.png" alt="getWelp logo">
-      <img src="~/assets/img/getWelpLogo.png" alt="getWelp logo">
-      <img src="~/assets/img/getWelpLogo.png" alt="getWelp logo">
+    <header class="d-flex py-5 tail-bg-purple-600">
+      <!-- <img class="" src="~/assets/img/svgs/logo-xbox.svg" alt="getWelp logo"> -->
     </header>
     <Nuxt />
   </main>
