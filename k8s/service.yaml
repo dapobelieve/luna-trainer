@@ -27,7 +27,7 @@ spec:
   tls:
     - hosts:
       - staging.getwelp.co.uk
-      secretName: staging-getwelp-ui-cert-tls-2
+      secretName: staging-getwelp-co-uk-tls-2
   rules:
   - host: staging.getwelp.co.uk
     http:
