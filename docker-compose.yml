@@ -1,0 +1,21 @@
+version: '3'
+services:
+  trainer-ui:
+    build:
+      context: .
+    environment:
+      - PORT=5005
+      - NUXT_HOST=0.0.0.0
+      - NUXT_PORT=5005
+      - NODE_ENV=dev
+      - BASE_DOMAIN=http://localhost:5002/
+    ports:
+      - 5005:5005
+    volumes:
+      - .:/var/www/
+      - /var/www/node_modules
+    networks:
+      - getwelp-vpc
+networks:
+  getwelp-vpc:
+    external: true

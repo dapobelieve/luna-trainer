@@ -1,0 +1,51 @@
+---
+version: 0.2
+phases:
+  install:
+    commands:
+      # - echo Logging in to Amazon ECR...
+      - aws --version
+      - sudo rm -fr $(which aws)
+      - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      - unzip -qq awscliv2.zip
+      - sudo ./aws/install
+      - aws --version
+      - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+      - curl -sS -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/aws-iam-authenticator
+      - curl -sS -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
+      - chmod +x ./kubectl ./aws-iam-authenticator
+      - export PATH=$PWD/:$PATH
+  pre_build:
+    commands:
+      - sed -i 's@CONTAINER_IMAGE@'"$DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION"'@' k8s/deployment.yaml
+      - sed -i 's@APPNAME@'"$APPNAME"'@' k8s/deployment.yaml
+      - sed -i 's@APPNAME@'"$APPNAME"'@' k8s/service.yaml
+
+      - cat k8s/deployment.yaml
+      - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
+      - ls -las
+      - export KUBECONFIG=$HOME/.kube/config
+  build:
+    commands:
+      ## Enable the below line if you want to create your DB and other secure parameters to the .env/config files. make sure to grant access to the SSM parameter store.
+      ## - aws ssm get-parameter --with-decryption --name $WHATEVERTHEPARAMETERNAMR --region $REGION | jq '.Parameter.Value' > .env
+      - docker build -t $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+
+  post_build:
+    commands:
+      - docker push $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
+      - CREDENTIALS=$(aws sts assume-role --role-arn $ASSUMED_ROLE_ARN --role-session-name codebuild-kubectl --duration-seconds 900)
+      - export AWS_ACCESS_KEY_ID="$(echo ${CREDENTIALS} | jq -r '.Credentials.AccessKeyId')"
+      - export AWS_SECRET_ACCESS_KEY="$(echo ${CREDENTIALS} | jq -r '.Credentials.SecretAccessKey')"
+      - export AWS_SESSION_TOKEN="$(echo ${CREDENTIALS} | jq -r '.Credentials.SessionToken')"
+      - export AWS_EXPIRATION=$(echo ${CREDENTIALS} | jq -r '.Credentials.Expiration')
+      - echo $AWS_REGION
+      - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
+
+      - kubectl apply -f k8s/deployment.yaml
+      
+      - kubectl apply -f k8s/service.yaml
+
+      - printf '[{"name":"k8s-deployment","imageUri":"%s"}]' $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION > build.json
+artifacts:
+  files: build.json

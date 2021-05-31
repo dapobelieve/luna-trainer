@@ -1,0 +1,62 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: APPNAME
+---
+apiVersion: apps/v1
+kind: Deployment
+namespace: 
+metadata:
+  name: APPNAME
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: APPNAME
+  template:
+    metadata:
+      labels:
+        app: APPNAME
+    spec:
+      containers:
+        - name: APPNAME
+          image: CONTAINER_IMAGE
+          securityContext:
+            privileged: false
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: NUXT_HOST
+              value: '0.0.0.0'
+            - name: NUXT_PORT
+              value: '80'
+            - name: PORT
+              value: '80'
+            - name: NODE_ENV
+              value: production
+            - name: QB_APP_ID
+              value: '90923'
+            - name: QB_AUTH_KEY
+              value: gxGjrJkWFADuUOY
+            - name: QB_AUTH_SECRET
+              value: G2Y5FKOba72jQRx
+            - name: QB_ACCOUNT_KEY
+              value: 7yCxsvCg31Zrtyx7xvdi
+            - name: THERAPIST_UI_URL
+              value: https://api.superpow.app/therapist/v1/therapist
+            - name: THERAPIST_UI_INVITE_URL
+              value: https://api.superpow.app/therapist/v1/therapist-invite
+            - name: THERAPIST_UI_CLIENT_URL
+              value: https://api.superpow.app/therapist/v1/client
+            - name: THERAPIST_UI_NOTIFICATIONS_URL
+              value: https://api.superpow.app/therapist/v1/notifications
+            - name: THERAPIST_UI_APPOINTMENTS_URL
+              value: https://api.superpow.app/therapist/v1/appointment
+            - name: THERAPIST_UI_QB_URL
+              value: https://api.superpow.app/therapist/v1/qb
+            - name: THERAPIST_UI_AUTH_URL
+              value: https://api.superpow.app/accounts/v1
+            - name: THERAPIST_UI_PAYMENTS_URL
+              value: https://api.superpow.app/payments/v1
