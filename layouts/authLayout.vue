@@ -1,6 +1,6 @@
 <template>
   <main :style="$store.state.bodyClass">
-    <div class="d-flex flex-column align-items-center md:tail-pb-4">
+    <div class="tail-flex tail-flex-col tail-items-center md:tail-pb-4">
       <header
         class="py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
       >

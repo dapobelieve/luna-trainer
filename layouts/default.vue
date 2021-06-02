@@ -1,7 +1,7 @@
 <template>
   <main>
     <header
-      class="tail-bg-white tail-p-3 d-flex justify-content-between align-items-center tail-text-2xl tail-sticky tail-top-0 tail-z-10"
+      class="tail-bg-white tail-p-3 tail-flex tail-justify-between tail-items-center tail-text-2xl tail-sticky tail-top-0 tail-z-10"
     >
       <img
         class="tail-h-10"
@@ -9,22 +9,22 @@
         alt="getWelp logo"
       >
       <div
-        class="tail-border rounded body-background tail-hidden md:tail-block md:tail-py-1 md:tail-px-3 d-flex align-items-center md:tail-w-4/12"
+        class="tail-border tail-rounded-md body-background md:tail-py-1 md:tail-px-3 tail-flex tail-items-center md:tail-w-4/12"
       >
         <i class="ns-search tail-mr-2 tail-hidden md:tail-block"></i>
         <input
-          class="tail-outline-none tail-text-lg body-background w-100 tail-hidden md:tail-block"
+          class="tail-outline-none tail-text-lg body-background tail-w-full tail-hidden md:tail-block"
           type="text"
           placeholder="Search"
         >
       </div>
-      <div class="d-flex">
-        <i class="ns-search border rounded p-1 tail-mr-2 md:tail-hidden"></i>
-        <span class="position-relative d-flex border rounded tail-mr-2">
+      <div class="tail-flex">
+        <i class="ns-search tail-border tail-rounded-md tail-p-1 tail-mr-2 md:tail-hidden"></i>
+        <span class="tail-relative tail-flex tail-border tail-rounded-md tail-mr-2">
           <small
-            class="position-absolute tail-right-0 tail-bg-red-700 text-white tail-text-xs tail-leading-none rounded-circle"
+            class="tail-absolute tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
           >10</small>
-          <i class="ns-comment-alt rounded p-1"></i>
+          <i class="ns-comment-alt tail-rounded-md tail-p-1"></i>
         </span>
         <span class="position-relative d-flex border rounded tail-mr-2">
           <span
