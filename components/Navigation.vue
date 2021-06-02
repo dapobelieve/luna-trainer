@@ -55,7 +55,9 @@ export default {
 
 <style lang="scss" scoped>
 a {
-  @apply tail-text-gray-500 tail-no-underline;
+  // @apply tail-text-gray-500 tail-no-underline;
+  text-decoration: none;
+  color: gray;
 }
 
 @media only screen and (max-width: 768px) {

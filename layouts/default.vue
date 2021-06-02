@@ -37,7 +37,7 @@
     </header>
     <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex">
       <Navigation />
-      <Nuxt class="views" />
+      <Nuxt class="views tail-mb-20" />
     </div>
   </main>
 </template>
