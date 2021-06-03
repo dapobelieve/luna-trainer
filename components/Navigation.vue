@@ -1,8 +1,8 @@
 <template>
-  <div class="nav md:tail-ml-1">
+  <div class="nav md:tail-ml-2">
     <NuxtLink
       :to="{ name: 'Dashboard' }"
-      class="d-flex flex-column align-items-center tail-px-4 tail-py-3"
+      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
       href=""
       exact-active-class="active"
     >
@@ -13,7 +13,7 @@
     </NuxtLink>
     <NuxtLink
       :to="{ name: 'Schedules' }"
-      class="d-flex flex-column align-items-center tail-px-4 tail-py-3"
+      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
       href=""
       exact-active-class="active"
     >
@@ -24,7 +24,7 @@
     </NuxtLink>
     <NuxtLink
       :to="{ name: 'Clients' }"
-      class="d-flex flex-column align-items-center tail-px-4 tail-py-3"
+      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
       href=""
       exact-active-class="active"
     >
@@ -35,7 +35,7 @@
     </NuxtLink>
     <NuxtLink
       :to="{ name: 'Invoices' }"
-      class="d-flex flex-column align-items-center tail-px-4 tail-py-3"
+      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
       href=""
       exact-active-class="active"
     >
@@ -55,7 +55,9 @@ export default {
 
 <style lang="scss" scoped>
 a {
-  @apply tail-text-gray-500 tail-no-underline;
+  // @apply tail-text-gray-500 tail-no-underline;
+  text-decoration: none;
+  color: gray;
 }
 
 @media only screen and (max-width: 768px) {
