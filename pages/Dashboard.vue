@@ -1,15 +1,14 @@
 <template>
-  <main class="d-flex">
+  <main class="tail-flex">
     <article class="dash-view tail-pb-48 tail-mx-3 lg:tail-mx-0">
       <div class="main-view tail-grid tail-gap-4 tail-my-5 tail-mx-auto">
         <div
-          style="background-color: #172942;"
-          class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 d-flex tail-flex-col lg:tail-flex-row justify-content-between tail-text-white tail-order-first dog-paw"
+          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
         >
           <div>
-            <h3 class="text-capitalize tail-font-bold">
+            <h2 class="tail-capitalize tail-text-lg tail-font-bold">
               hello, rosie!
-            </h3>
+            </h2>
             <p class="lg:tail-max-w-md">
               Welcome back! If you need the GetWelp Team’s help with anything,
               just pop us a message in the live chat below!
@@ -18,7 +17,7 @@
           <div>
             <button
               style="background: rgba(86, 204, 242, 1);"
-              class="text-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700"
+              class="tail-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700"
             >
               invite new client
             </button>
@@ -26,18 +25,66 @@
         </div>
         <div
           style="background: #4F638C;"
-          class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 d-flex justify-content-between tail-text-white order-3 md:tail-order-2"
+          class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-grid tail-text-white tail-order-3 md:tail-order-2"
         >
-          <p class="">
+          <p class="tail-mb-4">
             Get the best out of GetWelp by connecting your calendars and Zoom,
             Stripe, and onboard your clients!
           </p>
+          <ul class="tail-inline-block tail-list-none tail-m-0 tail-p-0">
+            <li>
+              <div class="tail-flex tail-items-center">
+                <p
+                  class="tail-bg-green-500 tail-mr-1 tail-rounded-full tail-text-xs"
+                >
+                  <i class="ns-check"></i>
+                </p>
+                <a href="#">Stripe</a>
+              </div>
+            </li>
+            <li>
+              <div class="tail-flex tail-items-center">
+                <p
+                  class="tail-bg-green-500 tail-mr-1 tail-rounded-full tail-text-xs"
+                >
+                  <i class="ns-check"></i>
+                </p>
+                <a href="#">Added your first client</a>
+              </div>
+            </li>
+            <li>
+              <div class="tail-flex tail-items-center">
+                <p
+                  class="tail-px-1 tail-bg-gray-300 tail-mr-1 tail-rounded-full tail-text-xs"
+                >
+                  1
+                </p>
+                <a
+                href="#"
+                  >Calendar(s) <span class="tail-underline">Sync</span></a
+                >
+              </div>
+            </li>
+            <li>
+              <div class="tail-flex tail-items-center">
+                <p
+                  class="tail-px-1 tail-bg-gray-300 tail-mr-1 tail-rounded-full tail-text-xs"
+                >
+                  2
+                </p>
+                <a
+                href="#"
+                  >Fully connected <span class="tail-underline">Sync</span></a
+                >
+              </div>
+            </li>
+          </ul>
         </div>
         <div
-          class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 d-flex align-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
+          class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
           <i class="ns-building tail-text-3xl tail-text-gray-500"></i>
-          <h3 class="tail-ml-2 mb-0">
+          <h3 class="tail-ml-2 tail-mb-0">
             Pawfect Dog Training
           </h3>
         </div>
@@ -47,7 +94,7 @@
           <!-- houses clients section -->
           <div class="tail-grid tail-gap-4">
             <div>
-              <h5>Clients</h5>
+              <h5 class="tail-font-semibold tail-mb-2">Clients</h5>
               <!-- <div class="d-flex tail-flex-wrap">
                 <div
                   v-for="n in 5"
@@ -85,72 +132,102 @@
               </div> -->
             </div>
             <div>
-              <h5>Messages</h5>
-              <div class="tail-rounded-md tail-bg-white tail-p-6">
-                <div
-                  class="d-flex align-items-center tail-mb-4"
-                  v-for="n in 3"
-                  :key="n"
-                >
-                  <img
-                    class="rounded-circle tail-h-14"
-                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                  />
-                  <div class="tail-mr-auto tail-ml-2">
-                    <p class="mb-0 text-capitalize">
-                      rilwan lawal
-                      <span class="text-muted tail-ml-2">1:09PM</span>
-                    </p>
-                    <small>Hello Rosie, sending you...</small>
+              <h5 class="tail-font-semibold tail-mb-2">Messages</h5>
+              <div class="tail-rounded-md tail-bg-white tail-p-6 md:tail-h-full">
+                <div v-if="!showMessages" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
+                  <div class="tail-w-full tail-my-5">
+                    <img
+                      class="tail-text-center tail-inline-block"
+                      src="~/assets/img/low-dog.png"
+                      alt=""
+                      srcset=""
+                    />
                   </div>
-                  <button
-                    class="border text-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
-                  >
-                    View
-                  </button>
+                  <h5 class="tail-font-bold">
+                    No messages yet
+                  </h5>
+                  <p class="tail-px-5 tail-text-sm tail-mb-0">
+                    Messages will appear here when you invite and onboard a new client
+                  </p>
                 </div>
+                <template v-else>
+                  <div
+                    class="tail-flex tail-items-center tail-mb-4"
+                    v-for="n in 3"
+                    :key="n"
+                  >
+                    <img
+                      class="tail-rounded-full tail-h-14"
+                      src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+                    />
+                    <div class="tail-mr-auto tail-ml-2">
+                      <p class="tail-mb-0 tail-capitalize">
+                        rilwan lawal
+                        <span
+                        class="tail-text-gray-400 tail-ml-2 tail-text-xs"
+                          >1:09PM</span>
+                      </p>
+                      <small>Hello Rosie, sending you...</small>
+                    </div>
+                    <button
+                      class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
+                    >
+                      View
+                    </button>
+                  </div>
+                </template>
               </div>
             </div>
           </div>
           <!-- end of clients section -->
           <div class="tail-h-full">
-            <h5>Payment</h5>
-            <div class="tail-bg-white tail-rounded-md tail-p-4 tail-h-full">
-              <p class="mb-0">
+            <h5 class="tail-font-semibold tail-mb-2">Payment</h5>
+            <div class="tail-bg-white tail-rounded-md tail-p-4 md:tail-h-full">
+              <p class="tail-mb-0">
                 This Month
               </p>
               <div class="tail-grid tail-gap-4 tail-grid-cols-2 tail-py-5">
                 <div
-                  class="rounded border tail-px-4 tail-py-2"
+                  class="tail-rounded tail-border-1 tail-px-4 tail-py-2"
                   style="background: rgba(240, 245, 250, 1);"
                 >
-                  <small class="d-block">Due</small>
-                  <h3 class="mb-0 tail-font-bold">
+                  <small class="tail-block">Due</small>
+                  <h3 class="tail-mb-0 tail-font-bold">
                     £480
                   </h3>
                 </div>
-                <div class="rounded border tail-px-4 tail-py-2 text-muted">
-                  <small class="d-block">Received</small>
-                  <h3 class="mb-0 tail-font-bold">
+                <div
+                  class="tail-rounded tail-border tail-px-4 tail-py-2 tail-text-gray-400"
+                >
+                  <small class="tail-block">Received</small>
+                  <h3 class="tail-mb-0 tail-font-bold">
                     £1,840
                   </h3>
                 </div>
               </div>
               <div
                 v-if="!showPayment"
-                class="tail-mt-5 tail-max-w-xs tail-mx-auto text-center"
+                class="tail-mt-5 tail-max-w-xs tail-text-center tail-mx-auto tail-center"
               >
+                <div class="tail-w-full tail-my-5">
+                  <img
+                    class="tail-text-center tail-inline-block"
+                    src="~/assets/img/low-dog.png"
+                    alt=""
+                    srcset=""
+                  />
+                </div>
                 <h5 class="tail-font-bold">
                   No payments yet
                 </h5>
-                <small class="d-block">
+                <small class="tail-block">
                   See paid and due transactions from your clients here. For
                   GetWelp to help you with your invoicing and payments, connect
                   to your Stripe account below!
                 </small>
                 <button
                   style="background: rgba(86, 204, 242, 1);"
-                  class="text-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-5"
+                  class="tail-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-5"
                   @click.prevent="showPayment = !showPayment"
                 >
                   connect stripe
@@ -158,25 +235,25 @@
               </div>
               <div v-else>
                 <div
-                  class="d-flex align-items-center tail-p-4"
+                  class="tail-flex tail-items-center tail-p-4"
                   v-for="n in 4"
                   :key="n"
                 >
                   <img
-                    class="rounded-circle tail-h-14"
+                    class="tail-rounded-full tail-h-14"
                     src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                   />
                   <div class="tail-ml-4 tail-mr-auto">
-                    <p class="text-capitalize tail-font-bold mb-0">
+                    <p class="tail-capitalize tail-font-bold tail-mb-0">
                       rilwan lawal
                     </p>
-                    <small class="text-muted">10 May</small>
+                    <small class="tail-text-gray-400">10 May</small>
                   </div>
                   <p class="tail-font-bold">
                     £60
                   </p>
                 </div>
-                <div>
+                <div class="tail-w-full tail-text-center">
                   <button
                     @click.prevent="showPayment = !showPayment"
                     class="tail-text-blue-500 w-100"
@@ -201,7 +278,8 @@ export default {
   name: 'Dashboard',
   data () {
     return {
-      showPayment: false
+      showPayment: false,
+      showMessages: true
     }
   }
 }
@@ -217,9 +295,20 @@ export default {
   .calendar {
     display: none;
   }
+  ul {
+    li {
+      display: block;
+    }
+  }
 }
 
 @media only screen and (min-width: 769px) {
+  ul {
+    li {
+      display: inline-block;
+      margin-right: 1em;
+    }
+  }
   .dash-view {
     width: calc(100% - 300px);
   }
