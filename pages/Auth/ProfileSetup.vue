@@ -68,13 +68,15 @@
             <label for="no">No</label>
           </div>
         </div>
-        <button
-          type="button"
-          class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5"
-          @click="$router.push({ name: 'Dashboard' })"
-        >
-          Proceed
-        </button>
+        <div class="tail-flex tail-justify-center">
+          <button
+            type="button"
+            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5 btn-size"
+            @click="$router.push({ name: 'Dashboard' })"
+          >
+            Proceed
+          </button>
+        </div>
       </form>
     </div>
   </div>

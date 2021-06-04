@@ -42,13 +42,14 @@
           <label for="password" class="form-label">Confirm Password</label>
           <input id="password" type="password" class="form-control">
         </div>
-
-        <button
-          type="submit"
-          class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5"
-        >
-          Get started
-        </button>
+        <div class="tail-flex tail-justify-center">
+          <button
+            type="submit"
+            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5 btn-size"
+          >
+            Get started
+          </button>
+        </div>
       </form>
       <div class="tail-text-center tail-pt-4">
         <span

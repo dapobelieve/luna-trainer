@@ -17,12 +17,14 @@
           <input id="password" type="password" class="form-control">
         </div>
 
-        <button
-          type="submit"
-          class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-p-1.5 tail-rounded"
-        >
-          Save
-        </button>
+        <div class="tail-flex tail-justify-center">
+          <button
+            type="submit"
+            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-p-1.5 tail-rounded btn-size"
+          >
+            Save
+          </button>
+        </div>
       </form>
     </div>
   </div>

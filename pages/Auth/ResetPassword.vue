@@ -37,9 +37,11 @@
                 >
               </div>
 
-              <button type="submit" class="primary-color tail-border-0 tail-w-100 tail-p-1.5 tail">
-                Save
-              </button>
+              <div class="tail-flex tail-justify-center">
+                <button type="submit" class="primary-color tail-border-0 tail-w-100 tail-p-1.5 tail tail-rounded btn-size">
+                  Save
+                </button>
+              </div>
             </form>
           </div>
         </div>

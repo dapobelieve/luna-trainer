@@ -38,13 +38,15 @@
           <input id="password" type="password" class="form-control">
         </div>
 
-        <button
-          type="button"
-          class="tail-p-1.5 tail-rounded primary-color tail-white tail-border-0 tail-w-100 tail-mt-2"
-          @click="$router.push({name: 'Auth-ProfileSetup'})"
-        >
-          Login
-        </button>
+        <div class="tail-flex tail-justify-center">
+          <button
+            type="button"
+            class="tail-p-1.5 tail-rounded primary-color tail-white tail-border-0 tail-w-100 tail-mt-2 btn-size"
+            @click="$router.push({name: 'Auth-ProfileSetup'})"
+          >
+            Login
+          </button>
+        </div>
       </form>
       <div class="tail-text-center pt-4">
         <NuxtLink :to="{ name: 'Auth-ForgotPassword' }" class="tail-text-gray-900">
