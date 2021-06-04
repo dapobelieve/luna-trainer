@@ -40,7 +40,7 @@
 
         <div class="tail-mb-4 tail-grid">
           <label for="password" class="form-label">Confirm Password</label>
-          <input id="password" type="password" class="form-control">
+          <input id="password" type="password" class="form-control input-size">
         </div>
         <div class="tail-flex tail-justify-center">
           <button
