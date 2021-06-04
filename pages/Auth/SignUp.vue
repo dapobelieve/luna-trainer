@@ -1,30 +1,30 @@
 <template>
-  <div class="d-grid gap-4">
-    <div class="col-12">
-      <h3>Sign Up</h3>
+  <div class="tail-grid tail-gap-4 tail-mx-8 tail-my-2">
+    <div class="tail-grid tail-grid-col-12">
+      <h3>Sign up</h3>
     </div>
-    <div class="col-12">
+    <div class="tail-grid tail-grid-col-12 tail-mb-4">
       <button
         type="button"
-        class="btn btn-white border w-100 d-flex align-items-center justify-content-center"
+        class="tail-bg-white tail-border tail-w-100 tail-flex tail-align-center tail-justify-center tail-p-1.5 tail-rounded"
       >
         <img src="~/assets/img/googleLogoImg.png" alt="google logo">
-        <span class="ms-1">Google</span>
+        <span class="tail-ml-1">Google</span>
       </button>
     </div>
-    <div class="position-relative">
-      <hr>
+    <div class="tail-relative">
+      <hr class="tail-z-0">
       <div
-        class="w-100 position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center"
+        class="tail-w-100 tail-absolute tail-z-40 tail-transform tail-translate-x-28 tail--translate-y-4 tail-flex tail-align-center tail-justify-center"
       >
         <small
-          class="border rounded-circle or-secondary text-muted p-2 body-background"
+          class="tail-border tail-rounded-full or-secondary tail-text-grey tail-p-2 body-background"
         >OR</small>
       </div>
     </div>
-    <div>
+    <div class="tail-py-3.5">
       <form>
-        <div class="mb-4">
+        <div class="tail-mb-4 tail-grid">
           <label for="email" class="form-label fst-normal">Email address</label>
           <input
             id="email"
@@ -33,30 +33,30 @@
             aria-describedby="emailHelp"
           >
         </div>
-        <div class="mb-4">
+        <div class="tail-mb-4 tail-grid">
           <label for="password" class="form-label">Password</label>
           <input id="password" type="password" class="form-control">
         </div>
 
-        <div class="mb-4">
+        <div class="tail-mb-4 tail-grid">
           <label for="password" class="form-label">Confirm Password</label>
           <input id="password" type="password" class="form-control">
         </div>
 
         <button
           type="submit"
-          class="btn primary-color text-white border-0 w-100 mt-2"
+          class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5"
         >
           Get started
         </button>
       </form>
-      <div class="text-center pt-4">
+      <div class="tail-text-center tail-pt-4">
         <span
-          class="text-muted"
+          class="tail-text-gray-400"
         >Already have an account?
           <NuxtLink
             :to="{ name: 'Auth-SignIn' }"
-            class="text-dark"
+            class="tail-text-gray-900"
           >Sign In</NuxtLink></span>
       </div>
     </div>

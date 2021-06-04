@@ -1,17 +1,17 @@
 <template>
-  <div class="d-grid gap-4 tail-pb-4 md:tail-pb-0">
-    <div class="col-12">
+  <div class="tail-grid tail-gap-4 tail-pb-4 md:tail-pb-0">
+    <div class="tail-col-12">
       <h3>Setup your profile</h3>
-      <small class="text-muted">Kindly provide all necessary information</small>
+      <small class="tail-text-gray-400">Kindly provide all necessary information</small>
     </div>
     <div>
-      <form class="d-grid gap-4">
-        <div class="row">
-          <div class="col-md-6 tail-pb-4 md:tail-pb-0">
+      <form>
+        <div class="tail-grid tail-gap-4">
+          <div class="tail-col-6 tail-pb-4 md:tail-pb-0">
             <label for="firstname" class="form-label">First name</label>
             <input id="firstname" type="text" class="form-control">
           </div>
-          <div class="col-md-6">
+          <div class="tail-col-6">
             <label for="lastname" class="form-label">Last name</label>
             <input id="lastname" type="text" class="form-control">
           </div>
@@ -22,14 +22,14 @@
         </div>
         <div class="">
           <label for="location" class="form-label">Profile Image</label>
-          <div class="border-dashed d-flex align-items-center rounded p-2">
+          <div class="border-dashed tail-flex tail-align-center tail-rounded tail-p-2">
             <img
-              class="p-4 rounded-circle border bg-info"
+              class="tail-p-4 tail-rounded-full tail-border tail-bg-gray-200"
               src="~/assets/img/user.svg"
             >
-            <div class="ms-4">
-              <small class="d-block"> Drop images here or <u>browse</u> </small>
-              <small class="text-muted">Image format: jpeg, png or gif</small>
+            <div class="tail-ml-4">
+              <small class="tail-block"> Drop images here or <u>browse</u> </small>
+              <small class="tail-text-gray-400">Image format: jpeg, png or gif</small>
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@
           >What do you specialise in?</label>
           <input id="specialise" type="text" class="form-control">
           <small
-            class="text-muted"
+            class="tail-text-gray-400"
           >Use comma to separate more than one specialisation.</small>
         </div>
         <div class="">
@@ -70,7 +70,7 @@
         </div>
         <button
           type="button"
-          class="btn primary-color text-white border-0 w-100 mt-2"
+          class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5"
           @click="$router.push({ name: 'Dashboard' })"
         >
           Proceed
