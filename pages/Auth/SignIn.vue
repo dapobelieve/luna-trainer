@@ -1,24 +1,25 @@
 <template>
-  <div class="d-grid gap-4">
-    <div class="col-12">
-      <h3>Sign in</h3>
+  <div class="tail-grid tail-gap-4">
+    <div class="">
+      <h2>Sign in</h2>
     </div>
-    <div class="col-12">
+    <div class="">
       <button
         type="button"
-        class="btn btn-white border w-100 d-flex align-items-center justify-content-center"
+        class="tail-border tail-border-gray-300 tail-w-full tail-flex tail-items-center tail-justify-center tail-py-2 tail-rounded-md"
       >
         <img src="~/assets/img/googleLogoImg.png" alt="google logo">
-        <span class="ms-1">Google</span>
+        <span class="tail-ml-1">Google</span>
       </button>
     </div>
-    <div class="position-relative">
+    <div class="tail-relative">
       <hr>
       <div
-        class="w-100 position-absolute top-50 translate-middle-y d-flex align-items-center justify-content-center"
+      style="top: 50"
+        class="tail-w-full tail-absolute tail-flex tail-items-center tail-justify-center"
       >
         <small
-          class="border rounded-circle or-secondary text-muted p-2 body-background"
+          class="tail-border tail-rounded-full text-muted tail-p-2 body-background"
         >OR</small>
       </div>
     </div>

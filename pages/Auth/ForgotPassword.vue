@@ -1,5 +1,5 @@
 <template>
-  <div class="d-grid gap-4">
+  <div class="tail-grid tail-gap-4">
     <div class="col-12">
       <h3>Forgot your password?</h3>
       <small class="text-muted">
@@ -8,19 +8,19 @@
     </div>
     <div>
       <form>
-        <div class="mb-4">
-          <label for="email" class="form-label fst-normal">Email address</label>
+        <div class="tail-mb-4">
+          <label for="email" class="">Email address</label>
           <input
             id="email"
             type="email"
-            class="form-control"
+            class=""
             aria-describedby="emailHelp"
           >
         </div>
 
         <button
           type="button"
-          class="btn primary-color text-white border-0 w-100 mt-2"
+          class="btn primary-color tail-text-white tail-border-0 tail-w-full tail-mt-2"
           @click="
             $router.push({
               name: 'Auth-CreateNewPassword'

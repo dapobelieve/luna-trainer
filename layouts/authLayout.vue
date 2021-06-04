@@ -2,17 +2,17 @@
   <main :style="$store.state.bodyClass">
     <div class="tail-flex tail-flex-col tail-items-center md:tail-pb-4">
       <header
-        class="py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
+        class="tail-py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
       >
         <img
-          class="mx-auto"
+          class="tail-mx-auto"
           src="~/assets/img/getWelpLogo.png"
           alt="getWelp logo"
-        >
+        />
       </header>
-      <article class="card md:tail-shadow-md tail-z-0">
+      <article class="md:tail-shadow-md tail-z-0 tail-rounded tail-border tail-border-gray-300">
         <div
-          class="card-container tail-h-full md:tail-h-auto tail-px-3 md:tail-px-6 tail-py-8"
+          class="tail-h-full md:tail-h-auto tail-px-3 md:tail-px-6 tail-py-8"
         >
           <Nuxt />
         </div>
@@ -28,5 +28,22 @@ export default {
 <style lang="scss">
 main {
   height: 100vh;
+}
+
+@media only screen and (max-width: 768px) {
+  article {
+    width: 100%;
+  }
+}
+
+@media only screen and (min-width: 769px) {
+  .views {
+    margin-left: 99px;
+    width: 100%;
+  }
+
+  article {
+    min-width: 30rem;
+  }
 }
 </style>
