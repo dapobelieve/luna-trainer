@@ -1,11 +1,11 @@
 <template>
   <main :style="$store.state.bodyClass">
-    <div class="tail-flex tail-flex-col tail-items-center md:tail-pb-4">
+    <div class="tail-flex tail-flex-col tail-items-center md:tail-pb-4 tail-p-4">
       <header
-        class="py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
+        class="tail-py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
       >
         <img
-          class="mx-auto"
+          class="tail-mx-auto"
           src="~/assets/img/getWelpLogo.png"
           alt="getWelp logo"
         >

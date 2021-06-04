@@ -1,28 +1,30 @@
 <template>
-  <div class="d-grid gap-4">
-    <div class="col-12">
+  <div class="tail-grid gap-4">
+    <div class="tail-col-12">
       <h3>Create new password</h3>
-      <small class="text-muted">
+      <small class="tail-text-gray-400">
         Your new password must be different from previously used passwords.
       </small>
     </div>
     <div>
       <form>
-        <div class="mb-4">
+        <div class="tail-grid tail-mb-4">
           <label for="password" class="form-label">Password</label>
           <input id="password" type="password" class="form-control">
         </div>
-        <div class="mb-4">
+        <div class="tail-grid tail-mb-4">
           <label for="password" class="form-label">Confirm Password</label>
           <input id="password" type="password" class="form-control">
         </div>
 
-        <button
-          type="submit"
-          class="btn primary-color text-white border-0 w-100 mt-2"
-        >
-          Save
-        </button>
+        <div class="tail-flex tail-justify-center">
+          <button
+            type="submit"
+            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-p-1.5 tail-rounded btn-size"
+          >
+            Save
+          </button>
+        </div>
       </form>
     </div>
   </div>
