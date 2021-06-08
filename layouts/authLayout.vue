@@ -1,6 +1,6 @@
 <template>
   <main :style="$store.state.bodyClass">
-    <div class="tail-flex tail-flex-col tail-items-center md:tail-pb-4">
+    <div class="tail-flex tail-flex-col tail-items-center md:tail-px-4 lg:tail-px-0">
       <header
         class="tail-py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
       >
@@ -10,9 +10,9 @@
           alt="getWelp logo"
         />
       </header>
-      <article class="md:tail-shadow-md tail-z-0 tail-rounded tail-border tail-border-gray-300">
+      <article class="md:tail-shadow-md tail-z-0 tail-rounded-md tail-overflow-hidden md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full md:tail-border tail-border-gray-300">
         <div
-          class="tail-h-full md:tail-h-auto tail-px-3 md:tail-px-6 tail-py-8"
+          class="tail-h-full md:tail-h-auto tail-px-6 lg:tail-px-6 tail-py-8 md:tail-bg-white"
         >
           <Nuxt />
         </div>

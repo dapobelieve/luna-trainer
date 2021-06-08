@@ -83,7 +83,8 @@ a {
   .nav {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    // justify-content: center;
+    margin-top: 5em;
     height: calc(100% - 64px);
     position: fixed;
     left: 0;
