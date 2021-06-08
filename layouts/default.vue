@@ -11,7 +11,7 @@
       <div
         class="tail-border tail-rounded-md body-background md:tail-py-1 md:tail-px-3 tail-flex tail-items-center md:tail-w-4/12"
       >
-        <i class="ns-search tail-mr-2 tail-hidden md:tail-block tail-text-gray-400"></i>
+        <i class="ns-search tail-mr-2 tail-hidden md:tail-block tail-text-gray-400" />
         <input
           class="tail-outline-none tail-text-lg body-background tail-w-full tail-hidden md:tail-block"
           type="text"
@@ -19,21 +19,42 @@
         >
       </div>
       <div class="tail-flex">
-        <i class="ns-search tail-border tail-rounded tail-p-1 tail-mr-2 md:tail-hidden"></i>
+        <i class="ns-search tail-border tail-rounded tail-p-1 tail-mr-2 md:tail-hidden" />
         <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
           <small
             class="tail-absolute tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
           >10</small>
-          <i class="ns-comment-alt tail-rounded tail-p-1"></i>
+          <i class="ns-comment-alt tail-rounded tail-p-1" />
         </span>
         <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
           <span
             class="tail-p-1 tail-bg-red-700 tail-absolute tail-right-1 tail-top-1 tail-rounded-full"
           />
-          <i class="ns-bell-ring tail-p-1"></i>
+          <div class="tail-relative">
+            <button @click="NotificationDropdownIsOpen = !NotificationDropdownIsOpen">
+              <i class="ns-bell-ring tail-p-1" />
+            </button>
+            <div class="tail-absolute tail-right-0  tail-m-5">
+              <NotificationDropdown v-if="NotificationDropdownIsOpen" />
+            </div>
+          </div>
         </span>
-        <i class="ns-user tail-border tail-rounded-full tail-p-1"></i>
+        <div class="tail-relative">
+          <button @click="profileDropdownIsOpen= !profileDropdownIsOpen">
+            <img
+              class="tail-rounded-full tail-h-8"
+              src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+            >
+          </button>
+          <div class="tail-absolute tail-right-0  tail-m-5">
+            <ProfileDropdown v-if="profileDropdownIsOpen" />
+          </div>
+        </div>
       </div>
+      <!-- <MessagesDrawer
+        :display="showMessagesDrawer"
+        @closemessagedrawer="showMessagesDrawer = false"
+      /> -->
     </header>
     <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex">
       <Navigation />
@@ -41,6 +62,19 @@
     </div>
   </main>
 </template>
+
+<script>
+export default {
+  data () {
+    return {
+      profileDropdownIsOpen: false,
+      NotificationDropdownIsOpen: false,
+      showMessagesDrawer: false
+    }
+  }
+
+}
+</script>
 
 <style lang="scss">
 @media only screen and (min-width: 769px) {
