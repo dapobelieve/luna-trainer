@@ -45,7 +45,7 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <button @click="login" type="button" class="submit-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color">
+          <button :disabled="disabled" @click="login" type="button" class="submit-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color">
             Login
           </button>
         </div>
@@ -81,6 +81,7 @@ export default {
   data () {
     return {
       showPassword: false,
+      disabled: false,
       userInfo: {
         userName: '',
         password: '',
@@ -91,14 +92,18 @@ export default {
   methods: {
     async login () {
       if (this.userInfo.userName && this.userInfo.password) {
+        this.disabled = true
         try {
           const response = await this.$auth.loginWith('local', {
             data: this.userInfo
           })
+          this.$toast.success('Login Successful', { position: 'bottom-right' })
           console.log('login response', response)
         } catch (error) {
+          this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
           console.log(error)
         }
+        this.disabled = false
       }
     }
   }

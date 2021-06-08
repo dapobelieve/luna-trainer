@@ -35,8 +35,15 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
-    '@nuxtjs/auth-next'
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast'
   ],
+
+  toast: {
+    posotion: 'top-right',
+    duration: 5000,
+    closeOnSwipe: true
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
