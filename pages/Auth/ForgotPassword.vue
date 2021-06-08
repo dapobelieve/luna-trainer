@@ -1,21 +1,18 @@
 <template>
   <div class="tail-grid tail-gap-4">
     <div class="tail-col-12">
-      <h3>Forgot your password?</h3>
-      <small class="tail-text-gray-400">
+      <h3 class="tail-text-3xl tail-mb-3">Forgot your password?</h3>
+      <small class="tail-text-gray-400 tail-text-sm">
         Enter your registered email below to receive password reset instruction.
       </small>
     </div>
-    <div>
-      <form>
-        <div class="tail-mb-4 tail-grid ">
-          <label for="email" class="form-label fst-normal">Email address</label>
-          <input
-            id="email"
-            type="email"
-            class="form-control"
-            aria-describedby="emailHelp"
-          >
+    <div class="tail-grid tail-gap-4">
+      <form class="tail-grid tail-gap-4">
+        <div class="">
+          <div class="tail-grid">
+          <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
+          <input autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+        </div>
         </div>
 
         <div class="tail-flex tail-justify-center">
@@ -33,7 +30,7 @@
         </div>
       </form>
       <div class="tail-text-center tail-pt-4">
-        <NuxtLink :to="{ name: 'Auth-SignIn' }" class="tail-text-gray-900">
+        <NuxtLink :to="{ name: 'Auth-SignIn' }" class="tail-text-gray-900 tail-underline">
           Back to Sign in
         </NuxtLink>
       </div>
@@ -43,7 +40,8 @@
 <script>
 export default {
   name: 'ForgotPassword',
-  layout: 'authLayout'
+  layout: 'authLayout',
+  auth: false
 }
 </script>
 <style scoped></style>

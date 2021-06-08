@@ -52,7 +52,8 @@
 <script>
 export default {
   name: 'ResetPassword',
-  layout: 'authLayout'
+  layout: 'authLayout',
+  auth: false
 }
 </script>
 <style scoped></style>

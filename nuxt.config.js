@@ -34,12 +34,58 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/auth-next',
+    '@nuxtjs/toast'
   ],
 
+  toast: {
+    posotion: 'top-right',
+    duration: 5000,
+    closeOnSwipe: true
+  },
+
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    baseURL: 'https://api.getwelp.co.uk/accounts/v0'
+  },
+
+  router: {
+    // middleware: ['auth']
+  },
+
+  auth: {
+    redirect: {
+      login: '/auth/signin',
+      logout: '/auth/signin',
+      callback: '/auth/signin',
+      home: '/dashboard'
+    },
+    strategies: {
+      local: {
+        token: {
+          property: 'accessToken',
+          global: true
+          // required: true,
+          // type: 'Bearer'
+        },
+        // user: {
+        //   property: 'user'
+        //   // autoFetch: true
+        // },
+        endpoints: {
+          login: { url: '/auth/login', method: 'post' },
+          logout: { url: '/api/auth/logout', method: 'post' }
+          // user: { url: '/api/auth/user', method: 'get' }
+        }
+      }
+    }
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {}
+  // server: {
+  //   port: 8080,
+  //   host: '192.168.0.103'
+  // }
 }
