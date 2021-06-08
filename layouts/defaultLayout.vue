@@ -51,6 +51,11 @@
           </div>
         </div>
       </div>
+
+      <MessagesDrawer
+        :display="showMessagesDrawer"
+        @closemessagedrawer="showMessagesDrawer = false"
+      />
     </header>
     <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex">
       <Navigation />
@@ -64,7 +69,8 @@ export default {
   data () {
     return {
       profileDropdownIsOpen: false,
-      NotificationDropdownIsOpen: false
+      NotificationDropdownIsOpen: false,
+      showMessagesDrawer: false
     }
   }
 
