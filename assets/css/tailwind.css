@@ -2,3 +2,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  .base-button {
+    @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white;
+    background: #56ccf2;
+  }
+}

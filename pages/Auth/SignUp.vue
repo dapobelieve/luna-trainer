@@ -52,7 +52,7 @@
         <div class="tail-flex tail-justify-center">
           <button
             type="button"
-            class="submit-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color"
+            class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color"
           >
             Get started
           </button>
@@ -90,7 +90,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.submit-button {
+.base-button {
   width: 100%;
   display: inline-flex;
   align-items: center;

@@ -33,3 +33,12 @@ body {
   width: 100%;
   height: 40px;
 }
+
+.base-button {
+  &:hover {
+    background: #46A6C8;
+  }
+  &:focus {
+    outline: none;
+  }
+}
