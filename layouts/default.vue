@@ -31,7 +31,7 @@
             class="tail-p-1 tail-bg-red-700 tail-absolute tail-right-1 tail-top-1 tail-rounded-full"
           />
           <div class="tail-relative">
-            <button @click="NotificationDropdownIsOpen = !NotificationDropdownIsOpen">
+            <button @click="NotificationDropdownIsOpen = !NotificationDropdownIsOpen" @blur="NotificationDropdownIsOpen = false">
               <i class="ns-bell-ring tail-p-1" />
             </button>
             <div class="tail-absolute tail-right-0  tail-m-5">
@@ -40,7 +40,7 @@
           </div>
         </span>
         <div class="tail-relative">
-          <button @click="profileDropdownIsOpen= !profileDropdownIsOpen">
+          <button @click="profileDropdownIsOpen= !profileDropdownIsOpen" @blur="profileDropdownIsOpen =false">
             <img
               class="tail-rounded-full tail-h-8"
               src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
