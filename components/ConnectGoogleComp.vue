@@ -23,14 +23,21 @@
             </button>
           </div>
         </div>
-        <div>Second square</div>
-        <div class="tail-flex tail-justify-end">
-          <button
-            type="button"
-            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5"
-          >
-            Save Changes
-          </button>
+        <div><span>Integrations</span></div>
+        <div class="tail-border tail-w-full tail-rounded tail-flex tail-justify-between tail-p-4">
+          <div class="tail-flex tail-justify-between">
+            <div>
+              <img class="tail-w-full tail-h-full" src="~/assets/img/roundedWhitelogoGoogle.png" alt="google logo">
+            </div>
+            <div class="tail-px-4 tail-flex tail-justify-center tail-items-center">
+              <span>Stripe</span>
+            </div>
+          </div>
+          <div>
+            <button class="tail-border-2 tail-p-2 tail-rounded">
+              <span>Connect</span>
+            </button>
+          </div>
         </div>
       </form>
     </div>
