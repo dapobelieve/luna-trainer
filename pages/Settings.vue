@@ -27,6 +27,12 @@
             <div class="tail-pt-5">
               <div><ServicesComp /></div>
             </div>
+            <div class="tail-pt-5">
+              <div><SecurityComp /></div>
+            </div>
+            <div>
+              <ConnectGoogleComp />
+            </div>
           </div>
         </div>
       </div>

@@ -15,14 +15,23 @@
         <div class="">
           <div>
             <input type="checkbox">
-            <label for="typeofappointment"  class="tail-px-2">Type of appointment</label>
+            <label for="typeofappointment" class="tail-px-2">Type of appointment</label>
           </div>
           <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div class="">
-          <label for="price" class="">Price</label>
-          <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <label for="price" class="tail-pb-8">Price</label>
+          <div class="tail-flex">
+            <span class="tail-w-11 tail-h-11 tail-border-r-0 tail-mt-1 tail-text-xl tail-bg-gray-300 tail-text-center tail-rounded-l tail-flex tail-justify-center tail-items-center">£</span>
+            <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
+          </div>
         </div>
+        <button>
+          <div class="tail-flex">
+            <i class="ns-add add-icon-color tail-rounded-full tail-text-2xl" />
+            <span class="text-primary-color tail-px-4">Add Service</span>
+          </div>
+        </button>
         <div class="tail-flex tail-justify-end">
           <button
             type="button"

@@ -11,8 +11,17 @@
       <a><span class="tail-text-sm tail-text-gray-400">Location</span></a>
     </div>
     <div class="tail-block tail-grid tail-gap-4 tail-place-items-start tail-py-4">
-      <a class="tail-flex" href="#"><i class="ns-settings" /><span class="tail-text-base tail-font-light tail-px-2">Settings</span></a>
-      <a class="tail-flex tail-text-red-600" href="#"><i class="ns-power" /><span class="tail-text-base tail-font-light tail-px-2">Signout</span></a>
+      <Nuxt-link
+        :to="{ name: 'Settings' }"
+      >
+        <div class="tail-flex">
+          <i class="ns-settings" /><span class="tail-text-base tail-font-light tail-px-2">Settings</span>
+        </div>
+      </Nuxt-link>
+      <button class="tail-flex tail-text-red-600">
+        <i class="ns-power" />
+        <span class="tail-text-base tail-font-light tail-px-2">Signout</span>
+      </button>
     </div>
   </div>
 </template>
