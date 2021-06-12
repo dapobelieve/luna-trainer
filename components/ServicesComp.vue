@@ -15,12 +15,12 @@
         <div class="">
           <div>
             <input type="checkbox">
-            <label for="typeofappointment" class="">Type of appointment</label>
+            <label for="typeofappointment"  class="tail-px-2">Type of appointment</label>
           </div>
           <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div class="">
-          <label for="location" class="">Location</label>
+          <label for="price" class="">Price</label>
           <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div class="tail-flex tail-justify-end">
