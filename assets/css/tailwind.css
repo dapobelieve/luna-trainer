@@ -4,8 +4,36 @@
 @tailwind utilities;
 
 @layer base {
+  /* base h1 to h6 styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply tail-block;
+  }
+  h1 {
+  }
+  h2 {
+  }
+  h3 {
+  }
+  h4 {
+  }
+  h5 {
+  }
+  h6 {
+  }
+
+  /* bae button styles */
   .base-button {
     @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white;
     background: #56ccf2;
+  }
+
+  /* form input styles */
+  .form-input {
+    @apply tail-block tail-w-full tail-pr-10 tail-border-red-300 tail-text-red-900 tail-placeholder-red-300 focus:tail-outline-none focus:tail-ring-red-500 focus:tail-border-red-500 sm:tail-text-sm tail-rounded-md;
   }
 }

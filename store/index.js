@@ -1,9 +1,3 @@
-export const state = () => ({
-  bodyClass: {}
-})
+export const state = () => ({})
 
-export const mutations = {
-  SET_CLASS (state, bodyClass) {
-    state.bodyClass = bodyClass
-  }
-}
+export const mutations = {}
