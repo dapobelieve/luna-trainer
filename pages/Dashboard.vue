@@ -14,10 +14,11 @@
               just pop us a message in the live chat below!
             </p>
           </div>
-          <div>
+          <div class="tail-w-max">
             <button
               style="background: rgba(86, 204, 242, 1);"
-              class="tail-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700"
+              class="base-button"
+              @click="addClient = true"
             >
               invite new client
             </button>
@@ -197,7 +198,7 @@
                 >
                   <small class="tail-block">Due</small>
                   <h3 class="tail-mb-0 tail-font-bold">
-                    £480
+                    ?
                   </h3>
                 </div>
                 <div
@@ -205,7 +206,7 @@
                 >
                   <small class="tail-block">Received</small>
                   <h3 class="tail-mb-0 tail-font-bold">
-                    £1,840
+                    ?
                   </h3>
                 </div>
               </div>
@@ -273,9 +274,12 @@
         </div>
       </div>
     </article>
-    <div class=" tail-p-6">
+    <div>
       <CalendarView />
     </div>
+    <Modal :is-open="addClient" @close="addClient = $event">
+      <InviteNewClient @close="addClient = $event" />
+    </Modal>
   </main>
 </template>
 
@@ -285,7 +289,8 @@ export default {
   data () {
     return {
       showPayment: false,
-      showMessages: true
+      showMessages: false,
+      addClient: false
     }
   }
 }

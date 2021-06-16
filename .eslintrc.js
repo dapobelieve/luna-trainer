@@ -14,5 +14,21 @@ module.exports = {
   plugins: [
   ],
   // add your custom rules here
-  rules: {}
+  rules: {
+    'vue/v-slot-style': ['error', {
+      atComponent: 'longform',
+      default: 'v-slot',
+      named: 'longform'
+    }],
+
+    'vue/html-self-closing': ['error', {
+      html: {
+        void: 'any',
+        normal: 'any',
+        component: 'any'
+      },
+      svg: 'any',
+      math: 'any'
+    }]
+  }
 }

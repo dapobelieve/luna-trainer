@@ -45,7 +45,7 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <button :disabled="disabled" @click="login" type="button" class="submit-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color">
+          <button :disabled="disabled" @click="login" type="button" class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color">
             Login
           </button>
         </div>
@@ -110,7 +110,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-.submit-button {
+.base-button {
   width: 100%;
   display: inline-flex;
   align-items: center;
