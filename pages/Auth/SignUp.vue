@@ -58,13 +58,13 @@
           </button>
         </div>
       </form>
-      <div class="tail-text-center">
+      <div class="tail-text-center tail-mt-4">
         <span
           class="tail-text-gray-400"
         >Already have an account?
           <NuxtLink
             :to="{ name: 'Auth-SignIn' }"
-            class="tail-text-gray-900"
+            class="tail-text-gray-900 tail-underline"
           >Sign In</NuxtLink></span>
       </div>
     </div>

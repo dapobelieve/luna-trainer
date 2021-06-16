@@ -1,7 +1,7 @@
 <template>
-  <div class="tail-grid tail-grid-cols-9" style="height: 90vh">
-    <div class="modal tail-h-full tail-col-span-3 tail-hidden lg:tail-block"></div>
-    <div class="tail-col-span-9 lg:tail-col-span-6 tail-py-7 tail-px-5 tail-overflow-y-scroll">
+  <div class="tail-grid tail-grid-cols-12" style="height: 90vh">
+    <div class="modal tail-h-full tail-col-span-4 tail-hidden lg:tail-block"></div>
+    <div class="tail-col-span-9 lg:tail-col-span-8 tail-py-7 tail-px-5 tail-overflow-y-scroll">
       <h2 class="tail-text-3xl tail-mb-3">
         Invite Client
       </h2>
@@ -14,9 +14,9 @@
       </div>
       <div class="tail-overflow-y-scroll">
         <form
-          @submit.prevent="save"
           autocomplete="off"
           class="tail-grid tail-gap-6 tail-mt-5"
+          @submit.prevent="save"
         >
           <div class="tail-flex tail-justify-between tail-gap-6">
             <div class="tail-flex tail-gap-5">
@@ -25,8 +25,7 @@
                 <label
                   for="first_name"
                   class="block text-sm font-medium text-gray-700"
-                  >First name</label
-                >
+                >First name</label>
                 <input
                   id="first_name"
                   v-model="clientInfo.firstName"
@@ -39,8 +38,7 @@
                 <label
                   for="last_name"
                   class="block text-sm font-medium text-gray-700"
-                  >Last name</label
-                >
+                >Last name</label>
                 <input
                   id="last_name"
                   v-model="clientInfo.lastName"
@@ -69,8 +67,8 @@
             <div class="tail-w-full">
               <label for="email" class="">Email Address</label>
               <input
-                v-model="clientInfo.email"
                 id="email"
+                v-model="clientInfo.email"
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -141,8 +139,7 @@
                 <label
                   for="breed"
                   class="block text-sm font-medium text-gray-700"
-                  >Breed</label
-                >
+                >Breed</label>
                 <input
                   id="breed"
                   v-model="clientInfo.dogInfo.breed"
@@ -172,22 +169,21 @@
             <div class="tail-w-full">
               <label for="notes" class="">Notes</label>
               <textarea
-                v-model="clientInfo.notes"
                 id="notes"
+                v-model="clientInfo.notes"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 cols="30"
                 rows="5"
               >
-                        Write your message</textarea
-              >
+              Write your message</textarea>
             </div>
           </div>
           <div class="tail-flex tail-justify-end tail-gap-5">
             <button
-              @click="$emit('close', false)"
               type="button"
               style="width: fit-content"
               class="base-button tail-bg-white tail-text-black tail-border tail-border-gray-300 tail-px-3"
+              @click="$emit('close', false)"
             >
               cancel
             </button>
@@ -252,5 +248,14 @@ export default {
   background-image: url("~assets/img/Base.png");
   object-fit: cover;
   background-repeat: no-repeat;
+}
+
+::-webkit-scrollbar {
+    width: 0;  /* Remove scrollbar space */
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: #FF0000;
 }
 </style>

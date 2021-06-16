@@ -14,10 +14,11 @@
               just pop us a message in the live chat below!
             </p>
           </div>
-          <div>
+          <div class="tail-w-max">
             <button
               style="background: rgba(86, 204, 242, 1);"
-              class="tail-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700"
+              class="base-button"
+              @click="addClient = true"
             >
               invite new client
             </button>
@@ -37,7 +38,7 @@
                 <p
                   class="tail-bg-green-500 tail-mr-1 tail-rounded-full tail-text-xs"
                 >
-                  <i class="ns-check"></i>
+                  <i class="ns-check" />
                 </p>
                 <a href="#">Stripe</a>
               </div>
@@ -47,7 +48,7 @@
                 <p
                   class="tail-bg-green-500 tail-mr-1 tail-rounded-full tail-text-xs"
                 >
-                  <i class="ns-check"></i>
+                  <i class="ns-check" />
                 </p>
                 <a href="#">Added your first client</a>
               </div>
@@ -60,9 +61,8 @@
                   1
                 </p>
                 <a
-                href="#"
-                  >Calendar(s) <span class="tail-underline">Sync</span></a
-                >
+                  href="#"
+                >Calendar(s) <span class="tail-underline">Sync</span></a>
               </div>
             </li>
             <li>
@@ -73,9 +73,8 @@
                   2
                 </p>
                 <a
-                href="#"
-                  >Fully connected <span class="tail-underline">Sync</span></a
-                >
+                  href="#"
+                >Fully connected <span class="tail-underline">Sync</span></a>
               </div>
             </li>
           </ul>
@@ -83,7 +82,7 @@
         <div
           class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
-          <i class="ns-building tail-text-3xl tail-text-gray-500"></i>
+          <i class="ns-building tail-text-3xl tail-text-gray-500" />
           <h3 class="tail-ml-2 tail-mb-0">
             Pawfect Dog Training
           </h3>
@@ -94,7 +93,9 @@
           <!-- houses clients section -->
           <div class="tail-grid tail-gap-4">
             <div>
-              <h5 class="tail-font-semibold tail-mb-2">Clients</h5>
+              <h5 class="tail-font-semibold tail-mb-2">
+                Clients
+              </h5>
               <!-- <div class="d-flex tail-flex-wrap">
                 <div
                   v-for="n in 5"
@@ -132,7 +133,9 @@
               </div> -->
             </div>
             <div>
-              <h5 class="tail-font-semibold tail-mb-2">Messages</h5>
+              <h5 class="tail-font-semibold tail-mb-2">
+                Messages
+              </h5>
               <div class="tail-rounded-md tail-bg-white tail-p-6 md:tail-h-full">
                 <div v-if="!showMessages" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
                   <div class="tail-w-full tail-my-5">
@@ -141,7 +144,7 @@
                       src="~/assets/img/low-dog.png"
                       alt=""
                       srcset=""
-                    />
+                    >
                   </div>
                   <h5 class="tail-font-bold">
                     No messages yet
@@ -152,20 +155,20 @@
                 </div>
                 <template v-else>
                   <div
-                    class="tail-flex tail-items-center tail-mb-4"
                     v-for="n in 3"
                     :key="n"
+                    class="tail-flex tail-items-center tail-mb-4"
                   >
                     <img
                       class="tail-rounded-full tail-h-14"
                       src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                    />
+                    >
                     <div class="tail-mr-auto tail-ml-2">
                       <p class="tail-mb-0 tail-capitalize">
                         rilwan lawal
                         <span
-                        class="tail-text-gray-400 tail-ml-2 tail-text-xs"
-                          >1:09PM</span>
+                          class="tail-text-gray-400 tail-ml-2 tail-text-xs"
+                        >1:09PM</span>
                       </p>
                       <small>Hello Rosie, sending you...</small>
                     </div>
@@ -181,7 +184,9 @@
           </div>
           <!-- end of clients section -->
           <div class="tail-h-full">
-            <h5 class="tail-font-semibold tail-mb-2">Payment</h5>
+            <h5 class="tail-font-semibold tail-mb-2">
+              Payment
+            </h5>
             <div class="tail-bg-white tail-rounded-md tail-p-4 md:tail-h-full">
               <p class="tail-mb-0">
                 This Month
@@ -193,7 +198,7 @@
                 >
                   <small class="tail-block">Due</small>
                   <h3 class="tail-mb-0 tail-font-bold">
-                    £480
+                    ?
                   </h3>
                 </div>
                 <div
@@ -201,7 +206,7 @@
                 >
                   <small class="tail-block">Received</small>
                   <h3 class="tail-mb-0 tail-font-bold">
-                    £1,840
+                    ?
                   </h3>
                 </div>
               </div>
@@ -215,7 +220,7 @@
                     src="~/assets/img/low-dog.png"
                     alt=""
                     srcset=""
-                  />
+                  >
                 </div>
                 <h5 class="tail-font-bold">
                   No payments yet
@@ -235,14 +240,14 @@
               </div>
               <div v-else>
                 <div
-                  class="tail-flex tail-items-center tail-p-4"
                   v-for="n in 4"
                   :key="n"
+                  class="tail-flex tail-items-center tail-p-4"
                 >
                   <img
                     class="tail-rounded-full tail-h-14"
                     src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                  />
+                  >
                   <div class="tail-ml-4 tail-mr-auto">
                     <p class="tail-capitalize tail-font-bold tail-mb-0">
                       rilwan lawal
@@ -255,21 +260,26 @@
                 </div>
                 <div class="tail-w-full tail-text-center">
                   <button
-                    @click.prevent="showPayment = !showPayment"
                     class="tail-text-blue-500 w-100"
+                    @click.prevent="showPayment = !showPayment"
                   >
                     View All
                   </button>
                 </div>
               </div>
               <!-- seems to be a necessary evil as margin and paddings arent adding up -->
-              <div class="tail-h-20 md:tail-hidden"></div>
+              <div class="tail-h-20 md:tail-hidden" />
             </div>
           </div>
         </div>
       </div>
     </article>
-    <CalendarView />
+    <div>
+      <CalendarView />
+    </div>
+    <Modal :is-open="addClient" @close="addClient = $event">
+      <InviteNewClient @close="addClient = $event" />
+    </Modal>
   </main>
 </template>
 
@@ -279,7 +289,8 @@ export default {
   data () {
     return {
       showPayment: false,
-      showMessages: true
+      showMessages: false,
+      addClient: false
     }
   }
 }

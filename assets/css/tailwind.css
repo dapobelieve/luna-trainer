@@ -4,8 +4,12 @@
 @tailwind utilities;
 
 @layer base {
+  ::selection {
+    background: #56ccf2;
+  }
+
   /* base h1 to h6 styles */
-  h1,
+  /* h1,
   h2,
   h3,
   h4,
@@ -24,7 +28,7 @@
   h5 {
   }
   h6 {
-  }
+  } */
 
   /* bae button styles */
   .base-button {
@@ -32,8 +36,12 @@
     background: #56ccf2;
   }
 
-  /* form input styles */
-  .form-input {
-    @apply tail-block tail-w-full tail-pr-10 tail-border-red-300 tail-text-red-900 tail-placeholder-red-300 focus:tail-outline-none focus:tail-ring-red-500 focus:tail-border-red-500 sm:tail-text-sm tail-rounded-md;
+  button {
+    @apply focus:tail-outline-none;
   }
+
+  /* form input styles */
+  /* .form-input {
+    @apply tail-block tail-w-full tail-pr-10 tail-border-red-300 tail-text-red-900 tail-placeholder-red-300 focus:tail-outline-none focus:tail-ring-red-500 focus:tail-border-red-500 sm:tail-text-sm tail-rounded-md;
+  } */
 }

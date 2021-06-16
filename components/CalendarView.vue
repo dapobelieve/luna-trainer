@@ -1,5 +1,6 @@
 <template>
-  <div class="calendar">
+  <div class="calendar tail-relative">
+    <div id="overlay"></div>
     <v-date-picker
       v-model="date"
       title-position="left"
@@ -7,7 +8,7 @@
       class="tail-text-black"
       title="tail-text-white"
     />
-    <div class="tail-text-center tail-mt-16 tail-px-5">
+    <div class="tail-hidden tail-text-center tail-mt-16 tail-px-5">
       <div class="tail-w-full tail-my-5">
         <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
@@ -55,5 +56,17 @@ export default {
     height: 100%;
     max-width: 300px;
   }
+
+  #overlay {
+  position: absolute; /* Sit on top of the page content */
+  width: 100%; /* Full width (cover the whole page) */
+  height: 80%; /* Full height (cover the whole page) */
+  top: -100px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(255 255 255 / 90%); /* Black background with opacity */
+  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
+}
 }
 </style>
