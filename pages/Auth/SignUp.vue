@@ -52,19 +52,19 @@
         <div class="tail-flex tail-justify-center">
           <button
             type="button"
-            class="submit-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color"
+            class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color"
           >
             Get started
           </button>
         </div>
       </form>
-      <div class="tail-text-center">
+      <div class="tail-text-center tail-mt-4">
         <span
           class="tail-text-gray-400"
         >Already have an account?
           <NuxtLink
             :to="{ name: 'Auth-SignIn' }"
-            class="tail-text-gray-900"
+            class="tail-text-gray-900 tail-underline"
           >Sign In</NuxtLink></span>
       </div>
     </div>
@@ -90,7 +90,7 @@ export default {
 }
 </script>
 <style lang='scss' scoped>
-.submit-button {
+.base-button {
   width: 100%;
   display: inline-flex;
   align-items: center;

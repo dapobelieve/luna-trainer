@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-block profile-dropdown-box tail-rounded tail-p-4 tail-bg-white">
+  <div class="tail-block profile-dropdown-box tail-rounded-md tail-p-4 tail-bg-white">
     <div class="tail-grid tail-gap-1 tail-place-items-center">
       <a>
         <img

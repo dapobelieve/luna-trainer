@@ -3,11 +3,18 @@
     <header
       class="tail-bg-white tail-p-3 tail-py-1 tail-flex tail-justify-between tail-items-center tail-text-2xl tail-sticky tail-top-0 tail-z-10"
     >
-      <img
-        class="tail-h-16"
-        src="~/assets/img/logo.png"
-        alt="getWelp logo"
-      >
+      <div class="tail-flex tail-items-center">
+        <img
+          class="tail-h-16"
+          src="~/assets/img/logo.png"
+          alt="getWelp logo"
+        >
+        <img
+          class="tail-hidden md:tail-block"
+          src="~/assets/img/getwelp.png"
+          alt="getWelp logo"
+        >
+      </div>
       <div
         class="tail-border tail-rounded-md body-background md:tail-py-1 md:tail-px-3 tail-flex tail-items-center md:tail-w-4/12"
       >
@@ -30,6 +37,7 @@
           <span
             class="tail-p-1 tail-bg-red-700 tail-absolute tail-right-1 tail-top-1 tail-rounded-full"
           />
+<<<<<<< HEAD
           <div class="tail-relative">
             <button @click="NotificationDropdownIsOpen = !NotificationDropdownIsOpen" @blur="NotificationDropdownIsOpen = false">
               <i class="ns-bell-ring tail-p-1" />
@@ -45,10 +53,23 @@
               class="tail-rounded-full tail-h-8"
               src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
             >
+=======
+          <button @click="NotificationDropdownIsOpen = !NotificationDropdownIsOpen">
+            <i class="ns-bell-ring tail-p-1" />
+>>>>>>> develop
           </button>
-          <div class="tail-absolute tail-right-0  tail-m-5">
-            <ProfileDropdown v-if="profileDropdownIsOpen" />
+        </span>
+          <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
+            <NotificationDropdown v-if="NotificationDropdownIsOpen" />
           </div>
+        <button @click="profileDropdownIsOpen= !profileDropdownIsOpen">
+          <img
+            class="tail-rounded-full tail-h-8"
+            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+          >
+        </button>
+        <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
+          <ProfileDropdown v-if="profileDropdownIsOpen" />
         </div>
       </div>
       <!-- <MessagesDrawer

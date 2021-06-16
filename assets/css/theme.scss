@@ -34,8 +34,16 @@ body {
   height: 40px;
 }
 
+.base-button {
+  &:hover {
+    background: #46A6C8;
+  }
+  &:focus {
+    outline: none;
+  }
+}
 .profile-dropdown-box {
-  width: 14.875rem;
+  width: 12.875rem;
   height: 15.313rem;
   border: 0px solid rgba(250, 248, 247);
   box-shadow: 0px 4px 12px rgba(23, 41, 66, 0.05);
@@ -44,12 +52,13 @@ body {
 .notification-dropdown-box {
   width: 21.5rem;
   height: 27.344rem;
-  border: 0px solid rgba(250, 248, 247);
+  // border: 0px solid rgba(250, 248, 247);
   box-shadow: 0px 2px 6px rgba(23, 41, 66, 0.05);
 }
 
 .divider-color {
   border:2px solid rgba(23, 41, 66, 1);
+<<<<<<< HEAD
 }
 
 .sec-color {
@@ -67,4 +76,6 @@ body {
 
 .text-primary-color {
   color: #56ccf2;
+=======
+>>>>>>> develop
 }
