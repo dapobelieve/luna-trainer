@@ -41,17 +41,17 @@ export default {
 
   toast: {
     posotion: 'top-right',
-    duration: 5000,
+    duration: 4000,
     closeOnSwipe: true
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://api.getwelp.co.uk/accounts/v0'
+    // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
   },
 
   router: {
-    // middleware: ['auth']
+    middleware: ['auth']
   },
 
   auth: {
@@ -65,18 +65,18 @@ export default {
       local: {
         token: {
           property: 'accessToken',
-          global: true
-          // required: true,
+          global: true,
+          required: true
           // type: 'Bearer'
         },
-        // user: {
-        //   property: 'user'
-        //   // autoFetch: true
-        // },
+        user: {
+          property: 'data',
+          autoFetch: false
+        },
         endpoints: {
-          login: { url: '/auth/login', method: 'post' },
-          logout: { url: '/api/auth/logout', method: 'post' }
-          // user: { url: '/api/auth/user', method: 'get' }
+          login: { url: 'https://api.getwelp.co.uk/accounts/v0/auth/login', method: 'post' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: false
         }
       }
     }

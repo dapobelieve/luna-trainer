@@ -85,6 +85,20 @@
 <script>
 export default {
   name: 'ProfileSetup',
+  beforeRouteEnter (to, from, next) {
+    // check if user is coming from sign in page
+    if (from.name === 'Auth-SignIn') {
+      next((vm) => {
+        vm.$nextTick(function () {
+          setTimeout(() => {
+            this.$toast.info('Please complete your profile.', { position: 'top-right' })
+          }, 4100)
+        })
+      })
+    } else {
+      next()
+    }
+  },
   layout: 'authLayout',
   auth: false
 }
