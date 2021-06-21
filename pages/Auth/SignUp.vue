@@ -1,7 +1,9 @@
 <template>
   <div class="tail-grid tail-gap-10">
     <div class="tail-grid tail-grid-col-12">
-      <h3 class="tail-text-3xl">Sign up</h3>
+      <h3 class="tail-text-3xl">
+        Sign up
+      </h3>
     </div>
     <div class="tail-grid tail-grid-col-12 tail-mb-4">
       <button
@@ -23,10 +25,14 @@
       </div>
     </div>
     <div class="tail-grid tail-gap-8 md:tail-gap-4">
-      <form class="tail-grid tail-gap-12 md:tail-gap-4">
+      <form class="tail-grid tail-gap-12 md:tail-gap-4" @submit.prevent="signUp">
+        <div class="tail-grid">
+          <label for="username" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Username</label>
+          <input v-model="userInfo.userName" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+        </div>
         <div class="tail-grid">
           <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
-          <input v-model="userInfo.userName" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model="userInfo.email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -51,7 +57,8 @@
         </div>
         <div class="tail-flex tail-justify-center">
           <button
-            type="button"
+            :disabled="!disabled"
+            type="submit"
             class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color"
           >
             Get started
@@ -71,6 +78,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'SignUp',
   layout: 'authLayout',
@@ -80,10 +88,73 @@ export default {
       showPassword: false,
       showConfirmPassword: false,
       userInfo: {
-        userName: '',
-        password: '',
-        confirmPassword: '',
+        userName: null,
+        email: '',
+        password: null,
+        confirmPassword: null,
         domain: 'getwelp-trainer-ui'
+      }
+    }
+  },
+  computed: {
+    disabled () {
+      // validate fields
+      const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+      const testEmail = !!this.userInfo.email.match(emailFormat)
+      const checkPasswords = Boolean(this.userInfo.password) && this.userInfo.password === this.userInfo.confirmPassword
+      const checkUuserName = this.userInfo.userName ? (this.userInfo.userName.length >= 2 && Boolean(this.userInfo.userName)) : false
+      return checkUuserName && checkPasswords && testEmail
+    }
+  },
+  methods: {
+    ...mapActions({
+      signUpUser: 'signUpUser'
+    }),
+    signUp () {
+      if (this.disabled) {
+        return this.signUpUser(this.userInfo).then((result) => {
+          if (result === 'success') {
+            try {
+              this.$auth.login({
+                data: {
+                  userName: this.userInfo.userName,
+                  password: this.userInfo.password,
+                  domain: 'getwelp-trainer-ui'
+                }
+              }).then((response) => {
+                this.$toast.success('Signup Successful', { position: 'bottom-right' })
+                const tokens = {
+                  token: response.data.data.accessToken,
+                  refreshToken: response.data.data.refreshToken
+                }
+                // set necessary tokens
+                this.$store.dispatch('setToken', tokens)
+                // fetch user profile
+                this.$store.dispatch('getUserProfile').then((response) => {
+                  response === null ? this.$router.push({ name: 'Auth-ProfileSetup', params: { email: this.userInfo.email } }) : this.$router.push({ name: 'Dashboard' })
+                })
+              })
+            } catch (error) {
+              console.log(error)
+              if (error.response) {
+                this.$toast.error(`Something went wrong: ${error.response.data.message}`, { position: 'bottom-right' })
+              } else if (error.request) {
+                this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+              } else {
+                this.$toast.error(`Something went wrong: ${error.message}`, { position: 'bottom-right' })
+              }
+            }
+          }
+        }).catch((err) => {
+          console.log(err)
+          if (err.response) {
+            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+          }
+        })
       }
     }
   }

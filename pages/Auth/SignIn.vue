@@ -1,7 +1,9 @@
 <template>
   <div class="tail-grid tail-gap-12">
     <div class="">
-      <h2 class="tail-text-3xl">Sign in</h2>
+      <h2 class="tail-text-3xl">
+        Sign in
+      </h2>
     </div>
     <div class="">
       <button
@@ -45,7 +47,7 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <button :disabled="disabled" @click="login" type="button" class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color">
+          <button :disabled="disabled" type="button" class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color" @click="login">
             Login
           </button>
         </div>
@@ -94,11 +96,25 @@ export default {
       if (this.userInfo.userName && this.userInfo.password) {
         this.disabled = true
         try {
-          const response = await this.$auth.loginWith('local', {
+          await this.$auth.login({
             data: this.userInfo
           })
-          this.$toast.success('Login Successful', { position: 'bottom-right' })
-          console.log('login response', response)
+            .then((response) => {
+              this.$toast.success('Login Successful', { position: 'bottom-right' })
+              const tokens = {
+                token: response.data.data.accessToken,
+                refreshToken: response.data.data.refreshToken
+              }
+              // set necessary tokens
+              this.$store.dispatch('setToken', tokens)
+              // fetch user profile
+              this.$store.dispatch('getUserProfile').then((response) => {
+                response === null ? this.$router.push({ name: 'Auth-ProfileSetup' }) : this.$router.push({ name: 'Dashboard' })
+              })
+            }).catch((err) => {
+              this.$toast.error('Login attempt failed', { position: 'bottom-right' })
+              console.log('error in comp', err)
+            })
         } catch (error) {
           this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
           console.log(error)

@@ -41,9 +41,9 @@
             <i class="ns-bell-ring tail-p-1" />
           </button>
         </span>
-          <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
-            <NotificationDropdown v-if="NotificationDropdownIsOpen" />
-          </div>
+        <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
+          <NotificationDropdown v-if="NotificationDropdownIsOpen" />
+        </div>
         <button @click="profileDropdownIsOpen= !profileDropdownIsOpen">
           <img
             class="tail-rounded-full tail-h-8"
@@ -75,7 +75,6 @@ export default {
       showMessagesDrawer: false
     }
   }
-
 }
 </script>
 

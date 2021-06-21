@@ -3,7 +3,7 @@ import createPersistedState from 'vuex-persistedstate'
 export default ({ store }) => {
   createPersistedState({
     key: 'vuex',
-    paths: ['mock'],
+    paths: ['index'],
     storage: localStorage
   })(store)
 }
