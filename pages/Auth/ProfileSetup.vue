@@ -173,27 +173,46 @@ export default {
         const picture = this.profilePic
         const imageData = new FormData()
         imageData.append('file', picture)
-        return this.uploadPicture(imageData).then((response) => {
-          console.log('response from uploading picture', response)
-          if (response.status === 'success' && response.data) {
-            const profileInfo = this.profileInfo
-            delete profileInfo.profilePic
-            const newProfile = {
-              ...profileInfo,
-              imgURL: response.data
-            }
-            return this.createTrainerProfile(newProfile).then((response) => {
-              console.log('response creating profile', response)
-            }).catch((err) => {
-              if (err.response) {
-                this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
-              } else if (err.request) {
-                this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-              } else {
-                this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-              }
+        // return this.uploadPicture(imageData).then((response) => {
+        //   console.log('response from uploading picture', response)
+        //   if (response.status === 'success' && response.data) {
+        const profileInfo = this.profileInfo
+        delete profileInfo.profilePic
+        // const newProfile = {
+        //   ...profileInfo,
+        //   imgURL: response.data
+        // }
+        return this.createTrainerProfile(profileInfo).then((response) => {
+          console.log('response creating profile', response)
+          if (response.status === 'success') {
+            // set user data in nuxt auth
+            this.$auth.setUser(response.data)
+            this.$toast.success('Welcome', { position: 'bottom-right' })
+            this.$router.push({
+              name: 'Dashboard'
             })
           }
+          // return this.uploadPicture(imageData).then((response) => {
+          // console.log('response from uploading picture', response)
+          // if (response.status === 'success' && response.data) {
+          //   const profileInfo = this.profileInfo
+          //   delete profileInfo.profilePic
+          //   const newProfile = {
+          //     ...profileInfo,
+          //     imgURL: response.data
+          //   }
+          // }
+          // })
+        }).catch((err) => {
+          if (err.response) {
+            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+          }
+          //   })
+          // }
         }).catch((err) => {
           if (err.response) {
             this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })

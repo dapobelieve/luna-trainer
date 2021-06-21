@@ -13,7 +13,6 @@ export const actions = {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
   uploadProfileImage ({ commit }, payload) {
-    console.log('upload payload', payload)
     return this.$axios.$patch(
       `${process.env.BASEURL_HOST}/profile/upload-image`, payload, {
         headers: {
@@ -25,9 +24,8 @@ export const actions = {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
-        console.log('response from creating profile', response)
         // set user data in nuxt auth
-        // this.$auth.setUser(response)
+        // this.$auth.setUser(response.data)
         return response
       })
       .catch((err) => {
