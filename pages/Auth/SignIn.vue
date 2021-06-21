@@ -1,7 +1,9 @@
 <template>
   <div class="tail-grid tail-gap-12">
     <div class="">
-      <h2 class="tail-text-3xl">Sign in</h2>
+      <h2 class="tail-text-3xl">
+        Sign in
+      </h2>
     </div>
     <div class="">
       <button
@@ -121,11 +123,6 @@ export default {
       }
     }
   }
-  // computed: {
-  //   disabled() {
-  //     return
-  //   }
-  // },
 }
 </script>
 <style scoped lang="scss">

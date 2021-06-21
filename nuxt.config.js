@@ -23,6 +23,10 @@ export default {
   components: {
     dirs: ['~/components', '~/components/util']
   },
+  env: {
+    BASEURL_HOST: process.env.BASEURL_HOST,
+    ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL
+  },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
