@@ -8,17 +8,16 @@
     >
       <div class="tail-mr-auto tail-text-sm md:tail-text-2xl tail-flex tail-gap-3">
         <NuxtLink exact-active-class="active" :to="{name: 'Clients'}">
-          Clients <span v-if="allClients.size" class="">({{ allClients.size }})</span>
+          Clients <span v-if="acceptedClients.size" class="">({{ allClients.size }})</span>
         </NuxtLink>
         <!-- <NuxtLink exact-active-class="active" :to="{name: 'Clients-Classes'}">
           Classes <span class="">(3)</span>
         </NuxtLink> -->
       </div>
-      <div v-if="allClients.size" class="relative inline-block text-left">
+      <div class="relative inline-block text-left">
         <div class="tail-mr-2 md:tail-mr-5 tail-relative">
           <div
             class="tail-inline-flex tail-justify-items-start tail-w-full tail-rounded-md tail-border tail-border-gray-300 tail-shadow-sm tail-px-3 md:tail-pl-4 md:tail-pr-2 tail-py-1 md:tail-py-2 tail-bg-white tail-text-sm tail-font-medium hover:tail-bg-gray-50 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-offset-gray-100 focus:tail-ring-indigo-500"
-            @click="show = !show"
           >
             <span class="tail-hidden md:tail-block">Received</span>
             <i class="ns-caret-down tail-text-xl" aria-hidden="true"></i>
@@ -32,7 +31,6 @@
             leave-to-class="tail-transform tail-opacity-0 tail-scale-95"
           >
             <div
-              v-if="show"
               class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-auto md:tail-w-full tail-rounded-md tail-shadow-lg tail-bg-white tail-tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none"
             >
               <div class="tail-py-1">
@@ -86,15 +84,18 @@ export default {
   data () {
     return {
       clients: false,
-      show: false,
       active: true,
       openModal: false
     }
   },
   computed: {
     ...mapGetters({
-      allClients: 'mock/FETCH_CLIENTS'
+      allClients: 'mock/FETCH_CLIENTS',
+      acceptedClients: 'clients/fetchAllClients'
     })
+  },
+  mounted () {
+    console.log('clients', this.$store.dispatch('fetchAllAcceptedClients'))
   }
 }
 </script>

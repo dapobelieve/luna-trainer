@@ -1,5 +1,7 @@
 export const state = () => ({
-  clients: {}
+  clients: new Map(),
+  acceptedClients: new Map(),
+  pendingAcceptance: new Map()
 })
 
 export const mutations = {
@@ -19,4 +21,9 @@ export const action = {
         console.log('error inviting', err)
       })
   }
+}
+
+export const getters = {
+  // for clients module
+  fetchAllClients: state => state.acceptedClients
 }
