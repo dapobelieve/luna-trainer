@@ -43,5 +43,8 @@ export const actions = {
       .catch((err) => {
         console.log('error setting', err)
       })
+  },
+  logOut ({ commit }) {
+    this.$auth.logout()
   }
 }

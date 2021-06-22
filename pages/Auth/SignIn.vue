@@ -100,6 +100,7 @@ export default {
             data: this.userInfo
           })
             .then((response) => {
+              console.log('signin one response', response)
               this.$toast.success('Login Successful', { position: 'bottom-right' })
               const tokens = {
                 token: response.data.data.accessToken,
@@ -109,7 +110,13 @@ export default {
               this.$store.dispatch('setToken', tokens)
               // fetch user profile
               this.$store.dispatch('getUserProfile').then((response) => {
-                response === null ? this.$router.push({ name: 'Auth-ProfileSetup' }) : this.$router.push({ name: 'Dashboard' })
+                console.log('signin response', response)
+                if (response === null) {
+                  this.$router.push({ name: 'Auth-ProfileSetup' })
+                } else {
+                  this.$auth.setUser(response)
+                  this.$router.push({ name: 'Dashboard' })
+                }
               })
             }).catch((err) => {
               this.$toast.error('Login attempt failed', { position: 'bottom-right' })
