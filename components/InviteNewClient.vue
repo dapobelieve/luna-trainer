@@ -10,7 +10,7 @@
         style="background: #EFF1F6"
       >
         <i class="ns-time-check"></i>
-        <span class=''>Brief information here</span>
+        <span class="">Brief information here</span>
       </div>
       <div class="tail-overflow-y-scroll">
         <form
@@ -28,10 +28,13 @@
                 >First name</label>
                 <input
                   id="first_name"
-                  v-model="clientInfo.firstName"
+                  v-model.trim="clientInfo.firstName"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
+                <div v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500 tail-text-sm">
+                  Field is required.
+                </div>
               </div>
 
               <div class="tail-w-full">
@@ -41,10 +44,13 @@
                 >Last name</label>
                 <input
                   id="last_name"
-                  v-model="clientInfo.lastName"
+                  v-model.trim="clientInfo.lastName"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
+                <div v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500 tail-text-sm">
+                  Field is required.
+                </div>
               </div>
             </div>
           </div>
@@ -54,10 +60,16 @@
               <label for="phone" class="">Telephone</label>
               <input
                 id="phone"
-                v-model="clientInfo.phone"
+                v-model.trim="clientInfo.phone"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
+              <div v-if="!$v.clientInfo.phone.required" class="error tail-text-red-500 tail-text-sm">
+                Field is required.
+              </div>
+              <div v-if="!$v.clientInfo.phone.numeric" class="error tail-text-red-500 tail-text-sm">
+                Must be Numbers.
+              </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -68,7 +80,7 @@
               <label for="email" class="">Email Address</label>
               <input
                 id="email"
-                v-model="clientInfo.email"
+                v-model.trim="clientInfo.email"
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -204,6 +216,8 @@
 
 <script>
 import { mapActions } from 'vuex'
+import { required, numeric } from 'vuelidate/lib/validators'
+
 export default {
   name: 'InviteNewClient',
   data () {
@@ -223,6 +237,20 @@ export default {
           age: ''
         },
         notes: ''
+      }
+    }
+  },
+  validations: {
+    clientInfo: {
+      firstName: {
+        required
+      },
+      lastName: {
+        required
+      },
+      phone: {
+        required,
+        numeric
       }
     }
   },
