@@ -11,10 +11,12 @@ export const action = {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
       .then((response) => {
-        commit('INVITE_CLIENT', response)
+        console.log('invited client', response)
+        return response
+        // commit('INVITE_CLIENT', response)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('error inviting', err)
       })
   }
 }

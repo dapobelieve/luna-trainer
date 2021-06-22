@@ -10,7 +10,7 @@
         style="background: #EFF1F6"
       >
         <i class="ns-time-check"></i>
-        <span class=''>Brief information here</span>
+        <span class="">Brief information here</span>
       </div>
       <div class="tail-overflow-y-scroll">
         <form
@@ -124,7 +124,7 @@
               <label for="dogName" class="">Dog's name</label>
               <input
                 id="dogName"
-                v-model="clientInfo.dogInfo.name"
+                v-model="clientInfo.petName"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -142,7 +142,7 @@
                 >Breed</label>
                 <input
                   id="breed"
-                  v-model="clientInfo.dogInfo.breed"
+                  v-model="clientInfo.petBreed"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
@@ -156,7 +156,7 @@
               >Age</label>
               <input
                 id="age"
-                v-model="clientInfo.dogInfo.age"
+                v-model="clientInfo.petAge"
                 type="text"
                 class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -208,7 +208,7 @@ export default {
   name: 'InviteNewClient',
   data () {
     return {
-      disabled: false,
+      // disabled: false,
       clientInfo: {
         firstName: '',
         lastName: '',
@@ -217,27 +217,49 @@ export default {
         address: '',
         city: '',
         postCode: '',
-        dogInfo: {
-          name: '',
-          breed: '',
-          age: ''
-        },
-        notes: ''
+        petName: '',
+        petBreed: '',
+        petAge: '',
+        notes: '',
+        domain: 'getwelp-trainer-ui'
       }
+    }
+  },
+  computed: {
+    disabled () {
+      for (const key in this.clientInfo) {
+        // eslint-disable-next-line curly
+        if (this.clientInfo[key] === '')
+          return true
+      }
+      return false
     }
   },
   methods: {
     ...mapActions({
-      saveClient: 'mock/addClient'
+      saveClient: 'inviteClient'
     }),
     save () {
-      this.disabled = true
-      this.saveClient(this.clientInfo)
-      this.disabled = false
-      this.$toast.success(
+      if (!this.disabled) {
+        return this.$store.dispatch('inviteClient', this.clientInfo).then((response) => {
+          if (response && response.status === true) {
+            this.$toast.success(
         `${this.clientInfo.firstName} ${this.clientInfo.lastName} is now your client`
-      )
-      this.$emit('close', false)
+            )
+            this.$emit('close', false)
+          } else {
+            this.$toast.error('Error creating client')
+          }
+        }).catch((err) => {
+          if (err.response) {
+            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+          }
+        })
+      }
     }
   }
 }

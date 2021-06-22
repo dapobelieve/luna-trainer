@@ -1,4 +1,6 @@
-export const state = () => ({})
+export const state = () => ({
+  clients: {}
+})
 
 export const mutations = {}
 
@@ -46,5 +48,17 @@ export const actions = {
   },
   logOut ({ commit }) {
     this.$auth.logout()
+  },
+  inviteClient ({ commit }, clientInfo) {
+    return this.$axios
+      .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
+      .then((response) => {
+        console.log('invited client', response)
+        commit('INVITE_CLIENT', response)
+        return response
+      })
   }
+}
+
+export const getters = {
 }
