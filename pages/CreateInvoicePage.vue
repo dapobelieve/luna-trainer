@@ -5,8 +5,9 @@
 </template>
 <script>
 export default {
-  name: 'CreateInvoice',
-  layout: 'AuthLayout'
+  name: 'CreateInvoicePage',
+  components: 'CreateInvoice',
+  layout: 'emptyLayout'
 }
 </script>
 
