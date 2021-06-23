@@ -26,6 +26,10 @@ export default {
   components: {
     dirs: ["~/components", "~/components/util"]
   },
+  env: {
+    BASEURL_HOST: process.env.BASEURL_HOST,
+    ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL
+  },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
@@ -43,18 +47,18 @@ export default {
   ],
 
   toast: {
-    posotion: "top-right",
-    duration: 5000,
+    posotion: 'top-right',
+    duration: 4000,
     closeOnSwipe: true
   },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: "https://api.getwelp.co.uk/accounts/v0"
+    // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
   },
 
   router: {
-    // middleware: ['auth']
+    middleware: ['auth']
   },
 
   auth: {
@@ -67,19 +71,19 @@ export default {
     strategies: {
       local: {
         token: {
-          property: "accessToken",
-          global: true
-          // required: true,
+          property: 'accessToken',
+          global: true,
+          required: true
           // type: 'Bearer'
         },
-        // user: {
-        //   property: 'user'
-        //   // autoFetch: true
-        // },
+        user: {
+          property: 'data',
+          autoFetch: false
+        },
         endpoints: {
-          login: { url: "/auth/login", method: "post" },
-          logout: { url: "/api/auth/logout", method: "post" }
-          // user: { url: '/api/auth/user', method: 'get' }
+          login: { url: 'https://api.getwelp.co.uk/accounts/v0/auth/login', method: 'post' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: false
         }
       }
     }

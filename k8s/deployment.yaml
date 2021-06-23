@@ -36,3 +36,7 @@ spec:
               value: '80'
             - name: NODE_ENV
               value: production
+            - name: ACCOUNT_HOST_URL
+              value: https://api.getwelp.co.uk/accounts/v0
+            - name: BASEURL_HOST
+              value: https://api.getwelp.co.uk/core/v0
