@@ -1,5 +1,7 @@
 export const state = () => ({
-  clients: {}
+  clients: new Map(),
+  acceptedClients: new Map(),
+  pendingAcceptance: new Map()
 })
 
 export const mutations = {
@@ -11,10 +13,17 @@ export const action = {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
       .then((response) => {
-        commit('INVITE_CLIENT', response)
+        console.log('invited client', response)
+        return response
+        // commit('INVITE_CLIENT', response)
       })
       .catch((err) => {
-        console.log(err)
+        console.log('error inviting', err)
       })
   }
+}
+
+export const getters = {
+  // for clients module
+  fetchAllClients: state => state.acceptedClients
 }

@@ -109,7 +109,12 @@ export default {
               this.$store.dispatch('setToken', tokens)
               // fetch user profile
               this.$store.dispatch('getUserProfile').then((response) => {
-                response === null ? this.$router.push({ name: 'Auth-ProfileSetup' }) : this.$router.push({ name: 'Dashboard' })
+                if (response === null) {
+                  this.$router.push({ name: 'Auth-ProfileSetup' })
+                } else {
+                  this.$auth.setUser(response)
+                  this.$router.push({ name: 'Dashboard' })
+                }
               })
             }).catch((err) => {
               this.$toast.error('Login attempt failed', { position: 'bottom-right' })
