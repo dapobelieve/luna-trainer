@@ -37,7 +37,7 @@
               </div>
               <div class="left-card tail-border tail-p-4 tail-flex">
                 <div class="tail-flex">
-                  <input type="checkbox" class=>
+                  <input type="checkbox" class="tail-p-2">
                   <span class="tail-text-gray-500">Behaviour Consuming</span>
                 </div>
               </div>
