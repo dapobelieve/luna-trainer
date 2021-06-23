@@ -35,7 +35,7 @@
                 <label for="item" class="">Add Item</label>
                 <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
               </div>
-              <div class="left-card tail-border tail-p-4 tail-flex">
+              <div class="tail-border tail-p-4 tail-flex">
                 <div class="tail-flex">
                   <input type="checkbox" class="tail-p-2">
                   <span class="tail-text-gray-500">Behaviour Consuming</span>
