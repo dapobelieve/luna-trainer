@@ -11,19 +11,38 @@
     <div class="tail-flex tail-justify-center tail-align-center">
       <div class="tail-grid tail-gap-8 tail-grid-cols-2">
         <div class="left-card">
-          <div class="tail-border tail-rounded tail-p-4">
-            <div>
-              <h1>Customer</h1>
-              <span class="tail-text-gray-500">A short description about this section</span>
+          <form autocomplete="off" class="tail-grid tail-gap-6">
+            <div class="tail-border tail-rounded tail-p-4">
+              <div>
+                <h1>Customer</h1>
+                <span class="tail-text-gray-500">A short description about this section</span>
+              </div>
+              <div class="">
+                <label for="email" class="">Name</label>
+                <input type="email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              </div>
+              <div class="">
+                <label for="email" class="">Email Address</label>
+                <input type="email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              </div>
             </div>
-            <div>
-              <form>
-                <label>Name</label>
-              <input type="text" name="name">
-              </form>
-              
+            <div class="tail-border tail-rounded tail-p-4">
+              <div>
+                <h1>Items</h1>
+                <span class="tail-text-gray-500">A short description about this section</span>
+              </div>
+              <div class="tail-pb-1">
+                <label for="item" class="">Add Item</label>
+                <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              </div>
+              <div class="left-card tail-border tail-p-4 tail-flex">
+                <div class="tail-flex">
+                  <input type="checkbox" class=>
+                  <span class="tail-text-gray-500">Behaviour Consuming</span>
+                </div>
+              </div>
             </div>
-          </div>
+          </form>
         </div>
         <div class="right-card">
           <div class="tail-border tail-rounded">
@@ -48,6 +67,7 @@ export default {
 <style scoped>
 .card {
   background-color: #fff;
+  height: 100vh;
 }
 .left-card {
   width: 26.25rem;
