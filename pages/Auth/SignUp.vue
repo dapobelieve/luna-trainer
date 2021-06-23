@@ -79,6 +79,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+
 export default {
   name: 'SignUp',
   layout: 'authLayout',

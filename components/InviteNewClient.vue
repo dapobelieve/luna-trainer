@@ -208,7 +208,6 @@ export default {
   name: 'InviteNewClient',
   data () {
     return {
-      // disabled: false,
       clientInfo: {
         firstName: '',
         lastName: '',
@@ -218,8 +217,9 @@ export default {
         city: '',
         postCode: '',
         petName: '',
-        petBreed: '',
         petAge: '',
+        petBreed: '',
+        petGender: 'female',
         notes: '',
         domain: 'getwelp-trainer-ui'
       }
@@ -237,12 +237,12 @@ export default {
   },
   methods: {
     ...mapActions({
-      saveClient: 'inviteClient'
+      saveClient: 'client/inviteClient'
     }),
     save () {
       if (!this.disabled) {
-        return this.$store.dispatch('inviteClient', this.clientInfo).then((response) => {
-          if (response && response.status === true) {
+        return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
+          if (response && response.data.status === true) {
             this.$toast.success(
         `${this.clientInfo.firstName} ${this.clientInfo.lastName} is now your client`
             )

@@ -18,9 +18,9 @@
         </span>
       </a>
     </div>
-    <div class="tail-block tail-grid tail-gap-4 tail-place-items-start tail-py-4">
+    <div class="tail-grid tail-gap-4 tail-place-items-start tail-py-4">
       <a class="tail-flex" href="#"><i class="ns-settings" /><span class="tail-text-base tail-font-light tail-px-2">Settings</span></a>
-      <a @click.prevent="signOut" class="tail-flex tail-text-red-600" href="#"><i class="ns-power" /><span class="tail-text-base tail-font-light tail-px-2">Signout</span></a>
+      <a class="tail-flex tail-text-red-600" @click.prevent="signOut"><i class="ns-power" /><span class="tail-text-base tail-font-light tail-px-2">Signout</span></a>
     </div>
   </div>
 </template>

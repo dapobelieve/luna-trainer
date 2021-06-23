@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="acceptedClients.length" class="tail-grid">
-      <ClientCard v-for="n in allAcceptedClients" :key="n" />
+    <div v-if="invitedClients.length" class="tail-grid">
+      <ClientCard v-for="n in invitedClients" :key="n._id" :client="n" />
     </div>
     <div v-else-if="firstTimeVisit" class="tail-h-full tail-flex">
       <div
@@ -62,7 +62,7 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'Index',
+  name: 'InvitedInvites',
   data () {
     return {
       addClient: false,

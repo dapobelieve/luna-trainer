@@ -49,39 +49,8 @@ export const actions = {
   },
   logOut ({ commit }) {
     this.$auth.logout()
-  },
-
-  // everything concerning clients stuff to be moved when i figure out the mutation bug i noticed from using the client.js module
-  inviteClient ({ commit }, clientInfo) {
-    return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
-      .then((response) => {
-        console.log('invited client', response)
-        return response
-      })
-  },
-  fetchAllClients ({ commit }) {
-    // regardless of the status
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/concise`)
-      .then((response) => {
-        console.log('client list', response)
-        commit('INVITE_CLIENT', response)
-        return response
-      })
-  },
-  fetchAllAcceptedClients ({ commit }) {
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites?limit=2&page=1&status=accepted`)
-      .then((response) => {
-        console.log('client list', response)
-        commit('INVITE_CLIENT', response)
-        return response
-      })
   }
 }
 
 export const getters = {
-  // for clients module
-  fetchAllClients: state => state.acceptedClients
 }

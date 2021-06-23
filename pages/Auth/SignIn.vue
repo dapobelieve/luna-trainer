@@ -76,8 +76,12 @@
   </div>
 </template>
 <script>
+// import { HollowDotsSpinner } from 'epic-spinners'
 export default {
   name: 'SignIn',
+  // components: {
+  //   HollowDotsSpinner
+  // },
   layout: 'authLayout',
   auth: false,
   data () {
