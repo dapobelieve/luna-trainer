@@ -54,9 +54,9 @@ export default {
     // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
   },
 
-  router: {
-    middleware: ['auth']
-  },
+  // router: {
+  //   middleware: ['auth']
+  // },
 
   auth: {
     redirect: {
