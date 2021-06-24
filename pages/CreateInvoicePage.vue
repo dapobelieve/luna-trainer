@@ -1,6 +1,6 @@
 <template>
   <div>
-    <AddItem />
+    <EditItem />
   </div>
 </template>
 <script>
