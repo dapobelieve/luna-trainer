@@ -1,6 +1,6 @@
 <template>
   <div>
-    <CreateInvoice />
+    <AddItem />
   </div>
 </template>
 <script>
