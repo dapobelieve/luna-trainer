@@ -50,17 +50,6 @@
             >
               <div class="tail-py-1">
                 <div class="tail-divide-y tail-divide-gray-100">
-                  <!-- <NuxtLink
-                    :to="{ name: 'Clients' }"
-                    :class="[
-                      active
-                        ? 'tail-bg-gray-100 tail-text-gray-900'
-                        : 'tail-text-gray-700',
-                      'tail-block tail-px-4 tail-py-2 tail-text-sm'
-                    ]"
-                  >
-                    Received
-                  </NuxtLink> -->
                   <button
                     type="button"
                     :class="[
@@ -75,17 +64,6 @@
                   </button>
                 </div>
                 <div>
-                  <!-- <NuxtLink
-                    :to="{ name: 'Clients-InvitedInvites' }"
-                    :class="[
-                      active
-                        ? 'tail-bg-gray-100 tail-text-gray-900'
-                        : 'tail-text-gray-700',
-                      'tail-block tail-px-4 tail-py-2 tail-text-sm'
-                    ]"
-                  >
-                    Sent
-                  </NuxtLink> -->
                   <button
                     type="button"
                     :class="[
