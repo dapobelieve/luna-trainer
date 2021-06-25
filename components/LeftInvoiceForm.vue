@@ -72,10 +72,12 @@
                     Qty <span>1</span>
                   </p>
                 </div>
-                <div class="tail-p-3">
-                  <span>£60</span>
-                  <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
-                </div>
+                <button @click="editItem = true">
+                  <div class="tail-p-3">
+                    <span>£60</span>
+                    <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
+                  </div>
+                </button>
               </div>
               <div class="tail-flex tail-justify-between tail-py-4">
                 <div>
@@ -115,6 +117,9 @@
     <Modal :is-open="addItem" @close="addItem = $event">
       <AddItem @close="addItem = $event" />
     </Modal>
+    <Modal :is-open="editItem" @close="editItem = $event">
+      <EditItem @close="editItem = $event" />
+    </Modal>
   </div>
 </template>
 <script>
@@ -122,7 +127,8 @@ export default {
   name: 'Dashboard',
   data () {
     return {
-      addItem: false
+      addItem: false,
+      editItem: false
     }
   }
 }
