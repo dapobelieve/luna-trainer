@@ -50,7 +50,7 @@
             >
               <div class="tail-py-1">
                 <div class="tail-divide-y tail-divide-gray-100">
-                  <NuxtLink
+                  <!-- <NuxtLink
                     :to="{ name: 'Clients' }"
                     :class="[
                       active
@@ -60,10 +60,22 @@
                     ]"
                   >
                     Received
-                  </NuxtLink>
+                  </NuxtLink> -->
+                  <button
+                    type="button"
+                    :class="[
+                      active
+                        ? 'tail-bg-gray-100 tail-text-gray-900'
+                        : 'tail-text-gray-700',
+                      'tail-block tail-px-4 tail-py-2 tail-text-sm', 'tail-w-full'
+                    ]"
+                    @click="goToAccepted"
+                  >
+                    Received
+                  </button>
                 </div>
                 <div>
-                  <NuxtLink
+                  <!-- <NuxtLink
                     :to="{ name: 'Clients-InvitedInvites' }"
                     :class="[
                       active
@@ -73,7 +85,19 @@
                     ]"
                   >
                     Sent
-                  </NuxtLink>
+                  </NuxtLink> -->
+                  <button
+                    type="button"
+                    :class="[
+                      active
+                        ? 'tail-bg-gray-100 tail-text-gray-900'
+                        : 'tail-text-gray-700',
+                      'tail-block tail-px-4 tail-py-2 tail-text-sm', 'tail-w-full'
+                    ]"
+                    @click="goToInvites"
+                  >
+                    Sent
+                  </button>
                 </div>
               </div>
             </div>
@@ -101,7 +125,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'Clients',
   data () {
@@ -118,18 +142,19 @@ export default {
       invitedClients: 'client/getAllInvitedClients'
     })
   },
-  mounted () {
-    this.fetchInvitedClients()
-    this.fetchAcceptedClients()
-  },
   methods: {
-    ...mapActions({
-      fetchInvitedClients: 'client/fetchAllInvitedClients',
-      fetchAcceptedClients: 'client/fetchAllAcceptedClients'
-    })
-    // name() {
-
-    // }
+    goToInvites () {
+      this.$router.push({
+        name: 'Clients-InvitedInvites'
+      })
+      this.openDropDown = false
+    },
+    goToAccepted () {
+      this.$router.push({
+        name: 'Clients'
+      })
+      this.openDropDown = false
+    }
   }
 }
 </script>

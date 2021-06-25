@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'InvitedInvites',
   data () {
@@ -71,16 +71,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/getAllAcceptedClients',
       invitedClients: 'client/getAllInvitedClients'
     })
   },
   mounted () {
+    this.fetchInvitedClients()
     const getTime = localStorage.getItem('clientsPageFirstVisit')
     if (!getTime) {
       this.firstTimeVisit = true
       localStorage.setItem('clientsPageFirstVisit', Date.now())
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchInvitedClients: 'client/fetchAllInvitedClients'
+    })
   }
 }
 </script>

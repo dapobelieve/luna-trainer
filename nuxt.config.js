@@ -28,7 +28,11 @@ export default {
   },
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
-    ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL
+    ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
+    quickbloxAppId: process.env.QUICKBLOX_APPLICATION_ID,
+    quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
+    quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
+    quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

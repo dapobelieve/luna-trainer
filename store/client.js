@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export const state = () => ({
   acceptedClients: [],
   invitedClients: []
@@ -8,7 +10,8 @@ export const mutations = {
     state.acceptedClients = acceptedClients
   },
   invited_clients (state, invitedClients) {
-    state.invitedClients = invitedClients
+    // state.invitedClients = invitedClients
+    Vue.set(state, 'invitedClients', invitedClients)
   }
 }
 
@@ -43,17 +46,24 @@ export const actions = {
       .$get(`${process.env.BASEURL_HOST}/client/invites?status=accepted`)
       .then(({ data }) => {
         console.log('client list accepted', data)
+        if (data.length !== 0) {
+          commit('ACCEPTED_CLIENTS', data)
+        }
         commit('invited_clients', data)
         return data
       })
   },
-  fetchAllInvitedClients ({ commit }) {
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites?status=invited`)
+  async fetchAllInvitedClients ({ commit }) {
+    return await this.$axios
+      .get(`${process.env.BASEURL_HOST}/client/invites?status=invited`)
       .then(({ data }) => {
-        console.log('client listing', data)
-        commit('invited_clients', data)
-        return data
+        console.log('client listing', data.data)
+        if (data.data.length !== 0) {
+          console.log('commited')
+          commit('invited_clients', data.data)
+        }
+        console.log('not commuted')
+        return data.data
       })
   }
 }

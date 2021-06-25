@@ -79,10 +79,10 @@
               class="ns-location-alt tail-mt-1 tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="address" class="">Address</label>
+              <label for="locationAddress" class="">Address</label>
               <input
-                id="address"
-                v-model="clientInfo.address"
+                id="locationAddress"
+                v-model="clientInfo.locationAddress"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -107,10 +107,10 @@
               class="ns-location-alt tail-invisible tail-mt-1 tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="postCode" class="">Post Code</label>
+              <label for="locationZip" class="">Post Code</label>
               <input
-                id="postCode"
-                v-model="clientInfo.postCode"
+                id="locationZip"
+                v-model="clientInfo.locationZip"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -213,9 +213,9 @@ export default {
         lastName: '',
         phone: '',
         email: '',
-        address: '',
+        locationAddress: '',
         city: '',
-        postCode: '',
+        locationZip: '',
         petName: '',
         petAge: '',
         petBreed: '',
@@ -244,11 +244,11 @@ export default {
         return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
           if (response && response.data.status === true) {
             this.$toast.success(
-        `${this.clientInfo.firstName} ${this.clientInfo.lastName} is now your client`
+        `${this.clientInfo.firstName} ${this.clientInfo.lastName} has been sent an invite.`
             )
             this.$emit('close', false)
           } else {
-            this.$toast.error('Error creating client')
+            this.$toast.error('Error sending client invite')
           }
         }).catch((err) => {
           if (err.response) {

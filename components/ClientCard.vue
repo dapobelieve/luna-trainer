@@ -81,9 +81,9 @@ export default {
       console.log('sent id', this.client._id)
       return this.$axios.$get(`${process.env.BASEURL_HOST}/client/${this.client._id}/resend-invite`).then((response) => {
         console.log('responsed', response)
-        if (response && response.data.status === true) {
+        if (response && response.status === true) {
           this.$toast.success(
-          `Client invitation resent to ${this.clientInfo.firstName} ${this.clientInfo.lastName}`
+          `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
           )
           this.$emit('close', false)
         } else {

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="acceptedClients.length" class="tail-grid">
-      <ClientCard v-for="n in allAcceptedClients" :key="n" />
+      <ClientCard v-for="n in acceptedClients" :key="n._id" :client="n" />
     </div>
     <div v-else-if="firstTimeVisit" class="tail-h-full tail-flex">
       <div
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Index',
   data () {
@@ -71,16 +71,21 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/getAllAcceptedClients',
-      invitedClients: 'client/getAllInvitedClients'
+      acceptedClients: 'client/getAllAcceptedClients'
     })
   },
   mounted () {
+    this.fetchAcceptedClients()
     const getTime = localStorage.getItem('clientsPageFirstVisit')
     if (!getTime) {
       this.firstTimeVisit = true
       localStorage.setItem('clientsPageFirstVisit', Date.now())
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchAcceptedClients: 'client/fetchAllAcceptedClients'
+    })
   }
 }
 </script>
