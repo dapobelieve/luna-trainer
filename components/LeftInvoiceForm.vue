@@ -52,7 +52,7 @@
                 <span>£40</span>
               </div>
             </div>
-            <button @click="addItem = true">
+            <button @click.prevent="addItem = true">
               <div class="tail-flex tail-p-2">
                 <div>
                   <i class="ns-plus tail-text-blue-600" />
@@ -72,7 +72,7 @@
                     Qty <span>1</span>
                   </p>
                 </div>
-                <button @click="editItem = true">
+                <button @click.prevent="editItem = true">
                   <div class="tail-p-3">
                     <span>£60</span>
                     <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
