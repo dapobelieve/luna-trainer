@@ -4,26 +4,10 @@ export const state = () => ({
 })
 
 export const mutations = {
-  // ADD_CLIENT (state, clientInfo) {
-  //   const clients = localStorage.getItem(clientInfo) || []
-  //   clients.push(clientInfo)
-  //   localStorage.setItem('clientsInfo', JSON.stringify(clients))
-  //   if (!clients.length) {
-  //     state.clients.set(clientInfo.email, clientInfo)
-  //     return
-  //   }
-  //   clients.forEach(client => state.clients.set(client.email, client))
-  // },
-  // FETCH_CLIENTS (state) {
-  //   const clients = JSON.parse(localStorage.getItem('clientsInfo')) || []
-  //   if (clients.length) {
-  //     clients.forEach(client => state.clients.set(client.email, client))
-  //   }
-  // },
   ACCEPTED_CLIENTS (state, acceptedClients) {
     state.acceptedClients = acceptedClients
   },
-  INVITED_CLIENTS (state, invitedClients) {
+  invited_clients (state, invitedClients) {
     state.invitedClients = invitedClients
   }
 }
@@ -37,32 +21,38 @@ export const actions = {
         return response
       })
   },
-  resendClientInvite () {},
-  fetchAllClients ({ commit }) {
+  resendClientInvite ({ commit, dispatch }, id) {
+    return this.$axios
+      .$get(`${process.env.BASEURL_HOST}/client/${id}/resend-invite`)
+      .then((response) => {
+        console.log('client list', response)
+        return response
+      })
+  },
+  fetchAllClients ({ state, commit, dispatch }) {
     // regardless of the status
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/client/concise`)
       .then((response) => {
         console.log('client list', response)
-        commit('INVITE_CLIENT', response)
         return response
       })
   },
-  fetchAllAcceptedClients ({ commit }) {
+  fetchAllAcceptedClients ({ commit, dispatch }) {
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites?limit=2&page=1&status=accepted`)
-      .then((response) => {
-        console.log('client list', response)
-        commit('INVITE_CLIENT', response)
-        return response
+      .$get(`${process.env.BASEURL_HOST}/client/invites?status=accepted`)
+      .then(({ data }) => {
+        console.log('client list accepted', data)
+        commit('invited_clients', data)
+        return data
       })
   },
   fetchAllInvitedClients ({ commit }) {
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites?limit=2&page=1&status=invited`)
+      .$get(`${process.env.BASEURL_HOST}/client/invites?status=invited`)
       .then(({ data }) => {
-        console.log('client list', data)
-        commit('INVITED_CLIENTS', data)
+        console.log('client listing', data)
+        commit('invited_clients', data)
         return data
       })
   }

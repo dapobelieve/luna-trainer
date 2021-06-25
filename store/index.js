@@ -1,21 +1,24 @@
 export const state = () => ({
-  clients: {},
-  acceptedClients: {}
+  getWelpUser: {}
 })
 
-export const mutations = {}
+export const mutations = {
+  SET_GETWELP_USER (state, user) {
+    // this is being done to persist the state
+    state.getWelpUser = user
+  }
+}
 
 export const actions = {
   signUpUser ({ commit }, payload) {
     return this.$axios.$post(
-      `${process.env.ACCOUNT_HOST_URL}/signup`, payload).then(({ status }) =>
-      status
+      `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
     )
   },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
-  uploadProfileImage ({ commit }, payload) {
+  uploadProfileImage ({ commit }, payload) { // continue after maison works on it
     return this.$axios.$patch(
       `${process.env.BASEURL_HOST}/profile/upload-image`, payload, {
         headers: {
@@ -31,9 +34,6 @@ export const actions = {
         // this.$auth.setUser(response.data)
         return response
       })
-      .catch((err) => {
-        console.log('error setting', err)
-      })
   },
   getUserProfile ({ commit }) {
     return this.$axios
@@ -43,14 +43,11 @@ export const actions = {
         this.$auth.setUser(data)
         return data
       })
-      .catch((err) => {
-        console.log('error setting', err)
-      })
   },
   logOut ({ commit }) {
+    localStorage.removeItem('getWelpUser')
     this.$auth.logout()
   }
 }
 
-export const getters = {
-}
+export const getters = {}

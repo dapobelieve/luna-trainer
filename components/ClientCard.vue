@@ -67,7 +67,6 @@
 
 <script>
 import { mapActions } from 'vuex'
-// import axios from 'axios'
 export default {
   name: 'ClientCard',
   props: {
@@ -77,20 +76,11 @@ export default {
     }
   },
   methods: {
-    ...mapActions({ resendInvite: 'client/inviteClient' }),
+    ...mapActions({ resendInvite: 'client/resendClientInvite' }),
     resendInvite () {
-      console.log('client info', this.client)
-      const clientInfo = {
-        ...this.client,
-        petName: this.client.pet[0].name,
-        petBreed: this.client.pet[0].breed,
-        petAge: this.client.pet[0].age
-      }
-      delete this.client.pet
-      console.log('answer', clientInfo)
-      // use resent invite endpoint
-      // return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
-      return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo).then((response) => {
+      console.log('sent id', this.client._id)
+      return this.$axios.$get(`${process.env.BASEURL_HOST}/client/${this.client._id}/resend-invite`).then((response) => {
+        console.log('responsed', response)
         if (response && response.data.status === true) {
           this.$toast.success(
           `Client invitation resent to ${this.clientInfo.firstName} ${this.clientInfo.lastName}`

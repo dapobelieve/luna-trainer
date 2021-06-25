@@ -20,7 +20,7 @@
     </div>
     <div class="tail-grid tail-gap-4 tail-place-items-start tail-py-4">
       <a class="tail-flex" href="#"><i class="ns-settings" /><span class="tail-text-base tail-font-light tail-px-2">Settings</span></a>
-      <a class="tail-flex tail-text-red-600" @click.prevent="signOut"><i class="ns-power" /><span class="tail-text-base tail-font-light tail-px-2">Signout</span></a>
+      <a role="button" class="tail-flex tail-text-red-600" @click.prevent="signOut"><i class="ns-power" /><span class="tail-text-base tail-font-light tail-px-2">Signout</span></a>
     </div>
   </div>
 </template>

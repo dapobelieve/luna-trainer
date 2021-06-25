@@ -117,6 +117,14 @@ export default {
                   this.$router.push({ name: 'Auth-ProfileSetup' })
                 } else {
                   this.$auth.setUser(response)
+                  // set user in local storage
+                  const getWelpUser = localStorage.getItem('getWelpUser')
+                  // eslint-disable-next-line curly
+                  if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+                  localStorage.setItem('getWelpUser', JSON.stringify(response))
+
+                  // set user in store
+                  this.$store.commit('SET_GETWELP_USER', response)
                   this.$router.push({ name: 'Dashboard' })
                 }
               })
