@@ -52,7 +52,7 @@
                 <span>£40</span>
               </div>
             </div>
-            <button>
+            <button @click="addItem = true">
               <div class="tail-flex tail-p-2">
                 <div>
                   <i class="ns-plus tail-text-blue-600" />
@@ -112,8 +112,21 @@
         </button>
       </form>
     </div>
+    <Modal :is-open="addItem" @close="addItem = $event">
+      <AddItem @close="addItem = $event" />
+    </Modal>
   </div>
 </template>
+<script>
+export default {
+  name: 'Dashboard',
+  data () {
+    return {
+      addItem: false
+    }
+  }
+}
+</script>
 <style scoped>
 .left-card {
   width: 26.25rem;
