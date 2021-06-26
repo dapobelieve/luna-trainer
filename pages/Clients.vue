@@ -33,7 +33,7 @@
             role="button"
             @click.prevent="openDropDown = !openDropDown"
           >
-            <span class="tail-hidden md:tail-block">Received</span>
+            <span class="tail-hidden md:tail-block">{{ optionsText }}</span>
             <i class="ns-caret-down tail-text-xl" aria-hidden="true"></i>
           </div>
           <transition
@@ -109,6 +109,7 @@ export default {
   data () {
     return {
       openDropDown: false,
+      optionsText: 'Received',
       clients: false,
       active: true,
       openModal: false
@@ -122,12 +123,14 @@ export default {
   },
   methods: {
     goToInvites () {
+      this.optionsText = 'Sent'
       this.$router.push({
         name: 'Clients-InvitedInvites'
       })
       this.openDropDown = false
     },
     goToAccepted () {
+      this.optionsText = 'Received'
       this.$router.push({
         name: 'Clients'
       })

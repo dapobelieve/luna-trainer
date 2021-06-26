@@ -111,9 +111,9 @@ export default {
                 refreshToken: response.data.data.refreshToken
               }
               // set necessary tokens
-              this.$store.dispatch('setToken', tokens)
+              this.$store.dispatch('auth/setToken', tokens)
               // fetch user profile
-              this.$store.dispatch('getUserProfile').then((response) => {
+              this.$store.dispatch('auth/getUserProfile').then((response) => {
                 console.log('fetching profile', response)
                 if (response === null) {
                   this.$router.push({ name: 'Auth-ProfileSetup' })
@@ -126,8 +126,13 @@ export default {
                   localStorage.setItem('getWelpUser', JSON.stringify(response))
 
                   // set user in store
-                  this.$store.commit('SET_GETWELP_USER', response)
-                  this.$router.push({ name: 'Dashboard' })
+                  this.$store.commit('auth/SET_GETWELP_USER', response)
+                  return this.$store.dispatch('qb/getQbInfo').then((response) => {
+                    console.log('qb response', response)
+                    if (response.success === true) {
+                      this.$router.push({ name: 'Dashboard' })
+                    }
+                  }).catch(err => console.log('eee', err))
                 }
               })
             }).catch((err) => {

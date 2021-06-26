@@ -1,11 +1,15 @@
 import Vue from 'vue'
 
 export const state = () => ({
+  allClients: [],
   acceptedClients: [],
   invitedClients: []
 })
 
 export const mutations = {
+  ALL_CLIENTS (state, allClients) {
+    state.allClients = allClients
+  },
   ACCEPTED_CLIENTS (state, acceptedClients) {
     state.acceptedClients = acceptedClients
   },
@@ -32,13 +36,14 @@ export const actions = {
         return response
       })
   },
-  fetchAllClients ({ state, commit, dispatch }) {
+  fetchAllClientsConcise ({ commit }) {
     // regardless of the status
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/client/concise`)
-      .then((response) => {
-        console.log('client list', response)
-        return response
+      .then(({ data }) => {
+        console.log('client list concise', data)
+        commit('ALL_CLIENTS', data)
+        return data
       })
   },
   fetchAllAcceptedClients ({ commit, dispatch }) {
@@ -46,10 +51,9 @@ export const actions = {
       .$get(`${process.env.BASEURL_HOST}/client/invites?status=accepted`)
       .then(({ data }) => {
         console.log('client list accepted', data)
-        if (data.length !== 0) {
-          commit('ACCEPTED_CLIENTS', data)
-        }
-        commit('invited_clients', data)
+        // if (data.length !== 0) {
+        commit('ACCEPTED_CLIENTS', data)
+        // }
         return data
       })
   },
@@ -58,10 +62,10 @@ export const actions = {
       .get(`${process.env.BASEURL_HOST}/client/invites?status=invited`)
       .then(({ data }) => {
         console.log('client listing', data.data)
-        if (data.data.length !== 0) {
-          console.log('commited')
-          commit('invited_clients', data.data)
-        }
+        // if (data.data.length !== 0) {
+        console.log('commited')
+        commit('invited_clients', data.data)
+        // }
         console.log('not commuted')
         return data.data
       })
@@ -70,5 +74,6 @@ export const actions = {
 
 export const getters = {
   getAllAcceptedClients: state => state.acceptedClients,
-  getAllInvitedClients: state => state.invitedClients
+  getAllInvitedClients: state => state.invitedClients,
+  getAllClients: state => state.allClients
 }

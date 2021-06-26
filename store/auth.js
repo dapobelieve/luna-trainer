@@ -15,6 +15,14 @@ export const actions = {
       `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
     )
   },
+  forgotPassword ({ commit }, payload) {
+    console.log('email', payload)
+    return this.$axios.$post(
+      `${process.env.ACCOUNT_HOST_URL}/auth/forgot-password`, payload).then((response) => {
+      console.log('response from password', response)
+      return response
+    })
+  },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },

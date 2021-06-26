@@ -37,10 +37,10 @@
         <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
       <h5 class="tail-font-bold">
-        No clients yet
+        No Pending Invitations
       </h5>
-      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-xs">
-        All your client list will appear here. Send an invite to a potential client to get started
+      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-sm">
+        All pending client requests will be listed here. <br> Send an invite to a potential client to get started.
       </p>
       <div class="tail-w-max tail-mx-auto">
         <button
@@ -48,8 +48,8 @@
           type="button"
           @click="addClient = true"
         >
-          <i class="ns-add"></i>
-          add your first client
+          <i class="ns-add tail-mr-2"></i>
+          invite a client
         </button>
       </div>
     </div>

@@ -30,7 +30,7 @@ export default {
   name: 'ProfileDropdown',
   methods: {
     ...mapActions({
-      logOut: 'logOut'
+      logOut: 'auth/logOut'
     }),
     signOut () {
       this.logOut()
