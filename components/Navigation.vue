@@ -24,7 +24,7 @@
     </NuxtLink>
     <NuxtLink
       :to="{ name: 'Clients' }"
-      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
+      :class="[$route.name === 'Messages' ? 'active' : '', 'tail-flex', 'tail-flex-col', 'tail-items-center', 'tail-px-4', 'tail-py-3']"
       href=""
       exact-active-class="active"
     >
