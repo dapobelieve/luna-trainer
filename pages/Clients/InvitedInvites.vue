@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="acceptedClients.length" class="tail-grid">
-      <ClientCard v-for="n in acceptedClients" :key="n._id" :client="n" />
+    <div v-if="invitedClients.length" class="tail-grid">
+      <ClientCard v-for="n in invitedClients" :key="n._id" :client="n" />
     </div>
     <div v-else-if="firstTimeVisit" class="tail-h-full tail-flex">
       <div
@@ -37,10 +37,10 @@
         <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
       <h5 class="tail-font-bold">
-        No clients yet
+        No Pending Invitations
       </h5>
-      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-xs">
-        All your client list will appear here. Send an invite to a potential client to get started
+      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-sm">
+        All pending client requests will be listed here. <br> Send an invite to a potential client to get started.
       </p>
       <div class="tail-w-max tail-mx-auto">
         <button
@@ -48,8 +48,8 @@
           type="button"
           @click="addClient = true"
         >
-          <i class="ns-add"></i>
-          add your first client
+          <i class="ns-add tail-mr-2"></i>
+          invite a client
         </button>
       </div>
     </div>
@@ -62,7 +62,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Index',
+  name: 'InvitedInvites',
   data () {
     return {
       addClient: false,
@@ -71,11 +71,11 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/getAllAcceptedClients'
+      invitedClients: 'client/getAllInvitedClients'
     })
   },
   mounted () {
-    this.fetchAcceptedClients()
+    this.fetchInvitedClients()
     const getTime = localStorage.getItem('clientsPageFirstVisit')
     if (!getTime) {
       this.firstTimeVisit = true
@@ -84,7 +84,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchAcceptedClients: 'client/fetchAllAcceptedClients'
+      fetchInvitedClients: 'client/fetchAllInvitedClients'
     })
   }
 }

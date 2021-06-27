@@ -16,6 +16,7 @@
     "@nuxtjs/toast": "^3.3.1",
     "core-js": "^3.9.1",
     "nuxt": "^2.15.3",
+    "quickblox": "^2.13.9",
     "v-calendar": "^2.3.0",
     "vuelidate": "^0.7.6",
     "vuex-persistedstate": "^4.0.0-beta.3"

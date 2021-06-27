@@ -76,8 +76,12 @@
   </div>
 </template>
 <script>
+// import { HollowDotsSpinner } from 'epic-spinners'
 export default {
   name: 'SignIn',
+  // components: {
+  //   HollowDotsSpinner
+  // },
   layout: 'authLayout',
   auth: false,
   data () {
@@ -100,20 +104,35 @@ export default {
             data: this.userInfo
           })
             .then((response) => {
+              console.log('login response', response)
               this.$toast.success('Login Successful', { position: 'bottom-right' })
               const tokens = {
                 token: response.data.data.accessToken,
                 refreshToken: response.data.data.refreshToken
               }
               // set necessary tokens
-              this.$store.dispatch('setToken', tokens)
+              this.$store.dispatch('auth/setToken', tokens)
               // fetch user profile
-              this.$store.dispatch('getUserProfile').then((response) => {
+              this.$store.dispatch('auth/getUserProfile').then((response) => {
+                console.log('fetching profile', response)
                 if (response === null) {
                   this.$router.push({ name: 'Auth-ProfileSetup' })
                 } else {
                   this.$auth.setUser(response)
-                  this.$router.push({ name: 'Dashboard' })
+                  // set user in local storage
+                  const getWelpUser = localStorage.getItem('getWelpUser')
+                  // eslint-disable-next-line curly
+                  if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+                  localStorage.setItem('getWelpUser', JSON.stringify(response))
+
+                  // set user in store
+                  this.$store.commit('auth/SET_GETWELP_USER', response)
+                  return this.$store.dispatch('qb/getQbInfo').then((response) => {
+                    console.log('qb response', response)
+                    if (response.success === true) {
+                      this.$router.push({ name: 'Dashboard' })
+                    }
+                  }).catch(err => console.log('eee', err))
                 }
               })
             }).catch((err) => {

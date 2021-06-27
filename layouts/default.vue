@@ -59,7 +59,8 @@
         @closemessagedrawer="showMessagesDrawer = false"
       /> -->
     </header>
-    <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex">
+    <!-- <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex"> -->
+    <div class=" tail-z-0 tail-grid md:tail-flex">
       <Navigation />
       <Nuxt class="views tail-mb-20" />
     </div>
@@ -68,6 +69,7 @@
 
 <script>
 export default {
+  middleware: ['authenticated'],
   data () {
     return {
       profileDropdownIsOpen: false,
