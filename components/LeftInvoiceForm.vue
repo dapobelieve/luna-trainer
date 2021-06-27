@@ -13,7 +13,7 @@
           </div>
           <div class="tail-pb-8">
             <label for="email" class="">Name</label>
-            <input type="email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <SearchComponent />
           </div>
           <div class="">
             <label for="email" class="">Email Address</label>
@@ -31,7 +31,7 @@
           </div>
           <div class="tail-pb-4">
             <label for="item" class="">Add Item</label>
-            <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <SearchComponent />
           </div>
           <div class="tail-border tail-p-4 tail-rounded">
             <div class="tail-flex tail-justify-between tail-p-2">
