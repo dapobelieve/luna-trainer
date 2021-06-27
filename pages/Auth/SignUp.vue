@@ -79,6 +79,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+
 export default {
   name: 'SignUp',
   layout: 'authLayout',
@@ -108,7 +109,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      signUpUser: 'signUpUser'
+      signUpUser: 'auth/signUpUser'
     }),
     signUp () {
       if (this.disabled) {
@@ -128,9 +129,9 @@ export default {
                   refreshToken: response.data.data.refreshToken
                 }
                 // set necessary tokens
-                this.$store.dispatch('setToken', tokens)
+                this.$store.dispatch('auth/setToken', tokens)
                 // fetch user profile
-                this.$store.dispatch('getUserProfile').then((response) => {
+                this.$store.dispatch('auth/getUserProfile').then((response) => {
                   response === null ? this.$router.push({ name: 'Auth-ProfileSetup', params: { email: this.userInfo.email } }) : this.$router.push({ name: 'Dashboard' })
                 })
               })

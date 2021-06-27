@@ -6,9 +6,21 @@
       style="top: 72px"
       class="tail-sticky tail-flex tail-items-center md:tail-rounded-md tail-bg-white tail-px-4 tail-py-3"
     >
-      <div class="tail-mr-auto tail-text-sm md:tail-text-2xl tail-flex tail-gap-3">
-        <NuxtLink exact-active-class="active" :to="{name: 'Clients'}">
-          Clients <span v-if="acceptedClients.size" class="">({{ allClients.size }})</span>
+      <div
+        class="tail-mr-auto tail-text-sm md:tail-text-2xl tail-flex tail-gap-3"
+      >
+        <NuxtLink class="active" :to="{ name: 'Clients' }">
+          Clients
+          <template v-if="$route.name === 'Clients-InvitedInvites'">
+            <span
+              v-if="invitedClients.length"
+            >({{ invitedClients.length }})</span>
+          </template>
+          <template v-else>
+            <span
+              v-if="acceptedClients.length"
+            >({{ acceptedClients.length }})</span>
+          </template>
         </NuxtLink>
         <!-- <NuxtLink exact-active-class="active" :to="{name: 'Clients-Classes'}">
           Classes <span class="">(3)</span>
@@ -18,8 +30,10 @@
         <div class="tail-mr-2 md:tail-mr-5 tail-relative">
           <div
             class="tail-inline-flex tail-justify-items-start tail-w-full tail-rounded-md tail-border tail-border-gray-300 tail-shadow-sm tail-px-3 md:tail-pl-4 md:tail-pr-2 tail-py-1 md:tail-py-2 tail-bg-white tail-text-sm tail-font-medium hover:tail-bg-gray-50 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-offset-gray-100 focus:tail-ring-indigo-500"
+            role="button"
+            @click.prevent="openDropDown = !openDropDown"
           >
-            <span class="tail-hidden md:tail-block">Received</span>
+            <span class="tail-hidden md:tail-block">{{ optionsText }}</span>
             <i class="ns-caret-down tail-text-xl" aria-hidden="true"></i>
           </div>
           <transition
@@ -31,30 +45,37 @@
             leave-to-class="tail-transform tail-opacity-0 tail-scale-95"
           >
             <div
+              v-if="openDropDown"
               class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-auto md:tail-w-full tail-rounded-md tail-shadow-lg tail-bg-white tail-tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none"
             >
               <div class="tail-py-1">
                 <div class="tail-divide-y tail-divide-gray-100">
-                  <a
-                    href="#"
+                  <button
+                    type="button"
                     :class="[
                       active
                         ? 'tail-bg-gray-100 tail-text-gray-900'
                         : 'tail-text-gray-700',
-                      'tail-block tail-px-4 tail-py-2 tail-text-sm'
+                      'tail-block tail-px-4 tail-py-2 tail-text-sm', 'tail-w-full'
                     ]"
-                  >Received</a>
+                    @click="goToAccepted"
+                  >
+                    Received
+                  </button>
                 </div>
                 <div>
-                  <a
-                    href="#"
+                  <button
+                    type="button"
                     :class="[
                       active
                         ? 'tail-bg-gray-100 tail-text-gray-900'
                         : 'tail-text-gray-700',
-                      'tail-block tail-px-4 tail-py-2 tail-text-sm'
+                      'tail-block tail-px-4 tail-py-2 tail-text-sm', 'tail-w-full'
                     ]"
-                  >Sent</a>
+                    @click="goToInvites"
+                  >
+                    Sent
+                  </button>
                 </div>
               </div>
             </div>
@@ -62,7 +83,11 @@
         </div>
       </div>
       <div>
-        <button type="button" class="base-button tail-gap-2" @click="openModal = true">
+        <button
+          type="button"
+          class="base-button tail-gap-2"
+          @click="openModal = true"
+        >
           <i class="ns-add"></i>
           <span class="tail-hidden sm:tail-block">new client</span>
         </button>
@@ -83,6 +108,8 @@ export default {
   name: 'Clients',
   data () {
     return {
+      openDropDown: false,
+      optionsText: 'Received',
       clients: false,
       active: true,
       openModal: false
@@ -90,12 +117,25 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allClients: 'mock/FETCH_CLIENTS',
-      acceptedClients: 'clients/fetchAllClients'
+      acceptedClients: 'client/getAllAcceptedClients',
+      invitedClients: 'client/getAllInvitedClients'
     })
   },
-  mounted () {
-    console.log('clients', this.$store.dispatch('fetchAllAcceptedClients'))
+  methods: {
+    goToInvites () {
+      this.optionsText = 'Sent'
+      this.$router.push({
+        name: 'Clients-InvitedInvites'
+      })
+      this.openDropDown = false
+    },
+    goToAccepted () {
+      this.optionsText = 'Received'
+      this.$router.push({
+        name: 'Clients'
+      })
+      this.openDropDown = false
+    }
   }
 }
 </script>
@@ -106,7 +146,7 @@ a {
 }
 
 .active {
-  color: black
+  color: black;
 }
 
 .active:focus {

@@ -6,10 +6,10 @@
           class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
         >
           <div>
-            <h2 class="tail-capitalize tail-text-lg tail-font-bold">
-              hello, rosie!
+            <h2 class="tail-capitalize tail-text-2xl tail-font-bold">
+              hello, {{ $store.state.auth.getWelpUser.firstName }}!
             </h2>
-            <p class="lg:tail-max-w-md">
+            <p class="lg:tail-max-w-md tail-font-light">
               Welcome back! If you need the GetWelp Team’s help with anything,
               just pop us a message in the live chat below!
             </p>
@@ -36,9 +36,9 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  class="tail-bg-green-500 tail-mr-1 tail-rounded-full tail-text-xs"
+                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <i class="ns-check" />
+                  <i class="ns-cross" />
                 </p>
                 <a href="#">Stripe</a>
               </div>
@@ -46,9 +46,9 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  class="tail-bg-green-500 tail-mr-1 tail-rounded-full tail-text-xs"
+                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <i class="ns-check" />
+                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
                 </p>
                 <a href="#">Added your first client</a>
               </div>
@@ -56,9 +56,10 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  class="tail-px-1 tail-bg-gray-300 tail-mr-1 tail-rounded-full tail-text-xs"
+                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  1
+                  <!-- 1 -->
+                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
                 </p>
                 <a
                   href="#"
@@ -68,9 +69,10 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  class="tail-px-1 tail-bg-gray-300 tail-mr-1 tail-rounded-full tail-text-xs"
+                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  2
+                  <!-- 2 -->
+                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
                 </p>
                 <a
                   href="#"
@@ -83,8 +85,8 @@
           class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
           <i class="ns-building tail-text-3xl tail-text-gray-500" />
-          <h3 class="tail-ml-2 tail-mb-0">
-            Pawfect Dog Training
+          <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-bold tail-text-xl">
+            {{ $store.state.auth.getWelpUser.businessName }}.
           </h3>
         </div>
         <div
@@ -284,14 +286,35 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
+  middleware: 'qbInits',
   data () {
     return {
       showPayment: false,
       showMessages: false,
       addClient: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      allClientsConcise: 'client/getAllClients'
+    })
+  },
+  mounted () {
+    this.fetchAllClientsConcise()
+    const checkError = this.$store.getters['qb/getQbError']
+    if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
+      this.$nextTick(function () {
+        this.$toast.error('An error occured. Please relogin', { position: 'top-right' })
+      })
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchAllClientsConcise: 'client/fetchAllClientsConcise'
+    })
   }
 }
 </script>
