@@ -13,7 +13,7 @@
         <LeftInvoiceForm />
       </div>
       <div class="tail-absolute tail-right-0 tail-pb-10">
-        <RightInvoiceForm />
+        <RightInvoicePDF />
       </div>
     </div>
   </div>
@@ -33,6 +33,7 @@ export default {
 .card {
   background-color: #fff;
   padding: 10px;
+  max-width: 90rem !important;
 }
 
 </style>

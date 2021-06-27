@@ -1,20 +1,20 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'getwelp-trainer-ui',
+    title: "getwelp-trainer-ui",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en"
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "" }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css'],
+  css: ["@/assets/css/theme.scss", "@/assets/css/fonts.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -24,7 +24,7 @@ export default {
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
-    dirs: ['~/components', '~/components/util']
+    dirs: ["~/components", "~/components/util"]
   },
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
@@ -38,20 +38,20 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/tailwindcss'
+    "@nuxtjs/eslint-module",
+    "@nuxtjs/tailwindcss"
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
-    '@nuxtjs/toast'
+    "@nuxtjs/axios",
+    "@nuxtjs/auth-next",
+    "@nuxtjs/toast"
   ],
 
   toast: {
-    posotion: 'top-right',
+    posotion: "top-right",
     duration: 4000,
     closeOnSwipe: true
   },
@@ -61,27 +61,27 @@ export default {
     // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
   },
 
-  // router: {
-  //   middleware: ['auth']
-  // },
+  router: {
+    middleware: ['auth']
+  },
 
   auth: {
     redirect: {
-      login: '/auth/signin',
-      logout: '/auth/signin',
-      callback: '/auth/signin',
-      home: '/dashboard'
+      login: "/auth/signin",
+      logout: "/auth/signin",
+      callback: "/auth/signin",
+      home: "/dashboard"
     },
     strategies: {
       local: {
         token: {
-          property: 'accessToken',
+          property: "accessToken",
           global: true,
           required: true
           // type: 'Bearer'
         },
         user: {
-          property: 'data',
+          property: "data",
           autoFetch: false
         },
         endpoints: {
@@ -102,4 +102,4 @@ export default {
   //   port: 8080,
   //   host: '192.168.0.103'
   // }
-}
+};

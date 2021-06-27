@@ -13,7 +13,7 @@
           </div>
           <div class="tail-pb-8">
             <label for="email" class="">Name</label>
-            <input type="email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <SearchComponent />
           </div>
           <div class="">
             <label for="email" class="">Email Address</label>
@@ -31,7 +31,7 @@
           </div>
           <div class="tail-pb-4">
             <label for="item" class="">Add Item</label>
-            <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <SearchComponent />
           </div>
           <div class="tail-border tail-p-4 tail-rounded">
             <div class="tail-flex tail-justify-between tail-p-2">
@@ -52,7 +52,7 @@
                 <span>£40</span>
               </div>
             </div>
-            <button @click="addItem = true">
+            <button @click.prevent="addItem = true">
               <div class="tail-flex tail-p-2">
                 <div>
                   <i class="ns-plus tail-text-blue-600" />
@@ -72,10 +72,12 @@
                     Qty <span>1</span>
                   </p>
                 </div>
-                <div class="tail-p-3">
-                  <span>£60</span>
-                  <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
-                </div>
+                <button @click.prevent="editItem = true">
+                  <div class="tail-p-3">
+                    <span>£60</span>
+                    <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
+                  </div>
+                </button>
               </div>
               <div class="tail-flex tail-justify-between tail-py-4">
                 <div>
@@ -84,10 +86,12 @@
                     Qty <span>1</span>
                   </p>
                 </div>
-                <div class="tail-p-3">
-                  <span>£10</span>
-                  <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
-                </div>
+                <button @click.prevent="editItem = true">
+                  <div class="tail-p-3">
+                    <span>£10</span>
+                    <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
+                  </div>
+                </button>
               </div>
             </div>
           </div>
@@ -115,6 +119,9 @@
     <Modal :is-open="addItem" @close="addItem = $event">
       <AddItem @close="addItem = $event" />
     </Modal>
+    <Modal :is-open="editItem" @close="editItem = $event">
+      <EditItem @close="editItem = $event" />
+    </Modal>
   </div>
 </template>
 <script>
@@ -122,7 +129,8 @@ export default {
   name: 'Dashboard',
   data () {
     return {
-      addItem: false
+      addItem: false,
+      editItem: false
     }
   }
 }
