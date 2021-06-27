@@ -20,6 +20,10 @@
           </div>
         </div>
         <div class="">
+          <label for="business" class="">Business Name</label>
+          <input v-model.trim="profileInfo.businessName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+        </div>
+        <div class="">
           <label for="location" class="">Location</label>
           <input v-model.trim="profileInfo.location" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
         </div>
@@ -210,6 +214,7 @@ export default {
     profileInfo: {
       firstName: '',
       lastName: '',
+      businessName: '',
       location: '',
       experience: Array.from(Array(50).keys()),
       specialization: [],
@@ -233,8 +238,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      createTrainerProfile: 'createTrainerProfile',
-      uploadPicture: 'uploadProfileImage'
+      createTrainerProfile: 'auth/createTrainerProfile',
+      uploadPicture: 'auth/uploadProfileImage'
     }),
     createProfile () {
       if (!this.disabled) {
@@ -255,10 +260,24 @@ export default {
           if (response.status === 'success') {
             // set user data in nuxt auth
             this.$auth.setUser(response.data)
-            this.$toast.success('Welcome', { position: 'bottom-right' })
-            this.$router.push({
-              name: 'Dashboard'
-            })
+            // set user in local storage
+            const getWelpUser = localStorage.getItem('getWelpUser')
+            // eslint-disable-next-line curly
+            if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+            localStorage.setItem('getWelpUser', JSON.stringify(response.data))
+            // set user in store
+            this.$store.commit('auth/SET_GETWELP_USER', response.data)
+            return this.$store.dispatch('qb/getQbInfo').then((response) => {
+              console.log('qb response.data', response)
+              if (response.success === true) {
+                this.$toast.success('Welcome', { position: 'bottom-right' })
+                this.$router.push({ name: 'Dashboard' })
+              }
+            }).catch(err => console.log('eee', err))
+            // this.$toast.success('Welcome', { position: 'bottom-right' })
+            // this.$router.push({
+            //   name: 'Dashboard'
+            // })
           }
           // return this.uploadPicture(imageData).then((response) => {
           // console.log('response from uploading picture', response)
