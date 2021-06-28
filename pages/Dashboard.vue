@@ -98,6 +98,10 @@
               <h5 class="tail-font-semibold tail-mb-2">
                 Clients
               </h5>
+              <div class="d-flex tail-flex-wrap">
+                <ClientsListDashboard />
+              </div>
+
               <!-- <div class="d-flex tail-flex-wrap">
                 <div
                   v-for="n in 5"
