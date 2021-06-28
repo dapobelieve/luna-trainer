@@ -1,9 +1,8 @@
 <template>
-  <div class="tail-grid tail-grid-cols-12" style="height: 90vh">
-    <div class="modal tail-h-full tail-col-span-4 tail-hidden lg:tail-block"></div>
-    <div class="tail-col-span-9 lg:tail-col-span-8 tail-py-7 tail-px-5 tail-overflow-y-scroll">
+  <div class="tail-grid" style="height: 90vh">
+    <div class="tail-py-7 tail-px-5 tail-overflow-y-scroll">
       <h2 class="tail-text-3xl tail-mb-3">
-        Invite Client
+        Client Registration
       </h2>
       <div
         class="border tail-border-gray-300 tail-py-2 tail-px-5 tail-rounded-md tail-text-gray-500 tail-flex tail-items-center tail-gap-1"
@@ -48,7 +47,7 @@
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
-                <div v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500 tail-text-sm">
+                <div v-if="!$v.clientInfo.lastName.required" class="error tail-text-red-500 tail-text-sm">
                   Field is required.
                 </div>
               </div>
@@ -84,6 +83,12 @@
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
+              <div v-if="!$v.clientInfo.email.required" class="error tail-text-red-500 tail-text-sm">
+                Field is required.
+              </div>
+              <div v-if="!$v.clientInfo.email.email" class="error tail-text-red-500 tail-text-sm">
+                Must be valid email.
+              </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -94,7 +99,7 @@
               <label for="locationAddress" class="">Address</label>
               <input
                 id="locationAddress"
-                v-model="clientInfo.locationAddress"
+                v-model.trim="clientInfo.locationAddress"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
@@ -130,7 +135,7 @@
           </div>
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-location-alt tail-invisible tail-mt-1 tail-text-3xl tail-text-gray-500"
+              class="ns-location-alt tail-mt-1 tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
               <label for="dogName" class="">Dog's name</label>
@@ -159,18 +164,31 @@
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
               </div>
+              <div class="tail-w-full">
+                <label
+                  for="age"
+                  class="block text-sm font-medium text-gray-700"
+                >Age</label>
+                <input
+                  id="age"
+                  v-model="clientInfo.petAge"
+                  type="text"
+                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                />
+              </div>
             </div>
-
+          </div>
+          <div class="tail-flex tail-gap-5">
+            <i
+              class="ns-school tail-mt-1 tail-text-3xl tail-text-gray-500"
+            ></i>
             <div class="tail-w-full">
-              <label
-                for="age"
-                class="block text-sm font-medium text-gray-700"
-              >Age</label>
+              <label for="dogName" class="">Class</label>
               <input
-                id="age"
-                v-model="clientInfo.petAge"
-                type="text"
-                class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                id="dogName"
+                v-model="clientInfo.class"
+                type="tel"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               />
             </div>
           </div>
@@ -200,6 +218,13 @@
               cancel
             </button>
             <button
+              type="button"
+              style="width: fit-content"
+              class="base-button tail-bg-white tail-text-black tail-border tail-border-gray-300 tail-px-3"
+            >
+              save
+            </button>
+            <button
               :disabled="disabled"
               style="width: fit-content"
               type="submit"
@@ -216,7 +241,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { required, numeric } from 'vuelidate/lib/validators'
+import { required, numeric, email } from 'vuelidate/lib/validators'
 
 export default {
   name: 'InviteNewClient',
@@ -234,6 +259,7 @@ export default {
         petAge: '',
         petBreed: '',
         petGender: 'female',
+        class: '',
         notes: '',
         domain: 'getwelp-trainer-ui'
       }
@@ -250,6 +276,34 @@ export default {
       phone: {
         required,
         numeric
+      },
+      email: {
+        required,
+        email
+      },
+      locationAddress: {
+        required
+      },
+      city: {
+        required
+      },
+      locationZip: {
+        required
+      },
+      petName: {
+        required
+      },
+      petAge: {
+        required
+      },
+      petBreed: {
+        required
+      },
+      petGender: {
+        required
+      },
+      class: {
+        required
       }
     }
   },
@@ -294,11 +348,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.modal {
-  background-image: url("~assets/img/Base.png");
-  object-fit: cover;
-  background-repeat: no-repeat;
-}
 
 ::-webkit-scrollbar {
     width: 0;  /* Remove scrollbar space */
