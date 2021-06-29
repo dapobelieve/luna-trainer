@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap"); //Rubik font import
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap"); //Rubik font import
 
 :root {
   box-sizing: border-box;
@@ -36,7 +36,7 @@ body {
 
 .base-button {
   &:hover {
-    background: #46A6C8;
+    background: #46a6c8;
   }
   &:focus {
     outline: none;
@@ -57,5 +57,5 @@ body {
 }
 
 .divider-color {
-  border:2px solid rgba(23, 41, 66, 1);
+  border: 2px solid rgba(23, 41, 66, 1);
 }
