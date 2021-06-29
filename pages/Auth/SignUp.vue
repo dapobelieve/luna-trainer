@@ -32,7 +32,13 @@
         </div>
         <div class="tail-grid">
           <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
-          <input v-model="userInfo.email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <div v-if="!$v.userInfo.email.required" class="error tail-text-red-500 tail-text-sm">
+            Field is required.
+          </div>
+          <div v-if="!$v.userInfo.email.email" class="error tail-text-red-500 tail-text-sm">
+            Must be valid email.
+          </div>
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -42,7 +48,13 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <div v-if="!$v.userInfo.password.required" class="error tail-text-red-500 tail-text-sm">
+            Password is required.
+          </div>
+          <div v-if="!$v.userInfo.password.minLength" class="error tail-text-red-500 tail-text-sm">
+            Password must have at least {{ $v.userInfo.password.$params.minLength.min }} letters.
+          </div>
         </div>
 
         <div class="tail-grid">
@@ -53,7 +65,10 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model="userInfo.confirmPassword" :type="showConfirmPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.confirmPassword" :type="showConfirmPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <div v-if="!$v.userInfo.confirmPassword.sameAsPassword" class="error tail-text-red-500 tail-text-sm">
+            Passwords must be identical.
+          </div>
         </div>
         <div class="tail-flex tail-justify-center">
           <button
@@ -79,6 +94,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignUp',
@@ -94,6 +110,21 @@ export default {
         password: null,
         confirmPassword: null,
         domain: 'getwelp-trainer-ui'
+      }
+    }
+  },
+  validations: {
+    userInfo: {
+      email: {
+        required,
+        email
+      },
+      password: {
+        required,
+        minLength: minLength(6)
+      },
+      confirmPassword: {
+        sameAsPassword: sameAs('password')
       }
     }
   },
