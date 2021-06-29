@@ -238,8 +238,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      createTrainerProfile: 'auth/createTrainerProfile',
-      uploadPicture: 'auth/uploadProfileImage'
+      createTrainerProfile: 'authorize/createTrainerProfile',
+      uploadPicture: 'authorize/uploadProfileImage'
     }),
     createProfile () {
       if (!this.disabled) {
@@ -266,7 +266,7 @@ export default {
             if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
             localStorage.setItem('getWelpUser', JSON.stringify(response.data))
             // set user in store
-            this.$store.commit('auth/SET_GETWELP_USER', response.data)
+            this.$store.commit('authorize/SET_GETWELP_USER', response.data)
             return this.$store.dispatch('qb/getQbInfo').then((response) => {
               console.log('qb response.data', response)
               if (response.success === true) {

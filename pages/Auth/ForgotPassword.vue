@@ -10,9 +10,9 @@
       <form class="tail-grid tail-gap-4">
         <div class="">
           <div class="tail-grid">
-          <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
-          <input v-model="email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
-        </div>
+            <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
+            <input v-model="email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          </div>
         </div>
 
         <div class="tail-flex tail-justify-center">
@@ -46,7 +46,11 @@ export default {
   methods: {
     reset () {
       if (this.email) {
-        this.$store.dispatch('auth/forgotPassword', { email: this.email }).then(response => console.log('res', response)).catch((err) => {
+        this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
+          if (response.status === 'successful') {
+            this.$toast.success('Reset password sent to your email', { position: 'bottom-right' })
+          }
+        }).catch((err) => {
           if (err.response) {
             this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
           } else if (err.request) {

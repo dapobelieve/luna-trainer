@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      signUpUser: 'auth/signUpUser'
+      signUpUser: 'authorize/signUpUser'
     }),
     signUp () {
       if (this.disabled) {
@@ -129,9 +129,9 @@ export default {
                   refreshToken: response.data.data.refreshToken
                 }
                 // set necessary tokens
-                this.$store.dispatch('auth/setToken', tokens)
+                this.$store.dispatch('authorize/setToken', tokens)
                 // fetch user profile
-                this.$store.dispatch('auth/getUserProfile').then((response) => {
+                this.$store.dispatch('authorize/getUserProfile').then((response) => {
                   response === null ? this.$router.push({ name: 'Auth-ProfileSetup', params: { email: this.userInfo.email } }) : this.$router.push({ name: 'Dashboard' })
                 })
               })

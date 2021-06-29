@@ -9,12 +9,12 @@
       </a>
       <a>
         <span class="tail-text-lg tail-capitalize">
-          {{ $store.state.auth.user.firstName }} {{ $store.state.auth.user.lastName }}
+          {{ $store.state.authorize.getWelpUser.firstName }} {{ $store.state.authorize.getWelpUser.lastName }}
         </span>
       </a>
       <a>
         <span class="tail-text-sm tail-text-gray-400 tail-capitalize">
-          {{ $store.state.auth.user.location }}
+          {{ $store.state.authorize.getWelpUser.location }}
         </span>
       </a>
     </div>
@@ -30,7 +30,7 @@ export default {
   name: 'ProfileDropdown',
   methods: {
     ...mapActions({
-      logOut: 'auth/logOut'
+      logOut: 'authorize/logOut'
     }),
     signOut () {
       this.logOut()

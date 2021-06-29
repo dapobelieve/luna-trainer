@@ -111,9 +111,9 @@ export default {
                 refreshToken: response.data.data.refreshToken
               }
               // set necessary tokens
-              this.$store.dispatch('auth/setToken', tokens)
+              this.$store.dispatch('authorize/setToken', tokens)
               // fetch user profile
-              this.$store.dispatch('auth/getUserProfile').then((response) => {
+              this.$store.dispatch('authorize/getUserProfile').then((response) => {
                 console.log('fetching profile', response)
                 if (response === null) {
                   this.$router.push({ name: 'Auth-ProfileSetup' })
@@ -126,7 +126,7 @@ export default {
                   localStorage.setItem('getWelpUser', JSON.stringify(response))
 
                   // set user in store
-                  this.$store.commit('auth/SET_GETWELP_USER', response)
+                  this.$store.commit('authorize/SET_GETWELP_USER', response)
                   return this.$store.dispatch('qb/getQbInfo').then((response) => {
                     console.log('qb response', response)
                     if (response.success === true) {
@@ -136,8 +136,13 @@ export default {
                 }
               })
             }).catch((err) => {
-              this.$toast.error('Login attempt failed', { position: 'bottom-right' })
-              console.log('error in comp', err)
+              if (err.response) {
+                this.$toast.error(`${err.response.data.message}`, { position: 'bottom-right' })
+              } else if (err.request) {
+                this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+              } else {
+                this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+              }
             })
         } catch (error) {
           this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })

@@ -3,7 +3,7 @@ import createPersistedState from 'vuex-persistedstate'
 export default ({ store }) => {
   createPersistedState({
     key: 'vuex',
-    paths: ['auth', 'client', 'qb.qbUser'],
+    paths: ['authorize', 'auth', 'client', 'qb'],
     storage: localStorage
   })(store)
 }

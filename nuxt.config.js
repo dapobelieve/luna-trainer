@@ -19,7 +19,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
-    { src: '~plugins/persistedState.client.js' }
+    { src: '~plugins/persistedState.client.js' },
+    { src: '~plugins/quickblox.client.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -29,6 +30,7 @@ export default {
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
+    quickbloxBaseUrl: process.env.QUICKBLOX_BASE_URL,
     quickbloxAppId: process.env.QUICKBLOX_APPLICATION_ID,
     quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
     quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
@@ -61,16 +63,16 @@ export default {
     // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
   },
 
-  // router: {
-  //   middleware: ['auth']
-  // },
+  router: {
+    middleware: ['auth']
+  },
 
   auth: {
     redirect: {
       login: '/auth/signin',
       logout: '/auth/signin',
-      callback: '/auth/signin',
-      home: '/dashboard'
+      callback: '/auth/signin'
+      // home: '/dashboard'
     },
     strategies: {
       local: {
@@ -89,7 +91,7 @@ export default {
             url: 'https://api.getwelp.co.uk/accounts/v0/auth/login',
             method: 'post'
           },
-          logout: { url: '/api/auth/logout', method: 'post' },
+          logout: { url: '/', method: 'post' },
           user: false
         }
       }

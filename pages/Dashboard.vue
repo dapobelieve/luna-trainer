@@ -7,7 +7,7 @@
         >
           <div>
             <h2 class="tail-capitalize tail-text-2xl tail-font-bold">
-              hello, {{ $store.state.auth.getWelpUser.firstName }}!
+              hello, {{ $store.state.authorize.getWelpUser.firstName }}!
             </h2>
             <p class="lg:tail-max-w-md tail-font-light">
               Welcome back! If you need the GetWelp Team’s help with anything,
@@ -36,7 +36,7 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                  :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i class="ns-cross" />
                 </p>
@@ -56,10 +56,10 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                  :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <!-- 1 -->
-                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
+                  <i :class="['ns-cross']" />
                 </p>
                 <a
                   href="#"
@@ -69,10 +69,10 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                  :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <!-- 2 -->
-                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
+                  <i :class="['ns-cross']" />
                 </p>
                 <a
                   href="#"
@@ -86,7 +86,7 @@
         >
           <i class="ns-building tail-text-3xl tail-text-gray-500" />
           <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-bold tail-text-xl">
-            {{ $store.state.auth.getWelpUser.businessName }}.
+            {{ $store.state.authorize.getWelpUser.businessName }}.
           </h3>
         </div>
         <div
@@ -139,7 +139,7 @@
                 Messages
               </h5>
               <div class="tail-rounded-md tail-bg-white tail-p-6 md:tail-h-full">
-                <div v-if="!showMessages" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
+                <div v-if="!getTotalUnreadMessages.length" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
                   <div class="tail-w-full tail-my-5">
                     <img
                       class="tail-text-center tail-inline-block"
@@ -157,8 +157,8 @@
                 </div>
                 <template v-else>
                   <div
-                    v-for="n in 3"
-                    :key="n"
+                    v-for="messages in getTotalUnreadMessages"
+                    :key="messages._id"
                     class="tail-flex tail-items-center tail-mb-4"
                   >
                     <img
@@ -172,7 +172,7 @@
                           class="tail-text-gray-400 tail-ml-2 tail-text-xs"
                         >1:09PM</span>
                       </p>
-                      <small>Hello Rosie, sending you...</small>
+                      <p class="tail-text-xs">{{ messages.last_message }}</p>
                     </div>
                     <button
                       class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
@@ -289,17 +289,17 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
-  middleware: 'qbInits',
+  middleware: ['qbInits'],
   data () {
     return {
       showPayment: false,
-      showMessages: false,
       addClient: false
     }
   },
   computed: {
     ...mapGetters({
-      allClientsConcise: 'client/getAllClients'
+      allClientsConcise: 'client/getAllClients',
+      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
     })
   },
   mounted () {
