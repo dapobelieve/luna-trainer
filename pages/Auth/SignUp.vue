@@ -32,7 +32,7 @@
         </div>
         <div class="tail-grid">
           <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
-          <input v-model.trim="userInfo.email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.userInfo.email.$model" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
           <div v-if="!$v.userInfo.email.required" class="error tail-text-red-500 tail-text-sm">
             Field is required.
           </div>
@@ -48,7 +48,7 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model.trim="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.userInfo.password.$model" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
           <div v-if="!$v.userInfo.password.required" class="error tail-text-red-500 tail-text-sm">
             Password is required.
           </div>
@@ -65,7 +65,7 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model.trim="userInfo.confirmPassword" :type="showConfirmPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.userInfo.confirmPassword.$model" :type="showConfirmPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
           <div v-if="!$v.userInfo.confirmPassword.sameAsPassword" class="error tail-text-red-500 tail-text-sm">
             Passwords must be identical.
           </div>

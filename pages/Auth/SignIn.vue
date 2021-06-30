@@ -76,6 +76,7 @@
   </div>
 </template>
 <script>
+import { required, minLength } from 'vuelidate/lib/validators'
 // import { HollowDotsSpinner } from 'epic-spinners'
 export default {
   name: 'SignIn',
@@ -92,6 +93,17 @@ export default {
         userName: '',
         password: '',
         domain: 'getwelp-trainer-ui'
+      }
+    }
+  },
+  validations: {
+    userInfo: {
+      userName: {
+        required
+      },
+      password: {
+        required,
+        minLength: minLength(6)
       }
     }
   },
