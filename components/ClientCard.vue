@@ -5,7 +5,7 @@
     <div class="tail-flex tail-mr-auto">
       <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
       <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">
-        <h3 class="tail-capitalize tail-font-semibold">
+        <h3 class="tail-capitalize tail-font-medium">
           {{ client.firstName }} {{ client.lastName }}
         </h3>
         <div class="tail-flex tail-items-center">
@@ -104,27 +104,27 @@ export default {
       })
     },
     openMessage () {
-      return this.$axios
-        .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.client.userId}`).then(({ result }) => {
-          if (result.length) {
-            this.$router.push({
-              name: 'Messages',
-              params: {
-                dialogId: result[0]._id,
-                client: this.client
-              }
-            })
-          } else {
-            this.$router.push({
-              name: 'Messages',
-              params: {
-                client: this.client
-              }
-            })
-          }
-        }).catch((err) => {
-          console.log('err', err)
-        })
+      // return this.$axios
+      // .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.client.userId}`).then(({ result }) => {
+      //   if (result.length) {
+      //     this.$router.push({
+      //       name: 'Messages',
+      //       params: {
+      //         dialogId: result[0]._id,
+      //         client: this.client
+      //       }
+      //     })
+      //   } else {
+      this.$router.push({
+        name: 'Messages',
+        params: {
+          client: this.client
+        }
+      })
+      //   }
+      // }).catch((err) => {
+      //   console.log('err', err)
+      // })
     }
   }
 }

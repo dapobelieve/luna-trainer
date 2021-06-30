@@ -6,10 +6,10 @@
           class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
         >
           <div>
-            <h2 class="tail-capitalize tail-text-2xl tail-font-bold">
+            <h2 class="tail-capitalize tail-text-2xl tail-font-medium">
               hello, {{ $store.state.authorize.getWelpUser.firstName }}!
             </h2>
-            <p class="lg:tail-max-w-md tail-font-light">
+            <p class="lg:tail-max-w-md tail-font-normal">
               Welcome back! If you need the GetWelp Team’s help with anything,
               just pop us a message in the live chat below!
             </p>
@@ -85,7 +85,7 @@
           class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
           <i class="ns-building tail-text-3xl tail-text-gray-500" />
-          <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-bold tail-text-xl">
+          <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-medium tail-text-xl">
             {{ $store.state.authorize.getWelpUser.businessName }}.
           </h3>
         </div>
@@ -95,7 +95,7 @@
           <!-- houses clients section -->
           <div class="tail-grid tail-gap-4">
             <div>
-              <h5 class="tail-font-semibold tail-mb-2">
+              <h5 class="tail-font-medium tail-mb-2">
                 Clients
               </h5>
 
@@ -128,7 +128,7 @@
                     style="background: rgba(240, 245, 250, 1);"
                   ></i>
                   <a
-                    class="text-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-bold"
+                    class="text-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-medium"
                     href="#"
                     >View All</a
                   >
@@ -136,7 +136,7 @@
               </div> -->
             </div>
             <div>
-              <h5 class="tail-font-semibold tail-mb-2">
+              <h5 class="tail-font-medium tail-mb-2">
                 Messages
               </h5>
               <div class="tail-rounded-md tail-bg-white tail-p-6 md:tail-h-full">
@@ -149,7 +149,7 @@
                       srcset=""
                     >
                   </div>
-                  <h5 class="tail-font-bold">
+                  <h5 class="tail-font-medium">
                     No messages yet
                   </h5>
                   <p class="tail-px-5 tail-text-sm tail-mb-0">
@@ -187,7 +187,7 @@
           </div>
           <!-- end of clients section -->
           <div class="tail-h-full">
-            <h5 class="tail-font-semibold tail-mb-2">
+            <h5 class="tail-font-medium tail-mb-2">
               Payment
             </h5>
             <div class="tail-bg-white tail-rounded-md tail-p-4 md:tail-h-full">
@@ -200,7 +200,7 @@
                   style="background: rgba(240, 245, 250, 1);"
                 >
                   <small class="tail-block">Due</small>
-                  <h3 class="tail-mb-0 tail-font-bold">
+                  <h3 class="tail-mb-0 tail-font-medium">
                     ?
                   </h3>
                 </div>
@@ -208,7 +208,7 @@
                   class="tail-rounded tail-border tail-px-4 tail-py-2 tail-text-gray-400"
                 >
                   <small class="tail-block">Received</small>
-                  <h3 class="tail-mb-0 tail-font-bold">
+                  <h3 class="tail-mb-0 tail-font-medium">
                     ?
                   </h3>
                 </div>
@@ -225,7 +225,7 @@
                     srcset=""
                   >
                 </div>
-                <h5 class="tail-font-bold">
+                <h5 class="tail-font-medium">
                   No payments yet
                 </h5>
                 <small class="tail-block">
@@ -235,7 +235,7 @@
                 </small>
                 <button
                   style="background: rgba(86, 204, 242, 1);"
-                  class="tail-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-5"
+                  class="tail-capitalize tail-py-2 tail-px-4 tail-font-medium tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-5"
                   @click.prevent="showPayment = !showPayment"
                 >
                   connect stripe
@@ -252,12 +252,12 @@
                     src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
                   >
                   <div class="tail-ml-4 tail-mr-auto">
-                    <p class="tail-capitalize tail-font-bold tail-mb-0">
+                    <p class="tail-capitalize tail-font-medium tail-mb-0">
                       rilwan lawal
                     </p>
                     <small class="tail-text-gray-400">10 May</small>
                   </div>
-                  <p class="tail-font-bold">
+                  <p class="tail-font-medium">
                     £60
                   </p>
                 </div>
