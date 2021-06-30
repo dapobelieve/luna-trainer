@@ -7,7 +7,7 @@
       </small>
     </div>
     <div class="tail-grid tail-gap-4">
-      <form class="tail-grid tail-gap-4">
+      <form @submit.prevent="reset" class="tail-grid tail-gap-4">
         <div class="">
           <div class="tail-grid">
             <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
@@ -16,13 +16,9 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <button
-            type="button"
-            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5 btn-size"
-            @click="reset"
-          >
+          <ButtonSpinner :is-loading="isLoading">
             Send
-          </button>
+          </ButtonSpinner>
         </div>
       </form>
       <div class="tail-text-center tail-pt-4">
@@ -40,13 +36,15 @@ export default {
   auth: false,
   data () {
     return {
-      email: null
+      email: null,
+      isLoading: false
     }
   },
   methods: {
-    reset () {
+    async reset () {
       if (this.email) {
-        this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
+        this.isLoading = true
+        await this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
           if (response.status === 'successful') {
             this.$toast.success('Reset password sent to your email', { position: 'bottom-right' })
           }
@@ -58,6 +56,8 @@ export default {
           } else {
             this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
           }
+        }).finally(() => {
+          this.isLoading = false
         })
       }
     }

@@ -25,15 +25,15 @@
       </div>
     </div>
     <div class="tail-grid tail-gap-12 md:tail-gap-8">
-      <form class="tail-grid tail-gap-12 md:tail-gap-8">
+      <form class="tail-grid tail-gap-12 md:tail-gap-8" @submit.prevent="login">
         <div class="tail-grid">
           <label
-            for="email"
+            for="userName"
             class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
           >
             Username
           </label>
-          <input v-model="userInfo.userName" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.userName" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -43,13 +43,13 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <button :disabled="disabled" type="button" class="base-button tail-items-center tail-justify-center tail-px-6 tail-py-2.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white primary-color" @click="login">
+          <ButtonSpinner :is-loading="isLoading">
             Login
-          </button>
+          </ButtonSpinner>
         </div>
       </form>
       <div class="tail-mx-auto">
@@ -76,18 +76,14 @@
   </div>
 </template>
 <script>
-// import { HollowDotsSpinner } from 'epic-spinners'
 export default {
   name: 'SignIn',
-  // components: {
-  //   HollowDotsSpinner
-  // },
   layout: 'authLayout',
   auth: false,
   data () {
     return {
       showPassword: false,
-      disabled: false,
+      isLoading: false,
       userInfo: {
         userName: '',
         password: '',
@@ -98,10 +94,14 @@ export default {
   methods: {
     async login () {
       if (this.userInfo.userName && this.userInfo.password) {
-        this.disabled = true
         try {
+          this.isLoading = true
           await this.$auth.login({
-            data: this.userInfo
+            data: {
+              userName: this.userInfo.userName.toLowerCase(),
+              password: this.userInfo.password.toLowerCase(),
+              domain: 'getwelp-trainer-ui'
+            }
           })
             .then((response) => {
               console.log('login response', response)
@@ -135,37 +135,28 @@ export default {
                   }).catch(err => console.log('eee', err))
                 }
               })
-            }).catch((err) => {
-              if (err.response) {
-                this.$toast.error(`${err.response.data.message}`, { position: 'bottom-right' })
-              } else if (err.request) {
-                this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-              } else {
-                this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-              }
+            })
+            // .catch((err) => {
+            //   if (err.response) {
+            //     this.$toast.error(`${err.response.data.message}`, { position: 'bottom-right' })
+            //   } else if (err.request) {
+            //     this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+            //   } else {
+            //     this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+            //   }
+            // })
+            .finally(() => {
+              this.isLoading = false
             })
         } catch (error) {
           this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
           console.log(error)
         }
-        this.disabled = false
+        // this.isLoading = false
       }
     }
   }
 }
 </script>
 <style scoped lang="scss">
-.base-button {
-  width: 100%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-
-  &:hover {
-    background: #46A6C8;
-  }
-  &:focus {
-    outline: none;
-  }
-}
 </style>

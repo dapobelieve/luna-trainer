@@ -18,11 +18,11 @@ export default {
 </script>
 
 <style lang="scss">
-// html,
-// body {
-//     height: 100%;
-//     background-image: linear-gradient(-105deg, #009acc, #363795)
-// }
+html,
+body {
+    height: 100%;
+    background-image: linear-gradient(-105deg, #009acc, #363795)
+}
 
 .spinner {
     animation: rotate 2s linear infinite;

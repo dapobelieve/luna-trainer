@@ -174,13 +174,9 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-center">
-          <button
-            :disabled="disabled"
-            type="submit"
-            class="primary-color tail-text-white tail-border-0 tail-w-100 tail-mt-2 tail-rounded tail-p-1.5 btn-size"
-          >
+          <ButtonSpinner :is-loading="isLoading">
             Proceed
-          </button>
+          </ButtonSpinner>
         </div>
       </form>
     </div>
@@ -207,6 +203,7 @@ export default {
   layout: 'authLayout',
   auth: false,
   data: () => ({
+    isLoading: false,
     profilePic: null,
     imgUrl: null,
     specialsInput: '',
@@ -243,6 +240,7 @@ export default {
     }),
     createProfile () {
       if (!this.disabled) {
+        this.isLoading = true
         const picture = this.profilePic
         const imageData = new FormData()
         imageData.append('file', picture)
@@ -300,15 +298,19 @@ export default {
           }
           //   })
           // }
-        }).catch((err) => {
-          if (err.response) {
-            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
-          } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-          } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-          }
+        }).finally(() => {
+          this.isLoading = false
         })
+        /* test this error below */
+        // .catch((err) => {
+        //   if (err.response) {
+        //     this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+        //   } else if (err.request) {
+        //     this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+        //   } else {
+        //     this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+        //   }
+        // })
       }
       return this.createTrainerProfile(this.profileInfo).then((result) => {
         if (result) {
