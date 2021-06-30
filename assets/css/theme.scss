@@ -33,7 +33,7 @@ body {
 
 .base-button {
   &:hover {
-    background: #46A6C8;
+    background: #46a6c8;
   }
   &:focus {
     outline: none;
@@ -54,5 +54,5 @@ body {
 }
 
 .divider-color {
-  border-color: #000;
+  border: 2px solid rgba(23, 41, 66, 1);
 }
