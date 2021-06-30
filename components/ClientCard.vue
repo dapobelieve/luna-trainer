@@ -5,7 +5,7 @@
     <div class="tail-flex tail-mr-auto">
       <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
       <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">
-        <h3 class="tail-capitalize tail-font-semibold">
+        <h3 class="tail-capitalize tail-font-medium">
           {{ client.firstName }} {{ client.lastName }}
         </h3>
         <div class="tail-flex tail-items-center">
@@ -19,14 +19,14 @@
           <span
             class="tail-capitalize tail-ml-1 tail-text-gray-500 tail-truncate"
           >
-            {{ client.location.point }}, {{ client.city }}.
+            {{ client.location.address }}, {{ client.city }}.
           </span>
         </div>
         <!-- <div>
-            <div class="tail-flex tail-items-center">
-              <span class="tail-text-gray-500">2 new updates</span>
-            </div>
-          </div> -->
+          <div class="tail-flex tail-items-center">
+            <span class="tail-text-gray-500">2 new updates</span>
+          </div>
+        </div> -->
       </div>
     </div>
 
@@ -45,6 +45,7 @@
           v-else
           type="button"
           class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
+          @click="openMessage"
         >
           <i class="ns-comment-alt"></i>
           <span class="tail-capitalize tail-ml-1">message</span>
@@ -66,7 +67,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ClientCard',
   props: {
@@ -75,6 +76,9 @@ export default {
       required: true
     }
   },
+  ...mapGetters({
+    getUnreadMessageCount: 'qb/getMessageCount'
+  }),
   methods: {
     ...mapActions({ resendInvite: 'client/resendClientInvite' }),
     resendInvite () {
@@ -98,6 +102,29 @@ export default {
           this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
         }
       })
+    },
+    openMessage () {
+      // return this.$axios
+      // .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.client.userId}`).then(({ result }) => {
+      //   if (result.length) {
+      //     this.$router.push({
+      //       name: 'Messages',
+      //       params: {
+      //         dialogId: result[0]._id,
+      //         client: this.client
+      //       }
+      //     })
+      //   } else {
+      this.$router.push({
+        name: 'Messages',
+        params: {
+          client: this.client
+        }
+      })
+      //   }
+      // }).catch((err) => {
+      //   console.log('err', err)
+      // })
     }
   }
 }

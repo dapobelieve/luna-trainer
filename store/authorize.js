@@ -53,8 +53,11 @@ export const actions = {
       })
   },
   logOut ({ commit }) {
-    localStorage.removeItem('getWelpUser')
     this.$auth.logout()
+    localStorage.removeItem('getWelpUser')
+    localStorage.removeItem('vuex')
+    localStorage.removeItem('authorize')
+    localStorage.removeItem('client')
   }
 }
 
