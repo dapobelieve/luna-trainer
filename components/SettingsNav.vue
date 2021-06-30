@@ -1,43 +1,39 @@
 <template>
   <div>
     <div class="tail-grid tail-grid-cols-1 tail-gap-4 tail-text-base">
-      <NuxtLink
-        :to="{ name: 'Settings' }"
+      <a
         class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
-        href=""
+        href="#profile"
         exact-active-class="active"
       >
         <span class="tail-text-sm">
           Profile
         </span>
-      </NuxtLink>
-      <NuxtLink
-        :to="{ name: 'Settings' }"
+      </a>
+      <a
+        href="#services"
         class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
-        href=""
       >
         <span class="tail-text-sm">
           Services
         </span>
-      </NuxtLink>
-      <NuxtLink
-        :to="{ name: 'Settings' }"
+      </a>
+      <a
+        href="#security"
         class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
-        href=""
       >
         <span class="tail-text-sm">
           Security
         </span>
-      </NuxtLink>
-      <NuxtLink
-        :to="{ name: 'Settings' }"
+      </a>
+      <a
+        href="#connect"
         class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
-        href=""
       >
         <span class="tail-text-sm">
           Connect
         </span>
-      </NuxtLink>
+      </a>
     </div>
   </div>
 </template>

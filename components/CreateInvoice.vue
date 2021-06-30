@@ -1,18 +1,16 @@
 <template>
-  <div class="card">
-    <div class="tail-flex tail-justify-between tail-p-5">
-      <div>
-        <span>Create Invoice</span>
-      </div>
-      <div>
-        <i class="ns-cross" />
-      </div>
+  <div class="tail-bg-white">
+    <div class="tail-flex tail-justify-between tail-items-center tail-p-5">
+      <h2 class="tail-font-medium">
+        Create Invoice
+      </h2>
+      <i role="button" @click.prevent="$router.push({ name: 'Invoices' })" class="ns-cross" />
     </div>
     <div class="tail-flex">
-      <div class="tail-px-64">
-        <LeftInvoiceForm />
+      <div class="tail-ml-56">
+        <LeftInvoiceForm :clients="invitedClients" />
       </div>
-      <div class="tail-absolute tail-right-0 tail-pb-10">
+      <div class="tail-fixed tail-right-0 tail-pb-0">
         <RightInvoicePDF />
       </div>
     </div>
@@ -20,11 +18,20 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  data () {
-    return {
-
-    }
+  computed: {
+    ...mapGetters({
+      invitedClients: 'client/getAllInvitedClients'
+    })
+  },
+  mounted () {
+    this.fetchInvitedClients()
+  },
+  methods: {
+    ...mapActions({
+      fetchInvitedClients: 'client/fetchAllInvitedClients'
+    })
   }
 }
 </script>
@@ -33,7 +40,7 @@ export default {
 .card {
   background-color: #fff;
   padding: 10px;
-  max-width: 90rem !important;
+  max-width: 70rem !important;
 }
 
 </style>

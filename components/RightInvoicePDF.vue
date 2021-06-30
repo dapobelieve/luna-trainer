@@ -97,7 +97,7 @@
                     tail-col-span-3
                   tail-text-gray-500"
                   >
-                    <p><bold>Sub Total</bold></p>
+                    <p><strong>Sub Total</strong></p>
                   </div>
                   <div>
                     <span>£70</span>
@@ -105,7 +105,7 @@
                 </div>
                 <div class="tail-grid tail-grid-cols-6">
                   <div class="tail-text-gray-500 tail-col-span-3">
-                    <p><bold>Total</bold></p>
+                    <p><strong>Total</strong></p>
                   </div>
                   <div>
                     <span>£120</span>

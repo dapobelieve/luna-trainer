@@ -49,7 +49,7 @@
           <div class="tail-p-3">
             <div class="tail-flex tail-justify-between tail-pb-8">
               <div>
-                <p><bold>Behaviour Consuming</bold></p>
+                <p><strong>Behaviour Consuming</strong></p>
                 <p class="tail-text-gray-500">
                   Qty <span>1</span>
                 </p>
@@ -60,7 +60,7 @@
             </div>
             <div class="tail-flex tail-justify-between">
               <div>
-                <p><bold>Milage</bold></p>
+                <p><strong>Milage</strong></p>
                 <p class="tail-text-gray-500">
                   Qty <span>1</span>
                 </p>
@@ -74,7 +74,7 @@
             </div>
             <div class="tail-flex tail-justify-between tail-py-4">
               <div>
-                <p><bold>Amount Due</bold></p>
+                <p><strong>Amount Due</strong></p>
               </div>
               <div class="tail-pr-2">
                 <span>£70</span>
