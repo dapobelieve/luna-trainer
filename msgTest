@@ -9,7 +9,7 @@
             class="tail-rounded-full tail-h-6"
             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
           >
-          <span class="tail-ml-2 tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
+          <strong class="tail-ml-2">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</strong>
         </div>
 
         <!-- messages area -->
@@ -29,7 +29,7 @@
               /> -->
 
               <span
-                class="tail-border tail-mb-0 tail-p-2 message text-wrap bgw text-break tail-bg-white"
+                class="tail-border tail-mb-0 tail-p-2 message text-wrap bgw text-break"
                 style="max-width: 95%"
               >
                 {{ messages.message }}
@@ -72,7 +72,7 @@
         <ClientAvatar :firstname="$route.params.client.firstName" :lastname="$route.params.client.lastName" />
         <div class="tail-ml-2">
           <p class="tail-text-sm">
-            <span class="tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
+            <strong>{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</strong>
           </p>
           <div class="tail-flex tail-items-center">
             <img
@@ -143,8 +143,7 @@ export default {
   watch: {
     latestChatEntry (newValue) {
       console.log('watcher new value', newValue)
-      // if (newValue.dialog_id === this.dialogId) {
-      if (newValue.dialog_id === this.$route.params.dialogId) {
+      if (newValue.dialog_id === this.dialogId) {
         this.updateMsgHistory(newValue.userId, newValue)
         setTimeout(() => {
           if (!this.isFeedAtBottom) {
@@ -153,146 +152,207 @@ export default {
           }
         }, 5)
       }
+    },
+    // checkStatus (newValue, oldValue) {
+    //   if (newValue) {
+    //     // eslint-disable-next-line unicorn/prefer-includes
+    //     // if (this.listOfOccupants.indexOf(parseInt(this.occupantId)) === -1) {
+    //     const params = {
+    //       type: 3,
+    //       occupants_ids: [this.occupantId]
+    //     }
+    //     QuickBlox.chat.dialog.create(params, (error, dialog) => {
+    //       if (error) {
+    //         console.log('error creating dialog', error)
+    //       } else if (dialog) {
+    //         console.log('new dialog', dialog)
+    //         this.dialogStatus = true
+    //         this.dialogId = dialog._id
+    //       }
+    //     })
+    //     // } else {
+    //     //   console.log('found')
+    //     // }
+    //   }
+    // },
+    dialogStatus (newValue, oldValue) {
+      if (newValue) {
+        // const dialogId = this.dialogId
+        // const params = {
+        //   chat_dialog_id: dialogId,
+        //   sort_desc: 'date_sent',
+        //   limit: 100,
+        //   skip: 0
+        // }
+
+        // QuickBlox.chat.message.list(
+        //   params,
+        //   function (error, messages) {
+        //     if (messages) {
+        //       console.log('mssage history', messages)
+        //       this.msgHistory = messages.items.reverse()
+        //       this.loading = false
+        //       // this.clearMessageCount(this.$route.params.id)
+        //       // scroll to bottom
+        //       if (this.msgHistory.length) {
+        //         setTimeout(() => {
+        //           if (!this.isFeedAtBottom) {
+        //             // eslint-disable-next-line no-unused-expressions
+        //             this.scrollFeedToBottom
+        //           }
+        //         }, 5)
+        //       }
+        //     }
+        //     if (error) {
+        //       QuickBlox.getSession(function (error, session) {
+        //         if (error) {
+        //           console.log('this is a getSession error', error) // redirect user to login screen
+        //           // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
+        //         }
+        //         if (session) {
+        //           console.log('if session is available', session)
+        //         }
+        //       })
+        //       console.log('fetching chat history error', error)
+        //     }
+        //   }.bind(this)
+        // )
+        // QuickBlox.chat.onMessageTypingListener = this.onMessageTypingListener
+      }
     }
   },
   mounted () {
-    this.$nextTick(async () => {
-      await this.$axios
-        .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.$route.params.client.userId}`).then(({ result }) => {
-          if (result.length) {
-            this.dialogId = result[0]._id
-          }
-        }).catch((err) => {
-          console.log('err', err)
+    const userCredentials = {
+      userId: this.$store.state.qb.qbUser.id,
+      password: this.$store.state.qb.qbUser.password
+    }
+    QuickBlox.chat.connect(userCredentials, (error) => {
+      if (error) {
+        console.log('chat connect error', error)
+        // set error to be displayed by toast
+        // store.commit('qb/SET_QB_ERROR', error)
+        // disconnect from chat server
+        QuickBlox.chat.disconnect()
+        // destroy opened session
+        QuickBlox.destroySession((error) => {
+          error
+            ? console.log('Error Destroying Session:', error)
+            : console.log('Session Destroyed successfully')
         })
+        // eslint-disable-next-line no-useless-return
+        return // exit quickbox init
+      } else {
+        console.log('mounted')
 
-      const userCredentials = {
-        userId: this.$store.state.qb.qbUser.id,
-        password: this.$store.state.qb.qbUser.password
-      }
-      QuickBlox.chat.connect(userCredentials, (error) => {
-        if (error) {
-          console.log('chat connect error', error)
-          QuickBlox.chat.disconnect()
-          // destroy opened session
-          QuickBlox.destroySession((error) => {
-            error
-              ? console.log('Error Destroying Session:', error)
-              : console.log('Session Destroyed successfully')
-          })
-          // eslint-disable-next-line no-useless-return
-          return // exit quickbox init
-        } else {
-          // eslint-disable-next-line no-lonely-if
-          if (this.$route.params.dialogId) {
-            const deets = {
-              chat_dialog_id: this.$route.params.dialogId,
-              sort_desc: 'date_sent',
-              limit: 100,
-              skip: 0
-            }
-
-            QuickBlox.chat.message.list(
-              deets,
-              function (error, messages) {
-                if (messages) {
-                  console.log('mssage history', messages)
-                  this.msgHistory = messages.items.reverse()
-                  this.loading = false
-                  this.clearMessageCount(this.$route.params.dialogId)
-                  // scroll to bottom
-                  if (this.msgHistory.length) {
-                    setTimeout(() => {
-                      if (!this.isFeedAtBottom) {
-                      // eslint-disable-next-line no-unused-expressions
-                        this.scrollFeedToBottom
-                      }
-                    }, 5)
-                  }
-                }
-                if (error) {
-                  QuickBlox.getSession(function (error, session) {
-                    if (error) {
-                      console.log('this is a getSession error', error) // redirect user to login screen
-                    // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
-                    }
-                    if (session) {
-                      console.log('if session is available', session)
-                    }
-                  })
-                  console.log('fetching chat history error', error)
-                }
-              }.bind(this)
-            )
-          } else {
-            const params = {
-              type: 3,
-              occupants_ids: [this.$route.params.client.qbId]
-            }
-            QuickBlox.chat.dialog.create(params, (error, dialog) => {
-              if (error) {
-                console.log('error creating dialog', error)
-              } else if (dialog) {
-                console.log('new dialog', dialog)
-                this.dialogStatus = true
-                this.dialogId = dialog._id
-                const dialogId = this.dialogId
-                const params1 = {
-                  chat_dialog_id: dialogId,
-                  sort_desc: 'date_sent',
-                  limit: 100,
-                  skip: 0
-                }
-
-                QuickBlox.chat.message.list(
-                  params1,
-                  function (error, messages) {
-                    if (messages) {
-                      console.log('mssage history', messages)
-                      this.msgHistory = messages.items.reverse()
-                      this.loading = false
-                      this.clearMessageCount(this.dialogId)
-                      // scroll to bottom
-                      if (this.msgHistory.length) {
-                        setTimeout(() => {
-                          if (!this.isFeedAtBottom) {
-                            // eslint-disable-next-line no-unused-expressions
-                            this.scrollFeedToBottom
-                          }
-                        }, 5)
-                      }
-                    }
-                    if (error) {
-                      QuickBlox.getSession(function (error, session) {
-                        if (error) {
-                          console.log('this is a getSession error', error) // redirect user to login screen
-                          // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
-                        }
-                        if (session) {
-                          console.log('if session is available', session)
-                        }
-                      })
-                      console.log('fetching chat history error', error)
-                    }
-                  }.bind(this)
-                )
-              }
-            })
+        if (this.$route.params.dialogId) {
+          const deets = {
+            chat_dialog_id: this.$route.params.dialogId,
+            sort_desc: 'date_sent',
+            limit: 100,
+            skip: 0
           }
-          // QuickBlox.chat.dialog.create(params, (error, dialog) => {
-          //   if (error) {
-          //     console.log('error creating dialog', error)
-          //   } else if (dialog) {
-          //     console.log('new dialog', dialog)
-          //     this.dialogStatus = true
-          //     this.dialogId = dialog._id
-          //     const dialogId = this.dialogId
-          //     const params1 = {
-          //       chat_dialog_id: dialogId,
-          //       sort_desc: 'date_sent',
-          //       limit: 100,
-          //       skip: 0
-          //     }
+
+          QuickBlox.chat.message.list(
+            deets,
+            function (error, messages) {
+              if (messages) {
+                console.log('mssage history', messages)
+                this.msgHistory = messages.items.reverse()
+                this.loading = false
+                this.clearMessageCount(this.$route.params.dialogId)
+                // scroll to bottom
+                if (this.msgHistory.length) {
+                  setTimeout(() => {
+                    if (!this.isFeedAtBottom) {
+                      // eslint-disable-next-line no-unused-expressions
+                      this.scrollFeedToBottom
+                    }
+                  }, 5)
+                }
+              }
+              if (error) {
+                QuickBlox.getSession(function (error, session) {
+                  if (error) {
+                    console.log('this is a getSession error', error) // redirect user to login screen
+                    // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
+                  }
+                  if (session) {
+                    console.log('if session is available', session)
+                  }
+                })
+                console.log('fetching chat history error', error)
+              }
+            }.bind(this)
+          )
+        } else {
+          const params = {
+            type: 3,
+            occupants_ids: [this.$route.params.client.qbId]
+          }
+          QuickBlox.chat.dialog.create(params, (error, dialog) => {
+            if (error) {
+              console.log('error creating dialog', error)
+            } else if (dialog) {
+              console.log('new dialog', dialog)
+              this.dialogStatus = true
+              this.dialogId = dialog._id
+              const dialogId = this.dialogId
+              const params1 = {
+                chat_dialog_id: dialogId,
+                sort_desc: 'date_sent',
+                limit: 100,
+                skip: 0
+              }
+
+              QuickBlox.chat.message.list(
+                params1,
+                function (error, messages) {
+                  if (messages) {
+                    console.log('mssage history', messages)
+                    this.msgHistory = messages.items.reverse()
+                    this.loading = false
+                    this.clearMessageCount(this.dialogId)
+                    // scroll to bottom
+                    if (this.msgHistory.length) {
+                      setTimeout(() => {
+                        if (!this.isFeedAtBottom) {
+                        // eslint-disable-next-line no-unused-expressions
+                          this.scrollFeedToBottom
+                        }
+                      }, 5)
+                    }
+                  }
+                  if (error) {
+                    QuickBlox.getSession(function (error, session) {
+                      if (error) {
+                        console.log('this is a getSession error', error) // redirect user to login screen
+                      // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
+                      }
+                      if (session) {
+                        console.log('if session is available', session)
+                      }
+                    })
+                    console.log('fetching chat history error', error)
+                  }
+                }.bind(this)
+              )
+            }
+          })
+        }
+        // QuickBlox.chat.dialog.create(params, (error, dialog) => {
+        //   if (error) {
+        //     console.log('error creating dialog', error)
+        //   } else if (dialog) {
+        //     console.log('new dialog', dialog)
+        //     this.dialogStatus = true
+        //     this.dialogId = dialog._id
+        //     const dialogId = this.dialogId
+        //     const params1 = {
+        //       chat_dialog_id: dialogId,
+        //       sort_desc: 'date_sent',
+        //       limit: 100,
+        //       skip: 0
+        //     }
 
         //     QuickBlox.chat.message.list(
         //       params1,
@@ -328,10 +388,9 @@ export default {
         //     )
         //   }
         // })
-        }
-      })
-      QuickBlox.chat.onMessageTypingListener = this.onMessageTypingListener
+      }
     })
+    QuickBlox.chat.onMessageTypingListener = this.onMessageTypingListener
   },
   methods: {
     ...mapMutations('qb', {
@@ -353,56 +412,38 @@ export default {
       }
     },
     sendChat () {
-      // const dialogId = this.$route.params.dialogId ? this.$route.params.dialogId : this.dialogId
-      if (this.$route.params.dialogId) {
-        console.log('one')
-        // create dialog
-        const params = {
-          type: 3,
-          occupants_ids: [this.occupantId]
-        }
+      // create dialog
+      const params = {
+        type: 3,
+        occupants_ids: [129029032]
+      }
 
-        QuickBlox.chat.dialog.create(params, (error, dialog) => {
-          if (error) {
-            console.log('error creating dialog', error)
+      QuickBlox.chat.dialog.create(params, (error, dialog) => {
+        if (error) {
+          console.log('error creating dialog', error)
+        }
+        if (dialog) {
+          const message = {
+            type: 'chat',
+            body: this.message,
+            extension: {
+              save_to_history: 1,
+              dialog_id: dialog._id
+            },
+            markable: 1
           }
-          if (dialog) {
-            console.log('the dialog', dialog)
-            const message = {
-              type: 'chat',
-              body: this.message,
-              extension: {
-                save_to_history: 1,
-                dialog_id: dialog._id
-              },
-              markable: 1
-            }
-            // const opponentId = dialog.occupants_ids[1]
-            const opponentId = parseInt(this.occupantId)
-            console.log('said occupant', opponentId)
-            try {
-              console.log('message from model', this.message)
-              message.id = QuickBlox.chat.send(opponentId, message)
-              console.log('sent', message, ' id:', message.id)
-              this.msgHistory.push({
-                message: this.message,
-                recipient_id: opponentId
-              })
-              this.message = ''
-              setTimeout(() => {
-                if (!this.isFeedAtBottom) {
-                  const messageFeed = document.getElementById('messageFeed')
-                  messageFeed.scrollTop = messageFeed.scrollHeight
-                }
-              }, 5)
-            } catch (error) {
-              console.log(error)
-            }
+          const opponentId = 129029032
+          try {
+            console.log('message from model', this.message)
+            message.id = QuickBlox.chat.send(opponentId, message)
+            console.log('sent', message, ' id:', message.id)
+          } catch (error) {
+            console.log(error)
           }
-        })
-      } else {
-        // if (this.message) {
-        console.log('two')
+        }
+      })
+
+      if (this.message) {
         const dialogId = this.$route.params.dialogId ? this.$route.params.dialogId : this.dialogId
         console.log('sent to dialog id', dialogId)
         const message = {
@@ -410,13 +451,11 @@ export default {
           body: this.message,
           extension: {
             save_to_history: 1,
-            // dialog_id: dialogId
             dialog_id: dialogId
           },
           markable: 1
         }
         const opponentId = this.occupantId
-        // const opponentId = 129031301
         try {
           message.id = QuickBlox.chat.send(opponentId, message)
           console.log('sent', message, ' id:', message.id)
@@ -439,7 +478,6 @@ export default {
             console.log(error)
           }
         }
-        // }
       }
     }
   }

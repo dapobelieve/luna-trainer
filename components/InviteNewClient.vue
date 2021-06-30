@@ -224,14 +224,17 @@
             >
               save
             </button>
-            <button
+            <!-- <button
               :disabled="disabled"
               style="width: fit-content"
               type="submit"
               class="base-button tail-px-3"
             >
               save &amp; send invite
-            </button>
+            </button> -->
+            <ButtonSpinner :is-loading="isLoading">
+              Save &amp; Send invite
+            </ButtonSpinner>
           </div>
         </form>
       </div>
@@ -247,6 +250,7 @@ export default {
   name: 'InviteNewClient',
   data () {
     return {
+      isLoading: false,
       clientInfo: {
         firstName: '',
         lastName: '',
@@ -323,6 +327,7 @@ export default {
     }),
     save () {
       if (!this.disabled) {
+        this.isLoading = true
         return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
           if (response && response.data.status === true) {
             this.$toast.success(
@@ -340,6 +345,8 @@ export default {
           } else {
             this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
           }
+        }).finally(() => {
+          this.isLoading = false
         })
       }
     }

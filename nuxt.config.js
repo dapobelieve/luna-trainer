@@ -10,7 +10,10 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;700&display=swap' }
+    ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -30,6 +33,7 @@ export default {
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
+    quickbloxBaseUrl: process.env.QUICKBLOX_BASE_URL,
     quickbloxAppId: process.env.QUICKBLOX_APPLICATION_ID,
     quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
     quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
@@ -62,16 +66,16 @@ export default {
     // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
   },
 
-  // router: {
-  //   middleware: ['auth']
-  // },
+  router: {
+    middleware: ['auth']
+  },
 
   auth: {
     redirect: {
       login: '/auth/signin',
       logout: '/auth/signin',
-      callback: '/auth/signin',
-      home: '/dashboard'
+      callback: '/auth/signin'
+      // home: '/dashboard'
     },
     strategies: {
       local: {
@@ -90,7 +94,7 @@ export default {
             url: 'https://api.getwelp.co.uk/accounts/v0/auth/login',
             method: 'post'
           },
-          logout: { url: '/api/auth/logout', method: 'post' },
+          logout: { url: '/', method: 'post' },
           user: false
         }
       }

@@ -1,7 +1,9 @@
 <template>
   <div class="tail-grid gap-4">
     <div class="tail-col-12 tail-mb-5">
-      <h3 class="tail-text-3xl">Create new password</h3>
+      <h3 class="tail-text-3xl">
+        Create new password
+      </h3>
       <small class="tail-text-gray-400 tail-text-sm">
         Your new password must be different from previously used passwords.
       </small>

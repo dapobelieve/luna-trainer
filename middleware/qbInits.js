@@ -1,10 +1,9 @@
-/* eslint-disable import/order */
-/* eslint-disable import/first */
-const QuickBlox = require('quickblox/quickblox.min')
+import QuickBlox from 'quickblox/quickblox.min'
 import { QBconfig } from '../QBConfig'
-export default ({ store, $axios }) => {
+
+export default ({ $axios, store, route }) => {
   if (process.client) {
-    // initialize quickblox
+  // initialize quickblox
     QuickBlox.init(
       QBconfig.credentials.appId,
       QBconfig.credentials.authKey,
@@ -15,48 +14,97 @@ export default ({ store, $axios }) => {
     const loginCredentials = {
       login: store.state.qb.qbUser.login,
       password: store.state.qb.qbUser.password
+      // login: 'tester11',
+      // password: 'tester11@test.com'
     }
+    console.log('qb login Credentials', loginCredentials)
     // create a user session[authorize user]
     QuickBlox.createSession(loginCredentials, function (error, result) {
       if (error) {
         console.log('session error', error)
       }
       if (result) {
+        if (route.name === 'Dashboard') {
+          store.commit('qb/SET_MSG_STATUS', false)
+        }
         console.log('session connected details', result)
+        // set QBlox object in store
+        // store.commit('qb/SET_QB_SESSION', result)
+        // store.commit('qb/SET_QB_OBJECT', result)
         // connect to chat server
         const userCredentials = {
           userId: store.state.qb.qbUser.id,
-          // password: store.state.qb.qbUser.password
-          password: 'khkhfshkhshfoihwoifh'
+          password: store.state.qb.qbUser.password
+          // userId: 129031325,
+          // password: 'tester11@test.com'
         }
+        console.log('qb user Credentials', userCredentials)
         QuickBlox.chat.connect(userCredentials, function (error) {
           if (error) {
             console.log('chat connect error', error)
+            // set error to be displayed by toast
             store.commit('qb/SET_QB_ERROR', error)
+            // disconnect from chat server
             QuickBlox.chat.disconnect()
+            // destroy opened session
             QuickBlox.destroySession((error) => {
-              error ? console.log('Error Destroying Session:', error) : console.log('Session Destroyed successfully')
+              error
+                ? console.log('Error Destroying Session:', error)
+                : console.log('Session Destroyed successfully')
             })
             // eslint-disable-next-line no-useless-return
             return // exit quickbox init
           } else {
             try {
+              QuickBlox.chat.dialog.list(function (error, dialogs) {
+                if (error) {
+                  console.log('if error from QB', error)
+                } else if (dialogs) {
+                  console.log('dialogs from QB', dialogs)
+                }
+              })
               // get list of dialogs
               const dialogs = $axios.$get(
-                `${process.env.THERAPIST_UI_QB_URL}/dialogs`
+              `${process.env.BASEURL_HOST}/qb/dialogs`
               )
               dialogs.then(({ result }) => {
+                console.log('dialog results', result)
+                // const trainerQbId = store.state.qb.qbUser.id
+                // if (result.length) {
+                //   const dialogList = new Map()
+                //   const occupantsId = []
+                //   result.forEach((message) => {
+                //     if (message.occupants_ids[1] === trainerQbId) {
+                //       occupantsId.push(parseInt(message.occupants_ids[0]))
+                //       dialogList.set(message._id, {
+                //         ...message,
+                //         opponentFirstName: 'noodles',
+                //         opponentLastName: 'cuddles'
+                //       })
+                //     }
+                //   })
+                //   // set the results in store
+                //   store.commit('qb/SET_DIALOGS', dialogList)
+                //   // set occupants id in store
+                //   store.commit('qb/SET_CHAT_OCCUPANTS_ID', [
+                //     ...new Set(occupantsId)
+                //   ])
+                // }
+                const trainerQbId = store.state.qb.qbUser.id
                 const arr = []
+                // const occupantsId = []
                 result.forEach((element) => {
-                  if (element.occupants_ids[0] === store.state.qb.qbUser.id) {
+                  if (element.occupants_ids[0] === trainerQbId) {
+                    // occupantsId.push(
+                    //   parseInt(
+                    //     element
+                    //       .occupants_ids[0]
+                    //   )
+                    // )
                     arr.push({
                       ...element,
-                      opponentFirstName:
-                        element.occupants[1][element.occupants_ids[1]].firstName,
-                      opponentLastName:
-                        element.occupants[1][element.occupants_ids[1]].lastName,
-                      opponentImg:
-                        element.occupants[1][element.occupants_ids[1]].imageUrl
+                      opponentFirstName: 'noodles',
+                      opponentLastName: 'cuddles'
                     })
                   }
                 })
@@ -65,13 +113,19 @@ export default ({ store, $axios }) => {
                     obj[item[keyField]] = item
                     return obj
                   }, {})
-
-                const dialogs = arrayToObject(arr, '_id')
-                store.commit('messages/SET_DIALOGS', dialogs)
-                store.commit('auth/setQbStatus', true)
+                const dialogList = arrayToObject(arr, '_id')
+                // set the results in store
+                store.commit('qb/SET_DIALOGS', dialogList)
+                // set occupants id in store
+                // store.commit('qb/SET_CHAT_OCCUPANTS_ID', [
+                //   ...new Set(occupantsId)
+                // ])
+                if (route.name === 'Messages') {
+                  store.commit('qb/SET_MSG_STATUS', true)
+                }
               })
             } catch (error) {
-              console.log(error)
+              console.log('errors from dialog', error)
             }
             QuickBlox.chat.onMessageListener = function (userId, message) {
               console.log(
@@ -88,7 +142,7 @@ export default ({ store, $axios }) => {
               }
               console.log('updating dialog', newMessage)
               // this.updateDialogs(newMessage)
-              store.dispatch('messages/update_message_dialogs', newMessage)
+              store.dispatch('qb/update_message_dialogs', newMessage)
             }
           }
         })

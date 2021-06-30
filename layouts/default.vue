@@ -27,24 +27,24 @@
       </div>
       <div class="tail-flex">
         <i class="ns-search tail-border tail-rounded tail-p-1 tail-mr-2 md:tail-hidden" />
-        <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
+        <span role="button" class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
           <small
+            v-if="getTotalUnreadMessages.length"
+            style="padding: 0.2em !important"
             class="tail-absolute tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
-          >10</small>
+          >{{ getTotalUnreadMessages.length }}</small>
           <i class="ns-comment-alt tail-rounded tail-p-1" />
         </span>
         <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
-          <span
+          <!-- <span
             class="tail-p-1 tail-bg-red-700 tail-absolute tail-right-1 tail-top-1 tail-rounded-full"
-          />
+          ></span> -->
           <button @click="NotificationDropdownIsOpen = !NotificationDropdownIsOpen">
             <i class="ns-bell-ring tail-p-1" />
           </button>
         </span>
-        <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
-          <NotificationDropdown v-if="NotificationDropdownIsOpen" />
-        </div>
-        <button @click="profileDropdownIsOpen= !profileDropdownIsOpen">
+        <NotificationDropdown v-if="NotificationDropdownIsOpen" />
+        <button class="focus:tail-outline-none" @click="profileDropdownIsOpen= !profileDropdownIsOpen">
           <img
             class="tail-rounded-full tail-h-8"
             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
@@ -68,14 +68,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
-  middleware: ['authenticated'],
   data () {
     return {
       profileDropdownIsOpen: false,
       NotificationDropdownIsOpen: false,
       showMessagesDrawer: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
+    })
   }
 }
 </script>

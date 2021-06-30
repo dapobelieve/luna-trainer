@@ -3,7 +3,7 @@
     class="tail-rounded-full tail-flex tail-items-center tail-justify-center"
     :style="altStyling"
   >
-    <strong>{{ displayInitials }}</strong>
+    <span class="tail-font-medium">{{ displayInitials }}</span>
   </div>
 </template>
 

@@ -1,5 +1,3 @@
-import Vue from 'vue'
-
 export const state = () => ({
   allClients: [],
   acceptedClients: [],
@@ -14,8 +12,7 @@ export const mutations = {
     state.acceptedClients = acceptedClients
   },
   invited_clients (state, invitedClients) {
-    // state.invitedClients = invitedClients
-    Vue.set(state, 'invitedClients', invitedClients)
+    state.invitedClients = invitedClients
   }
 }
 
