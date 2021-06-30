@@ -49,7 +49,7 @@
                 @click.prevent="pinSelection(suggestion)"
               >
                 picture of person
-                <p class="mb-0">
+                <p class="tail-mb-0">
                   suggestions.errorMessage
                 </p>
               </a>
