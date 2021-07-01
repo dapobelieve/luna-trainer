@@ -33,7 +33,15 @@
           >
             Username
           </label>
-          <input v-model.trim="userInfo.userName" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.userInfo.userName.$model" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.userInfo.userName.$error}" />
+          <div v-if="$v.userInfo.userName.$error">
+            <small
+              v-if="!$v.userInfo.userName.required"
+              class="error tail-text-red-500"
+            >
+              Field is required.
+            </small>
+          </div>
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -43,7 +51,23 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model.trim="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.userInfo.password.$model" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.userInfo.password.$error}" />
+          <div v-if="$v.userInfo.password.$error">
+            <small
+              v-if="!$v.userInfo.password.required"
+              class="error tail-text-red-500"
+            >
+              Password is required.
+            </small>
+          </div>
+
+          <small
+            v-if="!$v.userInfo.password.minLength"
+            class="error tail-text-red-500"
+          >
+            Password must have at least
+            {{ $v.userInfo.password.$params.minLength.min }} letters.
+          </small>
         </div>
 
         <div class="tail-flex tail-justify-center">
