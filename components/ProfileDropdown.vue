@@ -26,7 +26,7 @@
           <i class="ns-settings" /><span class="tail-text-base tail-font-light tail-px-2">Settings</span>
         </div>
       </Nuxt-link>
-      <button class="tail-flex tail-text-red-600">
+      <button class="tail-flex tail-text-red-600" @click.prevent="signOut">
         <i class="ns-power" />
         <span class="tail-text-base tail-font-light tail-px-2">Signout</span>
       </button>

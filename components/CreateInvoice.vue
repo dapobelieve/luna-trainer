@@ -4,11 +4,11 @@
       <h2 class="tail-font-medium">
         Create Invoice
       </h2>
-      <i role="button" @click.prevent="$router.push({ name: 'Invoices' })" class="ns-cross" />
+      <i role="button" class="ns-cross" @click.prevent="$router.push({ name: 'Invoices' })" />
     </div>
     <div class="tail-flex">
       <div class="tail-ml-56">
-        <LeftInvoiceForm :clients="invitedClients" />
+        <LeftInvoiceForm :clients="acceptedClients" />
       </div>
       <div class="tail-fixed tail-right-0 tail-pb-0">
         <RightInvoicePDF />
@@ -20,17 +20,18 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
+  name: 'CreateInvoice',
   computed: {
     ...mapGetters({
-      invitedClients: 'client/getAllInvitedClients'
+      acceptedClients: 'client/getAllAcceptedClients'
     })
   },
   mounted () {
-    this.fetchInvitedClients()
+    this.fetchAllAcceptedClients()
   },
   methods: {
     ...mapActions({
-      fetchInvitedClients: 'client/fetchAllInvitedClients'
+      fetchAllAcceptedClients: 'client/fetchAllAcceptedClients'
     })
   }
 }

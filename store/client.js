@@ -17,6 +17,14 @@ export const mutations = {
 }
 
 export const actions = {
+  updateProfile ({ commit }, payload) {
+    console.log('the payload', payload)
+    return this.$axios
+      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
+      .then((response) => {
+        return response
+      })
+  },
   inviteClient ({ commit }, clientInfo) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)

@@ -90,7 +90,7 @@
       </div>
       <!-- <hr> -->
       <div class="tail-py-4 tail-border-gray-200 tail-border-t tail-border-b tail-my-3">
-        <button class="base-button">
+        <button @click="$router.push({ name: 'CreateInvoicePage', params: { client: $route.params.client } })" class="base-button">
           new invoice
         </button>
       </div>
