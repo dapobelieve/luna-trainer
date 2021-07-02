@@ -27,6 +27,15 @@
         </span>
       </a>
       <a
+        v-if="$store.state.authorize.stripeConnected"
+        href="#bankDeets"
+        class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
+      >
+        <span class="tail-text-sm">
+          Bank Details
+        </span>
+      </a>
+      <a
         href="#connect"
         class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
       >

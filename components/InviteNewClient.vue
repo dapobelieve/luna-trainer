@@ -232,8 +232,8 @@
             >
               save &amp; send invite
             </button> -->
-            <ButtonSpinner :is-loading="isLoading">
-              Save &amp; Send invite
+            <ButtonSpinner style="width: fit-content;" :is-loading="isLoading">
+              Send invite
             </ButtonSpinner>
           </div>
         </form>

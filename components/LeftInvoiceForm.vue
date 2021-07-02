@@ -31,12 +31,12 @@
         <div class="tail-border tail-rounded tail-gap-4 tail-p-4">
           <div>
             <div class="">
-              <h1 class="tail-font-medium">
+              <h1 class="tail-font-medium tail-mb-2">
                 Services
               </h1>
             </div>
             <div class="">
-              <span class="tail-text-gray-400">A short description about this section</span>
+              <span class="tail-text-gray-400 tail-text-sm">A short description about this section</span>
             </div>
           </div>
           <div class="">

@@ -4,12 +4,8 @@
       <div class="tail-border tail-border-gray-200 tail-rounded-md tail-overflow-hidden tail-flex tail-flex-col tail-justify-between tail-h-full tail-items-center tail-relative">
         <!-- header part -->
         <div class="tail-bg-white tail-px-3 tail-py-2 tail-flex tail-items-center tail-w-full">
-          <i role="button" class="ns-angle-left tail-p-1 tail-border tail-rounded tail-border-gray-300 tail-mr-5" @click="$router.go(-1)"></i>
-          <img
-            class="tail-rounded-full tail-h-6"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-          >
-          <span class="tail-ml-2 tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
+          <i role="button" class="ns-angle-left tail-p-1 tail-border tail-rounded tail-border-gray-300 tail-mr-5" @click="$router.push({ name: 'Clients' })"></i>
+          <span class="tail-capitalize tail-ml-2 tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
         </div>
 
         <!-- messages area -->

@@ -51,13 +51,15 @@
                 >
                   <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
                 </p> -->
-                <p
-                  v-if="!true"
-                  :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
-                >
-                  <i class="ns-cross" />
-                </p>
-                <SingleLoader v-else class="tail-mr-2" />
+                <SingleLoader v-if="$store.state.client.loadingForAllClients" class="tail-mr-2" />
+                <template v-else>
+                  <p
+                    :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                  >
+                    <i v-if="allClientsConcise.length" class="ns-check" />
+                    <i v-else class="ns-cross" />
+                  </p>
+                </template>
                 <a href="#">Added your first client</a>
               </div>
             </li>
@@ -183,7 +185,9 @@
                           class="tail-text-gray-400 tail-ml-2 tail-text-xs"
                         >1:09PM</span>
                       </p>
-                      <p class="tail-text-xs">{{ messages.last_message }}</p>
+                      <p class="tail-text-xs">
+                        {{ messages.last_message }}
+                      </p>
                     </div>
                     <button
                       class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
@@ -211,7 +215,7 @@
                 >
                   <small class="tail-block">Due</small>
                   <h3 class="tail-mb-0 tail-font-medium">
-                    ?
+                    £{{ totalOfOwedInvoice }}
                   </h3>
                 </div>
                 <div
@@ -219,12 +223,13 @@
                 >
                   <small class="tail-block">Received</small>
                   <h3 class="tail-mb-0 tail-font-medium">
-                    ?
+                    £{{ totalOfPaidInvoice }}
                   </h3>
                 </div>
               </div>
+              <!-- TODO:: figure a better way for the v-if below -->
               <div
-                v-if="!showPayment"
+                v-if="!allInvoices.length"
                 class="tail-mt-5 tail-max-w-xs tail-text-center tail-mx-auto tail-center"
               >
                 <div class="tail-w-full tail-my-5">
@@ -253,32 +258,29 @@
               </div>
               <div v-else>
                 <div
-                  v-for="n in 4"
-                  :key="n"
+                  v-for="invoice in allInvoices"
+                  :key="invoice.index"
                   class="tail-flex tail-items-center tail-p-4"
                 >
-                  <img
-                    class="tail-rounded-full tail-h-14"
-                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                  >
+                  <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
                   <div class="tail-ml-4 tail-mr-auto">
                     <p class="tail-capitalize tail-font-medium tail-mb-0">
-                      rilwan lawal
+                      {{ invoice.customerId.firstName }} {{ invoice.customerId.lastName }}
                     </p>
                     <small class="tail-text-gray-400">10 May</small>
                   </div>
                   <p class="tail-font-medium">
-                    £60
+                    £ {{ invoice.total }}
                   </p>
                 </div>
-                <div class="tail-w-full tail-text-center">
+                <!-- <div class="tail-w-full tail-text-center">
                   <button
                     class="tail-text-blue-500 w-100"
                     @click.prevent="showPayment = !showPayment"
                   >
                     View All
                   </button>
-                </div>
+                </div> -->
               </div>
               <!-- seems to be a necessary evil as margin and paddings arent adding up -->
               <div class="tail-h-20 md:tail-hidden" />
@@ -310,21 +312,40 @@ export default {
   computed: {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
-      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
-    })
+      getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
+      allInvoices: 'invoice/getAllInvoices'
+    }),
+    totalOfOwedInvoice () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(invoice => invoice.status === 'draft').reduce(
+          (accumulator, current) => accumulator + current.total, 0
+        )
+      }
+      return 0
+    },
+    totalOfPaidInvoice () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(invoice => invoice.status === 'paid').reduce(
+          (accumulator, current) => accumulator + current.total, 0
+        )
+      }
+      return 0
+    }
   },
   mounted () {
     this.fetchAllClientsConcise()
-    const checkError = this.$store.getters['qb/getQbError']
-    if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
-      this.$nextTick(function () {
-        this.$toast.error('An error occured. Please relogin', { position: 'top-right' })
-      })
-    }
+    this.fetchAllInvoices()
+    // const checkError = this.$store.getters['qb/getQbError']
+    // if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
+    //   this.$nextTick(function () {
+    //     this.$toast.error('An error occured. Please relogin', { position: 'top-right' })
+    //   })
+    // }
   },
   methods: {
     ...mapActions({
-      fetchAllClientsConcise: 'client/fetchAllClientsConcise'
+      fetchAllClientsConcise: 'client/fetchAllClientsConcise',
+      fetchAllInvoices: 'invoice/getAllInvoices'
     })
   }
 }

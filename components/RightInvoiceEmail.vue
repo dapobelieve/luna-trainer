@@ -14,9 +14,11 @@
         <span>Invoice PDF</span>
       </div>
     </div>
-    <div class="tail-bg-white tail-rounded tail-p-4">
+    <div class="tail-bg-white tail-rounded-lg tail-p-4">
       <div class="tail-pb-4">
-        <h1>Getwelp Limited</h1>
+        <h1 class="tail-font-semibold">
+          {{ $auth.user.businessName }}
+        </h1>
       </div>
       <div class="tail-p-3">
         <div class="tail-border tail-rounded">

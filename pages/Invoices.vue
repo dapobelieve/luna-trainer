@@ -77,13 +77,13 @@
       <!-- <nuxt-child :key="$route.fullPath" /> -->
       <div>
         <div
-          class="tail-grid tail-grid-cols-8 gap-2 tail-mt-5 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-items-center"
+          class="tail-grid tail-grid-cols-7 gap-2 tail-mt-5 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-items-center"
         >
-          <div
+          <!-- <div
             class="tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
           >
             Select
-          </div>
+          </div> -->
           <div
             class="tail-col-span-3 tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
           >
@@ -112,13 +112,13 @@
         </div>
 
         <div
-          style="cursor: pointer"
           v-for="invoice in getAllInvoices"
           :key="invoice.index"
-          class="hover:tail-bg-blue-100 tail-grid tail-grid-cols-8 gap-2 tail-my-2 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-items-center"
+          style="cursor: pointer"
+          class="hover:tail-bg-blue-100 tail-grid tail-grid-cols-7 gap-2 tail-my-2 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-items-center"
           @click="viewModal = true"
         >
-          <input type="checkbox" name="vehicle1" value="Bike">
+          <!-- <input type="checkbox" name="vehicle1" value="Bike"> -->
           <div class="tail-col-span-3 tail-whitespace-nowrap">
             <div class="tail-flex tail-items-center">
               <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />

@@ -1,11 +1,11 @@
 <template>
-  <div class="right-card tail-p-6 tail-rounded">
-    <div class="tail-py-2">
-      <h1 class="tail-font-medium">Preview</h1>
-    </div>
+  <div class="right-card tail-px-10 tail-py-8 tail-rounded-lg">
+    <h1 class="tail-font-medium tail-text-xl tail-py-2">
+      Preview
+    </h1>
     <div class="tail-pb-4">
       <span
-        class="tail-text-gray-500"
+        class="tail-text-gray-400 tail-text-sm"
       >A short description about this section</span>
     </div>
     <div class="tail-flex tail-pb-4">
@@ -16,23 +16,23 @@
         <span>Invoice PDF</span>
       </div>
     </div>
-    <div class="tail-bg-white tail-rounded tail-p-8">
+    <div class="tail-bg-white tail-rounded-md tail-p-8">
       <div class="tail-pb-4 tail-grid tail-grid-cols-2 tail-gap-8">
         <div>
-          <h1 class="tail-text-xl">
-            Getwelp Limited
+          <h1 class="tail-text-xl tail-font-semibold">
+            {{ $auth.user.businessName }}
           </h1>
-          <span class="tail-text-gray-500">+44 000 000 0000</span>
+          <span class="tail-text-gray-500 tail-text-xs">+44 000 000 0000</span>
         </div>
-        <div>
-          <h1 class="tail-text-xl tail-text-gray-500">
+        <div class="tail-text-right">
+          <h1 class="tail-text-xl tail-font-medium tail-text-gray-500">
             Invoice
           </h1>
           <p class="tail-text-gray-500 tail-text-xs">
-            Invoice #: 9032200332-0001
+            Invoice No.: #########-##
           </p>
           <p class="tail-text-gray-500 tail-text-xs">
-            Date of Issue: Jul 23, 2021
+            Date of Issue: {{ new Date().toDateString() }}
           </p>
           <p class="tail-text-gray-500 tail-text-xs">
             Date Due: Jul 23, 2021
@@ -46,14 +46,14 @@
               Bill to
             </p>
             <p class="tail-text-gray-500 tail-text-sm">
-              James
+              {{ `${$route.params.client.firstName} ${$route.params.client.lastName}` }}
             </p>
             <p class="tail-text-gray-500 tail-text-sm">
-              James@getwelp
+              {{ `${$route.params.client.email}` }}
             </p>
           </div>
           <div class="tail-py-4">
-            <span class="tail-text-xl">120.00 due June 23, 2021</span>
+            <span class="tail-text-xl tail-font-semibold">£120.00 due June 23, 2021</span>
           </div>
           <div>
             <div class="tail-grid tail-grid-cols-12 tail-gap-4  tail-text-sm">
@@ -126,7 +126,7 @@ export default {
 </script>
 <style scoped>
 .right-card {
-  width: 31.25rem;
+  width: 36.25rem;
   height: 51.25rem;
   background-color: #f0f5fa;
 }

@@ -4,7 +4,7 @@
       <h2 class="tail-font-medium">
         Create Invoice
       </h2>
-      <i role="button" class="ns-cross" @click.prevent="$router.go(-1)" />
+      <i role="button" class="ns-cross" @click.prevent="backToMessage" />
     </div>
     <div class="tail-flex">
       <div class="tail-ml-56">
@@ -20,7 +20,17 @@
 <script>
 export default {
   name: 'NewInvoices',
-  layout: 'emptyLayout'
+  layout: 'emptyLayout',
+  methods: {
+    backToMessage () {
+      this.$router.push({
+        name: 'Messages',
+        params: {
+          client: this.$route.params.client
+        }
+      })
+    }
+  }
 }
 </script>
 

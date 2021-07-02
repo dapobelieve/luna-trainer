@@ -81,6 +81,15 @@ export default {
     ...mapGetters({
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
     })
+  },
+  mounted () {
+    // const isStripConnected = Object.prototype.hasOwnProperty.call(this.$auth.user, 'stripConnected')
+    const isStripeConnected = this.$store.state.authorize.stripeConnected
+    if (!isStripeConnected) {
+      this.$nextTick(function () {
+        this.$toast.info('Please connect your Stripe account', { position: 'top-right' })
+      })
+    }
   }
 }
 </script>

@@ -28,6 +28,7 @@
               <ProfileForm id="profile" />
               <ServicesComp id="services" />
               <SecurityComp id="security" />
+              <BankDetails v-if="$store.state.authorize.stripeConnected" id="bankDeets" />
               <ConnectGoogleComp id="connect" />
             </div>
           </div>

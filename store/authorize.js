@@ -1,5 +1,6 @@
 export const state = () => ({
-  getWelpUser: {}
+  getWelpUser: {},
+  stripeConnected: false
 })
 
 export const mutations = {
@@ -53,11 +54,11 @@ export const actions = {
       })
   },
   logOut ({ commit }) {
-    this.$auth.logout()
     localStorage.removeItem('getWelpUser')
     localStorage.removeItem('vuex')
     localStorage.removeItem('authorize')
     localStorage.removeItem('client')
+    this.$auth.logout()
   }
 }
 

@@ -46,10 +46,10 @@
           <label for="email" class="">Email address</label>
           <input type="email" disabled :value="$store.state.authorize.getWelpUser.email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md tail-bg-gray-200">
         </div>
-        <div class="">
+        <!-- <div class="">
           <label for="experience" class="">Age</label>
           <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
-        </div>
+        </div> -->
         <div class="">
           <label for="location" class="">Location</label>
           <input type="text" :value="$store.state.authorize.getWelpUser.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
@@ -76,7 +76,7 @@
             type="button"
             class="base-button"
           >
-            Save Changes
+            Update profile
           </button>
         </div>
       </form>

@@ -52,7 +52,7 @@
             </ButtonSpinner>
           </div>
         </div>
-        <template v-if="$auth.user.services.length">
+        <!-- <template v-if="$auth.user.services.length">
           <div v-for="service in $auth.user.services" :key="service.index" class="tail-my-2 tail-p-2 tail-rounded-md tail-border-gray-600 tail-border">
             <div class="tail-flex tail-justify-between">
               <span>{{ service.appointmentType }}</span>
@@ -62,7 +62,7 @@
               </button>
             </div>
           </div>
-        </template>
+        </template> -->
       </form>
     </div>
   </div>

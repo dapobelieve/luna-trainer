@@ -21,7 +21,7 @@
             type="button"
             class="base-button"
           >
-            Save Changes
+            Save Password
           </button>
         </div>
       </form>

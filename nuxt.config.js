@@ -37,7 +37,9 @@ export default {
     quickbloxAppId: process.env.QUICKBLOX_APPLICATION_ID,
     quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
     quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
-    quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY
+    quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY,
+    stripeReturn: process.env.RETURNURL,
+    paymentHostUrl: process.env.PAYMENT_HOST_URL
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

@@ -1,5 +1,6 @@
 export const state = () => ({
-  invoices: []
+  invoices: [],
+  allInvoicesLoadingLoading: true
 })
 
 export const mutations = {
@@ -38,6 +39,13 @@ export const actions = {
         console.log('all invoices', response)
         // the response here is data and status: theres status of 'fail' and size:0
         return response
+      })
+  },
+  stripeConnect ({ commit }) {
+    return this.$axios
+      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Settings#bankDeets')
+      .then(({ url }) => {
+        return url
       })
   }
 }
