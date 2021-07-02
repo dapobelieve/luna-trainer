@@ -110,7 +110,43 @@
               <h5 class="tail-font-medium tail-mb-2">
                 Clients
               </h5>
+              <div class="tail-grid tail-grid-cols-3 tail-gap-4">
+                <div
+                  v-for="client in acceptedClients"
+                  :key="client.index"
+                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center md:tail-mb-4 tail-mb-0"
+                >
+                  <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
+                  <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
+                  <div class="tail-flex tail-items-center">
+                    <img
+              class="tail-bg-green-400 tail-p-1 tail-rounded-full"
+              src="~/assets/img/dog-paw.svg"
+              alt="dog paw"
+            />
+                    <small
+                      class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
+                    >{{ client.pet[0].name }}</small>
+                  </div>
+                </div>
+                <div
+                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 tail-mb-4"
+                >
+                  <div class="tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-10 tail-h-10" style="background: rgba(240, 245, 250, 1);">
+                    <i
+                      class="ns-angle-right tail-p-1"
+                    ></i>
+                  </div>
 
+                  <div>
+                    <a
+                      class="tail-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-bold"
+                      href="#"
+                    >View All</a>
+                  </div>
+                </div>
+              </div>
+              <!-- <ClientDashboardList /> -->
               <!-- <div class="d-flex tail-flex-wrap">
                 <div
                   v-for="n in 5"
@@ -313,7 +349,8 @@ export default {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
-      allInvoices: 'invoice/getAllInvoices'
+      allInvoices: 'invoice/getAllInvoices',
+      acceptedClients: 'client/getAllAcceptedClients'
     }),
     totalOfOwedInvoice () {
       if (this.allInvoices.length) {
@@ -335,6 +372,7 @@ export default {
   mounted () {
     this.fetchAllClientsConcise()
     this.fetchAllInvoices()
+    this.fetchAcceptedClients()
     // const checkError = this.$store.getters['qb/getQbError']
     // if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
     //   this.$nextTick(function () {
@@ -345,7 +383,8 @@ export default {
   methods: {
     ...mapActions({
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
-      fetchAllInvoices: 'invoice/getAllInvoices'
+      fetchAllInvoices: 'invoice/getAllInvoices',
+      fetchAcceptedClients: 'client/fetchAllAcceptedClients'
     })
   }
 }

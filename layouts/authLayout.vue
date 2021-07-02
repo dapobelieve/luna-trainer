@@ -63,18 +63,22 @@ main {
     background-image: url("~assets/img/border-collie.png");
     background-repeat: no-repeat;
     background-position: left bottom;
+    background-attachment: fixed;
   }
 
   .dobermann {
+    // background:  url("~assets/img/dobermann.png") right bottom no-repeat fixed;
+    // z-index: 100;
     background-image: url("~assets/img/dobermann.png");
     background-repeat: no-repeat;
     background-position: right bottom;
   }
 
   .shiba-inu {
-    background-image: url("~assets/img/shiba-inu.png");
-    background-repeat: no-repeat;
-    background-position: left bottom;
+    background: url("~assets/img/shiba-inu.png")  left bottom no-repeat fixed;
+    // background-image: url("~assets/img/shiba-inu.png");
+    // background-repeat: no-repeat;
+    // background-position: left bottom;
   }
 }
 </style>

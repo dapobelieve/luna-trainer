@@ -1,12 +1,14 @@
 export const state = () => ({
   allClients: [],
   acceptedClients: [],
-  invitedClients: []
+  invitedClients: [],
+  loadingForAllClients: true
 })
 
 export const mutations = {
   ALL_CLIENTS (state, allClients) {
     state.allClients = allClients
+    state.loadingForAllClients = false
   },
   ACCEPTED_CLIENTS (state, acceptedClients) {
     state.acceptedClients = acceptedClients

@@ -17,8 +17,9 @@
               src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
             >
           </div>
-          <div>
-            <span class="tail-text-base tail-px-4"> some text to test my flex</span>
+          <div class="tail-grid tail-px-4">
+            <span class="tail-text-base"><strong>James R </strong><small>uploaded an update</small></span>
+            <span class="tail-text-xs tail-text-gray-400">2 hours ago</span>
           </div>
         </div>
         <div class="tail-flex tail-py-1">
@@ -28,8 +29,9 @@
               src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
             >
           </div>
-          <div>
-            <span class="tail-text-base tail-px-4"> some text to test my flex</span>
+          <div class="tail-grid tail-px-4">
+            <span class="tail-text-base"><strong>Mart R </strong><small>uploaded an update</small></span>
+            <span class="tail-text-xs tail-text-gray-400">1 week ago</span>
           </div>
         </div>
         <div class="tail-flex tail-py-1">
@@ -39,23 +41,27 @@
               src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
             >
           </div>
-          <div>
-            <span class="tail-text-base tail-px-4"> some text to test my flex</span>
+          <div class="tail-grid tail-px-4">
+            <span class="tail-text-base"><strong>Ali R </strong><small>uploaded an update</small></span>
+            <span class="tail-text-xs tail-text-gray-400">1 week ago</span>
           </div>
         </div>
-        <div class="tail-flex tail-py-4">
-          <div class="tail-w-10 tail-h-10 tail-bg-gray-300 tail-rounded-full">
+        <div class="tail-flex tail-py-1">
+          <div class="tail-w-14 tail-h-14 tail-bg-gray-300 tail-rounded-full tail-flex tail-justify-center tail-items-center">
             <i
-              class="ns-bell-ring tail-text-3xl tail-px-1 tail-py-2"
+              class="ns-bell-ring tail-text-white"
             />
           </div>
           <div>
-            <span class="tail-text-base tail-px-4"> some text to test my flex</span>
-            <p class="tail-px-4">
+            <div class="tail-grid">
+              <span class="tail-text-base tail-px-4">Your system needs updating</span>
+              <span class="tail-text-xs tail-px-4 tail-text-gray-400">1 months ago</span>
+            </div>
+            <span class="tail-px-4">
               <button class="tail-text-sm tail-rounded tail-border-2 tail-p-1">
                 <b>Update</b>
               </button>
-            </p>
+            </span>
           </div>
         </div>
       </div>

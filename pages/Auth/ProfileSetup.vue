@@ -11,21 +11,41 @@
         <div class="tail-flex tail-justify-between tail-gap-6">
           <div class="tail-w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-            <input v-model.trim="profileInfo.firstName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+            <input v-model.trim="$v.profileInfo.firstName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.firstName.$error}" />
+            <div v-if="$v.profileInfo.firstName.$error">
+              <small v-if="!$v.profileInfo.firstName.required" class="error tail-text-red-500">
+                Field is required.
+              </small>
+            </div>
           </div>
 
           <div class="tail-w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-            <input v-model.trim="profileInfo.lastName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+            <input v-model.trim="$v.profileInfo.lastName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.lastName.$error}" />
+            <div v-if="$v.profileInfo.lastName.$error">
+              <small v-if="!$v.profileInfo.lastName.required" class="error tail-text-red-500">
+                Field is required.
+              </small>
+            </div>
           </div>
         </div>
         <div class="">
           <label for="business" class="">Business Name</label>
-          <input v-model.trim="profileInfo.businessName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.profileInfo.businessName.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.businessName.$error}" />
+          <div v-if="$v.profileInfo.businessName.$error">
+            <small v-if="!$v.profileInfo.businessName.required" class="error tail-text-red-500">
+              Field is required.
+            </small>
+          </div>
         </div>
         <div class="">
           <label for="location" class="">Location</label>
-          <input v-model.trim="profileInfo.location" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="$v.profileInfo.location.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.location.$error}" />
+          <div v-if="$v.profileInfo.location.$error">
+            <small v-if="!$v.profileInfo.location.required" class="error tail-text-red-500">
+              Field is required.
+            </small>
+          </div>
         </div>
         <div class="">
           <label for="location" class="form-label">Profile Image</label>
@@ -183,6 +203,8 @@
   </div>
 </template>
 <script>
+import { required } from 'vuelidate/lib/validators'
+
 import { mapActions } from 'vuex'
 export default {
   // check if user is coming from signin or signup page
@@ -223,6 +245,22 @@ export default {
       status: 'invited'
     }
   }),
+  validations: {
+    profileInfo: {
+      firstName: {
+        required
+      },
+      lastName: {
+        required
+      },
+      businessName: {
+        required
+      },
+      location: {
+        required
+      }
+    }
+  },
   computed: {
     disabled () {
       for (const key in this.profileInfo) {
