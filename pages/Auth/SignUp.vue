@@ -21,8 +21,7 @@
       >
         <small
           class="tail-border tail-rounded-full or-secondary tail-text-grey tail-p-2 body-background"
-        >OR</small
-        >
+        >OR</small>
       </div>
     </div>
     <div class="tail-grid tail-gap-8 md:tail-gap-4">
@@ -30,51 +29,60 @@
         class="tail-grid tail-gap-12 md:tail-gap-4"
         @submit.prevent="signUp"
       >
-        <div class="tail-grid">
+        <div class="tail-grid error" :class="{ 'error': $v.userInfo.userName.$error }">
           <label
             for="username"
             class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-          >Username</label
-          >
+          >Username</label>
           <input
-            v-model="userInfo.userName"
+            v-model.trim="$v.userInfo.userName.$model"
             autocomplete="off"
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            :class="{invalid: $v.userInfo.userName.$error}"
           />
+          <div v-if="$v.userInfo.userName.$error">
+            <small
+              v-if="!$v.userInfo.userName.required"
+              class="error tail-text-red-500"
+            >
+              Field is required.
+            </small>
+          </div>
         </div>
         <div class="tail-grid">
           <label
             for="email"
             class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-          >Email address</label
-          >
+          >Email address</label>
           <input
-            v-model.trim="userInfo.email"
+            v-model.trim="$v.userInfo.email.$model"
             autocomplete="off"
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            :class="{invalid: $v.userInfo.email.$error}"
           />
-          <div
-            v-if="!$v.userInfo.email.required"
-            class="error tail-text-red-500 tail-text-sm"
-          >
-            Field is required.
+          <div v-if="$v.userInfo.email.$error">
+            <small
+              v-if="!$v.userInfo.email.required"
+              class="error tail-text-red-500"
+            >
+              Field is required.
+            </small>
           </div>
-          <div
+          <small
             v-if="!$v.userInfo.email.email"
             class="error tail-text-red-500 tail-text-sm"
           >
             Must be valid email.
-          </div>
+          </small>
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
             <label
               for="password"
               class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-            >Password</label
-            >
+            >Password</label>
             <button
               type="button"
               class="focus:tail-outline-none"
@@ -97,23 +105,27 @@
             </button>
           </div>
           <input
-            v-model.trim="userInfo.password"
+            v-model.trim="$v.userInfo.password.$model"
             :type="showPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            :class="{invalid: $v.userInfo.password.$error}"
           />
-          <div
-            v-if="!$v.userInfo.password.required"
-            class="error tail-text-red-500 tail-text-sm"
-          >
-            Password is required.
+          <div v-if="$v.userInfo.password.$error">
+            <small
+              v-if="!$v.userInfo.password.required"
+              class="error tail-text-red-500"
+            >
+              Password is required.
+            </small>
           </div>
-          <div
+
+          <small
             v-if="!$v.userInfo.password.minLength"
-            class="error tail-text-red-500 tail-text-sm"
+            class="error tail-text-red-500"
           >
             Password must have at least
             {{ $v.userInfo.password.$params.minLength.min }} letters.
-          </div>
+          </small>
         </div>
 
         <div class="tail-grid">
@@ -121,8 +133,7 @@
             <label
               for="password"
               class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-            >Confirm Password</label
-            >
+            >Confirm Password</label>
             <button
               type="button"
               class="focus:tail-outline-none"
@@ -145,16 +156,16 @@
             </button>
           </div>
           <input
-            v-model.trim="userInfo.confirmPassword"
+            v-model.trim="$v.userInfo.confirmPassword.$model"
             :type="showConfirmPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           />
-          <div
+          <small
             v-if="!$v.userInfo.confirmPassword.sameAsPassword"
-            class="error tail-text-red-500 tail-text-sm"
+            class="error tail-text-red-500"
           >
             Passwords must be identical.
-          </div>
+          </small>
         </div>
         <div class="tail-flex tail-justify-center">
           <ButtonSpinner :is-loading="isLoading">
@@ -198,6 +209,9 @@ export default {
   },
   validations: {
     userInfo: {
+      userName: {
+        required
+      },
       email: {
         required,
         email
@@ -214,15 +228,9 @@ export default {
   computed: {
     disabled () {
       // validate fields
-      const emailFormat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      const testEmail = !!this.userInfo.email.match(emailFormat)
-      const checkPasswords =
-        Boolean(this.userInfo.password) &&
-        this.userInfo.password === this.userInfo.confirmPassword
-      const checkUuserName = this.userInfo.userName
-        ? this.userInfo.userName.length >= 2 && Boolean(this.userInfo.userName)
-        : false
-      return checkUuserName && checkPasswords && testEmail
+      const checkPasswords = Boolean(this.userInfo.password) && this.userInfo.password === this.userInfo.confirmPassword
+      const checkUuserName = this.userInfo.userName ? (this.userInfo.userName.length >= 2 && Boolean(this.userInfo.userName)) : false
+      return checkUuserName && checkPasswords
     }
   },
   methods: {
@@ -322,5 +330,8 @@ export default {
   &:focus {
     outline: none;
   }
+}
+.error{
+  border-color: red;
 }
 </style>

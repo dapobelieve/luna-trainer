@@ -21,9 +21,27 @@
                 >Password</label>
                 <input
                   id="exampleInputPassword1"
+                  v-model.trim="$v.userInfo.password.$model"
                   type="password"
                   class="form-control"
+                  :class="{'invalid':$v.userInfo.password.$error}"
                 >
+                <div v-if="$v.userInfo.password.$error">
+                  <small
+                    v-if="!$v.userInfo.password.required"
+                    class="error tail-text-red-500"
+                  >
+                    Password is required.
+                  </small>
+                </div>
+
+                <small
+                  v-if="!$v.userInfo.password.minLength"
+                  class="error tail-text-red-500"
+                >
+                  Password must have at least
+                  {{ $v.userInfo.password.$params.minLength.min }} letters.
+                </small>
               </div>
               <div class="tail-grid tail-mb-3">
                 <label
@@ -32,9 +50,16 @@
                 >Confirm Password</label>
                 <input
                   id="exampleInputConfirmPassword1"
+                  v-model.trim="$v.userInfo.confirmPassword.$model"
                   type="password"
                   class="form-control"
                 >
+                <small
+                  v-if="!$v.userInfo.confirmPassword.sameAsPassword"
+                  class="error tail-text-red-500"
+                >
+                  Passwords must be identical.
+                </small>
               </div>
 
               <div class="tail-flex tail-justify-center">
@@ -50,10 +75,32 @@
   </div>
 </template>
 <script>
+import { required, sameAs, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'ResetPassword',
   layout: 'authLayout',
-  auth: false
+  auth: false,
+  data () {
+    return {
+      userInfo: {
+        password: null,
+        confirmPassword: null,
+        domain: 'getwelp-trainer-ui'
+      }
+    }
+  },
+  validations: {
+    userInfo: {
+      password: {
+        required,
+        minLength: minLength(6)
+      },
+      confirmPassword: {
+        sameAsPassword: sameAs('password')
+      }
+    }
+  }
+
 }
 </script>
 <style scoped></style>

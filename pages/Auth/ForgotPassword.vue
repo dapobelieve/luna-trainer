@@ -1,17 +1,33 @@
 <template>
   <div class="tail-grid tail-gap-4">
     <div class="tail-col-12">
-      <h3 class="tail-text-3xl tail-mb-3">Forgot your password?</h3>
+      <h3 class="tail-text-3xl tail-mb-3">
+        Forgot your password?
+      </h3>
       <small class="tail-text-gray-400 tail-text-sm">
         Enter your registered email below to receive password reset instruction.
       </small>
     </div>
     <div class="tail-grid tail-gap-4">
-      <form @submit.prevent="reset" class="tail-grid tail-gap-4">
+      <form class="tail-grid tail-gap-4" @submit.prevent="reset">
         <div class="">
           <div class="tail-grid">
             <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
-            <input v-model="email" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+            <input v-model.trim="$v.email.$model" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.email.$error}" />
+            <div v-if="$v.email.$error">
+              <small
+                v-if="!$v.email.required"
+                class="error tail-text-red-500"
+              >
+                Field is required.
+              </small>
+            </div>
+            <small
+              v-if="!$v.email.email"
+              class="error tail-text-red-500 tail-text-sm"
+            >
+              Must be valid email.
+            </small>
           </div>
         </div>
 
@@ -30,6 +46,7 @@
   </div>
 </template>
 <script>
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   name: 'ForgotPassword',
   layout: 'authLayout',
@@ -38,6 +55,12 @@ export default {
     return {
       email: null,
       isLoading: false
+    }
+  },
+  validations: {
+    email: {
+      required,
+      email
     }
   },
   methods: {

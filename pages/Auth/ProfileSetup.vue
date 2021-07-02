@@ -183,6 +183,8 @@
   </div>
 </template>
 <script>
+// import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
+
 import { mapActions } from 'vuex'
 export default {
   // check if user is coming from signin or signup page

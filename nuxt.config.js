@@ -22,7 +22,7 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
-    { src: '~/plugins/vuelidate.js', ssr: false },
+    { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~plugins/persistedState.client.js' }
   ],
 
@@ -74,8 +74,8 @@ export default {
     redirect: {
       login: '/auth/signin',
       logout: '/auth/signin',
-      callback: '/auth/signin'
-      // home: '/dashboard'
+      callback: '/auth/signin',
+      home: '/dashboard'
     },
     strategies: {
       local: {
