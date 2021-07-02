@@ -54,11 +54,13 @@
           <ProfileDropdown v-if="profileDropdownIsOpen" />
         </div>
       </div>
-      <!-- <MessagesDrawer
-        :display="showMessagesDrawer"
-        @closemessagedrawer="showMessagesDrawer = false"
-      /> -->
     </header>
+    <!-- <div class="tail-position-relative">
+      <MessageDrawer
+        :display="showMessageDrawer"
+        @closemessagedrawer="showMessagesDrawer = false"
+      />
+    </div> -->
     <!-- <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex"> -->
     <div class=" tail-z-0 tail-grid md:tail-flex">
       <Navigation />
@@ -74,13 +76,18 @@ export default {
     return {
       profileDropdownIsOpen: false,
       NotificationDropdownIsOpen: false,
-      showMessagesDrawer: false
+      showMessageDrawer: false
     }
   },
   computed: {
     ...mapGetters({
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
     })
+  },
+  methods: {
+    close () {
+      this.$emit('closemessagedrawer')
+    }
   }
 }
 </script>
