@@ -75,10 +75,10 @@ main {
   }
 
   .shiba-inu {
-    // background: url("~assets/img/shiba-inu.png")  left bottom no-repeat fixed;
-    background-image: url("~assets/img/shiba-inu.png");
-    background-repeat: no-repeat;
-    background-position: left bottom;
+    background: url("~assets/img/shiba-inu.png")  left bottom no-repeat fixed;
+    // background-image: url("~assets/img/shiba-inu.png");
+    // background-repeat: no-repeat;
+    // background-position: left bottom;
   }
 }
 </style>

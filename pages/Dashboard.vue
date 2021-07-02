@@ -98,8 +98,44 @@
               <h5 class="tail-font-medium tail-mb-2">
                 Clients
               </h5>
-              <ClientDashboardList />
+              <div class="tail-grid tail-grid-cols-3 tail-gap-4">
+                <div
+                  v-for="n in 5"
+                  :key="n"
+                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center md:tail-mb-4 tail-mb-0"
+                >
+                  <img
+                    class="tail-rounded-full tail-h-14"
+                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+                  />
+                  <b class="tail-capitalize tail-text-sm tail-mt-3">elena b</b>
+                  <div class="tail-flex tail-items-center">
+                    <i
+                      class="ns-comment tail-bg-green-400 tail-p-1 tail-rounded-full tail-text-xs"
+                    ></i>
+                    <small
+                      class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
+                    >roxy</small>
+                  </div>
+                </div>
+                <div
+                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 tail-mb-4"
+                >
+                  <div class="tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-10 tail-h-10" style="background: rgba(240, 245, 250, 1);">
+                    <i
+                      class="ns-angle-right tail-p-1"
+                    ></i>
+                  </div>
 
+                  <div>
+                    <a
+                      class="tail-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-bold"
+                      href="#"
+                    >View All</a>
+                  </div>
+                </div>
+              </div>
+              <!-- <ClientDashboardList /> -->
               <!-- <div class="d-flex tail-flex-wrap">
                 <div
                   v-for="n in 5"
@@ -174,7 +210,9 @@
                           class="tail-text-gray-400 tail-ml-2 tail-text-xs"
                         >1:09PM</span>
                       </p>
-                      <p class="tail-text-xs">{{ messages.last_message }}</p>
+                      <p class="tail-text-xs">
+                        {{ messages.last_message }}
+                      </p>
                     </div>
                     <button
                       class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
@@ -301,7 +339,8 @@ export default {
   computed: {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
-      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
+      getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
+      acceptedClients: 'client/getAllAcceptedClients'
     })
   },
   mounted () {
@@ -315,7 +354,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchAllClientsConcise: 'client/fetchAllClientsConcise'
+      fetchAllClientsConcise: 'client/fetchAllClientsConcise',
+      fetchAllAcceptedClients: 'client/fetchAllAcceptedClients'
     })
   }
 }
