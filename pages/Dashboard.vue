@@ -98,6 +98,7 @@
               <h5 class="tail-font-medium tail-mb-2">
                 Clients
               </h5>
+              <ClientDashboardList />
 
               <!-- <div class="d-flex tail-flex-wrap">
                 <div
