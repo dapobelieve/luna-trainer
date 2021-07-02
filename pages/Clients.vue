@@ -94,7 +94,7 @@
       </div>
     </div>
     <div class="tail-m-3 md:tail-mx-0 tail-pb-14 lg:tail-pb-10 tail-h-full">
-      <nuxt-child class="" />
+      <nuxt-child />
     </div>
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />

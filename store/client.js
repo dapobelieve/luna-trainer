@@ -22,6 +22,16 @@ export const actions = {
     return this.$axios
       .$put(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
+        console.log('respons from update', response)
+        console.log('$auth before update', this.$auth)
+        this.$auth.setUser(response.data)
+        console.log('$auth after update', this.$auth)
+        console.log('localstorage before update', localStorage.getItem('getWelpUser'))
+        const getWelpUser = localStorage.getItem('getWelpUser')
+        // eslint-disable-next-line curly
+        if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+        localStorage.setItem('getWelpUser', JSON.stringify(response.data))
+        console.log('localstorage after update', localStorage.getItem('getWelpUser'))
         return response
       })
   },

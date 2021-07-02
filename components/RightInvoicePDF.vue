@@ -1,10 +1,12 @@
 <template>
   <div class="right-card tail-p-6 tail-rounded">
     <div class="tail-py-2">
-      <h1>Preview</h1>
+      <h1 class="tail-font-medium">Preview</h1>
     </div>
     <div class="tail-pb-4">
-      <span class="tail-text-gray-500">A short description about this section</span>
+      <span
+        class="tail-text-gray-500"
+      >A short description about this section</span>
     </div>
     <div class="tail-flex tail-pb-4">
       <div class="">
@@ -89,9 +91,7 @@
             </div>
             <div class="tail-flex tail-justify-end tail-py-4">
               <div>
-                <div
-                  class="tail-grid tail-grid-cols-6"
-                >
+                <div class="tail-grid tail-grid-cols-6">
                   <div
                     class="
                     tail-col-span-3
@@ -119,6 +119,11 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: 'RightInvoicePdf'
+}
+</script>
 <style scoped>
 .right-card {
   width: 31.25rem;

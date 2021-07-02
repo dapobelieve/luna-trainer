@@ -33,7 +33,7 @@
           >
             Username
           </label>
-          <input v-model.trim="userInfo.userName" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.userName" :disabled="isLoading" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -43,7 +43,7 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model.trim="userInfo.password" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+          <input v-model.trim="userInfo.password" :disabled="isLoading" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
         </div>
 
         <div class="tail-flex tail-justify-center">

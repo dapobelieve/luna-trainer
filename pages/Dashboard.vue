@@ -16,7 +16,6 @@
           </div>
           <div class="tail-w-max">
             <button
-              style="background: rgba(86, 204, 242, 1);"
               class="base-button"
               @click="addClient = true"
             >
@@ -36,31 +35,41 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
+                  v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i class="ns-cross" />
                 </p>
+                <SingleLoader v-else class="tail-mr-2" />
                 <a href="#">Stripe</a>
               </div>
             </li>
             <li>
               <div class="tail-flex tail-items-center">
-                <p
+                <!-- <p
                   :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
+                </p> -->
+                <p
+                  v-if="!true"
+                  :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                >
+                  <i class="ns-cross" />
                 </p>
+                <SingleLoader v-else class="tail-mr-2" />
                 <a href="#">Added your first client</a>
               </div>
             </li>
             <li>
               <div class="tail-flex tail-items-center">
                 <p
+                  v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <!-- 1 -->
-                  <i :class="['ns-cross']" />
+                  <i class="ns-cross" />
                 </p>
+                <SingleLoader v-else class="tail-mr-2" />
                 <a
                   href="#"
                 >Calendar(s) <span class="tail-underline">Sync</span></a>
@@ -69,11 +78,12 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
+                  v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <!-- 2 -->
-                  <i :class="['ns-cross']" />
+                  <i class="ns-cross" />
                 </p>
+                <SingleLoader v-else class="tail-mr-2" />
                 <a
                   href="#"
                 >Fully connected <span class="tail-underline">Sync</span></a>

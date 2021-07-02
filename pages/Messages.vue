@@ -23,11 +23,6 @@
               v-if="messages.recipient_id === sender"
               class="tail-flex align-items-end tail-items-end tail-mb-3"
             >
-              <!-- <ClientAvatar
-                :firstname="chatElements.opponentFirstName"
-                :lastname="chatElements.opponentLastName"
-              /> -->
-
               <span
                 class="tail-border tail-mb-0 tail-p-2 message text-wrap bgw text-break tail-bg-white"
                 style="max-width: 95%"
@@ -90,7 +85,7 @@
       </div>
       <!-- <hr> -->
       <div class="tail-py-4 tail-border-gray-200 tail-border-t tail-border-b tail-my-3">
-        <button @click="$router.push({ name: 'CreateInvoicePage', params: { client: $route.params.client } })" class="base-button">
+        <button class="base-button" @click.prevent="createInvoice">
           new invoice
         </button>
       </div>
@@ -143,8 +138,8 @@ export default {
   watch: {
     latestChatEntry (newValue) {
       console.log('watcher new value', newValue)
-      // if (newValue.dialog_id === this.dialogId) {
-      if (newValue.dialog_id === this.$route.params.dialogId) {
+      if (newValue.dialog_id === this.dialogId) {
+      // if (newValue.dialog_id === this.$route.params.dialogId) {
         this.updateMsgHistory(newValue.userId, newValue)
         setTimeout(() => {
           if (!this.isFeedAtBottom) {
@@ -337,6 +332,13 @@ export default {
     ...mapMutations('qb', {
       clearMessageCount: 'CLEAR_MESSAGE_COUNT'
     }),
+    createInvoice () {
+      if (!this.$auth.user.services.length) {
+        this.$toast.error('Please add a service before creating an invoice', { position: 'top-right' })
+      } else {
+        this.$router.push({ name: 'NewInvoices', params: { client: this.$route.params.client } })
+      }
+    },
     updateMsgHistory (userId, message) {
       this.msgHistory.push({
         id: message.id,
@@ -379,7 +381,7 @@ export default {
             }
             // const opponentId = dialog.occupants_ids[1]
             const opponentId = parseInt(this.occupantId)
-            console.log('said occupant', opponentId)
+            // console.log('said occupant', opponentId)
             try {
               console.log('message from model', this.message)
               message.id = QuickBlox.chat.send(opponentId, message)
@@ -410,13 +412,13 @@ export default {
           body: this.message,
           extension: {
             save_to_history: 1,
-            // dialog_id: dialogId
             dialog_id: dialogId
+            // dialog_id: '60ddd75893a945005591565f'
           },
           markable: 1
         }
-        const opponentId = this.occupantId
-        // const opponentId = 129031301
+        const opponentId = parseInt(this.occupantId)
+        console.log('opp id', opponentId)
         try {
           message.id = QuickBlox.chat.send(opponentId, message)
           console.log('sent', message, ' id:', message.id)
@@ -426,7 +428,7 @@ export default {
             message: this.message,
             recipient_id: opponentId
           })
-          // this.message = ''
+          this.message = ''
           setTimeout(() => {
             if (!this.isFeedAtBottom) {
               const messageFeed = document.getElementById('messageFeed')

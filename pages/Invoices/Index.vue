@@ -36,6 +36,8 @@
     </div>
 
     <div
+      v-for="invoice in getInvoices"
+      :key="invoice.index"
       class="tail-grid tail-grid-cols-8 gap-2 tail-my-2 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-items-center"
     >
       <input type="checkbox" name="vehicle1" value="Bike">
@@ -70,7 +72,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Saved',
+  name: 'Index',
   computed: {
     ...mapGetters({
       getAllInvoices: 'invoice/getAllInvoices'

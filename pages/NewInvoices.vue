@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'CreateInvoice',
+  name: 'NewInvoices',
   layout: 'emptyLayout'
 }
 </script>

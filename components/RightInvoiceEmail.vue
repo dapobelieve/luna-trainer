@@ -86,6 +86,11 @@
     </div>
   </div>
 </template>
+<script>
+export default {
+  name: 'RightInvoiceEmail'
+}
+</script>
 <style scoped>
 .right-card {
   width: 31.25rem;
