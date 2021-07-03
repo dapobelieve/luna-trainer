@@ -177,10 +177,10 @@
                   >
                   </div>
                 </template>
-                <!-- when clients are <= 5 -->
+                <!-- when clients are >= 5 -->
                 <template v-else-if="acceptedClients.length >= 5">
                   <div
-                    v-for="client in acceptedClients"
+                    v-for="client in acceptedClients.slice(0,4)"
                     :key="client.index"
                     class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
                   >
