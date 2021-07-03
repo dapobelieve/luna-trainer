@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="tail-max-w-screen-xl tail-m-0">
     <header
       class="tail-bg-white tail-p-3 tail-py-1 tail-flex tail-justify-between tail-items-center tail-text-2xl tail-sticky tail-top-0 tail-z-10"
     >
@@ -33,7 +33,7 @@
             style="padding: 0.2em !important"
             class="tail-absolute tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
           >{{ getTotalUnreadMessages.length }}</small>
-          <i class="ns-comment-alt tail-rounded tail-p-1" />
+          <i class="ns-comment-alt tail-rounded tail-p-1" @click="showMessageDrawer = !showMessageDrawer" />
         </span>
         <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
           <!-- <span
@@ -55,16 +55,17 @@
         </div>
       </div>
     </header>
-    <!-- <div class="tail-position-relative">
-      <MessageDrawer
-        :display="showMessageDrawer"
-        @closemessagedrawer="showMessagesDrawer = false"
-      />
-    </div> -->
     <!-- <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex"> -->
     <div class=" tail-z-0 tail-grid md:tail-flex">
       <Navigation />
       <Nuxt class="views tail-mb-20" />
+      <div class="tail-relative tail-flex tail-justify-end">
+        <div class="tail-absolute">
+          <MessageDrawer
+            v-if="showMessageDrawer"
+          />
+        </div>
+      </div>
     </div>
   </main>
 </template>
@@ -85,9 +86,7 @@ export default {
     })
   },
   methods: {
-    close () {
-      this.$emit('closemessagedrawer')
-    }
+
   }
 }
 </script>
