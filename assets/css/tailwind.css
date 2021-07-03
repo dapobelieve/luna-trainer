@@ -40,12 +40,20 @@
     color: #56ccf2;
   }
 
+  .gw-pry-hover-bg-color:hover {
+    background-color: #46A6C8;
+  }
+
   .gw-sec-text-color {
     color: #172942;
   }
 
   .gw-bg-color {
     background-color: #D7D9E2;
+  }
+
+  .gw-body-color {
+    background-color: #F0F5FA;
   }
 
   .base-button {

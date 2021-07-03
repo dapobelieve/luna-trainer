@@ -152,8 +152,10 @@
                 </template>
                 <!-- when clients are 0 -->
                 <template v-else-if="!acceptedClients.length">
-                  <div
+                  <button
+                    type="button"
                     class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                    @click="$refs.openModal.openModal()"
                   >
                     <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
                       <i
@@ -162,14 +164,13 @@
                     </div>
 
                     <div>
-                      <NuxtLink
-                        :to="{ name: 'Clients' }"
+                      <div
                         class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
                       >
-                        Invite Clients
-                      </NuxtLink>
+                        Invite clients
+                      </div>
                     </div>
-                  </div>
+                  </button>
                   <div
                     v-for="n in 5"
                     :key="n"
@@ -381,9 +382,12 @@
     <div>
       <CalendarView />
     </div>
-    <Modal :is-open="addClient" @close="addClient = $event">
-      <InviteNewClient @close="addClient = $event" />
-    </Modal>
+
+    <MainModal ref="openModal">
+      <template v-slot:body>
+        <InviteNewClient @close="addClient = $event" />
+      </template>
+    </MainModal>
   </main>
 </template>
 
@@ -395,7 +399,8 @@ export default {
   data () {
     return {
       showPayment: false,
-      addClient: false
+      addClient: false,
+      isModalVisible: false
     }
   },
   computed: {
@@ -443,7 +448,13 @@ export default {
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
       fetchAllInvoices: 'invoice/getAllInvoices',
       fetchAcceptedClients: 'client/fetchAllAcceptedClients'
-    })
+    }),
+    showModal () {
+      this.isModalVisible = true
+    },
+    closeModal () {
+      this.isModalVisible = false
+    }
   }
 }
 </script>
