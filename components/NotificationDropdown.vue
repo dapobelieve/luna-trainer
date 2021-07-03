@@ -1,65 +1,44 @@
 <template>
-  <div class="tail-absolute tail-right-0 tail-border tail-overflow-hidden tail-rounded-lg tail-border-gray-200 tail-top-full tail-mr-3">
-    <div class="tail-block notification-dropdown-box tail-rounded tail-bg-white">
+  <div class="tail-absolute tail-right-0 tail-border tail-overflow-hidden tail-rounded-xl tail-bg-white tail-border-gray-100 tail-shadow-2xl tail-top-full tail-mr-3 tail-max-w-xs">
+    <div class="tail-block tail-rounded tail-bg-white">
       <div class="tail-border-b">
-        <div class="tail-px-4 tail-pt-5 tail-pb-2">
-          <h3 class="tail-text-base">
+        <div class="tail-px-4 tail-pt-5 tail-pb-4 tail-bg-white">
+          <span class="tail-text-base tail-py-2 tail-border-b-2 tail-border-black">
             Notifications
-          </h3>
-          <hr class="divider-color tail-w-28">
+          </span>
         </div>
       </div>
-      <div class="tail-grid tail-grid-cols-1 tail-gap-3 tail-p-2">
-        <div class="tail-flex tail-py-1">
-          <div>
-            <img
-              class="tail-rounded-full tail-h-14"
-              src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-            >
-          </div>
-          <div class="tail-grid tail-px-4">
-            <span class="tail-text-base"><strong>James R </strong><small>uploaded an update</small></span>
-            <span class="tail-text-xs tail-text-gray-400">2 hours ago</span>
-          </div>
-        </div>
-        <div class="tail-flex tail-py-1">
-          <div>
-            <img
-              class="tail-rounded-full tail-h-14"
-              src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-            >
-          </div>
-          <div class="tail-grid tail-px-4">
-            <span class="tail-text-base"><strong>Mart R </strong><small>uploaded an update</small></span>
-            <span class="tail-text-xs tail-text-gray-400">1 week ago</span>
+      <div class="tail-grid tail-grid-cols-1 tail-gap-3 tail-p-4" style="background: #F0F5FA">
+        <div class="tail-flex tail-items-center">
+          <img
+            class="tail-rounded-full tail-h-11"
+            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+          >
+          <div class="tail-grid tail-pl-4">
+            <p class="tail-text-base tail-font-medium tail-truncate">
+              James R
+              <span class="tail-font-light">accepted your invite.</span>
+            </p>
+            <p class="tail-text-sm tail-text-gray-400">
+              2 hours ago
+            </p>
           </div>
         </div>
         <div class="tail-flex tail-py-1">
-          <div>
-            <img
-              class="tail-rounded-full tail-h-14"
-              src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-            >
-          </div>
-          <div class="tail-grid tail-px-4">
-            <span class="tail-text-base"><strong>Ali R </strong><small>uploaded an update</small></span>
-            <span class="tail-text-xs tail-text-gray-400">1 week ago</span>
-          </div>
-        </div>
-        <div class="tail-flex tail-py-1">
-          <div class="tail-w-14 tail-h-14 tail-bg-gray-300 tail-rounded-full tail-flex tail-justify-center tail-items-center">
+          <div class="tail-bg-gray-200 tail-w-12 tail-h-12 tail-rounded-full tail-flex tail-justify-center tail-items-center">
             <i
-              class="ns-bell-ring tail-text-white"
+              class="ns-bell-ring tail-text-gray-600"
             />
           </div>
           <div>
             <div class="tail-grid">
-              <span class="tail-text-base tail-px-4">Your system needs updating</span>
-              <span class="tail-text-xs tail-px-4 tail-text-gray-400">1 months ago</span>
+              <p class="tail-text-base tail-px-4 tail-font-light">
+                Your app needs a reload
+              </p>
             </div>
             <span class="tail-px-4">
-              <button class="tail-text-sm tail-rounded tail-border-2 tail-p-1">
-                <b>Update</b>
+              <button class="tail-text-sm tail-rounded-md tail-border-2 tail-px-2 tail-py-1 tail-font-medium tail-border-gray-400">
+                Reload App
               </button>
             </span>
           </div>
