@@ -3,7 +3,7 @@
     <article class="dash-view tail-pb-48 tail-mx-3 lg:tail-mx-0">
       <div class="main-view tail-grid tail-gap-4 tail-my-5 tail-mx-auto">
         <div
-          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
+          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 tail-shadow-2xl md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
         >
           <div>
             <h2 class="tail-capitalize tail-text-2xl tail-font-medium">
@@ -111,77 +111,130 @@
                 Clients
               </h5>
               <div class="tail-grid tail-grid-cols-3 tail-gap-4">
-                <div
-                  v-for="client in acceptedClients"
-                  :key="client.index"
-                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center md:tail-mb-4 tail-mb-0"
-                >
-                  <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
-                  <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
-                  <div class="tail-flex tail-items-center">
-                    <img
-              class="tail-bg-green-400 tail-p-1 tail-rounded-full"
-              src="~/assets/img/dog-paw.svg"
-              alt="dog paw"
-            />
-                    <small
-                      class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
-                    >{{ client.pet[0].name }}</small>
-                  </div>
-                </div>
-                <div
-                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 tail-mb-4"
-                >
-                  <div class="tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-10 tail-h-10" style="background: rgba(240, 245, 250, 1);">
-                    <i
-                      class="ns-angle-right tail-p-1"
-                    ></i>
-                  </div>
-
-                  <div>
-                    <a
-                      class="tail-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-bold"
-                      href="#"
-                    >View All</a>
-                  </div>
-                </div>
-              </div>
-              <!-- <ClientDashboardList /> -->
-              <!-- <div class="d-flex tail-flex-wrap">
-                <div
-                  v-for="n in 5"
-                  :key="n"
-                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 md:tail-mb-4 tail-mb-0"
-                >
-                  <img
-                    class="rounded-circle tail-h-14"
-                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                  />
-                  <b class="text-capitalize tail-text-sm tail-mt-3">elena b</b>
-                  <div class="d-flex align-items-center">
-                    <i
-                      class="ns-comment tail-bg-green-400 tail-p-1 rounded-circle tail-text-xs"
-                    ></i>
-                    <small
-                      class="text-muted tail-ml-1 text-capitalize tail-text-sm"
-                      >roxy</small
-                    >
-                  </div>
-                </div>
-                <div
-                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 tail-mb-4"
-                >
-                  <i
-                    class="ns-angle-right tail-p-1 rounded-circle"
-                    style="background: rgba(240, 245, 250, 1);"
-                  ></i>
-                  <a
-                    class="text-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-medium"
-                    href="#"
-                    >View All</a
+                <!-- when clients are <= 5 but not equal to zero-->
+                <template v-if="acceptedClients.length <= 5 && acceptedClients.length !== 0">
+                  <div
+                    v-for="client in acceptedClients"
+                    :key="client.index"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
                   >
-                </div>
-              </div> -->
+                    <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
+                    <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
+                    <div class="tail-flex tail-items-center">
+                      <img
+                        class="tail-bg-green-400 tail-p-1 tail-rounded-full"
+                        src="~/assets/img/dog-paw.svg"
+                        alt="dog paw"
+                      />
+                      <small
+                        class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
+                      >{{ client.pet[0].name }}</small>
+                    </div>
+                  </div>
+                  <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-plus tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <NuxtLink
+                        :to="{ name: 'Clients' }"
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        Invite Client
+                      </NuxtLink>
+                    </div>
+                  </div>
+                </template>
+                <!-- when clients are 0 -->
+                <template v-else-if="!acceptedClients.length">
+                  <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-plus tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <NuxtLink
+                        :to="{ name: 'Clients' }"
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        Invite Clients
+                      </NuxtLink>
+                    </div>
+                  </div>
+                  <div
+                    v-for="n in 5"
+                    :key="n"
+                    class="tail-rounded-lg tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center tail-h-40 gw-bg-color"
+                  >
+                  </div>
+                </template>
+                <!-- when clients are <= 5 -->
+                <template v-else-if="acceptedClients.length >= 5">
+                  <div
+                    v-for="client in acceptedClients"
+                    :key="client.index"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                  >
+                    <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
+                    <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
+                    <div class="tail-flex tail-items-center">
+                      <img
+                        class="tail-bg-green-400 tail-p-1 tail-rounded-full"
+                        src="~/assets/img/dog-paw.svg"
+                        alt="dog paw"
+                      />
+                      <small
+                        class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
+                      >{{ client.pet[0].name }}</small>
+                    </div>
+                  </div>
+                  <!-- <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-plus tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <NuxtLink
+                        :to="{ name: 'Clients' }"
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        Invite Client
+                      </NuxtLink>
+                    </div>
+                  </div> -->
+                  <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-angle-right tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <NuxtLink
+                        :to="{ name: 'Clients' }"
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        View All
+                      </NuxtLink>
+                    </div>
+                  </div>
+                </template>
+              </div>
             </div>
             <div>
               <h5 class="tail-font-medium tail-mb-2">
@@ -198,10 +251,10 @@
                     >
                   </div>
                   <h5 class="tail-font-medium">
-                    No messages yet
+                    No messages
                   </h5>
                   <p class="tail-px-5 tail-text-sm tail-mb-0">
-                    Messages will appear here when you invite and onboard a new client
+                    New messages will appear here when you invite and onboard a new client.
                   </p>
                 </div>
                 <template v-else>
@@ -241,12 +294,12 @@
               Payment
             </h5>
             <div class="tail-bg-white tail-rounded-md tail-p-4 md:tail-h-full">
-              <p class="tail-mb-0">
-                This Month
+              <p class="tail-mb-0 tail-capitalize tail-font-medium">
+                For {{ getMonth }}.
               </p>
               <div class="tail-grid tail-gap-4 tail-grid-cols-2 tail-py-5">
                 <div
-                  class="tail-rounded tail-border-1 tail-px-4 tail-py-2"
+                  class="tail-rounded-md tail-border tail-border-gray-300 tail-border-1 tail-px-4 tail-py-2"
                   style="background: rgba(240, 245, 250, 1);"
                 >
                   <small class="tail-block">Due</small>
@@ -255,7 +308,7 @@
                   </h3>
                 </div>
                 <div
-                  class="tail-rounded tail-border tail-px-4 tail-py-2 tail-text-gray-400"
+                  class="tail-rounded-md tail-border tail-px-4 tail-py-2 tail-text-gray-400 tail-border-gray-300"
                 >
                   <small class="tail-block">Received</small>
                   <h3 class="tail-mb-0 tail-font-medium">
@@ -277,7 +330,7 @@
                   >
                 </div>
                 <h5 class="tail-font-medium">
-                  No payments yet
+                  No payments
                 </h5>
                 <small class="tail-block">
                   See paid and due transactions from your clients here. For
@@ -352,6 +405,11 @@ export default {
       allInvoices: 'invoice/getAllInvoices',
       acceptedClients: 'client/getAllAcceptedClients'
     }),
+    getMonth () {
+      const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+      const thisMonth = new Date().getMonth()
+      return monthNames[thisMonth] + ', ' + new Date().getFullYear()
+    },
     totalOfOwedInvoice () {
       if (this.allInvoices.length) {
         return this.allInvoices.filter(invoice => invoice.status === 'draft').reduce(

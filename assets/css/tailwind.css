@@ -34,7 +34,20 @@
   h6 {
   } */
 
-  /* bae button styles */
+  /* base button styles */
+  /* colors */
+  .gw-pry-text-color {
+    color: #56ccf2;
+  }
+
+  .gw-sec-text-color {
+    color: #172942;
+  }
+
+  .gw-bg-color {
+    background-color: #D7D9E2;
+  }
+
   .base-button {
     @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white;
     background: #56ccf2;
