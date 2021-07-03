@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="tail-grid tail-grid-cols-1" style="background: #F0F5FA">
-        <div class="tail-flex tail-items-center hover:tail-bg-gray-200 tail-py-3 tail-px-4 tail-cursor-pointer">
+        <div v-if="0" class="tail-flex tail-items-center hover:tail-bg-gray-200 tail-py-3 tail-px-4 tail-cursor-pointer">
           <img
             class="tail-rounded-full tail-h-11"
             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
@@ -20,11 +20,11 @@
               <span class="tail-font-light">accepted your invite.</span>
             </p>
             <p class="tail-text-sm tail-text-gray-400">
-              2 hours ago
+              2 hours ago.
             </p>
           </div>
         </div>
-        <div class="tail-flex tail-py-4 tail-px-4">
+        <div v-else-if="null" class="tail-flex tail-py-4 tail-px-4">
           <div class="tail-bg-gray-200 tail-w-12 tail-h-12 tail-rounded-full tail-flex tail-justify-center tail-items-center">
             <i
               class="ns-bell-ring tail-text-gray-600"
@@ -33,7 +33,7 @@
           <div>
             <div class="tail-grid">
               <p class="tail-text-base tail-px-4 tail-font-light">
-                Your app needs a reload
+                Your app needs a reload.
               </p>
             </div>
             <span class="tail-px-4">
@@ -43,6 +43,9 @@
             </span>
           </div>
         </div>
+        <p v-else class="tail-text-center tail-capitalize tail-my-5 tail-px-4 tail-text-sm">
+          no notification at this time.
+        </p>
       </div>
     </div>
   </div>
