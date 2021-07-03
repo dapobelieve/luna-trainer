@@ -19,6 +19,12 @@ export const mutations = {
 }
 
 export const actions = {
+  clearAllClientStates ({ commit }) {
+    // for local storage force logout
+    commit('ALL_CLIENTS', [])
+    commit('ACCEPTED_CLIENTS', [])
+    commit('invited_clients', [])
+  },
   updateProfile ({ commit }, payload) {
     console.log('the payload', payload)
     return this.$axios

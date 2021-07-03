@@ -7,6 +7,14 @@ export const mutations = {
   SET_GETWELP_USER (state, user) {
     // this is being done to persist the state
     state.getWelpUser = user
+  },
+  CLEAR_LOCAL_STORAGE () {
+    // localStorage.removeItem('getWelpUser')
+    // localStorage.removeItem('qb')
+    // localStorage.removeItem('vuex')
+    // localStorage.removeItem('authorize')
+    // localStorage.removeItem('client')
+    window.localStorage.clear()
   }
 }
 
@@ -53,11 +61,11 @@ export const actions = {
         return data
       })
   },
-  logOut ({ commit }) {
-    localStorage.removeItem('getWelpUser')
-    localStorage.removeItem('vuex')
-    localStorage.removeItem('authorize')
-    localStorage.removeItem('client')
+  logOut ({ commit, dispatch }) {
+    commit('CLEAR_LOCAL_STORAGE')
+    dispatch('qb/clearQbUserAndDialogs', null, { root: true })
+    commit('SET_GETWELP_USER', {})
+    dispatch('client/clearAllClientStates', null, { root: true })
     this.$auth.logout()
   }
 }
