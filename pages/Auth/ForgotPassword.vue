@@ -13,7 +13,14 @@
         <div class="">
           <div class="tail-grid">
             <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Email address</label>
-            <input v-model.trim="$v.email.$model" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.email.$error}" />
+            <input
+              v-model.trim="$v.email.$model"
+              :disabled="isLoading"
+              autocomplete="off"
+              type="text"
+              class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+              :class="{invalid: $v.email.$error}"
+            />
             <div v-if="$v.email.$error">
               <small
                 v-if="!$v.email.required"
@@ -32,9 +39,10 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <ButtonSpinner :is-loading="isLoading">
-            Send
-          </ButtonSpinner>
+          <button :disabled="isLoading" class="base-button">
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            {{ isLoading ? 'Resetting...' : 'Reset Password' }}
+          </button>
         </div>
       </form>
       <div class="tail-text-center tail-pt-4">
