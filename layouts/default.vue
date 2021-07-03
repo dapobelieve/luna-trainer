@@ -44,15 +44,15 @@
           </button>
         </span>
         <NotificationDropdown v-if="NotificationDropdownIsOpen" />
-        <button class="focus:tail-outline-none" @click="profileDropdownIsOpen= !profileDropdownIsOpen">
+        <button class="focus:tail-outline-none tail-relative" @click="profileDropdownIsOpen= !profileDropdownIsOpen">
           <img
             class="tail-rounded-full tail-h-8"
             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
           >
+          <div class="tail-absolute tail-right-0" style="min-width: 12rem !important; top: 3.2rem !important;">
+            <ProfileDropdown v-if="profileDropdownIsOpen" />
+          </div>
         </button>
-        <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
-          <ProfileDropdown v-if="profileDropdownIsOpen" />
-        </div>
       </div>
     </header>
     <!-- <div class="tail-position-relative">

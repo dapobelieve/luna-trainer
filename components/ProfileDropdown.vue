@@ -1,24 +1,18 @@
 <template>
-  <div class="tail-block profile-dropdown-box tail-rounded-md tail-p-4 tail-bg-white">
-    <div class="tail-grid tail-gap-1 tail-place-items-center">
-      <a>
-        <img
-          class="tail-rounded-full tail-h-14"
-          src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-        >
-      </a>
-      <a>
-        <span class="tail-text-lg tail-capitalize">
-          {{ $store.state.authorize.getWelpUser.firstName }} {{ $store.state.authorize.getWelpUser.lastName }}
-        </span>
-      </a>
-      <a>
-        <span class="tail-text-sm tail-text-gray-400 tail-capitalize">
-          {{ $store.state.authorize.getWelpUser.location }}
-        </span>
-      </a>
+  <div class="tail-block tail-border tail-border-gray-200 tail-rounded-xl tail-p-4 tail-bg-white tail-shadow-2xl">
+    <div class="tail-grid tail-gap-1">
+      <img
+        class="tail-rounded-full tail-h-14 tail-mx-auto"
+        src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
+      >
+      <p class="tail-text-base tail-capitalize tail-truncate tail-px-4">
+        {{ $store.state.authorize.getWelpUser.firstName }} {{ $store.state.authorize.getWelpUser.lastName }}
+      </p>
+      <p class="tail-text-sm tail-text-gray-400 tail-capitalize tail-text-center">
+        {{ $store.state.authorize.getWelpUser.location }}
+      </p>
     </div>
-    <div class="tail-block tail-grid tail-gap-4 tail-place-items-start tail-py-4">
+    <div class="tail-block tail-grid tail-gap-4 tail-place-items-start tail-pt-4">
       <Nuxt-link
         :to="{ name: 'Settings' }"
       >
