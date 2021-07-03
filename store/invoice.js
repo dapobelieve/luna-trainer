@@ -43,7 +43,7 @@ export const actions = {
   },
   stripeConnect ({ commit }) {
     return this.$axios
-      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Settings#bankDeets')
+      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Settings#bankDeets?source=stripe')
       .then(({ url }) => {
         return url
       })

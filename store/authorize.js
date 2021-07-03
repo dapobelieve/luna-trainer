@@ -1,6 +1,7 @@
 export const state = () => ({
   getWelpUser: {},
-  stripeConnected: false
+  isStripeConnected: false,
+  isBankLinked: false
 })
 
 export const mutations = {
@@ -9,12 +10,13 @@ export const mutations = {
     state.getWelpUser = user
   },
   CLEAR_LOCAL_STORAGE () {
-    // localStorage.removeItem('getWelpUser')
-    // localStorage.removeItem('qb')
-    // localStorage.removeItem('vuex')
-    // localStorage.removeItem('authorize')
-    // localStorage.removeItem('client')
     window.localStorage.clear()
+  },
+  SET_STRIPE_STATUS (state, status) {
+    state.isStripeConnected = status
+  },
+  SET_BANK_STATUS (state, status) {
+    state.isBankLinked = status
   }
 }
 
@@ -56,8 +58,24 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/profile`)
       .then(({ data }) => {
+        // check if result contains stripe key
+        const checkForStripe = 'stripeConnected' in data
+        if (checkForStripe) {
+          commit('SET_STRIPE_STATUS', checkForStripe)
+        }
         // set user data in nuxt auth
         this.$auth.setUser(data)
+        // set user in local storage
+        const getWelpUser = localStorage.getItem(
+          'getWelpUser'
+        )
+        // eslint-disable-next-line curly
+        if (getWelpUser !== null)
+          localStorage.removeItem('getWelpUser')
+        localStorage.setItem(
+          'getWelpUser',
+          JSON.stringify(data)
+        )
         return data
       })
   },

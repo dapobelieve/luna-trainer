@@ -10,8 +10,8 @@
         <div
           class="tail-hidden md:tail-block tail-h-full invite-client tail-col-span-2"
         ></div>
-        <div class="tail-col-span-3 tail-m-auto md:tail-px-5 xl:tail-px-0">
-          <div class="tail-max-w-sm tail-grid tail-gap-5 md:tail-gap-10">
+        <div class="tail-py-10 tail-col-span-3 tail-m-auto md:tail-px-5 xl:tail-px-0">
+          <div class="tail-max-w-sm tail-grid tail-gap-5 md:tail-gap-5">
             <h2 class="tail-text-3xl tail-font-semibold">
               Add Your Clients
             </h2>
@@ -21,16 +21,13 @@
               end to another. Woof!
             </p>
             <div style="width: fit-content;">
-              <button type="button" class="base-button" @click="addClient = true">
+              <button type="button" class="base-button" @click="$refs.openInvite.openModal()">
                 <span class="">Get Started</span>
               </button>
             </div>
           </div>
         </div>
       </div>
-      <!-- <Modal :is-open="addClient" @close="addClient = $event">
-        <InviteNewClient @close="addClient = $event" />
-      </Modal> -->
     </div>
     <div v-else class="tail-mt-16 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center">
       <div class="tail-w-full">
@@ -46,16 +43,21 @@
         <button
           class="base-button"
           type="button"
-          @click="addClient = true"
+          @click="$refs.openInvite.openModal()"
         >
           <i class="ns-add"></i>
           add your first client
         </button>
       </div>
     </div>
-    <Modal :is-open="addClient" @close="addClient = $event">
+    <!-- <Modal :is-open="addClient" @close="addClient = $event">
       <InviteNewClient @close="addClient = $event" />
-    </Modal>
+    </Modal> -->
+    <MainModal ref="openInvite">
+      <template v-slot:body>
+        <InviteNewClient @close="addClient = $event" />
+      </template>
+    </MainModal>
   </div>
 </template>
 

@@ -27,7 +27,6 @@
         </span>
       </a>
       <a
-        v-if="$store.state.authorize.stripeConnected"
         href="#bankDeets"
         class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
       >

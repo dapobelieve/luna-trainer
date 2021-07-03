@@ -17,7 +17,7 @@
           <div class="tail-w-max">
             <button
               class="base-button"
-              @click="addClient = true"
+              @click="$refs.openModal.openModal()"
             >
               invite new client
             </button>
@@ -141,12 +141,12 @@
                     </div>
 
                     <div>
-                      <NuxtLink
-                        :to="{ name: 'Clients' }"
+                      <button
                         class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                        @click="$refs.openModal.openModal()"
                       >
                         Invite Client
-                      </NuxtLink>
+                      </button>
                     </div>
                   </div>
                 </template>
@@ -339,11 +339,12 @@
                   to your Stripe account below!
                 </small>
                 <button
-                  style="background: rgba(86, 204, 242, 1);"
-                  class="tail-capitalize tail-py-2 tail-px-4 tail-font-medium tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-5"
-                  @click.prevent="showPayment = !showPayment"
+                  style="width: fit-content"
+                  class="base-button tail-mt-5"
+                  @click.prevent="stripeConnect"
                 >
-                  connect stripe
+                  <SingleLoader v-if="isStripeLoading" class="tail-mr-2" />
+                  {{ isStripeLoading ? 'connecting to stripe...' : 'connect stripe' }}
                 </button>
               </div>
               <div v-else>
@@ -388,6 +389,11 @@
         <InviteNewClient @close="addClient = $event" />
       </template>
     </MainModal>
+    <MainModal ref="openBank">
+      <template v-slot:body>
+        <BankAccountDetails />
+      </template>
+    </MainModal>
   </main>
 </template>
 
@@ -400,7 +406,8 @@ export default {
     return {
       showPayment: false,
       addClient: false,
-      isModalVisible: false
+      isModalVisible: false,
+      isStripeLoading: false
     }
   },
   computed: {
@@ -436,6 +443,7 @@ export default {
     this.fetchAllClientsConcise()
     this.fetchAllInvoices()
     this.fetchAcceptedClients()
+    this.fetchUserProfile()
     // const checkError = this.$store.getters['qb/getQbError']
     // if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
     //   this.$nextTick(function () {
@@ -443,12 +451,29 @@ export default {
     //   })
     // }
   },
+  updated () {
+    if (this.$store.state.authorize.isStripeConnected && !this.$store.state.isBankLinked) {
+      this.$nextTick(() => {
+        this.$refs.openBank.openModal()
+      })
+    }
+  },
   methods: {
     ...mapActions({
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
       fetchAllInvoices: 'invoice/getAllInvoices',
-      fetchAcceptedClients: 'client/fetchAllAcceptedClients'
+      fetchAcceptedClients: 'client/fetchAllAcceptedClients',
+      connectToStripe: 'invoice/stripeConnect',
+      fetchUserProfile: 'authorize/getUserProfile'
     }),
+    stripeConnect () {
+      this.isStripeLoading = true
+      return this.connectToStripe().then((response) => {
+        window.location.href = response
+      }).finally(() => {
+        this.isStripeLoading = false
+      })
+    },
     showModal () {
       this.isModalVisible = true
     },

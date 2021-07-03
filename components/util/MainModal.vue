@@ -72,8 +72,9 @@ export default {
     background-color: #ffffff;
     position: relative;
     // width: 600px;
-    max-width: 40vw;
-    height: 95vh; //check if to remove
+    max-width: 50vw;
+    // height: 95vh; //check if to remove
+    height: auto;
     // margin: 50px auto;
     margin: 15px auto;
     display: flex;

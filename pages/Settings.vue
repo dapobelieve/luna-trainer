@@ -28,7 +28,8 @@
               <ProfileForm id="profile" />
               <ServicesComp id="services" />
               <SecurityComp id="security" />
-              <BankDetails v-if="$store.state.authorize.stripeConnected" id="bankDeets" />
+              <!-- <BankDetails v-if="$store.state.authorize.stripeConnected" id="bankDeets" /> -->
+              <BankDetails id="bankDeets" />
               <ConnectGoogleComp id="connect" />
             </div>
           </div>
@@ -40,7 +41,11 @@
 
 <script>
 export default {
-  name: 'Settings'
+  name: 'Settings',
+  beforeRouteEnter (to, from, next) {
+    console.log('coming from here', from)
+    next()
+  }
 }
 </script>
 
