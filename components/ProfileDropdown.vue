@@ -5,7 +5,7 @@
         class="tail-rounded-full tail-h-14 tail-mx-auto"
         src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
       >
-      <p class="tail-text-sm tail-capitalize tail-truncate tail-px-4">
+      <p class="tail-text-sm tail-text-center tail-capitalize tail-truncate tail-px-4">
         {{ $store.state.authorize.getWelpUser.firstName }} {{ $store.state.authorize.getWelpUser.lastName }}
       </p>
       <p class="tail-text-sm tail-text-gray-400 tail-capitalize tail-text-center">

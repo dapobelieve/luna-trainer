@@ -79,13 +79,13 @@
           </div>
         </div>
       </div>
-      <!-- <hr> -->
       <div class="tail-py-4 tail-border-gray-200 tail-border-t tail-border-b tail-my-3">
         <button class="base-button" @click.prevent="createInvoice">
           new invoice
         </button>
       </div>
     </div>
+    <AlertModal :visible="showAlert" @close="showAlert = $event" />
   </div>
 </template>
 
@@ -96,6 +96,7 @@ export default {
   name: 'Messages',
   data () {
     return {
+      showAlert: false,
       message: '',
       msgHistory: [],
       occupantId: this.$route.params.client ? this.$route.params.client.qbId : null,
@@ -161,6 +162,7 @@ export default {
         userId: this.$store.state.qb.qbUser.id,
         password: this.$store.state.qb.qbUser.password
       }
+      console.log('gotten here')
       QuickBlox.chat.connect(userCredentials, (error) => {
         if (error) {
           console.log('chat connect error', error)
@@ -215,61 +217,64 @@ export default {
                 }
               }.bind(this)
             )
-          } else {
-            const params = {
-              type: 3,
-              occupants_ids: [this.$route.params.client.qbId]
-            }
-            QuickBlox.chat.dialog.create(params, (error, dialog) => {
-              if (error) {
-                console.log('error creating dialog', error)
-              } else if (dialog) {
-                console.log('new dialog', dialog)
-                this.dialogStatus = true
-                this.dialogId = dialog._id
-                const dialogId = this.dialogId
-                const params1 = {
-                  chat_dialog_id: dialogId,
-                  sort_desc: 'date_sent',
-                  limit: 100,
-                  skip: 0
-                }
-
-                QuickBlox.chat.message.list(
-                  params1,
-                  function (error, messages) {
-                    if (messages) {
-                      console.log('mssage history', messages)
-                      this.msgHistory = messages.items.reverse()
-                      this.loading = false
-                      this.clearMessageCount(this.dialogId)
-                      // scroll to bottom
-                      if (this.msgHistory.length) {
-                        setTimeout(() => {
-                          if (!this.isFeedAtBottom) {
-                            // eslint-disable-next-line no-unused-expressions
-                            this.scrollFeedToBottom
-                          }
-                        }, 5)
-                      }
-                    }
-                    if (error) {
-                      QuickBlox.getSession(function (error, session) {
-                        if (error) {
-                          console.log('this is a getSession error', error) // redirect user to login screen
-                          // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
-                        }
-                        if (session) {
-                          console.log('if session is available', session)
-                        }
-                      })
-                      console.log('fetching chat history error', error)
-                    }
-                  }.bind(this)
-                )
-              }
-            })
           }
+          // else {
+          //   // removing this whole block
+          //   const params = {
+          //     type: 3,
+          //     occupants_ids: [this.$route.params.client.qbId]
+          //   }
+          //   QuickBlox.chat.dialog.create(params, (error, dialog) => {
+          //     if (error) {
+          //       console.log('error creating dialog', error)
+          //     } else if (dialog) {
+          //       console.log('new dialog', dialog)
+          //       this.dialogStatus = true
+          //       this.dialogId = dialog._id
+          //       const dialogId = this.dialogId
+          //       const params1 = {
+          //         chat_dialog_id: dialogId,
+          //         sort_desc: 'date_sent',
+          //         limit: 100,
+          //         skip: 0
+          //       }
+
+          //       QuickBlox.chat.message.list(
+          //         params1,
+          //         function (error, messages) {
+          //           if (messages) {
+          //             console.log('mssage history', messages)
+          //             this.msgHistory = messages.items.reverse()
+          //             this.loading = false
+          //             this.clearMessageCount(this.dialogId)
+          //             // scroll to bottom
+          //             if (this.msgHistory.length) {
+          //               setTimeout(() => {
+          //                 if (!this.isFeedAtBottom) {
+          //                   // eslint-disable-next-line no-unused-expressions
+          //                   this.scrollFeedToBottom
+          //                 }
+          //               }, 5)
+          //             }
+          //           }
+          //           if (error) {
+          //             QuickBlox.getSession(function (error, session) {
+          //               if (error) {
+          //                 console.log('this is a getSession error', error) // redirect user to login screen
+          //                 // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
+          //               }
+          //               if (session) {
+          //                 console.log('if session is available', session)
+          //               }
+          //             })
+          //             console.log('fetching chat history error', error)
+          //           }
+          //         }.bind(this)
+          //       )
+          //     }
+          //   })
+          // } removed
+
           // QuickBlox.chat.dialog.create(params, (error, dialog) => {
           //   if (error) {
           //     console.log('error creating dialog', error)
@@ -330,7 +335,7 @@ export default {
     }),
     createInvoice () {
       if (!this.$auth.user.services.length) {
-        this.$toast.error('Please add a service before creating an invoice', { position: 'top-right' })
+        this.showAlert = true
       } else {
         this.$router.push({ name: 'NewInvoices', params: { client: this.$route.params.client } })
       }

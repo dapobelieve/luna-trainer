@@ -41,11 +41,7 @@
 
 <script>
 export default {
-  name: 'Settings',
-  beforeRouteEnter (to, from, next) {
-    console.log('coming from here', from)
-    next()
-  }
+  name: 'Settings'
 }
 </script>
 

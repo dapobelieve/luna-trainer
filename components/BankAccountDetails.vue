@@ -7,23 +7,27 @@
       <p class="tail-text-sm tail-text-gray-400">
         This information is needed for the client to deposit to your account.
       </p>
-      <form @click.prevent="submit">
+      <form @submit.prevent="submit">
         <div class="md:tail-grid tail-grid-cols-1 tail-gap-4 tail-mt-4">
           <div class="">
             <label for="account-number" class="">Account Number</label>
-            <input v-model="details.accountNumber" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="details.accountNo" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="routing-number" class="">Routing Number</label>
-            <input v-model="details.routingNumber" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="details.accountRoutingNo" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="holdername" class="">Account Holder Name</label>
-            <input v-model="details.holderName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="details.accountHolderName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          </div>
+          <div class="">
+            <label for="holdername" class="">Bank Name</label>
+            <input v-model="details.accountbankName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="holder-type" class="">Holder Type</label>
-            <select v-model="details.holderType" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <select v-model="details.accountHolderType" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
               <option value=""></option>
               <option value="individual">
                 Individual
@@ -52,15 +56,16 @@ export default {
     return {
       isLoading: false,
       details: {
-        accountNumber: '',
-        routingNumber: '',
-        holderName: '',
-        holderType: ''
+        accountNo: '',
+        accountRoutingNo: '',
+        accountHolderName: '',
+        accountHolderType: '',
+        accountbankName: ''
       }
     }
   },
   methods: {
-    async onSubmit () {
+    async submit () {
       await this.$store.dispatch('payment/createBankAccount', this.details)
     }
   }

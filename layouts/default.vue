@@ -27,15 +27,15 @@
       </div>
       <div class="tail-flex">
         <i class="ns-search tail-border tail-rounded tail-p-1 tail-mr-2 md:tail-hidden" />
-        <span role="button" class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
+        <span role="button" class="tail-relative tail-flex tail-border tail-border-gray-300 tail-rounded tail-mr-2" @click="openMessageDrawer">
           <small
             v-if="getTotalUnreadMessages.length"
-            style="padding: 0.2em !important"
-            class="tail-absolute tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
+            style="padding: 0.2em !important; font-size: 0.7rem"
+            class="tail-flex tail-items-center tail-justify-center tail-absolute tail-w-4 tail-h-4 tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
           >{{ getTotalUnreadMessages.length }}</small>
           <i class="ns-comment-alt tail-rounded tail-p-1" />
         </span>
-        <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
+        <span class="tail-relative tail-flex tail-border tail-border-gray-300 tail-rounded tail-mr-2">
           <!-- <span
             class="tail-p-1 tail-bg-red-700 tail-absolute tail-right-1 tail-top-1 tail-rounded-full"
           ></span> -->
@@ -56,17 +56,11 @@
         </div>
       </div>
     </header>
-    <!-- <div class="tail-position-relative">
-      <MessageDrawer
-        :display="showMessageDrawer"
-        @closemessagedrawer="showMessagesDrawer = false"
-      />
-    </div> -->
-    <!-- <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex"> -->
     <div class=" tail-z-0 tail-grid md:tail-flex">
       <Navigation />
       <Nuxt class="views tail-mb-20" />
     </div>
+    <SlideOver :show="showMessageDrawer" @close="showMessageDrawer = $event" />
   </main>
 </template>
 
@@ -97,6 +91,9 @@ export default {
   methods: {
     close () {
       this.$emit('closemessagedrawer')
+    },
+    openMessageDrawer () {
+      this.showMessageDrawer = true
     }
   }
 }

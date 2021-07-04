@@ -1,14 +1,22 @@
 export const state = () => ({
   invoices: [],
-  allInvoicesLoadingLoading: true
+  allInvoicesLoadingLoading: true,
+  tempInvoice: {
+    date: new Date().toISOString().substring(0, 10),
+    services: [],
+    totalAmount: null
+  }
 })
 
 export const mutations = {
-  // ALL_INVOICES (state, invoices) {
-  //   state.invoices = invoices
-  // },
   SET_ALL_INVOICES (state, invoices) {
     state.invoices = invoices
+  },
+  SET_INVOICE_DUE_DATE (state, date) {
+    state.tempInvoice.date = date
+  },
+  SET_INVOICE_SERVICES (state, service) {
+    state.tempInvoice.services.push(service)
   }
 }
 
@@ -43,7 +51,7 @@ export const actions = {
   },
   stripeConnect ({ commit }) {
     return this.$axios
-      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Settings#bankDeets?source=stripe')
+      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Dashboard')
       .then(({ url }) => {
         return url
       })

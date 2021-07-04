@@ -1,6 +1,7 @@
 export const state = () => ({
   getWelpUser: {},
   isStripeConnected: false,
+  loadingForStripeCheck: true,
   isBankLinked: false
 })
 
@@ -14,6 +15,7 @@ export const mutations = {
   },
   SET_STRIPE_STATUS (state, status) {
     state.isStripeConnected = status
+    state.loadingForStripeCheck = false
   },
   SET_BANK_STATUS (state, status) {
     state.isBankLinked = status
@@ -58,11 +60,18 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/profile`)
       .then(({ data }) => {
+        console.log('profile', data)
+        console.log('ran')
         // check if result contains stripe key
-        const checkForStripe = 'stripeConnected' in data
-        if (checkForStripe) {
-          commit('SET_STRIPE_STATUS', checkForStripe)
+        if (data !== null) {
+          console.log('entered')
+          const checkForStripe = 'stripeConnected' in data
+          if (checkForStripe) {
+            console.log('checked')
+            commit('SET_STRIPE_STATUS', checkForStripe)
+          }
         }
+        console.log('outside')
         // set user data in nuxt auth
         this.$auth.setUser(data)
         // set user in local storage

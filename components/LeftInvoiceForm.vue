@@ -1,7 +1,7 @@
 <template>
   <div class="tail-grid tail-gap-8 tail-grid-cols-1 tail-pb-5">
     <div class="left-card">
-      <form @submit.prevent="createInvoice" autocomplete="off" class="tail-grid tail-gap-6">
+      <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="createInvoice">
         <div class="tail-border tail-rounded tail-grid tail-gap-4 tail-p-4">
           <div>
             <div class="">
@@ -18,7 +18,7 @@
             <input
               style="cursor: not-allowed"
               disabled
-              :value="`${$route.params.client.firstName} ${$route.params.client.lastName}`"
+              :value="`${client.firstName} ${client.lastName}`"
               type="email"
               class="tail-w-full tail-bg-gray-200 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             >
@@ -77,7 +77,7 @@
                         ]"
                         @click.prevent="popSelection(service)"
                       >
-                        {{ service.appointmentType }}
+                        {{ service.description }}
                       </button>
                     </div>
                   </div>
@@ -97,7 +97,7 @@
               >
                 <div>
                   <p class="tail-font-medium tail-capitalize">
-                    {{ service.appointmentType }}
+                    {{ service.description }}
                   </p>
                 </div>
                 <div>
@@ -121,7 +121,7 @@
           <div class="">
             <label for="dueDate" class="tail-block tail-font-light">Due date</label>
             <date-picker
-              v-model="date"
+              v-model="dueDate"
               style="width: 100% !important"
               class="tail-w-full"
               :disabled-date="
@@ -174,6 +174,19 @@ export default {
       }
     }
   },
+  computed: {
+    dueDate: {
+      get () {
+        return this.$store.state.invoice.tempInvoice.date
+      },
+      set (value) {
+        this.$store.commit('invoice/SET_INVOICE_DUE_DATE', value)
+      }
+    }
+  },
+  mounted () {
+    this.client = this.$route.params.client
+  },
   methods: {
     ...mapActions({
       createInvoices: 'invoice/createInvoice'
@@ -194,6 +207,7 @@ export default {
     popSelection (service) {
       this.selectedService.push(service)
       this.openDropDown = false
+      this.$store.commit('invoice/SET_INVOICE_SERVICES', service)
     }
   }
 }

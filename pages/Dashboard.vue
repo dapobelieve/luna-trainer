@@ -35,12 +35,17 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
+                  :class="[isStripeConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                >
+                  <i v-if="isStripeConnected" class="ns-check"></i>
+                  <i v-else class="ns-cross" />
+                </p>
+                <p
                   v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i class="ns-cross" />
                 </p>
-                <SingleLoader v-else class="tail-mr-2" />
                 <a href="#">Stripe</a>
               </div>
             </li>
@@ -60,35 +65,32 @@
                     <i v-else class="ns-cross" />
                   </p>
                 </template>
-                <a href="#">Added your first client</a>
+                <p v-if="allClientsConcise.length">
+                  Added your first client
+                </p>
+                <button v-else @click.prevent="$refs.openModal.openModal()">
+                  Add your first client
+                </button>
               </div>
             </li>
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i class="ns-cross" />
                 </p>
-                <SingleLoader v-else class="tail-mr-2" />
-                <a
-                  href="#"
-                >Calendar(s) <span class="tail-underline">Sync</span></a>
+                <p>Calendar(s) <span class="tail-underline">Sync</span></p>
               </div>
             </li>
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i class="ns-cross" />
                 </p>
-                <SingleLoader v-else class="tail-mr-2" />
-                <a
-                  href="#"
-                >Fully connected <span class="tail-underline">Sync</span></a>
+                <p>Fully connected <span class="tail-underline">Sync</span></p>
               </div>
             </li>
           </ul>
@@ -339,12 +341,21 @@
                   to your Stripe account below!
                 </small>
                 <button
+                  v-if="!$store.state.authorize.isStripeConnected"
                   style="width: fit-content"
                   class="base-button tail-mt-5"
                   @click.prevent="stripeConnect"
                 >
                   <SingleLoader v-if="isStripeLoading" class="tail-mr-2" />
                   {{ isStripeLoading ? 'connecting to stripe...' : 'connect stripe' }}
+                </button>
+                <button
+                  v-else
+                  disabled
+                  style="width: fit-content"
+                  class="base-button tail-mt-5 tail-bg-green-400"
+                >
+                  Stripe is connected
                 </button>
               </div>
               <div v-else>
@@ -364,14 +375,6 @@
                     £ {{ invoice.total }}
                   </p>
                 </div>
-                <!-- <div class="tail-w-full tail-text-center">
-                  <button
-                    class="tail-text-blue-500 w-100"
-                    @click.prevent="showPayment = !showPayment"
-                  >
-                    View All
-                  </button>
-                </div> -->
               </div>
               <!-- seems to be a necessary evil as margin and paddings arent adding up -->
               <div class="tail-h-20 md:tail-hidden" />
@@ -440,16 +443,11 @@ export default {
     }
   },
   mounted () {
+    console.log('mounted')
     this.fetchAllClientsConcise()
     this.fetchAllInvoices()
     this.fetchAcceptedClients()
     this.fetchUserProfile()
-    // const checkError = this.$store.getters['qb/getQbError']
-    // if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
-    //   this.$nextTick(function () {
-    //     this.$toast.error('An error occured. Please relogin', { position: 'top-right' })
-    //   })
-    // }
   },
   updated () {
     if (this.$store.state.authorize.isStripeConnected && !this.$store.state.isBankLinked) {
