@@ -12,7 +12,7 @@
       <div class="tail-flex tail-py-1">
         <div>
           <img
-            class="tail-rounded-full tail-h-14 tail-w-14"
+            class="tail-rounded-full"
             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
           >
         </div>
