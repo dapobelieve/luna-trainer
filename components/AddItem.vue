@@ -2,7 +2,7 @@
   <div class="tail-flex tail-justify-center tail-align-center">
     <div class="size tail-border tail-rounded tail-bg-white tail-p-4">
       <form>
-        <h1><bold>Add Item</bold></h1>
+        <h1><strong>Add Item</strong></h1>
         <div class="tail-py-3">
           <label for="item" class="">Item</label>
           <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">

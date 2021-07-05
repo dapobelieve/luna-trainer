@@ -1,6 +1,5 @@
 export const state = () => ({
   qbUser: null,
-  messages: new Map(),
   qbBloxError: {},
   messageDialogs: {},
   latestChatEntry: {},
@@ -49,6 +48,12 @@ export const mutations = {
 }
 
 export const actions = {
+  clearQbUserAndDialogs ({ commit }) {
+    // for local storage force clearing
+    commit('SET_QB_USER', null)
+    commit('SET_DIALOGS', {})
+    commit('UPDATE_MESSAGE_DIALOGS', {})
+  },
   getQbInfo ({ commit }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/qb`)

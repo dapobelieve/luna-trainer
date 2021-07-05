@@ -45,9 +45,9 @@
             </button>
           </div>
           <input v-model.trim="$v.userInfo.confirmPassword.$model" :type="showConfirmPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
-          <div v-if="$v.userInfo.password.$error">
+          <div v-if="$v.userInfo.confirmPassword.$error">
             <small
-              v-if="!$v.userInfo.password.required"
+              v-if="!$v.userInfo.confirmPassword.required"
               class="error tail-text-red-500"
             >
               Password is required.
@@ -55,11 +55,11 @@
           </div>
 
           <small
-            v-if="!$v.userInfo.password.minLength"
+            v-if="!$v.userInfo.confirmPassword.minLength"
             class="error tail-text-red-500"
           >
             Password must have at least
-            {{ $v.userInfo.password.$params.minLength.min }} letters.
+            {{ $v.userInfo.confirmPassword.$params.minLength.min }} letters.
           </small>
         </div>
         <div class="tail-flex tail-justify-center">
@@ -75,6 +75,8 @@
   </div>
 </template>
 <script>
+import { required, sameAs, minLength } from 'vuelidate/lib/validators'
+
 export default {
   name: 'CreateNewPassword',
   layout: 'authLayout',
@@ -88,6 +90,15 @@ export default {
         confirmPassword: '',
         domain: 'getwelp-trainer-ui'
       }
+    }
+  },
+  validations: {
+    password: {
+      required,
+      minLength: minLength(6)
+    },
+    confirmPassword: {
+      sameAsPassword: sameAs('password')
     }
   }
 }

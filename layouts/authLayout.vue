@@ -63,18 +63,24 @@ main {
     background-image: url("~assets/img/border-collie.png");
     background-repeat: no-repeat;
     background-position: left bottom;
+    background-attachment: fixed;
+    height: auto;
   }
 
   .dobermann {
     background-image: url("~assets/img/dobermann.png");
     background-repeat: no-repeat;
     background-position: right bottom;
+    background-attachment: fixed;
+    height: auto;
   }
 
   .shiba-inu {
     background-image: url("~assets/img/shiba-inu.png");
     background-repeat: no-repeat;
     background-position: left bottom;
+    background-attachment: fixed;
+    height: auto;
   }
 }
 </style>

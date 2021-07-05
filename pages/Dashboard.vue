@@ -3,7 +3,7 @@
     <article class="dash-view tail-pb-48 tail-mx-3 lg:tail-mx-0">
       <div class="main-view tail-grid tail-gap-4 tail-my-5 tail-mx-auto">
         <div
-          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
+          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 tail-shadow-2xl md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
         >
           <div>
             <h2 class="tail-capitalize tail-text-2xl tail-font-medium">
@@ -16,9 +16,8 @@
           </div>
           <div class="tail-w-max">
             <button
-              style="background: rgba(86, 204, 242, 1);"
               class="base-button"
-              @click="addClient = true"
+              @click="$refs.openModal.openModal()"
             >
               invite new client
             </button>
@@ -36,6 +35,13 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
+                  :class="[$store.state.authorize.isStripeConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                >
+                  <i v-if="$store.state.authorize.isStripeConnected" class="ns-check"></i>
+                  <i v-else class="ns-cross" />
+                </p>
+                <p
+                  v-if="!true"
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i class="ns-cross" />
@@ -45,12 +51,26 @@
             </li>
             <li>
               <div class="tail-flex tail-items-center">
-                <p
+                <!-- <p
                   :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
                   <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
+                </p> -->
+                <SingleLoader v-if="$store.state.client.loadingForAllClients" class="tail-mr-2" />
+                <template v-else>
+                  <p
+                    :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                  >
+                    <i v-if="allClientsConcise.length" class="ns-check" />
+                    <i v-else class="ns-cross" />
+                  </p>
+                </template>
+                <p v-if="allClientsConcise.length">
+                  Added your first client
                 </p>
-                <a href="#">Added your first client</a>
+                <button v-else @click.prevent="$refs.openModal.openModal()">
+                  Add your first client
+                </button>
               </div>
             </li>
             <li>
@@ -58,12 +78,9 @@
                 <p
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <!-- 1 -->
-                  <i :class="['ns-cross']" />
+                  <i class="ns-cross" />
                 </p>
-                <a
-                  href="#"
-                >Calendar(s) <span class="tail-underline">Sync</span></a>
+                <p>Calendar(s) <span class="tail-underline">Sync</span></p>
               </div>
             </li>
             <li>
@@ -71,12 +88,9 @@
                 <p
                   :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <!-- 2 -->
-                  <i :class="['ns-cross']" />
+                  <i class="ns-cross" />
                 </p>
-                <a
-                  href="#"
-                >Fully connected <span class="tail-underline">Sync</span></a>
+                <p>Fully connected <span class="tail-underline">Sync</span></p>
               </div>
             </li>
           </ul>
@@ -98,42 +112,132 @@
               <h5 class="tail-font-medium tail-mb-2">
                 Clients
               </h5>
-
-              <!-- <div class="d-flex tail-flex-wrap">
-                <div
-                  v-for="n in 5"
-                  :key="n"
-                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 md:tail-mb-4 tail-mb-0"
-                >
-                  <img
-                    class="rounded-circle tail-h-14"
-                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                  />
-                  <b class="text-capitalize tail-text-sm tail-mt-3">elena b</b>
-                  <div class="d-flex align-items-center">
-                    <i
-                      class="ns-comment tail-bg-green-400 tail-p-1 rounded-circle tail-text-xs"
-                    ></i>
-                    <small
-                      class="text-muted tail-ml-1 text-capitalize tail-text-sm"
-                      >roxy</small
-                    >
-                  </div>
-                </div>
-                <div
-                  class="tail-rounded-md tail-bg-white tail-p-8 tail-grid tail-justify-items-center tail-mr-4 tail-mb-4"
-                >
-                  <i
-                    class="ns-angle-right tail-p-1 rounded-circle"
-                    style="background: rgba(240, 245, 250, 1);"
-                  ></i>
-                  <a
-                    class="text-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-medium"
-                    href="#"
-                    >View All</a
+              <div class="tail-grid tail-grid-cols-3 tail-gap-4">
+                <!-- when clients are <= 5 but not equal to zero-->
+                <template v-if="acceptedClients.length <= 5 && acceptedClients.length !== 0">
+                  <div
+                    v-for="client in acceptedClients"
+                    :key="client.index"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
                   >
-                </div>
-              </div> -->
+                    <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
+                    <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
+                    <div class="tail-flex tail-items-center">
+                      <img
+                        class="tail-bg-green-400 tail-p-1 tail-rounded-full"
+                        src="~/assets/img/dog-paw.svg"
+                        alt="dog paw"
+                      />
+                      <small
+                        class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
+                      >{{ client.pet[0].name }}</small>
+                    </div>
+                  </div>
+                  <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-plus tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <button
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                        @click="$refs.openModal.openModal()"
+                      >
+                        Invite Client
+                      </button>
+                    </div>
+                  </div>
+                </template>
+                <!-- when clients are 0 -->
+                <template v-else-if="!acceptedClients.length">
+                  <button
+                    type="button"
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                    @click="$refs.openModal.openModal()"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-plus tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <div
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        Invite clients
+                      </div>
+                    </div>
+                  </button>
+                  <div
+                    v-for="n in 5"
+                    :key="n"
+                    class="tail-rounded-lg tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center tail-h-40 gw-bg-color"
+                  >
+                  </div>
+                </template>
+                <!-- when clients are >= 5 -->
+                <template v-else-if="acceptedClients.length >= 5">
+                  <div
+                    v-for="client in acceptedClients.slice(0,4)"
+                    :key="client.index"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                  >
+                    <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
+                    <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
+                    <div class="tail-flex tail-items-center">
+                      <img
+                        class="tail-bg-green-400 tail-p-1 tail-rounded-full"
+                        src="~/assets/img/dog-paw.svg"
+                        alt="dog paw"
+                      />
+                      <small
+                        class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
+                      >{{ client.pet[0].name }}</small>
+                    </div>
+                  </div>
+                  <!-- <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-plus tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <NuxtLink
+                        :to="{ name: 'Clients' }"
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        Invite Client
+                      </NuxtLink>
+                    </div>
+                  </div> -->
+                  <div
+                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+                  >
+                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
+                      <i
+                        class="ns-angle-right tail-text-2xl"
+                      ></i>
+                    </div>
+
+                    <div>
+                      <NuxtLink
+                        :to="{ name: 'Clients' }"
+                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+                      >
+                        View All
+                      </NuxtLink>
+                    </div>
+                  </div>
+                </template>
+              </div>
             </div>
             <div>
               <h5 class="tail-font-medium tail-mb-2">
@@ -150,14 +254,14 @@
                     >
                   </div>
                   <h5 class="tail-font-medium">
-                    No messages yet
+                    No messages
                   </h5>
                   <p class="tail-px-5 tail-text-sm tail-mb-0">
-                    Messages will appear here when you invite and onboard a new client
+                    New messages will appear here when you invite and onboard a new client.
                   </p>
                 </div>
                 <template v-else>
-                  <div
+                  <!-- <div
                     v-for="messages in getTotalUnreadMessages"
                     :key="messages._id"
                     class="tail-flex tail-items-center tail-mb-4"
@@ -168,19 +272,44 @@
                     >
                     <div class="tail-mr-auto tail-ml-2">
                       <p class="tail-mb-0 tail-capitalize">
-                        rilwan lawal
+                        {{ messages.name }}
                         <span
                           class="tail-text-gray-400 tail-ml-2 tail-text-xs"
                         >1:09PM</span>
                       </p>
-                      <p class="tail-text-xs">{{ messages.last_message }}</p>
+                      <p class="tail-text-xs">
+                        {{ messages.body }}
+                      </p>
                     </div>
                     <button
                       class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
                     >
                       View
                     </button>
-                  </div>
+                  </div> -->
+                  <ul>
+                    <li
+                      v-for="messages in getTotalUnreadMessages"
+                      :key="messages._id"
+                      class="tail-py-0 hover:tail-bg-gray-300 tail-cursor-pointer">
+                      <div class="tail-flex tail-space-x-3">
+                        <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt="">
+                        <div class="tail-flex-1 tail-space-y-1">
+                          <div class="tail-flex tail-items-center tail-justify-between">
+                            <h3 class="tail-text-sm tail-font-medium">
+                              {{ messages.name }}
+                            </h3>
+                            <p class="tail-text-sm tail-text-gray-400 tail-ml-2">
+                              {{ formatDistance(new Date(messages.created_at), new Date(), { addSuffix: true }) }}
+                            </p>
+                          </div>
+                          <p class="tail-text-sm tail-text-gray-500">
+                            {{ messages.last_message }}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </template>
               </div>
             </div>
@@ -191,30 +320,31 @@
               Payment
             </h5>
             <div class="tail-bg-white tail-rounded-md tail-p-4 md:tail-h-full">
-              <p class="tail-mb-0">
-                This Month
+              <p class="tail-mb-0 tail-capitalize tail-font-medium">
+                For {{ getMonth }}.
               </p>
               <div class="tail-grid tail-gap-4 tail-grid-cols-2 tail-py-5">
                 <div
-                  class="tail-rounded tail-border-1 tail-px-4 tail-py-2"
+                  class="tail-rounded-md tail-border tail-border-gray-300 tail-border-1 tail-px-4 tail-py-2"
                   style="background: rgba(240, 245, 250, 1);"
                 >
                   <small class="tail-block">Due</small>
                   <h3 class="tail-mb-0 tail-font-medium">
-                    ?
+                    £{{ totalOfOwedInvoice }}
                   </h3>
                 </div>
                 <div
-                  class="tail-rounded tail-border tail-px-4 tail-py-2 tail-text-gray-400"
+                  class="tail-rounded-md tail-border tail-px-4 tail-py-2 tail-text-gray-400 tail-border-gray-300"
                 >
                   <small class="tail-block">Received</small>
                   <h3 class="tail-mb-0 tail-font-medium">
-                    ?
+                    £{{ totalOfPaidInvoice }}
                   </h3>
                 </div>
               </div>
+              <!-- TODO:: figure a better way for the v-if below -->
               <div
-                v-if="!showPayment"
+                v-if="!allInvoices.length"
                 class="tail-mt-5 tail-max-w-xs tail-text-center tail-mx-auto tail-center"
               >
                 <div class="tail-w-full tail-my-5">
@@ -226,7 +356,7 @@
                   >
                 </div>
                 <h5 class="tail-font-medium">
-                  No payments yet
+                  No payments
                 </h5>
                 <small class="tail-block">
                   See paid and due transactions from your clients here. For
@@ -234,40 +364,39 @@
                   to your Stripe account below!
                 </small>
                 <button
-                  style="background: rgba(86, 204, 242, 1);"
-                  class="tail-capitalize tail-py-2 tail-px-4 tail-font-medium tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-5"
-                  @click.prevent="showPayment = !showPayment"
+                  v-if="!$store.state.authorize.isStripeConnected"
+                  style="width: fit-content"
+                  class="base-button tail-mt-5"
+                  @click.prevent="stripeConnect"
                 >
-                  connect stripe
+                  <SingleLoader v-if="isStripeLoading" class="tail-mr-2" />
+                  {{ isStripeLoading ? 'connecting to stripe...' : 'connect stripe' }}
+                </button>
+                <button
+                  v-else
+                  disabled
+                  style="width: fit-content"
+                  class="base-button tail-mt-5 tail-bg-green-400"
+                >
+                  Stripe is connected
                 </button>
               </div>
               <div v-else>
                 <div
-                  v-for="n in 4"
-                  :key="n"
+                  v-for="invoice in allInvoices.slice(0, 4)"
+                  :key="invoice.index"
                   class="tail-flex tail-items-center tail-p-4"
                 >
-                  <img
-                    class="tail-rounded-full tail-h-14"
-                    src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                  >
+                  <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
                   <div class="tail-ml-4 tail-mr-auto">
                     <p class="tail-capitalize tail-font-medium tail-mb-0">
-                      rilwan lawal
+                      {{ invoice.customerId.firstName }} {{ invoice.customerId.lastName }}
                     </p>
                     <small class="tail-text-gray-400">10 May</small>
                   </div>
                   <p class="tail-font-medium">
-                    £60
+                    £ {{ invoice.total }}
                   </p>
-                </div>
-                <div class="tail-w-full tail-text-center">
-                  <button
-                    class="tail-text-blue-500 w-100"
-                    @click.prevent="showPayment = !showPayment"
-                  >
-                    View All
-                  </button>
                 </div>
               </div>
               <!-- seems to be a necessary evil as margin and paddings arent adding up -->
@@ -280,42 +409,100 @@
     <div>
       <CalendarView />
     </div>
-    <Modal :is-open="addClient" @close="addClient = $event">
-      <InviteNewClient @close="addClient = $event" />
-    </Modal>
+
+    <MainModal ref="openModal">
+      <template v-slot:body>
+        <InviteNewClient @close="addClient = $event" />
+      </template>
+    </MainModal>
+    <MainModal ref="openBank">
+      <template v-slot:body>
+        <BankAccountDetails />
+      </template>
+    </MainModal>
   </main>
 </template>
 
 <script>
+import { formatDistance } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
   middleware: ['qbInits'],
   data () {
     return {
+      formatDistance,
       showPayment: false,
-      addClient: false
+      addClient: false,
+      isModalVisible: false,
+      isStripeLoading: false
     }
   },
   computed: {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
-      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
-    })
+      getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
+      allInvoices: 'invoice/getAllInvoices',
+      acceptedClients: 'client/getAllAcceptedClients'
+    }),
+    getMonth () {
+      const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+      const thisMonth = new Date().getMonth()
+      return monthNames[thisMonth] + ', ' + new Date().getFullYear()
+    },
+    totalOfOwedInvoice () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(invoice => invoice.status === 'draft').reduce(
+          (accumulator, current) => accumulator + current.total, 0
+        )
+      }
+      return 0
+    },
+    totalOfPaidInvoice () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(invoice => invoice.status === 'paid').reduce(
+          (accumulator, current) => accumulator + current.total, 0
+        )
+      }
+      return 0
+    }
   },
   mounted () {
+    console.log('mounted')
     this.fetchAllClientsConcise()
-    const checkError = this.$store.getters['qb/getQbError']
-    if (Object.entries(checkError).length !== 0 && checkError.constructor === Object) {
-      this.$nextTick(function () {
-        this.$toast.error('An error occured. Please relogin', { position: 'top-right' })
+    this.fetchAllInvoices()
+    this.fetchAcceptedClients()
+    this.fetchUserProfile()
+  },
+  updated () {
+    if (this.$store.state.authorize.isStripeConnected && !this.$store.state.isBankLinked) {
+      this.$nextTick(() => {
+        this.$refs.openBank.openModal()
       })
     }
   },
   methods: {
     ...mapActions({
-      fetchAllClientsConcise: 'client/fetchAllClientsConcise'
-    })
+      fetchAllClientsConcise: 'client/fetchAllClientsConcise',
+      fetchAllInvoices: 'invoice/getAllInvoices',
+      fetchAcceptedClients: 'client/fetchAllAcceptedClients',
+      connectToStripe: 'invoice/stripeConnect',
+      fetchUserProfile: 'authorize/getUserProfile'
+    }),
+    stripeConnect () {
+      this.isStripeLoading = true
+      return this.connectToStripe().then((response) => {
+        window.location.href = response
+      }).finally(() => {
+        this.isStripeLoading = false
+      })
+    },
+    showModal () {
+      this.isModalVisible = true
+    },
+    closeModal () {
+      this.isModalVisible = false
+    }
   }
 }
 </script>

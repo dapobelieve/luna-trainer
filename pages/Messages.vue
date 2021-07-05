@@ -4,12 +4,8 @@
       <div class="tail-border tail-border-gray-200 tail-rounded-md tail-overflow-hidden tail-flex tail-flex-col tail-justify-between tail-h-full tail-items-center tail-relative">
         <!-- header part -->
         <div class="tail-bg-white tail-px-3 tail-py-2 tail-flex tail-items-center tail-w-full">
-          <i role="button" class="ns-angle-left tail-p-1 tail-border tail-rounded tail-border-gray-300 tail-mr-5" @click="$router.go(-1)"></i>
-          <img
-            class="tail-rounded-full tail-h-6"
-            src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-          >
-          <span class="tail-ml-2 tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
+          <i role="button" class="ns-angle-left tail-p-1 tail-border tail-rounded tail-border-gray-300 tail-mr-5" @click="$router.push({ name: 'Clients' })"></i>
+          <span class="tail-capitalize tail-ml-2 tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
         </div>
 
         <!-- messages area -->
@@ -23,11 +19,6 @@
               v-if="messages.recipient_id === sender"
               class="tail-flex align-items-end tail-items-end tail-mb-3"
             >
-              <!-- <ClientAvatar
-                :firstname="chatElements.opponentFirstName"
-                :lastname="chatElements.opponentLastName"
-              /> -->
-
               <span
                 class="tail-border tail-mb-0 tail-p-2 message text-wrap bgw text-break tail-bg-white"
                 style="max-width: 95%"
@@ -88,13 +79,13 @@
           </div>
         </div>
       </div>
-      <!-- <hr> -->
       <div class="tail-py-4 tail-border-gray-200 tail-border-t tail-border-b tail-my-3">
-        <button class="base-button">
+        <button class="base-button" @click.prevent="createInvoice">
           new invoice
         </button>
       </div>
     </div>
+    <AlertModal :visible="showAlert" @close="showAlert = $event" />
   </div>
 </template>
 
@@ -105,6 +96,7 @@ export default {
   name: 'Messages',
   data () {
     return {
+      showAlert: false,
       message: '',
       msgHistory: [],
       occupantId: this.$route.params.client ? this.$route.params.client.qbId : null,
@@ -143,8 +135,8 @@ export default {
   watch: {
     latestChatEntry (newValue) {
       console.log('watcher new value', newValue)
-      // if (newValue.dialog_id === this.dialogId) {
-      if (newValue.dialog_id === this.$route.params.dialogId) {
+      if (newValue.dialog_id === this.dialogId) {
+      // if (newValue.dialog_id === this.$route.params.dialogId) {
         this.updateMsgHistory(newValue.userId, newValue)
         setTimeout(() => {
           if (!this.isFeedAtBottom) {
@@ -170,6 +162,7 @@ export default {
         userId: this.$store.state.qb.qbUser.id,
         password: this.$store.state.qb.qbUser.password
       }
+      console.log('gotten here')
       QuickBlox.chat.connect(userCredentials, (error) => {
         if (error) {
           console.log('chat connect error', error)
@@ -224,61 +217,64 @@ export default {
                 }
               }.bind(this)
             )
-          } else {
-            const params = {
-              type: 3,
-              occupants_ids: [this.$route.params.client.qbId]
-            }
-            QuickBlox.chat.dialog.create(params, (error, dialog) => {
-              if (error) {
-                console.log('error creating dialog', error)
-              } else if (dialog) {
-                console.log('new dialog', dialog)
-                this.dialogStatus = true
-                this.dialogId = dialog._id
-                const dialogId = this.dialogId
-                const params1 = {
-                  chat_dialog_id: dialogId,
-                  sort_desc: 'date_sent',
-                  limit: 100,
-                  skip: 0
-                }
-
-                QuickBlox.chat.message.list(
-                  params1,
-                  function (error, messages) {
-                    if (messages) {
-                      console.log('mssage history', messages)
-                      this.msgHistory = messages.items.reverse()
-                      this.loading = false
-                      this.clearMessageCount(this.dialogId)
-                      // scroll to bottom
-                      if (this.msgHistory.length) {
-                        setTimeout(() => {
-                          if (!this.isFeedAtBottom) {
-                            // eslint-disable-next-line no-unused-expressions
-                            this.scrollFeedToBottom
-                          }
-                        }, 5)
-                      }
-                    }
-                    if (error) {
-                      QuickBlox.getSession(function (error, session) {
-                        if (error) {
-                          console.log('this is a getSession error', error) // redirect user to login screen
-                          // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
-                        }
-                        if (session) {
-                          console.log('if session is available', session)
-                        }
-                      })
-                      console.log('fetching chat history error', error)
-                    }
-                  }.bind(this)
-                )
-              }
-            })
           }
+          // else {
+          //   // removing this whole block
+          //   const params = {
+          //     type: 3,
+          //     occupants_ids: [this.$route.params.client.qbId]
+          //   }
+          //   QuickBlox.chat.dialog.create(params, (error, dialog) => {
+          //     if (error) {
+          //       console.log('error creating dialog', error)
+          //     } else if (dialog) {
+          //       console.log('new dialog', dialog)
+          //       this.dialogStatus = true
+          //       this.dialogId = dialog._id
+          //       const dialogId = this.dialogId
+          //       const params1 = {
+          //         chat_dialog_id: dialogId,
+          //         sort_desc: 'date_sent',
+          //         limit: 100,
+          //         skip: 0
+          //       }
+
+          //       QuickBlox.chat.message.list(
+          //         params1,
+          //         function (error, messages) {
+          //           if (messages) {
+          //             console.log('mssage history', messages)
+          //             this.msgHistory = messages.items.reverse()
+          //             this.loading = false
+          //             this.clearMessageCount(this.dialogId)
+          //             // scroll to bottom
+          //             if (this.msgHistory.length) {
+          //               setTimeout(() => {
+          //                 if (!this.isFeedAtBottom) {
+          //                   // eslint-disable-next-line no-unused-expressions
+          //                   this.scrollFeedToBottom
+          //                 }
+          //               }, 5)
+          //             }
+          //           }
+          //           if (error) {
+          //             QuickBlox.getSession(function (error, session) {
+          //               if (error) {
+          //                 console.log('this is a getSession error', error) // redirect user to login screen
+          //                 // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
+          //               }
+          //               if (session) {
+          //                 console.log('if session is available', session)
+          //               }
+          //             })
+          //             console.log('fetching chat history error', error)
+          //           }
+          //         }.bind(this)
+          //       )
+          //     }
+          //   })
+          // } removed
+
           // QuickBlox.chat.dialog.create(params, (error, dialog) => {
           //   if (error) {
           //     console.log('error creating dialog', error)
@@ -337,6 +333,13 @@ export default {
     ...mapMutations('qb', {
       clearMessageCount: 'CLEAR_MESSAGE_COUNT'
     }),
+    createInvoice () {
+      if (!this.$auth.user.services.length) {
+        this.showAlert = true
+      } else {
+        this.$router.push({ name: 'NewInvoices', params: { client: this.$route.params.client } })
+      }
+    },
     updateMsgHistory (userId, message) {
       this.msgHistory.push({
         id: message.id,
@@ -379,7 +382,7 @@ export default {
             }
             // const opponentId = dialog.occupants_ids[1]
             const opponentId = parseInt(this.occupantId)
-            console.log('said occupant', opponentId)
+            // console.log('said occupant', opponentId)
             try {
               console.log('message from model', this.message)
               message.id = QuickBlox.chat.send(opponentId, message)
@@ -410,13 +413,13 @@ export default {
           body: this.message,
           extension: {
             save_to_history: 1,
-            // dialog_id: dialogId
             dialog_id: dialogId
+            // dialog_id: '60ddd75893a945005591565f'
           },
           markable: 1
         }
-        const opponentId = this.occupantId
-        // const opponentId = 129031301
+        const opponentId = parseInt(this.occupantId)
+        console.log('opp id', opponentId)
         try {
           message.id = QuickBlox.chat.send(opponentId, message)
           console.log('sent', message, ' id:', message.id)
@@ -426,7 +429,7 @@ export default {
             message: this.message,
             recipient_id: opponentId
           })
-          // this.message = ''
+          this.message = ''
           setTimeout(() => {
             if (!this.isFeedAtBottom) {
               const messageFeed = document.getElementById('messageFeed')

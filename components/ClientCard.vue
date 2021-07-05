@@ -104,27 +104,12 @@ export default {
       })
     },
     openMessage () {
-      // return this.$axios
-      // .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.client.userId}`).then(({ result }) => {
-      //   if (result.length) {
-      //     this.$router.push({
-      //       name: 'Messages',
-      //       params: {
-      //         dialogId: result[0]._id,
-      //         client: this.client
-      //       }
-      //     })
-      //   } else {
       this.$router.push({
         name: 'Messages',
         params: {
           client: this.client
         }
       })
-      //   }
-      // }).catch((err) => {
-      //   console.log('err', err)
-      // })
     }
   }
 }

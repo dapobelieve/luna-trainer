@@ -1,15 +1,14 @@
 <template>
-  <div class="tail-grid" style="height: 90vh">
-    <div class="tail-py-7 tail-px-5 tail-overflow-y-scroll">
-      <h2 class="tail-text-3xl tail-mb-3">
+  <div class="tail-grid">
+    <div class="tail-py-7 tail-px-7 tail-overflow-y-scroll">
+      <h2 class="tail-text-2xl tail-font-normal tail-mb-3">
         Client Registration
       </h2>
       <div
-        class="border tail-border-gray-300 tail-py-2 tail-px-5 tail-rounded-md tail-text-gray-500 tail-flex tail-items-center tail-gap-1"
-        style="background: #EFF1F6"
+        class="tail-py-2 tail-px-5 tail-rounded-md gw-body-color tail-text-gray-500 tail-flex tail-items-center tail-gap-1 tail-border-gray-400 tail-border"
       >
-        <i class="ns-time-check"></i>
-        <span class="">Brief information here</span>
+        <i class="ns-info tail-text-xl"></i>
+        <span class="gw-body-color">Brief information here</span>
       </div>
       <div class="tail-overflow-y-scroll">
         <form
@@ -18,7 +17,7 @@
           @submit.prevent="save"
         >
           <div class="tail-flex tail-justify-between tail-gap-6">
-            <div class="tail-flex tail-gap-5">
+            <div class="tail-flex tail-gap-5 tail-w-full">
               <i class="ns-user tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-w-full">
                 <label
@@ -105,7 +104,7 @@
           </div>
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-location-alt tail-mt-1 tail-text-3xl tail-text-gray-500"
+              class="ns-location-alt tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
               <label for="locationAddress" class="">Address</label>
@@ -125,7 +124,7 @@
           </div>
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-location-alt tail-invisible tail-mt-1 tail-text-3xl tail-text-gray-500"
+              class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
               <label for="city" class="">Town/City</label>
@@ -145,7 +144,7 @@
           </div>
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-location-alt tail-invisible tail-mt-1 tail-text-3xl tail-text-gray-500"
+              class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
               <label for="locationZip" class="">Post Code</label>
@@ -165,7 +164,7 @@
           </div>
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-location-alt tail-mt-1 tail-text-3xl tail-text-gray-500"
+              class="ns-location-alt tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
               <label for="dogName" class="">Dog's name</label>
@@ -184,9 +183,9 @@
             </div>
           </div>
           <div class="tail-flex tail-justify-between tail-gap-6">
-            <div class="tail-flex tail-gap-5">
+            <div class="tail-flex tail-gap-5 tail-w-full">
               <i
-                class="ns-user tail-invisible tail-mt-1 tail-text-2xl tail-text-gray-500"
+                class="ns-user tail-invisible tail-text-2xl tail-text-gray-500"
               ></i>
               <div class="tail-w-full">
                 <label
@@ -226,7 +225,7 @@
               </div>
             </div>
           </div>
-          <div class="tail-flex tail-gap-5">
+          <!-- <div class="tail-flex tail-gap-5">
             <i
               class="ns-school tail-mt-1 tail-text-3xl tail-text-gray-500"
             ></i>
@@ -245,10 +244,10 @@
                 </small>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-notebook tail-mt-1 tail-text-3xl tail-text-gray-500"
+              class="ns-notebook tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
               <label for="notes" class="">Notes</label>
@@ -266,29 +265,20 @@
             <button
               type="button"
               style="width: fit-content"
-              class="base-button tail-bg-white tail-text-black tail-border tail-border-gray-300 tail-px-3"
+              class="base-button tail-bg-white tail-font-normal tail-text-black tail-border tail-border-gray-300 tail-px-3"
               @click="$emit('close', false)"
             >
               cancel
             </button>
             <button
-              type="button"
-              style="width: fit-content"
-              class="base-button tail-bg-white tail-text-black tail-border tail-border-gray-300 tail-px-3"
-            >
-              save
-            </button>
-            <!-- <button
               :disabled="disabled"
               style="width: fit-content"
               type="submit"
               class="base-button tail-px-3"
             >
+              <SingleLoader v-if="isLoading" class="tail-mr-2" />
               save &amp; send invite
-            </button> -->
-            <ButtonSpinner :is-loading="isLoading">
-              Save &amp; Send invite
-            </ButtonSpinner>
+            </button>
           </div>
         </form>
       </div>
@@ -317,7 +307,7 @@ export default {
         petAge: '',
         petBreed: '',
         petGender: 'female',
-        class: '',
+        // class: '',
         notes: '',
         domain: 'getwelp-trainer-ui'
       }
@@ -359,10 +349,10 @@ export default {
       },
       petGender: {
         required
-      },
-      class: {
-        required
       }
+      // class: {
+      //   required
+      // }
     }
   },
   computed: {

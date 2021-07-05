@@ -17,7 +17,7 @@
     <input
       v-else
       :value="searchTerm"
-      class="form-control tail-py-2"
+      class="form-control tail-p-2 tail-border tail-border-gray-300 tail-w-full tail-rounded-md"
       placeholder="Search for a client"
       autocomplete="off"
       @focus="openPanel = true"
@@ -26,14 +26,14 @@
     />
     <div
       v-if="openPanel"
-      class="tail-border shadow tail-absolute tail-w-100 tail-rounded-bottom tail-bg-white"
+      class="tail-border shadow tail-absolute tail-w-full tail-rounded-bottom tail-bg-white"
       style="z-index: 1"
     >
-      <div class="tail-flex tail-justify-center tail-items-center">
+      <div class="tail-w-full tail-flex tail-justify-center tail-items-center">
         <em
           v-if="!searchTerm"
           style="cursor: not-allowed"
-          class="tail-my-2"
+          class="tail-my-2 tail-w-full tail-text-center"
         >Start typing to begin search</em>
         <Spinner v-else class="tail-my-2" :show="isListLoading" />
 
@@ -78,7 +78,7 @@
 <script>
 import _ from 'lodash'
 export default {
-  name: 'SearchClient',
+  name: 'SearchComponent',
   model: {
     prop: 'value',
     event: 'input'
