@@ -168,9 +168,10 @@
           </small>
         </div>
         <div class="tail-flex tail-justify-center">
-          <ButtonSpinner :is-loading="isLoading">
-            Get Started
-          </ButtonSpinner>
+          <button :disabled="isLoading" class="base-button">
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            {{ isLoading ? 'Processing...' : 'Get Started' }}
+          </button>
         </div>
       </form>
       <div class="tail-text-center tail-mt-4">

@@ -1,11 +1,24 @@
 export const state = () => ({
-  getWelpUser: {}
+  getWelpUser: {},
+  isStripeConnected: false,
+  loadingForStripeCheck: true,
+  isBankLinked: false
 })
 
 export const mutations = {
   SET_GETWELP_USER (state, user) {
     // this is being done to persist the state
     state.getWelpUser = user
+  },
+  CLEAR_LOCAL_STORAGE () {
+    window.localStorage.clear()
+  },
+  SET_STRIPE_STATUS (state, status) {
+    state.isStripeConnected = status
+    state.loadingForStripeCheck = false
+  },
+  SET_BANK_STATUS (state, status) {
+    state.isBankLinked = status
   }
 }
 
@@ -47,17 +60,40 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/profile`)
       .then(({ data }) => {
+        console.log('profile', data)
+        console.log('ran')
+        // check if result contains stripe key
+        if (data !== null) {
+          console.log('entered')
+          const checkForStripe = 'stripeConnected' in data
+          if (checkForStripe) {
+            console.log('checked')
+            commit('SET_STRIPE_STATUS', checkForStripe)
+          }
+        }
+        console.log('outside')
         // set user data in nuxt auth
         this.$auth.setUser(data)
+        // set user in local storage
+        const getWelpUser = localStorage.getItem(
+          'getWelpUser'
+        )
+        // eslint-disable-next-line curly
+        if (getWelpUser !== null)
+          localStorage.removeItem('getWelpUser')
+        localStorage.setItem(
+          'getWelpUser',
+          JSON.stringify(data)
+        )
         return data
       })
   },
-  logOut ({ commit }) {
+  logOut ({ commit, dispatch }) {
+    commit('CLEAR_LOCAL_STORAGE')
+    dispatch('qb/clearQbUserAndDialogs', null, { root: true })
+    commit('SET_GETWELP_USER', {})
+    dispatch('client/clearAllClientStates', null, { root: true })
     this.$auth.logout()
-    localStorage.removeItem('getWelpUser')
-    localStorage.removeItem('vuex')
-    localStorage.removeItem('authorize')
-    localStorage.removeItem('client')
   }
 }
 

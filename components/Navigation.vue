@@ -35,7 +35,7 @@
     </NuxtLink>
     <NuxtLink
       :to="{ name: 'Invoices' }"
-      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
+      :class="[$route.name === 'CreateInvoicePage' ? 'active' : '', 'tail-flex', 'tail-flex-col', 'tail-items-center', 'tail-px-4', 'tail-py-3']"
       href=""
       exact-active-class="active"
     >

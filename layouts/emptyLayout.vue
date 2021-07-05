@@ -7,17 +7,14 @@
 </template>
 <script>
 export default {
-  name: 'EmptyLayout',
-  data () {
-    return {}
-  }
+  name: 'EmptyLayout'
 }
 </script>
 <style lang="scss">
-@media only screen and (min-width: 769px) {
-  .views {
-    margin-left: 99px;
-    width: 100%;
-  }
-}
+// @media only screen and (min-width: 769px) {
+//   .views {
+//     margin-left: 99px;
+//     width: 100%;
+//   }
+// }
 </style>

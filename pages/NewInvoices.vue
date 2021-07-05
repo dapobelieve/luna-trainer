@@ -4,11 +4,7 @@
       <h2 class="tail-font-medium">
         Create Invoice
       </h2>
-      <i
-        role="button"
-        class="ns-cross"
-        @click.prevent="backToMessage"
-      />
+      <i role="button" class="ns-cross" @click.prevent="backToMessage" />
     </div>
     <div class="tail-flex">
       <div class="tail-ml-56">
@@ -23,17 +19,15 @@
 
 <script>
 export default {
-  // TODO:: delete this page
-  name: 'CreateInvoice',
+  name: 'NewInvoices',
   layout: 'emptyLayout',
   methods: {
     backToMessage () {
       this.$router.push({
-        // name: 'Messages',
-        // params: {
-        //   client: this.$route.params.client
-        // }
-        name: 'Dashboard'
+        name: 'Messages',
+        params: {
+          client: this.$route.params.client
+        }
       })
     }
   }

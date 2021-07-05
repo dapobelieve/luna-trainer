@@ -1,12 +1,14 @@
 export const state = () => ({
   allClients: [],
   acceptedClients: [],
-  invitedClients: []
+  invitedClients: [],
+  loadingForAllClients: true
 })
 
 export const mutations = {
   ALL_CLIENTS (state, allClients) {
     state.allClients = allClients
+    state.loadingForAllClients = false
   },
   ACCEPTED_CLIENTS (state, acceptedClients) {
     state.acceptedClients = acceptedClients
@@ -17,6 +19,30 @@ export const mutations = {
 }
 
 export const actions = {
+  clearAllClientStates ({ commit }) {
+    // for local storage force logout
+    commit('ALL_CLIENTS', [])
+    commit('ACCEPTED_CLIENTS', [])
+    commit('invited_clients', [])
+  },
+  updateProfile ({ commit }, payload) {
+    console.log('the payload', payload)
+    return this.$axios
+      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
+      .then((response) => {
+        console.log('respons from update', response)
+        console.log('$auth before update', this.$auth)
+        this.$auth.setUser(response.data)
+        console.log('$auth after update', this.$auth)
+        console.log('localstorage before update', localStorage.getItem('getWelpUser'))
+        const getWelpUser = localStorage.getItem('getWelpUser')
+        // eslint-disable-next-line curly
+        if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+        localStorage.setItem('getWelpUser', JSON.stringify(response.data))
+        console.log('localstorage after update', localStorage.getItem('getWelpUser'))
+        return response
+      })
+  },
   inviteClient ({ commit }, clientInfo) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)

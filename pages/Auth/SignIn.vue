@@ -33,7 +33,14 @@
           >
             Username
           </label>
-          <input v-model.trim="$v.userInfo.userName.$model" autocomplete="off" type="text" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.userInfo.userName.$error}" />
+          <input
+            v-model.trim="$v.userInfo.userName.$model"
+            :disabled="isLoading"
+            autocomplete="off"
+            type="text"
+            class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            :class="{invalid: $v.userInfo.userName.$error}"
+          />
           <div v-if="$v.userInfo.userName.$error">
             <small
               v-if="!$v.userInfo.userName.required"
@@ -51,7 +58,7 @@
               <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
             </button>
           </div>
-          <input v-model.trim="$v.userInfo.password.$model" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.userInfo.password.$error}" />
+          <input v-model.trim="$v.userInfo.password.$model" :disabled="isLoading" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{invalid: $v.userInfo.password.$error}" />
           <div v-if="$v.userInfo.password.$error">
             <small
               v-if="!$v.userInfo.password.required"
@@ -71,9 +78,10 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <ButtonSpinner :is-loading="isLoading">
-            Login
-          </ButtonSpinner>
+          <button :disabled="isLoading" class="base-button">
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            {{ isLoading ? 'Attempting Login' : 'Login' }}
+          </button>
         </div>
       </form>
       <div class="tail-mx-auto">
@@ -101,7 +109,6 @@
 </template>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-// import { HollowDotsSpinner } from 'epic-spinners'
 export default {
   name: 'SignIn',
   layout: 'authLayout',
@@ -141,7 +148,6 @@ export default {
             }
           })
             .then((response) => {
-              console.log('login response', response)
               this.$toast.success('Login Successful', { position: 'bottom-right' })
               const tokens = {
                 token: response.data.data.accessToken,
@@ -165,7 +171,6 @@ export default {
                   // set user in store
                   this.$store.commit('authorize/SET_GETWELP_USER', response)
                   return this.$store.dispatch('qb/getQbInfo').then((response) => {
-                    console.log('qb response', response)
                     if (response.success === true) {
                       this.$router.push({ name: 'Dashboard' })
                     }
@@ -173,15 +178,6 @@ export default {
                 }
               })
             })
-            // .catch((err) => {
-            //   if (err.response) {
-            //     this.$toast.error(`${err.response.data.message}`, { position: 'bottom-right' })
-            //   } else if (err.request) {
-            //     this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-            //   } else {
-            //     this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-            //   }
-            // })
             .finally(() => {
               this.isLoading = false
             })
@@ -191,6 +187,14 @@ export default {
         }
         // this.isLoading = false
       }
+    },
+    async loginWithGoogle () {
+      this.isLoading = true
+      return await this.$auth.loginWith('social').then((response) => {
+        console.log('response with google signin', response)
+      }).finally(() => {
+        this.isLoading = false
+      })
     }
   }
 }

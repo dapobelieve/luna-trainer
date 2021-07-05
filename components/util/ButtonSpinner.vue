@@ -1,7 +1,7 @@
 <template>
   <button
     type="submit"
-    :disabled="isLoading"
+    :disabled="isLoading || disabled"
     :class="[isLoading ? 'button--loading' : '', 'button', 'base-button']"
   >
     <slot class="button__text">
@@ -15,6 +15,10 @@ export default {
   name: 'ButtonSpinner',
   props: {
     isLoading: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
       type: Boolean,
       default: false
     }

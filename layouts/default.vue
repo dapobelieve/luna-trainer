@@ -27,15 +27,15 @@
       </div>
       <div class="tail-flex">
         <i class="ns-search tail-border tail-rounded tail-p-1 tail-mr-2 md:tail-hidden" />
-        <span role="button" class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
+        <span role="button" class="tail-relative tail-flex tail-border tail-border-gray-300 tail-rounded tail-mr-2" @click="openMessageDrawer">
           <small
             v-if="getTotalUnreadMessages.length"
-            style="padding: 0.2em !important"
-            class="tail-absolute tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
+            style="padding: 0.2em !important; font-size: 0.7rem"
+            class="tail-flex tail-items-center tail-justify-center tail-absolute tail-w-4 tail-h-4 tail-right-0 tail-bg-red-700 tail-text-white tail-text-xs tail-leading-none tail-rounded-full"
           >{{ getTotalUnreadMessages.length }}</small>
           <i class="ns-comment-alt tail-rounded tail-p-1" @click="showMessageDrawer = !showMessageDrawer" />
         </span>
-        <span class="tail-relative tail-flex tail-border tail-rounded tail-mr-2">
+        <span class="tail-relative tail-flex tail-border tail-border-gray-300 tail-rounded tail-mr-2">
           <!-- <span
             class="tail-p-1 tail-bg-red-700 tail-absolute tail-right-1 tail-top-1 tail-rounded-full"
           ></span> -->
@@ -44,18 +44,18 @@
           </button>
         </span>
         <NotificationDropdown v-if="NotificationDropdownIsOpen" />
-        <button class="focus:tail-outline-none" @click="profileDropdownIsOpen= !profileDropdownIsOpen">
+        <div class="focus:tail-outline-none tail-relative" @click="profileDropdownIsOpen= !profileDropdownIsOpen">
           <img
+            role="button"
             class="tail-rounded-full tail-h-8"
             src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
           >
-        </button>
-        <div class="tail-absolute tail-right-0 tail-border tail-border-gray-200 tail-top-full tail-mr-3">
-          <ProfileDropdown v-if="profileDropdownIsOpen" />
+          <div class="tail-absolute tail-right-0" style="min-width: 12rem !important; top: 3.2rem !important;">
+            <ProfileDropdown v-if="profileDropdownIsOpen" />
+          </div>
         </div>
       </div>
     </header>
-    <!-- <div class=" tail-z-0 tail-h-full tail-grid md:tail-flex"> -->
     <div class=" tail-z-0 tail-grid md:tail-flex">
       <Navigation />
       <Nuxt class="views tail-mb-20" />
@@ -67,6 +67,7 @@
         </div>
       </div>
     </div>
+    <SlideOver :show="showMessageDrawer" @close="showMessageDrawer = $event" />
   </main>
 </template>
 
@@ -85,8 +86,22 @@ export default {
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
     })
   },
+  mounted () {
+    // const isStripConnected = Object.prototype.hasOwnProperty.call(this.$auth.user, 'stripConnected')
+    const isStripeConnected = this.$store.state.authorize.stripeConnected
+    if (!isStripeConnected) {
+      this.$nextTick(function () {
+        this.$toast.info('Please connect your Stripe account', { position: 'top-right' })
+      })
+    }
+  },
   methods: {
-
+    close () {
+      this.$emit('closemessagedrawer')
+    },
+    openMessageDrawer () {
+      this.showMessageDrawer = true
+    }
   }
 }
 </script>
