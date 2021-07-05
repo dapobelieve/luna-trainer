@@ -53,24 +53,24 @@
                     <input type="text" class="tail-w-full" placeholder="hi">
                   </div> -->
                     <div>
-                      <ul v-if="0">
+                      <ul v-if="getTotalUnreadMessages.length">
                         <li
-                          v-for="n in 5"
-                          :key="n"
+                          v-for="messages in getTotalUnreadMessages"
+                          :key="messages._id"
                           class="tail-py-4 hover:tail-bg-gray-300 tail-cursor-pointer">
                           <div class="tail-flex tail-space-x-3 tail-px-4">
                             <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt="">
                             <div class="tail-flex-1 tail-space-y-1">
                               <div class="tail-flex tail-items-center tail-justify-between">
                                 <h3 class="tail-text-sm tail-font-medium">
-                                  Elena Walton
+                                  {{ messages.name }}
                                 </h3>
-                                <p class="tail-text-sm tail-text-gray-500">
-                                  1h
+                                <p class="tail-text-sm tail-text-gray-400 tail-ml-2">
+                                  {{ formatDistance(new Date(messages.created_at), new Date(), { addSuffix: true }) }}
                                 </p>
                               </div>
                               <p class="tail-text-sm tail-text-gray-500">
-                                Deployed Workcation (2d89f0c8 in master) to production
+                                {{ messages.last_message }}
                               </p>
                             </div>
                           </div>
@@ -103,6 +103,8 @@
 </template>
 
 <script>
+import { formatDistance } from 'date-fns'
+import { mapGetters } from 'vuex'
 export default {
   name: 'SlideOver',
 
@@ -112,13 +114,17 @@ export default {
       default: false
     }
   },
-
   data () {
     return {
+      formatDistance,
       visible: false
     }
   },
-
+  computed: {
+    ...mapGetters({
+      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
+    })
+  },
   watch: {
     show (newValue, oldValue) {
       if (newValue) {

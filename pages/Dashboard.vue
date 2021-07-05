@@ -35,9 +35,9 @@
             <li>
               <div class="tail-flex tail-items-center">
                 <p
-                  :class="[isStripeConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
+                  :class="[$store.state.authorize.isStripeConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
                 >
-                  <i v-if="isStripeConnected" class="ns-check"></i>
+                  <i v-if="$store.state.authorize.isStripeConnected" class="ns-check"></i>
                   <i v-else class="ns-cross" />
                 </p>
                 <p
@@ -261,7 +261,7 @@
                   </p>
                 </div>
                 <template v-else>
-                  <div
+                  <!-- <div
                     v-for="messages in getTotalUnreadMessages"
                     :key="messages._id"
                     class="tail-flex tail-items-center tail-mb-4"
@@ -272,13 +272,13 @@
                     >
                     <div class="tail-mr-auto tail-ml-2">
                       <p class="tail-mb-0 tail-capitalize">
-                        rilwan lawal
+                        {{ messages.name }}
                         <span
                           class="tail-text-gray-400 tail-ml-2 tail-text-xs"
                         >1:09PM</span>
                       </p>
                       <p class="tail-text-xs">
-                        {{ messages.last_message }}
+                        {{ messages.body }}
                       </p>
                     </div>
                     <button
@@ -286,7 +286,30 @@
                     >
                       View
                     </button>
-                  </div>
+                  </div> -->
+                  <ul>
+                    <li
+                      v-for="messages in getTotalUnreadMessages"
+                      :key="messages._id"
+                      class="tail-py-0 hover:tail-bg-gray-300 tail-cursor-pointer">
+                      <div class="tail-flex tail-space-x-3">
+                        <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt="">
+                        <div class="tail-flex-1 tail-space-y-1">
+                          <div class="tail-flex tail-items-center tail-justify-between">
+                            <h3 class="tail-text-sm tail-font-medium">
+                              {{ messages.name }}
+                            </h3>
+                            <p class="tail-text-sm tail-text-gray-400 tail-ml-2">
+                              {{ formatDistance(new Date(messages.created_at), new Date(), { addSuffix: true }) }}
+                            </p>
+                          </div>
+                          <p class="tail-text-sm tail-text-gray-500">
+                            {{ messages.last_message }}
+                          </p>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
                 </template>
               </div>
             </div>
@@ -360,7 +383,7 @@
               </div>
               <div v-else>
                 <div
-                  v-for="invoice in allInvoices"
+                  v-for="invoice in allInvoices.slice(0, 4)"
                   :key="invoice.index"
                   class="tail-flex tail-items-center tail-p-4"
                 >
@@ -401,12 +424,14 @@
 </template>
 
 <script>
+import { formatDistance } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
   middleware: ['qbInits'],
   data () {
     return {
+      formatDistance,
       showPayment: false,
       addClient: false,
       isModalVisible: false,
