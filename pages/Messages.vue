@@ -142,8 +142,8 @@ export default {
   watch: {
     latestChatEntry (newValue) {
       console.log('watcher new value', newValue)
-      if (newValue.dialog_id === this.dialogId) {
-      // if (newValue.dialog_id === this.$route.params.dialogId) {
+      // if (newValue.dialog_id === this.dialogId) {
+      if (newValue.dialog_id === this.$route.params.dialogId) {
         this.updateMsgHistory(newValue.userId, newValue)
         setTimeout(() => {
           if (!this.isFeedAtBottom) {

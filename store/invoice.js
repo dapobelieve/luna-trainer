@@ -35,6 +35,15 @@ export const actions = {
         return response
       })
   },
+  sendInvoice ({ commit }, sendDetails) {
+    console.log('payload to invoice', sendDetails)
+    return this.$axios
+      .$post(`${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`, { recipients: [sendDetails.recipient] })
+      .then((response) => {
+        console.log('sending invoice', response)
+        return response
+      })
+  },
   getAllInvoices ({ commit }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice?status=draft`)
@@ -49,7 +58,6 @@ export const actions = {
       .$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
       .then((response) => {
         console.log('all invoices', response)
-        // the response here is data and status: theres status of 'fail' and size:0
         return response
       })
   },
