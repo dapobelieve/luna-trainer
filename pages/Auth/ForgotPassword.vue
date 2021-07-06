@@ -21,20 +21,20 @@
               class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               :class="{invalid: $v.email.$error}"
             />
-            <div v-if="$v.email.$error">
+            <div v-if="$v.email.$error" class="tail-mt-2">
               <small
                 v-if="!$v.email.required"
                 class="error tail-text-red-500"
               >
                 Field is required.
               </small>
+              <small
+                v-if="!$v.email.email"
+                class="error tail-text-red-500 tail-text-sm"
+              >
+                Must be valid email.
+              </small>
             </div>
-            <small
-              v-if="!$v.email.email"
-              class="error tail-text-red-500 tail-text-sm"
-            >
-              Must be valid email.
-            </small>
           </div>
         </div>
 

@@ -41,7 +41,7 @@
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.userName.$error}"
           />
-          <div v-if="$v.userInfo.userName.$error">
+          <div v-if="$v.userInfo.userName.$error" class=" tail-mt-2">
             <small
               v-if="!$v.userInfo.userName.required"
               class="error tail-text-red-500"
@@ -62,7 +62,7 @@
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.email.$error}"
           />
-          <div v-if="$v.userInfo.email.$error">
+          <div v-if="$v.userInfo.email.$error" class=" tail-mt-2">
             <small
               v-if="!$v.userInfo.email.required"
               class="error tail-text-red-500"
@@ -72,7 +72,7 @@
           </div>
           <small
             v-if="!$v.userInfo.email.email"
-            class="error tail-text-red-500 tail-text-sm"
+            class="error tail-text-red-500"
           >
             Must be valid email.
           </small>
@@ -110,7 +110,7 @@
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.password.$error}"
           />
-          <div v-if="$v.userInfo.password.$error">
+          <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
@@ -121,7 +121,7 @@
 
           <small
             v-if="!$v.userInfo.password.minLength"
-            class="error tail-text-red-500"
+            class="error tail-text-red-500 tail-mt-2"
           >
             Password must have at least
             {{ $v.userInfo.password.$params.minLength.min }} letters.
@@ -160,12 +160,14 @@
             :type="showConfirmPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           />
-          <small
-            v-if="!$v.userInfo.confirmPassword.sameAsPassword"
-            class="error tail-text-red-500"
-          >
-            Passwords must be identical.
-          </small>
+          <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-2">
+            <small
+              v-if="!$v.userInfo.confirmPassword.sameAsPassword"
+              class="error tail-text-red-500 tail-mt-2"
+            >
+              Passwords must be identical.
+            </small>
+          </div>
         </div>
         <div class="tail-flex tail-justify-center">
           <button :disabled="isLoading" class="base-button">

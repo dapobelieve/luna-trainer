@@ -26,7 +26,7 @@
                   class="form-control"
                   :class="{'invalid':$v.userInfo.password.$error}"
                 >
-                <div v-if="$v.userInfo.password.$error">
+                <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
                   <small
                     v-if="!$v.userInfo.password.required"
                     class="error tail-text-red-500"
@@ -54,12 +54,14 @@
                   type="password"
                   class="form-control"
                 >
-                <small
-                  v-if="!$v.userInfo.confirmPassword.sameAsPassword"
-                  class="error tail-text-red-500"
-                >
-                  Passwords must be identical.
-                </small>
+                <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-2">
+                  <small
+                    v-if="!$v.userInfo.confirmPassword.sameAsPassword"
+                    class="error tail-text-red-500"
+                  >
+                    Passwords must be identical.
+                  </small>
+                </div>
               </div>
 
               <div class="tail-flex tail-justify-center">
