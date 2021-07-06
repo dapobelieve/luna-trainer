@@ -1,6 +1,5 @@
 import QuickBlox from 'quickblox/quickblox.min'
 import { QBconfig } from '../qb.config'
-
 export default ({ $axios, store, route }) => {
   if (process.client) {
   // initialize quickblox
@@ -16,7 +15,7 @@ export default ({ $axios, store, route }) => {
       password: store.state.qb.qbUser.password
     }
     console.log('qb login Credentials', loginCredentials)
-    // create a user session[authorize user]
+
     QuickBlox.createSession(loginCredentials, function (error, result) {
       if (error) {
         console.log('session error', error)
