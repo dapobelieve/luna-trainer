@@ -19,22 +19,21 @@
             </button>
           </div>
           <input v-model.trim="$v.userInfo.password.$model" :type="showPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{'invalid':$v.userInfo.password.$error}" />
-          <div v-if="$v.userInfo.password.$error">
+          <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
             >
               Password is required.
             </small>
+            <small
+              v-if="!$v.userInfo.password.minLength"
+              class="error tail-text-red-500"
+            >
+              Password must have at least
+              {{ $v.userInfo.password.$params.minLength.min }} letters.
+            </small>
           </div>
-
-          <small
-            v-if="!$v.userInfo.password.minLength"
-            class="error tail-text-red-500"
-          >
-            Password must have at least
-            {{ $v.userInfo.password.$params.minLength.min }} letters.
-          </small>
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -45,22 +44,21 @@
             </button>
           </div>
           <input v-model.trim="$v.userInfo.confirmPassword.$model" :type="showConfirmPassword ? 'text':'password'" class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
-          <div v-if="$v.userInfo.confirmPassword.$error">
+          <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-2">
             <small
               v-if="!$v.userInfo.confirmPassword.required"
               class="error tail-text-red-500"
             >
               Password is required.
             </small>
+            <small
+              v-if="!$v.userInfo.confirmPassword.minLength"
+              class="error tail-text-red-500"
+            >
+              Password must have at least
+              {{ $v.userInfo.confirmPassword.$params.minLength.min }} letters.
+            </small>
           </div>
-
-          <small
-            v-if="!$v.userInfo.confirmPassword.minLength"
-            class="error tail-text-red-500"
-          >
-            Password must have at least
-            {{ $v.userInfo.confirmPassword.$params.minLength.min }} letters.
-          </small>
         </div>
         <div class="tail-flex tail-justify-center">
           <button

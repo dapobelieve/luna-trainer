@@ -16,11 +16,18 @@
           </div>
           <div class="tail-w-max">
             <button
+              type="button"
+              class="base-button tail-gap-2"
+              @click="openModal = true"
+            >
+              <span class="tail-hidden sm:tail-block">invite new client</span>
+            </button>
+            <!-- <button
               class="base-button"
               @click="$refs.openModal.openModal()"
             >
               invite new client
-            </button>
+            </button> -->
           </div>
         </div>
         <div
@@ -393,12 +400,14 @@
     <div>
       <CalendarView />
     </div>
-
-    <MainModal ref="openModal">
+    <Modal :is-open="openModal" @close="openModal = $event">
+      <InviteNewClient @close="openModal = $event" />
+    </Modal>
+    <!-- <MainModal ref="openModal">
       <template v-slot:body>
         <InviteNewClient @close="addClient = $event" />
       </template>
-    </MainModal>
+    </MainModal> -->
     <MainModal ref="openBank">
       <template v-slot:body>
         <BankAccountDetails />
@@ -419,7 +428,8 @@ export default {
       showPayment: false,
       addClient: false,
       isModalVisible: false,
-      isStripeLoading: false
+      isStripeLoading: false,
+      openModal: false
     }
   },
   computed: {

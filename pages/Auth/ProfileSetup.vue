@@ -12,7 +12,7 @@
           <div class="tail-w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
             <input v-model.trim="$v.profileInfo.firstName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.firstName.$error}" />
-            <div v-if="$v.profileInfo.firstName.$error">
+            <div v-if="$v.profileInfo.firstName.$error" class="tail-mt-2">
               <small v-if="!$v.profileInfo.firstName.required" class="error tail-text-red-500">
                 Field is required.
               </small>
@@ -22,7 +22,7 @@
           <div class="tail-w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
             <input v-model.trim="$v.profileInfo.lastName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.lastName.$error}" />
-            <div v-if="$v.profileInfo.lastName.$error">
+            <div v-if="$v.profileInfo.lastName.$error" class="tail-mt-2">
               <small v-if="!$v.profileInfo.lastName.required" class="error tail-text-red-500">
                 Field is required.
               </small>
@@ -32,7 +32,7 @@
         <div class="">
           <label for="business" class="">Business Name</label>
           <input v-model.trim="$v.profileInfo.businessName.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.businessName.$error}" />
-          <div v-if="$v.profileInfo.businessName.$error">
+          <div v-if="$v.profileInfo.businessName.$error" class="tail-mt-2">
             <small v-if="!$v.profileInfo.businessName.required" class="error tail-text-red-500">
               Field is required.
             </small>
@@ -41,7 +41,7 @@
         <div class="">
           <label for="location" class="">Location</label>
           <input v-model.trim="$v.profileInfo.location.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.location.$error}" />
-          <div v-if="$v.profileInfo.location.$error">
+          <div v-if="$v.profileInfo.location.$error" class="tail-mt-2">
             <small v-if="!$v.profileInfo.location.required" class="error tail-text-red-500">
               Field is required.
             </small>
