@@ -1,10 +1,14 @@
 export const state = () => ({
-  accountDetails: {}
+  accountDetails: {},
+  isBankLinked: false
 })
 
 export const mutations = {
   SET_ACCOUNT_DETAILS (state, details) {
     state.accountDetails = details
+  },
+  SET_BANK_STATUS (state, status) {
+    state.isBankLinked = status
   }
 }
 
@@ -12,18 +16,13 @@ export const actions = {
   createBankAccount ({ commit }, accountDetails) {
     console.log('sent deatils', accountDetails)
     return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/payments/bank-account`, {
-        accountHolderName: 'Maison Armani',
-        accountHolderType: 'individual',
-        accountNo: '00012345',
-        accountRoutingNo: '108800',
-        accountbankName: 'Last Bank'
-      })
+      .$post(`${process.env.BASEURL_HOST}/payments/bank-account`, accountDetails)
       .then((result) => {
         console.log('result from putting bank', result)
-      })
-      .catch((err) => {
-        console.log('e no sett', err)
+        if (result.status === 'success') {
+          commit('SET_BANK_STATUS', result.data)
+        }
+        return result
       })
   }
 }

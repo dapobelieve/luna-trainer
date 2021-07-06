@@ -194,9 +194,10 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-center">
-          <ButtonSpinner :is-loading="isLoading">
-            Proceed
-          </ButtonSpinner>
+          <button :disabled="isLoading" class="base-button">
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            {{ isLoading ? 'Setting Up User...' : 'Proceed' }}
+          </button>
         </div>
       </form>
     </div>

@@ -4,7 +4,7 @@
       edit bank details
     </h2>
     <div class="tail-mt-5">
-      <p class="tail-text-sm tail-text-gray-400">
+      <p :class="[$route.name === 'Messages' ? 'tail-text-red-500' : 'tail-text-gray-400', 'tail-text-sm']">
         This information is needed for the client to deposit to your account.
       </p>
       <form @submit.prevent="submit">
@@ -50,6 +50,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'BankAccountDetails',
   data () {
@@ -65,8 +66,24 @@ export default {
     }
   },
   methods: {
-    async submit () {
-      await this.$store.dispatch('payment/createBankAccount', this.details)
+    ...mapActions({
+      createAccount: 'payment/createBankAccount'
+    }),
+    submit () {
+      return this.createAccount(this.details).then((response) => {
+        console.log('response', response)
+        if (response.status === 'success') {
+          this.$toast.success('Account registration successful', { position: 'bottom-right' })
+        }
+      }).catch((err) => {
+        if (err.response) {
+          this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+        } else if (err.request) {
+          this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+        } else {
+          this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+        }
+      })
     }
   }
 }

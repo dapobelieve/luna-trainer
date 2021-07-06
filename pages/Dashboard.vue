@@ -243,7 +243,7 @@
               <h5 class="tail-font-medium tail-mb-2">
                 Messages
               </h5>
-              <div class="tail-rounded-md tail-bg-white tail-p-6 md:tail-h-full">
+              <div class="tail-rounded-md tail-bg-white tail-p-4 md:tail-h-full">
                 <div v-if="!getTotalUnreadMessages.length" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
                   <div class="tail-w-full tail-my-5">
                     <img
@@ -261,52 +261,36 @@
                   </p>
                 </div>
                 <template v-else>
-                  <!-- <div
-                    v-for="messages in getTotalUnreadMessages"
-                    :key="messages._id"
-                    class="tail-flex tail-items-center tail-mb-4"
-                  >
-                    <img
-                      class="tail-rounded-full tail-h-14"
-                      src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
-                    >
-                    <div class="tail-mr-auto tail-ml-2">
-                      <p class="tail-mb-0 tail-capitalize">
-                        {{ messages.name }}
-                        <span
-                          class="tail-text-gray-400 tail-ml-2 tail-text-xs"
-                        >1:09PM</span>
-                      </p>
-                      <p class="tail-text-xs">
-                        {{ messages.body }}
-                      </p>
-                    </div>
-                    <button
-                      class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
-                    >
-                      View
-                    </button>
-                  </div> -->
                   <ul>
                     <li
                       v-for="messages in getTotalUnreadMessages"
                       :key="messages._id"
-                      class="tail-py-0 hover:tail-bg-gray-300 tail-cursor-pointer">
-                      <div class="tail-flex tail-space-x-3">
-                        <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt="">
-                        <div class="tail-flex-1 tail-space-y-1">
-                          <div class="tail-flex tail-items-center tail-justify-between">
-                            <h3 class="tail-text-sm tail-font-medium">
-                              {{ messages.name }}
-                            </h3>
-                            <p class="tail-text-sm tail-text-gray-400 tail-ml-2">
-                              {{ formatDistance(new Date(messages.created_at), new Date(), { addSuffix: true }) }}
-                            </p>
-                          </div>
-                          <p class="tail-text-sm tail-text-gray-500">
-                            {{ messages.last_message }}
-                          </p>
+                      class="tail-w-full"
+                    >
+                      <div class="tail-relative tail-px-0 tail-py-2 tail-flex tail-items-center tail-space-x-3 hover:tail-bg-gray-50 focus-within:tail-ring-2 focus-within:tail-ring-inset focus-within:tail-ring-pink-500">
+                        <div class="tail-flex-shrink-0">
+                          <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                         </div>
+                        <div class="tail-flex-1 tail-min-w-0 tail-mr-auto">
+                          <a href="#" class="focus:tail-outline-none">
+                            <!-- Extend touch target to entire panel -->
+                            <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
+                            <p class="tail-text-sm tail-font-medium tail-text-gray-900">
+                              {{ messages.name }}
+                              <span class="tail-ml-2 tail-text-xs tail-text-gray-400">
+                                {{ formatDistance(new Date(messages.created_at), new Date(), { addSuffix: true }) }}
+                              </span>
+                            </p>
+                            <p class="tail-text-sm tail-text-gray-500">
+                              {{ messages.body ? messages.body : messages.last_message }}
+                            </p>
+                          </a>
+                        </div>
+                        <button
+                          class="tail-border tail-capitalize tail-py-1 tail-px-2 tail-rounded-md tail-text-black tail-text-sm hover:tail-bg-green-700"
+                        >
+                          View
+                        </button>
                       </div>
                     </li>
                   </ul>
@@ -468,17 +452,14 @@ export default {
     }
   },
   mounted () {
-    console.log('mounted')
     this.fetchAllClientsConcise()
     this.fetchAllInvoices()
     this.fetchAcceptedClients()
-    this.fetchUserProfile()
   },
   updated () {
-    if (this.$store.state.authorize.isStripeConnected && !this.$store.state.isBankLinked) {
-      this.$nextTick(() => {
-        this.$refs.openBank.openModal()
-      })
+    if (!this.$store.state.authorize.isStripeConnected && !this.$store.state.payment.isBankLinked && this.$route.query.stripe === 'connected') {
+      this.fetchUserProfile() // to set value of stripe in profile
+      this.$refs.openBank.openModal()
     }
   },
   methods: {

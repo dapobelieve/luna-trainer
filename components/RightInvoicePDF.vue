@@ -45,15 +45,12 @@
             <p class="tail-text-gray-500 tail-text-sm">
               Bill to: <span class="tail-capitalize tail-text-black">{{ `${$route.params.client.firstName} ${$route.params.client.lastName}` }}</span>
             </p>
-            <!-- <p class="tail-text-gray-500 tail-text-sm">
-              {{ `${$route.params.client.firstName} ${$route.params.client.lastName}` }}
-            </p> -->
             <p class="tail-text-gray-500 tail-text-sm">
               Email: <span class="tail-text-black">{{ `${$route.params.client.email}` }}</span>
             </p>
           </div>
           <div class="tail-py-4">
-            <span v-if="invoiceServices.length" class="tail-text-xl tail-font-semibold">£0.00 due {{ invoiceDueDate }}.</span>
+            <span v-if="invoiceServices.length" class="tail-text-xl tail-font-semibold">£ {{ subTotalInvoice | amount }}.00 due {{ invoiceDueDate }}.</span>
             <span v-else class="tail-text-xl tail-font-semibold">Please select a service.</span>
           </div>
           <div>
@@ -64,9 +61,9 @@
                   <th class="tail-text-right">
                     QTY
                   </th>
-                  <th class="tail-text-right">
+                  <!-- <th class="tail-text-right">
                     UNIT PRICE
-                  </th>
+                  </th> -->
                   <th class="tail-text-right">
                     AMOUNT
                   </th>
@@ -75,16 +72,15 @@
               <tbody class="tail-text-left tail-text-xs tail-text-gray-400">
                 <template v-if="invoiceServices.length">
                   <tr
-                    v-for="item in $store.state.invoice.tempInvoice.services"
-                    :key="item.index"
+                    v-for="item in invoiceServices"
+                    :key="item._id"
                     class="tail-text-left tail-text-xs tail-text-gray-400"
                   >
                     <td class="tail-font-medium tail-py-2 tail-text-black tail-capitalize">
                       {{ item.description }}
                     </td>
-                    <td class="tail-text-right tail-py-2">1</td>
                     <td class="tail-text-right tail-py-2">
-                      £ {{ item.pricing.amount }}
+                      {{ item.quantity }}
                     </td>
                     <td class="tail-text-right tail-font-medium tail-py-2 tail-text-black">
                       £

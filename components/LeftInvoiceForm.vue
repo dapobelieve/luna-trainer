@@ -85,32 +85,32 @@
               </transition>
             </div>
           </div>
-          <div
-            v-if="selectedService.length"
-            class="tail-border tail-rounded tail-mt-4"
-          >
-            <div class="tail-p-2">
-              <div
-                v-for="service in selectedService"
-                :key="service.index"
-                class="tail-flex tail-justify-between tail-items-center"
-              >
-                <div>
-                  <p class="tail-font-medium tail-capitalize">
-                    {{ service.description }}
-                  </p>
-                </div>
-                <div>
-                  <span>£ {{ service.pricing.amount }}</span>
-                  <button @click.prevent="editItem = true">
-                    <div class="tail-p-3">
-                      <span class="tail-border-2 tail-rounded tail-text-center tail-p-1"><i class="ns-menu-dots" /></span>
-                    </div>
+          <table v-if="selectedService.length" class="table-fixed tail-w-full tail-my-3">
+            <thead>
+              <tr class="tail-text-base tail-font-normal tail-border-b tail-border-gray-300 tail-mb-3">
+                <th class="w-1/2 tail-text-left tail-text-xs">Description</th>
+                <th class="w-1/4 tail-text-left tail-text-xs tail-mr-2">Quantity</th>
+                <th class="w-1/4 tail-text-center tail-text-xs">amount</th>
+              </tr>
+            </thead>
+            <tbody
+              v-for="service in selectedService"
+              :key="service.index">
+              <tr class="tail-my-1">
+                <td class="tail-text-sm">{{ service.description }}</td>
+                <td class="tail-text-sm tail-text-center">{{ service.quantity }}</td>
+                <td class="tail-text-sm tail-text-center">£{{ service.pricing.amount }}</td>
+                <!-- <td>
+                  <button type="button" class="tail-rounded-md tail-p-1 tail-border" @click="updateQty(service,'INCRE')">
+                    <i class="ns-plus"></i>
                   </button>
-                </div>
-              </div>
-            </div>
-          </div>
+                  <button type="button" class="tail-rounded-md tail-p-1 tail-border" @click="updateQty(service,'DECRE')">
+                    <i class="ns-minus"></i>
+                  </button>
+                </td> -->
+              </tr>
+            </tbody>
+          </table>
           <div class="tail-pt-5">
             <hr />
           </div>
@@ -137,9 +137,13 @@
             ></date-picker>
           </div>
         </div>
-        <ButtonSpinner :is-loading="isLoading">
+        <!-- <ButtonSpinner :is-loading="isLoading">
           Save Invoice
-        </ButtonSpinner>
+        </ButtonSpinner> -->
+        <button :disabled="isLoading" class="base-button">
+          <SingleLoader v-if="isLoading" class="tail-mr-2" />
+          {{ isLoading ? 'Creating Invoice...' : 'Save Invoice' }}
+        </button>
       </form>
     </div>
     <Modal :is-open="addItem" @close="addItem = $event">
@@ -167,6 +171,7 @@ export default {
       selectedService: [],
       addItem: false,
       editItem: false,
+      serviceData: [],
       date: new Date().toISOString().substring(0, 10),
       invoiceDetails: {
         selectedClient: '',
@@ -192,22 +197,60 @@ export default {
       createInvoices: 'invoice/createInvoice'
     }),
     createInvoice () {
-      console.log('client', this.$route.params.client)
+      this.isLoading = true
+      // console.log('client', this.$route.params.client)
       this.createInvoices({
         customerId: this.$route.params.client._id,
-        dueDateEpoch: new Date(this.date).getTime() / 1000,
-        dueDate: new Date(this.date).getTime() / 1000,
-        items: [{
-          service: this.selectedService[0]._id,
-          qty: this.selectedService.length,
-          price: this.selectedService[0].pricing.amount
-        }]
+        dueDateEpoch: new Date(this.$store.state.invoice.tempInvoice.date).getTime() / 1000,
+        dueDate: new Date(this.$store.state.invoice.tempInvoice.date),
+        items: this.serviceData
+      }).then((result) => {
+        if (result.status === 'success') {
+          this.$toast.success('Invoice created successfully', { position: 'bottom-right' })
+          this.$router.push({ name: 'Invoices' })
+        }
+      }).catch((err) => {
+        if (err.response) {
+          this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+        } else if (err.request) {
+          this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+        } else {
+          this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+        }
       })
     },
     popSelection (service) {
-      this.selectedService.push(service)
+      this.selectedService.push({
+        ...service,
+        quantity: 1
+      })
       this.openDropDown = false
-      this.$store.commit('invoice/SET_INVOICE_SERVICES', service)
+      this.$store.commit('invoice/SET_INVOICE_SERVICES', {
+        ...service,
+        quantity: 1
+      })
+      this.serviceData.push({
+        service: service._id,
+        qty: 1,
+        price: service.pricing.amount
+      })
+    },
+    updateQty (service, mode) {
+      // eslint-disable-next-line unicorn/prefer-includes
+      if (this.selectedService.indexOf(service) !== -1) {
+        const position = this.selectedService.indexOf(service)
+        if (this.selectedService[position]._id === service._id) {
+          const newService = {
+            ...service,
+            quantity: mode === 'INCRE' ? this.selectedService[position].quantity + 1 : this.selectedService[position].quantity - 1
+          }
+          this.$set(this.selectedService, position, newService)
+          // this.$store.commit('invoice/UPDATE_INVOICE', {
+          //   ...newService,
+          //   position
+          // })
+        }
+      }
     }
   }
 }
