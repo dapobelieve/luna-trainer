@@ -142,8 +142,9 @@ export default {
   watch: {
     latestChatEntry (newValue) {
       console.log('watcher new value', newValue)
-      // if (newValue.dialog_id === this.dialogId) {
-      if (newValue.dialog_id === this.$route.params.dialogId) {
+      if (newValue.dialog_id === this.dialogId || newValue.dialog_id === this.$route.params.dialogId) {
+      // if (newValue.dialog_id === this.$route.params.dialogId) {
+        console.log('here')
         this.updateMsgHistory(newValue.userId, newValue)
         setTimeout(() => {
           if (!this.isFeedAtBottom) {
@@ -159,6 +160,7 @@ export default {
       await this.$axios
         .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.$route.params.client.userId}`).then(({ result }) => {
           if (result.length) {
+            console.log('result is ', result)
             this.dialogId = result[0]._id
           }
         }).catch((err) => {
@@ -184,9 +186,11 @@ export default {
           return // exit quickbox init
         } else {
           // eslint-disable-next-line no-lonely-if
-          if (this.$route.params.dialogId) {
+          if (this.dialogId) {
+          // if (this.$route.params.dialogId) {
             const deets = {
-              chat_dialog_id: this.$route.params.dialogId,
+              // chat_dialog_id: this.$route.params.dialogId,
+              chat_dialog_id: this.dialogId,
               sort_desc: 'date_sent',
               limit: 100,
               skip: 0
@@ -199,7 +203,10 @@ export default {
                   console.log('mssage history', messages)
                   this.msgHistory = messages.items.reverse()
                   this.loading = false
-                  this.clearMessageCount(this.$route.params.dialogId)
+                  // this.clearMessageCount(this.$route.params.dialogId)
+                  if (this.dialogId) {
+                    this.clearMessageCount(this.dialogId)
+                  }
                   // scroll to bottom
                   if (this.msgHistory.length) {
                     setTimeout(() => {
