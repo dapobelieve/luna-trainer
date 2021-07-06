@@ -27,9 +27,17 @@ spec:
   tls:
     - hosts:
       - staging.getwelp.co.uk
+      - app.getwelp.co,
       secretName: staging-getwelp-co-uk-tls-2
   rules:
   - host: staging.getwelp.co.uk
+    http:
+      paths:
+      - backend:
+          serviceName: APPNAME
+          servicePort: 80
+        path: /
+  - host: app.getwelp.com
     http:
       paths:
       - backend:

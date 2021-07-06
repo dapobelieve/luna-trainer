@@ -4,15 +4,7 @@ import { LocalScheme } from '~auth/runtime'
 
 export default class CustomScheme extends LocalScheme {
   // Override `fetchUser` method of `local` scheme
-  async fetchUser (endpoint = 'https://api.getwelp.co.uk/core/v0/profile') {
-    // Token is required but not available
-    // if (!this.check().valid) {
-    //   console.log('endpoint', endpoint)
-    //   console.log('no token')
-    //   return
-    // }
-
-    // User endpoint is disabled.
+  async fetchUser (endpoint = `${process.env.BASEURL_HOST}/profile`) {
     if (!this.options.endpoints.user) {
       console.log('user endpoint')
       this.$auth.setUser({})
@@ -23,7 +15,7 @@ export default class CustomScheme extends LocalScheme {
     return this.$auth
       .requestWith(this.name, endpoint, this.options.endpoints.user)
       .then((response) => {
-        console.log('resquest from scheme', response)
+        console.log('request from scheme', response)
         const user = getProp(response.data, this.options.user.property)
 
         // Transform the user object
@@ -33,9 +25,7 @@ export default class CustomScheme extends LocalScheme {
           roles: ['user']
         }
 
-        // Set the custom user
-        // The `customUser` object will be accessible through `this.$auth.user`
-        // Like `this.$auth.user.fullName` or `this.$auth.user.roles`
+
         this.$auth.setUser(customUser)
 
         return response

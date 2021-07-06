@@ -94,7 +94,7 @@ export default {
         },
         endpoints: {
           login: {
-            url: 'https://api.getwelp.co.uk/accounts/v0/auth/login',
+            url: `${process.env.ACCOUNT_HOST_URL}/auth/login`,
             method: 'post'
           },
           logout: { url: '/', method: 'post' },

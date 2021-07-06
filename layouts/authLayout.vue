@@ -40,7 +40,8 @@ export default {
 </script>
 <style lang="scss">
 main {
-  height: 100vh;
+    height: auto;
+    min-height: 100vh;
 }
 
 @media only screen and (max-width: 768px) {
@@ -72,7 +73,6 @@ main {
     background-repeat: no-repeat;
     background-position: right bottom;
     background-attachment: fixed;
-    height: auto;
   }
 
   .shiba-inu {
@@ -80,7 +80,6 @@ main {
     background-repeat: no-repeat;
     background-position: left bottom;
     background-attachment: fixed;
-    height: auto;
   }
 }
 </style>

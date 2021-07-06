@@ -26,10 +26,9 @@
             </div>
             <div class="tail-pt-4 tail-my-3 tail-max-w-xl tail-rounded-md">
               <ProfileForm id="profile" />
-              <ServicesComp id="services" />
+              <ServicesComp id="services" :services="this.user.services"/>
               <SecurityComp id="security" />
-              <!-- <BankDetails v-if="$store.state.authorize.stripeConnected" id="bankDeets" /> -->
-              <BankDetails id="bankDeets" />
+              <BankDetails v-if="this.user.stripeConnected" id="bankDetails" />
               <ConnectGoogleComp id="connect" />
             </div>
           </div>
@@ -40,8 +39,25 @@
 </template>
 
 <script>
+
+import { mapGetters, mapActions } from 'vuex'
+
 export default {
-  name: 'Settings'
+  name: 'Settings',
+  computed: {
+    ...mapGetters({
+      user: 'authorize/getUser'
+    })
+  },
+  methods: {
+    ...mapActions({
+      getUserProfile: 'authorize/getUserProfile'
+    })
+  },
+  async mounted () {
+    await this.getUserProfile()
+    console.log(this.user.services)
+  }
 }
 </script>
 

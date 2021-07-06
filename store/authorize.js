@@ -6,7 +6,6 @@ export const state = () => ({
 
 export const mutations = {
   SET_GETWELP_USER (state, user) {
-    // this is being done to persist the state
     state.getWelpUser = user
   },
   CLEAR_LOCAL_STORAGE () {
@@ -24,11 +23,19 @@ export const actions = {
       `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
     )
   },
+  updateProfile ({ commit }, payload) {
+    return this.$axios
+      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
+      .then((response) => {
+        this.$auth.setUser(response.data)
+        localStorage.setItem('getWelpUser', JSON.stringify(response.data))
+        commit('SET_GETWELP_USER', response.data)
+        return response
+      })
+  },
   forgotPassword ({ commit }, payload) {
-    console.log('email', payload)
     return this.$axios.$post(
       `${process.env.ACCOUNT_HOST_URL}/auth/forgot-password`, payload).then((response) => {
-      console.log('response from password', response)
       return response
     })
   },
@@ -47,8 +54,6 @@ export const actions = {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
-        // set user data in nuxt auth
-        // this.$auth.setUser(response.data)
         return response
       })
   },
@@ -56,41 +61,27 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/profile`)
       .then(({ data }) => {
-        console.log('profile', data)
-        console.log('ran')
-        // check if result contains stripe key
         if (data !== null) {
-          console.log('entered')
-          const checkForStripe = 'stripeConnected' in data
-          if (checkForStripe) {
-            console.log('checked')
-            commit('SET_STRIPE_STATUS', checkForStripe)
-          }
+          data.stripeConnected && commit('SET_STRIPE_STATUS', data.stripeConnected)
+          this.$auth.setUser(data)
+          commit('SET_GETWELP_USER', data)
+          localStorage.setItem(
+            'getWelpUser',
+            JSON.stringify(data)
+          )
         }
-        console.log('outside')
-        // set user data in nuxt auth
-        this.$auth.setUser(data)
-        // set user in local storage
-        const getWelpUser = localStorage.getItem(
-          'getWelpUser'
-        )
-        // eslint-disable-next-line curly
-        if (getWelpUser !== null)
-          localStorage.removeItem('getWelpUser')
-        localStorage.setItem(
-          'getWelpUser',
-          JSON.stringify(data)
-        )
         return data
       })
   },
   logOut ({ commit, dispatch }) {
     commit('CLEAR_LOCAL_STORAGE')
-    dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     commit('SET_GETWELP_USER', {})
+    dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     this.$auth.logout()
   }
 }
 
-export const getters = {}
+export const getters = {
+  getUser: state => state.getWelpUser
+}

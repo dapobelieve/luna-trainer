@@ -5,7 +5,6 @@ export default ({ store }) => {
       (Object.entries(store.$auth.user).length === 0 &&
         store.$auth.user.constructor === Object))
   ) {
-    console.log(store.state.getWelpUser)
     store.$auth.setUser(store.state.getWelpUser)
   }
 }
