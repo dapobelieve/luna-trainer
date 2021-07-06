@@ -16,11 +16,18 @@
           </div>
           <div class="tail-w-max">
             <button
+              type="button"
+              class="base-button tail-gap-2"
+              @click="openModal = true"
+            >
+              <span class="tail-hidden sm:tail-block">invite new client</span>
+            </button>
+            <!-- <button
               class="base-button"
               @click="$refs.openModal.openModal()"
             >
               invite new client
-            </button>
+            </button> -->
           </div>
         </div>
         <div
@@ -291,7 +298,8 @@
                     <li
                       v-for="messages in getTotalUnreadMessages"
                       :key="messages._id"
-                      class="tail-py-0 hover:tail-bg-gray-300 tail-cursor-pointer">
+                      class="tail-py-0 hover:tail-bg-gray-300 tail-cursor-pointer"
+                    >
                       <div class="tail-flex tail-space-x-3">
                         <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80" alt="">
                         <div class="tail-flex-1 tail-space-y-1">
@@ -409,12 +417,14 @@
     <div>
       <CalendarView />
     </div>
-
-    <MainModal ref="openModal">
+    <Modal :is-open="openModal" @close="openModal = $event">
+      <InviteNewClient @close="openModal = $event" />
+    </Modal>
+    <!-- <MainModal ref="openModal">
       <template v-slot:body>
         <InviteNewClient @close="addClient = $event" />
       </template>
-    </MainModal>
+    </MainModal> -->
     <MainModal ref="openBank">
       <template v-slot:body>
         <BankAccountDetails />
@@ -435,7 +445,8 @@ export default {
       showPayment: false,
       addClient: false,
       isModalVisible: false,
-      isStripeLoading: false
+      isStripeLoading: false,
+      openModal: false
     }
   },
   computed: {
