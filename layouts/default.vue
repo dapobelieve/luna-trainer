@@ -88,12 +88,12 @@ export default {
   },
   mounted () {
     // const isStripConnected = Object.prototype.hasOwnProperty.call(this.$auth.user, 'stripConnected')
-    const isStripeConnected = this.$store.state.authorize.stripeConnected
-    if (!isStripeConnected) {
-      this.$nextTick(function () {
-        this.$toast.info('Please connect your Stripe account', { position: 'top-right' })
-      })
-    }
+    // const isStripeConnected = this.$store.state.authorize.stripeConnected
+    // if (!isStripeConnected) {
+    //   this.$nextTick(function () {
+    //     this.$toast.info('Please connect your Stripe account', { position: 'top-right' })
+    //   })
+    // }
   },
   methods: {
     close () {

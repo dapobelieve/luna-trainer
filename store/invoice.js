@@ -18,6 +18,11 @@ export const mutations = {
   SET_INVOICE_SERVICES (state, service) {
     state.tempInvoice.services.push(service)
   }
+  // UPDATE_INVOICE (state, newService) {
+  //   const pos = newService.position
+  //   const service = newService
+  //   state.tempInvoice.services[pos] = service
+  // }
 }
 
 export const actions = {
@@ -27,7 +32,15 @@ export const actions = {
       .$post(`${process.env.BASEURL_HOST}/invoice`, payload)
       .then((response) => {
         console.log('creating invoice', response)
-        // the response here is data and status: theres status of 'fail' and size:0
+        return response
+      })
+  },
+  sendInvoice ({ commit }, sendDetails) {
+    console.log('payload to invoice', sendDetails)
+    return this.$axios
+      .$post(`${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`, { recipients: [sendDetails.recipient] })
+      .then((response) => {
+        console.log('sending invoice', response)
         return response
       })
   },
@@ -45,13 +58,12 @@ export const actions = {
       .$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
       .then((response) => {
         console.log('all invoices', response)
-        // the response here is data and status: theres status of 'fail' and size:0
         return response
       })
   },
   stripeConnect ({ commit }) {
     return this.$axios
-      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Dashboard')
+      .$get('https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=http://localhost:3000/Dashboard?stripe=connected')
       .then(({ url }) => {
         return url
       })

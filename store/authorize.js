@@ -1,8 +1,7 @@
 export const state = () => ({
   getWelpUser: {},
   isStripeConnected: false,
-  loadingForStripeCheck: true,
-  isBankLinked: false
+  loadingForStripeCheck: true
 })
 
 export const mutations = {
@@ -16,9 +15,6 @@ export const mutations = {
   SET_STRIPE_STATUS (state, status) {
     state.isStripeConnected = status
     state.loadingForStripeCheck = false
-  },
-  SET_BANK_STATUS (state, status) {
-    state.isBankLinked = status
   }
 }
 

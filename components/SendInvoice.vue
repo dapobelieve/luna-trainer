@@ -31,7 +31,7 @@
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   :class="{ invalid: $v.clientInfo.firstName.$error}"
                 />
-                <div v-if="$v.clientInfo.firstName.$error" class="tail-mt-2">
+                <div v-if="$v.clientInfo.firstName.$error">
                   <small v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500">
                     Field is required.
                   </small>
@@ -50,7 +50,7 @@
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   :class="{ invalid: $v.clientInfo.lastName.$error}"
                 />
-                <div v-if="$v.clientInfo.lastName.$error" class="tail-mt-2">
+                <div v-if="$v.clientInfo.lastName.$error">
                   <small v-if="!$v.clientInfo.lastName.required" class="error tail-text-red-500">
                     Field is required.
                   </small>
@@ -69,7 +69,7 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.phone.$error}"
               />
-              <div v-if="$v.clientInfo.phone.$error" class="tail-mt-2">
+              <div v-if="$v.clientInfo.phone.$error">
                 <small v-if="!$v.clientInfo.phone.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
@@ -92,7 +92,7 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.email.$error}"
               />
-              <div v-if="$v.clientInfo.email.$error" class="tail-mt-2">
+              <div v-if="$v.clientInfo.email.$error">
                 <small v-if="!$v.clientInfo.email.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
@@ -115,7 +115,7 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.locationAddress.$error}"
               />
-              <div v-if="$v.clientInfo.locationAddress.$error" class="tail-mt-2">
+              <div v-if="$v.clientInfo.locationAddress.$error">
                 <small v-if="!$v.clientInfo.locationAddress.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
@@ -135,7 +135,7 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.city.$error}"
               />
-              <div v-if="$v.clientInfo.city.$error" class="tail-mt-2">
+              <div v-if="$v.clientInfo.city.$error">
                 <small v-if="!$v.clientInfo.city.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
@@ -155,7 +155,7 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.locationZip.$error}"
               />
-              <div v-if="$v.clientInfo.locationZip.$error" class="tail-mt-2">
+              <div v-if="$v.clientInfo.locationZip.$error">
                 <small v-if="!$v.clientInfo.locationZip.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
@@ -175,7 +175,7 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.petName.$error}"
               />
-              <div v-if="$v.clientInfo.petName.$error" class="tail-mt-2">
+              <div v-if="$v.clientInfo.petName.$error">
                 <small v-if="!$v.clientInfo.petName.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
@@ -199,29 +199,14 @@
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   :class="{ invalid: $v.clientInfo.petBreed.$error}"
                 />
-                <div v-if="$v.clientInfo.petBreed.$error" class="tail-mt-2">
+                <div v-if="$v.clientInfo.petBreed.$error">
                   <small v-if="!$v.clientInfo.petBreed.required" class="error tail-text-red-500">
                     Field is required.
                   </small>
                 </div>
               </div>
               <div class="tail-w-full">
-                <label for="experience" class="">Age</label>
-                <select
-                  id="experience"
-                  v-model="clientInfo.petAge"
-                  type="text"
-                  class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                >
-                  <option
-                    v-for="val in clientInfo.petAge"
-                    :key="val"
-                    :value="parseInt(val) + 1"
-                  >
-                    {{ parseInt(val) + 1 }}
-                  </option>
-                </select>
-                <!-- <label
+                <label
                   for="age"
                   class="block text-sm font-medium text-gray-700"
                 >Age</label>
@@ -231,7 +216,12 @@
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   :class="{ invalid: $v.clientInfo.petAge.$error}"
-                /> -->
+                />
+                <div v-if="$v.clientInfo.petAge.$error">
+                  <small v-if="!$v.clientInfo.petAge.required" class="error tail-text-red-500">
+                    Field is required.
+                  </small>
+                </div>
               </div>
             </div>
           </div>
@@ -280,176 +270,23 @@
             >
               cancel
             </button>
-            <template
-              v-if="clientInfo.notes === ''"
+            <button
+              :disabled="disabled"
+              style="width: fit-content"
+              type="submit"
+              class="base-button tail-px-3"
             >
-              <button
-                :disabled="disabled"
-                style="width: fit-content"
-                type="submit"
-                class="dull-button base-button tail-px-3"
-              >
-                <SingleLoader v-if="isLoading" class="tail-mr-2" />
-                save &amp; send invite
-              </button>
-            </template>
-
-            <template
-              v-else
-            >
-              <button
-                :disabled="disabled"
-                style="width: fit-content"
-                class="base-button tail-px-3"
-              >
-                save &amp; send invite
-              </button>
-            </template>
+              <SingleLoader v-if="isLoading" class="tail-mr-2" />
+              save &amp; send invite
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
 </template>
-
 <script>
-import { mapActions } from 'vuex'
-import { required, numeric, email } from 'vuelidate/lib/validators'
-
 export default {
-  name: 'InviteNewClient',
-  data () {
-    return {
-      isLoading: false,
-      clientInfo: {
-        firstName: '',
-        lastName: '',
-        phone: '',
-        email: '',
-        locationAddress: '',
-        city: '',
-        locationZip: '',
-        petName: '',
-        petAge: Array.from(Array(13).keys()),
-        petBreed: '',
-        petGender: 'female',
-        // class: '',
-        notes: '',
-        domain: 'getwelp-trainer-ui'
-      }
-    }
-  },
-  validations: {
-    clientInfo: {
-      firstName: {
-        required
-      },
-      lastName: {
-        required
-      },
-      phone: {
-        required,
-        numeric
-      },
-      email: {
-        required,
-        email
-      },
-      locationAddress: {
-        required
-      },
-      city: {
-        required
-      },
-      locationZip: {
-        required
-      },
-      petName: {
-        required
-      },
-      petAge: {
-        required
-      },
-      petBreed: {
-        required
-      },
-      petGender: {
-        required
-      }
-      // class: {
-      //   required
-      // }
-    }
-  },
-  computed: {
-    disabled () {
-      for (const key in this.clientInfo) {
-        // eslint-disable-next-line curly
-        if (this.clientInfo[key] === '')
-          return true
-      }
-      return false
-    }
-    // isActive () {
-    //   if (this.clientInfo.firstName && this.clientInfo.lastName &&
-    //   this.clientInfo.petGender && this.clientInfo.notes &&
-    //   this.clientInfo.phone && this.clientInfo.email &&
-    //   this.clientInfo.locationAddress && this.clientInfo.city &&
-    //   this.clientInfo.locationZip && this.clientInfo.petName &&
-    //   this.clientInfo.petAge && this.clientInfo.petBreed === '') {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // }
-  },
-  methods: {
-    ...mapActions({
-      fetchAllClientsConcise: 'client/fetchAllClientsConcise',
-      saveClient: 'client/inviteClient'
-    }),
-    save () {
-      if (!this.disabled) {
-        this.isLoading = true
-        return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
-          if (response && response.data.status === true) {
-            this.$toast.success(
-        `${this.clientInfo.firstName} ${this.clientInfo.lastName} has been sent an invite.`
-            )
-            this.$emit('close', false)
-          } else {
-            this.$toast.error('Error sending client invite')
-          }
-        }).catch((err) => {
-          if (err.response) {
-            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
-          } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-          } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-          }
-        }).finally(() => {
-          this.isLoading = false
-          this.fetchAllClientsConcise()
-        })
-      }
-    }
-  }
+  name: 'SendInvoice'
 }
 </script>
-
-<style lang="scss" scoped>
-
-::-webkit-scrollbar {
-    width: 0;  /* Remove scrollbar space */
-    background: transparent;  /* Optional: just make scrollbar invisible */
-}
-/* Optional: show position indicator in red */
-::-webkit-scrollbar-thumb {
-    background: #FF0000;
-}
-
-.dull-button {
-  background-color: gray !important;
-}
-</style>
