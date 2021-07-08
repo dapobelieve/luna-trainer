@@ -11,24 +11,6 @@
       >
         <div v-if="show" class="tail-max-w-sm tail-w-full tail-bg-white tail-shadow-lg tail-rounded-lg tail-pointer-events-auto tail-ring-1 tail-ring-black tail-ring-opacity-5 tail-overflow-hidden">
           <div class="tail-p-4">
-            <!-- <div class="tail-flex tail-items-center">
-              <div class="tail-w-0 tail-flex-1 tail-flex tail-justify-between">
-                <p class="tail-w-0 tail-flex-1 tail-text-sm tail-font-medium tail-text-gray-900">
-                  Please add a service to continue
-                </p>
-                <button @click="$router.push({ path: '/Settings#services' })" class="tail-underline tail-ml-3 tail-flex-shrink-0 tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-text-indigo-600 hover:tail-text-indigo-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
-                  Services
-                </button>
-              </div>
-              <div class="tail-ml-4 tail-flex-shrink-0 tail-flex">
-                <button class="tail-bg-white tail-rounded-md tail-inline-flex tail-text-gray-400 hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500" @click="close">
-                  <span class="tail-sr-only">Close</span>
-                  <svg class="tail-h-5 tail-w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clitail-p-rule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            </div> -->
             <div class="tail-flex tail-items-start">
               <div class="tail-flex-shrink-0">
                 <slot name="icon">
