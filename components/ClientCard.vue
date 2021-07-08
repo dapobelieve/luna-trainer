@@ -31,7 +31,7 @@
     </div>
 
     <Modal :is-open="openModal" @close="openModal = $event">
-      <!-- Preview Screen -->
+      <ClientInfoPreview :client="client" @close="openModal = $event" />
     </Modal>
 
     <div class="">
