@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <page-loader-view>
+    <page-loader-view loader-id="invoices">
       <template v-if="fetchAllInvoices.length">
         <div class="tail-flex tail-flex-col">
           <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
