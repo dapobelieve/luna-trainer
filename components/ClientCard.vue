@@ -2,7 +2,7 @@
   <div
     class="tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-flex tail-items-center"
   >
-    <div class="tail-flex tail-mr-auto">
+    <div class="tail-flex tail-mr-auto tail-cursor-pointer hover:tail-bg-gray-100" @click="openModal = true">
       <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
       <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">
         <h3 class="tail-capitalize tail-font-medium">
@@ -29,6 +29,10 @@
         </div> -->
       </div>
     </div>
+
+    <Modal :is-open="openModal" @close="openModal = $event">
+      <!-- Preview Screen -->
+    </Modal>
 
     <div class="">
       <div class="tail-flex tail-gap-3">
@@ -76,15 +80,18 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      openModal: false
+    }
+  },
   ...mapGetters({
     getUnreadMessageCount: 'qb/getMessageCount'
   }),
   methods: {
     ...mapActions({ resendInvite: 'client/resendClientInvite' }),
     resendInvite () {
-      console.log('sent id', this.client._id)
       return this.$axios.$get(`${process.env.BASEURL_HOST}/client/${this.client._id}/resend-invite`).then((response) => {
-        console.log('responsed', response)
         if (response && response.status === true) {
           this.$toast.success(
           `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
