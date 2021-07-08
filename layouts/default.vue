@@ -92,9 +92,6 @@ export default {
     close () {
       this.$emit('closemessagedrawer')
     }
-    // openMessageDrawer () {
-    //   this.showMessageDrawer = true
-    // }
   }
 }
 </script>
