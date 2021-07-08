@@ -87,11 +87,9 @@
     </div>
     <AlertModal :visible="showAlert" @close="showAlert = $event" />
     <!-- <StripeAlertModal :visible="showStripeAlert" @close="showStripeAlert = $event" /> -->
-    <MainModal ref="openBank">
-      <template v-slot:body>
-        <BankAccountDetails />
-      </template>
-    </MainModal>
+    <Modal :is-open="openBankModal" @close="openBankModal = $event">
+      <BankAccountDetails />
+    </Modal>
   </div>
 </template>
 
@@ -102,6 +100,7 @@ export default {
   name: 'Messages',
   data () {
     return {
+      openBankModal: false,
       showAlert: false,
       // showStripeAlert: false,
       message: '',
@@ -354,7 +353,7 @@ export default {
         this.$router.push({ name: 'NewInvoices', params: { client: this.$route.params.client } })
       }
       // else if (!this.$store.state.payment.isBankLinked) {
-      //   this.$refs.openBank.openModal()
+      //   this.openBank = true
       // }
     },
     updateMsgHistory (userId, message) {
