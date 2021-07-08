@@ -403,16 +403,9 @@
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
-    <!-- <MainModal ref="openModal">
-      <template v-slot:body>
-        <InviteNewClient @close="addClient = $event" />
-      </template>
-    </MainModal> -->
-    <MainModal ref="openBank">
-      <template v-slot:body>
-        <BankAccountDetails />
-      </template>
-    </MainModal>
+    <Modal :is-open="openBankModal" @close="openBankModal = $event">
+      <BankAccountDetails />
+    </Modal>
   </main>
 </template>
 
@@ -429,7 +422,8 @@ export default {
       addClient: false,
       isModalVisible: false,
       isStripeLoading: false,
-      openModal: false
+      openModal: false,
+      openBankModal: false
     }
   },
   computed: {
@@ -469,7 +463,7 @@ export default {
   updated () {
     if (!this.$store.state.authorize.isStripeConnected && !this.$store.state.payment.isBankLinked && this.$route.query.stripe === 'connected') {
       this.fetchUserProfile() // to set value of stripe in profile
-      this.$refs.openBank.openModal()
+      this.openBankModal = true
     }
   },
   methods: {

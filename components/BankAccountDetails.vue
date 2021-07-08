@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-py-4 tail-px-6">
+  <div>
     <h2 class="tail-capitalize tail-font-medium tail-text-lg">
       edit bank details
     </h2>

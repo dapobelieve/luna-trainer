@@ -1,6 +1,6 @@
 <template>
   <div class="tail-grid">
-    <div class="tail-py-7 tail-px-7 tail-overflow-y-scroll">
+    <div class="tail-py-0 tail-overflow-y-scroll">
       <h2 class="tail-text-2xl tail-font-normal tail-mb-3">
         Client Registration
       </h2>
