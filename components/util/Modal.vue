@@ -26,10 +26,12 @@
         <div
           class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-4/6 lg:tail-w-3/6"
         >
-          <!-- this is the area where content will be replaced -->
-          <slot name="default">
-            Replace me with content
-          </slot>
+          <div class="tail-py-4 tail-px-6">
+            <!-- this is the area where content will be replaced -->
+            <slot name="default">
+              Replace me with content
+            </slot>
+          </div>
         </div>
       </transition>
     </div>

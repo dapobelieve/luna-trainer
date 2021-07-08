@@ -85,7 +85,11 @@
         </button>
       </div>
     </div>
-    <AlertModal :visible="showAlert" @close="showAlert = $event" />
+    <NotificationsModal :visible="showAlert" @close="showAlert = $event">
+      <template v-slot:title>
+        New Notifcation
+      </template>
+    </NotificationsModal>
     <!-- <StripeAlertModal :visible="showStripeAlert" @close="showStripeAlert = $event" /> -->
     <Modal :is-open="openBankModal" @close="openBankModal = $event">
       <BankAccountDetails />
