@@ -52,21 +52,27 @@ export const actions = {
       })
   },
   fetchAllAcceptedClients ({ commit, dispatch }) {
+    dispatch('loader/startLoader', null, { root: true })
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/client/invites?status=accepted`)
       .then(({ data }) => {
-        console.log('client list accepted', data)
         commit('ACCEPTED_CLIENTS', data)
+        dispatch('loader/stopLoader', null, { root: true })
         return data
+      }).catch(() => {
+        dispatch('loader/stopLoader', null, { root: true })
       })
   },
-  async fetchAllInvitedClients ({ commit }) {
+  async fetchAllInvitedClients ({ commit, dispatch }) {
+    dispatch('loader/startLoader', null, { root: true })
     return await this.$axios
       .get(`${process.env.BASEURL_HOST}/client/invites?status=invited`)
       .then(({ data }) => {
-        console.log('client listing', data.data)
         commit('INVITED_CLIENTS', data.data)
+        dispatch('loader/stopLoader', null, { root: true })
         return data.data
+      }).catch(() => {
+        dispatch('loader/stopLoader', null, { root: true })
       })
   }
 }

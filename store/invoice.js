@@ -44,13 +44,16 @@ export const actions = {
         return response
       })
   },
-  getAllInvoices ({ commit }) {
+  getAllInvoices ({ commit, dispatch }) {
+    dispatch('loader/startLoader', null, { root: true })
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice?status=draft`)
       .then((response) => {
-        console.log('all draft invoices', response)
         commit('SET_ALL_INVOICES', response.data)
+        dispatch('loader/stopLoader', null, { root: true })
         return response.data
+      }).catch(() => {
+        dispatch('loader/stopLoader', null, { root: true })
       })
   },
   getSingleInvoice ({ commit }, invoiceId) {

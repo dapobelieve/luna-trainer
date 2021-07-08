@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <page-loader-view>
     <div v-if="acceptedClients.length" class="tail-grid">
       <ClientCard v-for="n in acceptedClients" :key="n._id" :client="n" />
     </div>
@@ -58,7 +58,7 @@
         <InviteNewClient @close="addClient = $event" />
       </template>
     </MainModal>
-  </div>
+  </page-loader-view>
 </template>
 
 <script>
@@ -76,8 +76,10 @@ export default {
       acceptedClients: 'client/getAllAcceptedClients'
     })
   },
-  mounted () {
+  created () {
     this.fetchAcceptedClients()
+  },
+  mounted () {
     const getTime = localStorage.getItem('clientsPageFirstVisit')
     if (!getTime) {
       this.firstTimeVisit = true

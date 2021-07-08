@@ -1,5 +1,5 @@
 <template>
-  <main class="tail-max-w-screen-xl tail-m-0">
+  <main class="tail-m-0">
     <header
       class="tail-bg-white tail-p-3 tail-py-1 tail-flex tail-justify-between tail-items-center tail-text-2xl tail-sticky tail-top-0 tail-z-10"
     >
