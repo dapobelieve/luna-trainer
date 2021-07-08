@@ -17,12 +17,22 @@
         <h3 class="tail-capitalize tail-font-medium">
           Location
         </h3>
-        <span class="tail-capitalize tail-text-gray-500">
-          Address: {{ client.location.address }}
-        </span>
-        <span class="tail-capitalize tail-text-gray-500">
-          Zipcode: {{ client.location.zip }}
-        </span>
+        <div class="tail-flex">
+          <p class="tail-capitalize tail-font-normal tail-mr-3">
+            Address:
+          </p>
+          <span class="tail-capitalize tail-text-gray-500">
+            {{ client.location.address }}
+          </span>
+        </div>
+        <div class="tail-flex">
+          <p class="tail-capitalize tail-font-normal tail-mr-3">
+            Zip code:
+          </p>
+          <span class="tail-capitalize tail-text-gray-500">
+            {{ client.location.zip }}
+          </span>
+        </div>
       </div>
 
       <div class="tail-my-3">
@@ -38,18 +48,38 @@
         <h3 class="tail-capitalize tail-font-medium">
           Pet Info
         </h3>
-        <span class="tail-capitalize tail-text-gray-500">
-          Name: {{ client.pet[0].name }}
-        </span>
-        <span class="tail-capitalize tail-text-gray-500">
-          Age: {{ client.pet[0].age }}
-        </span>
-        <span class="tail-capitalize tail-text-gray-500">
-          Breed: {{ client.pet[0].breed }}
-        </span>
-        <span class="tail-capitalize tail-text-gray-500">
-          Gender: {{ client.pet[0].gender }}
-        </span>
+        <div class="tail-flex">
+          <p class="tail-capitalize tail-font-normal tail-mr-3">
+            Name:
+          </p>
+          <span class="tail-capitalize tail-text-gray-500">
+            {{ client.pet[0].name }}
+          </span>
+        </div>
+        <div class="tail-flex">
+          <p class="tail-capitalize tail-font-normal tail-mr-3">
+            Age:
+          </p>
+          <span class="tail-capitalize tail-text-gray-500">
+            {{ client.pet[0].age }}
+          </span>
+        </div>
+        <div class="tail-flex">
+          <p class="tail-capitalize tail-font-normal tail-mr-3">
+            Breed:
+          </p>
+          <span class="tail-capitalize tail-text-gray-500">
+            {{ client.pet[0].breed }}
+          </span>
+        </div>
+        <div class="tail-flex">
+          <p class="tail-capitalize tail-font-normal tail-mr-3">
+            Gender:
+          </p>
+          <span class="tail-capitalize tail-text-gray-500">
+            {{ client.pet[0].gender }}
+          </span>
+        </div>
       </div>
     </div>
   </div>
