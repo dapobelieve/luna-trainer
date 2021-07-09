@@ -1,102 +1,63 @@
 <template>
-  <div class="nav md:tail-ml-2">
-    <NuxtLink
-      :to="{ name: 'Dashboard' }"
-      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
-      href=""
-      exact-active-class="active"
-    >
-      <i class="ns-home tail-text-2xl"></i>
-      <span class="tail-text-sm">
-        home
-      </span>
-    </NuxtLink>
-    <NuxtLink
-      to="#"
-      class="tail-flex tail-flex-col tail-items-center tail-px-4 tail-py-3"
-      href=""
-      exact-active-class="active"
-    >
-      <i class="ns-calendar tail-text-2xl"></i>
-      <span class="tail-text-sm">
-        schedule
-      </span>
-    </NuxtLink>
-    <NuxtLink
-      :to="{ name: 'Clients' }"
-      :class="[$route.name === 'Messages' ? 'active' : '', 'tail-flex', 'tail-flex-col', 'tail-items-center', 'tail-px-4', 'tail-py-3']"
-      href=""
-      exact-active-class="active"
-    >
-      <i class="ns-users tail-text-2xl"></i>
-      <span class="tail-text-sm">
-        clients
-      </span>
-    </NuxtLink>
-    <NuxtLink
-      :to="{ name: 'Invoices' }"
-      :class="[$route.name === 'CreateInvoicePage' ? 'active' : '', 'tail-flex', 'tail-flex-col', 'tail-items-center', 'tail-px-4', 'tail-py-3']"
-      href=""
-      exact-active-class="active"
-    >
-      <i class="ns-receipt tail-text-2xl"></i>
-      <span class="tail-text-sm">
-        invoicing
-      </span>
-    </NuxtLink>
+  <div class="tail-hidden lg:tail-block lg:tail-col-span-3 xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white">
+    <!-- Sidebar Search -->
+    <div class="tail-px-3 tail-py-1 tail-mt-3">
+      <label for="search" class="tail-sr-only">Search</label>
+      <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200">
+        <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
+          <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
+        </div>
+        <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
+      </div>
+    </div>
+    <!-- main navigation -->
+    <nav aria-label="Sidebar" class="tail-sticky tail-top-4 tail-divide-y tail-divide-gray-300">
+      <div class="tail-space-y-1">
+        <div v-for="menu in menus.menu" :key="menu">
+          <NuxtLink
+            v-if="menu.path"
+            :to="{ name: menu.path }"
+            exact-active-class="active"
+            class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50"
+          >
+            <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-mx-2 tail-flex-shrink-0 tail-text-lg" />
+            <span class="tail-truncate tail-text-xs tail-font-normal">
+              {{ menu.title }}
+            </span>
+          </NuxtLink>
+          <p v-if="menu.section" class="tail-px-3 tail-text-xs tail-text-gray-500 uppercase tracking-wider">
+            {{ menu.section }}
+          </p>
+        </div>
+      </div>
+    </nav>
   </div>
 </template>
 
 <script>
+import menus from '~/navigation.json'
 export default {
-  name: 'Navigation'
+  name: 'Navigation',
+  data () {
+    return {
+      menus,
+      showMessageDrawer: false
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-a {
-  // @apply tail-text-gray-500 tail-no-underline;
-  text-decoration: none;
-  color: gray;
-}
-
-@media only screen and (max-width: 768px) {
-  .nav {
-    display: flex;
-    justify-content: space-evenly;
-    background: white;
-    order: 2;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-transform: capitalize;
-  }
-}
 .active {
-  color: #000;
+  color: black;
 }
-.active:focus {
-  outline: none !important;
-}
-
-@media only screen and (min-width: 769px) {
-  .nav {
-    display: flex;
-    flex-direction: column;
-    // justify-content: center;
-    margin-top: 5em;
-    height: calc(100% - 64px);
-    position: fixed;
-    left: 0;
-    text-transform: capitalize;
-  }
-
-  .active {
-    border: 1px solid rgba(156, 163, 175) !important;
-    border-radius: 0.375rem;
-    background: #fff;
-    border-radius: 0.5rem !important;
-    background: #fff !important;
-  }
+.active::before {
+  content: "";
+  display: block;
+  width: 3%;
+  background-color: #56CCF2;
+  height: 30px;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
 }
 </style>

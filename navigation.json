@@ -1,0 +1,106 @@
+{
+    "menu" : [
+    {
+        "icon": "ns-home",
+        "title": "home",
+        "path": "Dashboard"
+    },
+    {
+      "icon": "ns-bell-ring",
+      "title": "notifications",
+      "path": "Notifications"
+    },
+    {
+      "icon": "ns-comment-alt",
+      "title": "messages",
+      "path": "Messages"
+    },
+    {
+      "icon": "ns-settings",
+      "title": "settings",
+      "path": "Settings"
+    },
+    {
+        "section": "schedule"
+    },
+    {
+      "icon": "ns-calenda",
+      "title": "My Schedule",
+      "path": "Schedule"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "add new session",
+      "path": "#"
+    },
+    {
+        "section": "Clients"
+    },
+    {
+      "icon": "ns-users",
+      "title": "my clients",
+      "path": "#"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "invite new client",
+      "path": "#"
+    },
+    {
+      "icon": "ns-users",
+      "title": "my classes",
+      "path": "#"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "new class",
+      "path": "#"
+    },
+    {
+      "icon": "ns-clip",
+      "title": "my groups",
+      "path": "#"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "new group",
+      "path": "#"
+    },
+    {
+        "section": "Invoicing"
+    },
+    {
+      "icon": "ns-receipt",
+      "title": "my invoices",
+      "path": "#"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "new invoice",
+      "path": "#"
+    },
+    {
+        "section": "Help"
+    },
+    {
+      "icon": "ns-headset",
+      "title": "help center",
+      "path": "#"
+    },
+    {
+      "icon": "ns-envelope",
+      "title": "send us an email",
+      "path": "#"
+    },
+    {
+      "icon": "ns-time-add",
+      "title": "what's coming next",
+      "path": "#"
+    },
+    {
+      "icon": "ns-power",
+      "title": "sign out",
+      "path": "#"
+    }
+]
+}
