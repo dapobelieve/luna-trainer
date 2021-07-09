@@ -20,6 +20,7 @@
               type="text"
               class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
               :class="{invalid: $v.email.$error}"
+              @click="$v.email.$touch()"
             />
             <div v-if="$v.email.$error" class="tail-mt-2">
               <small

@@ -25,6 +25,7 @@
                   type="password"
                   class="form-control"
                   :class="{'invalid':$v.userInfo.password.$error}"
+                  @click="$v.userInfo.password.$touch()"
                 >
                 <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
                   <small
@@ -53,6 +54,7 @@
                   v-model.trim="$v.userInfo.confirmPassword.$model"
                   type="password"
                   class="form-control"
+                  @click="$v.userInfo.confirmPassword.$touch()"
                 >
                 <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-2">
                   <small
@@ -98,6 +100,7 @@ export default {
         minLength: minLength(6)
       },
       confirmPassword: {
+        required,
         sameAsPassword: sameAs('password')
       }
     }

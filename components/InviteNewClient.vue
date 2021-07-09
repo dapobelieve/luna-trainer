@@ -221,17 +221,6 @@
                     {{ parseInt(val) + 1 }}
                   </option>
                 </select>
-                <!-- <label
-                  for="age"
-                  class="block text-sm font-medium text-gray-700"
-                >Age</label>
-                <input
-                  id="age"
-                  v-model.trim="$v.clientInfo.petAge.$model"
-                  type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ invalid: $v.clientInfo.petAge.$error}"
-                /> -->
               </div>
             </div>
           </div>
