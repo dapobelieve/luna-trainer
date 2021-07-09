@@ -1,5 +1,5 @@
 <template>
-  <page-loader-view>
+  <async-view>
     <div v-if="acceptedClients.length" class="tail-grid">
       <ClientCard v-for="n in acceptedClients" :key="n._id" :client="n" />
     </div>
@@ -58,7 +58,7 @@
         <InviteNewClient @close="addClient = $event" />
       </template>
     </MainModal>
-  </page-loader-view>
+  </async-view>
 </template>
 
 <script>

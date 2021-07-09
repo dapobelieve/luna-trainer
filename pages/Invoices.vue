@@ -74,7 +74,7 @@
       </div>
     </div>
 
-    <page-loader-view loader-id="invoices">
+    <async-view loader-id="invoices">
       <template v-if="fetchAllInvoices.length">
         <div class="tail-flex tail-flex-col">
           <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
@@ -155,7 +155,7 @@
           </p>
         </div>
       </div>
-    </page-loader-view>
+    </async-view>
     <Modal :is-open="viewModal" @close="viewModal = $event">
       <InviteNewClient @close="viewModal = $event" />
     </Modal>

@@ -4,21 +4,21 @@ export const state = () => ({
 })
 
 export const mutations = {
-  LOADER_START (state, id) {
+  PROCESS_START (state, id) {
     state.isLoading = true
     state.id = id || ''
   },
-  LOADER_FINISH (state) {
+  PROCESS_END (state) {
     state.isLoading = false
     state.id = ''
   }
 }
 
 export const actions = {
-  startLoader ({ commit }, id) {
-    commit('LOADER_START', id)
+  startProcess ({ commit }, id) {
+    commit('PROCESS_START', id)
   },
-  stopLoader ({ commit }) {
-    commit('LOADER_FINISH')
+  endProcess ({ commit }) {
+    commit('PROCESS_END')
   }
 }

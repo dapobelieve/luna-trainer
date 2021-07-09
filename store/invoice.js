@@ -45,15 +45,15 @@ export const actions = {
       })
   },
   getAllInvoices ({ commit, dispatch }) {
-    dispatch('loader/startLoader', 'invoices', { root: true })
+    dispatch('loader/startProcess', 'invoices', { root: true })
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice?status=draft`)
       .then((response) => {
         commit('SET_ALL_INVOICES', response.data)
-        dispatch('loader/stopLoader', '', { root: true })
+        dispatch('loader/endProcess', '', { root: true })
         return response.data
       }).catch(() => {
-        dispatch('loader/stopLoader', '', { root: true })
+        dispatch('loader/endProcess', '', { root: true })
       })
   },
   getSingleInvoice ({ commit }, invoiceId) {

@@ -14,7 +14,7 @@
 <script>
 /* eslint-disable curly */
 export default {
-  name: 'PageLoaderView',
+  name: 'AsyncView',
   props: {
     loaderId: {
       type: String,
