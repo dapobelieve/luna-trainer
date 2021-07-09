@@ -408,7 +408,7 @@
     <Modal :is-open="openBankModal" @close="openBankModal = $event">
       <BankAccountDetails />
     </Modal>
-    <Modal v-for="client in acceptedClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event">
+    <Modal v-for="client in acceptedClients" :key="client.index" :status="client.status" :is-open="openClientModal" @close="openClientModal = $event">
       <ClientInfoPreview :client="client" />
     </Modal>
   </main>
