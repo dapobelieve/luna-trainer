@@ -125,7 +125,8 @@
                   <div
                     v-for="client in acceptedClients"
                     :key="client.index"
-                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
+                    @click="openClientModal = true"
                   >
                     <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
                     <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
@@ -192,7 +193,8 @@
                   <div
                     v-for="client in acceptedClients.slice(0,4)"
                     :key="client.index"
-                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
+                    @click="openClientModal = true"
                   >
                     <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
                     <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
@@ -403,16 +405,12 @@
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
-    <!-- <MainModal ref="openModal">
-      <template v-slot:body>
-        <InviteNewClient @close="addClient = $event" />
-      </template>
-    </MainModal> -->
-    <MainModal ref="openBank">
-      <template v-slot:body>
-        <BankAccountDetails />
-      </template>
-    </MainModal>
+    <Modal :is-open="openBankModal" @close="openBankModal = $event">
+      <BankAccountDetails />
+    </Modal>
+    <Modal v-for="client in acceptedClients" :key="client.index" :status="client.status" :is-open="openClientModal" @close="openClientModal = $event">
+      <ClientInfoPreview :client="client" />
+    </Modal>
   </main>
 </template>
 
@@ -429,7 +427,9 @@ export default {
       addClient: false,
       isModalVisible: false,
       isStripeLoading: false,
-      openModal: false
+      openModal: false,
+      openBankModal: false,
+      openClientModal: false
     }
   },
   computed: {
@@ -469,7 +469,7 @@ export default {
   updated () {
     if (!this.$store.state.authorize.isStripeConnected && !this.$store.state.payment.isBankLinked && this.$route.query.stripe === 'connected') {
       this.fetchUserProfile() // to set value of stripe in profile
-      this.$refs.openBank.openModal()
+      this.openBankModal = true
     }
   },
   methods: {

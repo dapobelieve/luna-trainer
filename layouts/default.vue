@@ -27,7 +27,7 @@
       </div>
       <div class="tail-flex">
         <i class="ns-search tail-border tail-rounded tail-p-1 tail-mr-2 md:tail-hidden" />
-        <span role="button" class="tail-relative tail-flex tail-border tail-border-gray-300 tail-rounded tail-mr-2" @click="openMessageDrawer">
+        <span role="button" class="tail-relative tail-flex tail-border tail-border-gray-300 tail-rounded tail-mr-2">
           <small
             v-if="getTotalUnreadMessages.length"
             style="padding: 0.2em !important; font-size: 0.7rem"
@@ -59,13 +59,6 @@
     <div class=" tail-z-0 tail-grid md:tail-flex">
       <Navigation />
       <Nuxt class="views tail-mb-20" />
-      <div class="tail-relative tail-flex tail-justify-end">
-        <div class="tail-absolute">
-          <MessageDrawer
-            v-if="showMessageDrawer"
-          />
-        </div>
-      </div>
     </div>
     <SlideOver :show="showMessageDrawer" @close="showMessageDrawer = $event" />
   </main>
@@ -98,9 +91,6 @@ export default {
   methods: {
     close () {
       this.$emit('closemessagedrawer')
-    },
-    openMessageDrawer () {
-      this.showMessageDrawer = true
     }
   }
 }

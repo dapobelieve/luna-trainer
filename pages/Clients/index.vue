@@ -21,7 +21,7 @@
               end to another. Woof!
             </p>
             <div style="width: fit-content;">
-              <button type="button" class="base-button" @click="$refs.openInvite.openModal()">
+              <button type="button" class="base-button" @click="openModal = true">
                 <span class="">Get Started</span>
               </button>
             </div>
@@ -43,21 +43,16 @@
         <button
           class="base-button"
           type="button"
-          @click="$refs.openInvite.openModal()"
+          @click="openModal = true"
         >
           <i class="ns-add"></i>
           add your first client
         </button>
       </div>
     </div>
-    <!-- <Modal :is-open="addClient" @close="addClient = $event">
+    <Modal :is-open="addClient" @close="addClient = $event">
       <InviteNewClient @close="addClient = $event" />
-    </Modal> -->
-    <MainModal ref="openInvite">
-      <template v-slot:body>
-        <InviteNewClient @close="addClient = $event" />
-      </template>
-    </MainModal>
+    </Modal>
   </async-view>
 </template>
 
