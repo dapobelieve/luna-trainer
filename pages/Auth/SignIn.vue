@@ -86,7 +86,9 @@
         </div>
 
         <div class="tail-flex tail-justify-center">
-          <ButtonSpinner>Login</ButtonSpinner>
+          <ButtonSpinner>
+            Login
+          </ButtonSpinner>
         </div>
       </form>
       <div class="tail-mx-auto">
