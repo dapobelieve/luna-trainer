@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <Modal :is-open="openModal" @close="openModal = $event">
+    <Modal :is-open="openModal" :status="client.status" @close="openModal = $event">
       <ClientInfoPreview :client="client" @close="openModal = $event" />
     </Modal>
 

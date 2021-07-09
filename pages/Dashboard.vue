@@ -125,7 +125,8 @@
                   <div
                     v-for="client in acceptedClients"
                     :key="client.index"
-                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
+                    @click="openClientModal = true"
                   >
                     <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
                     <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
@@ -192,7 +193,8 @@
                   <div
                     v-for="client in acceptedClients.slice(0,4)"
                     :key="client.index"
-                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
+                    @click="openClientModal = true"
                   >
                     <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
                     <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
@@ -406,6 +408,9 @@
     <Modal :is-open="openBankModal" @close="openBankModal = $event">
       <BankAccountDetails />
     </Modal>
+    <Modal v-for="client in acceptedClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event">
+      <ClientInfoPreview :client="client" />
+    </Modal>
   </main>
 </template>
 
@@ -423,7 +428,8 @@ export default {
       isModalVisible: false,
       isStripeLoading: false,
       openModal: false,
-      openBankModal: false
+      openBankModal: false,
+      openClientModal: false
     }
   },
   computed: {

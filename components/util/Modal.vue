@@ -26,7 +26,19 @@
         <div
           class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-4/6 lg:tail-w-3/6"
         >
-          <div class="tail-py-4 tail-px-6">
+          <div class="tail-py-7 tail-px-6">
+            <div class="tail-flex tail-justify-between tail-mb-6">
+              <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
+                {{ status }}
+              </div>
+              <div class="hover:tail-cursor-pointer" @click="$emit('close', false)">
+                <img
+                  class="tail-hidden md:tail-block"
+                  src="~/assets/img/cross-small.png"
+                  alt="cancel"
+                >
+              </div>
+            </div>
             <slot name="default">
               <!-- this is the area where content will be replaced -->
               Replace me with content
@@ -49,6 +61,10 @@ export default {
     close: {
       type: Boolean,
       default: false
+    },
+    status: {
+      type: String,
+      default: 'default'
     }
   }
 }
