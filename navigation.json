@@ -1,9 +1,9 @@
 {
-    "menu" : [
+  "menu": [
     {
-        "icon": "ns-home",
-        "title": "home",
-        "path": "Dashboard"
+      "icon": "ns-home",
+      "title": "home",
+      "path": "Dashboard"
     },
     {
       "icon": "ns-bell-ring",
@@ -21,10 +21,10 @@
       "path": "Settings"
     },
     {
-        "section": "schedule"
+      "section": "schedule"
     },
     {
-      "icon": "ns-calenda",
+      "icon": "ns-calendar",
       "title": "My Schedule",
       "path": "Schedule"
     },
@@ -34,7 +34,7 @@
       "path": "#"
     },
     {
-        "section": "Clients"
+      "section": "Clients"
     },
     {
       "icon": "ns-users",
@@ -67,12 +67,12 @@
       "path": "#"
     },
     {
-        "section": "Invoicing"
+      "section": "Invoicing"
     },
     {
       "icon": "ns-receipt",
       "title": "my invoices",
-      "path": "#"
+      "path": "Invoices"
     },
     {
       "icon": "ns-plus",
@@ -80,7 +80,7 @@
       "path": "#"
     },
     {
-        "section": "Help"
+      "section": "Help"
     },
     {
       "icon": "ns-headset",
@@ -100,7 +100,7 @@
     {
       "icon": "ns-power",
       "title": "sign out",
-      "path": "#"
+      "path": "signout"
     }
-]
+  ]
 }

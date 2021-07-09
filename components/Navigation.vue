@@ -15,7 +15,7 @@
       <div class="tail-space-y-1">
         <div v-for="menu in menus.menu" :key="menu">
           <NuxtLink
-            v-if="menu.path"
+            v-if="menu.path && menu.path !== 'signout'"
             :to="{ name: menu.path }"
             exact-active-class="active"
             class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50"
@@ -25,6 +25,14 @@
               {{ menu.title }}
             </span>
           </NuxtLink>
+          <button
+            v-else-if="menu.path === 'signout'"
+            class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50"
+            @click="signOut"
+          >
+            <i class="ns-power tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />
+            <span class="tail-truncate tail-text-xs tail-font-normal">Signout</span>
+          </button>
           <p v-if="menu.section" class="tail-px-3 tail-text-xs tail-text-gray-500 uppercase tracking-wider">
             {{ menu.section }}
           </p>
@@ -35,6 +43,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import menus from '~/navigation.json'
 export default {
   name: 'Navigation',
@@ -42,6 +51,14 @@ export default {
     return {
       menus,
       showMessageDrawer: false
+    }
+  },
+  methods: {
+    ...mapActions({
+      logOut: 'authorize/logOut'
+    }),
+    signOut () {
+      this.logOut()
     }
   }
 }
