@@ -527,7 +527,7 @@ export default {
   }
 
   .main-view {
-    max-width: calc(100% - 100px);
+    // max-width: calc(100% - 100px);
   }
 }
 </style>

@@ -1,13 +1,14 @@
 <template>
-  <PageLoader />
+  <div>
+    Accepted
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Spinners'
+  name: 'AcceptedInvites'
 }
 </script>
 
 <style lang="scss" scoped>
-
 </style>

@@ -1,9 +1,6 @@
 <template>
-  <div
-    class="lg:tail-pl-14 lg:tail-mr-4 md:tail-px-4 lg:tail-pr-0 md:tail-mt-3 tail-border md:tail-border-none tail-w-full"
-  >
-    <div
-      style="top: 72px"
+  <div>
+    <!-- <div
       class="tail-sticky tail-flex tail-items-center md:tail-rounded-md tail-bg-white tail-px-4 tail-py-3"
     >
       <div
@@ -22,9 +19,6 @@
             >({{ acceptedClients.length }})</span>
           </template>
         </NuxtLink>
-        <!-- <NuxtLink exact-active-class="active" :to="{name: 'Clients-Classes'}">
-          Classes <span class="">(3)</span>
-        </NuxtLink> -->
       </div>
       <div class="relative inline-block text-left">
         <div class="tail-mr-2 md:tail-mr-5 tail-relative">
@@ -92,8 +86,24 @@
           <span class="tail-hidden sm:tail-block">new client</span>
         </button>
       </div>
-    </div>
-    <div class="tail-m-3 md:tail-mx-0 tail-pb-14 lg:tail-pb-10 tail-h-full">
+    </div> -->
+    <PageHeader>
+      <template v-slot:title>
+        Clients
+      </template>
+      <template v-slot:buttons>
+        <button type="button" class="tail-inline-flex tail-items-center tail-px-4 tail-py-2 tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-text-sm tail-font-medium tail-text-gray-700 tail-bg-white hover:tail-bg-gray-50 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
+          Share
+        </button>
+        <button type="button" class="tail-inline-flex tail-items-center tail-px-2.5 tail-py-1.5 tail-border tail-border-transparent tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-white tail-bg-indigo-600 hover:tail-bg-indigo-700 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
+          Button text
+        </button>
+        <button type="button" class="tail-inline-flex tail-items-center tail-px-4 tail-py-2 border tail-border-transparent tail-rounded-md tail-shadow-sm tail-tail-text-sm tail-font-medium tail-text-white tail-bg-indigo-600 hover:tail-bg-indigo-700 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
+          Create
+        </button>
+      </template>
+    </PageHeader>
+    <div class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full">
       <nuxt-child />
     </div>
     <Modal :is-open="openModal" @close="openModal = $event">
@@ -113,6 +123,11 @@ export default {
       clients: false,
       active: true,
       openModal: false
+    }
+  },
+  head () {
+    return {
+      title: 'All Clients'
     }
   },
   computed: {
