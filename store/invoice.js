@@ -1,5 +1,5 @@
 export const state = () => ({
-  invoices: [],
+  draftInvoices: [],
   allInvoicesLoadingLoading: true,
   tempInvoice: {
     date: new Date().toISOString().substring(0, 10),
@@ -44,7 +44,7 @@ export const actions = {
         return response
       })
   },
-  getAllInvoices ({ commit }) {
+  getAllDraftInvoices ({ commit }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice?status=draft`)
       .then((response) => {
@@ -71,5 +71,5 @@ export const actions = {
 }
 
 export const getters = {
-  getAllInvoices: state => state.invoices
+  getAllDraftInvoices: state => state.draftInvoices
 }

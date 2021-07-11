@@ -21,19 +21,6 @@
       "path": "Settings"
     },
     {
-      "section": "schedule"
-    },
-    {
-      "icon": "ns-calendar",
-      "title": "My Schedule",
-      "path": "Schedule"
-    },
-    {
-      "icon": "ns-plus",
-      "title": "add new session",
-      "path": "#"
-    },
-    {
       "section": "Clients"
     },
     {
@@ -44,26 +31,6 @@
     {
       "icon": "ns-plus",
       "title": "invite new client",
-      "path": "#"
-    },
-    {
-      "icon": "ns-users",
-      "title": "my classes",
-      "path": "#"
-    },
-    {
-      "icon": "ns-plus",
-      "title": "new class",
-      "path": "#"
-    },
-    {
-      "icon": "ns-clip",
-      "title": "my groups",
-      "path": "#"
-    },
-    {
-      "icon": "ns-plus",
-      "title": "new group",
       "path": "#"
     },
     {

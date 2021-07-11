@@ -27,7 +27,7 @@
           </NuxtLink>
           <button
             v-else-if="menu.path === 'signout'"
-            class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50"
+            class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50 tail-w-full"
             @click="signOut"
           >
             <i class="ns-power tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />

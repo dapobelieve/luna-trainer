@@ -91,7 +91,7 @@ export default {
   methods: {
     ...mapActions({
       sendInvoice: 'invoice/createInvoice',
-      fetchInvoices: 'invoice/getAllInvoices'
+      fetchInvoices: 'invoice/getAllDraftInvoices'
     }),
     createInvoice () {
       this.isLoading = true

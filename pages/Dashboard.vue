@@ -436,7 +436,7 @@ export default {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
-      allInvoices: 'invoice/getAllInvoices',
+      allInvoices: 'invoice/getAllDraftInvoices',
       acceptedClients: 'client/getAllAcceptedClients'
     }),
     getMonth () {
@@ -475,7 +475,7 @@ export default {
   methods: {
     ...mapActions({
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
-      fetchAllInvoices: 'invoice/getAllInvoices',
+      fetchAllInvoices: 'invoice/getAllDraftInvoices',
       fetchAcceptedClients: 'client/fetchAllAcceptedClients',
       connectToStripe: 'invoice/stripeConnect',
       fetchUserProfile: 'authorize/getUserProfile'

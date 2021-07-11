@@ -30,9 +30,7 @@
           <div class="tail-py-7 tail-px-6">
             <div class="tail-flex tail-justify-between tail-mb-6">
               <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-                <slot name="title">
-                  {{ status }}
-                </slot>
+                {{ status }}
               </div>
               <div class="hover:tail-cursor-pointer" @click="$emit('close', false)">
                 <img
