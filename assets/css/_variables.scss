@@ -19,6 +19,8 @@ $location-remote-light-color: #E5FDFF;
 $danger-light-color: #FBEAEA;
 $request-color: #D38F29;
 $request-opacity-color: rgba(211, 143, 41, 0.15);
+$baseFontFamily: 'DM Sans';
+
 
 @mixin fontDetails($fontFamily, $font-Style) {
     font-family: $fontFamily;
