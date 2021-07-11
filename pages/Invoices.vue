@@ -73,86 +73,89 @@
         </button>
       </div>
     </div>
-    <template v-if="fetchAllInvoices.length">
-      <div class="tail-flex tail-flex-col">
-        <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
-          <div class="tail-py-2 tail-align-middle tail-inline-block tail-min-w-full sm:tail-px-0 lg:tail-px-0">
-            <div class="tail-tail-shadow tail-overflow-hidden tail-border-b tail-border-gray-200 sm:tail-rounded-lg">
-              <table class="tail-min-w-full tail-divide-y tail-divide-gray-200">
-                <thead class="tail-bg-gray-50">
-                  <tr>
-                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
-                      Name
-                    </th>
-                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
-                      Invoice No.
-                    </th>
-                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
-                      Created
-                    </th>
-                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
-                      Amount
-                    </th>
-                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium text-gray-500 tail-uppercase tail-tracking-wider">
-                      Status
-                    </th>
-                    <th scope="col" class="tail-relative tail-px-6 tail-py-3">
-                      <span class="tail-sr-only">Edit</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr
-                    v-for="invoice in getAllInvoices"
-                    :key="invoice.index"
-                    class="bg-white"
-                  >
-                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900">
-                      <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
 
-                      {{ invoice.customerId.firstName }}
-                      {{ invoice.customerId.lastName }}
-                    </td>
-                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
-                      {{ invoice.invoiceNo }}
-                    </td>
-                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
-                      {{ new Date(invoice.dueDate).toDateString() }}
-                    </td>
-                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
-                      £ {{ invoice.total }}
-                    </td>
-                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
-                      <span class="tail-px-2 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-bg-green-100 tail-text-green-800">
-                        {{ invoice.status }}
-                      </span>
-                    </td>
-                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-right text-sm font-medium">
-                      <button class="text-indigo-600 hover:text-indigo-900" @click.prevent="sendInvoice(invoice)">
-                        send
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+    <async-view loader-id="invoices">
+      <template v-if="fetchAllInvoices.length">
+        <div class="tail-flex tail-flex-col">
+          <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
+            <div class="tail-py-2 tail-align-middle tail-inline-block tail-min-w-full sm:tail-px-0 lg:tail-px-0">
+              <div class="tail-tail-shadow tail-overflow-hidden tail-border-b tail-border-gray-200 sm:tail-rounded-lg">
+                <table class="tail-min-w-full tail-divide-y tail-divide-gray-200">
+                  <thead class="tail-bg-gray-50">
+                    <tr>
+                      <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                        Name
+                      </th>
+                      <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                        Invoice No.
+                      </th>
+                      <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                        Created
+                      </th>
+                      <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                        Amount
+                      </th>
+                      <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium text-gray-500 tail-uppercase tail-tracking-wider">
+                        Status
+                      </th>
+                      <th scope="col" class="tail-relative tail-px-6 tail-py-3">
+                        <span class="tail-sr-only">Edit</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      v-for="invoice in getAllInvoices"
+                      :key="invoice.index"
+                      class="bg-white"
+                    >
+                      <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900">
+                        <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
+
+                        {{ invoice.customerId.firstName }}
+                        {{ invoice.customerId.lastName }}
+                      </td>
+                      <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                        {{ invoice.invoiceNo }}
+                      </td>
+                      <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                        {{ new Date(invoice.dueDate).toDateString() }}
+                      </td>
+                      <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                        £ {{ invoice.total }}
+                      </td>
+                      <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                        <span class="tail-px-2 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-bg-green-100 tail-text-green-800">
+                          {{ invoice.status }}
+                        </span>
+                      </td>
+                      <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-right text-sm font-medium">
+                        <button class="text-indigo-600 hover:text-indigo-900" @click.prevent="sendInvoice(invoice)">
+                          send
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
+      </template>
+      <div
+        v-else
+        class="tail-mt-10 tail-flex tail-flex-col tail-items-center tail-justify-items-center"
+      >
+        <div style="max-width: 266px" class="tail-text-center">
+          <h5 style="color: #12263f" class="">
+            <strong> No Invoices </strong>
+          </h5>
+          <p style="color: #70839f">
+            You have no invoices.
+          </p>
+        </div>
       </div>
-    </template>
-    <div
-      v-else
-      class="tail-mt-10 tail-flex tail-flex-col tail-items-center tail-justify-items-center"
-    >
-      <div style="max-width: 266px" class="tail-text-center">
-        <h5 style="color: #12263f" class="">
-          <strong> No Invoices </strong>
-        </h5>
-        <p style="color: #70839f">
-          You have no invoices.
-        </p>
-      </div>
-    </div>
+    </async-view>
     <Modal :is-open="viewModal" @close="viewModal = $event">
       <InviteNewClient @close="viewModal = $event" />
     </Modal>
@@ -180,7 +183,7 @@ export default {
       getAllInvoices: 'invoice/getAllInvoices'
     })
   },
-  mounted () {
+  created () {
     this.fetchInvoices()
     this.getInvoices()
   },
