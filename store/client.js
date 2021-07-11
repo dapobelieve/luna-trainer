@@ -68,6 +68,11 @@ export const actions = {
         commit('INVITED_CLIENTS', data.data)
         return data.data
       })
+  },
+  getSingleClient ({ commit }, userId) {
+    return this.$axios.$get(`${process.env.BASEURL_HOST}/profile/${userId}`).then(({ data }) => {
+      return data
+    })
   }
 }
 

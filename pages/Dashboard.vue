@@ -419,6 +419,7 @@ import { formatDistance } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
+  layout: 'dashboardLayout',
   middleware: ['qbInits'],
   data () {
     return {

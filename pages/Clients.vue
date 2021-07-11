@@ -87,20 +87,9 @@
         </button>
       </div>
     </div> -->
-    <PageHeader>
+    <PageHeader v-if="$route.name !== 'Clients-id-Messages'">
       <template v-slot:title>
         Clients
-      </template>
-      <template v-slot:buttons>
-        <button type="button" class="tail-inline-flex tail-items-center tail-px-4 tail-py-2 tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-text-sm tail-font-medium tail-text-gray-700 tail-bg-white hover:tail-bg-gray-50 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
-          Share
-        </button>
-        <button type="button" class="tail-inline-flex tail-items-center tail-px-2.5 tail-py-1.5 tail-border tail-border-transparent tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-white tail-bg-indigo-600 hover:tail-bg-indigo-700 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
-          Button text
-        </button>
-        <button type="button" class="tail-inline-flex tail-items-center tail-px-4 tail-py-2 border tail-border-transparent tail-rounded-md tail-shadow-sm tail-tail-text-sm tail-font-medium tail-text-white tail-bg-indigo-600 hover:tail-bg-indigo-700 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
-          Create
-        </button>
       </template>
     </PageHeader>
     <div class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full">

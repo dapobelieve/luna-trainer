@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="getAllInvoices.length" class="tail-grid">
+    <div v-if="draftInvoices.length" class="tail-grid">
       <div class="tail-flex tail-flex-col">
         <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
           <div class="tail-py-2 tail-align-middle tail-inline-block tail-min-w-full sm:tail-px-0 lg:tail-px-0">
@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="invoice in getAllInvoices"
+                    v-for="invoice in draftInvoices"
                     :key="invoice.index"
                     class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
                     @click="openDetails(invoice)"
@@ -76,7 +76,6 @@
           type="button"
           @click="createInvoice = true"
         >
-          <i class="ns-plus"></i>
           Create an invoice
         </button>
       </div>
@@ -105,7 +104,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getAllInvoices: 'invoice/getAllInvoices'
+      draftInvoices: 'invoice/getAllDraftInvoices'
     })
   },
   mounted () {
@@ -113,7 +112,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getInvoices: 'invoice/getAllInvoices'
+      getInvoices: 'invoice/getAllDraftInvoices'
     }),
     openDetails (invoice) {
       this.currentInvoice = invoice

@@ -12,7 +12,7 @@
       <label class="tail-text-sm">
         Include on this email
       </label>
-      <input class="tail-py-1 tail-px-2 tail-border tail-border-gray-300 tail-rounded-md tail-w-full">
+      <input v-model="email" class="tail-py-1 tail-px-2 tail-border tail-border-gray-300 tail-rounded-md tail-w-full">
     </div>
     <div class="tail-flex tail-justify-end">
       <button :disabled="isLoading" class="base-button" @click.prevent="sendInvoice">

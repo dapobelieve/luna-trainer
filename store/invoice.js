@@ -1,5 +1,5 @@
 export const state = () => ({
-  draftInvoices: [],
+  invoices: [],
   allInvoicesLoadingLoading: true,
   tempInvoice: {
     date: new Date().toISOString().substring(0, 10),
@@ -71,5 +71,6 @@ export const actions = {
 }
 
 export const getters = {
-  getAllDraftInvoices: state => state.draftInvoices
+  getAllDraftInvoices: state =>
+    state.invoices.filter(i => i.status === 'draft')
 }
