@@ -29,7 +29,8 @@
                   v-model.trim="$v.clientInfo.firstName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ invalid: $v.clientInfo.firstName.$error}"
+                  :class="{ 'is-invalid': $v.clientInfo.firstName.$error,'is-valid': $v.clientInfo.firstName.$invalid}"
+                  @click="$v.clientInfo.firstName.$touch()"
                 />
                 <div v-if="$v.clientInfo.firstName.$error" class="tail-mt-2">
                   <small v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500">
@@ -49,6 +50,7 @@
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   :class="{ invalid: $v.clientInfo.lastName.$error}"
+                  @click="$v.clientInfo.lastName.$touch()"
                 />
                 <div v-if="$v.clientInfo.lastName.$error" class="tail-mt-2">
                   <small v-if="!$v.clientInfo.lastName.required" class="error tail-text-red-500">
@@ -68,6 +70,7 @@
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.phone.$error}"
+                @click="$v.clientInfo.phone.$touch()"
               />
               <div v-if="$v.clientInfo.phone.$error" class="tail-mt-2">
                 <small v-if="!$v.clientInfo.phone.required" class="error tail-text-red-500">
@@ -91,6 +94,7 @@
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.email.$error}"
+                @click="$v.clientInfo.email.$touch()"
               />
               <div v-if="$v.clientInfo.email.$error" class="tail-mt-2">
                 <small v-if="!$v.clientInfo.email.required" class="error tail-text-red-500">
@@ -115,11 +119,6 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.locationAddress.$error}"
               />
-              <div v-if="$v.clientInfo.locationAddress.$error" class="tail-mt-2">
-                <small v-if="!$v.clientInfo.locationAddress.required" class="error tail-text-red-500">
-                  Field is required.
-                </small>
-              </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -135,11 +134,6 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.city.$error}"
               />
-              <div v-if="$v.clientInfo.city.$error" class="tail-mt-2">
-                <small v-if="!$v.clientInfo.city.required" class="error tail-text-red-500">
-                  Field is required.
-                </small>
-              </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -155,11 +149,6 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.locationZip.$error}"
               />
-              <div v-if="$v.clientInfo.locationZip.$error" class="tail-mt-2">
-                <small v-if="!$v.clientInfo.locationZip.required" class="error tail-text-red-500">
-                  Field is required.
-                </small>
-              </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -174,6 +163,7 @@
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ invalid: $v.clientInfo.petName.$error}"
+                @click="$v.clientInfo.petName.$touch()"
               />
               <div v-if="$v.clientInfo.petName.$error" class="tail-mt-2">
                 <small v-if="!$v.clientInfo.petName.required" class="error tail-text-red-500">
@@ -198,6 +188,7 @@
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   :class="{ invalid: $v.clientInfo.petBreed.$error}"
+                  @click="$v.clientInfo.petBreed.$touch()"
                 />
                 <div v-if="$v.clientInfo.petBreed.$error" class="tail-mt-2">
                   <small v-if="!$v.clientInfo.petBreed.required" class="error tail-text-red-500">
@@ -270,7 +261,7 @@
               cancel
             </button>
             <template
-              v-if="clientInfo.notes === ''"
+              v-if="clientInfo.petBreed === ''"
             >
               <button
                 :disabled="disabled"
