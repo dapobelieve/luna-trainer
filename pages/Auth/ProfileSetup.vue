@@ -99,14 +99,14 @@
             for="specialise"
             class="form-label"
           >What do you specialise in?</label>
-          <tag-input :block="false" v-model="this.profileInfo.specialization" />
+          <tag-input :block="false" v-model="profileInfo.specialization" />
         </div>
         <div class="">
           <label
             for="accreditations"
             class="form-label"
           >What are your Accreditations?</label>
-          <tag-input :block="false" v-model="this.profileInfo.accreditations" />
+          <tag-input :block="false" v-model="profileInfo.accreditations" />
         </div>
         <div class="">
           <label
@@ -133,24 +133,12 @@
 </template>
 <script>
 import { required } from 'vuelidate/lib/validators'
-
 import { mapActions } from 'vuex'
-import TagInput from '../../components/TagInput.vue'
+
 export default {
-  components: { TagInput },
   name: 'ProfileSetup',
-  beforeRouteEnter (to, from, next) {
-    if (from.name === 'Auth-SignIn' || from.name === 'Auth-SignUp') {
-      next((vm) => {
-        vm.$nextTick(function () {
-          setTimeout(() => {
-            this.$toast.info('Please complete your profile.', { position: 'top-right' })
-          }, 4100)
-        })
-      })
-    } else {
-      next({ name: 'Auth-SignIn' })
-    }
+  mounted () {
+    this.$toast.info('Please complete your profile.', { position: 'top-right' })
   },
   layout: 'authLayout',
   auth: false,
@@ -170,7 +158,6 @@ export default {
       accreditations: [],
       useOfReinforcement: null,
       profilePic: null,
-      // email: this.$route.params.email,
       type: 'trainer',
       status: 'invited'
     }
