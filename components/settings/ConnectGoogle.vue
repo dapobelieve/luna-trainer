@@ -34,7 +34,7 @@
 </template>
 <script>
 export default {
-  name: 'ConnectGoogleComp',
+  name: 'SettingsConnectGoogle',
   data () {
     return {
       isLoading: false

@@ -160,17 +160,17 @@
             :type="showConfirmPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           />
-          <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-2">
+          <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.confirmPassword.sameAsPassword"
-              class="error tail-text-red-500 tail-mt-2"
+              class="error tail-text-red-500 tail-mt-1"
             >
               Passwords must be identical.
             </small>
           </div>
         </div>
         <div class="tail-flex tail-justify-center">
-          <button :disabled="isLoading" class="base-button">
+          <button :disabled="disabled" class="base-button">
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ isLoading ? 'Processing...' : 'Get Started' }}
           </button>
@@ -230,10 +230,8 @@ export default {
   },
   computed: {
     disabled () {
-      // validate fields
-      const checkPasswords = Boolean(this.userInfo.password) && this.userInfo.password === this.userInfo.confirmPassword
-      const checkUuserName = this.userInfo.userName ? (this.userInfo.userName.length >= 2 && Boolean(this.userInfo.userName)) : false
-      return checkUuserName && checkPasswords
+      console.log(this.$v)
+      return this.$v.$error || this.isLoading
     }
   },
   methods: {
@@ -241,81 +239,79 @@ export default {
       signUpUser: 'authorize/signUpUser'
     }),
     signUp () {
-      if (this.disabled) {
-        this.isLoading = true
-        return this.signUpUser(this.userInfo)
-          .then((result) => {
-            if (result === 'success') {
-              try {
-                this.$auth
-                  .login({
-                    data: {
-                      userName: this.userInfo.userName,
-                      password: this.userInfo.password,
-                      domain: 'getwelp-trainer-ui'
-                    }
+      this.isLoading = true
+      return this.signUpUser(this.userInfo)
+        .then((result) => {
+          if (result === 'success') {
+            try {
+              this.$auth
+                .login({
+                  data: {
+                    userName: this.userInfo.userName,
+                    password: this.userInfo.password,
+                    domain: 'getwelp-trainer-ui'
+                  }
+                })
+                .then((response) => {
+                  this.$toast.success('Signup Successful', {
+                    position: 'bottom-right'
                   })
-                  .then((response) => {
-                    this.$toast.success('Signup Successful', {
-                      position: 'bottom-right'
+                  const tokens = {
+                    token: response.data.data.accessToken,
+                    refreshToken: response.data.data.refreshToken
+                  }
+                  // set necessary tokens
+                  this.$store.dispatch('authorize/setToken', tokens)
+                  // fetch user profile
+                  this.$store
+                    .dispatch('authorize/getUserProfile')
+                    .then((response) => {
+                      response === null
+                        ? this.$router.push({
+                          name: 'Auth-ProfileSetup',
+                          params: { email: this.userInfo.email }
+                        })
+                        : this.$router.push({ name: 'Dashboard' })
                     })
-                    const tokens = {
-                      token: response.data.data.accessToken,
-                      refreshToken: response.data.data.refreshToken
-                    }
-                    // set necessary tokens
-                    this.$store.dispatch('authorize/setToken', tokens)
-                    // fetch user profile
-                    this.$store
-                      .dispatch('authorize/getUserProfile')
-                      .then((response) => {
-                        response === null
-                          ? this.$router.push({
-                            name: 'Auth-ProfileSetup',
-                            params: { email: this.userInfo.email }
-                          })
-                          : this.$router.push({ name: 'Dashboard' })
-                      })
-                  })
-              } catch (error) {
-                console.log(error)
-                if (error.response) {
-                  this.$toast.error(
-                    `Something went wrong: ${error.response.data.message}`,
-                    { position: 'bottom-right' }
-                  )
-                } else if (error.request) {
-                  this.$toast.error('Something went wrong. Try again', {
-                    position: 'bottom-right'
-                  })
-                } else {
-                  this.$toast.error(`Something went wrong: ${error.message}`, {
-                    position: 'bottom-right'
-                  })
-                }
+                })
+            } catch (error) {
+              console.log(error)
+              if (error.response) {
+                this.$toast.error(
+                  `Something went wrong: ${error.response.data.message}`,
+                  { position: 'bottom-right' }
+                )
+              } else if (error.request) {
+                this.$toast.error('Something went wrong. Try again', {
+                  position: 'bottom-right'
+                })
+              } else {
+                this.$toast.error(`Something went wrong: ${error.message}`, {
+                  position: 'bottom-right'
+                })
               }
             }
-          })
-          .catch((err) => {
-            console.log(err)
-            if (err.response) {
-              this.$toast.error(
-                `Something went wrong: ${err.response.data.message}`,
-                { position: 'bottom-right' }
-              )
-            } else if (err.request) {
-              this.$toast.error('Something went wrong. Try again', {
-                position: 'bottom-right'
-              })
-            } else {
-              this.$toast.error(`Something went wrong: ${err.message}`, {
-                position: 'bottom-right'
-              })
-            }
-          }).finally(() => {
-            this.isLoading = false
-          })
-      }
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+          if (err.response) {
+            this.$toast.error(
+              `Something went wrong: ${err.response.data.message}`,
+              { position: 'bottom-right' }
+            )
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', {
+              position: 'bottom-right'
+            })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, {
+              position: 'bottom-right'
+            })
+          }
+        }).finally(() => {
+          this.isLoading = false
+        })
     }
   }
 }
