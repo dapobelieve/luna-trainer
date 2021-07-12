@@ -1,21 +1,5 @@
 <template>
-  <div class="right-card tail-px-10 tail-py-8 tail-rounded-lg">
-    <h1 class="tail-font-medium tail-text-xl tail-pt-2">
-      Preview
-    </h1>
-    <div class="tail-pb-4">
-      <span
-        class="tail-text-gray-400 tail-text-sm"
-      >A short description about this section</span>
-    </div>
-    <div class="tail-flex tail-pb-4">
-      <div class="">
-        <span class="tail-text-gray-500">Email</span>
-      </div>
-      <div class="tail-px-5">
-        <span>Invoice PDF</span>
-      </div>
-    </div>
+  <div class="tail-py-5 tail-rounded-lg" style="background-color: #f0f5fa;">
     <div class="tail-bg-white tail-rounded-md tail-p-8">
       <div class="tail-pb-4 tail-grid tail-grid-cols-2 tail-gap-8">
         <div>
@@ -43,10 +27,10 @@
         <div class="">
           <div>
             <p class="tail-text-gray-500 tail-text-sm">
-              Bill to: <span class="tail-capitalize tail-text-black">{{ `${$route.params.client.firstName} ${$route.params.client.lastName}` }}</span>
+              Bill to: <span class="tail-capitalize tail-text-black">{{ `${client && client.firstName} ${client && client.lastName}` }}</span>
             </p>
             <p class="tail-text-gray-500 tail-text-sm">
-              Email: <span class="tail-text-black">{{ `${$route.params.client.email}` }}</span>
+              Email: <span class="tail-text-black">{{ `${client && client.email}` }}</span>
             </p>
           </div>
           <div class="tail-py-4">
@@ -127,6 +111,7 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   name: 'RightInvoicePdf',
   filters: {
@@ -136,6 +121,11 @@ export default {
         (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
         '0'
       )
+    }
+  },
+  data () {
+    return {
+      client: null
     }
   },
   computed: {
@@ -154,6 +144,16 @@ export default {
       }
       return this.invoiceServices[0].pricing.amount
     }
+  },
+  mounted () {
+    this.getThisClient(this.$route.params.id).then((response) => {
+      this.client = response
+    }).catch()
+  },
+  methods: {
+    ...mapActions({
+      getThisClient: 'client/getSingleClient'
+    })
   }
 }
 </script>

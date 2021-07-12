@@ -1,11 +1,11 @@
 <template>
-  <div class="main tail-p-3 tail-pl-20 tail-flex">
+  <div class="main tail-p-3 tail-flex">
     <div class="message-box tail-pr-5">
       <div class="tail-border tail-border-gray-200 tail-rounded-md tail-overflow-hidden tail-flex tail-flex-col tail-justify-between tail-h-full tail-items-center tail-relative">
         <!-- header part -->
         <div class="tail-bg-white tail-px-3 tail-py-2 tail-flex tail-items-center tail-w-full">
           <i role="button" class="ns-angle-left tail-p-1 tail-border tail-rounded tail-border-gray-300 tail-mr-5" @click="$router.push({ name: 'Clients' })"></i>
-          <span class="tail-capitalize tail-ml-2 tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
+          <span class="tail-capitalize tail-ml-2 tail-font-medium">{{ client && client.firstName }} {{ client && client.lastName }}</span>
         </div>
 
         <!-- messages area -->
@@ -60,10 +60,10 @@
     </div>
     <div class="contact tail-rounded-md tail-p-3">
       <div class="tail-flex tail-items-center">
-        <ClientAvatar :firstname="$route.params.client.firstName" :lastname="$route.params.client.lastName" />
+        <ClientAvatar :firstname="client && client.firstName" :lastname="client && client.lastName" />
         <div class="tail-ml-2">
           <p class="tail-text-sm">
-            <span class="tail-font-medium">{{ $route.params.client.firstName }} {{ $route.params.client.lastName }}</span>
+            <span class="tail-font-medium">{{ client && client.firstName }} {{ client && client.lastName }}</span>
           </p>
           <div class="tail-flex tail-items-center">
             <img
@@ -75,7 +75,7 @@
           </div>
           <div class="tail-flex tail-items-center">
             <i class="ns-location-alt"></i>
-            <span class="tail-text-xs tail-ml-1">{{ $route.params.client.location.address }}</span>
+            <span class="tail-text-xs tail-ml-1">{{ client && client.location.address }}</span>
           </div>
         </div>
       </div>
@@ -98,18 +98,19 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 const QuickBlox = require('quickblox/quickblox.min')
 export default {
   name: 'Messages',
   data () {
     return {
+      client: null,
       openBankModal: false,
       showAlert: false,
       // showStripeAlert: false,
       message: '',
       msgHistory: [],
-      occupantId: this.$route.params.client ? this.$route.params.client.qbId : null,
+      occupantId: this.client ? this.client.qbId : null,
       dialogStatus: false,
       dialogId: null
     }
@@ -159,9 +160,13 @@ export default {
     }
   },
   mounted () {
+    this.getThisClient(this.$route.params.id).then((response) => {
+      console.log(response)
+      this.client = response
+    }).catch()
     this.$nextTick(async () => {
       await this.$axios
-        .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.$route.params.client.userId}`).then(({ result }) => {
+        .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.$route.params.id}`).then(({ result }) => {
           if (result.length) {
             console.log('result is ', result)
             this.dialogId = result[0]._id
@@ -350,11 +355,14 @@ export default {
     ...mapMutations('qb', {
       clearMessageCount: 'CLEAR_MESSAGE_COUNT'
     }),
+    ...mapActions({
+      getThisClient: 'client/getSingleClient'
+    }),
     createInvoice () {
       if (!this.$auth.user.services.length) {
         this.showAlert = true
       } else {
-        this.$router.push({ name: 'NewInvoices', params: { client: this.$route.params.client } })
+        this.$router.push({ name: 'NewInvoice-id', params: { id: this.$route.params.id } })
       }
       // else if (!this.$store.state.payment.isBankLinked) {
       //   this.openBank = true
@@ -424,9 +432,8 @@ export default {
           }
         })
       } else {
-        // if (this.message) {
         console.log('two')
-        const dialogId = this.$route.params.dialogId ? this.$route.params.dialogId : this.dialogId
+        const dialogId = this.dialogId
         console.log('sent to dialog id', dialogId)
         const message = {
           type: 'chat',
@@ -434,11 +441,10 @@ export default {
           extension: {
             save_to_history: 1,
             dialog_id: dialogId
-            // dialog_id: '60ddd75893a945005591565f'
           },
           markable: 1
         }
-        const opponentId = parseInt(this.occupantId)
+        const opponentId = parseInt(this.client.qbId)
         console.log('opp id', opponentId)
         try {
           message.id = QuickBlox.chat.send(opponentId, message)

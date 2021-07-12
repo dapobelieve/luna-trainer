@@ -22,11 +22,6 @@
             {{ client.location.address }}, {{ client.city }}.
           </span>
         </div>
-        <!-- <div>
-          <div class="tail-flex tail-items-center">
-            <span class="tail-text-gray-500">2 new updates</span>
-          </div>
-        </div> -->
       </div>
     </div>
 
@@ -55,16 +50,10 @@
           <span class="tail-capitalize tail-ml-1">message</span>
         </button>
         <!-- <button
-            class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
-          >
-            <i class="ns-calendar"></i>
-            <span class="tail-capitalize tail-ml-1">create session</span>
-          </button> -->
-        <button
           class="tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
         >
           <i class="ns-menu-dots"></i>
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
@@ -112,9 +101,9 @@ export default {
     },
     openMessage () {
       this.$router.push({
-        name: 'Messages',
+        name: 'Clients-id-Messages',
         params: {
-          client: this.client
+          id: this.client.userId
         }
       })
     }

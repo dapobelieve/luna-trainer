@@ -419,6 +419,7 @@ import { formatDistance } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
+  layout: 'dashboardLayout',
   middleware: ['qbInits'],
   data () {
     return {
@@ -436,7 +437,7 @@ export default {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
-      allInvoices: 'invoice/getAllInvoices',
+      allInvoices: 'invoice/getAllDraftInvoices',
       acceptedClients: 'client/getAllAcceptedClients'
     }),
     getMonth () {
@@ -475,7 +476,7 @@ export default {
   methods: {
     ...mapActions({
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
-      fetchAllInvoices: 'invoice/getAllInvoices',
+      fetchAllInvoices: 'invoice/getAllDraftInvoices',
       fetchAcceptedClients: 'client/fetchAllAcceptedClients',
       connectToStripe: 'invoice/stripeConnect',
       fetchUserProfile: 'authorize/getUserProfile'
@@ -527,7 +528,7 @@ export default {
   }
 
   .main-view {
-    max-width: calc(100% - 100px);
+    // max-width: calc(100% - 100px);
   }
 }
 </style>

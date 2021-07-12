@@ -74,6 +74,11 @@ export const actions = {
       }).catch(() => {
         dispatch('loader/endProcess', null, { root: true })
       })
+  },
+  getSingleClient ({ commit }, userId) {
+    return this.$axios.$get(`${process.env.BASEURL_HOST}/profile/${userId}`).then(({ data }) => {
+      return data
+    })
   }
 }
 

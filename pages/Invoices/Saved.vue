@@ -73,7 +73,7 @@ export default {
   name: 'Saved',
   computed: {
     ...mapGetters({
-      getAllInvoices: 'invoice/getAllInvoices'
+      getAllDraftInvoices: 'invoice/getAllDraftInvoices'
     })
   },
   mounted () {
@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getInvoices: 'invoice/getAllInvoices'
+      getInvoices: 'invoice/getAllDraftInvoices'
     })
   }
 }

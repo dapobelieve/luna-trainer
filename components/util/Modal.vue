@@ -24,6 +24,7 @@
         leave-to="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
       >
         <div
+          :style="{ width: width }"
           class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-4/6 lg:tail-w-3/6"
         >
           <div class="tail-py-7 tail-px-6">
@@ -65,6 +66,15 @@ export default {
     status: {
       type: String,
       default: 'default'
+    },
+    inputWidth: {
+      type: Number,
+      default: 40
+    }
+  },
+  computed: {
+    width () {
+      return `${this.inputWidth}%`
     }
   }
 }

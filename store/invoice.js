@@ -44,8 +44,7 @@ export const actions = {
         return response
       })
   },
-  getAllInvoices ({ commit, dispatch }) {
-    dispatch('loader/startProcess', 'invoices', { root: true })
+  getAllDraftInvoices ({ commit }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice?status=draft`)
       .then((response) => {
@@ -74,5 +73,6 @@ export const actions = {
 }
 
 export const getters = {
-  getAllInvoices: state => state.invoices
+  getAllDraftInvoices: state =>
+    state.invoices.filter(i => i.status === 'draft')
 }
