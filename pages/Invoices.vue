@@ -46,7 +46,7 @@ export default {
       acceptedClients: 'client/getAllAcceptedClients'
     })
   },
-  mounted () {
+  created () {
     this.fetchInvoices()
   },
   methods: {

@@ -50,25 +50,15 @@
               :key="service.index"
               class="tail-flex tail-flex-col"
             >
-            <div class="tail-flex tail-mt-4">
-              <h1 class="tail-flex-1 tail-text-xl tail-sec-color" >{{ service.description }}</h1>
-              <h1 class="tail-ml-4 ">£{{ service.pricing.amount }}</h1>
-              <button class="tail-ml-4" @click.prevent="editServiceItem(service._id)"><i class="ns-edit tail-text-base"/></button>
+              <div class="tail-flex tail-mt-4">
+                <h1 class="tail-flex-1 tail-text-xl tail-sec-color" >{{ service.description }}</h1>
+                <h1 class="tail-ml-4 ">£{{ service.pricing.amount }}</h1>
+                <button class="tail-ml-4" @click.prevent="editServiceItem(service._id)"><i class="ns-edit tail-text-base"/></button>
+              </div>
+              <div>
+                <span v-for="appointmentType in service.appointmentTypes" :key="appointmentType.index" class="tail-inline-block tail-bg-gray-200 tail-rounded-full tail-px-3 tail-py-1 tail-text-sm tail-text-gray-700 tail-mr-2 tail-mb-2 tail-mt-2">{{ appointmentType }}</span>
+              </div>
             </div>
-            <div>
-              <span v-for="appointmentType in service.appointmentTypes" :key="appointmentType.index" class="tail-inline-block tail-bg-gray-200 tail-rounded-full tail-px-3 tail-py-1 tail-text-sm tail-text-gray-700 tail-mr-2 tail-mb-2 tail-mt-2">{{ appointmentType }}</span>
-            </div>
-          </div>
-          </div>
-          <div class="tail-flex tail-justify-end">
-            <button
-              type="submit"
-              class="base-button"
-              style="width: fit-content"
-            >
-              <SingleLoader v-if="isLoading" class="tail-mr-2" />
-              {{ isLoading ? 'Adding Service...' : 'Update Service' }}
-            </button>
           </div>
         </form>
       </div>
@@ -78,7 +68,7 @@
 <script>
 import { mapActions } from 'vuex'
 export default {
-  name: 'ServicesComp',
+  name: 'SettingsServices',
   props: {
     services: {
       type: Array,

@@ -1,20 +1,27 @@
 <template>
-  <div class="loader"></div>
+  <div class="loader" :style="style"></div>
 </template>
 
 <script>
 export default {
-  name: 'SingleLoader'
-//   props: {
-//     height: {
-//       type: Number,
-//       default: 20
-//     },
-//     width: {
-//       type: Number,
-//       default: 20
-//     }
-//   }
+  name: 'SingleLoader',
+  props: {
+    height: {
+      type: String,
+      required: false,
+      default: '23px'
+    },
+    width: {
+      type: String,
+      required: false,
+      default: '23px'
+    }
+  },
+  computed: {
+    style () {
+      return `width: ${this.width}; height: ${this.height};`
+    }
+  }
 }
 </script>
 
@@ -23,8 +30,6 @@ export default {
   border: 3px solid #f3f3f3;
   border-radius: 50%;
   border-top: 3px solid #56CCF2;
-  width: 23px;
-  height: 23px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 450ms linear infinite;
 }
