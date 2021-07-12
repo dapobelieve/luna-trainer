@@ -24,9 +24,8 @@
 <script>
 export default {
   name: 'PasswordToggle',
-  model: {
-    prop: 'value',
-    event: 'input'
+  props: {
+    value: Boolean
   },
   data () {
     return {

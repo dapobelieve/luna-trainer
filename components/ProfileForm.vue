@@ -56,7 +56,7 @@
         </div>
         <div >
           <label for="url" >Website URL</label>
-          <input type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input type="website" v-model="profile.webURL" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div >
           <label for="experience" >Years of experience</label>
@@ -113,15 +113,13 @@ export default {
               await this.uploadProfileImage()
               this.loading = false
               this.$toast.success('Updated profile successfully')
+            } else {
+              this.$toast.success('Updated profile successfully')
             }
           }
         }).catch((err) => {
           if (err.response) {
-            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
-          } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-          } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+            this.$toast.error(`Something went wrong: ${err.response.data.error || err.response.data.message}`, { position: 'bottom-right' })
           }
         }).finally(() => {
           this.loading = false

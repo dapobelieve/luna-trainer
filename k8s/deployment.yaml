@@ -21,7 +21,7 @@ spec:
       containers:
         - name: APPNAME
           image: CONTAINER_IMAGE
-          securityContext:
+        securityContext:
             privileged: false
             allowPrivilegeEscalation: false
           ports:
@@ -40,3 +40,5 @@ spec:
               value: https://api.getwelp.co.uk/accounts/v0
             - name: BASEURL_HOST
               value: https://api.getwelp.co.uk/core/v0
+            - name: RETURN_URL
+              value: https://app.getwelp.co.uk/Dashboard

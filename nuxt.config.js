@@ -39,7 +39,7 @@ export default {
     quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
     quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
     quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY,
-    stripeReturn: process.env.RETURNURL,
+    stripeReturn: process.env.RETURN_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL
   },
 
