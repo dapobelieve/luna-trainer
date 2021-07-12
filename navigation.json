@@ -21,7 +21,8 @@
       "path": "Settings"
     },
     {
-      "section": "Clients"
+      "section": "Clients",
+      "classes":"tail-mt-4"
     },
     {
       "icon": "ns-users",

@@ -1,6 +1,6 @@
 <template>
   <main class="tail-flex">
-    <article class="dash-view tail-pb-48 tail-mx-3 lg:tail-mx-0">
+    <article class="dash-view tail-mx-3 lg:tail-mx-0">
       <div class="main-view tail-grid tail-gap-4 tail-my-5 tail-mx-auto">
         <div
           class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 tail-shadow-2xl md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
@@ -22,12 +22,6 @@
             >
               <span class="tail-hidden sm:tail-block">invite new client</span>
             </button>
-            <!-- <button
-              class="base-button"
-              @click="$refs.openModal.openModal()"
-            >
-              invite new client
-            </button> -->
           </div>
         </div>
         <div
@@ -75,7 +69,7 @@
                 <p v-if="allClientsConcise.length">
                   Added your first client
                 </p>
-                <button v-else @click.prevent="$refs.openModal.openModal()">
+                <button v-else @click.prevent="openModal = true">
                   Add your first client
                 </button>
               </div>
@@ -110,9 +104,7 @@
             {{ $store.state.authorize.getWelpUser.businessName }}.
           </h3>
         </div>
-        <div
-          class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20"
-        >
+        <div class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20">
           <!-- houses clients section -->
           <div class="tail-grid tail-gap-4">
             <div>
@@ -153,7 +145,7 @@
                     <div>
                       <button
                         class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
-                        @click="$refs.openModal.openModal()"
+                        @click="openModal = true"
                       >
                         Invite Client
                       </button>
@@ -165,7 +157,7 @@
                   <button
                     type="button"
                     class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
-                    @click="$refs.openModal.openModal()"
+                    @click="openModal = true"
                   >
                     <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
                       <i
@@ -182,7 +174,7 @@
                     </div>
                   </button>
                   <div
-                    v-for="n in 5"
+                    v-for="n in 2"
                     :key="n"
                     class="tail-rounded-lg tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center tail-h-40 gw-bg-color"
                   >
@@ -209,24 +201,6 @@
                       >{{ client.pet[0].name }}</small>
                     </div>
                   </div>
-                  <!-- <div
-                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
-                  >
-                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
-                      <i
-                        class="ns-plus tail-text-2xl"
-                      ></i>
-                    </div>
-
-                    <div>
-                      <NuxtLink
-                        :to="{ name: 'Clients' }"
-                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
-                      >
-                        Invite Client
-                      </NuxtLink>
-                    </div>
-                  </div> -->
                   <div
                     class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
                   >

@@ -1,15 +1,15 @@
 <template>
   <div>
+    <PageHeader>
+      <template v-slot:title>
+        Settings
+      </template>
+    </PageHeader>
     <div class="tail-py-5">
       <div class="tail-flex tail-justify-between tail-px-24">
         <div class="tail-relative">
-          <div class="tail-sticky">
-            <h3 class="tail-text-2xl tail-font-medium sec-color">
-              Settings
-            </h3>
-            <div class="tail-pt-5">
-              <SettingsNavigation />
-            </div>
+          <div class="tail-sticky tail-top-6 tail-pt-10">
+            <SettingsNavigation />
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 <template>
-  <button :disabled="loading" class="base-button" v-bind="$attrs" v-on="$listeners">
+  <button :disabled="loading || disabled" class="base-button" type="submit" v-bind="$attrs" v-on="$listeners">
     <SingleLoader v-if="loading" class="tail-mr-2" />
     <slot v-if="!loading" />
   </button>

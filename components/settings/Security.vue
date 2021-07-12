@@ -16,6 +16,10 @@
             :type="!showOldPassword ? 'password' : 'text'"
             v-model="password.oldPassword"
             class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <small
+            v-if="$v.$anyDirty && !$v.password.oldPassword.required"
+            class="tail-text-red-500"
+           >Old password is required</small>
         </div>
         <div >
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -37,12 +41,12 @@
             v-model="$v.password.confirmNewPassword.$model"
             class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           <small
-            v-if="$v.password.newPassword.$dirty && !$v.password.confirmNewPassword.sameAsPassword"
+            v-if="$v.$anyDirty && !$v.password.confirmNewPassword.sameAsPassword"
             class="tail-text-red-500"
            >New password must match with confirm password</small>
         </div>
         <div class="tail-flex tail-justify-end">
-          <button-spinner type="submit" :loading="loading" :disabled="$v.$anyError" style="width:fit-content">Save Password</button-spinner>
+          <button-spinner type="submit" :loading="loading" :disabled="$v.password.$invalid" style="width:fit-content">Save Password</button-spinner>
         </div>
       </form>
     </div>
@@ -87,7 +91,7 @@ export default {
   methods: {
     ...mapActions({ resetPassword: 'authorize/resetPassword' }),
     submit () {
-      console.log(this.$v)
+      console.log(this.$v.password.$invalid)
       this.loading = true
       this.resetPassword(this.password).then((response) => {
         this.$toast.success('Password changed successfully', { position: 'top-right' })
