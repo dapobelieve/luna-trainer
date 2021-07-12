@@ -99,86 +99,14 @@
             for="specialise"
             class="form-label"
           >What do you specialise in?</label>
-          <div class="tail-border tail-rounded tail-py-3 tail-bg-white">
-            <div class="tail-flex tail-flex-wrap tail-px-4 tail-pb-3">
-              <div
-                v-for="tag in profileInfo.specialization"
-                :key="tag.index"
-                class="tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1 tail-ml-2"
-              >
-                <span class="tail-ml-1 tail-capitalize">
-                  {{ tag }}
-                </span>
-                <button
-                  title="Delete item"
-                  type="button"
-                  class="btn tail-bg-red-400"
-                  style="line-height: 0.5; padding: 0.1em"
-                  @click="removeSpecialization(tag)"
-                >
-                  <span
-                    class="tail-text-white"
-                    style="font-size: .9em;line-height: 0.5; padding: 0.1em"
-                  >x</span>
-                </button>
-              </div>
-              <input
-                v-model.trim="specialsInput"
-                class="tail-border-0 tail-text-blue-400 spciality-input tail-ml-2"
-                placeholder="Type a speciality here..."
-                @keydown.enter.prevent="addSpecialization"
-              />
-            </div>
-            <div
-              class="tail-flex tail-items-center tail-px-4 tail-pt-2 tail-border-t border-top"
-            >
-              <i class="ns-plus tail-text-blue-400 tail-ml-1"></i>
-              <span class="tail-text-blue-400">Insert and press enter</span>
-            </div>
-          </div>
+          <tag-input :block="false" v-model="profileInfo.specialization" />
         </div>
         <div class="">
           <label
             for="accreditations"
             class="form-label"
           >What are your Accreditations?</label>
-          <div class="tail-border tail-rounded tail-py-3 tail-bg-white">
-            <div class="tail-flex tail-flex-wrap tail-px-4 tail-pb-3">
-              <div
-                v-for="tag in profileInfo.accreditations"
-                :key="tag.index"
-                class="tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1 tail-ml-2"
-              >
-                <span class="tail-ml-1 tail-capitalize">
-                  {{ tag }}
-                </span>
-                <button
-                  title="Delete item"
-                  type="button"
-                  class="btn tail-bg-red-400"
-                  style="line-height: 0.5; padding: 0.1em"
-                  @click="removeAccreditation(tag)"
-                >
-                  <span
-                    class="tail-text-white"
-                    style="font-size: .9em;line-height: 0.5; padding: 0.1em"
-                  >x</span>
-                </button>
-              </div>
-              <input
-                v-model.trim="accreditationInput"
-                class="tail-border-0 tail-text-blue-400 spciality-input tail-ml-2"
-                placeholder="Type in accreditation..."
-                @keydown.enter.prevent="addAccreditation"
-              />
-            </div>
-            <div
-              class="tail-flex tail-items-center tail-px-4 tail-pt-2 tail-border-t border-top"
-            >
-              <i class="ns-plus tail-text-blue-400 tail-ml-1"></i>
-              <span class="tail-text-blue-400">Insert and press enter</span>
-            </div>
-          </div>
+          <tag-input :block="false" v-model="profileInfo.accreditations" />
         </div>
         <div class="">
           <label
@@ -205,23 +133,12 @@
 </template>
 <script>
 import { required } from 'vuelidate/lib/validators'
-
 import { mapActions } from 'vuex'
+
 export default {
-  // check if user is coming from signin or signup page
   name: 'ProfileSetup',
-  beforeRouteEnter (to, from, next) {
-    if (from.name === 'Auth-SignIn' || from.name === 'Auth-SignUp') {
-      next((vm) => {
-        vm.$nextTick(function () {
-          setTimeout(() => {
-            this.$toast.info('Please complete your profile.', { position: 'top-right' })
-          }, 4100)
-        })
-      })
-    } else {
-      next({ name: 'Auth-SignIn' })
-    }
+  mounted () {
+    this.$toast.info('Please complete your profile.', { position: 'top-right' })
   },
   layout: 'authLayout',
   auth: false,
@@ -241,7 +158,6 @@ export default {
       accreditations: [],
       useOfReinforcement: null,
       profilePic: null,
-      // email: this.$route.params.email,
       type: 'trainer',
       status: 'invited'
     }
@@ -265,9 +181,9 @@ export default {
   computed: {
     disabled () {
       for (const key in this.profileInfo) {
-        // eslint-disable-next-line curly
-        if (this.profileInfo[key] === null || this.profileInfo[key] === '' || Array.isArray(this.profileInfo.experience))
+        if (this.profileInfo[key] === null || this.profileInfo[key] === '' || Array.isArray(this.profileInfo.experience)) {
           return true
+        }
       }
       return false
     }
@@ -275,58 +191,23 @@ export default {
   methods: {
     ...mapActions({
       createTrainerProfile: 'authorize/createTrainerProfile',
-      uploadPicture: 'authorize/uploadProfileImage'
+      uploadPicture: 'authorize/uploadProfileImage',
+      getQbInfo: 'qb/getQbInfo'
     }),
+
     createProfile () {
       if (!this.disabled) {
         this.isLoading = true
-        const picture = this.profilePic
-        const imageData = new FormData()
-        imageData.append('file', picture)
-        // return this.uploadPicture(imageData).then((response) => {
-        //   console.log('response from uploading picture', response)
-        //   if (response.status === 'success' && response.data) {
-        const profileInfo = this.profileInfo
-        delete profileInfo.profilePic
-        // const newProfile = {
-        //   ...profileInfo,
-        //   imgURL: response.data
-        // }
-        return this.createTrainerProfile(profileInfo).then((response) => {
-          console.log('response creating profile', response)
+        return this.createTrainerProfile(this.profileInfo).then((response) => {
           if (response.status === 'success') {
-            // set user data in nuxt auth
-            this.$auth.setUser(response.data)
-            // set user in local storage
-            const getWelpUser = localStorage.getItem('getWelpUser')
-            // eslint-disable-next-line curly
-            if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
-            localStorage.setItem('getWelpUser', JSON.stringify(response.data))
-            // set user in store
-            this.$store.commit('authorize/SET_GETWELP_USER', response.data)
-            return this.$store.dispatch('qb/getQbInfo').then((response) => {
-              console.log('qb response.data', response)
+            this.uploadProfileImage()
+            return this.getQbInfo().then((response) => {
               if (response.success === true) {
                 this.$toast.success('Welcome', { position: 'bottom-right' })
                 this.$router.push({ name: 'Dashboard' })
               }
-            }).catch(err => console.log('eee', err))
-            // this.$toast.success('Welcome', { position: 'bottom-right' })
-            // this.$router.push({
-            //   name: 'Dashboard'
-            // })
+            }).catch(err => console.log('error', err))
           }
-          // return this.uploadPicture(imageData).then((response) => {
-          // console.log('response from uploading picture', response)
-          // if (response.status === 'success' && response.data) {
-          //   const profileInfo = this.profileInfo
-          //   delete profileInfo.profilePic
-          //   const newProfile = {
-          //     ...profileInfo,
-          //     imgURL: response.data
-          //   }
-          // }
-          // })
         }).catch((err) => {
           if (err.response) {
             this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
@@ -335,57 +216,15 @@ export default {
           } else {
             this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
           }
-          //   })
-          // }
         }).finally(() => {
           this.isLoading = false
         })
-        /* test this error below */
-        // .catch((err) => {
-        //   if (err.response) {
-        //     this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
-        //   } else if (err.request) {
-        //     this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-        //   } else {
-        //     this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-        //   }
-        // })
-      }
-      return this.createTrainerProfile(this.profileInfo).then((result) => {
-        if (result) {
-          this.$router.push({
-            name: 'Dashboard'
-          })
-        }
-      }).catch((err) => {
-        console.log(err)
-      })
-    },
-    addSpecialization () {
-      if (!this.profileInfo.specialization.includes(this.specialsInput.toLowerCase())) {
-        this.profileInfo.specialization.push(this.specialsInput)
-      }
-      this.specialsInput = ''
-    },
-    removeSpecialization (tag) {
-      // eslint-disable-next-line unicorn/prefer-includes
-      if (this.profileInfo.specialization.indexOf(tag) !== -1) {
-        const tagPosition = this.profileInfo.specialization.indexOf(tag)
-        this.profileInfo.specialization.splice(tagPosition, 1)
       }
     },
-    addAccreditation () {
-      if (!this.profileInfo.accreditations.includes(this.accreditationInput.toLowerCase())) {
-        this.profileInfo.accreditations.push(this.accreditationInput)
-      }
-      this.accreditationInput = ''
-    },
-    removeAccreditation (tag) {
-      // eslint-disable-next-line unicorn/prefer-includes
-      if (this.profileInfo.accreditations.indexOf(tag) !== -1) {
-        const tagPosition = this.profileInfo.accreditations.indexOf(tag)
-        this.profileInfo.accreditations.splice(tagPosition, 1)
-      }
+    uploadProfileImage () {
+      const imageData = new FormData()
+      imageData.append('file', this.profilePic)
+      return this.uploadPicture(imageData)
     },
     selectImage () {
       this.$refs.fileInput.click()
@@ -409,9 +248,5 @@ export default {
 .border-dashed {
   border: 1px solid gray;
   border-style: dashed;
-}
-
-.spciality-input:focus {
-  outline: none;
 }
 </style>

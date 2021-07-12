@@ -34,6 +34,7 @@
             Username
           </label>
           <input
+            tabindex="1"
             v-model.trim="$v.userInfo.userName.$model"
             :disabled="isLoading"
             autocomplete="off"
@@ -42,7 +43,7 @@
             :class="{invalid: $v.userInfo.userName.$error}"
             @click="$v.userInfo.userName.$touch()"
           />
-          <div v-if="$v.userInfo.userName.$error" class="tail-mt-2">
+          <div v-if="$v.$dirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.userName.required"
               class="error tail-text-red-500"
@@ -60,14 +61,14 @@
             </button>
           </div>
           <input
+            tabindex="2"
             v-model.trim="$v.userInfo.password.$model"
             :disabled="isLoading"
             :type="showPassword ? 'text':'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-            :class="{invalid: $v.userInfo.password.$error}"
-            @click="$v.userInfo.password.$touch()"
-          />
-          <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
+
+            :class="{invalid: $v.userInfo.password.$error}" />
+          <div v-if="$v.$dirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
@@ -75,7 +76,6 @@
               Password is required.
             </small>
           </div>
-
           <small
             v-if="!$v.userInfo.password.minLength"
             class="error tail-text-red-500"
@@ -84,11 +84,8 @@
             {{ $v.userInfo.password.$params.minLength.min }} letters.
           </small>
         </div>
-
         <div class="tail-flex tail-justify-center">
-          <ButtonSpinner>
-            Login
-          </ButtonSpinner>
+         <button-spinner type="submit" :loading="isLoading" :disabled="$v.$error">Login</button-spinner>
         </div>
       </form>
       <div class="tail-mx-auto">
@@ -116,7 +113,9 @@
 </template>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import ButtonSpinner from '../../components/util/ButtonSpinner.vue'
 export default {
+  components: { ButtonSpinner },
   name: 'SignIn',
   layout: 'authLayout',
   auth: false,
@@ -164,7 +163,6 @@ export default {
               this.$store.dispatch('authorize/setToken', tokens)
               // fetch user profile
               this.$store.dispatch('authorize/getUserProfile').then((response) => {
-                console.log('fetching profile', response)
                 if (response === null) {
                   this.$router.push({ name: 'Auth-ProfileSetup' })
                 } else {
@@ -192,7 +190,6 @@ export default {
           this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
           console.log(error)
         }
-        // this.isLoading = false
       }
     },
     async loginWithGoogle () {

@@ -2,7 +2,7 @@
   <div
     class="tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-flex tail-items-center"
   >
-    <div class="tail-flex tail-mr-auto">
+    <div class="tail-flex tail-mr-auto tail-cursor-pointer hover:tail-bg-gray-100" @click="openModal = true">
       <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
       <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">
         <h3 class="tail-capitalize tail-font-medium">
@@ -22,13 +22,12 @@
             {{ client.location.address }}, {{ client.city }}.
           </span>
         </div>
-        <!-- <div>
-          <div class="tail-flex tail-items-center">
-            <span class="tail-text-gray-500">2 new updates</span>
-          </div>
-        </div> -->
       </div>
     </div>
+
+    <Modal :is-open="openModal" :status="client.status" @close="openModal = $event">
+      <ClientInfoPreview :client="client" @close="openModal = $event" />
+    </Modal>
 
     <div class="">
       <div class="tail-flex tail-gap-3">
@@ -51,16 +50,10 @@
           <span class="tail-capitalize tail-ml-1">message</span>
         </button>
         <!-- <button
-            class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
-          >
-            <i class="ns-calendar"></i>
-            <span class="tail-capitalize tail-ml-1">create session</span>
-          </button> -->
-        <button
           class="tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
         >
           <i class="ns-menu-dots"></i>
-        </button>
+        </button> -->
       </div>
     </div>
   </div>
@@ -76,15 +69,18 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      openModal: false
+    }
+  },
   ...mapGetters({
     getUnreadMessageCount: 'qb/getMessageCount'
   }),
   methods: {
     ...mapActions({ resendInvite: 'client/resendClientInvite' }),
     resendInvite () {
-      console.log('sent id', this.client._id)
       return this.$axios.$get(`${process.env.BASEURL_HOST}/client/${this.client._id}/resend-invite`).then((response) => {
-        console.log('responsed', response)
         if (response && response.status === true) {
           this.$toast.success(
           `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
@@ -105,9 +101,9 @@ export default {
     },
     openMessage () {
       this.$router.push({
-        name: 'Messages',
+        name: 'Clients-id-Messages',
         params: {
-          client: this.client
+          id: this.client.userId
         }
       })
     }

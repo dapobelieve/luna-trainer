@@ -1,0 +1,73 @@
+{
+  "menu": [
+    {
+      "icon": "ns-home",
+      "title": "home",
+      "path": "Dashboard"
+    },
+    {
+      "icon": "ns-bell-ring",
+      "title": "notifications",
+      "path": "Notifications"
+    },
+    {
+      "icon": "ns-comment-alt",
+      "title": "messages",
+      "path": "Messages"
+    },
+    {
+      "icon": "ns-settings",
+      "title": "settings",
+      "path": "Settings"
+    },
+    {
+      "section": "Clients"
+    },
+    {
+      "icon": "ns-users",
+      "title": "my clients",
+      "path": "Clients"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "invite new client",
+      "path": "inviteClient"
+    },
+    {
+      "section": "Invoicing"
+    },
+    {
+      "icon": "ns-receipt",
+      "title": "my invoices",
+      "path": "Invoices"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "new invoice",
+      "path": "createinvoice"
+    },
+    {
+      "section": "Help"
+    },
+    {
+      "icon": "ns-headset",
+      "title": "help center",
+      "path": "#"
+    },
+    {
+      "icon": "ns-envelope",
+      "title": "send us an email",
+      "path": "#"
+    },
+    {
+      "icon": "ns-time-add",
+      "title": "what's coming next",
+      "path": "#"
+    },
+    {
+      "icon": "ns-power",
+      "title": "sign out",
+      "path": "signout"
+    }
+  ]
+}

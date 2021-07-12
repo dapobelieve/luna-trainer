@@ -3,11 +3,11 @@
     <GwHeader />
     <div class="tail-py-0">
       <div
-        class="tail-max-w-3xl tail-mx-auto sm:tail-px-0 lg:tail-max-w-7xl lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12"
+        class="tail-max-w-3xl tail-mx-auto sm:tail-px-0 lg:tail-max-w-7xl lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12 lg:tail-gap-8"
       >
         <Navigation />
         <main class="lg:tail-col-span-9 xl:tail-col-span-10">
-          <Nuxt :key="$route.fullpath" />
+          <Nuxt />
         </main>
       </div>
     </div>

@@ -6,6 +6,9 @@ export const state = () => ({
 
 export const mutations = {
   SET_GETWELP_USER (state, user) {
+    user = { ...state.getWelpUser, ...user }
+    this.$auth.setUser(user)
+    localStorage.setItem('getWelpUser', JSON.stringify(user))
     state.getWelpUser = user
   },
   CLEAR_LOCAL_STORAGE () {
@@ -18,18 +21,15 @@ export const mutations = {
 }
 
 export const actions = {
-  signUpUser ({ commit }, payload) {
+  createTrainerProfile ({ commit, dispatch }, payload) {
     return this.$axios.$post(
-      `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
-    )
-  },
-  updateProfile ({ commit }, payload) {
-    return this.$axios
-      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
+      `${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
-        this.$auth.setUser(response.data)
-        localStorage.setItem('getWelpUser', JSON.stringify(response.data))
-        commit('SET_GETWELP_USER', response.data)
+        const { data } = response
+        if (data !== null) {
+          data.stripeConnected && commit('SET_STRIPE_STATUS', data.stripeConnected)
+          commit('SET_GETWELP_USER', data)
+        }
         return response
       })
   },
@@ -39,23 +39,11 @@ export const actions = {
       return response
     })
   },
-  setToken ({ commit }, payload) {
-    this.$auth.setUserToken(payload.token, payload.refreshToken)
-  },
-  uploadProfileImage ({ commit }, payload) { // continue after maison works on it
+  resetPassword ({ commit }, payload) {
     return this.$axios.$patch(
-      `${process.env.BASEURL_HOST}/profile/upload-image`, payload, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      }).then(response => response)
-  },
-  createTrainerProfile ({ commit, dispatch }, payload) {
-    return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/profile`, payload)
-      .then((response) => {
-        return response
-      })
+      `${process.env.ACCOUNT_HOST_URL}/auth/reset-password`, payload).then((response) => {
+      return response
+    })
   },
   getUserProfile ({ commit }) {
     return this.$axios
@@ -63,15 +51,32 @@ export const actions = {
       .then(({ data }) => {
         if (data !== null) {
           data.stripeConnected && commit('SET_STRIPE_STATUS', data.stripeConnected)
-          this.$auth.setUser(data)
           commit('SET_GETWELP_USER', data)
-          localStorage.setItem(
-            'getWelpUser',
-            JSON.stringify(data)
-          )
         }
         return data
       })
+  },
+  signUpUser ({ commit }, payload) {
+    return this.$axios.$post(
+      `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
+    )
+  },
+  updateProfile ({ commit }, payload) {
+    return this.$axios
+      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
+      .then((response) => {
+        commit('SET_GETWELP_USER', response.data)
+        return response
+      })
+  },
+  setToken ({ commit }, payload) {
+    this.$auth.setUserToken(payload.token, payload.refreshToken)
+  },
+  uploadProfileImage ({ commit }, payload) {
+    return this.$axios.$patch(
+      `${process.env.BASEURL_HOST}/profile/upload-image`, payload, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
+      return response
+    })
   },
   logOut ({ commit, dispatch }) {
     commit('CLEAR_LOCAL_STORAGE')
@@ -81,7 +86,6 @@ export const actions = {
     this.$auth.logout()
   }
 }
-
 export const getters = {
   getUser: state => state.getWelpUser
 }

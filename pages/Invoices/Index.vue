@@ -1,71 +1,91 @@
 <template>
   <div>
-    <div
-      class="tail-grid tail-grid-cols-8 gap-2 tail-mt-5 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-items-center"
-    >
-      <div
-        class="tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
-      >
-        Select
-      </div>
-      <div
-        class="tail-col-span-3 tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
-      >
-        Name
-      </div>
-      <div
-        class="tail-mr-auto tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
-      >
-        Invoice #
-      </div>
-      <div
-        class="tail-mr-auto tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
-      >
-        Created
-      </div>
-      <div
-        class="tail-mr-auto tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
-      >
-        Amount
-      </div>
-      <div
-        class="tail-mr-auto tail-text-left tail-font-medium tail-text-gray-400 tail-uppercase tail-tracking-wider tail-text-sm"
-      >
-        Status
-      </div>
-    </div>
+    <div v-if="draftInvoices.length" class="tail-grid">
+      <div class="tail-flex tail-flex-col">
+        <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
+          <div class="tail-py-2 tail-align-middle tail-inline-block tail-min-w-full sm:tail-px-0 lg:tail-px-0">
+            <div class="tail-tail-shadow tail-overflow-hidden">
+              <table class="tail-min-w-full">
+                <thead class="tail-bg-white tail-rounded-lg tail-overflow-hidden">
+                  <tr class="">
+                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                      Name
+                    </th>
+                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                      Invoice No.
+                    </th>
+                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                      Created
+                    </th>
+                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider">
+                      Amount
+                    </th>
+                    <th scope="col" class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium text-gray-500 tail-uppercase tail-tracking-wider">
+                      Status
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    v-for="invoice in draftInvoices"
+                    :key="invoice.index"
+                    class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
+                    @click="openDetails(invoice)"
+                  >
+                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900">
+                      <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
 
-    <div
-      v-for="invoice in getInvoices"
-      :key="invoice.index"
-      class="tail-grid tail-grid-cols-8 gap-2 tail-my-2 tail-w-100 tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-items-center"
-    >
-      <input type="checkbox" name="vehicle1" value="Bike">
-      <div class="tail-col-span-3 tail-whitespace-nowrap">
-        <div class="tail-flex tail-items-center">
-          <div class="tail-flex-shrink-0 tail-h-10 tail-w-10">
-            <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
-          </div>
-          <div class="tail-ml-4">
-            <div class="tail-font-medium">Jane Cooper</div>
+                      {{ invoice.customerId.firstName }}
+                      {{ invoice.customerId.lastName }}
+                    </td>
+                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                      {{ invoice.invoiceNo }}
+                    </td>
+                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                      {{ new Date(invoice.dueDate).toDateString() }}
+                    </td>
+                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                      £ {{ invoice.total }}
+                    </td>
+                    <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
+                      <span class="tail-px-2 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-bg-green-100 tail-text-green-800">
+                        {{ invoice.status }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
-      <div class="tail-mr-auto tail-whitespace-nowrap">
-        <div class="tail-font-normal">039211224</div>
+    </div>
+    <div v-else class="tail-mt-16 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center">
+      <div class="tail-w-full">
+        <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
-      <div class="tail-mr-auto tail-whitespace-nowrap">
-        <div class="tail-font-normal">Friday 30 April, 2021</div>
-      </div>
-      <div class="tail-mr-auto tail-whitespace-nowrap">
-        <div class="tail-font-medium">£60</div>
-      </div>
-      <div class="tail-mr-auto tail-whitespace-nowrap">
-        <span
-          class="tail-px-4 tail-py-1 tail-rounded-full tail-bg-gray-100 tail-text-gray-500 tail-text-sm tail-font-light"
-        >Draft</span>
+      <h5 class="tail-font-bold">
+        No Invoices yet
+      </h5>
+      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-xs">
+        All your invoice will appear here.
+      </p>
+      <div class="tail-w-max tail-mx-auto">
+        <button
+          class="base-button"
+          type="button"
+          @click="createInvoice = true"
+        >
+          Create an invoice
+        </button>
       </div>
     </div>
+    <Modal :input-width="30" :status="currentInvoice.status" :is-open="openModalDetails" @close="resetModal($event)">
+      <InvoiceDetails :details="currentInvoice" @close="resetModal($event)" />
+    </Modal>
+    <Modal status="Create New Invoice" :input-width="30" :is-open="createInvoice" @close="createInvoice = $event">
+      <CreateNewInvoice @close="createInvoice = $event" />
+    </Modal>
   </div>
 </template>
 
@@ -73,9 +93,18 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Index',
+  data () {
+    return {
+      addClient: false,
+      firstTimeVisit: false,
+      openModalDetails: false,
+      currentInvoice: {},
+      createInvoice: false
+    }
+  },
   computed: {
     ...mapGetters({
-      getAllInvoices: 'invoice/getAllInvoices'
+      draftInvoices: 'invoice/getAllDraftInvoices'
     })
   },
   mounted () {
@@ -83,10 +112,19 @@ export default {
   },
   methods: {
     ...mapActions({
-      getInvoices: 'invoice/getAllInvoices'
-    })
+      getInvoices: 'invoice/getAllDraftInvoices'
+    }),
+    openDetails (invoice) {
+      this.currentInvoice = invoice
+      this.openModalDetails = true
+    },
+    resetModal (event) {
+      this.openModalDetails = event
+      this.currentInvoice = {}
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

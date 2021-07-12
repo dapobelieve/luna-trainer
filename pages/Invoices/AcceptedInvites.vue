@@ -1,13 +1,14 @@
 <template>
   <div>
-    client classes
+    Accepted
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ClientClasses'
+  name: 'AcceptedInvites'
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

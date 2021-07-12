@@ -8,7 +8,7 @@
               Settings
             </h3>
             <div class="tail-pt-5">
-              <SettingsNav />
+              <SettingsNavigation />
             </div>
           </div>
         </div>
@@ -25,11 +25,11 @@
                 kindly ensure it is as accurate as possible</small>
             </div>
             <div class="tail-pt-4 tail-my-3 tail-max-w-xl tail-rounded-md">
-              <ProfileForm id="profile" />
-              <ServicesComp id="services" :services="this.user.services"/>
-              <SecurityComp id="security" />
-              <BankDetails v-if="this.user.stripeConnected" id="bankDetails" />
-              <ConnectGoogleComp id="connect" />
+              <ProfileForm id="profile" v-model="user" />
+              <SettingsServices id="services" :services="this.user.services"/>
+              <SettingsSecurity id="security" v-model="user"  />
+              <!-- <BankDetails v-if="this.user.stripeConnected" id="bankDetails" /> -->
+              <SettingsConnectGoogle id="connect" />
             </div>
           </div>
         </div>
@@ -56,7 +56,6 @@ export default {
   },
   async mounted () {
     await this.getUserProfile()
-    console.log(this.user.services)
   }
 }
 </script>

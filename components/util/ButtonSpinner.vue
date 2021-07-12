@@ -1,8 +1,7 @@
 <template>
-  <button class="base-button" v-bind="$attrs" type="submit" v-on="$listeners">
-    <SingleLoader v-if="isLoading" class="tail-mr-2" />
-    <slot v-if="!isLoading">
-    </slot>
+  <button :disabled="loading" class="base-button" v-bind="$attrs" v-on="$listeners">
+    <SingleLoader v-if="loading" class="tail-mr-2" />
+    <slot v-if="!loading" />
   </button>
 </template>
 
@@ -10,7 +9,7 @@
 export default {
   name: 'ButtonSpinner',
   props: {
-    isLoading: {
+    loading: {
       type: Boolean,
       default: false
     }

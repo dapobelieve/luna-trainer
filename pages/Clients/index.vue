@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <async-view>
     <div v-if="acceptedClients.length" class="tail-grid">
       <ClientCard v-for="n in acceptedClients" :key="n._id" :client="n" />
     </div>
@@ -53,7 +53,7 @@
     <Modal :is-open="addClient" @close="addClient = $event">
       <InviteNewClient @close="addClient = $event" />
     </Modal>
-  </div>
+  </async-view>
 </template>
 
 <script>
@@ -71,8 +71,10 @@ export default {
       acceptedClients: 'client/getAllAcceptedClients'
     })
   },
-  mounted () {
+  created () {
     this.fetchAcceptedClients()
+  },
+  mounted () {
     const getTime = localStorage.getItem('clientsPageFirstVisit')
     if (!getTime) {
       this.firstTimeVisit = true

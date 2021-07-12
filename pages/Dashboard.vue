@@ -119,7 +119,8 @@
                   <div
                     v-for="client in acceptedClients"
                     :key="client.index"
-                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
+                    @click="openClientModal = true"
                   >
                     <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
                     <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
@@ -186,7 +187,8 @@
                   <div
                     v-for="client in acceptedClients.slice(0,4)"
                     :key="client.index"
-                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0"
+                    class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
+                    @click="openClientModal = true"
                   >
                     <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
                     <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
@@ -382,6 +384,9 @@
     <Modal :is-open="openBankModal" @close="openBankModal = $event">
       <BankAccountDetails />
     </Modal>
+    <Modal v-for="client in acceptedClients" :key="client.index" :status="client.status" :is-open="openClientModal" @close="openClientModal = $event">
+      <ClientInfoPreview :client="client" />
+    </Modal>
   </main>
 </template>
 
@@ -390,6 +395,7 @@ import { formatDistance } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
+  layout: 'dashboardLayout',
   middleware: ['qbInits'],
   data () {
     return {
@@ -399,14 +405,15 @@ export default {
       isModalVisible: false,
       isStripeLoading: false,
       openModal: false,
-      openBankModal: false
+      openBankModal: false,
+      openClientModal: false
     }
   },
   computed: {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages',
-      allInvoices: 'invoice/getAllInvoices',
+      allInvoices: 'invoice/getAllDraftInvoices',
       acceptedClients: 'client/getAllAcceptedClients'
     }),
     getMonth () {
@@ -445,7 +452,7 @@ export default {
   methods: {
     ...mapActions({
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
-      fetchAllInvoices: 'invoice/getAllInvoices',
+      fetchAllInvoices: 'invoice/getAllDraftInvoices',
       fetchAcceptedClients: 'client/fetchAllAcceptedClients',
       connectToStripe: 'invoice/stripeConnect',
       fetchUserProfile: 'authorize/getUserProfile'
@@ -497,7 +504,7 @@ export default {
   }
 
   .main-view {
-    max-width: calc(100% - 100px);
+    // max-width: calc(100% - 100px);
   }
 }
 </style>
