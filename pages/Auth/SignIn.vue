@@ -41,6 +41,7 @@
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.userName.$error}"
+            @click="$v.userInfo.userName.$touch()"
           />
           <div v-if="$v.$dirty" class="tail-mt-1">
             <small
@@ -65,6 +66,7 @@
             :disabled="isLoading"
             :type="showPassword ? 'text':'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+
             :class="{invalid: $v.userInfo.password.$error}" />
           <div v-if="$v.$dirty" class="tail-mt-1">
             <small

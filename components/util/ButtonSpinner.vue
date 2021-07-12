@@ -12,10 +12,6 @@ export default {
     loading: {
       type: Boolean,
       default: false
-    },
-    disabled: {
-      type: Boolean,
-      default: false
     }
   }
 }
