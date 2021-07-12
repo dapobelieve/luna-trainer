@@ -110,7 +110,7 @@ export default {
       // showStripeAlert: false,
       message: '',
       msgHistory: [],
-      occupantId: this.$route.params.client ? this.$route.params.client.qbId : null,
+      occupantId: this.client ? this.client.qbId : null,
       dialogStatus: false,
       dialogId: null
     }
@@ -362,7 +362,7 @@ export default {
       if (!this.$auth.user.services.length) {
         this.showAlert = true
       } else {
-        this.$router.push({ name: 'NewInvoices', params: { client: this.$route.params.client } })
+        this.$router.push({ name: 'NewInvoice-id', params: { id: this.$route.params.id } })
       }
       // else if (!this.$store.state.payment.isBankLinked) {
       //   this.openBank = true
@@ -432,9 +432,8 @@ export default {
           }
         })
       } else {
-        // if (this.message) {
         console.log('two')
-        const dialogId = this.$route.params.dialogId ? this.$route.params.dialogId : this.dialogId
+        const dialogId = this.dialogId
         console.log('sent to dialog id', dialogId)
         const message = {
           type: 'chat',
@@ -442,11 +441,10 @@ export default {
           extension: {
             save_to_history: 1,
             dialog_id: dialogId
-            // dialog_id: '60ddd75893a945005591565f'
           },
           markable: 1
         }
-        const opponentId = parseInt(this.occupantId)
+        const opponentId = parseInt(this.client.qbId)
         console.log('opp id', opponentId)
         try {
           message.id = QuickBlox.chat.send(opponentId, message)

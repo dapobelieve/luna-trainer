@@ -4,7 +4,7 @@
       <span>
         Create Invoice
       </span>
-      <i class="ns-cross"></i>
+      <i role="button" class="ns-cross" @click="$router.go(-1)"></i>
     </div>
     <Nuxt />
   </main>

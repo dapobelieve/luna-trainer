@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'CreateIn',
+  name: 'Invoice',
   layout: 'invoiceLayout'
 }
 </script>

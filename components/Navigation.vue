@@ -15,7 +15,7 @@
       <div class="tail-space-y-1">
         <div v-for="menu in menus.menu" :key="menu">
           <NuxtLink
-            v-if="menu.path && menu.path !== 'signout'"
+            v-if="menu.path && menu.path !== 'signout' && menu.path !== 'createinvoice' && menu.path !== 'inviteClient'"
             :to="{ name: menu.path }"
             exact-active-class="active"
             class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50"
@@ -25,6 +25,22 @@
               {{ menu.title }}
             </span>
           </NuxtLink>
+          <button
+            v-else-if="menu.path === 'inviteClient'"
+            class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+            @click="inviteClient = true"
+          >
+            <i class="ns-user-add tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+            <span class="tail-truncate tail-text-xs tail-font-normal">Invite Client</span>
+          </button>
+          <button
+            v-else-if="menu.path === 'createinvoice'"
+            class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+            @click="createInvoice"
+          >
+            <i class="ns-plus tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+            <span class="tail-truncate tail-text-xs tail-font-normal">New Invoice</span>
+          </button>
           <button
             v-else-if="menu.path === 'signout'"
             class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-xs tail-font-medium hover:tail-bg-gray-50 tail-w-full"
@@ -39,24 +55,53 @@
         </div>
       </div>
     </nav>
+    <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
+      <InviteNewClient @close="inviteClient = $event" />
+    </Modal>
+    <Modal status="Create New Invoice" :input-width="30" :is-open="openModal" @close="openModal = $event">
+      <CreateNewInvoice @close="openModal = $event" />
+    </Modal>
+    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+      <template v-slot:title>
+        No Invited Clients
+      </template>
+      <template v-slot:subtitle>
+        You need to invite a client before you can create an invoice.
+      </template>
+    </NotificationsModal>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
 export default {
   name: 'Navigation',
   data () {
     return {
       menus,
-      showMessageDrawer: false
+      showMessageDrawer: false,
+      inviteClient: false,
+      openModal: false,
+      showNotification: false
     }
+  },
+  computed: {
+    ...mapGetters({
+      acceptedClients: 'client/getAllAcceptedClients'
+    })
   },
   methods: {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
+    createInvoice () {
+      if (!this.acceptedClients.length) {
+        this.showNotification = true
+      } else {
+        this.openModal = true
+      }
+    },
     signOut () {
       this.logOut()
     }

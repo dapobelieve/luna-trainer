@@ -31,7 +31,7 @@
     {
       "icon": "ns-plus",
       "title": "invite new client",
-      "path": "#"
+      "path": "inviteClient"
     },
     {
       "section": "Invoicing"
@@ -44,7 +44,7 @@
     {
       "icon": "ns-plus",
       "title": "new invoice",
-      "path": "#"
+      "path": "createinvoice"
     },
     {
       "section": "Help"
