@@ -40,6 +40,7 @@
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.userName.$error}"
+            @click="$v.userInfo.userName.$touch()"
           />
           <div v-if="$v.userInfo.userName.$error" class=" tail-mt-2">
             <small
@@ -61,6 +62,7 @@
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.email.$error}"
+            @click="$v.userInfo.email.$touch()"
           />
           <div v-if="$v.userInfo.email.$error" class=" tail-mt-2">
             <small
@@ -109,6 +111,7 @@
             :type="showPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
             :class="{invalid: $v.userInfo.password.$error}"
+            @click="$v.userInfo.password.$touch()"
           />
           <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
             <small
@@ -159,8 +162,15 @@
             v-model.trim="$v.userInfo.confirmPassword.$model"
             :type="showConfirmPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            @click="$v.userInfo.confirmPassword.$touch()"
           />
           <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-1">
+            <small
+              v-if="!$v.userInfo.confirmPassword.required"
+              class="error tail-text-red-500"
+            >
+              Password is required.
+            </small>
             <small
               v-if="!$v.userInfo.confirmPassword.sameAsPassword"
               class="error tail-text-red-500 tail-mt-1"
@@ -224,6 +234,7 @@ export default {
         minLength: minLength(6)
       },
       confirmPassword: {
+        required,
         sameAsPassword: sameAs('password')
       }
     }

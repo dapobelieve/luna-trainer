@@ -22,12 +22,6 @@
             >
               <span class="tail-hidden sm:tail-block">invite new client</span>
             </button>
-            <!-- <button
-              class="base-button"
-              @click="$refs.openModal.openModal()"
-            >
-              invite new client
-            </button> -->
           </div>
         </div>
         <div
@@ -209,24 +203,6 @@
                       >{{ client.pet[0].name }}</small>
                     </div>
                   </div>
-                  <!-- <div
-                    class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
-                  >
-                    <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
-                      <i
-                        class="ns-plus tail-text-2xl"
-                      ></i>
-                    </div>
-
-                    <div>
-                      <NuxtLink
-                        :to="{ name: 'Clients' }"
-                        class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
-                      >
-                        Invite Client
-                      </NuxtLink>
-                    </div>
-                  </div> -->
                   <div
                     class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
                   >
