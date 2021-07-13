@@ -34,8 +34,8 @@
             Username
           </label>
           <input
-            tabindex="1"
             v-model.trim="$v.userInfo.userName.$model"
+            tabindex="1"
             :disabled="isLoading"
             autocomplete="off"
             type="text"
@@ -61,13 +61,14 @@
             </button>
           </div>
           <input
-            tabindex="2"
             v-model.trim="$v.userInfo.password.$model"
+            tabindex="2"
             :disabled="isLoading"
             :type="showPassword ? 'text':'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
 
-            :class="{invalid: $v.userInfo.password.$error}" />
+            :class="{invalid: $v.userInfo.password.$error}"
+          />
           <div v-if="$v.$dirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
@@ -75,17 +76,20 @@
             >
               Password is required.
             </small>
+            <small
+              v-if="!$v.userInfo.password.minLength"
+              class="error tail-text-red-500"
+            >
+              Password must have at least
+              {{ $v.userInfo.password.$params.minLength.min }} letters.
+            </small>
           </div>
-          <small
-            v-if="!$v.userInfo.password.minLength"
-            class="error tail-text-red-500"
-          >
-            Password must have at least
-            {{ $v.userInfo.password.$params.minLength.min }} letters.
-          </small>
         </div>
         <div class="tail-flex tail-justify-center">
-         <button-spinner type="submit" :loading="isLoading" :disabled="$v.$error">Login</button-spinner>
+          <button-spinner type="submit" :class="{ disabled: $v.$invalid }">
+            Login
+          </button-spinner>
+          <!-- <p> :loading="isLoading" :disabled="$v.$error" </p> -->
         </div>
       </form>
       <div class="tail-mx-auto">
@@ -115,8 +119,8 @@
 import { required, minLength } from 'vuelidate/lib/validators'
 import ButtonSpinner from '../../components/util/ButtonSpinner.vue'
 export default {
-  components: { ButtonSpinner },
   name: 'SignIn',
+  components: { ButtonSpinner },
   layout: 'authLayout',
   auth: false,
   data () {
@@ -138,6 +142,15 @@ export default {
       password: {
         required,
         minLength: minLength(6)
+      }
+    }
+  },
+  computed: {
+    isDisabled () {
+      if (this.$v.$invalid) {
+        return false
+      } else {
+        return true
       }
     }
   },
@@ -204,4 +217,7 @@ export default {
 }
 </script>
 <style scoped lang="scss">
+.disabled {
+  background-color: grey;
+}
 </style>
