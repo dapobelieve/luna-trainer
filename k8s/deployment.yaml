@@ -21,7 +21,7 @@ spec:
       containers:
         - name: APPNAME
           image: CONTAINER_IMAGE
-        securityContext:
+          securityContext:
             privileged: false
             allowPrivilegeEscalation: false
           ports:
