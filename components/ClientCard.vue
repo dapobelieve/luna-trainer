@@ -32,13 +32,13 @@
     <div class="">
       <div class="tail-flex tail-gap-3">
         <button
-          v-if="$route.name === 'Clients-InvitedInvites'"
+          v-if="$route.name === 'Clients-Inactive'"
           type="button"
           class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
           @click="resendInvite"
         >
           <i class="ns-refresh"></i>
-          <span class="tail-capitalize tail-ml-1">resend</span>
+          <span class="tail-capitalize tail-ml-1">resend invite</span>
         </button>
         <button
           v-else
@@ -49,11 +49,6 @@
           <i class="ns-comment-alt"></i>
           <span class="tail-capitalize tail-ml-1">message</span>
         </button>
-        <!-- <button
-          class="tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
-        >
-          <i class="ns-menu-dots"></i>
-        </button> -->
       </div>
     </div>
   </div>

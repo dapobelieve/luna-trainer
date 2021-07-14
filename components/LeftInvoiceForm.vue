@@ -98,7 +98,7 @@
             <tr class="tail-my-1">
               <td class="tail-text-sm">{{ service.description }}</td>
               <td class="tail-text-sm tail-text-center">{{ service.quantity }}</td>
-              <td class="tail-text-sm tail-text-center">£{{ service.pricing.amount }}</td>
+              <td class="tail-text-sm tail-text-center">£ {{ service.pricing.amount | amount }}</td>
             </tr>
           </tbody>
         </table>
@@ -148,6 +148,15 @@ import { mapActions } from 'vuex'
 export default {
   name: 'LeftInvoiceForm',
   components: { DatePicker },
+  filters: {
+    amount (amount) {
+      const amt = Number(amount)
+      return (
+        (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
+        '0'
+      )
+    }
+  },
   data () {
     return {
       isLoading: false,

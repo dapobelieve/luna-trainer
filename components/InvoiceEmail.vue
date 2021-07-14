@@ -11,11 +11,13 @@
           <div class="tail-grid tail-grid-cols-2 tail-gap-4 tail-p-3">
             <div>
               <span class="tail-text-gray-400">From</span>
-              <p>Brand Name</p>
+              <p class="">
+                {{ $auth.user.firstName }} {{ $auth.user.lastName }}
+              </p>
             </div>
             <div>
               <span class="tail-text-gray-400">To</span>
-              <p>Client's Name</p>
+              <p class="tail-capitalize">{{ `${client && client.firstName} ${client && client.lastName}` }}</p>
             </div>
           </div>
           <div class=" tail-py-2 tail-px-3">
@@ -25,10 +27,10 @@
                   Amount
                 </p>
                 <p class="tail-text-2xl">
-                  £0.00
+                  £ {{ invoiceServices.length ? subTotalInvoice : 0 | amount }}.00
                 </p>
                 <p class="tail-text-sm">
-                  Due on May 25, 2021
+                  Due on {{ invoiceDueDate }}
                 </p>
               </div>
             </div>
@@ -37,37 +39,27 @@
             <hr />
           </div>
           <div class="tail-p-3">
-            <div class="tail-flex tail-justify-between">
-              <div>
-                <p><strong>Behaviour Consuming</strong></p>
-                <p class="tail-text-gray-500">
-                  Qty <span>1</span>
-                </p>
+            <template v-if="invoiceServices.length">
+              <div
+                v-for="item in invoiceServices"
+                :key="item._id"
+                class="tail-flex tail-justify-between tail-py-2">
+                <p><strong>{{ item.description }}</strong></p>
+                <span>£ {{ item.pricing.amount }}</span>
               </div>
-              <div class="tail-p-3">
-                <span>£60</span>
-              </div>
+            </template>
+            <div v-else class="bg-emerald-200">
+              <p colspan="4" class="tail-font-medium tail-py-2 tail-text-center tail-text-red-400">
+                <em>No service selected</em>
+              </p>
             </div>
-            <div class="tail-flex tail-justify-between">
-              <div>
-                <p><strong>Milage</strong></p>
-                <p class="tail-text-gray-500">
-                  Qty <span>1</span>
-                </p>
-              </div>
-              <div class="tail-p-3">
-                <span>£10</span>
-              </div>
-            </div>
-            <div class="tail-p-1">
-              <hr />
-            </div>
+            <hr class="tail-py-1" />
             <div class="tail-flex tail-justify-between tail-py-4">
               <div>
                 <p><strong>Amount Due</strong></p>
               </div>
               <div class="tail-pr-2">
-                <span>£70</span>
+                <span>£ {{ invoiceServices.length ? subTotalInvoice : 0 | amount }}.00</span>
               </div>
             </div>
           </div>
@@ -77,8 +69,50 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
-  name: 'RightInvoiceEmail'
+  name: 'RightInvoiceEmail',
+  filters: {
+    amount (amount) {
+      const amt = Number(amount)
+      return (
+        (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
+        '0'
+      )
+    }
+  },
+  data () {
+    return {
+      client: null
+    }
+  },
+  computed: {
+    invoiceDueDate () {
+      const d = new Date(this.$store.state.invoice.tempInvoice.date).toDateString()
+      return d
+    },
+    invoiceServices () {
+      return this.$store.state.invoice.tempInvoice.services
+    },
+    subTotalInvoice () {
+      if (this.invoiceServices.length > 1) {
+        return this.invoiceServices.reduce(
+          (accumulator, current) => accumulator + current.pricing.amount, 0
+        )
+      }
+      return this.invoiceServices[0].pricing.amount
+    }
+  },
+  mounted () {
+    this.getThisClient(this.$route.params.id).then((response) => {
+      this.client = response
+    }).catch()
+  },
+  methods: {
+    ...mapActions({
+      getThisClient: 'client/getSingleClient'
+    })
+  }
 }
 </script>
 <style scoped>

@@ -18,11 +18,6 @@ export const mutations = {
   SET_INVOICE_SERVICES (state, service) {
     state.tempInvoice.services.push(service)
   }
-  // UPDATE_INVOICE (state, newService) {
-  //   const pos = newService.position
-  //   const service = newService
-  //   state.tempInvoice.services[pos] = service
-  // }
 }
 
 export const actions = {
@@ -44,10 +39,12 @@ export const actions = {
         return response
       })
   },
-  getAllDraftInvoices ({ commit }) {
+  getInvoices ({ commit, dispatch }) {
+    dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/invoice?status=draft`)
+      .$get(`${process.env.BASEURL_HOST}/invoice`)
       .then((response) => {
+        console.log('invoices', response)
         commit('SET_ALL_INVOICES', response.data)
         dispatch('loader/endProcess', '', { root: true })
         return response.data
@@ -74,5 +71,9 @@ export const actions = {
 
 export const getters = {
   getAllDraftInvoices: state =>
-    state.invoices.filter(i => i.status === 'draft')
+    state.invoices.filter(i => i.status === 'draft'),
+  getAllPaidInvoices: state =>
+    state.invoices.filter(i => i.status === 'paid'),
+  getAllSentInvoices: state =>
+    state.invoices.filter(i => i.status === 'sent')
 }
