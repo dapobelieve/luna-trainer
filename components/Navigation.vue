@@ -69,6 +69,7 @@
         You need to invite a client before you can create an invoice.
       </template>
     </NotificationsModal>
+    <SlideOver />
   </div>
 </template>
 
