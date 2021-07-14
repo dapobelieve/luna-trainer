@@ -1,6 +1,6 @@
 <template>
   <async-view>
-    <div v-if="draftInvoices.length" class="tail-grid">
+    <div v-if="paidInvoices.length" class="tail-grid">
       <div class="tail-flex tail-flex-col">
         <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
           <div class="tail-py-2 tail-align-middle tail-inline-block tail-min-w-full sm:tail-px-0 lg:tail-px-0">
@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="invoice in draftInvoices"
+                    v-for="invoice in paidInvoices"
                     :key="invoice.index"
                     class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
                     @click="openDetails(invoice)"
@@ -92,7 +92,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Index',
+  name: 'Paid',
   filters: {
     amount (amount) {
       const amt = Number(amount)
@@ -111,7 +111,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      draftInvoices: 'invoice/getAllDraftInvoices'
+      paidInvoices: 'invoice/getAllPaidInvoices'
     })
   },
   mounted () {

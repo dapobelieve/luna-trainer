@@ -62,7 +62,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'InvitedInvites',
+  name: 'Inactive',
   data () {
     return {
       addClient: false,
