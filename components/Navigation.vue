@@ -13,6 +13,7 @@
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="tail-sticky tail-top-4 tail-mt-4 tail-divide-y tail-divide-gray-300">
       <div class="tail-space-y-1">
+        <div><button>messageStuff</button></div>
         <div v-for="menu in menus.menu" :key="menu">
           <NuxtLink
             v-if="menu.path && menu.path !== 'signout' && menu.path !== 'createinvoice' && menu.path !== 'inviteClient'"
@@ -55,6 +56,7 @@
         </div>
       </div>
     </nav>
+    <SlideOver />
     <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
@@ -69,7 +71,6 @@
         You need to invite a client before you can create an invoice.
       </template>
     </NotificationsModal>
-    <SlideOver />
   </div>
 </template>
 
