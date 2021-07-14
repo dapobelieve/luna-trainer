@@ -34,6 +34,14 @@ export default {
   mounted () {
     document.getElementById('defaultOpen').click()
   },
+  destroyed () {
+    // this.$store.commit('invoice/SET_INVOICE_SERVICES', {
+    //   decription: '',
+    //   quantity: 0,
+    //   amount: 0
+    // })
+    // this.$store.commit('invoice/SET_INVOICE_DUE_DATE', new Date())
+  },
   methods: {
     switchTabs (evt, cityName) {
       // Declare all variables
