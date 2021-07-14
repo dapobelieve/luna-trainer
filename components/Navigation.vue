@@ -81,9 +81,7 @@
           </h2>
         </navigation-sub-menu>
         <navigation-sub-menu v-model="showMessagesMenu">
-          <h2>
-            Messages
-          </h2>
+          <MessageContent />
         </navigation-sub-menu>
       </div>
     </nav>
