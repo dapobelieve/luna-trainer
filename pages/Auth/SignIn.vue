@@ -145,15 +145,6 @@ export default {
       }
     }
   },
-  computed: {
-    isDisabled () {
-      if (this.$v.$invalid) {
-        return false
-      } else {
-        return true
-      }
-    }
-  },
   methods: {
     async login () {
       if (this.userInfo.userName && this.userInfo.password) {
