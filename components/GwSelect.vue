@@ -48,7 +48,7 @@ export default {
   props: {
     value: Object,
     options: Array,
-    selected: Object
+    selected: [Object, String]
   },
   data () {
     return {

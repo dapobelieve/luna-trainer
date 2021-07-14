@@ -29,25 +29,22 @@
         class="tail-grid tail-gap-12 md:tail-gap-4"
         @submit.prevent="signUp"
       >
-        <div class="tail-grid error" :class="{ 'error': $v.userInfo.userName.$error }">
+        <div class="tail-grid error">
           <label
-            for="username"
-            class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-          >Username</label>
+          for="username"
+          class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Username</label>
           <input
             v-model.trim="$v.userInfo.userName.$model"
             autocomplete="off"
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-            :class="{invalid: $v.userInfo.userName.$error}"
-            @click="$v.userInfo.userName.$touch()"
           />
-          <div v-if="$v.userInfo.userName.$error" class=" tail-mt-1">
+          <div class=" tail-mt-1">
             <small
               v-if="!$v.userInfo.userName.required"
               class="error tail-text-red-500"
             >
-              Field is required.
+              Username is required.
             </small>
           </div>
         </div>
@@ -61,21 +58,19 @@
             autocomplete="off"
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-            :class="{invalid: $v.userInfo.email.$error}"
-            @click="$v.userInfo.email.$touch()"
           />
-          <div v-if="$v.userInfo.email.$error" class=" tail-mt-1">
+          <div v-if="$v.$anyDirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.email.required"
               class="error tail-text-red-500"
             >
-              Field is required.
+              Email address is required.
             </small>
             <small
               v-if="!$v.userInfo.email.email"
               class="error tail-text-red-500"
             >
-              Must be valid email.
+              Email address be valid email.
             </small>
           </div>
         </div>
@@ -85,35 +80,14 @@
               for="password"
               class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
             >Password</label>
-            <button
-              type="button"
-              class="focus:tail-outline-none"
-              @click="showPassword = !showPassword"
-            >
-              <img
-                v-if="showPassword"
-                class="tail-h-4"
-                src="~/assets/img/eye-off-outline.svg"
-                alt=""
-                srcset=""
-              />
-              <img
-                v-else
-                class="tail-h-4"
-                src="~/assets/img/eye-outline.svg"
-                alt=""
-                srcset=""
-              />
-            </button>
+            <password-toggle v-model="showPassword"/>
           </div>
           <input
             v-model.trim="$v.userInfo.password.$model"
             :type="showPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-            :class="{invalid: $v.userInfo.password.$error}"
-            @click="$v.userInfo.password.$touch()"
           />
-          <div v-if="$v.userInfo.password.$error" class="tail-mt-1">
+          <div v-if="$v.$anyDirty"  class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
@@ -129,57 +103,10 @@
             </small>
           </div>
         </div>
-
-        <div class="tail-grid">
-          <div class="tail-flex tail-justify-between tail-items-center">
-            <label
-              for="password"
-              class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-            >Confirm Password</label>
-            <button
-              type="button"
-              class="focus:tail-outline-none"
-              @click="showConfirmPassword = !showConfirmPassword"
-            >
-              <img
-                v-if="showConfirmPassword"
-                class="tail-h-4"
-                src="~/assets/img/eye-off-outline.svg"
-                alt=""
-                srcset=""
-              />
-              <img
-                v-else
-                class="tail-h-4"
-                src="~/assets/img/eye-outline.svg"
-                alt=""
-                srcset=""
-              />
-            </button>
-          </div>
-          <input
-            v-model.trim="$v.userInfo.confirmPassword.$model"
-            :type="showConfirmPassword ? 'text' : 'password'"
-            class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-            @click="$v.userInfo.confirmPassword.$touch()"
-          />
-          <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-1">
-            <small
-              v-if="!$v.userInfo.confirmPassword.required"
-              class="error tail-text-red-500"
-            >
-              Password is required.
-            </small>
-            <small
-              v-if="!$v.userInfo.confirmPassword.sameAsPassword"
-              class="error tail-text-red-500"
-            >
-              Passwords must be identical.
-            </small>
-          </div>
-        </div>
         <div class="tail-flex tail-justify-center">
-          <button-spinner  :loading="isLoading" :disabled="disabled" type="submit"> Get Started </button-spinner>
+          <button-spinner type="submit" :loading="isLoading" :disabled="$v.$invalid">
+            Get Started
+          </button-spinner>
         </div>
       </form>
       <div class="tail-text-center tail-mt-4">
@@ -196,7 +123,7 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { required, email, sameAs, minLength } from 'vuelidate/lib/validators'
+import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignUp',
@@ -205,13 +132,11 @@ export default {
   data () {
     return {
       showPassword: false,
-      showConfirmPassword: false,
       isLoading: false,
       userInfo: {
         userName: null,
         email: '',
         password: null,
-        confirmPassword: null,
         domain: 'getwelp-trainer-ui'
       }
     }
@@ -228,17 +153,7 @@ export default {
       password: {
         required,
         minLength: minLength(6)
-      },
-      confirmPassword: {
-        required,
-        sameAsPassword: sameAs('password')
       }
-    }
-  },
-  computed: {
-    disabled () {
-      console.log(this.$v)
-      return this.$v.$error || this.isLoading
     }
   },
   methods: {
