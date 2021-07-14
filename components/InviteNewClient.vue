@@ -29,14 +29,14 @@
                   v-model.trim="$v.clientInfo.firstName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ 'is-invalid': $v.clientInfo.firstName.$error,'is-valid': $v.clientInfo.firstName.$invalid}"
+                  :class="{ error: $v.clientInfo.firstName.$error }"
                   @click="$v.clientInfo.firstName.$touch()"
                 />
-                <div v-if="$v.clientInfo.firstName.$error" class="tail-mt-2">
-                  <small v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500">
+                <!-- <div v-if="$v.clientInfo.firstName.$error" class="tail-mt-2">
+                  <small v-if="!$v.clientInfo.firstName.required" class="tail-text-red-500">
                     Field is required.
                   </small>
-                </div>
+                </div> -->
               </div>
 
               <div class="tail-w-full">
@@ -49,14 +49,14 @@
                   v-model.trim="$v.clientInfo.lastName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ invalid: $v.clientInfo.lastName.$error}"
+                  :class="{ error: $v.clientInfo.lastName.$error }"
                   @click="$v.clientInfo.lastName.$touch()"
                 />
-                <div v-if="$v.clientInfo.lastName.$error" class="tail-mt-2">
-                  <small v-if="!$v.clientInfo.lastName.required" class="error tail-text-red-500">
+                <!-- <div v-if="$v.clientInfo.lastName.$error" class="tail-mt-2">
+                  <small v-if="!$v.clientInfo.lastName.required" class="tail-text-red-500">
                     Field is required.
                   </small>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
@@ -69,14 +69,14 @@
                 v-model.trim="$v.clientInfo.phone.$model"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ invalid: $v.clientInfo.phone.$error}"
+                :class="{ error: $v.clientInfo.phone.$error }"
                 @click="$v.clientInfo.phone.$touch()"
               />
-              <div v-if="$v.clientInfo.phone.$error" class="tail-mt-2">
-                <small v-if="!$v.clientInfo.phone.required" class="error tail-text-red-500">
+              <div v-if="$v.clientInfo.phone.$error" class="tail-mt-1">
+                <!-- <small v-if="!$v.clientInfo.phone.required" class="tail-text-red-500">
                   Field is required.
-                </small>
-                <small v-if="!$v.clientInfo.phone.numeric" class="error tail-text-red-500">
+                </small> -->
+                <small v-if="!$v.clientInfo.phone.numeric" class="tail-text-red-500">
                   Must be Numbers.
                 </small>
               </div>
@@ -93,14 +93,14 @@
                 v-model.trim="$v.clientInfo.email.$model"
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ invalid: $v.clientInfo.email.$error}"
+                :class="{ error: $v.clientInfo.email.$error }"
                 @click="$v.clientInfo.email.$touch()"
               />
-              <div v-if="$v.clientInfo.email.$error" class="tail-mt-2">
-                <small v-if="!$v.clientInfo.email.required" class="error tail-text-red-500">
+              <div v-if="$v.clientInfo.email.$error" class="tail-mt-1">
+                <!-- <small v-if="!$v.clientInfo.email.required" class="tail-text-red-500">
                   Field is required.
-                </small>
-                <small v-if="!$v.clientInfo.email.email" class="error tail-text-red-500">
+                </small> -->
+                <small v-if="!$v.clientInfo.email.email" class="tail-text-red-500">
                   Must be valid email.
                 </small>
               </div>
@@ -114,10 +114,9 @@
               <label for="locationAddress" class="">Address</label>
               <input
                 id="locationAddress"
-                v-model.trim="$v.clientInfo.locationAddress.$model"
+                v-model.trim="clientInfo.locationAddress"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ invalid: $v.clientInfo.locationAddress.$error}"
               />
             </div>
           </div>
@@ -129,10 +128,9 @@
               <label for="city" class="">Town/City</label>
               <input
                 id="city"
-                v-model.trim="$v.clientInfo.city.$model"
+                v-model.trim="clientInfo.city"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ invalid: $v.clientInfo.city.$error}"
               />
             </div>
           </div>
@@ -144,10 +142,9 @@
               <label for="locationZip" class="">Post Code</label>
               <input
                 id="locationZip"
-                v-model.trim="$v.clientInfo.locationZip.$model"
+                v-model.trim="clientInfo.locationZip"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ invalid: $v.clientInfo.locationZip.$error}"
               />
             </div>
           </div>
@@ -162,14 +159,14 @@
                 v-model.trim="$v.clientInfo.petName.$model"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ invalid: $v.clientInfo.petName.$error}"
+                :class="{ error: $v.clientInfo.petName.$error }"
                 @click="$v.clientInfo.petName.$touch()"
               />
-              <div v-if="$v.clientInfo.petName.$error" class="tail-mt-2">
+              <!-- <div v-if="$v.clientInfo.petName.$error" class="tail-mt-2">
                 <small v-if="!$v.clientInfo.petName.required" class="error tail-text-red-500">
                   Field is required.
                 </small>
-              </div>
+              </div> -->
             </div>
           </div>
           <div class="tail-flex tail-justify-between tail-gap-6">
@@ -187,14 +184,14 @@
                   v-model.trim="$v.clientInfo.petBreed.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ invalid: $v.clientInfo.petBreed.$error}"
+                  :class="{ error: $v.clientInfo.petBreed.$error }"
                   @click="$v.clientInfo.petBreed.$touch()"
                 />
-                <div v-if="$v.clientInfo.petBreed.$error" class="tail-mt-2">
+                <!-- <div v-if="$v.clientInfo.petBreed.$error" class="tail-mt-2">
                   <small v-if="!$v.clientInfo.petBreed.required" class="error tail-text-red-500">
                     Field is required.
                   </small>
-                </div>
+                </div> -->
               </div>
               <div class="tail-w-full">
                 <label for="experience" class="">Age</label>
@@ -335,15 +332,6 @@ export default {
         required,
         email
       },
-      locationAddress: {
-        required
-      },
-      city: {
-        required
-      },
-      locationZip: {
-        required
-      },
       petName: {
         required
       },
@@ -356,9 +344,6 @@ export default {
       petGender: {
         required
       }
-      // class: {
-      //   required
-      // }
     }
   },
   computed: {
@@ -431,5 +416,15 @@ export default {
 
 .dull-button {
   background-color: gray !important;
+}
+input:focus {
+    outline: none;
+  }
+
+.error {
+  border: 1px solid red;
+}
+.disabled {
+  background-color: grey;
 }
 </style>

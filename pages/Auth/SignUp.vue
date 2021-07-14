@@ -42,7 +42,7 @@
             :class="{invalid: $v.userInfo.userName.$error}"
             @click="$v.userInfo.userName.$touch()"
           />
-          <div v-if="$v.userInfo.userName.$error" class=" tail-mt-2">
+          <div v-if="$v.userInfo.userName.$error" class=" tail-mt-1">
             <small
               v-if="!$v.userInfo.userName.required"
               class="error tail-text-red-500"
@@ -64,20 +64,20 @@
             :class="{invalid: $v.userInfo.email.$error}"
             @click="$v.userInfo.email.$touch()"
           />
-          <div v-if="$v.userInfo.email.$error" class=" tail-mt-2">
+          <div v-if="$v.userInfo.email.$error" class=" tail-mt-1">
             <small
               v-if="!$v.userInfo.email.required"
               class="error tail-text-red-500"
             >
               Field is required.
             </small>
+            <small
+              v-if="!$v.userInfo.email.email"
+              class="error tail-text-red-500"
+            >
+              Must be valid email.
+            </small>
           </div>
-          <small
-            v-if="!$v.userInfo.email.email"
-            class="error tail-text-red-500"
-          >
-            Must be valid email.
-          </small>
         </div>
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
@@ -113,22 +113,21 @@
             :class="{invalid: $v.userInfo.password.$error}"
             @click="$v.userInfo.password.$touch()"
           />
-          <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
+          <div v-if="$v.userInfo.password.$error" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
             >
               Password is required.
             </small>
+            <small
+              v-if="!$v.userInfo.password.minLength"
+              class="error tail-text-red-500"
+            >
+              Password must have at least
+              {{ $v.userInfo.password.$params.minLength.min }} letters.
+            </small>
           </div>
-
-          <small
-            v-if="!$v.userInfo.password.minLength"
-            class="error tail-text-red-500 tail-mt-2"
-          >
-            Password must have at least
-            {{ $v.userInfo.password.$params.minLength.min }} letters.
-          </small>
         </div>
 
         <div class="tail-grid">
@@ -173,7 +172,7 @@
             </small>
             <small
               v-if="!$v.userInfo.confirmPassword.sameAsPassword"
-              class="error tail-text-red-500 tail-mt-1"
+              class="error tail-text-red-500"
             >
               Passwords must be identical.
             </small>
