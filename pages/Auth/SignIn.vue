@@ -40,8 +40,6 @@
             autocomplete="off"
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-            :class="{invalid: $v.userInfo.userName.$error}"
-            @click="$v.userInfo.userName.$touch()"
           />
           <div v-if="$v.$dirty" class="tail-mt-1">
             <small
@@ -55,10 +53,7 @@
         <div class="tail-grid">
           <div class="tail-flex tail-justify-between tail-items-center">
             <label for="password" class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Password</label>
-            <button type="button" class="focus:tail-outline-none" @click="showPassword = !showPassword">
-              <img v-if="showPassword" class="tail-h-4" src="~/assets/img/eye-off-outline.svg" alt="" srcset="">
-              <img v-else class="tail-h-4" src="~/assets/img/eye-outline.svg" alt="" srcset="">
-            </button>
+            <password-toggle v-model="showPassword" />
           </div>
           <input
             v-model.trim="$v.userInfo.password.$model"
@@ -69,7 +64,7 @@
 
             :class="{invalid: $v.userInfo.password.$error}"
           />
-          <div v-if="$v.$dirty" class="tail-mt-1">
+          <div v-if="$v.$anyDirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
@@ -86,10 +81,9 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-center">
-          <button-spinner type="submit" :class="{ disabled: $v.$invalid }">
+          <button-spinner type="submit" :loading="isLoading" :disabled="$v.$invalid">
             Login
           </button-spinner>
-          <!-- <p> :loading="isLoading" :disabled="$v.$error" </p> -->
         </div>
       </form>
       <div class="tail-mx-auto">
@@ -117,10 +111,11 @@
 </template>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import PasswordToggle from '../../components/PasswordToggle.vue'
 import ButtonSpinner from '../../components/util/ButtonSpinner.vue'
 export default {
   name: 'SignIn',
-  components: { ButtonSpinner },
+  components: { ButtonSpinner, PasswordToggle },
   layout: 'authLayout',
   auth: false,
   data () {
@@ -207,8 +202,3 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-.disabled {
-  background-color: grey;
-}
-</style>

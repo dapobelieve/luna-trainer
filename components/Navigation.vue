@@ -1,27 +1,26 @@
 <template>
   <div class="tail-hidden lg:tail-block lg:tail-col-span-3 xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white">
     <!-- Sidebar Search -->
-    <div class="tail-px-3 tail-py-1 tail-mt-3">
-      <label for="search" class="tail-sr-only">Search</label>
-      <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200">
-        <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
-          <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
-        </div>
-        <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
-      </div>
-    </div>
+
     <!-- main navigation -->
-    <nav aria-label="Sidebar" class="tail-sticky tail-top-4 tail-mt-4 tail-divide-y tail-divide-gray-300 tail-flex">
-      <div>
+    <nav aria-label="Sidebar" class="tail-sticky tail-top-0 tail-divide-y tail-divide-gray-300">
+      <div class="tail-relative tail-pt-8">
+        <div>
+          <img src="@/assets/img/getwelp.png" class="tail-ml-4" />
+        </div>
+        <div class="tail-px-3 tail-py-1 tail-mt-3 tail-mb-4">
+          <label for="search" class="tail-sr-only">Search</label>
+          <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200">
+            <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
+              <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
+            </div>
+            <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
+          </div>
+        </div>
         <div class="tail-space-y-1">
-          <button
-            @click="showMessageDrawer = !showMessageDrawer"
-          >
-            messageStuff
-          </button>
           <div v-for="menu in menus.menu" :key="menu">
             <NuxtLink
-              v-if="menu.path && menu.path !== 'signout' && menu.path !== 'createinvoice' && menu.path !== 'inviteClient'"
+              v-if="menu.path && !['signout', 'Messages', 'Notifications', 'createinvoice', 'inviteClient'].includes(menu.path)"
               :to="{ name: menu.path }"
               exact-active-class="active"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
@@ -48,6 +47,22 @@
               <span class="tail-truncate tail-text-sm tail-font-normal">New Invoice</span>
             </button>
             <button
+              v-else-if=" menu.path === 'Messages'"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              @click="toggleMenu(menu.path)"
+            >
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-mx-2 tail-flex-shrink-0 tail-text-lg" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
+            </button>
+            <button
+              v-else-if="menu.path === 'Notifications'"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              @click="toggleMenu(menu.path)"
+            >
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-mx-2 tail-flex-shrink-0 tail-text-lg" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">Notifications</span>
+            </button>
+            <button
               v-else-if="menu.path === 'signout'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
@@ -60,9 +75,16 @@
             </p>
           </div>
         </div>
-        <div class="tail-relative">
-          <MessageSlideOut :show="showMessageDrawer" @close="showMessageDrawer = $event" />
-        </div>
+        <navigation-sub-menu v-model="showNotificationsMenu">
+          <h2>
+            Notifications
+          </h2>
+        </navigation-sub-menu>
+        <navigation-sub-menu v-model="showMessagesMenu">
+          <h2>
+            Messages
+          </h2>
+        </navigation-sub-menu>
       </div>
     </nav>
     <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
@@ -85,15 +107,17 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
+
 export default {
   name: 'Navigation',
   data () {
     return {
       menus,
-      showMessageDrawer: false,
+      showNotification: false,
       inviteClient: false,
       openModal: false,
-      showNotification: false
+      showMessagesMenu: false,
+      showNotificationsMenu: false
     }
   },
   computed: {
@@ -110,6 +134,15 @@ export default {
         this.showNotification = true
       } else {
         this.openModal = true
+      }
+    },
+    toggleMenu (path) {
+      if (path === 'Messages') {
+        this.showNotificationsMenu = false
+        this.showMessagesMenu = true
+      } else if (path === 'Notifications') {
+        this.showNotificationsMenu = true
+        this.showMessagesMenu = false
       }
     },
     signOut () {

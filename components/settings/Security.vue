@@ -31,22 +31,8 @@
             v-model="$v.password.newPassword.$model"
             class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
-        <div >
-          <div class="tail-flex tail-justify-between tail-items-center">
-            <label for="password2">Confirm New Password</label>
-            <password-toggle v-model="showConfirmNewPassword"/>
-          </div>
-          <input
-            :type="!showConfirmNewPassword ? 'password' : 'text'"
-            v-model="$v.password.confirmNewPassword.$model"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
-          <small
-            v-if="$v.$anyDirty && !$v.password.confirmNewPassword.sameAsPassword"
-            class="tail-text-red-500"
-           >New password must match with confirm password</small>
-        </div>
         <div class="tail-flex tail-justify-end">
-          <button-spinner type="submit" :loading="loading" :disabled="$v.password.$invalid" style="width:fit-content">Save Password</button-spinner>
+          <button-spinner type="submit" :loading="loading" :disabled="$v.$invalid" style="width:fit-content">Save Password</button-spinner>
         </div>
       </form>
     </div>
@@ -54,20 +40,18 @@
 </template>
 
 <script>
-import { required, minLength, sameAs } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 import { mapActions } from 'vuex'
 
 export default {
   data () {
     return {
       loading: false,
-      showConfirmNewPassword: false,
       showOldPassword: false,
       showNewPassword: false,
       password: {
         oldPassword: '',
-        newPassword: '',
-        confirmNewPassword: ''
+        newPassword: ''
       }
     }
   },
@@ -78,12 +62,6 @@ export default {
       },
       newPassword: {
         required,
-        minLength: minLength(8),
-        sameAsPassword: sameAs('confirmNewPassword')
-      },
-      confirmNewPassword: {
-        required,
-        sameAsPassword: sameAs('newPassword'),
         minLength: minLength(8)
       }
     }
@@ -91,7 +69,6 @@ export default {
   methods: {
     ...mapActions({ resetPassword: 'authorize/resetPassword' }),
     submit () {
-      console.log(this.$v.password.$invalid)
       this.loading = true
       this.resetPassword(this.password).then((response) => {
         this.$toast.success('Password changed successfully', { position: 'top-right' })
