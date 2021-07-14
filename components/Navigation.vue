@@ -13,7 +13,7 @@
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="tail-sticky tail-top-4 tail-mt-4 tail-divide-y tail-divide-gray-300">
       <div class="tail-space-y-1">
-        <div><button>messageStuff</button></div>
+        <button>messageStuff</button>
         <div v-for="menu in menus.menu" :key="menu">
           <NuxtLink
             v-if="menu.path && menu.path !== 'signout' && menu.path !== 'createinvoice' && menu.path !== 'inviteClient'"
