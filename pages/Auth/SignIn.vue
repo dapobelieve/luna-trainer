@@ -86,7 +86,7 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-center">
-          <button-spinner type="submit" :class="{ disabled: $v.$invalid }">
+          <button-spinner type="submit" :loading="isLoading" :class="{ disabled: $v.$invalid }">
             Login
           </button-spinner>
           <!-- <p> :loading="isLoading" :disabled="$v.$error" </p> -->

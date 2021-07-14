@@ -21,7 +21,7 @@
               class="base-button tail-gap-2"
               @click="openModal = true"
             >
-              <span class="tail-hidden sm:tail-block">invite new client</span>
+              <span class="tail-hidden sm:tail-block">New client</span>
             </button>
           </div>
         </div>
@@ -53,11 +53,6 @@
             </li>
             <li>
               <div class="tail-flex tail-items-center">
-                <!-- <p
-                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
-                >
-                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
-                </p> -->
                 <SingleLoader v-if="$store.state.client.loadingForAllClients" class="tail-mr-2" />
                 <template v-else>
                   <p
