@@ -58,8 +58,8 @@ export default {
   },
   methods: {
     select (optionValue) {
-      this.$open = false
-      this.$selected = optionValue
+      this.$data.$open = !this.$data.$open
+      this.$data.$selected = optionValue
       this.$emit('input', optionValue)
       this.$emit('selected', optionValue)
     }
