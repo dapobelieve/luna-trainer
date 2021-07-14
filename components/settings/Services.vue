@@ -35,9 +35,9 @@
               <input v-model.number="selectedService.pricing.amount" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
             </div>
           </div>
-          <button @click.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()" :disabled="isLoading">
+          <button :disabled="disabled" :class="[disabled?['tail-text-gray-500', 'tail-pointer-events-none']: [] ]"  @click.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
             <div class="tail-flex">
-              <div class="tail-rounded-full tail-px-2 tail-py-1   tail-flex tail-items-center tail-justify-center">
+              <div class="tail-rounded-full tail-px-2 tail-py-1 tail-flex tail-items-center tail-justify-center">
                 <SingleLoader v-if="isLoading" class="tail-mr-2" />
                 <i v-if="!isLoading" class="ns-plus tail-text-base tail-rounded-full tail-text-white tail-p-1 primary-color"/>
                 <span class="text-primary-color tail-pl-2">{{ !selectedService._id ? "Add New Service Item" : "Update Service Item" }} </span>
@@ -67,8 +67,15 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
+import { required } from 'vuelidate/lib/validators'
+
 export default {
   name: 'SettingsServices',
+  computed: {
+    disabled () {
+      return this.$v.$invalid || this.isLoading
+    }
+  },
   props: {
     services: {
       type: Array,
@@ -84,6 +91,18 @@ export default {
   },
   mounted () {
     this.resetUpdatedServices()
+  },
+  validations: {
+    selectedService: {
+      description: {
+        required
+      },
+      pricing: {
+        amount: {
+          required
+        }
+      }
+    }
   },
   methods: {
     ...mapActions({

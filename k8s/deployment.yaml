@@ -21,7 +21,7 @@ spec:
       containers:
         - name: APPNAME
           image: CONTAINER_IMAGE
-        securityContext:
+          securityContext:
             privileged: false
             allowPrivilegeEscalation: false
           ports:
@@ -42,3 +42,16 @@ spec:
               value: https://api.getwelp.co.uk/core/v0
             - name: RETURN_URL
               value: https://app.getwelp.co.uk/Dashboard
+            - name: QUICKBLOX_AUTH_KEY
+              value: E7jN9O53RLe67qx
+            - name: QUICKBLOX_AUTH_SECRET
+              value: BesJU5mLLs2vkHX
+            - name: QUICKBLOX_APPLICATION_ID
+              value: '91841'
+            - name: QUICKBLOX_ACCOUNT_KEY
+              value: X-zxyGoLuAxMAHEJ7vog
+            - name: QUICKBLOX_BASE_URL
+              value: https://api.quickblox.com
+            - name: PAYMENT_HOST_URL
+              value: https://api.getwelp.co.uk/payments/v0
+

@@ -22,6 +22,7 @@ export const mutations = {
 
 export const actions = {
   createTrainerProfile ({ commit, dispatch }, payload) {
+    delete payload.profilePic
     return this.$axios.$post(
       `${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {

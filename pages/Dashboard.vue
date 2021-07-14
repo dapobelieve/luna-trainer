@@ -1,5 +1,6 @@
 <template>
   <main class="tail-flex">
+    <!-- <article class="dash-view tail-pb-48 tail-mx-3 lg:tail-mx-0"> -->
     <article class="dash-view tail-mx-3 lg:tail-mx-0">
       <div class="main-view tail-grid tail-gap-4 tail-my-5 tail-mx-auto">
         <div
@@ -9,7 +10,7 @@
             <h2 class="tail-capitalize tail-text-2xl tail-font-medium">
               hello, {{ $store.state.authorize.getWelpUser.firstName }}!
             </h2>
-            <p class="lg:tail-max-w-md tail-font-normal">
+            <p class="lg:tail-max-w-3xl tail-font-normal">
               Welcome back! If you need the GetWelp Team’s help with anything,
               just pop us a message in the live chat below!
             </p>
@@ -20,7 +21,7 @@
               class="base-button tail-gap-2"
               @click="openModal = true"
             >
-              <span class="tail-hidden sm:tail-block">invite new client</span>
+              <span class="tail-hidden sm:tail-block">New client</span>
             </button>
           </div>
         </div>
@@ -52,11 +53,6 @@
             </li>
             <li>
               <div class="tail-flex tail-items-center">
-                <!-- <p
-                  :class="[allClientsConcise.length ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
-                >
-                  <i :class="[allClientsConcise.length ? 'ns-check' : 'ns-cross']" />
-                </p> -->
                 <SingleLoader v-if="$store.state.client.loadingForAllClients" class="tail-mr-2" />
                 <template v-else>
                   <p
@@ -367,15 +363,15 @@
                 </div>
               </div>
               <!-- seems to be a necessary evil as margin and paddings arent adding up -->
-              <div class="tail-h-20 md:tail-hidden" />
+              <!-- <div class="tail-h-20 md:tail-hidden"></div> -->
             </div>
           </div>
         </div>
       </div>
     </article>
-    <div>
+    <!-- <div>
       <CalendarView />
-    </div>
+    </div> -->
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
@@ -450,7 +446,7 @@ export default {
   methods: {
     ...mapActions({
       fetchAllClientsConcise: 'client/fetchAllClientsConcise',
-      fetchAllInvoices: 'invoice/getAllDraftInvoices',
+      fetchAllInvoices: 'invoice/getInvoices',
       fetchAcceptedClients: 'client/fetchAllAcceptedClients',
       connectToStripe: 'invoice/stripeConnect',
       fetchUserProfile: 'authorize/getUserProfile'
@@ -498,7 +494,8 @@ export default {
     }
   }
   .dash-view {
-    width: calc(100% - 300px);
+    width: 100%;
+    // width: calc(100% - 300px);
   }
 
   .main-view {

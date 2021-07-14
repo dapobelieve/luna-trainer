@@ -5,10 +5,11 @@
         Invoices
       </template>
       <template v-slot:buttons>
-        <button type="button" class="tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-white tail-bg-white hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500" @click="openModal = true">
-          <i class="ns-plus tail-text-black tail-text-lg"></i>
+         <button type="button" class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="openModal = true">
+          <i class="ns-plus tail-text-white tail-text-lg"></i>
         </button>
-        <button type="button" class="tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-tail-text-sm tail-font-medium tail-text-white tail-bg-white hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
+        <gw-select :options='["Sent","Draft","Paid"]' @selected="goTo" selected="Draft"/>
+        <button type="button" class="tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-tail-text-sm tail-font-medium tail-text-white tail-bg-white hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2">
           <i class="ns-download tail-mr-2 tail-text-black tail-text-sm"></i>
           <span class="tail-text-black tail-text-sm">Export</span>
         </button>
@@ -24,13 +25,11 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
 
 export default {
   name: 'Invoices',
   data () {
     return {
-      openDropDown: false,
       active: true,
       openModal: false
     }
@@ -40,24 +39,11 @@ export default {
       title: 'All Invoices'
     }
   },
-  computed: {
-    ...mapGetters({
-      fetchAllInvoices: 'invoice/getAllDraftInvoices',
-      acceptedClients: 'client/getAllAcceptedClients'
-    })
-  },
-  created () {
-    this.fetchInvoices()
-  },
   methods: {
-    ...mapActions({
-      fetchInvoices: 'invoice/getAllDraftInvoices'
-    }),
-    goToSaved () {
+    goTo (link) {
       this.$router.push({
-        name: 'Invoices-Saved'
+        name: link === 'Draft' ? 'Invoices' : `Invoices-${link}`
       })
-      this.openDropDown = false
     }
   }
 }

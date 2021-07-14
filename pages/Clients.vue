@@ -4,6 +4,12 @@
       <template v-slot:title>
         Clients
       </template>
+      <template v-slot:buttons>
+        <button type="button" class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="openModal = true">
+          <i class="ns-plus tail-text-white tail-text-lg"></i>
+        </button>
+        <gw-select :options='["Active","Invited"]' @selected="goTo" selected="Invited"/>
+      </template>
     </PageHeader>
     <div class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full">
       <nuxt-child />
@@ -15,15 +21,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
   name: 'Clients',
   data () {
     return {
-      openDropDown: false,
-      optionsText: 'Received',
       clients: false,
-      active: true,
       openModal: false
     }
   },
@@ -32,26 +34,11 @@ export default {
       title: 'All Clients'
     }
   },
-  computed: {
-    ...mapGetters({
-      acceptedClients: 'client/getAllAcceptedClients',
-      invitedClients: 'client/getAllInvitedClients'
-    })
-  },
   methods: {
-    goToInvites () {
-      this.optionsText = 'Sent'
+    goTo (link) {
       this.$router.push({
-        name: 'Clients-InvitedInvites'
+        name: link === 'Active' ? 'Clients' : `Clients-${link}`
       })
-      this.openDropDown = false
-    },
-    goToAccepted () {
-      this.optionsText = 'Received'
-      this.$router.push({
-        name: 'Clients'
-      })
-      this.openDropDown = false
     }
   }
 }
