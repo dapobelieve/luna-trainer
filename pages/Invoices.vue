@@ -42,11 +42,7 @@ export default {
   },
   methods: {
     filterInvoice (link) {
-      console.log('fil', link)
       this.filter = link
-      // this.$router.push({
-      //   name: link === 'Draft' ? 'Invoices' : `Invoices-${link}`
-      // })
     }
   }
 }
