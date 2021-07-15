@@ -437,14 +437,6 @@ export default {
     this.fetchAllClientsConcise()
     this.fetchAllInvoices()
     this.fetchAcceptedClients()
-    QuickBlox.getSession(function (error, session) {
-      if (session) {
-        console.log('session', session)
-      }
-      if (error) {
-        console.log(error)
-      }
-    })
   },
   updated () {
     if (!this.$store.state.authorize.isStripeConnected && !this.$store.state.payment.isBankLinked && this.$route.query.stripe === 'connected') {
