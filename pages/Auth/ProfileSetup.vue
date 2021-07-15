@@ -99,14 +99,14 @@
             for="specialise"
             class="form-label"
           >What do you specialise in?</label>
-          <tag-input :block="false" v-model="profileInfo.specialization" />
+          <tag-input v-model="profileInfo.specialization" :block="false" />
         </div>
         <div class="">
           <label
             for="accreditations"
             class="form-label"
           >What are your Accreditations?</label>
-          <tag-input :block="false" v-model="profileInfo.accreditations" />
+          <tag-input v-model="profileInfo.accreditations" :block="false" />
         </div>
         <div class="">
           <label
@@ -137,11 +137,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'ProfileSetup',
-  mounted () {
-    this.$toast.info('Please complete your profile.', { position: 'top-right' })
-  },
   layout: 'authLayout',
-  auth: false,
   data: () => ({
     isLoading: false,
     profilePic: null,
@@ -162,6 +158,20 @@ export default {
       status: 'invited'
     }
   }),
+  computed: {
+    disabled () {
+      for (const key in this.profileInfo) {
+        if (this.profileInfo[key] === null || this.profileInfo[key] === '' || Array.isArray(this.profileInfo.experience)) {
+          return true
+        }
+      }
+      return false
+    }
+  },
+  mounted () {
+    this.$toast.info('Please complete your profile.', { position: 'top-right' })
+  },
+  auth: false,
   validations: {
     profileInfo: {
       firstName: {
@@ -176,16 +186,6 @@ export default {
       location: {
         required
       }
-    }
-  },
-  computed: {
-    disabled () {
-      for (const key in this.profileInfo) {
-        if (this.profileInfo[key] === null || this.profileInfo[key] === '' || Array.isArray(this.profileInfo.experience)) {
-          return true
-        }
-      }
-      return false
     }
   },
   methods: {

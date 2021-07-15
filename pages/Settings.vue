@@ -6,7 +6,7 @@
       </template>
     </PageHeader>
     <div class="tail-py-5">
-      <div class="tail-flex tail-justify-between tail-px-24">
+      <div class="tail-flex tail-justify-between tail-px-10">
         <div class="tail-relative">
           <div class="tail-sticky tail-top-6 tail-pt-10">
             <SettingsNavigation />

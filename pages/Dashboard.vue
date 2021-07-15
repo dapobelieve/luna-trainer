@@ -179,7 +179,7 @@
                 <!-- when clients are >= 5 -->
                 <template v-else-if="acceptedClients.length >= 5">
                   <div
-                    v-for="client in acceptedClients.slice(0,4)"
+                    v-for="client in acceptedClients.slice(0,2)"
                     :key="client.index"
                     class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
                     @click="openClientModal = true"
@@ -385,6 +385,7 @@
 </template>
 
 <script>
+import QuickBlox from 'quickblox/quickblox.min'
 import { formatDistance } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 export default {
@@ -436,6 +437,14 @@ export default {
     this.fetchAllClientsConcise()
     this.fetchAllInvoices()
     this.fetchAcceptedClients()
+    QuickBlox.getSession(function (error, session) {
+      if (session) {
+        console.log('session', session)
+      }
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   updated () {
     if (!this.$store.state.authorize.isStripeConnected && !this.$store.state.payment.isBankLinked && this.$route.query.stripe === 'connected') {

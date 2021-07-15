@@ -32,8 +32,6 @@ export default ({ $axios, store, route }) => {
         const userCredentials = {
           userId: store.state.qb.qbUser.id,
           password: store.state.qb.qbUser.password
-          // userId: 129031325,
-          // password: 'tester11@test.com'
         }
         console.log('qb user Credentials', userCredentials)
         QuickBlox.chat.connect(userCredentials, function (error) {
@@ -92,12 +90,6 @@ export default ({ $axios, store, route }) => {
                 // const occupantsId = []
                 result.forEach((element) => {
                   if (element.occupants_ids[0] === trainerQbId) {
-                    // occupantsId.push(
-                    //   parseInt(
-                    //     element
-                    //       .occupants_ids[0]
-                    //   )
-                    // )
                     arr.push({
                       ...element,
                       opponentFirstName: 'noodles',
