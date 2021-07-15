@@ -6,7 +6,7 @@
         class="tail-max-w-3xl tail-mx-auto sm:tail-px-0 lg:tail-max-w-full lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12 lg:tail-gap-8"
       >
         <Navigation />
-        <main class="lg:tail-col-span-9 xl:tail-col-span-10 tail-pr-8">
+        <main class="lg:tail-col-span-9 xl:tail-col-span-7 tail-pr-8">
           <Nuxt />
         </main>
       </div>
