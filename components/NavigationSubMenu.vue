@@ -10,9 +10,15 @@
         leave-to="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
       >
         <div>
+          <div>
+            <div class="tail-p-2 tail-flex tail-justify-between">
+              <slot name="title"/>
+              <i class="ns-cross"></i>
+            </div>
+          </div>
           <div class="tail-opacity-50 tail-w-full tail-h-full tail-absolute tail-left-0 tail-top-0 tail-bg-gray-600 tail-z-0" @click="$emit('input',false)"></div>
-          <div class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all tail-w-64">
-            <slot />
+          <div class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all tail-w-96 tail-h-96">
+            <slot name="body"/>
           </div>
         </div>
       </transition>
