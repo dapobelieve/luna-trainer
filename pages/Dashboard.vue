@@ -407,6 +407,9 @@ export default {
       openClientModal: false
     }
   },
+  mounted() {
+    this.fetchUserProfile();
+  },
   computed: {
     ...mapGetters({
       allClientsConcise: 'client/getAllClients',
