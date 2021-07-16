@@ -48,7 +48,7 @@
         <button
           class="base-button"
           type="button"
-          @click="openModal = true"
+          @click="addClient = true"
         >
           <i class="ns-add"></i>
           add your first client
