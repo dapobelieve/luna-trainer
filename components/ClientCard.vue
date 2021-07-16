@@ -32,7 +32,7 @@
     <div class="">
       <div class="tail-flex tail-gap-3">
         <button
-          v-if="$route.name === 'Clients-Inactive'"
+          v-if="client.status === 'invited'"
           type="button"
           class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
           @click="resendInvite"

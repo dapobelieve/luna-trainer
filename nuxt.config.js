@@ -26,9 +26,10 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: "~plugins/v-calendar.js", ssr: false },
-    { src: "~/plugins/vuelidate.js", ssr: true },
-    { src: "~plugins/persistedState.client.js" }
+    { src: '~plugins/v-calendar.js', ssr: false },
+    { src: '~plugins/quickBlox.js', ssr: false },
+    { src: '~/plugins/vuelidate.js', ssr: true },
+    { src: '~plugins/persistedState.client.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -75,7 +76,7 @@ export default {
   },
 
   router: {
-    middleware: ["auth"]
+    middleware: ['auth', 'dashboard']
   },
 
   auth: {
