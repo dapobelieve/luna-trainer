@@ -1,24 +1,28 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'Getwelp',
-    titleTemplate: 'Getwelp | %s',
+    title: "Getwelp",
+    titleTemplate: "Getwelp | %s",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en"
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Getwelp Trainer UI' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      { hid: "description", name: "description", content: "Getwelp Trainer UI" }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap' }
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      {
+        rel: "stylesheet",
+        href:
+          "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+      }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css'],
+  css: ["@/assets/css/theme.scss", "@/assets/css/fonts.css"],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
@@ -30,7 +34,7 @@ export default {
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
-    dirs: ['~/components', '~/components/util']
+    dirs: ["~/components", "~/components/util"]
   },
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
@@ -48,13 +52,12 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     // '@nuxtjs/eslint-module',
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/date-fns'
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/date-fns"
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
     '@nuxtjs/toast',
@@ -62,7 +65,7 @@ export default {
   ],
 
   toast: {
-    posotion: 'top-right',
+    posotion: "top-right",
     duration: 4000,
     closeOnSwipe: true
   },
@@ -78,29 +81,29 @@ export default {
 
   auth: {
     redirect: {
-      login: '/auth/signin',
-      logout: '/auth/signin',
-      callback: '/auth/signin',
-      home: '/dashboard'
+      login: "/auth/signin",
+      logout: "/auth/signin",
+      callback: "/auth/signin",
+      home: "/dashboard"
     },
     strategies: {
       local: {
         token: {
-          property: 'accessToken',
+          property: "accessToken",
           global: true,
           required: true
           // type: 'Bearer'
         },
         user: {
-          property: 'data',
+          property: "data",
           autoFetch: false
         },
         endpoints: {
           login: {
             url: `${process.env.ACCOUNT_HOST_URL}/auth/login`,
-            method: 'post'
+            method: "post"
           },
-          logout: { url: '/', method: 'post' },
+          logout: { url: "/", method: "post" },
           user: false
         }
       }
@@ -113,4 +116,4 @@ export default {
   //   port: 8080,
   //   host: '192.168.0.103'
   // }
-}
+};

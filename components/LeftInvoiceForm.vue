@@ -1,6 +1,10 @@
 <template>
   <div class="tail-w-7/12">
-    <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="createInvoice">
+    <form
+      autocomplete="off"
+      class="tail-grid tail-gap-6"
+      @submit.prevent="createInvoice"
+    >
       <div class="tail-border tail-rounded tail-grid tail-gap-4 tail-p-4">
         <div>
           <div class="">
@@ -9,22 +13,24 @@
             </h1>
           </div>
           <div class="">
-            <span class="tail-text-gray-400 tail-text-sm">A short description about this section</span>
+            <span class="tail-text-gray-400 tail-text-sm"
+              >A short description about this section</span
+            >
           </div>
         </div>
-        <div class="">
-          <label for="email" class="tail-font-light">Name</label>
-          <input
-            style="cursor: not-allowed"
-            disabled
-            :value="`${client && client.firstName} ${client && client.lastName}`"
-            type="email"
-            class="tail-w-full tail-bg-gray-200 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-          >
-        </div>
-        <div class="">
-          <label for="email" class="tail-font-light">Email Address</label>
-          <input style="cursor: not-allowed" disabled :value="client && client.email" type="email" class="tail-w-full tail-bg-gray-200 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+        <div class="tail-flex tail-items-center ">
+          <ClientAvatar
+            :firstname="client && client.firstName"
+            :lastname="client && client.lastName"
+            :width="4"
+            :height="4"
+          />
+          <div class="tail-pl-2 ">
+            <div class="tail-capitalize">
+              {{ client && client.firstName }} {{ client && client.lastName }}
+            </div>
+            <small class="">{{ client && client.email }}</small>
+          </div>
         </div>
       </div>
       <div class="tail-border tail-rounded tail-gap-4 tail-p-4">
@@ -35,7 +41,9 @@
             </h1>
           </div>
           <div class="">
-            <span class="tail-text-gray-400 tail-text-sm">A short description about this section</span>
+            <span class="tail-text-gray-400 tail-text-sm"
+              >A short description about this section</span
+            >
           </div>
         </div>
         <div class="">
@@ -72,7 +80,8 @@
                         active
                           ? 'tail-bg-gray-100 tail-text-gray-900'
                           : 'tail-text-gray-700',
-                        'tail-block tail-px-4 tail-py-2 tail-text-sm', 'tail-w-full'
+                        'tail-block tail-px-4 tail-py-2 tail-text-sm',
+                        'tail-w-full'
                       ]"
                       @click.prevent="popSelection(service)"
                     >
@@ -84,21 +93,30 @@
             </transition>
           </div>
         </div>
-        <table v-if="selectedService.length" class="table-fixed tail-w-full tail-my-3">
+        <table
+          v-if="selectedService.length"
+          class="table-fixed tail-w-full tail-my-3"
+        >
           <thead>
-            <tr class="tail-text-base tail-font-normal tail-border-b tail-border-gray-300 tail-mb-3">
+            <tr
+              class="tail-text-base tail-font-normal tail-border-b tail-border-gray-300 tail-mb-3"
+            >
               <th class="w-1/2 tail-text-left tail-text-xs">Description</th>
-              <th class="w-1/4 tail-text-left tail-text-xs tail-mr-2">Quantity</th>
+              <th class="w-1/4 tail-text-left tail-text-xs tail-mr-2">
+                Quantity
+              </th>
               <th class="w-1/4 tail-text-center tail-text-xs">amount</th>
             </tr>
           </thead>
-          <tbody
-            v-for="service in selectedService"
-            :key="service.index">
+          <tbody v-for="service in selectedService" :key="service.index">
             <tr class="tail-my-1">
               <td class="tail-text-sm">{{ service.description }}</td>
-              <td class="tail-text-sm tail-text-center">{{ service.quantity }}</td>
-              <td class="tail-text-sm tail-text-center">£ {{ service.pricing.amount | amount }}</td>
+              <td class="tail-text-sm tail-text-center">
+                {{ service.quantity }}
+              </td>
+              <td class="tail-text-sm tail-text-center">
+                £ {{ service.pricing.amount | amount }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -106,21 +124,23 @@
           <hr />
         </div>
         <div class="tail-py-4">
-          <input type="checkbox" class="tail-p-2">
+          <input type="checkbox" class="tail-p-2" />
           <span class="tail-font-light">Value Added Tax (VAT)</span>
         </div>
         <div class="">
-          <label for="dueDate" class="tail-block tail-font-light">Due date</label>
+          <label for="dueDate" class="tail-block tail-font-light"
+            >Due date</label
+          >
           <date-picker
             v-model="dueDate"
             style="width: 100% !important"
             class="tail-w-full"
             :disabled-date="
-              (date) => {
+              date => {
                 if (date < new Date()) {
-                  return true
+                  return true;
                 }
-                return false
+                return false;
               }
             "
             value-type="format"
@@ -130,7 +150,7 @@
       </div>
       <button :disabled="isLoading" class="base-button">
         <SingleLoader v-if="isLoading" class="tail-mr-2" />
-        {{ isLoading ? 'Creating Invoice...' : 'Save Invoice' }}
+        {{ isLoading ? "Creating Invoice..." : "Save Invoice" }}
       </button>
     </form>
     <Modal :is-open="addItem" @close="addItem = $event">
@@ -142,22 +162,22 @@
   </div>
 </template>
 <script>
-import DatePicker from 'vue2-datepicker'
-import 'vue2-datepicker/index.css'
-import { mapActions } from 'vuex'
+import DatePicker from "vue2-datepicker";
+import "vue2-datepicker/index.css";
+import { mapActions } from "vuex";
 export default {
-  name: 'LeftInvoiceForm',
+  name: "LeftInvoiceForm",
   components: { DatePicker },
   filters: {
-    amount (amount) {
-      const amt = Number(amount)
+    amount(amount) {
+      const amt = Number(amount);
       return (
         (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
-        '0'
-      )
+        "0"
+      );
     }
   },
-  data () {
+  data() {
     return {
       isLoading: false,
       openDropDown: false,
@@ -170,84 +190,100 @@ export default {
       serviceData: [],
       date: new Date().toISOString().substring(0, 10),
       invoiceDetails: {
-        selectedClient: '',
-        selectedService: ''
+        selectedClient: "",
+        selectedService: ""
       }
-    }
+    };
   },
   computed: {
     dueDate: {
-      get () {
-        return this.$store.state.invoice.tempInvoice.date
+      get() {
+        return this.$store.state.invoice.tempInvoice.date;
       },
-      set (value) {
-        this.$store.commit('invoice/SET_INVOICE_DUE_DATE', value)
+      set(value) {
+        this.$store.commit("invoice/SET_INVOICE_DUE_DATE", value);
       }
     }
   },
-  mounted () {
-    this.getThisClient(this.$route.params.id).then((response) => {
-      this.client = response
-    }).catch()
+  mounted() {
+    this.getThisClient(this.$route.params.id)
+      .then(response => {
+        this.client = response;
+      })
+      .catch();
   },
   methods: {
     ...mapActions({
-      createInvoices: 'invoice/createInvoice',
-      getThisClient: 'client/getSingleClient'
+      createInvoices: "invoice/createInvoice",
+      getThisClient: "client/getSingleClient"
     }),
-    createInvoice () {
-      this.isLoading = true
+    createInvoice() {
+      this.isLoading = true;
       this.createInvoices({
         customerId: this.client._id,
-        dueDateEpoch: new Date(this.$store.state.invoice.tempInvoice.date).getTime() / 1000,
+        dueDateEpoch:
+          new Date(this.$store.state.invoice.tempInvoice.date).getTime() / 1000,
         dueDate: new Date(this.$store.state.invoice.tempInvoice.date),
         items: this.serviceData
-      }).then((result) => {
-        if (result.status === 'success') {
-          this.$toast.success('Invoice created successfully', { position: 'bottom-right' })
-          this.$router.push({ name: 'Invoices' })
-        }
-      }).catch((err) => {
-        if (err.response) {
-          this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
-        } else if (err.request) {
-          this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
-        } else {
-          this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-        }
       })
+        .then(result => {
+          if (result.status === "success") {
+            this.$toast.success("Invoice created successfully", {
+              position: "bottom-right"
+            });
+            this.$router.push({ name: "Invoices" });
+          }
+        })
+        .catch(err => {
+          if (err.response) {
+            this.$toast.error(
+              `Something went wrong: ${err.response.data.message}`,
+              { position: "bottom-right" }
+            );
+          } else if (err.request) {
+            this.$toast.error("Something went wrong. Try again", {
+              position: "bottom-right"
+            });
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, {
+              position: "bottom-right"
+            });
+          }
+        });
     },
-    popSelection (service) {
+    popSelection(service) {
       this.selectedService.push({
         ...service,
         quantity: 1
-      })
-      this.openDropDown = false
-      this.$store.commit('invoice/SET_INVOICE_SERVICES', {
+      });
+      this.openDropDown = false;
+      this.$store.commit("invoice/SET_INVOICE_SERVICES", {
         ...service,
         quantity: 1
-      })
+      });
       this.serviceData.push({
         service: service._id,
         qty: 1,
         price: service.pricing.amount
-      })
+      });
     },
-    updateQty (service, mode) {
+    updateQty(service, mode) {
       // eslint-disable-next-line unicorn/prefer-includes
       if (this.selectedService.indexOf(service) !== -1) {
-        const position = this.selectedService.indexOf(service)
+        const position = this.selectedService.indexOf(service);
         if (this.selectedService[position]._id === service._id) {
           const newService = {
             ...service,
-            quantity: mode === 'INCRE' ? this.selectedService[position].quantity + 1 : this.selectedService[position].quantity - 1
-          }
-          this.$set(this.selectedService, position, newService)
+            quantity:
+              mode === "INCRE"
+                ? this.selectedService[position].quantity + 1
+                : this.selectedService[position].quantity - 1
+          };
+          this.$set(this.selectedService, position, newService);
         }
       }
     }
   }
-}
+};
 </script>
-<style scoped>
-</style>
+<style scoped></style>
