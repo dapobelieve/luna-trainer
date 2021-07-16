@@ -31,8 +31,10 @@
       >
         <div class="tail-grid error">
           <label
-          for="username"
-          class="tail-block tail-text-base tail-font-medium tail-text-gray-700">Username</label>
+            for="username"
+            class="tail-block tail-text-base tail-font-medium tail-text-gray-700">
+            Username
+          </label>
           <input
             v-model.trim="$v.userInfo.userName.$model"
             autocomplete="off"
@@ -105,7 +107,7 @@
         </div>
         <div class="tail-flex tail-justify-center">
           <button-spinner type="submit" :loading="isLoading" :disabled="$v.$invalid">
-            Get Started
+            {{ signUpText }}
           </button-spinner>
         </div>
       </form>
@@ -132,6 +134,7 @@ export default {
   data () {
     return {
       showPassword: false,
+      signUpText: 'get started',
       isLoading: false,
       userInfo: {
         userName: null,
@@ -178,6 +181,8 @@ export default {
                   this.$toast.success('Signup Successful', {
                     position: 'bottom-right'
                   })
+                  this.isLoading = false
+                  this.signUpText = 'please wait...'
                   const tokens = {
                     token: response.data.data.accessToken,
                     refreshToken: response.data.data.refreshToken
@@ -216,6 +221,8 @@ export default {
           }
         })
         .catch((err) => {
+          this.isLoading = false
+          this.signUpText = 'get started'
           console.log(err)
           if (err.response) {
             this.$toast.error(
@@ -231,8 +238,6 @@ export default {
               position: 'bottom-right'
             })
           }
-        }).finally(() => {
-          this.isLoading = false
         })
     }
   }

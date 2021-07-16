@@ -17,57 +17,57 @@
             <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
           </div>
         </div>
-        <div class="tail-space-y-1">
+        <div class="tail-space-y-2">
           <div v-for="menu in menus.menu" :key="menu">
             <NuxtLink
               v-if="menu.path && !['signout', 'Messages', 'Notifications', 'createinvoice', 'inviteClient'].includes(menu.path)"
               :to="{ name: menu.path }"
               exact-active-class="active"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
             >
-              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-mx-2 tail-flex-shrink-0 tail-text-lg" />
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
               <span class="tail-truncate tail-text-sm tail-font-normal">
                 {{ menu.title }}
               </span>
             </NuxtLink>
             <button
               v-else-if="menu.path === 'inviteClient'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="inviteClient = true"
             >
-              <i class="ns-user-add tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+              <i class="ns-user-add tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Invite Client</span>
             </button>
             <button
               v-else-if="menu.path === 'createinvoice'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="createInvoice"
             >
-              <i class="ns-plus tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+              <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
               <span class="tail-truncate tail-text-sm tail-font-normal">New Invoice</span>
             </button>
             <button
               v-else-if=" menu.path === 'Messages'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="toggleMenu(menu.path)"
             >
-              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-mx-2 tail-flex-shrink-0 tail-text-lg" />
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
             </button>
             <button
               v-else-if="menu.path === 'Notifications'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="toggleMenu(menu.path)"
             >
-              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-mx-2 tail-flex-shrink-0 tail-text-lg" />
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Notifications</span>
             </button>
             <button
               v-else-if="menu.path === 'signout'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-3 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
-              <i class="ns-power tail-mx-2 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />
+              <i class="ns-power tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Signout</span>
             </button>
             <p v-if="menu.section" class="tail-px-3 tail-text-sm tail-my-4 tail-text-gray-500 uppercase tracking-wider">
@@ -76,100 +76,90 @@
           </div>
         </div>
         <navigation-sub-menu v-model="showNotificationsMenu">
-          <div class="tail-h-screen">
-            <div class="tail-p-2 tail-flex tail-justify-between">
-              <h2>
-                Notifications
-              </h2>
-              <i class="ns-cross"></i>
+          <template v-slot:title>
+            <h2>
+              Notifications
+            </h2>
+          </template>
+          <template v-slot:body>
+            <div class="tail-p-6" v-if="true">
+              <div class="tail-flex">
+                <div>
+                  <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
+                </div>
+                <div>
+                  <div class="tail-flex tail-flex-col tail-px-2">
+                    <span>
+                      APBC Committee Meeting with Ali R
+                    </span>
+                    <span>7pm - 9pm . Remote</span>
+                  </div>
+                  <div class="tail-flex tail-justify-between tail-pt-2">
+                    <button class="base-button tail-px-4 tail-mr-3">
+                      Accept
+                    </button>
+                    <button class="outline-button tail-px-4">
+                      Re-schedule
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-            <template v-if="true">
-              <div class="tail-p-6">
-                <div class="tail-flex">
-                  <div>
-                    <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
-                  </div>
-                  <div>
-                    <div class="tail-flex tail-flex-col tail-px-2">
-                      <span>
-                        APBC Committee Meeting with Ali R
-                      </span>
-                      <span>7pm - 9pm . Remote</span>
-                    </div>
-                    <div class="tail-flex tail-justify-between tail-pt-2">
-                      <button class="base-button tail-h-10 tail-w-5 tail-px-8">
-                        Accept
-                      </button>
-                      <button class="outline-button tail-h-10 tail-w-24 tail-px-8">
-                        Re-schedule
-                      </button>
-                    </div>
-                  </div>
+            <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
+              <div class="tail-text-center tail-py-5">
+                <h2 class="tail-font-bold">
+                  No Notifications.
+                </h2>
+                <div class="tail-pt-3">
+                  <p>We will notify you when something arrives</p>
                 </div>
               </div>
-            </template>
-            <template v-else>
-              <div class="tail-flex tail-justify-center tail-items-center tail-pt-2">
-                <div class="tail-text-center tail-py-5">
-                  <h2 class="tail-font-bold">
-                    No Notifications.
-                  </h2>
-                  <div class="tail-pt-3">
-                    <p>We will notify you when something arrives</p>
-                  </div>
-                </div>
-              </div>
-            </template>
-          </div>
+            </div>
+          </template>
         </navigation-sub-menu>
         <navigation-sub-menu v-model="showMessagesMenu">
-          <div class="tail-h-screen">
-            <div class="tail-p-2 tail-flex tail-justify-between">
+          <template v-slot:title>
               <h2>
-                Messages
-              </h2>
-              <i class="ns-cross"></i>
-            </div>
+              Messages
+            </h2>
+          </template>
+          <template v-slot:body>
             <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200 tail-pb-4 tail-h-4">
               <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-pt-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
                 <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
               </div>
               <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300" placeholder="Search or start a new chat">
             </div>
-            <template v-if="true">
-              <div class="tail-px-3 tail-pt-6">
-                <div class="tail-flex">
-                  <div>
-                    <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
+            <div class="tail-px-3 tail-pt-6" v-if="true">
+              <div class="tail-flex">
+                <div>
+                  <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
+                </div>
+                <div>
+                  <div class="tail-flex tail-flex-row tail-px-2">
+                    <h4 class="tail-font-bold">
+                      James R
+                    </h4>
+                    <span class="tail-px-2">.</span>
+                    <small class="tail-text-gray-400">Time</small>
                   </div>
-                  <div>
-                    <div class="tail-flex tail-flex-row tail-px-2">
-                      <h4 class="tail-font-bold">
-                        James R
-                      </h4>
-                      <span class="tail-px-2">.</span>
-                      <small class="tail-text-gray-400">Time</small>
-                    </div>
-                    <span class="tail-px-2">
-                      Lorem ipsum sit amet...
-                    </span>
-                  </div>
+                  <span class="tail-px-2">
+                    Lorem ipsum sit amet...
+                  </span>
                 </div>
               </div>
-            </template>
-            <template v-else>
-              <div class="tail-flex tail-justify-center tail-items-center tail-pt-2">
-                <div class="tail-text-center tail-py-5">
-                  <h2 class="tail-font-bold">
-                    No messages, yet.
-                  </h2>
-                  <div class="tail-pt-3">
-                    <p>Looks like you haven’t started a conversation with your client</p>
-                  </div>
+            </div>
+            <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
+              <div class="tail-text-center tail-py-5">
+                <h2 class="tail-font-bold">
+                  No messages, yet.
+                </h2>
+                <div class="tail-pt-3">
+                  <p>Looks like you haven’t started a conversation with your client</p>
                 </div>
               </div>
-            </template>
-          </div>
+            </div>
+          </template>
         </navigation-sub-menu>
       </div>
     </nav>

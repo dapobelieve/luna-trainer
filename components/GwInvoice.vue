@@ -1,6 +1,6 @@
 <template>
   <async-view>
-    <div v-if="sentInvoices.length" class="tail-grid">
+    <div v-if="filteredInvoice.length" class="tail-grid">
       <div class="tail-flex tail-flex-col">
         <div class="-tail-my-2 tail-overflow-x-auto sm:-tail-mx-0 lg:-tail-mx-0">
           <div class="tail-py-2 tail-align-middle tail-inline-block tail-min-w-full sm:tail-px-0 lg:tail-px-0">
@@ -27,7 +27,7 @@
                 </thead>
                 <tbody>
                   <tr
-                    v-for="invoice in sentInvoices"
+                    v-for="invoice in filteredInvoice"
                     :key="invoice.index"
                     class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
                     @click="openDetails(invoice)"
@@ -48,7 +48,9 @@
                       £ {{ invoice.total | amount }}
                     </td>
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
-                      <span class="tail-px-2 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-bg-green-100 tail-text-green-800">
+                      <span
+                        :class="[invoice.status === 'sent' ? 'tail-bg-green-100' : 'tail-bg-red-300']"
+                        class="tail-px-2 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-text-gray-800 tail-capitalize">
                         {{ invoice.status }}
                       </span>
                     </td>
@@ -65,12 +67,12 @@
         <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
       <h5 class="tail-font-bold">
-        No Invoices yet
+        No {{ status === 'All' ? '' : status.toLowerCase() }} invoices yet
       </h5>
       <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-xs">
-        All your invoice will appear here.
+        All your {{ status === 'All' ? '' : status.toLowerCase() }} invoice will appear here.
       </p>
-      <div class="tail-w-max tail-mx-auto">
+      <div v-if="status === 'All'" class="tail-w-max tail-mx-auto">
         <button
           class="base-button"
           type="button"
@@ -92,7 +94,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Sent',
+  name: 'GwInvoice',
   filters: {
     amount (amount) {
       const amt = Number(amount)
@@ -100,6 +102,12 @@ export default {
         (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
         '0'
       )
+    }
+  },
+  props: {
+    status: {
+      type: String,
+      required: true
     }
   },
   data () {
@@ -111,8 +119,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sentInvoices: 'invoice/getAllSentInvoices'
-    })
+      allInvoices: 'invoice/getAllinvoices'
+    }),
+    filteredInvoice () {
+      // eslint-disable-next-line curly
+      if (this.status === 'All') return this.allInvoices
+      return this.allInvoices.filter(i => i.status === this.status.toLowerCase())
+    }
   },
   mounted () {
     this.getInvoices()

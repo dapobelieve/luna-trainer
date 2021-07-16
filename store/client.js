@@ -1,4 +1,5 @@
 export const state = () => ({
+  clients: [],
   allClients: [],
   acceptedClients: [],
   invitedClients: [],
@@ -6,6 +7,9 @@ export const state = () => ({
 })
 
 export const mutations = {
+  SET_ALL_CLIENTS (state, clients) {
+    state.clients = clients
+  },
   ALL_CLIENTS (state, allClients) {
     state.allClients = allClients
     state.loadingForAllClients = false
@@ -39,6 +43,18 @@ export const actions = {
       .then((response) => {
         console.log('client list', response)
         return response
+      })
+  },
+  fetchAllClients ({ commit, dispatch }) {
+    dispatch('loader/startProcess', null, { root: true })
+    return this.$axios
+      .$get(`${process.env.BASEURL_HOST}/client/invites`)
+      .then(({ data }) => {
+        commit('SET_ALL_CLIENTS', data)
+        dispatch('loader/endProcess', null, { root: true })
+        return data
+      }).catch(() => {
+        dispatch('loader/endProcess', null, { root: true })
       })
   },
   fetchAllClientsConcise ({ commit }) {
@@ -83,7 +99,7 @@ export const actions = {
 }
 
 export const getters = {
+  getAllClients: state => state.clients,
   getAllAcceptedClients: state => state.acceptedClients,
-  getAllInvitedClients: state => state.invitedClients,
-  getAllClients: state => state.allClients
+  getAllInvitedClients: state => state.invitedClients
 }

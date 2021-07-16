@@ -70,6 +70,7 @@ export const actions = {
 }
 
 export const getters = {
+  getAllinvoices: state => state.invoices,
   getAllDraftInvoices: state =>
     state.invoices.filter(i => i.status === 'draft'),
   getAllPaidInvoices: state =>

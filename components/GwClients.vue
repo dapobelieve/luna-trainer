@@ -1,7 +1,12 @@
 <template>
   <async-view>
-    <div v-if="acceptedClients.length" class="tail-grid">
-      <ClientCard v-for="n in acceptedClients" :key="n._id" :client="n" />
+    <div v-if="filteredClients.length" class="tail-grid">
+      <template v-if="$route.name === 'Clients-id-Messages'">
+        <nuxt-child />
+      </template>
+      <template v-else>
+        <ClientCard v-for="n in filteredClients" :key="n._id" :client="n" />
+      </template>
     </div>
     <div v-else-if="firstTimeVisit" class="tail-h-full tail-flex">
       <div
@@ -59,7 +64,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Index',
+  name: 'GwClients',
+  props: {
+    status: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       addClient: false,
@@ -68,11 +79,17 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/getAllAcceptedClients'
-    })
+      allClients: 'client/getAllClients'
+    }),
+    filteredClients () {
+      const status = this.status === 'Active' ? 'accepted' : this.status === 'Invited' ? 'invited' : 'All'
+      // eslint-disable-next-line curly
+      if (status === 'All') return this.allClients
+      return this.allClients.filter(i => i.status === status)
+    }
   },
   created () {
-    this.fetchAcceptedClients()
+    this.fetchAllClients()
   },
   mounted () {
     const getTime = localStorage.getItem('clientsPageFirstVisit')
@@ -83,7 +100,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchAcceptedClients: 'client/fetchAllAcceptedClients'
+      fetchAllClients: 'client/fetchAllClients'
     })
   }
 }
