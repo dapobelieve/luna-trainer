@@ -9,6 +9,7 @@
       <button
         type="button"
         class="tail-border tail-border-gray-300 tail-w-full tail-flex tail-items-center tail-justify-center tail-py-2 tail-rounded-md"
+        @click="handleOnClickGoogleButton"
       >
         <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
         <span class="tail-ml-1">Google</span>
@@ -140,63 +141,70 @@ export default {
       }
     }
   },
+  created () {
+    const { redirectClient } = this.$route.query
+    if (redirectClient === 'google') {
+      this.handleGoogleAuthCallback()
+    }
+  },
   methods: {
-    async login () {
-      if (this.userInfo.userName && this.userInfo.password) {
-        try {
-          this.isLoading = true
-          await this.$auth.login({
-            data: {
-              userName: this.userInfo.userName.toLowerCase(),
-              password: this.userInfo.password.toLowerCase(),
-              domain: 'getwelp-trainer-ui'
-            }
-          })
-            .then((response) => {
-              this.$toast.success('Login Successful', { position: 'bottom-right' })
-              const tokens = {
-                token: response.data.data.accessToken,
-                refreshToken: response.data.data.refreshToken
-              }
-              // set necessary tokens
-              this.$store.dispatch('authorize/setToken', tokens)
-              // fetch user profile
-              this.$store.dispatch('authorize/getUserProfile').then((response) => {
-                if (response === null) {
-                  this.$router.push({ name: 'Auth-ProfileSetup' })
-                } else {
-                  this.$auth.setUser(response)
-                  // set user in local storage
-                  const getWelpUser = localStorage.getItem('getWelpUser')
-                  // eslint-disable-next-line curly
-                  if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
-                  localStorage.setItem('getWelpUser', JSON.stringify(response))
+    authenticateWithTokens (tokens) {
+      // set necessary tokens
+      this.$store.dispatch('authorize/setToken', tokens)
+      // fetch user profile
+      this.$store.dispatch('authorize/getUserProfile').then((response) => {
+        if (response === null) {
+          this.$router.push({ name: 'Auth-ProfileSetup' })
+        } else {
+          this.$auth.setUser(response)
+          // set user in local storage
+          const getWelpUser = localStorage.getItem('getWelpUser')
+          // eslint-disable-next-line curly
+          if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+          localStorage.setItem('getWelpUser', JSON.stringify(response))
 
-                  // set user in store
-                  this.$store.commit('authorize/SET_GETWELP_USER', response)
-                  return this.$store.dispatch('qb/getQbInfo').then((response) => {
-                    if (response.success === true) {
-                      this.$router.push({ name: 'Dashboard' })
-                    }
-                  }).catch(err => console.log('eee', err))
-                }
-              })
-            })
-            .finally(() => {
-              this.isLoading = false
-            })
-        } catch (error) {
-          this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
-          console.log(error)
+          // set user in store
+          this.$store.commit('authorize/SET_GETWELP_USER', response)
+          return this.$store.dispatch('qb/getQbInfo').then((response) => {
+            if (response.success === true) {
+              this.$router.push({ name: 'Dashboard' })
+            }
+          }).catch(error => console.log({ error }))
         }
+      })
+    },
+    login () {
+      if (this.userInfo.userName && this.userInfo.password) {
+        this.isLoading = true
+        this.$auth.login({
+          data: {
+            userName: this.userInfo.userName.toLowerCase(),
+            password: this.userInfo.password,
+            domain: 'getwelp-trainer-ui'
+          }
+        })
+          .then((response) => {
+            this.$toast.success('Login Successful', { position: 'bottom-right' })
+            this.authenticateWithTokens({
+              token: response.data.data.accessToken,
+              refreshToken: response.data.data.refreshToken
+            })
+          })
+          .catch(() => {
+            this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
+          })
+          .finally(() => {
+            this.isLoading = false
+          })
       }
     },
-    async loginWithGoogle () {
-      this.isLoading = true
-      return await this.$auth.loginWith('social').then((response) => {
-        console.log('response with google signin', response)
-      }).finally(() => {
-        this.isLoading = false
+    handleOnClickGoogleButton () {
+      window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
+    },
+    handleGoogleAuthCallback () {
+      this.authenticateWithTokens({
+        token: this.$cookies.get('access_token'),
+        refreshToken: this.$cookies.get('refresh_token')
       })
     }
   }
