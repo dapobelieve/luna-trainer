@@ -22,14 +22,14 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ["@/assets/css/theme.scss", "@/assets/css/fonts.css"],
-
+  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css','vue-multiselect/dist/vue-multiselect.min.css'],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
-    { src: '~plugins/quickBlox.js', ssr: false },
+    // { src: '~plugins/quickBlox.js', ssr: false },
     { src: '~/plugins/vuelidate.js', ssr: true },
-    { src: '~plugins/persistedState.client.js' }
+    { src: '~plugins/persistedState.client.js' },
+    { src: '~plugins/filters.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

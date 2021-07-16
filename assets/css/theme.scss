@@ -74,3 +74,18 @@ body {
 .text-primary-color {
   color: #56ccf2;
 }
+
+.multiselect__spinner:after,
+.multiselect__spinner:before {
+    border-top-color: #56ccf2 !important;
+}
+.multiselect__tag-icon:focus,
+.multiselect__tag-icon:hover {
+    background: #54b0cf !important;
+}
+
+.multiselect__tag,
+.multiselect__option--highlight,
+.multiselect__option--highlight:after{
+  background: #56ccf2 !important;
+}

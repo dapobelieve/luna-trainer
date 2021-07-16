@@ -37,7 +37,6 @@ export default {
   },
   methods: {
     filterInvoice (link) {
-      console.log('link', link)
       this.filter = link
     }
   }

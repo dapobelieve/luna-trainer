@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-px-10 tail-py-8 tail-grid tail-gap-4 tail-rounded-lg" style="background-color: #f0f5fa;">
+  <div >
     <div>
       <h1 class="tail-capitalize tail-text-black tail-font-medium tail-text-lg">
         preview
@@ -19,10 +19,10 @@
       </ul>
       <!-- Tab contents -->
       <div id="Email" class="tabcontent">
-        <InvoiceEmail />
+        <InvoiceEmail :invoice="this.invoice"/>
       </div>
       <div id="PDF" class="tabcontent">
-        <InvoicePDF />
+        <InvoicePDF :invoice="this.invoice"/>
       </div>
     </section>
   </div>
@@ -31,17 +31,14 @@
 <script>
 export default {
   name: 'PreviewInvoice',
+  props: {
+    invoice: Object
+  }, 
   mounted () {
+    console.log(JSON.stringify(this.invoice));
     document.getElementById('defaultOpen').click()
   },
-  destroyed () {
-    // this.$store.commit('invoice/SET_INVOICE_SERVICES', {
-    //   decription: '',
-    //   quantity: 0,
-    //   amount: 0
-    // })
-    // this.$store.commit('invoice/SET_INVOICE_DUE_DATE', new Date())
-  },
+ 
   methods: {
     switchTabs (evt, cityName) {
       // Declare all variables

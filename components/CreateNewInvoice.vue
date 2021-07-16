@@ -90,11 +90,11 @@
           class="tail-w-full"
         >
         </multiselect>
-        <p class="tail-text-red-500 tail-text-xs tail-italic">
+        <p class="tail-text-red-500 tail-text-xs">
           <template
             v-if="$v.selectedService.$error && !$v.selectedService.required"
           >
-            Please select a client.
+            Please select a service.
           </template>
         </p>
       </div>
@@ -126,14 +126,10 @@
       <label
         class="tail-block tail-text-sm tail-font-medium tail-text-gray-500"
       >
-        Price
+        Total Invoie amount
       </label>
       <div class="tail-mt-1">
-        <input
-          :value="selectedPrice"
-          disabled
-          class="tail-appearance-none tail-block tail-w-full tail-px-3 tail-py-2 tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-placeholder-gray-400 focus:tail-outline-none focus:tail-ring-indigo-500 focus:tail-border-indigo-500 sm:tail-text-sm"
-        />
+        £ {{selectedPrice | amount}}
       </div>
     </div>
     <div class="tail-flex tail-justify-center">
@@ -154,7 +150,6 @@ import Multiselect from "vue-multiselect";
 import { mapGetters, mapActions } from "vuex";
 import DatePicker from "vue2-datepicker";
 import "vue2-datepicker/index.css";
-import "vue-multiselect/dist/vue-multiselect.min.css";
 import { required, numeric, email } from "vuelidate/lib/validators";
 
 export default {
@@ -214,13 +209,7 @@ export default {
           customerId: this.selectedClient._id,
           dueDateEpoch: new Date(this.selectedDate).getTime() / 1000,
           dueDate: new Date(this.selectedDate),
-          items: [
-            {
-              service: this.selectedService._id,
-              qty: 1,
-              price: this.selectedPrice
-            }
-          ]
+          items:this.selectedService.map(item => ({ service :item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
         })
           .then(result => {
             if (result.status === "success") {

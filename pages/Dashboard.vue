@@ -350,7 +350,7 @@
               </div>
               <div v-else>
                 <div
-                  v-for="invoice in allInvoices.slice(0, 4)"
+                  v-for="invoice in allInvoices.slice(0, 3)"
                   :key="invoice.index"
                   class="tail-flex tail-items-center tail-p-4"
                 >
@@ -359,7 +359,7 @@
                     <p class="tail-capitalize tail-font-medium tail-mb-0">
                       {{ invoice.customerId.firstName }} {{ invoice.customerId.lastName }}
                     </p>
-                    <small class="tail-text-gray-400">10 May</small>
+                    <small class="tail-text-gray-400">{{invoice.dueDate}}</small>
                   </div>
                   <p class="tail-font-medium">
                     £ {{ invoice.total }}

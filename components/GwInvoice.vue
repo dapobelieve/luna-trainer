@@ -33,10 +33,13 @@
                     @click="openDetails(invoice)"
                   >
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900">
-                      <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
-
-                      {{ invoice.customerId.firstName }}
-                      {{ invoice.customerId.lastName }}
+                      <div class="tail-flex tail-flex-row tail-items-center tail-gap-3">
+                          <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
+                          <div>
+                            {{ invoice.customerId.firstName }}
+                            {{ invoice.customerId.lastName }} 
+                          </div>
+                      </div>
                     </td>
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
                       {{ invoice.invoiceNo }}

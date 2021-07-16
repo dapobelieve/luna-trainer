@@ -2,7 +2,7 @@
   <div
     class="tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-flex tail-items-center"
   >
-    <div class="tail-flex tail-mr-auto tail-cursor-pointer hover:tail-bg-gray-100" @click="openModal = true">
+    <div class="tail-flex tail-w-full tail-cursor-pointer hover:tail-bg-gray-100" @click="openModal = true">
       <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
       <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">
         <h3 class="tail-capitalize tail-font-medium">
@@ -24,13 +24,18 @@
         </div>
       </div>
     </div>
-
-    <Modal :is-open="openModal" :status="client.status" @close="openModal = $event">
-      <ClientInfoPreview :client="client" @close="openModal = $event" />
-    </Modal>
-
-    <div class="">
+    <div>
       <div class="tail-flex tail-gap-3">
+       <button
+          v-if="client.status === 'accepted'"
+          type="button"
+          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
+          @click="newClientInvoice"
+        >
+          <i class="ns-receipt"></i>
+          <span class="tail-capitalize tail-ml-1">invoice</span>
+        </button>
+
         <button
           v-if="client.status === 'invited'"
           type="button"
@@ -51,11 +56,14 @@
         </button>
       </div>
     </div>
+    <Modal :is-open="openModal" :status="client.status" @close="openModal = $event">
+      <ClientInfoPreview :client="client" @close="openModal = $event" />
+    </Modal>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'ClientCard',
   props: {
@@ -69,9 +77,6 @@ export default {
       openModal: false
     }
   },
-  ...mapGetters({
-    getUnreadMessageCount: 'qb/getMessageCount'
-  }),
   methods: {
     ...mapActions({ resendInvite: 'client/resendClientInvite' }),
     resendInvite () {
@@ -97,6 +102,14 @@ export default {
     openMessage () {
       this.$router.push({
         name: 'Clients-id-Messages',
+        params: {
+          id: this.client.userId
+        }
+      })
+    },
+    newClientInvoice () {
+      this.$router.push({
+        name: 'NewInvoice-id',
         params: {
           id: this.client.userId
         }

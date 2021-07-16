@@ -27,10 +27,10 @@
                   Amount
                 </p>
                 <p class="tail-text-2xl">
-                  £ {{ invoiceServices.length ? subTotalInvoice : 0 | amount }}.00
+                  £ {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}.00
                 </p>
                 <p class="tail-text-sm">
-                  Due on {{ invoiceDueDate }}
+                  Due on {{ invoice.dueDate }}
                 </p>
               </div>
             </div>
@@ -39,13 +39,13 @@
             <hr />
           </div>
           <div class="tail-p-3">
-            <template v-if="invoiceServices.length">
+            <template v-if="invoiceItems.length">
               <div
-                v-for="item in invoiceServices"
+                v-for="item in invoiceItems"
                 :key="item._id"
                 class="tail-flex tail-justify-between tail-py-2">
                 <p><strong>{{ item.description }}</strong></p>
-                <span>£ {{ item.pricing.amount }}</span>
+                <span>£ {{ item.price }}</span>
               </div>
             </template>
             <div v-else class="bg-emerald-200">
@@ -59,7 +59,7 @@
                 <p><strong>Amount Due</strong></p>
               </div>
               <div class="tail-pr-2">
-                <span>£ {{ invoiceServices.length ? subTotalInvoice : 0 | amount }}.00</span>
+                <span>£ {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}.00</span>
               </div>
             </div>
           </div>
@@ -69,49 +69,28 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
 export default {
   name: 'RightInvoiceEmail',
-  filters: {
-    amount (amount) {
-      const amt = Number(amount)
-      return (
-        (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
-        '0'
-      )
-    }
-  },
+  props: {
+    invoice: Object
+  },  
   data () {
     return {
-      client: null
+      client: this.invoice.client
     }
   },
   computed: {
-    invoiceDueDate () {
-      const d = new Date(this.$store.state.invoice.tempInvoice.date).toDateString()
-      return d
-    },
-    invoiceServices () {
-      return this.$store.state.invoice.tempInvoice.services
+    invoiceItems () {
+      return this.invoice.items
     },
     subTotalInvoice () {
-      if (this.invoiceServices.length > 1) {
-        return this.invoiceServices.reduce(
-          (accumulator, current) => accumulator + current.pricing.amount, 0
+      if (this.invoiceItems.length > 1) {
+        return this.invoiceItems.reduce(
+          (accumulator, current) => accumulator + current.price, 0
         )
       }
-      return this.invoiceServices[0].pricing.amount
+      return this.invoiceItems[0].price
     }
-  },
-  mounted () {
-    this.getThisClient(this.$route.params.id).then((response) => {
-      this.client = response
-    }).catch()
-  },
-  methods: {
-    ...mapActions({
-      getThisClient: 'client/getSingleClient'
-    })
   }
 }
 </script>
