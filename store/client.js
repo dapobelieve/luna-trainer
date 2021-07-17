@@ -55,5 +55,7 @@ export const actions = {
 
 export const getters = {
   getAllClients: state => state.clients,
-  loadingState: state => state.isLoading
+  acceptedClients: (state, getters) => {
+    return getters.getAllClients.filter(c => c.status === 'accepted')
+  }
 }

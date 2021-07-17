@@ -22,7 +22,7 @@
           >
             <i class="ns-cross" />
           </p>
-          <a href="#">Stripe</a>
+          <p>Stripe</p>
         </div>
       </li>
       <li class="sm:tail-ml-2">

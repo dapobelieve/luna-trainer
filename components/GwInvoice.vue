@@ -34,11 +34,11 @@
                   >
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900">
                       <div class="tail-flex tail-flex-row tail-items-center tail-gap-3">
-                          <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
-                          <div>
-                            {{ invoice.customerId.firstName }}
-                            {{ invoice.customerId.lastName }} 
-                          </div>
+                        <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
+                        <div>
+                          {{ invoice.customerId.firstName }}
+                          {{ invoice.customerId.lastName }}
+                        </div>
                       </div>
                     </td>
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
@@ -79,7 +79,7 @@
         <button
           class="base-button"
           type="button"
-          @click="createInvoice = true"
+          @click="createInvoice"
         >
           Create an invoice
         </button>
@@ -88,8 +88,28 @@
     <Modal :input-width="30" :status="currentInvoice.status" :is-open="openModalDetails" @close="resetModal($event)">
       <InvoiceDetails :details="currentInvoice" @close="resetModal($event)" />
     </Modal>
-    <Modal status="Create New Invoice" :input-width="30" :is-open="createInvoice" @close="createInvoice = $event">
-      <CreateNewInvoice @close="createInvoice = $event" />
+    <Modal status="Create New Invoice" :input-width="30" :is-open="openInvoice" @close="openInvoice = $event">
+      <CreateNewInvoice @close="openInvoice = $event" />
+    </Modal>
+    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+      <template v-slot:title>
+        {{ !acceptedClients.length ? 'No Invited Clients' : 'Services Unavailable' }}
+      </template>
+      <template v-slot:subtitle>
+        {{
+          !acceptedClients.length ? 'You need to invite a client before you can create an invoice.' : 'You need to add at least one service before you can create an invoice.' }}
+      </template>
+      <template v-slot:actionButtons>
+        <button v-if="!acceptedClients.length" class="base-button tail-normal-case" style="width: fit-content" @click="inviteClient = true">
+          Invite a client
+        </button>
+        <NuxtLink v-else to="/Settings#services" class="base-button tail-normal-case" style="width: fit-content">
+          Add a service
+        </NuxtLink>
+      </template>
+    </NotificationsModal>
+    <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
+      <InviteNewClient @close="inviteClient = $event" />
     </Modal>
   </async-view>
 </template>
@@ -117,12 +137,15 @@ export default {
     return {
       openModalDetails: false,
       currentInvoice: {},
-      createInvoice: false
+      openInvoice: false,
+      inviteClient: false,
+      showNotification: false
     }
   },
   computed: {
     ...mapGetters({
-      allInvoices: 'invoice/getAllinvoices'
+      allInvoices: 'invoice/getAllinvoices',
+      acceptedClients: 'client/acceptedClients'
     }),
     filteredInvoice () {
       // eslint-disable-next-line curly
@@ -144,6 +167,13 @@ export default {
     resetModal (event) {
       this.openModalDetails = event
       this.currentInvoice = {}
+    },
+    createInvoice () {
+      if (!this.acceptedClients.length || !this.$auth.user.services.length) {
+        this.showNotification = true
+      } else {
+        this.openModal = true
+      }
     }
   }
 }

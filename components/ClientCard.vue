@@ -11,7 +11,7 @@
         <div class="tail-flex tail-items-center">
           <div>
             <img
-              class="tail-bg-green-700 tail-rounded-full"
+              class="tail-bg-green-400 tail-p-1 tail-rounded-full"
               src="~/assets/img/dog-paw.svg"
               alt="dog paw"
             />
@@ -26,7 +26,7 @@
     </div>
     <div>
       <div class="tail-flex tail-gap-3">
-       <button
+        <button
           v-if="client.status === 'accepted'"
           type="button"
           class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
@@ -39,7 +39,7 @@
         <button
           v-if="client.status === 'invited'"
           type="button"
-          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
+          class="tail-w-36 tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
           @click="resendInvite"
         >
           <i class="ns-refresh"></i>

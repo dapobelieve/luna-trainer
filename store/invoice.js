@@ -1,6 +1,5 @@
 export const state = () => ({
   invoices: [],
-  allInvoicesLoadingLoading: true,
   tempInvoice: {
     date: new Date().toISOString().substring(0, 10),
     services: [],
@@ -22,20 +21,16 @@ export const mutations = {
 
 export const actions = {
   createInvoice ({ commit }, payload) {
-    console.log('payload sending invoice', payload)
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/invoice`, payload)
       .then((response) => {
-        console.log('creating invoice', response)
         return response
       })
   },
   sendInvoice ({ commit }, sendDetails) {
-    console.log('payload to invoice', sendDetails)
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`, { recipients: [sendDetails.recipient] })
       .then((response) => {
-        console.log('sending invoice', response)
         return response
       })
   },
@@ -44,7 +39,6 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice`)
       .then((response) => {
-        console.log('invoices', response)
         commit('SET_ALL_INVOICES', response.data)
         dispatch('loader/endProcess', '', { root: true })
         return response.data
@@ -56,7 +50,6 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
       .then((response) => {
-        console.log('all invoices', response)
         return response
       })
   },
