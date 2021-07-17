@@ -114,6 +114,11 @@ export default {
       dialogId: null
     }
   },
+  head () {
+    return {
+      title: 'Messages'
+    }
+  },
   computed: {
     ...mapState({
       checkStatus: state => state.qb.statusForMessaging,

@@ -32,7 +32,7 @@ export default {
   },
   head () {
     return {
-      title: 'All Clients'
+      title: 'Clients'
     }
   },
   methods: {

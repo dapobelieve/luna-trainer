@@ -66,6 +66,11 @@ export default {
       isLoading: false
     }
   },
+  head () {
+    return {
+      title: 'Forgot Password'
+    }
+  },
   validations: {
     email: {
       required,

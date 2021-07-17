@@ -7,7 +7,12 @@
 export default {
   name: 'CreateInvoicePage',
   components: 'CreateInvoice',
-  layout: 'emptyLayout'
+  layout: 'emptyLayout',
+  head () {
+    return {
+      title: 'New Invoice'
+    }
+  }
 }
 </script>
 

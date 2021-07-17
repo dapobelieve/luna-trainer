@@ -44,18 +44,23 @@ import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Settings',
+  head () {
+    return {
+      title: 'Settings'
+    }
+  },
   computed: {
     ...mapGetters({
       user: 'authorize/getUser'
     })
   },
+  async mounted () {
+    await this.getUserProfile()
+  },
   methods: {
     ...mapActions({
       getUserProfile: 'authorize/getUserProfile'
     })
-  },
-  async mounted () {
-    await this.getUserProfile()
   }
 }
 </script>

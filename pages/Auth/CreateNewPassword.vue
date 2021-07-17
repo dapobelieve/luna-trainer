@@ -90,6 +90,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: 'Password Change'
+    }
+  },
   validations: {
     password: {
       required,

@@ -158,6 +158,11 @@ export default {
       status: 'invited'
     }
   }),
+  head () {
+    return {
+      title: 'Profile Setup'
+    }
+  },
   computed: {
     disabled () {
       for (const key in this.profileInfo) {

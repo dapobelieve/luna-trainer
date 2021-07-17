@@ -59,7 +59,7 @@ export default {
   },
   head () {
     return {
-      title: 'All Invoices'
+      title: 'Invoices'
     }
   },
   computed: {
