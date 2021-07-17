@@ -130,6 +130,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: 'Sign In'
+    }
+  },
   validations: {
     userInfo: {
       userName: {

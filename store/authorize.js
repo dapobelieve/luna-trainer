@@ -88,5 +88,6 @@ export const actions = {
   }
 }
 export const getters = {
-  getUser: state => state.getWelpUser
+  getUser: state => state.getWelpUser,
+  isStripeConnected: state => state.isStripeConnected
 }

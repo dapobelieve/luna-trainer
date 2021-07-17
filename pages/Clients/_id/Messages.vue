@@ -99,7 +99,6 @@
 
 <script>
 import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
-const QuickBlox = require('quickblox/quickblox.min')
 export default {
   name: 'Messages',
   data () {
@@ -180,12 +179,12 @@ export default {
         password: this.$store.state.qb.qbUser.password
       }
       console.log('gotten here')
-      QuickBlox.chat.connect(userCredentials, (error) => {
+      this.$quickblox.chat.connect(userCredentials, (error) => {
         if (error) {
           console.log('chat connect error', error)
-          QuickBlox.chat.disconnect()
+          this.$quickblox.chat.disconnect()
           // destroy opened session
-          QuickBlox.destroySession((error) => {
+          this.$quickblox.destroySession((error) => {
             error
               ? console.log('Error Destroying Session:', error)
               : console.log('Session Destroyed successfully')
@@ -204,7 +203,7 @@ export default {
               skip: 0
             }
 
-            QuickBlox.chat.message.list(
+            this.$quickblox.chat.message.list(
               deets,
               function (error, messages) {
                 if (messages) {
@@ -226,7 +225,7 @@ export default {
                   }
                 }
                 if (error) {
-                  QuickBlox.getSession(function (error, session) {
+                  this.$quickblox.getSession(function (error, session) {
                     if (error) {
                       console.log('this is a getSession error', error) // redirect user to login screen
                     // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
@@ -246,7 +245,7 @@ export default {
           //     type: 3,
           //     occupants_ids: [this.$route.params.client.qbId]
           //   }
-          //   QuickBlox.chat.dialog.create(params, (error, dialog) => {
+          //   this.$quickblox.chat.dialog.create(params, (error, dialog) => {
           //     if (error) {
           //       console.log('error creating dialog', error)
           //     } else if (dialog) {
@@ -261,7 +260,7 @@ export default {
           //         skip: 0
           //       }
 
-          //       QuickBlox.chat.message.list(
+          //       this.$quickblox.chat.message.list(
           //         params1,
           //         function (error, messages) {
           //           if (messages) {
@@ -280,7 +279,7 @@ export default {
           //             }
           //           }
           //           if (error) {
-          //             QuickBlox.getSession(function (error, session) {
+          //             this.$quickblox.getSession(function (error, session) {
           //               if (error) {
           //                 console.log('this is a getSession error', error) // redirect user to login screen
           //                 // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
@@ -297,7 +296,7 @@ export default {
           //   })
           // } removed
 
-          // QuickBlox.chat.dialog.create(params, (error, dialog) => {
+          // this.$quickblox.chat.dialog.create(params, (error, dialog) => {
           //   if (error) {
           //     console.log('error creating dialog', error)
           //   } else if (dialog) {
@@ -312,7 +311,7 @@ export default {
           //       skip: 0
           //     }
 
-        //     QuickBlox.chat.message.list(
+        //     this.$quickblox.chat.message.list(
         //       params1,
         //       function (error, messages) {
         //         if (messages) {
@@ -331,7 +330,7 @@ export default {
         //           }
         //         }
         //         if (error) {
-        //           QuickBlox.getSession(function (error, session) {
+        //           this.$quickblox.getSession(function (error, session) {
         //             if (error) {
         //               console.log('this is a getSession error', error) // redirect user to login screen
         //               // inform design team to make a screen for 'Chat Session Expired, with a please relogin button'
@@ -348,7 +347,7 @@ export default {
         // })
         }
       })
-      QuickBlox.chat.onMessageTypingListener = this.onMessageTypingListener
+      this.$quickblox.chat.onMessageTypingListener = this.onMessageTypingListener
     })
   },
   methods: {
@@ -393,7 +392,7 @@ export default {
           occupants_ids: [this.occupantId]
         }
 
-        QuickBlox.chat.dialog.create(params, (error, dialog) => {
+        this.$quickblox.chat.dialog.create(params, (error, dialog) => {
           if (error) {
             console.log('error creating dialog', error)
           }
@@ -413,7 +412,7 @@ export default {
             // console.log('said occupant', opponentId)
             try {
               console.log('message from model', this.message)
-              message.id = QuickBlox.chat.send(opponentId, message)
+              message.id = this.$quickblox.chat.send(opponentId, message)
               console.log('sent', message, ' id:', message.id)
               this.msgHistory.push({
                 message: this.message,
@@ -447,7 +446,7 @@ export default {
         const opponentId = parseInt(this.client.qbId)
         console.log('opp id', opponentId)
         try {
-          message.id = QuickBlox.chat.send(opponentId, message)
+          message.id = this.$quickblox.chat.send(opponentId, message)
           console.log('sent', message, ' id:', message.id)
           // if ((this.dialogId = dialogId)) {
           console.log('check')

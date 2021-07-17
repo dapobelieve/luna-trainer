@@ -268,7 +268,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchAllClientsConcise: 'client/fetchAllClientsConcise',
+      fetchAllClients: 'client/fetchAllClients',
       saveClient: 'client/inviteClient'
     }),
     save () {
@@ -292,7 +292,7 @@ export default {
         }
       }).finally(() => {
         this.isLoading = false
-        this.fetchAllClientsConcise()
+        this.fetchAllClients()
       })
     }
   }

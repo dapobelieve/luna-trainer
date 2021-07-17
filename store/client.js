@@ -1,39 +1,26 @@
 export const state = () => ({
   clients: [],
-  allClients: [],
-  acceptedClients: [],
-  invitedClients: [],
-  loadingForAllClients: true
+  isLoading: false
 })
 
 export const mutations = {
   SET_ALL_CLIENTS (state, clients) {
     state.clients = clients
   },
-  ALL_CLIENTS (state, allClients) {
-    state.allClients = allClients
-    state.loadingForAllClients = false
-  },
-  ACCEPTED_CLIENTS (state, acceptedClients) {
-    state.acceptedClients = acceptedClients
-  },
-  INVITED_CLIENTS (state, invitedClients) {
-    state.invitedClients = invitedClients
+  IS_LOADING (state, loadingStatus) {
+    state.isLoading = loadingStatus
   }
 }
 
 export const actions = {
   clearAllClientStates ({ commit }) {
     // for local storage force logout
-    commit('ALL_CLIENTS', [])
-    commit('ACCEPTED_CLIENTS', [])
-    commit('INVITED_CLIENTS', [])
+    commit('SET_ALL_CLIENTS', [])
   },
   inviteClient ({ commit }, clientInfo) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
       .then((response) => {
-        console.log('invited client', response)
         return response
       })
   },
@@ -41,57 +28,25 @@ export const actions = {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/client/${id}/resend-invite`)
       .then((response) => {
-        console.log('client list', response)
         return response
       })
   },
   fetchAllClients ({ commit, dispatch }) {
+    commit('IS_LOADING', true)
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/client/invites`)
       .then(({ data }) => {
         commit('SET_ALL_CLIENTS', data)
+        commit('IS_LOADING', false)
         dispatch('loader/endProcess', null, { root: true })
         return data
       }).catch(() => {
         dispatch('loader/endProcess', null, { root: true })
+        commit('IS_LOADING', false)
       })
   },
-  fetchAllClientsConcise ({ commit }) {
-    // regardless of the status
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/concise`)
-      .then(({ data }) => {
-        console.log('client list concise', data)
-        commit('ALL_CLIENTS', data)
-        return data
-      })
-  },
-  fetchAllAcceptedClients ({ commit, dispatch }) {
-    dispatch('loader/startProcess', null, { root: true })
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites?status=accepted`)
-      .then(({ data }) => {
-        commit('ACCEPTED_CLIENTS', data)
-        dispatch('loader/endProcess', null, { root: true })
-        return data
-      }).catch(() => {
-        dispatch('loader/endProcess', null, { root: true })
-      })
-  },
-  async fetchAllInvitedClients ({ commit, dispatch }) {
-    dispatch('loader/startProcess', null, { root: true })
-    return await this.$axios
-      .get(`${process.env.BASEURL_HOST}/client/invites?status=invited`)
-      .then(({ data }) => {
-        commit('INVITED_CLIENTS', data.data)
-        dispatch('loader/endProcess', null, { root: true })
-        return data.data
-      }).catch(() => {
-        dispatch('loader/endProcess', null, { root: true })
-      })
-  },
-   getSingleClient ({ commit }, userId) {
+  getSingleClient ({ commit }, userId) {
     return this.$axios.$get(`${process.env.BASEURL_HOST}/profile/${userId}`).then(({ data }) => {
       return data
     })
@@ -100,6 +55,5 @@ export const actions = {
 
 export const getters = {
   getAllClients: state => state.clients,
-  getAllAcceptedClients: state => state.acceptedClients,
-  getAllInvitedClients: state => state.invitedClients
+  loadingState: state => state.isLoading
 }

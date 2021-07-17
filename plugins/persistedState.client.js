@@ -11,7 +11,9 @@ export default ({ store }) => {
       'client.acceptedClients',
       'client.invitedClients',
       'qb.messageDialogs',
-      'qb.latestChatEntry'
+      'qb.QBSessionToken',
+      'qb.latestChatEntry',
+      'qb.allChatUsers'
     ],
     storage: localStorage
   })(store)

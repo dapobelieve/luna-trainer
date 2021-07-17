@@ -1,29 +1,29 @@
 export const state = () => ({
   qbUser: null,
+  allChatUsers: [],
   qbBloxError: {},
   messageDialogs: {},
   latestChatEntry: {},
-  occupantsWithChatIds: [],
   QBObject: {},
-  QBSession: {},
+  QBSessionToken: null,
   statusForMessaging: false
 })
 
 export const mutations = {
+  SET_OPEN_CHAT_USERS (state, users) {
+    state.allChatUsers = users
+  },
   SET_MSG_STATUS (state, status) {
     state.statusForMessaging = status
   },
   SET_QB_OBJECT (state, qbObj) {
     state.QBObject = qbObj
   },
-  SET_QB_SESSION (state, session) {
-    state.QBSession = session
+  SET_QB_SESSION_TOKEN (state, sessionToken) {
+    state.QBSessionToken = sessionToken
   },
   SET_DIALOGS (state, payload) {
     state.messageDialogs = payload
-  },
-  SET_CHAT_OCCUPANTS_ID (state, ids) {
-    state.occupantsWithChatIds = ids
   },
   ADD_NEW_DIALOG (state, dialog) {
     state.messageDialogs = Object.assign({}, state.messageDialogs, {
@@ -91,15 +91,19 @@ export const actions = {
           .then(({ result }) => {
             console.log('newly updating', result)
             const arr = []
+            const qbUsers = []
             result.forEach((element) => {
               console.log('element', element)
               console.log('element id', element.occupants_ids[0])
               console.log('root id', rootState.qb.qbUser.id)
               if (element.occupants_ids[0] === rootState.qb.qbUser.id) {
+                qbUsers.push(element.occupants_ids[1])
                 arr.push({
                   ...element,
-                  opponentFirstName: 'noodles',
-                  opponentLastName: 'cuddles'
+                  opponentFirstName:
+                    element.occupants[1][element.occupants_ids[1]].firstName,
+                  opponentLastName:
+                    element.occupants[1][element.occupants_ids[1]].lastName
                 })
               }
             })
@@ -119,6 +123,7 @@ export const actions = {
               ' and the dialog id ',
               msgDialog
             )
+            commit('SET_OPEN_CHAT_USERS', qbUsers)
             commit('ADD_NEW_DIALOG', particularDialog)
           })
           .catch((err) => {
