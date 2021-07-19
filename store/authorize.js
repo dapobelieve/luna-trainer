@@ -85,6 +85,15 @@ export const actions = {
     dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     this.$auth.logout()
+    this.$quickblox.chat.disconnect()
+    this.$quickblox.chat.onDisconnectedListener = onDisconnectedListener
+    function onDisconnectedListener () {
+      console.log('onDisconnected')
+    }
+    this.$quickblox.destroySession((error) => {
+      console.log('error destroyong session', error)
+    })
+    return true
   }
 }
 export const getters = {

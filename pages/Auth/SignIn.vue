@@ -112,11 +112,8 @@
 </template>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
-import PasswordToggle from '../../components/PasswordToggle.vue'
-import ButtonSpinner from '../../components/util/ButtonSpinner.vue'
 export default {
   name: 'SignIn',
-  components: { ButtonSpinner, PasswordToggle },
   layout: 'authLayout',
   auth: false,
   data () {
@@ -147,6 +144,7 @@ export default {
     }
   },
   created () {
+    console.log('qbbb', this.$quickblox)
     const { redirectClient } = this.$route.query
     if (redirectClient === 'google') {
       this.handleGoogleAuthCallback()

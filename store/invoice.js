@@ -20,10 +20,11 @@ export const mutations = {
 }
 
 export const actions = {
-  createInvoice ({ commit }, payload) {
+  createInvoice ({ commit, dispatch }, payload) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/invoice`, payload)
       .then((response) => {
+        dispatch('authorize/getUserProfile', null, { root: true })
         return response
       })
   },

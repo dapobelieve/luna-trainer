@@ -10,11 +10,22 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
       page: this.$route.name
     }
+  },
+  updated () {
+    if (this.$auth.loggedIn) {
+      this.connectToServer()
+    }
+  },
+  methods: {
+    ...mapActions({
+      connectToServer: 'qb/connectQbChatServer'
+    })
   }
 }
 </script>

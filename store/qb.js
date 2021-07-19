@@ -54,13 +54,88 @@ export const actions = {
     commit('SET_DIALOGS', {})
     commit('UPDATE_MESSAGE_DIALOGS', {})
   },
-  getQbInfo ({ commit }) {
+  createQbSession ({ commit, dispatch, state }) {
+    const params = { login: state.qbUser.login, password: state.qbUser.password }
+    this.$quickblox.createSession(params, (error, result) => {
+      if (error) {
+        console.log('error creating qb session', error)
+        return error
+      }
+      console.log('result creating session', result)
+      if (result) {
+        dispatch('connectQbChatServer')
+        dispatch('fetchQbDialogs')
+      }
+      return result
+    })
+  },
+  getQbSession ({ commit, dispatch }) {
+    this.$quickblox.getSession((error, session) => {
+      if (this.$auth.loggedIn && error) {
+        console.log('sesh error', error)
+        dispatch('createQbSession')
+      } else if (this.$auth.loggedIn && session) {
+        dispatch('connectQbChatServer')
+      }
+    })
+  },
+  connectQbChatServer ({ commit, state }) {
+    const userCredentials = {
+      userId: state.qbUser.id,
+      password: state.qbUser.password
+    }
+
+    this.$quickblox.chat.connect(userCredentials, (error, contactList) => {
+      // eslint-disable-next-line curly
+      if (error) return console.log('error connecting to chat server', error)
+    })
+  },
+  fetchQbDialogs ({ commit, state }) {
+    try {
+      // get list of dialogs
+      const dialogs = this.$axios.$get(`${process.env.BASEURL_HOST}/qb/dialogs`)
+      dialogs.then(({ result }) => {
+        console.log('dialog results', result)
+        const trainerQbId = state.qbUser.id
+        const arr = []
+        const occupantsId = []
+        result.forEach((element) => {
+          if (element.occupants_ids[0] === trainerQbId) {
+            occupantsId.push(element.occupants_ids[1])
+            arr.push({
+              ...element,
+              opponentFirstName:
+                element.occupants[1][element.occupants_ids[1]].firstName,
+              opponentLastName:
+                element.occupants[1][element.occupants_ids[1]].lastName
+            })
+          }
+        })
+        const arrayToObject = (array, keyField) =>
+          array.reduce((obj, item) => {
+            obj[item[keyField]] = item
+            return obj
+          }, {})
+        const dialogList = arrayToObject(arr, '_id')
+        // set the results
+        commit('SET_DIALOGS', dialogList)
+        // set occupants id
+        commit('SET_OPEN_CHAT_USERS', [
+          ...new Set(occupantsId)
+        ])
+      })
+    } catch (error) {
+      console.log(error)
+    }
+  },
+  getQbInfo ({ commit, dispatch }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/qb`)
       .then((response) => {
         console.log('qb', response)
         if (response.success === true) {
           commit('SET_QB_USER', response.result)
+          dispatch('getQbSession')
         }
         return response
       })

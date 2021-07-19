@@ -7,19 +7,6 @@ export default {
     })
   },
   mounted () {
-    // get session if it exists
-    // return this.$axios
-    //   .$get('https://api.quickblox.com/session.json', {
-    //     headers: {
-    //       'QB-Token': this.qbSessionToken
-    //     }
-    //   }).then((response) => {
-    //     console.log('session exits', response)
-    //     // get list of dialogs
-    this.$quickblox.getSession((error, session) => {
-      console.log('err in session', error)
-      console.log('success in session', session)
-    })
     const dialogs = this.$axios.$get(
             `${process.env.BASEURL_HOST}/qb/dialogs`
     )

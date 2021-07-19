@@ -60,15 +60,15 @@
 </template>
 
 <script>
-import { formatDistance } from 'date-fns'
 import { mapActions } from 'vuex'
+// import QbInit from '~/plugins/mixin-qb'
 export default {
   name: 'Dashboard',
+  // mixins: [QbInit],
   layout: 'dashboardLayout',
-  middleware: ['qbInits'],
+  // middleware: ['qbInits'],
   data () {
     return {
-      formatDistance,
       openModal: false,
       openBankModal: false
     }
