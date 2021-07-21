@@ -1,11 +1,8 @@
 export const state = () => ({
   qbUser: null,
   allChatUsers: [],
-  qbBloxError: {},
   messageDialogs: {},
   latestChatEntry: {},
-  QBObject: {},
-  QBSessionToken: null,
   statusForMessaging: false
 })
 
@@ -15,12 +12,6 @@ export const mutations = {
   },
   SET_MSG_STATUS (state, status) {
     state.statusForMessaging = status
-  },
-  SET_QB_OBJECT (state, qbObj) {
-    state.QBObject = qbObj
-  },
-  SET_QB_SESSION_TOKEN (state, sessionToken) {
-    state.QBSessionToken = sessionToken
   },
   SET_DIALOGS (state, payload) {
     state.messageDialogs = payload
@@ -41,9 +32,6 @@ export const mutations = {
   },
   SET_QB_USER (state, details) {
     state.qbUser = details
-  },
-  SET_QB_ERROR (state, error) {
-    state.qbBloxError = error
   }
 }
 
@@ -53,6 +41,7 @@ export const actions = {
     commit('SET_QB_USER', null)
     commit('SET_DIALOGS', {})
     commit('UPDATE_MESSAGE_DIALOGS', {})
+    commit('SET_OPEN_CHAT_USERS', [])
   },
   createQbSession ({ commit, dispatch, state }) {
     const params = { login: state.qbUser.login, password: state.qbUser.password }
@@ -79,15 +68,19 @@ export const actions = {
       }
     })
   },
-  connectQbChatServer ({ commit, state }) {
+  connectQbChatServer ({ commit, dispatch, state }) {
     const userCredentials = {
       userId: state.qbUser.id,
       password: state.qbUser.password
     }
 
-    this.$quickblox.chat.connect(userCredentials, (error, contactList) => {
-      // eslint-disable-next-line curly
-      if (error) return console.log('error connecting to chat server', error)
+    this.$quickblox.chat.connect(userCredentials, (error) => {
+      if (error && error.code === 422) {
+        console.log('error connecting to chat server', error)
+        setTimeout(() => {
+          dispatch('connectQbChatServer')
+        }, 3000)
+      }
     })
   },
   fetchQbDialogs ({ commit, state }) {
@@ -128,11 +121,20 @@ export const actions = {
       console.log(error)
     }
   },
+  fetchSingleUserDialog ({ commit, dispatch }, userId) {
+    console.log('userId', userId)
+    return this.$axios
+      .$get(
+        `${process.env.BASEURL_HOST}/qb/dialogs?userId=${userId}`
+      )
+      .then(({ result }) => {
+        return result
+      })
+  },
   getQbInfo ({ commit, dispatch }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/qb`)
       .then((response) => {
-        console.log('qb', response)
         if (response.success === true) {
           commit('SET_QB_USER', response.result)
           dispatch('getQbSession')
@@ -168,9 +170,6 @@ export const actions = {
             const arr = []
             const qbUsers = []
             result.forEach((element) => {
-              console.log('element', element)
-              console.log('element id', element.occupants_ids[0])
-              console.log('root id', rootState.qb.qbUser.id)
               if (element.occupants_ids[0] === rootState.qb.qbUser.id) {
                 qbUsers.push(element.occupants_ids[1])
                 arr.push({
@@ -212,7 +211,6 @@ export const actions = {
 }
 
 export const getters = {
-  getQbError: state => state.qbBloxError,
   getOccupantsId: state => state.occupantsWithChatIds,
   getTotalUnreadMessages: (state) => {
     const unread = []

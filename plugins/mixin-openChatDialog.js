@@ -16,70 +16,38 @@ export default {
     })
   },
   async mounted () {
+    this.isLoading = true
     await this.getThisClient(this.$route.params.id)
       .then((response) => {
         this.client = response
         // check if this user is in the array chat in store
         if (this.listOfIds.includes(parseInt(this.client.qbId))) {
-          console.log('yes it is')
-          // get the dialog
-          this.$axios
-            .$get(`${process.env.BASEURL_HOST}/qb/dialogs?userId=${this.$route.params.id}`).then(({ result }) => {
-              if (result.length) {
-                this.dialogId = result[0]._id
-                const dialogId = result[0]._id
-
-                const params = {
-                  chat_dialog_id: dialogId,
-                  sort_desc: 'date_sent',
-                  limit: 100,
-                  skip: 0
-                }
-
-                this.$quickblox.chat.message.list(params, (error, messages) => {
-                  if (error) {
-                    console.log('error fetching messages', error)
-                  }
-                  if (messages) {
-                    this.msgHistory = messages.items.reverse()
-                    // scroll to bottom
-                    if (this.msgHistory.length) {
-                      setTimeout(() => {
-                        if (!this.isFeedAtBottom) {
-                          // eslint-disable-next-line no-unused-expressions
-                          this.scrollFeedToBottom
-                        }
-                      }, 5)
-                    }
-                  }
-                })
+          this.fetchDialog(this.$route.params.id).then((result) => {
+            if (result.length) {
+              const dialogId = this.dialogId = result[0]._id
+              const params = {
+                chat_dialog_id: dialogId,
+                sort_desc: 'date_sent',
+                limit: 100,
+                skip: 0
               }
-            }).catch((err) => {
-              console.log('error fetching dialog', err)
-            })
+              this.$quickblox.chat.message.list(params, (error, messages) => {
+                if (error) {
+                  console.log('error fetching messages', error)
+                }
+                if (messages) {
+                  this.isLoading = false
+                  this.msgHistory = messages.items.reverse()
+                  this.$nextTick(() => {
+                    this.scrollFeedToBottom()
+                  })
+                }
+              })
+            }
+          }).catch()
         } else {
-          // create a dialog quickly
+          // create a dialog
           const opponentId = parseInt(this.client.qbId)
-          // this.$axios
-          //   .$post('https://api.quickblox.com/chat/Dialog.json',
-          //     {
-          //       type: 3,
-          //       occupants_ids: opponentId
-          //     },
-          //     {
-          //       headers: {
-          //         'QB-Token': this.$store.state.qb.QBSessionToken
-          //       }
-          //     }).then((response) => {
-          //     console.log('created dialog', response)
-          //     // send dialog to store
-          //     this.updateDialog({
-          //       ...response,
-          //       dialog_id: response._id
-          //     })
-          //   }).catch((err) => {
-          //     console.log('error creating dialog', err)
-          //   })
           const params = {
             type: 3,
             occupants_ids: opponentId
@@ -105,23 +73,22 @@ export default {
   },
   watch: {
     latestChatEntry (newValue) {
-      console.log('watcher new value', newValue)
-      if (newValue.dialog_id === this.dialogId) {
-        console.log('here')
+      if (
+        newValue.dialog_id === this.dialogId &&
+        (newValue.userId !== this.sender)
+      ) {
         this.updateMsgHistory(newValue.userId, newValue)
-        setTimeout(() => {
-          if (!this.isFeedAtBottom) {
-            const messageFeed = document.getElementById('messageFeed')
-            messageFeed.scrollTop = messageFeed.scrollHeight
-          }
-        }, 5)
+        this.$nextTick(() => {
+          this.scrollFeedToBottom()
+        })
       }
     }
   },
   methods: {
     ...mapActions({
       getThisClient: 'client/getSingleClient',
-      updateDialog: 'qb/update_message_dialogs'
+      updateDialog: 'qb/update_message_dialogs',
+      fetchDialog: 'qb/fetchSingleUserDialog'
     }),
     updateMsgHistory (userId, message) {
       this.msgHistory.push({

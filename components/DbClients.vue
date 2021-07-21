@@ -5,7 +5,7 @@
     </h5>
     <div class="tail-grid tail-grid-cols-3 tail-gap-4">
       <!-- when clients are <= 5 but not equal to zero-->
-      <template v-if="acceptedClients.length <= 5 && acceptedClients.length !== 0">
+      <template v-if="acceptedClients.length < 2 && acceptedClients.length !== 0">
         <div
           v-for="client in acceptedClients"
           :key="client.index"
@@ -74,7 +74,7 @@
         </div>
       </template>
       <!-- when clients are >= 5 -->
-      <template v-else-if="acceptedClients.length >= 5">
+      <template v-else-if="acceptedClients.length >= 2">
         <div
           v-for="client in acceptedClients.slice(0,2)"
           :key="client.index"
@@ -94,7 +94,8 @@
             >{{ client.pet[0].name }}</small>
           </div>
         </div>
-        <div
+        <button
+        @click="$router.push({ name: 'Clients' })"
           class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
         >
           <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
@@ -111,7 +112,7 @@
               View All
             </NuxtLink>
           </div>
-        </div>
+        </button>
       </template>
     </div>
     <Modal :is-open="openModal" @close="openModal = $event">

@@ -80,10 +80,10 @@ export const actions = {
     })
   },
   logOut ({ commit, dispatch }) {
-    commit('CLEAR_LOCAL_STORAGE')
     commit('SET_GETWELP_USER', {})
     dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
+    commit('CLEAR_LOCAL_STORAGE')
     this.$auth.logout()
     this.$quickblox.chat.disconnect()
     this.$quickblox.chat.onDisconnectedListener = onDisconnectedListener

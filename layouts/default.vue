@@ -17,9 +17,9 @@ export default {
       page: this.$route.name
     }
   },
-  updated () {
+  created () {
     if (this.$auth.loggedIn) {
-      this.connectToServer()
+      // this.connectToServer()
     }
   },
   methods: {

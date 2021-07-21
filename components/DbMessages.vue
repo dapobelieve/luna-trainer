@@ -23,7 +23,7 @@
       <template v-else>
         <ul>
           <li
-            v-for="messages in getTotalUnreadMessages"
+            v-for="messages in getTotalUnreadMessages.slice(0, 3)"
             :key="messages._id"
             class="tail-w-full"
           >
@@ -80,6 +80,8 @@ export default {
   },
   mounted () {
     if (this.$auth.loggedIn) {
+      this.connectToServer()
+
       this.$quickblox.chat.onMessageListener = (userId, message) => {
         console.log(
           'there is an incoming message. The userId: ',
@@ -96,11 +98,6 @@ export default {
         console.log('updating dialog', newMessage)
         this.updateMessages(newMessage)
       }
-    }
-  },
-  updated () {
-    if (this.$auth.loggedIn) {
-      this.connectToServer()
     }
   },
   methods: {

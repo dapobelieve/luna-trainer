@@ -1,5 +1,5 @@
 <template>
-    <div class="main tail-p-3 tail-flex">
+  <div class="main tail-p-3 tail-flex">
     <div class="message-box tail-pr-5">
       <div class="tail-border tail-border-gray-200 tail-rounded-md tail-overflow-hidden tail-flex tail-flex-col tail-justify-between tail-h-full tail-items-center tail-relative">
         <!-- header part -->
@@ -9,7 +9,7 @@
         </div>
 
         <!-- messages area -->
-        <div id="messageFeed" class=" tail-h-full tail-mx-auto" style="width: 85%">
+        <div v-if="!isLoading" id="messageFeed" class=" tail-h-full tail-mx-auto" style="width: 85%">
           <div
             v-for="messages in msgHistory"
             :key="messages._id"
@@ -35,6 +35,7 @@
             </p>
           </div>
         </div>
+        <SingleLoader v-else />
         <!-- input area -->
         <div class="tail-w-full">
           <form @submit.prevent="sendChat">
@@ -43,14 +44,15 @@
             >
               <input
                 v-model="message"
+                :disabled="isLoading"
                 type="text"
                 class="tail-w-full focus:tail-outline-none"
-                placeholder="Type a message"
+                :placeholder="isLoading ? 'Please wait...' : 'Type a message'"
               />
-              <button class="tail-mr-3" type="submit">
+              <!-- <button class="tail-mr-3" type="submit">
                 <i class="ns-upload text-muted"></i>
-              </button>
-              <button class="" type="submit">
+              </button> -->
+              <button v-if="!isLoading" type="submit">
                 <i class="ns-paper-plane text-muted"></i>
               </button>
             </div>
@@ -112,21 +114,6 @@ export default {
   computed: {
     sender () {
       return this.$store.state.qb.qbUser.id
-    },
-    // scroll-to-bottom for messages
-    isFeedAtBottom () {
-      // eslint-disable-next-line prefer-const
-      let messageFeed = document.getElementById('messageFeed')
-      return (
-        messageFeed.offsetHeight + messageFeed.scrollTop ===
-        messageFeed.scrollHeight
-      )
-    },
-    // eslint-disable-next-line vue/return-in-computed-property
-    scrollFeedToBottom () {
-      // eslint-disable-next-line prefer-const
-      let messageFeed = document.getElementById('messageFeed')
-      messageFeed.scrollTop = messageFeed.scrollHeight
     }
   },
   methods: {
@@ -158,6 +145,9 @@ export default {
             message: this.message,
             recipient_id: opponentId
           })
+          this.$nextTick(() => {
+            this.scrollFeedToBottom()
+          })
           this.message = ''
         } catch (e) {
           if (e.name === 'ChatNotConnectedError') {
@@ -165,6 +155,10 @@ export default {
           }
         }
       }
+    },
+    scrollFeedToBottom () {
+      const messageFeed = document.getElementById('messageFeed')
+      return messageFeed.scrollTo(0, messageFeed.scrollHeight)
     },
     createInvoice () {
       if (!this.$auth.user.services.length) {
