@@ -40,6 +40,7 @@ export default {
                   this.msgHistory = messages.items.reverse()
                   this.$nextTick(() => {
                     this.scrollFeedToBottom()
+                    this.clearMessageCount(this.dialogId)
                   })
                 }
               })
@@ -55,14 +56,17 @@ export default {
 
           this.$quickblox.chat.dialog.create(params, (error, dialog) => {
             if (error) {
+              this.isLoading = false
               console.log('error creating dialog', error)
             }
             if (dialog) {
+              this.dialogId = dialog._id
               console.log('dialog created', dialog)
               this.updateDialog({
-                ...response,
-                dialog_id: response._id
+                ...dialog,
+                dialog_id: dialog._id
               })
+              this.isLoading = false
             }
           })
         }

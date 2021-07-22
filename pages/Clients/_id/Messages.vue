@@ -89,7 +89,10 @@
     </div>
     <NotificationsModal :visible="showAlert" @close="showAlert = $event">
       <template v-slot:title>
-        New Notifcation
+        Messaging Error
+      </template>
+      <template v-slot:subtitle>
+        Please login again
       </template>
     </NotificationsModal>
     <!-- <StripeAlertModal :visible="showStripeAlert" @close="showStripeAlert = $event" /> -->
@@ -100,6 +103,7 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
 import OpenChatDialog from '~/plugins/mixin-openChatDialog.js'
 export default {
   name: 'Messages',
@@ -117,6 +121,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      clearMessageCount: 'qb/CLEAR_MESSAGE_COUNT'
+    }),
     async sendChat () {
       if (this.listOfIds.includes(parseInt(this.client.qbId))) {
         if (!this.dialogId) {

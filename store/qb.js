@@ -88,7 +88,6 @@ export const actions = {
       // get list of dialogs
       const dialogs = this.$axios.$get(`${process.env.BASEURL_HOST}/qb/dialogs`)
       dialogs.then(({ result }) => {
-        console.log('dialog results', result)
         const trainerQbId = state.qbUser.id
         const arr = []
         const occupantsId = []
@@ -121,8 +120,7 @@ export const actions = {
       console.log(error)
     }
   },
-  fetchSingleUserDialog ({ commit, dispatch }, userId) {
-    console.log('userId', userId)
+  fetchSingleUserDialog ({ commit }, userId) {
     return this.$axios
       .$get(
         `${process.env.BASEURL_HOST}/qb/dialogs?userId=${userId}`
@@ -181,7 +179,6 @@ export const actions = {
                 })
               }
             })
-            console.log('arrred', arr)
             const arrayToObject = (array, keyField) =>
               array.reduce((obj, item) => {
                 obj[item[keyField]] = item

@@ -76,7 +76,10 @@ export default {
   computed: {
     ...mapGetters({
       getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
-    })
+    }),
+    sender () {
+      return this.$store.state.qb.qbUser.id
+    }
   },
   mounted () {
     if (this.$auth.loggedIn) {
@@ -96,7 +99,9 @@ export default {
           last_message_date_sent: message.extension.date_sent
         }
         console.log('updating dialog', newMessage)
-        this.updateMessages(newMessage)
+        if (userId !== this.sender) {
+          this.updateMessages(newMessage)
+        }
       }
     }
   },
