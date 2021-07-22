@@ -80,13 +80,23 @@ export const actions = {
     })
   },
   logOut ({ commit, dispatch }) {
-    commit('CLEAR_LOCAL_STORAGE')
     commit('SET_GETWELP_USER', {})
     dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
+    commit('CLEAR_LOCAL_STORAGE')
     this.$auth.logout()
+    this.$quickblox.chat.disconnect()
+    this.$quickblox.chat.onDisconnectedListener = onDisconnectedListener
+    function onDisconnectedListener () {
+      console.log('onDisconnected')
+    }
+    this.$quickblox.destroySession((error) => {
+      console.log('error destroyong session', error)
+    })
+    return true
   }
 }
 export const getters = {
-  getUser: state => state.getWelpUser
+  getUser: state => state.getWelpUser,
+  isStripeConnected: state => state.isStripeConnected
 }

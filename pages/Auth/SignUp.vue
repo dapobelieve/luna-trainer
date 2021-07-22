@@ -144,6 +144,11 @@ export default {
       }
     }
   },
+  head () {
+    return {
+      title: 'Sign Up'
+    }
+  },
   validations: {
     userInfo: {
       userName: {

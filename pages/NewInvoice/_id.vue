@@ -37,6 +37,11 @@ export default {
       isLoading: false
     }
   },
+  head () {
+    return {
+      title: 'Invoice'
+    }
+  },
   async mounted() {
     const client = await this.getClient(this.$route.params.id)
     this.invoice.customerId = client._id 

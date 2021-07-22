@@ -19,36 +19,39 @@
                 :option-height="104"
                 :show-labels="false"
               >
-                <template slot="singleLabel" slot-scope="props"
-                  ><div class="option__desc tail-flex tail-items-center">
+                <template
+                  slot="singleLabel"
+                  slot-scope="props"
+                >
+                  <div class="option__desc tail-flex tail-items-center">
                     <ClientAvatar
                       :firstname="props.option.firstName"
                       :lastname="props.option.lastName"
-                      :width="4"
-                      :height="4"
+                      :width="3"
+                      :height="3"
                     />
                     <div>
-                      <span class="option__title tail-pl-2"
-                        >{{ props.option.firstName }}
-                        {{ props.option.lastName }}</span
-                      >
+                      <span
+                        class="option__title tail-pl-2"
+                      >{{ props.option.firstName }}
+                        {{ props.option.lastName }}</span>
                       |
-                      <span class="option__title tail-pl-2"
-                        >{{ props.option.location.address }}
+                      <span
+                        class="option__title tail-pl-2"
+                      >{{ props.option.location.address }}
                       </span>
                       <div class="tail-pl-2 tail-break-words">
                         {{ props.option.email }}
                       </div>
                     </div>
-                  </div></template
-                >
+                  </div>
+                </template>
 
                 <template slot="option" slot-scope="props">
                   <div class="option__desc">
                     <span class="option__title">{{
                       props.option.firstName
-                    }}</span
-                    ><span class="option__small tail-pl-2">{{
+                    }}</span><span class="option__small tail-pl-2">{{
                       props.option.lastName
                     }}</span>
                   </div>
@@ -128,9 +131,7 @@
       >
         Total Invoie amount
       </label>
-      <div class="tail-mt-1">
-        £ {{selectedPrice | amount}}
-      </div>
+      <div class="tail-mt-1">£ {{ selectedPrice | amount }}</div>
     </div>
     <div class="tail-flex tail-justify-center">
       <button
@@ -146,22 +147,22 @@
 </template>
 
 <script>
-import Multiselect from "vue-multiselect";
-import { mapGetters, mapActions } from "vuex";
-import DatePicker from "vue2-datepicker";
-import "vue2-datepicker/index.css";
-import { required, numeric, email } from "vuelidate/lib/validators";
+import Multiselect from 'vue-multiselect'
+import { mapGetters, mapActions } from 'vuex'
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
+import { required } from 'vuelidate/lib/validators'
 
 export default {
-  name: "CreateNewInvoice",
+  name: 'CreateNewInvoice',
   components: { Multiselect, DatePicker },
-  data() {
+  data () {
     return {
       isLoading: false,
       selectedClient: null,
       selectedService: [],
       selectedDate: new Date().toISOString().substring(0, 10)
-    };
+    }
   },
   validations: {
     selectedClient: {
@@ -176,73 +177,80 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: "client/getAllAcceptedClients"
+      allClients: 'client/getAllClients'
     }),
-    services() {
-      return this.$auth.user.services || [];
+    acceptedClients () {
+      return this.allClients.filter(c => c.status === 'accepted')
+    },
+    services () {
+      return this.$auth.user.services || []
     },
     // eslint-disable-next-line vue/return-in-computed-property
-    selectedPrice() {
+    selectedPrice () {
       // eslint-disable-next-line curly
       if (this.selectedService && this.selectedService.length) {
         return this.selectedService.reduce(
           (accumulator, current) => accumulator + current.pricing.amount,
           0
-        );
+        )
       }
-      return 0;
+      return 0
     }
   },
   methods: {
     ...mapActions({
-      sendInvoice: "invoice/createInvoice",
-      fetchInvoices: "invoice/getInvoices"
+      sendInvoice: 'invoice/createInvoice',
+      fetchInvoices: 'invoice/getInvoices'
     }),
-    createInvoice() {
+    createInvoice () {
       if (
         !this.$v.selectedClient.$invalid &&
         !this.$v.selectedService.$invalid &&
         !this.$v.selectedDate.$invalid
       ) {
-        this.isLoading = true;
+        this.isLoading = true
         this.sendInvoice({
           customerId: this.selectedClient._id,
           dueDateEpoch: new Date(this.selectedDate).getTime() / 1000,
           dueDate: new Date(this.selectedDate),
-          items:this.selectedService.map(item => ({ service :item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
+          items: this.selectedService.map(item => ({
+            service: item._id,
+            price: item.pricing && item.pricing.amount,
+            qty: 1
+          }))
         })
-          .then(result => {
-            if (result.status === "success") {
-              this.$toast.success("Invoice created successfully", {
-                position: "bottom-right"
-              });
-              this.fetchInvoices();
-              this.$emit("close", false);
+          .then((result) => {
+            if (result.status === 'success') {
+              this.$toast.success('Invoice created successfully', {
+                position: 'bottom-right'
+              })
+              this.fetchInvoices()
+              this.$emit('close', false)
             }
           })
-          .catch(err => {
+          .catch((err) => {
             if (err.response) {
               this.$toast.error(
                 `Something went wrong: ${err.response.data.message}`,
-                { position: "bottom-right" }
-              );
+                { position: 'bottom-right' }
+              )
             } else if (err.request) {
-              this.$toast.error("Something went wrong. Try again", {
-                position: "bottom-right"
-              });
+              this.$toast.error('Something went wrong. Try again', {
+                position: 'bottom-right'
+              })
             } else {
               this.$toast.error(`Something went wrong: ${err.message}`, {
-                position: "bottom-right"
-              });
+                position: 'bottom-right'
+              })
             }
           })
           .finally(() => {
-            this.isLoading = false;
-          });
+            this.isLoading = false
+          })
       }
     }
   }
-};
+}
 </script>
 <style lang="scss">
 /* .multiselect__tag,
@@ -254,7 +262,7 @@ export default {
  .multiselect__tag-icon:after,
 .multiselect__tag-icon:after:hover {
   color: rgb(86, 204, 242) !important;
-} 
+}
 .multiselect__tag-icon:after {
   color: rgb(86, 204, 242) !important;
 } */

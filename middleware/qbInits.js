@@ -92,8 +92,8 @@ export default ({ $axios, store, route }) => {
                   if (element.occupants_ids[0] === trainerQbId) {
                     arr.push({
                       ...element,
-                      opponentFirstName: 'noodles',
-                      opponentLastName: 'cuddles'
+                      opponentFirstName: element.occupants[1][element.occupants_ids[1]].firstName,
+                      opponentLastName: element.occupants[1][element.occupants_ids[1]].lastName
                     })
                   }
                 })

@@ -21,6 +21,11 @@
 export default {
   name: 'NewInvoices',
   layout: 'emptyLayout',
+  head () {
+    return {
+      title: 'New Invoice'
+    }
+  },
   methods: {
     backToMessage () {
       this.$router.push({

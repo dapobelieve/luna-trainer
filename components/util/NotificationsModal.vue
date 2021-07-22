@@ -1,5 +1,5 @@
 <template>
-  <div aria-live="assertive" class="tail-fixed tail-inset-0 tail-z-50 tail-flex tail-items-end tail-px-4 tail-pb-6 tail-pt-20 tail-pointer-events-none sm:tail-px-2 sm:tail-items-start tail-border tail-border-gray-400">
+  <div aria-live="assertive" class="tail-fixed tail-inset-0 tail-z-50 tail-flex tail-items-end tail-px-4 tail-pb-6 tail-pt-5 tail-pointer-events-none sm:tail-px-2 sm:tail-items-start tail-border tail-border-gray-400">
     <div class="tail-w-full tail-flex tail-flex-col tail-items-center tail-space-y-4 sm:tail-items-end">
       <transition
         enter-active-class="tail-transform tail-ease-out tail-duration-300 tail-transition"
@@ -39,7 +39,7 @@
                 </div>
               </div>
               <div class="tail-ml-4 tail-flex-shrink-0 tail-flex">
-                <button class="tail-bg-white tail-rounded-md tail-inline-flex tail-text-gray-400 hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500" @click="close">
+                <button class="tail-bg-white tail-rounded-md tail-inline-flex tail-text-gray-400 hover:tail-text-gray-500 focus:tail-outline-none" @click="close">
                   <span class="tail-sr-only">Close</span>
                   <svg class="tail-h-5 tail-w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                     <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />

@@ -14,11 +14,20 @@
   </div>
 </template>
 <script>
+import { mapActions } from 'vuex'
 export default {
   data () {
     return {
       page: this.$route.name
     }
+  },
+  mounted () {
+    this.fetchAllClients()
+  },
+  methods: {
+    ...mapActions({
+      fetchAllClients: 'client/fetchAllClients'
+    })
   }
 }
 </script>

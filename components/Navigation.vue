@@ -119,7 +119,7 @@
         </navigation-sub-menu>
         <navigation-sub-menu v-model="showMessagesMenu">
           <template v-slot:title>
-              <h2>
+            <h2>
               Messages
             </h2>
           </template>
@@ -171,10 +171,19 @@
     </Modal>
     <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
-        No Invited Clients
+        {{ !acceptedClients.length ? 'No Invited Clients' : 'Services Unavailable' }}
       </template>
       <template v-slot:subtitle>
-        You need to invite a client before you can create an invoice.
+        {{
+          !acceptedClients.length ? 'You need to invite a client before you can create an invoice.' : 'You need to add at least one service before you can create an invoice.' }}
+      </template>
+      <template v-slot:actionButtons>
+        <button v-if="!acceptedClients.length" class="base-button tail-normal-case" style="width: fit-content" @click="inviteClient = true">
+          Invite a client
+        </button>
+        <NuxtLink v-else to="/Settings#services" class="base-button tail-normal-case" style="width: fit-content">
+          Add a service
+        </NuxtLink>
       </template>
     </NotificationsModal>
   </div>
@@ -198,7 +207,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/getAllAcceptedClients'
+      acceptedClients: 'client/acceptedClients'
     })
   },
   methods: {
@@ -206,7 +215,7 @@ export default {
       logOut: 'authorize/logOut'
     }),
     createInvoice () {
-      if (!this.acceptedClients.length) {
+      if (!this.acceptedClients.length || !this.$auth.user.services.length) {
         this.showNotification = true
       } else {
         this.openModal = true

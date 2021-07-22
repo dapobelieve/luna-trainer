@@ -158,6 +158,11 @@ export default {
       status: 'invited'
     }
   }),
+  head () {
+    return {
+      title: 'Profile Setup'
+    }
+  },
   computed: {
     disabled () {
       for (const key in this.profileInfo) {
@@ -200,6 +205,7 @@ export default {
         this.isLoading = true
         return this.createTrainerProfile(this.profileInfo).then((response) => {
           if (response.status === 'success') {
+            this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
             this.uploadProfileImage()
             return this.getQbInfo().then((response) => {
               if (response.success === true) {

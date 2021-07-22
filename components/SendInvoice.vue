@@ -51,7 +51,6 @@ export default {
     }),
     sendInvoice () {
       this.isLoading = true
-      console.log('the this.sendDetails', this.sendDetails)
       const details = {
         id: this.sendDetails._id,
         recipient: this.email

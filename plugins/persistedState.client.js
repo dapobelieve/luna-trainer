@@ -7,11 +7,11 @@ export default ({ store }) => {
       'qb.qbUser',
       'authorize.getWelpUser',
       'auth',
-      'client.allClients',
-      'client.acceptedClients',
-      'client.invitedClients',
+      'client.clients',
       'qb.messageDialogs',
-      'qb.latestChatEntry'
+      'qb.QBSessionToken',
+      'qb.latestChatEntry',
+      'qb.allChatUsers'
     ],
     storage: localStorage
   })(store)
