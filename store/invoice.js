@@ -35,10 +35,10 @@ export const actions = {
         return response
       })
   },
-  getInvoices ({ commit, dispatch }) {
+  getInvoices ({ commit, dispatch }, page) {
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/invoice`)
+      .$get(`${process.env.BASEURL_HOST}/invoice?limit=${ page !== undefined ? 10 : 0 }&page=${page}`)
       .then((response) => {
         commit('SET_ALL_INVOICES', response.data)
         dispatch('loader/endProcess', '', { root: true })

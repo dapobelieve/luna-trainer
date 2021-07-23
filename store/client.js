@@ -31,11 +31,11 @@ export const actions = {
         return response
       })
   },
-  fetchAllClients ({ commit, dispatch }) {
+  fetchAllClients ({ commit, dispatch }, page) {
     commit('IS_LOADING', true)
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites`)
+      .$get(`${process.env.BASEURL_HOST}/client/invites?limit=${ page !== undefined ? 10 : 0 }&page=${page}`)
       .then(({ data }) => {
         commit('SET_ALL_CLIENTS', data)
         commit('IS_LOADING', false)

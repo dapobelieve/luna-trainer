@@ -69,7 +69,8 @@ export default {
     status: {
       type: String,
       required: true
-    }
+    },
+    pageNumber: Number
   },
   data () {
     return {
@@ -89,7 +90,14 @@ export default {
     }
   },
   created () {
-    this.fetchAllClients()
+    this.fetchAllClients(this.pageNumber)
+  },
+  watch: {
+    pageNumber(newValue, oldValue) {
+      if (newValue) {
+        this.fetchAllClients(this.pageNumber)
+      }
+    }
   },
   mounted () {
     const getTime = localStorage.getItem('clientsPageFirstVisit')
