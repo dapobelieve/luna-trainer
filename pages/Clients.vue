@@ -11,9 +11,11 @@
         <gw-select :options="['All', 'Active', 'Invited']" selected="All" @selected="filterInvoice" />
       </template>
     </PageHeader>
-    <div class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full">
-      <GwClients :status="filter" />
-    </div>
+    <gw-pagination class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full" :visible="Boolean(size)" :total-items="size">
+      <template v-slot:content="{ pageNumber }">
+        <GwClients :status="filter" :page-number="pageNumber" />
+      </template>
+    </gw-pagination>
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
@@ -21,6 +23,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'Clients',
   data () {
@@ -34,6 +37,11 @@ export default {
     return {
       title: 'Clients'
     }
+  },
+  computed: {
+    ...mapGetters({
+      size: 'client/clientsCount'
+    })
   },
   methods: {
     filterInvoice (link) {

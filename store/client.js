@@ -1,11 +1,13 @@
 export const state = () => ({
   clients: [],
+  clientsCount: 0,
   isLoading: false
 })
 
 export const mutations = {
   SET_ALL_CLIENTS (state, clients) {
-    state.clients = clients
+    state.clients = clients.data
+    state.clientsCount = clients.size
   },
   IS_LOADING (state, loadingStatus) {
     state.isLoading = loadingStatus
@@ -15,7 +17,7 @@ export const mutations = {
 export const actions = {
   clearAllClientStates ({ commit }) {
     // for local storage force logout
-    commit('SET_ALL_CLIENTS', [])
+    commit('SET_ALL_CLIENTS', { data: [], size: 0 })
   },
   inviteClient ({ commit }, clientInfo) {
     return this.$axios
@@ -31,16 +33,18 @@ export const actions = {
         return response
       })
   },
-  fetchAllClients ({ commit, dispatch }) {
+  fetchAllClients ({ commit, dispatch }, payload) {
+    const stat = payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage = payload !== undefined && 'page' in payload ? payload.page : 1
     commit('IS_LOADING', true)
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites`)
-      .then(({ data }) => {
-        commit('SET_ALL_CLIENTS', data)
+      .$get(`${process.env.BASEURL_HOST}/client/invites${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
+      .then((response) => {
+        commit('SET_ALL_CLIENTS', response)
         commit('IS_LOADING', false)
         dispatch('loader/endProcess', null, { root: true })
-        return data
+        return response.data
       }).catch(() => {
         dispatch('loader/endProcess', null, { root: true })
         commit('IS_LOADING', false)
@@ -57,5 +61,6 @@ export const getters = {
   getAllClients: state => state.clients,
   acceptedClients: (state, getters) => {
     return getters.getAllClients.filter(c => c.status === 'accepted')
-  }
+  },
+  clientsCount: state => state.clientsCount
 }

@@ -131,7 +131,8 @@ export default {
     status: {
       type: String,
       required: true
-    }
+    },
+    pageNumber: Number
   },
   data () {
     return {
@@ -153,8 +154,20 @@ export default {
       return this.allInvoices.filter(i => i.status === this.status.toLowerCase())
     }
   },
-  mounted () {
-    this.getInvoices()
+  watch: {
+    pageNumber (newValue) {
+      if (newValue) {
+        this.getInvoices({ page: this.pageNumber })
+      }
+    },
+    status (newValue) {
+      if (newValue) {
+        newValue === 'All' ? this.getInvoices() : this.getInvoices({ status: newValue.toLowerCase() })
+      }
+    }
+  },
+  created () {
+    this.getInvoices({ page: this.pageNumber })
   },
   methods: {
     ...mapActions({

@@ -1,5 +1,6 @@
 export const state = () => ({
   invoices: [],
+  invoiceCount: 0,
   tempInvoice: {
     date: new Date().toISOString().substring(0, 10),
     services: [],
@@ -9,7 +10,8 @@ export const state = () => ({
 
 export const mutations = {
   SET_ALL_INVOICES (state, invoices) {
-    state.invoices = invoices
+    state.invoices = invoices.data
+    state.invoiceCount = invoices.size
   },
   SET_INVOICE_DUE_DATE (state, date) {
     state.tempInvoice.date = date
@@ -35,12 +37,14 @@ export const actions = {
         return response
       })
   },
-  getInvoices ({ commit, dispatch }) {
+  getInvoices ({ commit, dispatch }, payload) {
+    const stat = payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage = payload !== undefined && 'page' in payload ? payload.page : 1
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/invoice`)
+      .$get(`${process.env.BASEURL_HOST}/invoice${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
       .then((response) => {
-        commit('SET_ALL_INVOICES', response.data)
+        commit('SET_ALL_INVOICES', response)
         dispatch('loader/endProcess', '', { root: true })
         return response.data
       }).catch(() => {
@@ -70,5 +74,6 @@ export const getters = {
   getAllPaidInvoices: state =>
     state.invoices.filter(i => i.status === 'paid'),
   getAllSentInvoices: state =>
-    state.invoices.filter(i => i.status === 'sent')
+    state.invoices.filter(i => i.status === 'sent'),
+  invoiceCount: state => state.invoiceCount
 }

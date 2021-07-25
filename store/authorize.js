@@ -6,10 +6,11 @@ export const state = () => ({
 
 export const mutations = {
   SET_GETWELP_USER (state, user) {
-    user = { ...state.getWelpUser, ...user }
-    this.$auth.setUser(user)
-    localStorage.setItem('getWelpUser', JSON.stringify(user))
-    state.getWelpUser = user
+    const checkEmptiness = Object.keys(user).length === 0 && user.constructor === Object
+    const gwuser = checkEmptiness ? {} : { ...state.getWelpUser, ...user }
+    this.$auth.setUser(gwuser)
+    localStorage.setItem('getWelpUser', JSON.stringify(gwuser))
+    state.getWelpUser = gwuser
   },
   CLEAR_LOCAL_STORAGE () {
     window.localStorage.clear()
@@ -79,12 +80,12 @@ export const actions = {
       return response
     })
   },
-  logOut ({ commit, dispatch }) {
+  async logOut ({ commit, dispatch }) {
+    await this.$auth.logout()
     commit('SET_GETWELP_USER', {})
     dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     commit('CLEAR_LOCAL_STORAGE')
-    this.$auth.logout()
     this.$quickblox.chat.disconnect()
     this.$quickblox.chat.onDisconnectedListener = onDisconnectedListener
     function onDisconnectedListener () {

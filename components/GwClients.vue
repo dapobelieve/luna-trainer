@@ -69,7 +69,8 @@ export default {
     status: {
       type: String,
       required: true
-    }
+    },
+    pageNumber: Number
   },
   data () {
     return {
@@ -88,8 +89,21 @@ export default {
       return this.allClients.filter(i => i.status === status)
     }
   },
+  watch: {
+    pageNumber (newValue) {
+      if (newValue) {
+        this.fetchAllClients({ page: this.pageNumber })
+      }
+    },
+    status (newValue) {
+      if (newValue) {
+        newValue = newValue === 'Active' ? 'accepted' : newValue
+        newValue === 'All' ? this.fetchAllClients() : this.fetchAllClients({ status: newValue.toLowerCase() })
+      }
+    }
+  },
   created () {
-    this.fetchAllClients()
+    this.fetchAllClients({ page: this.pageNumber })
   },
   mounted () {
     const getTime = localStorage.getItem('clientsPageFirstVisit')

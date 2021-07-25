@@ -3,7 +3,7 @@
     <h5 class="tail-font-medium tail-mb-2">
       Clients
     </h5>
-    <div class="tail-grid tail-grid-cols-3 tail-gap-4">
+    <div v-if="!$store.state.client.isLoading" class="tail-grid tail-grid-cols-3 tail-gap-4">
       <!-- when clients are <= 5 but not equal to zero-->
       <template v-if="acceptedClients.length < 2 && acceptedClients.length !== 0">
         <div
@@ -95,8 +95,8 @@
           </div>
         </div>
         <button
-        @click="$router.push({ name: 'Clients' })"
           class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
+          @click="$router.push({ name: 'Clients' })"
         >
           <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
             <i
@@ -114,6 +114,9 @@
           </div>
         </button>
       </template>
+    </div>
+    <div v-else class="tail-grid tail-place-content-center tail-h-full">
+      <SingleLoader />
     </div>
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
@@ -139,7 +142,10 @@ export default {
       allClients: 'client/getAllClients'
     }),
     acceptedClients () {
-      return this.allClients.filter(c => c.status === 'accepted')
+      if (this.allClients.length) {
+        return this.allClients.filter(c => c.status === 'accepted')
+      }
+      return 0
     }
   }
 }
