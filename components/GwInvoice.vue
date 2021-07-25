@@ -162,7 +162,6 @@ export default {
     },
     status (newValue) {
       if (newValue) {
-        // newValue = newValue === 'Active' ? 'accepted' : newValue
         newValue === 'All' ? this.getInvoices() : this.getInvoices({ status: newValue.toLowerCase() })
       }
     }
