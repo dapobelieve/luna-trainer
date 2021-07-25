@@ -1,40 +1,41 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "Getwelp",
-    titleTemplate: "Getwelp | %s",
+    title: 'Getwelp',
+    titleTemplate: 'Getwelp | %s',
     htmlAttrs: {
-      lang: "en"
+      lang: 'en'
     },
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "Getwelp Trainer UI" }
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { hid: 'description', name: 'description', content: 'Getwelp Trainer UI' }
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
       {
-        rel: "stylesheet",
+        rel: 'stylesheet',
         href:
-          "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap"
+          'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
       }
     ]
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css','vue-multiselect/dist/vue-multiselect.min.css'],
+  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css', 'vue-multiselect/dist/vue-multiselect.min.css'],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
     { src: '~plugins/quickBlox.js', ssr: false },
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~plugins/persistedState.client.js' },
-    { src: '~plugins/filters.js' }
+    { src: '~plugins/filters.js' },
+    { src: '~/plugins/axios.js' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
-    dirs: ["~/components", "~/components/util"]
+    dirs: ['~/components', '~/components/util']
   },
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
@@ -52,8 +53,8 @@ export default {
   buildModules: [
     // https://go.nuxtjs.dev/eslint
     // '@nuxtjs/eslint-module',
-    "@nuxtjs/tailwindcss",
-    "@nuxtjs/date-fns"
+    '@nuxtjs/tailwindcss',
+    '@nuxtjs/date-fns'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -65,7 +66,7 @@ export default {
   ],
 
   toast: {
-    posotion: "top-right",
+    posotion: 'top-right',
     duration: 4000,
     closeOnSwipe: true
   },
@@ -81,29 +82,37 @@ export default {
 
   auth: {
     redirect: {
-      login: "/auth/signin",
-      logout: "/auth/signin",
-      callback: "/auth/signin",
-      home: "/dashboard"
+      login: '/auth/signin',
+      logout: '/auth/signin',
+      callback: '/auth/signin',
+      home: '/dashboard'
     },
     strategies: {
       local: {
+        scheme: 'refresh',
         token: {
-          property: "accessToken",
+          property: 'accessToken',
           global: true,
-          required: true
+          required: true,
+          maxAge: false
           // type: 'Bearer'
         },
+        refreshToken: {
+          property: 'refreshToken',
+          data: 'refreshToken',
+          maxAge: false
+        },
         user: {
-          property: "data",
+          property: 'data',
           autoFetch: false
         },
         endpoints: {
           login: {
             url: `${process.env.ACCOUNT_HOST_URL}/auth/login`,
-            method: "post"
+            method: 'post'
           },
-          logout: { url: "/", method: "post" },
+          refresh: { url: `${process.env.ACCOUNT_HOST_URL}/auth/renew-token`, method: 'post' },
+          logout: { url: '/', method: 'post' },
           user: false
         }
       }
@@ -112,8 +121,4 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {}
-  // server: {
-  //   port: 8080,
-  //   host: '192.168.0.103'
-  // }
-};
+}

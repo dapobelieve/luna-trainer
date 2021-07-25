@@ -89,15 +89,21 @@ export default {
       return this.allClients.filter(i => i.status === status)
     }
   },
-  created () {
-    this.fetchAllClients(this.pageNumber)
-  },
   watch: {
-    pageNumber(newValue, oldValue) {
+    pageNumber (newValue) {
       if (newValue) {
-        this.fetchAllClients(this.pageNumber)
+        this.fetchAllClients({ page: this.pageNumber })
+      }
+    },
+    status (newValue) {
+      if (newValue) {
+        newValue = newValue === 'Active' ? 'accepted' : newValue
+        newValue === 'All' ? this.fetchAllClients() : this.fetchAllClients({ status: newValue.toLowerCase() })
       }
     }
+  },
+  created () {
+    this.fetchAllClients({ page: this.pageNumber })
   },
   mounted () {
     const getTime = localStorage.getItem('clientsPageFirstVisit')

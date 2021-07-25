@@ -154,15 +154,21 @@ export default {
       return this.allInvoices.filter(i => i.status === this.status.toLowerCase())
     }
   },
-  created () {
-    this.getInvoices(this.pageNumber)
-  },
   watch: {
-    pageNumber(newValue, oldValue) {
+    pageNumber (newValue) {
       if (newValue) {
-        this.getInvoices(this.pageNumber)
+        this.getInvoices({ page: this.pageNumber })
+      }
+    },
+    status (newValue) {
+      if (newValue) {
+        // newValue = newValue === 'Active' ? 'accepted' : newValue
+        newValue === 'All' ? this.getInvoices() : this.getInvoices({ status: newValue.toLowerCase() })
       }
     }
+  },
+  created () {
+    this.getInvoices({ page: this.pageNumber })
   },
   methods: {
     ...mapActions({
