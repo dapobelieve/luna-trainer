@@ -27,7 +27,7 @@
                   Amount
                 </p>
                 <p class="tail-text-2xl">
-                  {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}.00
+                  {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}
                 </p>
                 <p class="tail-text-sm">
                   Due on {{ invoice.dueDate }}
