@@ -25,7 +25,7 @@
       <i class="tail-text-gray-400 tail-text-xl ns-label"></i>
       <div>
         <p class="tail-block tail-text-sm">Amount</p>
-        <p class="tail-text-sm">£ {{ details.total | amount }}</p>
+        <p class="tail-text-sm">{{ details.total | amount }}</p>
       </div>
     </div>
     <div class="tail-flex tail-space-x-6">

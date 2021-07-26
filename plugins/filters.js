@@ -1,11 +1,7 @@
 import Vue from 'vue'
 
 function amount(amount) {
-    const amt = Number(amount)
-    return (
-        `${(amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 }))}.00`||
-        '0.00'
-    )
+    return new Intl.NumberFormat('en', { style: 'currency', currency: 'GBP' }).format(amount);     
 }
 function date(date){
     return new Date(date).toDateString()

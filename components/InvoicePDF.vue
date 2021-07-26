@@ -13,7 +13,7 @@
             Invoice
           </h1>
           <p class="tail-text-gray-500 tail-text-xs">
-            Invoice No.: <span class="tail-ml-3">INV##</span>
+            Invoice No.: <span class="tail-ml-3">&lt; auto generated &gt;</span>
           </p>
           <p class="tail-text-gray-500 tail-text-xs">
             Date of Issue:<span class="tail-ml-3">{{ new Date() | date }}</span>
@@ -34,7 +34,7 @@
             </p>
           </div>
           <div class="tail-py-4">
-            <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">£{{ subTotalInvoice | amount }}.00 due {{ invoice.dueDate | date }}.</span>
+            <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate | date }}.</span>
             <span v-else class="tail-text-xl tail-font-semibold">Please select a service.</span>
           </div>
           <div>
@@ -64,8 +64,7 @@
                       {{ item.quantity }}
                     </td>
                     <td class="tail-text-right tail-font-medium tail-py-2 tail-text-black">
-                      £
-                      {{ item.price }}
+                      {{ item.price | amount }}
                     </td>
                   </tr>
                 </template>
@@ -86,7 +85,7 @@
                     Sub Total
                   </td>
                   <td class="tail-text-right tail-text-black">
-                    £ {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
+                   {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
                   </td>
                 </tr>
                 <tr class="tail-text-sm">
@@ -96,7 +95,7 @@
                     Total
                   </td>
                   <td class="tail-text-right tail-text-black">
-                    £ {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
+                    {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
                   </td>
                 </tr>
               </tbody>

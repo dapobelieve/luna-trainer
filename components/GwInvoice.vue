@@ -48,7 +48,7 @@
                       {{ new Date(invoice.dueDate).toDateString() }}
                     </td>
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
-                      £ {{ invoice.total | amount }}
+                      {{ invoice.total | amount }}
                     </td>
                     <td class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500">
                       <span

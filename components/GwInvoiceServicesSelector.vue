@@ -11,7 +11,7 @@
             <small class="tail-text-gray-500 tail-ml-5">Qty 1</small>
           </div>
           <div class="tail-flex tail-justify-between tail-items-center tail-gap-2">
-            <h5 class="tail-font-medium tail-text-lg"> £{{ select.pricing.amount | amount }}</h5>
+            <h5 class="tail-font-medium tail-text-lg"> {{ select.pricing.amount | amount }}</h5>
             <button @click.once="removeSelectedItem(select._id)">
               <small class="ns-cross tail-flex tail-align-middle tail-bg-gray-300 tail-rounded-full tail-p-1 tail-text-white" ></small>
             </button>

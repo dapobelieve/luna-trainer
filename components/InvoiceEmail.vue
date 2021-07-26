@@ -27,7 +27,7 @@
                   Amount
                 </p>
                 <p class="tail-text-2xl">
-                  £ {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}.00
+                  {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}.00
                 </p>
                 <p class="tail-text-sm">
                   Due on {{ invoice.dueDate }}
@@ -45,7 +45,7 @@
                 :key="item._id"
                 class="tail-flex tail-justify-between tail-py-2">
                 <p><strong>{{ item.description }}</strong></p>
-                <span>£ {{ item.price }}</span>
+                <span>{{ item.price | amount}}</span>
               </div>
             </template>
             <div v-else class="bg-emerald-200">
@@ -59,7 +59,7 @@
                 <p><strong>Amount Due</strong></p>
               </div>
               <div class="tail-pr-2">
-                <span>£ {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}.00</span>
+                <span> {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}</span>
               </div>
             </div>
           </div>

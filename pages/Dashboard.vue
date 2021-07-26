@@ -26,7 +26,7 @@
           </div>
         </div>
         <!-- Overall app status -->
-        <DbStatusCard />
+        <DashboardStatusCard />
         <div
           class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
@@ -37,13 +37,10 @@
         </div>
         <div class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20">
           <div class="tail-grid tail-gap-4">
-            <!-- clients section -->
-            <DbClients />
-            <!-- messages section -->
-            <DbMessages />
+            <DashboardClients />
+            <DashboardMessages />
           </div>
-          <!-- payment section -->
-          <DbPayments />
+          <DashboardPayments />
         </div>
       </div>
     </article>

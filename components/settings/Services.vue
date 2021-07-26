@@ -52,7 +52,7 @@
             >
               <div class="tail-flex tail-mt-4">
                 <h1 class="tail-flex-1 tail-text-xl tail-sec-color" >{{ service.description }}</h1>
-                <h1 class="tail-ml-4 ">£{{ service.pricing.amount | amount }}</h1>
+                <h1 class="tail-ml-4 ">{{ service.pricing.amount | amount }}</h1>
                 <button class="tail-ml-4" @click.prevent="editServiceItem(service._id)"><i class="ns-edit tail-text-base"/></button>
               </div>
               <div>

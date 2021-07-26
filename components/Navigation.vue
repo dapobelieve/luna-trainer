@@ -17,7 +17,7 @@
             <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
           </div>
         </div>
-        <div class="tail-space-y-2">
+        <div class="tail-space-y-1">
           <div v-for="menu in menus.menu" :key="menu">
             <NuxtLink
               v-if="menu.path && !['signout', 'Messages', 'Notifications', 'createinvoice', 'inviteClient'].includes(menu.path)"
@@ -32,7 +32,7 @@
             </NuxtLink>
             <button
               v-else-if="menu.path === 'inviteClient'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="inviteClient = true"
             >
               <i class="ns-user-add tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
@@ -40,7 +40,7 @@
             </button>
             <button
               v-else-if="menu.path === 'createinvoice'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="createInvoice"
             >
               <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
@@ -48,7 +48,7 @@
             </button>
             <button
               v-else-if=" menu.path === 'Messages'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
@@ -56,7 +56,7 @@
             </button>
             <button
               v-else-if="menu.path === 'Notifications'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
@@ -64,7 +64,7 @@
             </button>
             <button
               v-else-if="menu.path === 'signout'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-2 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
               <i class="ns-power tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />
