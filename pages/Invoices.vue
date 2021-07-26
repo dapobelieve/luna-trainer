@@ -15,9 +15,11 @@
         </button>
       </template>
     </PageHeader>
-    <div class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full">
-      <GwInvoice :status="filter" />
-    </div>
+    <gw-pagination class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full" :visible="Boolean(size)" :total-items="size">
+      <template v-slot:content="{ pageNumber }">
+        <GwInvoice :status="filter" :page-number="pageNumber" />
+      </template>
+    </gw-pagination>
     <Modal status="Create New Invoice" :input-width="30" :is-open="openModal" @close="openModal = $event">
       <CreateNewInvoice @close="openModal = $event" />
     </Modal>
@@ -64,7 +66,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/acceptedClients'
+      acceptedClients: 'client/acceptedClients',
+      size: 'invoice/invoiceCount'
     })
   },
   methods: {

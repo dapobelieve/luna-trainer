@@ -76,15 +76,18 @@
             <p class="tail-capitalize tail-font-medium tail-mb-0">
               {{ invoice.customerId.firstName }} {{ invoice.customerId.lastName }}
             </p>
-            <small class="tail-text-gray-400">{{invoice.dueDate}}</small>
+            <small class="tail-text-gray-400">{{ invoice.dueDate | date }}</small>
           </div>
           <p class="tail-font-medium">
             {{ invoice.total | amount }}
           </p>
         </div>
+        <div class="tail-flex tail-justify-center">
+          <button :class="['tail-capitalize', 'tail-border-2', 'tail-border-gray-300', 'tail-bg-white', 'tail-rounded-md', 'tail-px-2', 'tail-font-normal']" @click="$router.push({ name: 'Invoices' })">
+            view invoices
+          </button>
+        </div>
       </div>
-      <!-- seems to be a necessary evil as margin and paddings arent adding up -->
-      <!-- <div class="tail-h-20 md:tail-hidden"></div> -->
     </div>
   </div>
 </template>
