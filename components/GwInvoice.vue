@@ -14,9 +14,9 @@
                   class="tail-bg-white tail-rounded-lg tail-overflow-hidden"
                 >
                   <tr class="">
-                   <div  v-if="invoice.status === 'draft'">
-                      <th scope="col" class="tail-px-6 tail-py-3"  ></th>
-                   </div>
+                 
+                      <th scope="col" class="tail-px-6 tail-py-3"  >  <span class="tail-sr-only">Action</span></th>
+               
                     <th
                       scope="col"
                       class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
@@ -62,6 +62,8 @@
                     >
                       <input type="checkbox" @change="toggle(invoice._id)"  id="invoice._id"  />
                     </td>
+                      <td v-else scope="col" class="tail-px-6 tail-py-3"  >  <span class="tail-sr-only">Action</span></td>
+               
                     <td
                       class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
                        @click.prevent="openDetails(invoice)"
