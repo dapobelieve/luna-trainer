@@ -30,24 +30,51 @@ export const actions = {
         return response
       })
   },
-  sendInvoice ({ commit }, sendDetails) {
+  updateInvoice ({ commit }, payload) {
     return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`, { recipients: [sendDetails.recipient] })
+      .$put(`${process.env.BASEURL_HOST}/invoice/${payload.invoiceId}`, {
+        items: [{ price: payload.modifiedAmount }]
+      })
       .then((response) => {
         return response
       })
   },
+  sendInvoice ({ commit }, sendDetails) {
+    return this.$axios
+      .$post(
+               `${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`,
+               { recipients: [sendDetails.recipient] }
+      )
+      .then((response) => {
+        return response
+      })
+  },
+  deleteInvoice ({ commit }, id) {
+    return this.$axios
+      .$delete(`${process.env.BASEURL_HOST}/invoice/${id}`)
+      .then((response) => {
+        //  commit("DELETE_INVOICE", response.data);
+        return response
+      })
+  },
   getInvoices ({ commit, dispatch }, payload) {
-    const stat = payload !== undefined && 'status' in payload ? payload.status : ''
-    const currPage = payload !== undefined && 'page' in payload ? payload.page : 1
+    const stat =
+             payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage =
+             payload !== undefined && 'page' in payload ? payload.page : 1
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/invoice${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
+      .$get(
+               `${process.env.BASEURL_HOST}/invoice${
+                 stat ? `?status=${stat}&` : '?'
+               }limit=10&page=${currPage}`
+      )
       .then((response) => {
         commit('SET_ALL_INVOICES', response)
         dispatch('loader/endProcess', '', { root: true })
         return response.data
-      }).catch(() => {
+      })
+      .catch(() => {
         dispatch('loader/endProcess', '', { root: true })
       })
   },
@@ -60,7 +87,9 @@ export const actions = {
   },
   stripeConnect ({ commit }) {
     return this.$axios
-      .$get(`https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=${process.env.stripeReturn}`)
+      .$get(
+               `https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=${process.env.stripeReturn}`
+      )
       .then(({ url }) => {
         return url
       })
