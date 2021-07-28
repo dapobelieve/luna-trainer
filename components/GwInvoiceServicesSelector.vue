@@ -135,7 +135,7 @@ export default {
     updateServiceAmount() {
       this.isLoading = true;
       const serviceItems = this.services
-      const changeItem = a.findIndex(s => s._id === this.tempId);
+      const changeItem = serviceItems.findIndex(s => s._id === this.tempId);
       const serviceItem = (serviceItems[changeItem] = {
         ...serviceItems[changeItem],
         pricing: {
