@@ -67,7 +67,7 @@
     </div>
     <div>
       <label class="block tail-text-sm tail-text-gray-500 font-medium">
-        Session Description
+       Invoice Items
       </label>
       <div>
         <multiselect
