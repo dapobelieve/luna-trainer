@@ -22,7 +22,12 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css', 'vue-multiselect/dist/vue-multiselect.min.css'],
+  css: [
+    '@/assets/css/theme.scss',
+    '@/assets/css/fonts.css',
+    'vue-multiselect/dist/vue-multiselect.min.css',
+    'vue2-datepicker/index.css'
+  ],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
@@ -66,7 +71,7 @@ export default {
   ],
 
   toast: {
-    posotion: 'top-right',
+    position: 'top-right',
     duration: 4000,
     closeOnSwipe: true
   },

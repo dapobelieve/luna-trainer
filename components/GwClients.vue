@@ -26,7 +26,7 @@
               end to another. Woof!
             </p>
             <div style="width: fit-content;">
-              <button type="button" class="base-button" @click="openModal = true">
+              <button type="button" class="base-button" @click="addClient = true">
                 <span class="">Get Started</span>
               </button>
             </div>
@@ -51,7 +51,7 @@
           @click="addClient = true"
         >
           <i class="ns-add"></i>
-          add your first client
+          Add client now
         </button>
       </div>
     </div>

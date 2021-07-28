@@ -20,8 +20,8 @@
         <div class="tail-space-y-1">
           <div v-for="menu in menus.menu" :key="menu">
             <NuxtLink
-              v-if="menu.path && !['signout', 'Messages', 'Notifications', 'createinvoice', 'inviteClient'].includes(menu.path)"
-              :to="{ name: menu.path }"
+              v-if="menu.path && !['signout', 'Notifications', 'inviteClient'].includes(menu.path)"
+              :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
             >
@@ -38,22 +38,7 @@
               <i class="ns-user-add tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Invite Client</span>
             </button>
-            <button
-              v-else-if="menu.path === 'createinvoice'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="createInvoice"
-            >
-              <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
-              <span class="tail-truncate tail-text-sm tail-font-normal">New Invoice</span>
-            </button>
-            <button
-              v-else-if=" menu.path === 'Messages'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="toggleMenu(menu.path)"
-            >
-              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
-              <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
-            </button>
+         
             <button
               v-else-if="menu.path === 'Notifications'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
@@ -117,50 +102,6 @@
             </div>
           </template>
         </navigation-sub-menu>
-        <navigation-sub-menu v-model="showMessagesMenu">
-          <template v-slot:title>
-            <h2>
-              Messages
-            </h2>
-          </template>
-          <template v-slot:body>
-            <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200 tail-pb-4 tail-h-4">
-              <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-pt-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
-                <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
-              </div>
-              <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300" placeholder="Search or start a new chat">
-            </div>
-            <div class="tail-px-3 tail-pt-6" v-if="true">
-              <div class="tail-flex">
-                <div>
-                  <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
-                </div>
-                <div>
-                  <div class="tail-flex tail-flex-row tail-px-2">
-                    <h4 class="tail-font-bold">
-                      James R
-                    </h4>
-                    <span class="tail-px-2">.</span>
-                    <small class="tail-text-gray-400">Time</small>
-                  </div>
-                  <span class="tail-px-2">
-                    Lorem ipsum sit amet...
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
-              <div class="tail-text-center tail-py-5">
-                <h2 class="tail-font-bold">
-                  No messages, yet.
-                </h2>
-                <div class="tail-pt-3">
-                  <p>Looks like you haven’t started a conversation with your client</p>
-                </div>
-              </div>
-            </div>
-          </template>
-        </navigation-sub-menu>
       </div>
     </nav>
     <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
@@ -201,7 +142,6 @@ export default {
       showNotification: false,
       inviteClient: false,
       openModal: false,
-      showMessagesMenu: false,
       showNotificationsMenu: false
     }
   },
@@ -222,12 +162,8 @@ export default {
       }
     },
     toggleMenu (path) {
-      if (path === 'Messages') {
-        this.showNotificationsMenu = false
-        this.showMessagesMenu = true
-      } else if (path === 'Notifications') {
+      if (path === 'Notifications') {
         this.showNotificationsMenu = true
-        this.showMessagesMenu = false
       }
     },
     signOut () {

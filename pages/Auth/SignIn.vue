@@ -42,7 +42,7 @@
             type="text"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           />
-          <div v-if="$v.$dirty" class="tail-mt-1">
+          <div v-if="$v.$dirty" class="tail-mt-0.5">
             <small
               v-if="!$v.userInfo.userName.required"
               class="error tail-text-red-500"
@@ -65,7 +65,7 @@
 
             :class="{invalid: $v.userInfo.password.$error}"
           />
-          <div v-if="$v.$anyDirty" class="tail-mt-1">
+          <div v-if="$v.$anyDirty" class="tail-mt-0.5">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"
@@ -144,7 +144,6 @@ export default {
     }
   },
   created () {
-    console.log('qbbb', this.$quickblox)
     const { redirectClient } = this.$route.query
     if (redirectClient === 'google') {
       this.handleGoogleAuthCallback()

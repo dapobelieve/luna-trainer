@@ -4,7 +4,7 @@
       <h3 class="tail-text-2xl tail-font-medium sec-color">
         Services
       </h3>
-      <small class="tail-text-gray-400">Set the types of services you offer and your pricing here...</small>
+      <small class="tail-text-gray-400">Add services you offer and pricing here.</small>
     </div>
     <div class="tail-pb-4 tail-py-5 tail-px-5 tail-bg-white tail-rounded-md">
       <div class="tail-bg-white tail-rounded-lg">

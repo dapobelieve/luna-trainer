@@ -1,49 +1,41 @@
 <template>
   <div class="tail-w-12/12">
-    <div class="tail-border tail-rounded tail-grid tail-gap-4 tail-p-4">
+    <div class="tail-border tail-rounded tail-grid tail-gap-4 tail-p-4 tail-mb-4">
       <div>
-        <div>
+        <div class="tail-flex tail-justify-between tail-items-center">
           <h1 class="tail-font-medium">
             Customer
           </h1>
-        </div>
-        <div>
-          <span class="tail-text-gray-400 tail-text-sm">A short description about this section</span>
+          <a href="Clients" @click.prevent="openInviteModal=true" class="tail-block">
+            <div class="tail-flex tail-rounded-full tail-mt-2 tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
+              <i class="ns-plus tail-text-base tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color"/>
+            </div>
+          </a>
         </div>
       </div>
-      <div class="tail-flex tail-items-center ">
-        <ClientAvatar
-          :firstname="client && client.firstName"
-          :lastname="client && client.lastName"
-          :width="4"
-          :height="4"
-        />
-        <div class="tail-pl-4 ">
-          <div class="tail-capitalize">
-            {{ client && client.firstName }} {{ client && client.lastName }}
-          </div>
-          <small class="">{{ client && client.email }}</small>
-        </div>
+      <div>
+        <gw-customer-selector :clients="acceptedClients" :selected="invoice.client" @select="updateClient($event)"/>
       </div>
     </div>
 
     <div class="tail-border tail-rounded tail-gap-4 tail-p-4">
       <div>
-        <div>
+        <div class="tail-flex tail-justify-between tail-items-center">
           <h1 class="tail-font-medium tail-mb-2">
             Services
           </h1>
+          <a href="/Settings#services" class="tail-block" alt="Add new service">
+            <div class="tail-flex tail-rounded-full tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
+              <i class="ns-plus tail-text-base tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color"/>
+            </div>
+          </a>
         </div>
         <div>
-          <span class="tail-text-gray-400 tail-text-sm">A short description about this section</span>
+          <span class="tail-text-gray-400 tail-text-sm">Choose a list of invoice items.</span>
         </div>
         <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
       </div>
-
-      <div class="tail-pt-5">
-        <hr />
-      </div>
-
+      <hr class="tail-pt-5"/>
       <div class="tail-py-4">
         <input type="checkbox" class="tail-p-2" />
         <span class="tail-font-light">Value Added Tax (VAT)</span>
@@ -60,25 +52,43 @@
         ></date-picker>
       </div>
     </div>
-    <!-- <Modal :is-open="editItem" @close="editItem = $event">
-      <EditItem @close="editItem = $event" />
-    </Modal> -->
+    <Modal :is-open="openInviteModal" @close="openInviteModal = $event">
+      <InviteNewClient @close="openInviteModal = $event" />
+    </Modal>
   </div>
 </template>
 <script>
+import Multiselect from 'vue-multiselect'
 import DatePicker from 'vue2-datepicker'
-import 'vue2-datepicker/index.css'
+import {mapGetters} from 'vuex'
+import GwCustomerSelector from './GwCustomerSelector.vue';
+
 export default {
-  name: 'LeftInvoiceForm',
-  components: { DatePicker },
-  props: {
+  name: "LeftInvoiceForm",
+  components: { DatePicker, Multiselect, GwCustomerSelector },
+  computed: {
+   ...mapGetters({
+      acceptedClients: "client/acceptedClients"
+    }),
+  },
+  props:{
     value: Object
   },
-  data () {
+  methods: {
+    updateClient($event){
+      this.invoice.client = $event
+      this.$emit("input", this.invoice)
+    },
+    updateSelectedItem (selected) {
+      this.invoice['items'] = selected
+      this.$emit("input", this.invoice)
+    }
+  },
+  data() {
     return {
       isLoading: false,
-      invoice: this.value,
-      client: this.value.client
+      openInviteModal:false,
+      invoice: this.value
     }
   },
   methods: {

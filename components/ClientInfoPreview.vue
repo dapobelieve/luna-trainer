@@ -31,7 +31,7 @@
               <span
                 class="tail-capitalize tail-ml-1 tail-text-gray-500 tail-truncate"
               >
-                {{ client.location.address }}, {{ client.city }}.
+                  {{ client.pet[0].name }},  {{ client.pet[0].breed }}.
               </span>
             </div>
           </div>
@@ -106,7 +106,7 @@
             Age:
           </p>
           <span class="tail-capitalize tail-text-gray-500 tail-font-normal">
-            {{ client.pet[0].name }}
+            {{ client.pet[0].age }}
           </span>
         </div>
         <div class="tail-flex">

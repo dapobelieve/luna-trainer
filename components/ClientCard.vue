@@ -8,18 +8,14 @@
         <h3 class="tail-capitalize tail-font-medium">
           {{ client.firstName }} {{ client.lastName }}
         </h3>
-        <div class="tail-flex tail-items-center">
-          <div>
-            <img
-              class="tail-bg-green-400 tail-p-1 tail-rounded-full"
-              src="~/assets/img/dog-paw.svg"
-              alt="dog paw"
-            />
-          </div>
-          <span
-            class="tail-capitalize tail-ml-1 tail-text-gray-500 tail-truncate"
-          >
-            {{ client.location.address }}, {{ client.city }}.
+        <div class="tail-flex tail-items-center">   
+          <img
+            class="tail-bg-green-400 tail-p-1 tail-rounded-full"
+            src="~/assets/img/dog-paw.svg"
+            alt="dog paw"
+          />
+          <span class="tail-ml-1 tail-text-gray-500 tail-truncate">
+            {{ client.pet[0].name }}, {{client.pet[0].breed}}
           </span>
         </div>
       </div>

@@ -77,6 +77,7 @@ export const actions = {
   uploadProfileImage ({ commit }, payload) {
     return this.$axios.$patch(
       `${process.env.BASEURL_HOST}/profile/upload-image`, payload, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
+      commit('SET_GETWELP_USER', response.data)
       return response
     })
   },

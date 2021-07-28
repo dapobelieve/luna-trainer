@@ -14,10 +14,17 @@
               @change="onChange"
             />
             <div class="tail-h-20 tail-w-20">
-              <img
+               <img
                 style="object-fit: cover"
-                :class="[!profileImageUrl ? 'tail-p-2' : 'tail-p-0', 'tail-rounded-full', 'tail-w-full', 'tail-h-full', 'tail-border', 'tail-bg-gray-200']"
-                :src="profileImageUrl || 'https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50'"
+                v-if="!profileImageUrl"
+                :class="[ 'tail-p-2', 'tail-rounded-full', 'tail-w-full','tail-h-full', 'tail-border', 'tail-bg-gray-200']"
+                src="~/assets/img/avatar-placeholder.gif"
+              >
+              <img
+                v-else
+                :class="[ 'tail-p-0', 'tail-rounded-full', 'tail-w-full','tail-h-full', 'tail-border', 'tail-bg-gray-200']"
+                style="object-fit: cover"
+                :src="profileImageUrl"
               >
             </div>
             <div class="tail-ml-4">
@@ -64,11 +71,11 @@
         </div>
         <div >
           <label for="Specialization" >Specialization</label>
-          <tag-input v-model="profile.specialization"/>
+          <tag-input :tabindex="9" v-model="profile.specialization"/>
         </div>
         <div >
           <label for="Specialization" >Accreditations</label>
-          <tag-input v-model="profile.accreditations"/>
+          <tag-input :tabindex="10" v-model="profile.accreditations"/>
         </div>
         <div class="tail-flex tail-justify-end">
           <button-spinner :loading="loading" type="submit" style="width:fit-content">Update profile</button-spinner>

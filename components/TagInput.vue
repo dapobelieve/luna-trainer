@@ -23,18 +23,19 @@
         </button>
       </div>
       <input
+        :tabindex="tabindex"
         v-model.trim="input"
         class="tail-border-0 tail-text-blue-400 tail-ml-2"
         placeholder="Type in here..."
-        @keydown.enter.prevent="addItem"
-        @keydown.tab.prevent="addItem"
+        @keydown.enter="addItem($event)"
+        @keydown.tab="addItem($event)"
       />
     </div>
     <div
-      class="tail-flex tail-items-center tail-px-4 tail-pt-2 tail-border-t border-top"
+      class="tail-flex tail-items-center tail-px-4 tail-pt-2 tail-border-t border-top tail-text-blue-400 tail-text-sm tail-opacity-60"
     >
-      <i class="ns-plus tail-text-blue-400 tail-ml-1"></i>
-      <span class="tail-text-blue-400">Insert and press enter or tab</span>
+      <i class="ns-plus tail-ml-1"></i>
+      <span >Press enter or tab to insert item</span>
     </div>
   </div>
 </template>
@@ -43,6 +44,7 @@ export default {
   name: 'TagInput',
   props: {
     block: Boolean,
+    tabindex: Number,
     value: {
       type: Array,
       required: true
@@ -55,10 +57,12 @@ export default {
     }
   },
   methods: {
-    addItem () {
-      if (!this.items.includes(this.input.toLowerCase())) {
+    addItem ($event) {
+      console.log($event)
+      if (this.input && !this.items.includes(this.input.toLowerCase())) {
         this.items.push(this.input)
         this.$emit('input', this.items)
+        $event.preventDefault()
       }
       this.input = ''
     },

@@ -6,9 +6,9 @@
         <main class="tail-flex-1 tail-flex tail-flex-row-reverse">
           <div class="tail-pt-8 lg:tail-pt-0 lg:tail-w-8/12 sm:tail-w-12/12 tail-px-4 sm:tail-px-6 lg:tail-px-8">
           <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="createInvoice">
-            <LeftInvoiceForm v-if="invoice.customerId"  v-model="invoice" ></LeftInvoiceForm> 
+            <LeftInvoiceForm v-if="invoice.customerId"  v-model="invoice" /> 
             <button-spinner :disabled="isLoading" :loading="isLoading" class="tail-mt-4">
-                Save Invoice
+              Save Invoice
             </button-spinner>
           </form>
            
@@ -44,19 +44,20 @@ export default {
   },
   async mounted() {
     const client = await this.getClient(this.$route.params.id)
-    this.invoice.customerId = client._id 
-    this.invoice.client = client
-    return { client }
+    if(client){
+      this.invoice.customerId = client._id 
+      this.invoice.client = client
+    }
   },
   methods: {
     ...mapActions({
-      createInvoices: 'invoice/createInvoice',
+      createNewInvoice: 'invoice/createInvoice',
       getClient: 'client/getSingleClient'
     }),
     createInvoice () {
       this.isLoading = true
       this.invoice.dueDateEpoch = new Date(this.invoice.dueDate).getTime() / 1000
-      this.createInvoices(this.invoice).then((result) => {
+      this.createNewInvoice(this.invoice).then((result) => {
         if (result.status === 'success') {
           this.$toast.success('Invoice created successfully', { position: 'bottom-right' })
           this.$router.push({ name: 'Invoices' })

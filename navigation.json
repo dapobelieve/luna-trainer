@@ -45,7 +45,8 @@
     {
       "icon": "ns-plus",
       "title": "new invoice",
-      "path": "createinvoice"
+      "path": "NewInvoice-id",
+      "params": { "id" : "-"}
     },
     {
       "section": "Help"

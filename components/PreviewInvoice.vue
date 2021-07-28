@@ -35,7 +35,6 @@ export default {
     invoice: Object
   }, 
   mounted () {
-    console.log(JSON.stringify(this.invoice));
     document.getElementById('defaultOpen').click()
   },
  

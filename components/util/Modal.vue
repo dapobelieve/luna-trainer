@@ -65,7 +65,7 @@ export default {
     },
     status: {
       type: String,
-      default: 'default'
+      default: 'draft'
     },
     inputWidth: {
       type: Number,

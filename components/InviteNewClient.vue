@@ -51,7 +51,7 @@
           <div class="tail-flex tail-gap-5">
             <i class="ns-phone tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
             <div class="tail-w-full">
-              <label for="phone" >Telephone</label>
+              <label for="phone">Telephone</label>
               <input
                 id="phone"
                 v-model.trim="$v.clientInfo.phone"
@@ -85,7 +85,7 @@
               class="ns-location-alt tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="locationAddress" >Address</label>
+              <label for="locationAddress">Address</label>
               <input
                 id="locationAddress"
                 v-model.trim="clientInfo.locationAddress"
@@ -174,6 +174,20 @@
               </div>
             </div>
           </div>
+          <div class="tail-w-full tail-gap-5">
+             <div class="tail-py-2 tail-ml-12">
+              <div class="tail-flex">
+                <div class="tail-mr-4">
+                  <input type="radio" id="male" v-model="$v.clientInfo.petGender.$model" value="male"/>
+                  <label for="male" class="tail-text-gray-600">Male</label>
+                </div>
+                <div >
+                  <input type="radio" id="female" v-model="$v.clientInfo.petGender.$model" value="female"/>
+                  <label for="female" class="tail-text-gray-600">Female</label>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="tail-flex tail-gap-5">
             <i
               class="ns-notebook tail-text-3xl tail-text-gray-500"
@@ -219,8 +233,8 @@ import { required, email } from 'vuelidate/lib/validators'
 import ButtonSpinner from './util/ButtonSpinner.vue'
 
 export default {
-  components: { ButtonSpinner },
   name: 'InviteNewClient',
+  components: { ButtonSpinner },
   data () {
     return {
       isLoading: false,

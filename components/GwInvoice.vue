@@ -212,15 +212,6 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'GwInvoice',
-  filters: {
-    amount (amount) {
-      const amt = Number(amount)
-      return (
-        (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
-        '0'
-      )
-    }
-  },
   props: {
     status: {
       type: String,

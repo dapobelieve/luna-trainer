@@ -1,22 +1,19 @@
 <template>
-  <div class="tail-flex tail-justify-center tail-align-center">
-    <div class="size tail-border tail-rounded tail-bg-white tail-p-4">
-      <form>
-        <h1><strong>Edit Item</strong></h1>
-        <div class="tail-py-3">
-          <label for="item" class="">Item</label>
-          <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+      <form @submit.prevent="setEditedItem">
+        <div class="tail-pb-3">
+          <label for="item">Description</label>
+          <input type="text" v-model="item.description" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" disabled="disabled">
         </div>
-        <div class="tail-grid tail-grid-cols-2 tail-gap-4">
-          <div class="tail-py-3">
-            <label for="item" class="">Quantity</label>
-            <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+        <div class="tail-grid tail-grid-cols-2 tail-gap-4 tail-py-3">
+          <div>
+            <label for="item">Quantity</label>
+            <input type="number" min="1" v-model="item.qty" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
-          <div class="tail-py-3">
-            <label for="item" class="">Price</label>
+          <div>
+            <label for="item">Price</label>
             <div class="tail-flex">
               <span class="tail-w-11 tail-h-11 tail-border-r-0 tail-mt-1 tail-text-xl tail-bg-gray-300 tail-text-center tail-rounded-l tail-flex tail-justify-center tail-items-center">£</span>
-              <input type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
+              <input type="number" min="1" v-model="item.price" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
             </div>
           </div>
         </div>
@@ -25,12 +22,11 @@
             type="button"
             style="width: fit-content"
             class="base-button tail-bg-white tail-text-black tail-border tail-border-gray-300 tail-px-3 tail-rounded"
-            @click="$emit('close', false)"
+            @click.prevent="$emit('close', false)"
           >
             cancel
           </button>
           <button
-            :disabled="disabled"
             style="width: fit-content"
             type="submit"
             class="base-button tail-px-3 primary-color tail-rounded tail-text-white"
@@ -42,7 +38,24 @@
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  props: {
+    value: Object
+  },
+  methods: {
+    setEditedItem(){
+      this.$emit('input', this.item);
+      this.$emit('close', false)
+    }
+  },
+  data () {
+    return {
+      item: { ...this.value }
+    }
+  }
+}
+</script>
 <style scoped>
 .size {
     width: 45rem;

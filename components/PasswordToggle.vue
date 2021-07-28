@@ -25,11 +25,12 @@
 export default {
   name: 'PasswordToggle',
   props: {
-    value: Boolean
+    value: Boolean,
+    default: true
   },
   data () {
     return {
-      input: Boolean
+      input: this.value
     }
   },
   methods: {

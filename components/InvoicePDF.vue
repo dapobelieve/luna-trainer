@@ -61,7 +61,7 @@
                       {{ item.description }}
                     </td>
                     <td class="tail-text-right tail-py-2">
-                      {{ item.quantity }}
+                      {{ item.qty }}
                     </td>
                     <td class="tail-text-right tail-font-medium tail-py-2 tail-text-black">
                       {{ item.price | amount }}
