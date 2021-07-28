@@ -25,10 +25,10 @@
           <span class="tail-text-black tail-text-sm">Export</span>
         </button>
         <button
-          type="button"
           v-if="trash"
-          @click.prevent="deleteInvoice()"
+          type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          @click.prevent="deleteInvoice()"
         >
           <i class="ns-trash tail-text-white tail-text-lg"></i>
         </button>
@@ -100,7 +100,7 @@
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
     <Modal
-       status="Delete Invoice"
+      status="Delete Invoice"
       :input-width="40"
       :is-open="deleteClient"
       @close="deleteClient = $event"
@@ -114,86 +114,84 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: "Invoices",
-  data() {
+  name: 'Invoices',
+  data () {
     return {
       active: true,
       openModal: false,
       showNotification: false,
       inviteClient: false,
-      filter: "All",
+      filter: 'All',
       trash: false,
       deleteClient: false,
       tempTrashId: null
-    };
+    }
   },
-  head() {
+  head () {
     return {
-      title: "Invoices"
-    };
+      title: 'Invoices'
+    }
   },
   computed: {
     ...mapGetters({
-      acceptedClients: "client/acceptedClients",
-      size: "invoice/invoiceCount"
+      acceptedClients: 'client/acceptedClients',
+      size: 'invoice/invoiceCount'
     })
   },
   methods: {
     ...mapActions({
-      deleteInvoices: "invoice/deleteInvoice",
-       getInvoices: "invoice/getInvoices",
+      deleteInvoices: 'invoice/deleteInvoice',
+      getInvoices: 'invoice/getInvoices'
     }),
-    deleteIcon(e) {
-      this.trash = !this.trash;
-      this.tempTrashId = e;
+    deleteIcon (e) {
+      this.trash = !this.trash
+      this.tempTrashId = e
     },
-    deleteInvoice() {
+    deleteInvoice () {
       // console.log(this.tempTrashId, "hello9");
-      this.deleteClient = true;
+      this.deleteClient = true
     },
-    deleteClientData() {
-        console.log('hell')
+    deleteClientData () {
       return this.deleteInvoices(this.tempTrashId)
-              .then(response => {
-          if (response.status === "success") {
-            this.$toast.success("Invoice deleted successfully", {
-              position: "bottom-right"
-            });
-            this.getInvoices();
-             this.deleteClient = false
-             this.trash = false
+        .then((response) => {
+          if (response.status === 'success') {
+            this.$toast.success('Invoice deleted successfully', {
+              position: 'bottom-right'
+            })
+            this.getInvoices()
+            this.deleteClient = false
+            this.trash = false
           }
         })
-        .catch(err => {
+        .catch((err) => {
           if (err.response) {
             this.$toast.error(
               `Something went wrong: ${err.response.data.message}`,
-              { position: "bottom-right" }
-            );
+              { position: 'bottom-right' }
+            )
           } else if (err.request) {
-            this.$toast.error("Something went wrong. Try again", {
-              position: "bottom-right"
-            });
+            this.$toast.error('Something went wrong. Try again', {
+              position: 'bottom-right'
+            })
           } else {
             this.$toast.error(`Something went wrong: ${err.message}`, {
-              position: "bottom-right"
-            });
+              position: 'bottom-right'
+            })
           }
-        });
-    
-   },
-    filterInvoice(link) {
-      this.filter = link;
+        })
     },
-    createInvoice() {
+    filterInvoice (link) {
+      this.filter = link
+    },
+    createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {
-        this.showNotification = true;
+        this.showNotification = true
       } else {
-        this.openModal = true;
+        this.openModal = true
       }
     }
   }
-};
+}
 </script>

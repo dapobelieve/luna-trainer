@@ -14,9 +14,10 @@
                   class="tail-bg-white tail-rounded-lg tail-overflow-hidden"
                 >
                   <tr class="">
-                 
-                      <th scope="col" class="tail-px-6 tail-py-3"  >  <span class="tail-sr-only">Action</span></th>
-               
+                    <th scope="col" class="tail-px-6 tail-py-3">
+                      <span class="tail-sr-only">Action</span>
+                    </th>
+
                     <th
                       scope="col"
                       class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
@@ -54,34 +55,32 @@
                     v-for="invoice in filteredInvoice"
                     :key="invoice.index"
                     class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
-                
                   >
                     <td
                       v-if="invoice && invoice.status === 'draft'"
                       class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
                     >
-                      <input type="checkbox" @change="toggle(invoice._id)"  id="invoice._id"  />
+                      <input id="invoice._id" type="checkbox" @change="toggle(invoice._id)" />
                     </td>
-                      <td v-else scope="col" class="tail-px-6 tail-py-3"  >  <span class="tail-sr-only">Action</span></td>
-               
+                    <td v-else scope="col" class="tail-px-6 tail-py-3">
+                      <span class="tail-sr-only">Action</span>
+                    </td>
+
                     <td
                       class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
-                       @click.prevent="openDetails(invoice)"
+                      @click.prevent="openDetails(invoice)"
                     >
                       <div
                         class="tail-flex tail-flex-row tail-items-center tail-gap-3"
                       >
-                   
                         <ClientAvatar
                           :firstname="invoice && invoice.customerId ? invoice.customerId.firstName : 'G'"
                           :lastname="invoice && invoice.customerId ? invoice.customerId.lastName : 'W'"
                         />
                         <div>
-                          
-                     
-                           {{ invoice && invoice.customerId  ? invoice.customerId.firstName : 'Get' }}
+                          {{ invoice && invoice.customerId ? invoice.customerId.firstName : 'Get' }}
                           {{ invoice && invoice.customerId ? invoice.customerId.lastName : 'Welp' }}
-                     </div> 
+                        </div>
                       </div>
                     </td>
                     <td
@@ -210,16 +209,16 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: "GwInvoice",
+  name: 'GwInvoice',
   filters: {
-    amount(amount) {
-      const amt = Number(amount);
+    amount (amount) {
+      const amt = Number(amount)
       return (
         (amt && amt.toLocaleString(undefined, { maximumFractionDigits: 2 })) ||
-        "0"
-      );
+        '0'
+      )
     }
   },
   props: {
@@ -229,70 +228,69 @@ export default {
     },
     pageNumber: Number
   },
-  data() {
+  data () {
     return {
       openModalDetails: false,
       currentInvoice: {},
       openInvoice: false,
       inviteClient: false,
-      showNotification: false,
-    };
+      showNotification: false
+    }
   },
   computed: {
     ...mapGetters({
-      allInvoices: "invoice/getAllinvoices",
-      acceptedClients: "client/acceptedClients"
+      allInvoices: 'invoice/getAllinvoices',
+      acceptedClients: 'client/acceptedClients'
     }),
-    filteredInvoice() {
+    filteredInvoice () {
       // eslint-disable-next-line curly
-      if (this.status === "All") return this.allInvoices;
+      if (this.status === 'All') return this.allInvoices
       return this.allInvoices.filter(
         i => i.status === this.status.toLowerCase()
-      );
-   
+      )
     }
   },
   watch: {
-    pageNumber(newValue) {
+    pageNumber (newValue) {
       if (newValue) {
-        this.getInvoices({ page: this.pageNumber });
+        this.getInvoices({ page: this.pageNumber })
       }
     },
-    status(newValue) {
+    status (newValue) {
       if (newValue) {
-        newValue === "All"
+        newValue === 'All'
           ? this.getInvoices()
-          : this.getInvoices({ status: newValue.toLowerCase() });
+          : this.getInvoices({ status: newValue.toLowerCase() })
       }
     }
   },
-  created() {
-    this.getInvoices({ page: this.pageNumber });
+  created () {
+    this.getInvoices({ page: this.pageNumber })
   },
   methods: {
     ...mapActions({
-      getInvoices: "invoice/getInvoices"
+      getInvoices: 'invoice/getInvoices'
     }),
-    toggle(id) {
+    toggle (id) {
       this.$emit('checked', id)
     },
-    openDetails(invoice) {
-      this.currentInvoice = invoice;
-      this.openModalDetails = true;
+    openDetails (invoice) {
+      this.currentInvoice = invoice
+      this.openModalDetails = true
     },
-    resetModal(event) {
-      this.openModalDetails = event;
-      this.currentInvoice = {};
+    resetModal (event) {
+      this.openModalDetails = event
+      this.currentInvoice = {}
     },
-    createInvoice() {
+    createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {
-        this.showNotification = true;
+        this.showNotification = true
       } else {
-        this.openModal = true;
+        this.openModal = true
       }
     }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

@@ -12,21 +12,21 @@
         </div>
       </div>
       <div class="tail-flex tail-items-center ">
-          <ClientAvatar
-            :firstname="client && client.firstName"
-            :lastname="client && client.lastName"
-            :width="4"
-            :height="4"
-          />
-          <div class="tail-pl-4 ">
-            <div class="tail-capitalize">
-              {{ client && client.firstName }} {{ client && client.lastName }}
-            </div>
-            <small class="">{{ client && client.email }}</small>
+        <ClientAvatar
+          :firstname="client && client.firstName"
+          :lastname="client && client.lastName"
+          :width="4"
+          :height="4"
+        />
+        <div class="tail-pl-4 ">
+          <div class="tail-capitalize">
+            {{ client && client.firstName }} {{ client && client.lastName }}
           </div>
+          <small class="">{{ client && client.email }}</small>
         </div>
       </div>
-    
+    </div>
+
     <div class="tail-border tail-rounded tail-gap-4 tail-p-4">
       <div>
         <div>
@@ -39,7 +39,7 @@
         </div>
         <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
       </div>
-        
+
       <div class="tail-pt-5">
         <hr />
       </div>
@@ -69,24 +69,24 @@
 import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
 export default {
-  name: "LeftInvoiceForm",
+  name: 'LeftInvoiceForm',
   components: { DatePicker },
-  props:{
+  props: {
     value: Object
   },
-  methods: {
-    updateSelectedItem (selected) {
-      this.invoice = { ...this.invoice, items: selected.map(item => ({ service :item._id, price: item.pricing && item.pricing.amount, qty: 1 }))}
-     
-      this.$emit("input", this.invoice)
-    }
-  },
-  data() {
+  data () {
     return {
       isLoading: false,
       invoice: this.value,
       client: this.value.client
     }
+  },
+  methods: {
+    updateSelectedItem (selected) {
+      this.invoice = { ...this.invoice, items: selected.map(item => ({ service: item._id, price: item.pricing && item.pricing.amount, qty: 1 })) }
+
+      this.$emit('input', this.invoice)
+    }
   }
-};
+}
 </script>

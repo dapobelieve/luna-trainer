@@ -12,14 +12,16 @@
       track-by="description"
       :preselect-first="true"
     >
-      <template slot="selection" slot-scope="{ values, search, isOpen }"
-        ><span
-          class="multiselect__single"
-          v-if="selected.length &amp;&amp; !isOpen"
-          >{{ selected.length }} options selected</span
-        ></template
+      <template
+        slot="selection"
+        slot-scope="{ values, search, isOpen }"
       >
-      <template slot="tag" v-if="false"></template>
+        <span
+          v-if="selected.length &amp;&amp; !isOpen"
+          class="multiselect__single"
+        >{{ selected.length }} options selected</span>
+      </template>
+      <template v-if="false" slot="tag"></template>
     </multiselect>
     <ul
       class="tail-mt-4 tail-p-4 tail-pb-3 tail-border-gray-400 tail-border-solid tail-border tail-rounded-lg tail-border-opacity-30"
@@ -35,26 +37,26 @@
           class="tail-flex tail-justify-between tail-items-center tail-gap-2"
         >
           <h5
-            class="tail-font-medium tail-text-lg"
             v-if="edit && tempId === select._id"
+            class="tail-font-medium tail-text-lg"
           >
             {{ modifiedAmount | amount }}
           </h5>
-          <h5 class="tail-font-medium tail-text-lg" v-else>
+          <h5 v-else class="tail-font-medium tail-text-lg">
             {{ select.pricing.amount | amount }}
           </h5>
           <div class="tail-flex tail-justify-between">
             <button
-              @click.once="removeSelectedItem(select._id)"
               class="tail-pr-1"
+              @click.once="removeSelectedItem(select._id)"
             >
               <small
                 class="ns-cross tail-flex tail-align-middle tail-bg-gray-300 tail-rounded-full tail-p-1 tail-text-white"
               ></small>
             </button>
             <button
-              @click.prevent="editSelectedItem(select._id)"
               class="focus:tail-outline-none"
+              @click.prevent="editSelectedItem(select._id)"
             >
               <small
                 class="ns-edit focus:tail-outline-none tail-flex tail-align-middle tail-bg-gray-300 tail-rounded-full tail-p-1 tail-text-white"
@@ -66,8 +68,7 @@
           <div class="tail-flex">
             <span
               class="tail-w-11 tail-h-11 tail-border-r-0 tail-mt-1 tail-text-xl tail-bg-gray-300 tail-text-center tail-rounded-l tail-flex tail-justify-center tail-items-center"
-              >£</span
-            >
+            >£</span>
             <input
               v-model="modifiedAmount"
               type="number"
@@ -94,48 +95,48 @@
   </div>
 </template>
 <script>
-import Multiselect from "vue-multiselect";
-import { mapGetters, mapActions } from "vuex";
+import Multiselect from 'vue-multiselect'
+import { mapGetters, mapActions } from 'vuex'
 export default {
-  name: "GwInvoiceServicesSelector",
-  props: {
-    services: Array
-  },
+  name: 'GwInvoiceServicesSelector',
   components: {
     Multiselect
   },
-  watch: {
-    selected(newValue) {
-      this.$emit("selected", newValue);
-    }
+  props: {
+    services: Array
   },
-  data() {
+  data () {
     return {
       selected: [],
       options: this.services,
       edit: false,
-      modifiedAmount: "",
+      modifiedAmount: '',
       isLoading: false,
       tempId: null,
       updatedServices: []
-    };
+    }
+  },
+  watch: {
+    selected (newValue) {
+      this.$emit('selected', newValue)
+    }
   },
   methods: {
     ...mapActions({
-      updateProfile: "authorize/updateProfile"
+      updateProfile: 'authorize/updateProfile'
     }),
-    removeSelectedItem(id) {
-      this.edit = false;
-      this.selected = this.selected.filter(item => item._id !== id);
+    removeSelectedItem (id) {
+      this.edit = false
+      this.selected = this.selected.filter(item => item._id !== id)
     },
-    editSelectedItem(id) {
-      this.tempId = id;
-      this.edit = true;
+    editSelectedItem (id) {
+      this.tempId = id
+      this.edit = true
     },
-    updateServiceAmount() {
-      this.isLoading = true;
+    updateServiceAmount () {
+      this.isLoading = true
       const serviceItems = this.services
-      const changeItem = serviceItems.findIndex(s => s._id === this.tempId);
+      const changeItem = serviceItems.findIndex(s => s._id === this.tempId)
       const serviceItem = (serviceItems[changeItem] = {
         ...serviceItems[changeItem],
         pricing: {
@@ -143,9 +144,8 @@ export default {
           amount: Number(this.modifiedAmount)
         }
       })
-      return this.updateProfile({ services: serviceItems}).then((response) => {
+      return this.updateProfile({ services: serviceItems }).then((response) => {
         if (response.status === 'success') {
-
           this.$toast.success('Service updated', { position: 'top-right' })
         }
       }).catch().finally(() => {
@@ -153,7 +153,7 @@ export default {
       })
     }
   }
-};
+}
 </script>
 <style scoped>
 .active-item {
