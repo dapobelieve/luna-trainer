@@ -93,8 +93,7 @@ export default {
   },
   methods: {
     updateSelectedItem (selected) {
-      this.invoice = { ...this.invoice, items: selected.map(item => ({ service: item._id, price: item.pricing && item.pricing.amount, qty: 1 })) }
-
+      this.invoice['items'] = selected 
       this.$emit('input', this.invoice)
     }
   }

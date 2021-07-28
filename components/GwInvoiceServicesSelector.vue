@@ -35,6 +35,9 @@ export default {
   components: {
     Multiselect
   },
+  props:{
+    services: Array
+  },
   watch: {
     selection (newValue) {
       this.$emit("selected", newValue)
@@ -51,7 +54,7 @@ export default {
       selection: [],
       selectedItem:null,
       openEditItem:false,
-      options: this.services.map(item => ({ description:item.description, serviceId: item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
+      options: this.services.map(item => ({ description: item.description, serviceId: item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
     }
   },
   methods: {

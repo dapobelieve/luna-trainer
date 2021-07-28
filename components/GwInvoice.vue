@@ -15,7 +15,7 @@
                 >
                   <tr class="">
                     <th scope="col" class="tail-px-6 tail-py-3">
-                      <span class="tail-sr-only">Action</span>
+                      <span class="tail-sr-only"></span>
                     </th>
 
                     <th
