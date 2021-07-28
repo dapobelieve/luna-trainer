@@ -11,21 +11,22 @@
           <span class="tail-text-gray-400 tail-text-sm">A short description about this section</span>
         </div>
       </div>
-      <div>
-        <label for="email" class="tail-font-light">Name</label>
-        <input
-          style="cursor: not-allowed"
-          disabled
-          :value="`${client && client.firstName} ${client && client.lastName}`"
-          type="email"
-          class="tail-w-full tail-bg-gray-200 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-        >
+      <div class="tail-flex tail-items-center ">
+          <ClientAvatar
+            :firstname="client && client.firstName"
+            :lastname="client && client.lastName"
+            :width="4"
+            :height="4"
+          />
+          <div class="tail-pl-4 ">
+            <div class="tail-capitalize">
+              {{ client && client.firstName }} {{ client && client.lastName }}
+            </div>
+            <small class="">{{ client && client.email }}</small>
+          </div>
+        </div>
       </div>
-      <div>
-        <label for="email" class="tail-font-light">Email Address</label>
-        <input style="cursor: not-allowed" disabled :value="client && client.email" type="email" class="tail-w-full tail-bg-gray-200 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
-      </div>
-    </div>
+    
     <div class="tail-border tail-rounded tail-gap-4 tail-p-4">
       <div>
         <div>
@@ -76,7 +77,7 @@ export default {
   methods: {
     updateSelectedItem (selected) {
       this.invoice = { ...this.invoice, items: selected.map(item => ({ service :item._id, price: item.pricing && item.pricing.amount, qty: 1 }))}
-      console.log(this.invoice)
+     
       this.$emit("input", this.invoice)
     }
   },
