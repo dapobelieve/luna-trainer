@@ -66,7 +66,7 @@ export default {
   ],
 
   toast: {
-    posotion: 'top-right',
+    position: 'top-right',
     duration: 4000,
     closeOnSwipe: true
   },
