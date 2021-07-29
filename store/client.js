@@ -60,8 +60,7 @@ export const actions = {
 export const getters = {
   getAllClients: state => state.clients,
   acceptedClients: (state, getters) => {
-    console.log(getters)
     return getters.getAllClients.filter(c => c.status === 'accepted')
-  } ,
+  },
   clientsCount: state => state.clientsCount
 }

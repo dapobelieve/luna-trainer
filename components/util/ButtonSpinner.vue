@@ -5,7 +5,8 @@
     :class="[disabled?['tail-bg-gray-500', 'tail-pointer-events-none']: [] ]"
     type="submit"
     v-bind="$attrs"
-    v-on="$listeners">
+    v-on="$listeners"
+  >
     <SingleLoader v-if="loading" class="tail-mr-2" />
     <slot v-if="!loading" />
   </button>

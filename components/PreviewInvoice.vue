@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <div>
       <h1 class="tail-capitalize tail-text-black tail-font-medium tail-text-lg">
         preview
@@ -19,10 +19,10 @@
       </ul>
       <!-- Tab contents -->
       <div id="Email" class="tabcontent">
-        <InvoiceEmail :invoice="this.invoice"/>
+        <InvoiceEmail :invoice="invoice" />
       </div>
       <div id="PDF" class="tabcontent">
-        <InvoicePDF :invoice="this.invoice"/>
+        <InvoicePDF :invoice="invoice" />
       </div>
     </section>
   </div>
@@ -33,11 +33,11 @@ export default {
   name: 'PreviewInvoice',
   props: {
     invoice: Object
-  }, 
+  },
   mounted () {
     document.getElementById('defaultOpen').click()
   },
- 
+
   methods: {
     switchTabs (evt, cityName) {
       // Declare all variables

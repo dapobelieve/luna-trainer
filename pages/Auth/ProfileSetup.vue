@@ -22,7 +22,7 @@
           <div class="tail-w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
             <input v-model.trim="$v.profileInfo.lastName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.lastName.$error}" />
-            <div v-if="$v.$anyDirty"  class="tail-mt-1">
+            <div v-if="$v.$anyDirty" class="tail-mt-1">
               <small v-if="!$v.profileInfo.lastName.required" class="error tail-text-red-500">
                 Field is required.
               </small>
@@ -41,7 +41,7 @@
         <div class="">
           <label for="location" class="">Location</label>
           <input v-model.trim="$v.profileInfo.location.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.location.$error}" />
-          <div v-if="$v.$anyDirty"  class="tail-mt-1">
+          <div v-if="$v.$anyDirty" class="tail-mt-1">
             <small v-if="!$v.profileInfo.location.required " class="error tail-text-red-500">
               Field is required.
             </small>
@@ -60,8 +60,8 @@
             />
             <div class="tail-h-20 tail-w-20">
               <img
-                style="object-fit: cover"
                 v-if="!profileInfo.profilePic"
+                style="object-fit: cover"
                 :class="[ 'tail-p-2', 'tail-rounded-full', 'tail-w-full','tail-h-full', 'tail-border', 'tail-bg-gray-200']"
                 src="~/assets/img/avatar-placeholder.gif"
               >

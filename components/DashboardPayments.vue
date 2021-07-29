@@ -14,7 +14,7 @@
         >
           <small class="tail-block">Due</small>
           <h3 class="tail-mb-0 tail-font-medium">
-            {{ totalOfOwedInvoice | amount}}
+            {{ totalOfOwedInvoice | amount }}
           </h3>
         </div>
         <div

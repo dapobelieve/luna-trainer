@@ -6,15 +6,15 @@
           <h1 class="tail-font-medium">
             Customer
           </h1>
-          <a href="Clients" @click.prevent="openInviteModal=true" class="tail-block">
-            <div class="tail-flex tail-rounded-full tail-mt-2 tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
-              <i class="ns-plus tail-text-base tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color"/>
+          <a href="Clients" class="tail-block" @click.prevent="openInviteModal=true">
+            <div class="tail-rounded-full tail-mt-2 tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
+              <i class="ns-plus tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color" />
             </div>
           </a>
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="acceptedClients" :selected="invoice.client" @select="updateClient($event)"/>
+        <gw-customer-selector :clients="acceptedClients" :selected="invoice.client" @select="updateClient($event)" />
       </div>
     </div>
 
@@ -25,8 +25,8 @@
             Services
           </h1>
           <a href="/Settings#services" class="tail-block" alt="Add new service">
-            <div class="tail-flex tail-rounded-full tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
-              <i class="ns-plus tail-text-base tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color"/>
+            <div class="tail-rounded-full tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
+              <i class="ns-plus tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color" />
             </div>
           </a>
         </div>
@@ -35,7 +35,7 @@
         </div>
         <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
       </div>
-      <hr class="tail-pt-5"/>
+      <hr class="tail-pt-5" />
       <div class="tail-py-4">
         <input type="checkbox" class="tail-p-2" />
         <span class="tail-font-light">Value Added Tax (VAT)</span>
@@ -58,42 +58,35 @@
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect'
 import DatePicker from 'vue2-datepicker'
-import {mapGetters} from 'vuex'
-import GwCustomerSelector from './GwCustomerSelector.vue';
+import { mapGetters } from 'vuex'
+import GwCustomerSelector from './GwCustomerSelector.vue'
 
 export default {
-  name: "LeftInvoiceForm",
-  components: { DatePicker, Multiselect, GwCustomerSelector },
-  computed: {
-   ...mapGetters({
-      acceptedClients: "client/acceptedClients"
-    }),
-  },
-  props:{
-    value: Object
-  },
-  methods: {
-    updateClient($event){
-      this.invoice.client = $event
-      this.$emit("input", this.invoice)
-    },
-    updateSelectedItem (selected) {
-      this.invoice['items'] = selected
-      this.$emit("input", this.invoice)
-    }
-  },
-  data() {
+  name: 'LeftInvoiceForm',
+  components: { DatePicker, GwCustomerSelector },
+  data () {
     return {
       isLoading: false,
-      openInviteModal:false,
+      openInviteModal: false,
       invoice: this.value
     }
   },
+  computed: {
+    ...mapGetters({
+      acceptedClients: 'client/acceptedClients'
+    })
+  },
+  props: {
+    value: Object
+  },
   methods: {
+    updateClient ($event) {
+      this.invoice.client = $event
+      this.$emit('input', this.invoice)
+    },
     updateSelectedItem (selected) {
-      this.invoice['items'] = selected 
+      this.invoice.items = selected
       this.$emit('input', this.invoice)
     }
   }

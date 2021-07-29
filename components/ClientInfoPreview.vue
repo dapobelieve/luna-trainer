@@ -31,7 +31,7 @@
               <span
                 class="tail-capitalize tail-ml-1 tail-text-gray-500 tail-truncate"
               >
-                  {{ client.pet[0].name }},  {{ client.pet[0].breed }}.
+                {{ client.pet[0].name }},  {{ client.pet[0].breed }}.
               </span>
             </div>
           </div>

@@ -38,7 +38,7 @@
               <i class="ns-user-add tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Invite Client</span>
             </button>
-         
+
             <button
               v-else-if="menu.path === 'Notifications'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
@@ -67,7 +67,7 @@
             </h2>
           </template>
           <template v-slot:body>
-            <div class="tail-p-6" v-if="true">
+            <div v-if="true" class="tail-p-6">
               <div class="tail-flex">
                 <div>
                   <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />

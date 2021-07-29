@@ -6,7 +6,7 @@
           <h1 class="tail-text-xl tail-font-semibold">
             {{ $auth.user.businessName }}
           </h1>
-          <span class="tail-text-gray-500 tail-text-xs">{{client.phoneNumber}}</span>
+          <span class="tail-text-gray-500 tail-text-xs">{{ client.phoneNumber }}</span>
         </div>
         <div class="tail-text-right">
           <h1 class="tail-text-xl tail-font-medium tail-text-gray-500">
@@ -85,7 +85,7 @@
                     Sub Total
                   </td>
                   <td class="tail-text-right tail-text-black">
-                   {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
+                    {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
                   </td>
                 </tr>
                 <tr class="tail-text-sm">
@@ -113,7 +113,7 @@ export default {
     invoice: Object
   },
   computed: {
-    client (){
+    client () {
       return this.invoice.client || {}
     },
     subTotalInvoice () {

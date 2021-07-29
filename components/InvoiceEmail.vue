@@ -17,7 +17,9 @@
             </div>
             <div>
               <span class="tail-text-gray-400">To</span>
-              <p class="tail-capitalize">{{ `${client && client.firstName} ${client && client.lastName}` }}</p>
+              <p class="tail-capitalize">
+                {{ `${client && client.firstName} ${client && client.lastName}` }}
+              </p>
             </div>
           </div>
           <div class=" tail-py-2 tail-px-3">
@@ -43,9 +45,10 @@
               <div
                 v-for="item in invoiceItems"
                 :key="item._id"
-                class="tail-flex tail-justify-between tail-py-2">
+                class="tail-flex tail-justify-between tail-py-2"
+              >
                 <p><strong>{{ item.description }}</strong></p>
-                <span>{{ item.price | amount}}</span>
+                <span>{{ item.price | amount }}</span>
               </div>
             </template>
             <div v-else class="bg-emerald-200">
@@ -73,7 +76,7 @@ export default {
   name: 'RightInvoiceEmail',
   props: {
     invoice: Object
-  },  
+  },
   data () {
     return {
       client: this.invoice.client
