@@ -18,11 +18,11 @@
             <div class="tail-py-2 ">
               <div class="tail-flex">
                 <div class="tail-mr-4">
-                  <input type="checkbox" id="video" v-model="selectedService.appointmentTypes" value="video"/>
+                  <input id="video" v-model="selectedService.appointmentTypes" type="checkbox" value="video" />
                   <label for="video" class="tail-text-gray-600">Available on video</label>
                 </div>
-                <div >
-                  <input type="checkbox" id="in-person" v-model="selectedService.appointmentTypes" value="in-person"/>
+                <div>
+                  <input id="in-person" v-model="selectedService.appointmentTypes" type="checkbox" value="in-person" />
                   <label for="in-person" class="tail-text-gray-600">Available in person</label>
                 </div>
               </div>
@@ -35,11 +35,11 @@
               <input v-model.number="selectedService.pricing.amount" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
             </div>
           </div>
-          <button :disabled="disabled" :class="[disabled?['tail-text-gray-500', 'tail-pointer-events-none']: [] ]"  @click.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
+          <button :disabled="disabled" :class="[disabled?['tail-text-gray-500', 'tail-pointer-events-none']: [] ]" @click.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
             <div class="tail-flex">
               <div class="tail-rounded-full tail-px-2 tail-py-1 tail-flex tail-items-center tail-justify-center">
                 <SingleLoader v-if="isLoading" class="tail-mr-2" />
-                <i v-if="!isLoading" class="ns-plus tail-text-base tail-rounded-full tail-text-white tail-p-1 primary-color"/>
+                <i v-if="!isLoading" class="ns-plus tail-text-base tail-rounded-full tail-text-white tail-p-1 primary-color" />
                 <span class="text-primary-color tail-pl-2">{{ !selectedService._id ? "Add New Service Item" : "Update Service Item" }} </span>
               </div>
             </div>
@@ -51,9 +51,15 @@
               class="tail-flex tail-flex-col"
             >
               <div class="tail-flex tail-mt-4">
-                <h1 class="tail-flex-1 tail-text-xl tail-sec-color" >{{ service.description }}</h1>
-                <h1 class="tail-ml-4 ">{{ service.pricing.amount | amount }}</h1>
-                <button class="tail-ml-4" @click.prevent="editServiceItem(service._id)"><i class="ns-edit tail-text-base"/></button>
+                <h1 class="tail-flex-1 tail-text-xl tail-sec-color">
+                  {{ service.description }}
+                </h1>
+                <h1 class="tail-ml-4 ">
+                  {{ service.pricing.amount | amount }}
+                </h1>
+                <button class="tail-ml-4" @click.prevent="editServiceItem(service._id)">
+                  <i class="ns-edit tail-text-base" />
+                </button>
               </div>
               <div>
                 <span v-for="appointmentType in service.appointmentTypes" :key="appointmentType.index" class="tail-inline-block tail-bg-gray-200 tail-rounded-full tail-px-3 tail-py-1 tail-text-sm tail-text-gray-700 tail-mr-2 tail-mb-2 tail-mt-2">{{ appointmentType }}</span>
@@ -71,11 +77,6 @@ import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SettingsServices',
-  computed: {
-    disabled () {
-      return this.$v.$invalid || this.isLoading
-    }
-  },
   props: {
     services: {
       type: Array,
@@ -87,6 +88,11 @@ export default {
       isLoading: false,
       selectedService: { pricing: {}, appointmentTypes: [] },
       updatedServices: []
+    }
+  },
+  computed: {
+    disabled () {
+      return this.$v.$invalid || this.isLoading
     }
   },
   mounted () {

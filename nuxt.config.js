@@ -22,12 +22,7 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '@/assets/css/theme.scss',
-    '@/assets/css/fonts.css',
-    'vue-multiselect/dist/vue-multiselect.min.css',
-    'vue2-datepicker/index.css'
-  ],
+  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css', 'vue-multiselect/dist/vue-multiselect.min.css'],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
@@ -57,7 +52,7 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // https://go.nuxtjs.dev/eslint
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],

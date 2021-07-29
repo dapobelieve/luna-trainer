@@ -26,8 +26,8 @@
             </div>
             <div class="tail-pt-4 tail-my-3 tail-max-w-xl tail-rounded-md">
               <ProfileForm id="profile" v-model="user" />
-              <SettingsServices id="services" :services="this.user.services"/>
-              <SettingsSecurity id="security" v-model="user"  />
+              <SettingsServices id="services" :services="user.services" />
+              <SettingsSecurity id="security" v-model="user" />
               <!-- <BankDetails v-if="this.user.stripeConnected" id="bankDetails" /> -->
               <SettingsConnectGoogle id="connect" />
             </div>

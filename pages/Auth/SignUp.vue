@@ -32,7 +32,8 @@
         <div class="tail-grid error">
           <label
             for="username"
-            class="tail-block tail-text-base tail-font-medium tail-text-gray-700">
+            class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
+          >
             Username
           </label>
           <input
@@ -82,14 +83,14 @@
               for="password"
               class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
             >Password</label>
-            <password-toggle v-model="showPassword"/>
+            <password-toggle v-model="showPassword" />
           </div>
           <input
             v-model.trim="$v.userInfo.password.$model"
             :type="showPassword ? 'text' : 'password'"
             class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           />
-          <div v-if="$v.$anyDirty"  class="tail-mt-1">
+          <div v-if="$v.$anyDirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
               class="error tail-text-red-500"

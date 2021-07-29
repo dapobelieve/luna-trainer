@@ -2,7 +2,7 @@
   <div class="tail-grid tail-gap-4 tail-bg-white tail-px-5 tail-py-10 tail-rounded-md">
     <div>
       <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="submit">
-        <div >
+        <div>
           <label for="location" class="form-label">Profile Image</label>
           <div style="cursor: pointer" class="border-dashed tail-flex tail-items-center tail-rounded tail-p-3" @click="()=>this.$refs.fileInput.click()">
             <input
@@ -14,9 +14,9 @@
               @change="onChange"
             />
             <div class="tail-h-20 tail-w-20">
-               <img
-                style="object-fit: cover"
+              <img
                 v-if="!profileImageUrl"
+                style="object-fit: cover"
                 :class="[ 'tail-p-2', 'tail-rounded-full', 'tail-w-full','tail-h-full', 'tail-border', 'tail-bg-gray-200']"
                 src="~/assets/img/avatar-placeholder.gif"
               >
@@ -49,36 +49,38 @@
             <input type="text" :value="profile.lastName" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
         </div>
-        <div >
-          <label for="email" >Email address</label>
-          <input disabled type="email"  :value="profile.email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md tail-bg-gray-200">
+        <div>
+          <label for="email">Email address</label>
+          <input disabled type="email" :value="profile.email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md tail-bg-gray-200">
         </div>
-        <div >
-          <label for="location" >Location</label>
+        <div>
+          <label for="location">Location</label>
           <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
-        <div >
-          <label for="business-name" >Business Name</label>
-          <input disabled type="text" :value="profile.businessName"  class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+        <div>
+          <label for="business-name">Business Name</label>
+          <input disabled type="text" :value="profile.businessName" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
-        <div >
-          <label for="url" >Website URL</label>
-          <input type="website" v-model="profile.webURL" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+        <div>
+          <label for="url">Website URL</label>
+          <input v-model="profile.webURL" type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
-        <div >
-          <label for="experience" >Years of experience</label>
+        <div>
+          <label for="experience">Years of experience</label>
           <input type="text" :value="profile.experience" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
-        <div >
-          <label for="Specialization" >Specialization</label>
-          <tag-input :tabindex="9" v-model="profile.specialization"/>
+        <div>
+          <label for="Specialization">Specialization</label>
+          <tag-input v-model="profile.specialization" :tabindex="9" />
         </div>
-        <div >
-          <label for="Specialization" >Accreditations</label>
-          <tag-input :tabindex="10" v-model="profile.accreditations"/>
+        <div>
+          <label for="Specialization">Accreditations</label>
+          <tag-input v-model="profile.accreditations" :tabindex="10" />
         </div>
         <div class="tail-flex tail-justify-end">
-          <button-spinner :loading="loading" type="submit" style="width:fit-content">Update profile</button-spinner>
+          <button-spinner :loading="loading" type="submit" style="width:fit-content">
+            Update profile
+          </button-spinner>
         </div>
       </form>
     </div>
@@ -90,6 +92,12 @@ import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ProfileSetup',
+  props: {
+    value: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
       profile: this.value,
@@ -97,12 +105,6 @@ export default {
       profileImageData: null,
       loading: false,
       disabled: false
-    }
-  },
-  props: {
-    value: {
-      type: Object,
-      required: true
     }
   },
   methods: {

@@ -3,42 +3,64 @@
     <div class="tail-flex tail-space-x-6">
       <i class="tail-text-gray-400 tail-text-xl ns-receipt"></i>
       <div>
-        <p class="tail-block tail-text-sm">Invoice Number</p>
-        <p class="tail-text-sm">{{ details.invoiceNo }}</p>
+        <p class="tail-block tail-text-sm">
+          Invoice Number
+        </p>
+        <p class="tail-text-sm">
+          {{ details.invoiceNo }}
+        </p>
       </div>
     </div>
     <div class="tail-flex tail-space-x-6">
       <i class="tail-text-gray-400 tail-text-xl ns-time-check"></i>
       <div>
-        <p class="tail-block tail-text-sm">Created</p>
-        <p class="tail-text-sm">{{ new Date(details.createdAt).toDateString() }}</p>
+        <p class="tail-block tail-text-sm">
+          Created
+        </p>
+        <p class="tail-text-sm">
+          {{ new Date(details.createdAt).toDateString() }}
+        </p>
       </div>
     </div>
     <div class="tail-flex tail-space-x-6">
       <i class="tail-text-gray-400 tail-text-xl ns-time-check"></i>
       <div>
-        <p class="tail-block tail-text-sm">Due Date</p>
-        <p class="tail-text-sm">{{ new Date(details.dueDate).toDateString() }}</p>
+        <p class="tail-block tail-text-sm">
+          Due Date
+        </p>
+        <p class="tail-text-sm">
+          {{ new Date(details.dueDate).toDateString() }}
+        </p>
       </div>
     </div>
     <div class="tail-flex tail-space-x-6">
       <i class="tail-text-gray-400 tail-text-xl ns-label"></i>
       <div>
-        <p class="tail-block tail-text-sm">Amount</p>
-        <p class="tail-text-sm">{{ details.total | amount }}</p>
+        <p class="tail-block tail-text-sm">
+          Amount
+        </p>
+        <p class="tail-text-sm">
+          {{ details.total | amount }}
+        </p>
       </div>
     </div>
     <div class="tail-flex tail-space-x-6">
       <i class="tail-text-gray-400 tail-text-xl ns-envelope"></i>
       <div>
-        <p class="tail-block tail-text-sm">Email</p>
-        <p class="tail-text-sm">{{ details.customerId.email }}</p>
+        <p class="tail-block tail-text-sm">
+          Email
+        </p>
+        <p class="tail-text-sm">
+          {{ details.customerId.email }}
+        </p>
       </div>
     </div>
     <div class="tail-flex tail-space-x-6">
       <i class="tail-text-gray-400 tail-text-xl ns-user"></i>
       <div>
-        <p class="tail-text-sm tail-mb-3">Dog Owner</p>
+        <p class="tail-text-sm tail-mb-3">
+          Dog Owner
+        </p>
         <div class="tail-flex tail-items-center tail-space-x-3">
           <div class="tail-flex-shrink-0">
             <ClientAvatar :firstname="details.customerId.firstName" :lastname="details.customerId.lastName" />

@@ -1,5 +1,5 @@
 <template>
-   <div class="tail-border tail-rounded tail-py-3 tail-bg-white">
+  <div class="tail-border tail-rounded tail-py-3 tail-bg-white">
     <div class="tail-flex tail-flex-wrap tail-px-4 tail-pb-3">
       <div
         v-for="tag in value"
@@ -23,8 +23,8 @@
         </button>
       </div>
       <input
-        :tabindex="tabindex"
         v-model.trim="input"
+        :tabindex="tabindex"
         class="tail-border-0 tail-text-blue-400 tail-ml-2"
         placeholder="Type in here..."
         @keydown.enter="addItem($event)"
@@ -35,7 +35,7 @@
       class="tail-flex tail-items-center tail-px-4 tail-pt-2 tail-border-t border-top tail-text-blue-400 tail-text-sm tail-opacity-60"
     >
       <i class="ns-plus tail-ml-1"></i>
-      <span >Press enter or tab to insert item</span>
+      <span>Press enter or tab to insert item</span>
     </div>
   </div>
 </template>

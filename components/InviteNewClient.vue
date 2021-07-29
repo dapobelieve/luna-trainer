@@ -57,7 +57,7 @@
                 v-model.trim="$v.clientInfo.phone"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-             />
+              />
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -65,7 +65,7 @@
               class="ns-envelope tail-mt-1 tail-text-2xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="email" >Email Address</label>
+              <label for="email">Email Address</label>
               <input
                 id="email"
                 v-model.trim="$v.clientInfo.email.$model"
@@ -99,7 +99,7 @@
               class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="city" >Town/City</label>
+              <label for="city">Town/City</label>
               <input
                 id="city"
                 v-model.trim="clientInfo.city"
@@ -113,7 +113,7 @@
               class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="locationZip" >Post Code</label>
+              <label for="locationZip">Post Code</label>
               <input
                 id="locationZip"
                 v-model.trim="clientInfo.locationZip"
@@ -127,13 +127,14 @@
               class="ns-location-alt tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="dogName" >Dog's name</label>
+              <label for="dogName">Dog's name</label>
               <input
                 id="dogName"
                 v-model.trim="$v.clientInfo.petName.$model"
                 type="tel"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ error: !$v.clientInfo.petName.required }"/>
+                :class="{ error: !$v.clientInfo.petName.required }"
+              />
             </div>
           </div>
           <div class="tail-flex tail-justify-between tail-gap-6 tail-ml-2">
@@ -155,7 +156,7 @@
                 />
               </div>
               <div class="tail-w-full">
-                <label for="experience" >Age</label>
+                <label for="experience">Age</label>
                 <select
                   id="experience"
                   v-model="$v.clientInfo.petAge.$model"
@@ -175,14 +176,14 @@
             </div>
           </div>
           <div class="tail-w-full tail-gap-5">
-             <div class="tail-py-2 tail-ml-12">
+            <div class="tail-py-2 tail-ml-12">
               <div class="tail-flex">
                 <div class="tail-mr-4">
-                  <input type="radio" id="male" v-model="$v.clientInfo.petGender.$model" value="male"/>
+                  <input id="male" v-model="$v.clientInfo.petGender.$model" type="radio" value="male" />
                   <label for="male" class="tail-text-gray-600">Male</label>
                 </div>
-                <div >
-                  <input type="radio" id="female" v-model="$v.clientInfo.petGender.$model" value="female"/>
+                <div>
+                  <input id="female" v-model="$v.clientInfo.petGender.$model" type="radio" value="female" />
                   <label for="female" class="tail-text-gray-600">Female</label>
                 </div>
               </div>
@@ -193,7 +194,7 @@
               class="ns-notebook tail-text-3xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="notes" >Notes</label>
+              <label for="notes">Notes</label>
               <textarea
                 id="notes"
                 v-model="clientInfo.notes"
