@@ -4,7 +4,7 @@
   >
     <div class="tail-flex tail-w-full tail-cursor-pointer hover:tail-bg-gray-100" @click="openModal = true">
       <span
-        :class="[client && client.status !== 'invited' ? ['tail-rounded-full', 'tail-border-2', 'tail-border-red-400', 'tail-p-0.5', 'tail-flex', 'tail-items-center'] : ['']]"
+        :class="[client.status !== 'invited' ? ['tail-rounded-full', 'tail-border-2', 'tail-border-red-400', 'tail-p-0.5', 'tail-flex', 'tail-items-center'] : ['']]"
       >
         <ClientAvatar
           :firstname="client.firstName"
