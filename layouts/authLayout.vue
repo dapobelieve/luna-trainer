@@ -35,19 +35,7 @@
 </template>
 <script>
 export default {
-  name: 'AuthLayout',
-  mounted () {
-    this.$quickblox.chat.onDisconnectedListener = this.onDisconnectedListener
-    this.$quickblox.chat.onReconnectListener = this.onReconnectListener
-  },
-  methods: {
-    onDisconnectedListener () {
-      console.log('chat disconnected')
-    },
-    onReconnectListener () {
-      console.log('chat reconnected')
-    }
-  }
+  name: 'AuthLayout'
 }
 </script>
 <style lang="scss">

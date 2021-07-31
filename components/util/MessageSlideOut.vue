@@ -56,10 +56,8 @@
                         <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300" placeholder="Search">
                       </div>
                       <div>
-                        <ul v-if="getTotalUnreadMessages.length">
+                        <ul v-if="0">
                           <li
-                            v-for="messages in getTotalUnreadMessages"
-                            :key="messages._id"
                             class="tail-w-full"
                           >
                             <div class="tail-relative tail-px-4 tail-py-2 tail-flex tail-items-center tail-space-x-3 hover:tail-bg-gray-50 focus-within:tail-ring-2 focus-within:tail-ring-inset focus-within:tail-ring-pink-500">
@@ -71,13 +69,13 @@
                                   <!-- Extend touch target to entire panel -->
                                   <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
                                   <p class="tail-text-xs tail-font-medium tail-text-gray-900">
-                                    {{ messages.name }}
+                                    Derek Palmer
                                     <span class="tail-ml-2 tail-text-gray-400">
-                                      {{ formatDistance(new Date(messages.created_at), new Date(), { addSuffix: true }) }}
+                                      today
                                     </span>
                                   </p>
                                   <p class="tail-text-sm tail-text-gray-500">
-                                    {{ messages.body ? messages.body : messages.last_message }}
+                                    hi there
                                   </p>
                                 </a>
                               </div>
@@ -113,7 +111,6 @@
 
 <script>
 import { formatDistance } from 'date-fns'
-import { mapGetters } from 'vuex'
 export default {
   name: 'SlideOver',
 
@@ -128,11 +125,6 @@ export default {
       formatDistance,
       visible: false
     }
-  },
-  computed: {
-    ...mapGetters({
-      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
-    })
   },
   watch: {
     show (newValue, oldValue) {

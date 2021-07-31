@@ -184,8 +184,7 @@ export default {
   methods: {
     ...mapActions({
       createTrainerProfile: 'authorize/createTrainerProfile',
-      uploadPicture: 'authorize/uploadProfileImage',
-      getQbInfo: 'qb/getQbInfo'
+      uploadPicture: 'authorize/uploadProfileImage'
     }),
 
     createProfile () {
@@ -194,8 +193,7 @@ export default {
         return this.createTrainerProfile(this.profileInfo).then((response) => {
           if (response.status === 'success') {
             this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
-            this.uploadProfileImage()
-            return this.getQbInfo().then((response) => {
+            return this.uploadProfileImage().then((response) => {
               if (response.success === true) {
                 this.$toast.success('Welcome', { position: 'bottom-right' })
                 this.$router.push({ name: 'Dashboard' })

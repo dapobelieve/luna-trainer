@@ -4,23 +4,27 @@
       Messages
     </h5>
     <div class="tail-rounded-md tail-bg-white tail-p-4 md:tail-h-full">
-      <div v-if="!getTotalUnreadMessages.length" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
+      <div
+        v-if="1"
+        class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto"
+      >
         <div class="tail-w-full tail-my-5">
           <img
             class="tail-text-center tail-inline-block"
             src="~/assets/img/low-dog.png"
             alt=""
             srcset=""
-          >
+          />
         </div>
         <h5 class="tail-font-medium">
           No messages
         </h5>
         <p class="tail-px-5 tail-text-sm tail-mb-0">
-          New messages will appear here when you invite and onboard a new client.
+          New messages will appear here when you invite and onboard a new
+          client.
         </p>
       </div>
-      <template v-else>
+      <!-- <template v-else>
         <ul>
           <li
             v-for="messages in getTotalUnreadMessages.slice(0, 3)"
@@ -58,61 +62,21 @@
             </div>
           </li>
         </ul>
-      </template>
+      </template> -->
     </div>
   </div>
 </template>
 
 <script>
 import { formatDistance } from 'date-fns'
-import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'DbMessages',
   data () {
     return {
       formatDistance
     }
-  },
-  computed: {
-    ...mapGetters({
-      getTotalUnreadMessages: 'qb/getTotalUnreadMessages'
-    }),
-    sender () {
-      return this.$store.state.qb.qbUser.id
-    }
-  },
-  mounted () {
-    if (this.$auth.loggedIn) {
-      this.connectToServer()
-
-      this.$quickblox.chat.onMessageListener = (userId, message) => {
-        console.log(
-          'there is an incoming message. The userId: ',
-          userId,
-          ' and the message ',
-          message
-        )
-        // new message, update dialog list
-        const newMessage = {
-          ...message,
-          userId,
-          last_message_date_sent: message.extension.date_sent
-        }
-        console.log('updating dialog', newMessage)
-        if (userId !== this.sender) {
-          this.updateMessages(newMessage)
-        }
-      }
-    }
-  },
-  methods: {
-    ...mapActions({
-      updateMessages: 'qb/update_message_dialogs',
-      connectToServer: 'qb/connectQbChatServer'
-    })
   }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
