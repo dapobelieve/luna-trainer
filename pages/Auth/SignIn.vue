@@ -45,7 +45,7 @@
           <div v-if="$v.$dirty" class="tail-mt-0.5">
             <small
               v-if="!$v.userInfo.userName.required"
-              class="error tail-text-red-500"
+              class="tail-text-gray-600"
             >
               Field is required.
             </small>
@@ -68,13 +68,13 @@
           <div v-if="$v.$anyDirty" class="tail-mt-0.5">
             <small
               v-if="!$v.userInfo.password.required"
-              class="error tail-text-red-500"
+              class="tail-text-gray-600"
             >
               Password is required.
             </small>
             <small
               v-if="!$v.userInfo.password.minLength"
-              class="error tail-text-red-500"
+              class="tail-text-gray-600"
             >
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} letters.
