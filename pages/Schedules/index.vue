@@ -9,40 +9,14 @@
             class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? prev() : prevEvent()"
           >
-            <svg
-              class="tail-w-4 tail-h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 19l-7-7 7-7"
-              ></path>
-            </svg>
+            <i class="ns-chevron-left  tail-text-lg"></i>
           </button>
           <button
             type="button"
             class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? next() : nextEvent()"
           >
-            <svg
-              class="tail-w-4 tail-h-4"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M9 5l7 7-7 7"
-              ></path>
-            </svg>
+            <i class="ns-chevron-right  tail-text-lg"></i>
           </button>
         </div>
       </template>
@@ -52,7 +26,7 @@
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
           @click="openModal = true"
         >
-          <i class="ns-plus  tail-text-lg hover:tail-text-white"></i>
+          <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
         </button>
         <gw-select
           :options="['Day', 'Month']"
@@ -63,7 +37,7 @@
           type="button"
           class=" tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-sm tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
         >
-          <svg xmlns="http://www.w3.org/2000/svg" class="tail-w-4 tail-h-4" viewBox="0 0 512 512"><title>ionicons-v5-f</title><circle cx="256" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="416" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="96" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /></svg>
+          <i class="ns-ellipsis  tail-text-lg"></i>
         </button>
       </template>
     </PageHeader>
@@ -72,9 +46,11 @@
       v-if="1 > 0"
       class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full tail-mt-2 md:tail-mt-5"
     >
-      <div v-if="displayDay">
-        <ScheduleCard />
-      </div>
+      <template v-if="displayDay">
+        <div v-for="schedule in schedules" :key="schedule">
+          <ScheduleCard :data="schedule" />
+        </div>
+      </template>
       <div v-if="displayMonth">
         <FullCalendar
           ref="fullCalendar"
@@ -128,6 +104,24 @@ export default {
       filter: 'day',
       displayMonth: false,
       displayDay: true,
+      schedules: [{
+        date: '27',
+        day: 'Tue',
+        meeting: 'APBC Committee Meeting with Ali R',
+        time: 'Happening Now',
+        venue: 'Remote',
+        join: 'Join',
+        class: true
+      },
+      {
+        date: '31',
+        day: 'Fri',
+        meeting: 'Dap Committee Meeting with Ali R',
+        time: '10am-12pm',
+        venue: 'SL-ILA',
+        actions: '...',
+        session: true
+      }],
       calendarOptions: {
         headerToolbar: false,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],

@@ -233,6 +233,12 @@
 .ns-chess:before {
   content: "\e944";
 }
+.ns-chevron-left:before{
+  content:'\02C2'
+}
+.ns-chevron-right:before{
+  content:'\02C3'
+}
 .ns-circle-small:before {
   content: "\e945";
 }
@@ -379,6 +385,9 @@
 }
 .ns-edit:before {
   content: "\e975";
+}
+.ns-ellipsis:before{
+ content: ' \2026';
 }
 .ns-envelope:before {
   content: "\e976";
