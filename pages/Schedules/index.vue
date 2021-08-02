@@ -1,0 +1,249 @@
+<template>
+  <div>
+    <PageHeader>
+      <template v-slot:title>
+        <div class="tail-flex tail-items-center">
+          {{ displayMonth ? 'June' : 'April' }}
+          <button
+            type="button"
+            class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+            @click.prevent="displayMonth ? prev() : prevEvent()"
+          >
+            <svg
+              class="tail-w-4 tail-h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+            @click.prevent="displayMonth ? next() : nextEvent()"
+          >
+            <svg
+              class="tail-w-4 tail-h-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </template>
+      <template v-slot:buttons>
+        <button
+          type="button"
+          class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          @click="openModal = true"
+        >
+          <i class="ns-plus  tail-text-lg hover:tail-text-white"></i>
+        </button>
+        <gw-select
+          :options="['Day', 'Month']"
+          selected="Day"
+          @selected="filterCard"
+        />
+        <button
+          type="button"
+          class=" tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-sm tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="tail-w-4 tail-h-4" viewBox="0 0 512 512"><title>ionicons-v5-f</title><circle cx="256" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="416" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /><circle cx="96" cy="256" r="32" style="fill:none;stroke:#000;stroke-miterlimit:10;stroke-width:32px" /></svg>
+        </button>
+      </template>
+    </PageHeader>
+
+    <div
+      v-if="1 > 0"
+      class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full tail-mt-2 md:tail-mt-5"
+    >
+      <div v-if="displayDay">
+        <ScheduleCard />
+      </div>
+      <div v-if="displayMonth">
+        <FullCalendar
+          ref="fullCalendar"
+          class="my-fc"
+          :options="calendarOptions"
+        ></FullCalendar>
+      </div>
+    </div>
+    <div
+      v-else
+      class="tail-mt-16 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center"
+    >
+      <div class="tail-w-full">
+        <img
+          class="tail-text-center tail-inline-block"
+          src="~/assets/img/low-dog.png"
+          alt=""
+          srcset=""
+        />
+      </div>
+      <h5 class="tail-font-bold tail-text-base">
+        No scheduled sessions
+      </h5>
+      <p
+        class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-lg tail-leading-6 tail-mt-0 tail-font-normal"
+      >
+        All your current, confirmed, and cancelled sessions will appear here.
+        Schedule a session with your clients to begin
+      </p>
+    </div>
+  </div>
+</template>
+
+<script>
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import listPlugin from '@fullcalendar/list'
+import ScheduleCard from '~/components/ScheduleCard'
+export default {
+  name: 'Schedules',
+  components: {
+    ScheduleCard,
+    FullCalendar
+  },
+  layout: 'Scheduler',
+  data () {
+    return {
+      openModal: false,
+      filter: 'day',
+      displayMonth: false,
+      displayDay: true,
+      calendarOptions: {
+        headerToolbar: false,
+        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
+        initialView: 'dayGridMonth',
+        themeSystem: 'default',
+        editable: true,
+        droppable: true,
+        eventResizableFromStart: true,
+        events: [
+          {
+            id: 1,
+            title: 'All Day Event',
+            start: new Date().setDate(new Date().getDate() + 1)
+          },
+          {
+            id: 2,
+            title: 'Long Event',
+            start: new Date().setDate(new Date().getDate() - 5),
+            end: new Date().setDate(new Date().getDate() - 3)
+          },
+          {
+            id: 3,
+            title: 'Repeating Event',
+            start: new Date().setDate(new Date().getDate() - 3)
+          },
+          {
+            id: 4,
+            title: 'Meeting',
+            start: new Date().setDate(new Date().getDate() + 4)
+          }
+        ],
+        weekends: true,
+        selectable: true,
+        selectMirror: true,
+        dayMaxEvents: true
+      }
+    }
+  },
+  head () {
+    return {
+      title: 'Schedules'
+    }
+  },
+  methods: {
+    filterCard () {
+      this.filter = this.filter === 'day' ? 'month' : 'day'
+      if (this.filter === 'month') {
+        this.displayMonth = true
+        this.displayDay = false
+      } else {
+        this.displayMonth = false
+        this.displayDay = true
+      }
+    },
+    prev () {
+      const calendarApi = this.$refs.fullCalendar.getApi()
+      calendarApi.prev()
+    },
+    next () {
+      const calendarApi = this.$refs.fullCalendar.getApi()
+      calendarApi.next()
+    },
+    prevEvent () {
+      console.log('prevEvent')
+    },
+    nextEvent () {
+      console.log('prevEvent')
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+a {
+  color: rgba(143, 151, 166, 1);
+}
+
+.active {
+  color: black;
+}
+
+.active:focus {
+  outline: none !important;
+}
+.my-fc::v-deep {
+  .fc-daygrid-day-top {
+    display: flex;
+    /* flex-direction: row-reverse; */
+    align-items: center !important;
+    justify-content: center !important;
+    margin: auto !important;
+    background-color: #e5f0fa !important;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 8px;
+  }
+}
+.my-fc::v-deep {
+  .fc-daygrid-event-harness {
+    background-color: #fff !important;
+    border-left-width: 3px;
+    border-color: #ffab00;
+    color: #172942 !important;
+    border-radius: 2px;
+    margin: 5px;
+  }
+}
+.my-fc::v-deep {
+  .fc-daygrid-body-balanced .fc-daygrid-day-events {
+    margin-top: 5px;
+  }
+}
+.my-fc::v-deep {
+  .fc-daygrid-event-dot {
+    display: none !important;
+  }
+}
+</style>
