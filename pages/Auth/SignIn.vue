@@ -167,11 +167,7 @@ export default {
 
           // set user in store
           this.$store.commit('authorize/SET_GETWELP_USER', response)
-          return this.$store.dispatch('qb/getQbInfo').then((response) => {
-            if (response.success === true) {
-              this.$router.push({ name: 'Dashboard' })
-            }
-          }).catch(error => console.log({ error }))
+          this.$router.push({ name: 'Dashboard' })
         }
       })
     },

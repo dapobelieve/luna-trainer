@@ -84,17 +84,8 @@ export const actions = {
   async logOut ({ commit, dispatch }) {
     await this.$auth.logout()
     commit('SET_GETWELP_USER', {})
-    dispatch('qb/clearQbUserAndDialogs', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     commit('CLEAR_LOCAL_STORAGE')
-    this.$quickblox.chat.disconnect()
-    this.$quickblox.chat.onDisconnectedListener = onDisconnectedListener
-    function onDisconnectedListener () {
-      console.log('onDisconnected')
-    }
-    this.$quickblox.destroySession((error) => {
-      console.log('error destroyong session', error)
-    })
     return true
   }
 }

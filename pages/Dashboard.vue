@@ -58,12 +58,9 @@
 
 <script>
 import { mapActions } from 'vuex'
-// import QbInit from '~/plugins/mixin-qb'
 export default {
   name: 'Dashboard',
-  // mixins: [QbInit],
   layout: 'dashboardLayout',
-  // middleware: ['qbInits'],
   data () {
     return {
       openModal: false,
