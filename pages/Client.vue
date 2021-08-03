@@ -72,32 +72,7 @@
       <div class="tail-flex tail-flex-shrink-0 tail-w-1/3">
         <div class="tail-w-full">
           <!-- Sidebar contents-->
-          <nav class="tail-flex tail-overflow-y-auto tail-text-sm">
-            <div class="tail-flex-grow tail-flex">
-              <div class="tail-flex-1 tail-space-y-1">
-                <div
-                  class="tail-bg-white tail-rounded-lg tail-flex tail-justify-between tail-p-4 tail-mb-3"
-                  aria-current="page"
-                >
-                  <div>
-                    <p>
-                      Dog: Diesel
-                    </p>
-                    <p>
-                      Age: 9
-                    </p>
-                    <p>
-                      Breed: Pitbull
-                    </p>
-                  </div>
-                  <p>
-                    2 courses
-                  </p>
-                </div>
-                <client-card-navigation />
-              </div>
-            </div>
-          </nav>
+          <client-sidbar-content />
         </div>
       </div>
 
