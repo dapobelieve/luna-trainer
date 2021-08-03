@@ -1,6 +1,6 @@
 <template>
   <nav>
-    <NuxtLink class="card" exact-active-class="active" :to="{ name: 'Client-id-Messages' }" aria-current="page">
+    <NuxtLink class="card" :exact-active-class="$route.name === 'Client-id-Messages' ? 'active' : ''" :to="{ name: 'Client-id-Messages' }" aria-current="page">
       <div class="tail-flex tail-items-center">
         <span
           class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
@@ -24,7 +24,7 @@
         />
       </svg>
     </NuxtLink>
-    <NuxtLink class="card" exact-active-class="active" :to="{ name: 'Client-id-Information' }" aria-current="page">
+    <NuxtLink class="card" :exact-active-class="$route.name === 'Client-id-Information' ? 'active' : ''" :to="{ name: 'Client-id-Information' }" aria-current="page">
       <div class="tail-flex tail-items-center">
         <span
           class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
@@ -48,7 +48,7 @@
         />
       </svg>
     </NuxtLink>
-    <NuxtLink class="card" exact-active-class="active" :to="{ name: 'Client-id-Calendar' }" aria-current="page">
+    <NuxtLink class="card" :exact-active-class="$route.name === 'Client-id-Calendar' ? 'active' : ''" :to="{ name: 'Client-id-Calendar' }" aria-current="page">
       <div class="tail-flex tail-items-center">
         <span
           class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
