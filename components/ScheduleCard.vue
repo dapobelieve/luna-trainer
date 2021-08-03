@@ -1,13 +1,8 @@
 <template>
   <div>
     <div class="tail-flex">
-      <div class="tail-pr-3 tail-w-12">
-        <p class="tail-font-medium">
-          {{ data.date }}
-        </p>
-        <p class="tail-font-medium">
-          {{ data.day }}
-        </p>
+      <div>
+        <GroupIdentifier :date="data.date" :day="data.day" />
       </div>
       <div class="tail-w-full tail-mb-2">
         <div :class="[ data.session ? 'tail-border-green-400' : 'tail-border-yellow-400']" class="tail-rounded-md tail-bg-white tail-border-l-4 tail-border-yellow-400 tail-flex tail-justify-between tail-items-center tail-flex-col md:tail-flex-row tail-text-gray-700 tail-p-2 md:tail-p-4 tail-w-full">
@@ -28,7 +23,8 @@
             </div>
             <div v-if="data.actions">
               <button class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click.prevent="showSubMenu">
-                <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i></button>
+                <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
+              </button>
             </div>
           </div>
         </div>
