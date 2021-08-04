@@ -41,11 +41,15 @@
       </template>
     </gw-pagination>
     <Modal
-      status="Create New Invoice"
       :input-width="30"
       :is-open="openModal"
       @close="openModal = $event"
     >
+      <template v-slot:status>
+        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
+          Create New Invoice
+        </div>
+      </template>
       <CreateNewInvoice @close="openModal = $event" />
     </Modal>
     <NotificationsModal

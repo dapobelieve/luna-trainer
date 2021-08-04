@@ -20,6 +20,20 @@
       "title": "settings",
       "path": "Settings"
     },
+     {
+      "section": "Schedule",
+      "classes":"tail-mt-4"
+    },
+    {
+      "icon": "ns-calendar",
+      "title": "my schedule",
+      "path": "Schedules"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "Add New Session",
+      "path": "AddSession"
+    },
     {
       "section": "Clients",
       "classes":"tail-mt-4"

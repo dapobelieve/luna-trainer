@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-bg-white sm:tail-flex sm:tail-items-center sm:tail-justify-between tail-px-5 tail-py-3 tail-sticky tail-top-0 tail-shadow-md">
+  <div class="tail-bg-white sm:tail-flex tail-z-50 sm:tail-items-center sm:tail-justify-between tail-px-5 tail-py-3 tail-sticky tail-top-0 tail-shadow-md">
     <h3 class="tail-text-lg leading-6 tail-font-medium tail-text-gray-900">
       <div class="tail-flex tail-items-center">
         <slot name="back-button" />

@@ -59,7 +59,12 @@
         </button>
       </div>
     </div>
-    <Modal :is-open="openModal" :status="client.status" @close="openModal = $event">
+    <Modal :is-open="openModal" @close="openModal = $event">
+      <template v-slot:status>
+        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
+          {{ client.status }}
+        </div>
+      </template>
       <ClientInfoPreview :client="client" @close="openModal = $event" />
     </Modal>
   </div>
