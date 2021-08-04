@@ -32,7 +32,7 @@
                     type="text"
                     class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   />
-                  <div v-if="!$v.clientInfo.firstName.required" class="error tail-text-red-500 tail-text-sm">
+                  <div v-if="!$v.clientInfo.firstName.required" class="error tail-text-gray-500 tail-text-sm">
                     Field is required.
                   </div>
                 </div>
@@ -48,7 +48,7 @@
                     type="text"
                     class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                   />
-                  <div v-if="!$v.clientInfo.lastName.required" class="error tail-text-red-500 tail-text-sm">
+                  <div v-if="!$v.clientInfo.lastName.required" class="error tail-text-gray-500 tail-text-sm">
                     Field is required.
                   </div>
                 </div>
@@ -64,10 +64,10 @@
                   type="tel"
                   class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
-                <div v-if="!$v.clientInfo.phone.required" class="error tail-text-red-500 tail-text-sm">
+                <div v-if="!$v.clientInfo.phone.required" class="error tail-text-gray-500 tail-text-sm">
                   Field is required.
                 </div>
-                <div v-if="!$v.clientInfo.phone.numeric" class="error tail-text-red-500 tail-text-sm">
+                <div v-if="!$v.clientInfo.phone.numeric" class="error tail-text-gray-500 tail-text-sm">
                   Must be Numbers.
                 </div>
               </div>
@@ -84,10 +84,10 @@
                   type="email"
                   class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 />
-                <div v-if="!$v.clientInfo.email.required" class="error tail-text-red-500 tail-text-sm">
+                <div v-if="!$v.clientInfo.email.required" class="error tail-text-gray-500 tail-text-sm">
                   Field is required.
                 </div>
-                <div v-if="!$v.clientInfo.email.email" class="error tail-text-red-500 tail-text-sm">
+                <div v-if="!$v.clientInfo.email.email" class="error tail-text-gray-500 tail-text-sm">
                   Must be valid email.
                 </div>
               </div>

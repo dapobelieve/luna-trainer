@@ -5,9 +5,6 @@
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="tail-sticky tail-top-0 tail-divide-y tail-divide-gray-300">
       <div class="tail-relative tail-pt-8">
-        <div>
-          <img src="@/assets/img/getwelp.png" class="tail-ml-4" />
-        </div>
         <div class="tail-px-3 tail-py-1 tail-mt-3 tail-mb-4">
           <label for="search" class="tail-sr-only">Search</label>
           <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200">

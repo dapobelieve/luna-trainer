@@ -74,7 +74,7 @@
                 :class="{ error: $v.clientInfo.email.$invalid }"
               />
               <div v-if="$v.$anyDirty" class="tail-mt-1">
-                <small v-if="!$v.clientInfo.email.email" class="tail-text-red-500">
+                <small v-if="!$v.clientInfo.email.email" class="tail-text-gray-500">
                   Must be valid email.
                 </small>
               </div>

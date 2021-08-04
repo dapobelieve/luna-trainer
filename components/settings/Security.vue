@@ -19,7 +19,7 @@
           >
           <small
             v-if="$v.$anyDirty && !$v.password.oldPassword.required"
-            class="tail-text-red-500"
+            class="tail-text-gray-500"
           >Old password is required</small>
         </div>
         <div>

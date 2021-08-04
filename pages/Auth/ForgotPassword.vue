@@ -25,13 +25,13 @@
             <div v-if="$v.email.$error" class="tail-mt-2">
               <small
                 v-if="!$v.email.required"
-                class="error tail-text-red-500"
+                class="error tail-text-gray-500"
               >
                 Field is required.
               </small>
               <small
                 v-if="!$v.email.email"
-                class="error tail-text-red-500 tail-text-sm"
+                class="error tail-text-gray-500 tail-text-sm"
               >
                 Must be valid email.
               </small>

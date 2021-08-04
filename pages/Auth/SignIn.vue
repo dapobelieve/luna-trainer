@@ -32,7 +32,7 @@
             for="userName"
             class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
           >
-            Username
+            Email
           </label>
           <input
             v-model.trim="$v.userInfo.userName.$model"

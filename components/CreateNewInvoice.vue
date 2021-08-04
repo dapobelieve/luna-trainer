@@ -58,7 +58,7 @@
               </multiselect>
             </div>
           </div>
-          <p class="tail-text-red-500 tail-text-xs tail-italic">
+          <p class="tail-text-gray-500 tail-text-xs tail-italic">
             <template
               v-if="$v.selectedClient.$error && !$v.selectedClient.required"
             >
@@ -92,7 +92,7 @@
           class="tail-w-full"
         >
         </multiselect>
-        <p class="tail-text-red-500 tail-text-xs">
+        <p class="tail-text-gray-500 tail-text-xs">
           <template
             v-if="$v.selectedService.$error && !$v.selectedService.required"
           >
@@ -118,7 +118,7 @@
         value-type="format"
         placeholder="Select an appointment date"
       ></date-picker>
-      <p class="tail-text-red-500 tail-text-xs tail-italic">
+      <p class="tail-text-gray-500 tail-text-xs tail-italic">
         <template v-if="$v.selectedDate.$error && !$v.selectedDate.required">
           Please select a date.
         </template>

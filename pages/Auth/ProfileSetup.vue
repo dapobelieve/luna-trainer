@@ -13,7 +13,7 @@
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
             <input v-model.trim="$v.profileInfo.firstName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.firstName.$error}" />
             <div v-if="$v.profileInfo.firstName.$error" class="tail-mt-1">
-              <small v-if="!$v.profileInfo.firstName.required" class="error tail-text-red-500">
+              <small v-if="!$v.profileInfo.firstName.required" class="error tail-text-gray-500">
                 Field is required.
               </small>
             </div>
@@ -23,7 +23,7 @@
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
             <input v-model.trim="$v.profileInfo.lastName.$model" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.lastName.$error}" />
             <div v-if="$v.$anyDirty" class="tail-mt-1">
-              <small v-if="!$v.profileInfo.lastName.required" class="error tail-text-red-500">
+              <small v-if="!$v.profileInfo.lastName.required" class="error tail-text-gray-500">
                 Field is required.
               </small>
             </div>
@@ -33,7 +33,7 @@
           <label for="business" class="">Business Name</label>
           <input v-model.trim="$v.profileInfo.businessName.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.businessName.$error}" />
           <div v-if="$v.$anyDirty" class="tail-mt-1">
-            <small v-if="!$v.profileInfo.businessName.required" class="error tail-text-red-500">
+            <small v-if="!$v.profileInfo.businessName.required" class="error tail-text-gray-500">
               Field is required.
             </small>
           </div>
@@ -42,7 +42,7 @@
           <label for="location" class="">Location</label>
           <input v-model.trim="$v.profileInfo.location.$model" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" :class="{ invalid: $v.profileInfo.location.$error}" />
           <div v-if="$v.$anyDirty" class="tail-mt-1">
-            <small v-if="!$v.profileInfo.location.required " class="error tail-text-red-500">
+            <small v-if="!$v.profileInfo.location.required " class="error tail-text-gray-500">
               Field is required.
             </small>
           </div>
@@ -190,15 +190,19 @@ export default {
     createProfile () {
       if (!this.disabled) {
         this.isLoading = true
-        return this.createTrainerProfile(this.profileInfo).then((response) => {
+        return this.createTrainerProfile(this.profileInfo).then(async (response) => {
           if (response.status === 'success') {
+            this.$toast.info('Profile creations successfully', { position: 'bottom-right' })
             this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
-            return this.uploadProfileImage().then((response) => {
+
+            if (this.profilePic) {
+              response = await this.uploadProfileImage()
               if (response.success === true) {
-                this.$toast.success('Welcome', { position: 'bottom-right' })
-                this.$router.push({ name: 'Dashboard' })
+                this.$toast.info('Profile picture upload successfully', { position: 'bottom-right' })
               }
-            }).catch(err => console.log('error', err))
+            }
+            this.$toast.success('Welcome', { position: 'bottom-right' })
+            this.$router.push({ name: 'Dashboard' })
           }
         }).catch((err) => {
           if (err.response) {

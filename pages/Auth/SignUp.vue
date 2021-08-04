@@ -7,6 +7,7 @@
     </div>
     <div class="tail-grid tail-grid-col-12 tail-mb-4">
       <button
+        @click.prevent="handleOnClickGoogleButton"
         type="button"
         class="tail-bg-white tail-border tail-w-100 tail-flex tail-align-center tail-justify-center tail-p-1.5 tail-rounded"
       >
@@ -29,28 +30,6 @@
         class="tail-grid tail-gap-12 md:tail-gap-4"
         @submit.prevent="signUp"
       >
-        <div class="tail-grid error">
-          <label
-            for="username"
-            class="tail-block tail-text-base tail-font-medium tail-text-gray-700"
-          >
-            Username
-          </label>
-          <input
-            v-model.trim="$v.userInfo.userName.$model"
-            autocomplete="off"
-            type="text"
-            class="tail-bg-white tail-p-2.5 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-          />
-          <div class=" tail-mt-1">
-            <small
-              v-if="!$v.userInfo.userName.required"
-              class="error tail-text-red-500"
-            >
-              Username is required.
-            </small>
-          </div>
-        </div>
         <div class="tail-grid">
           <label
             for="email"
@@ -65,13 +44,13 @@
           <div v-if="$v.$anyDirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.email.required"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Email address is required.
             </small>
             <small
               v-if="!$v.userInfo.email.email"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Email address be valid email.
             </small>
@@ -93,13 +72,13 @@
           <div v-if="$v.$anyDirty" class="tail-mt-1">
             <small
               v-if="!$v.userInfo.password.required"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Password is required.
             </small>
             <small
               v-if="!$v.userInfo.password.minLength"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} letters.
@@ -138,7 +117,6 @@ export default {
       signUpText: 'get started',
       isLoading: false,
       userInfo: {
-        userName: null,
         email: '',
         password: null,
         domain: 'getwelp-trainer-ui'
@@ -152,9 +130,6 @@ export default {
   },
   validations: {
     userInfo: {
-      userName: {
-        required
-      },
       email: {
         required,
         email
@@ -169,8 +144,13 @@ export default {
     ...mapActions({
       signUpUser: 'authorize/signUpUser'
     }),
+    handleOnClickGoogleButton () {
+      const { host, protocol } = window.location
+      window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${protocol}//${host}/Auth/SignIn%3FredirectClient%3Dgoogle`
+    },
     signUp () {
       this.isLoading = true
+      this.userInfo.userName = `${this.userInfo.email.split('@')[1]}_${new Date().getTime()}`
       return this.signUpUser(this.userInfo)
         .then((result) => {
           if (result === 'success') {
@@ -178,7 +158,7 @@ export default {
               this.$auth
                 .login({
                   data: {
-                    userName: this.userInfo.userName,
+                    email: this.userInfo.email,
                     password: this.userInfo.password,
                     domain: 'getwelp-trainer-ui'
                   }

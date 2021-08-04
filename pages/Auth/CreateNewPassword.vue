@@ -22,13 +22,13 @@
           <div v-if="$v.userInfo.password.$error" class="tail-mt-2">
             <small
               v-if="!$v.userInfo.password.required"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Password is required.
             </small>
             <small
               v-if="!$v.userInfo.password.minLength"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} letters.
@@ -47,13 +47,13 @@
           <div v-if="$v.userInfo.confirmPassword.$error" class="tail-mt-2">
             <small
               v-if="!$v.userInfo.confirmPassword.required"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Password is required.
             </small>
             <small
               v-if="!$v.userInfo.confirmPassword.minLength"
-              class="error tail-text-red-500"
+              class="error tail-text-gray-500"
             >
               Password must have at least
               {{ $v.userInfo.confirmPassword.$params.minLength.min }} letters.
