@@ -1,12 +1,19 @@
 <template>
   <div>
-    <div class="tail-pr-3 tail-w-12">
-      <p class="tail-font-medium">
-        {{ date }}
-      </p>
-      <p class="tail-font-medium">
-        {{ day }}
-      </p>
+    <div class="tail-flex">
+      <div class="tail-pr-3 tail-w-12 tail-mb-4">
+        <p class="tail-font-medium">
+          {{ identifier._id.date }}
+        </p>
+        <p class="tail-font-medium">
+          {{ identifier._id.day }}
+        </p>
+      </div>
+      <div class="tail-w-full">
+        <div v-for="data in identifier.schedules" :key="data" >
+          <ScheduleCard :data="data" />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -15,12 +22,8 @@
 export default {
   name: 'GroupIdentifier',
   props: {
-    date: {
-      type: String,
-      required: true
-    },
-    day: {
-      type: String,
+    identifier: {
+      type: Object,
       required: true
     }
   }

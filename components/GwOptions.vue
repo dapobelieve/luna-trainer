@@ -11,6 +11,7 @@
         <li v-for="(option,index) in options" id="listbox-option-0" :key="index" class="tail-text-gray-900 tail-cursor-pointer tail-select-none tail-relative tail-py-2 tail-pl-3 tail-pr-9" role="option">
           <span
             class="tail-font-normal tail-block tail-truncate"
+            @click="select(option)"
           >
             {{ option }}
           </span>
@@ -26,6 +27,26 @@ export default {
     options: {
       type: Array,
       required: true
+    },
+    selected: {
+      type: String,
+      required: true
+    },
+    value: {
+      type: Object,
+      default: () => {}
+    }
+  },
+  data () {
+    return {
+      $selected: this.selected
+    }
+  },
+  methods: {
+    select (optionValue) {
+      this.$data.$selected = optionValue
+      this.$emit('input', optionValue)
+      this.$emit('selected', optionValue)
     }
   }
 }

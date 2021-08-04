@@ -47,8 +47,8 @@
       class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full tail-mt-2 md:tail-mt-5"
     >
       <template v-if="displayDay">
-        <div v-for="schedule in schedules" :key="schedule">
-          <ScheduleCard :data="schedule" />
+        <div v-for="data in group" :key="data">
+          <GroupIdentifier :identifier="data" />
         </div>
       </template>
       <div v-if="displayMonth">
@@ -90,11 +90,11 @@ import dayGridPlugin from '@fullcalendar/daygrid'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import ScheduleCard from '~/components/ScheduleCard'
+import GroupIdentifier from '~/components/GroupIdentifier'
 export default {
   name: 'Schedules',
   components: {
-    ScheduleCard,
+    GroupIdentifier,
     FullCalendar
   },
   layout: 'Scheduler',
@@ -104,24 +104,201 @@ export default {
       filter: 'day',
       displayMonth: false,
       displayDay: true,
-      schedules: [{
-        date: '27',
-        day: 'Tue',
-        meeting: 'APBC Committee Meeting with Ali R',
-        time: 'Happening Now',
-        venue: 'Remote',
-        join: 'Join',
-        class: true
-      },
-      {
-        date: '31',
-        day: 'Fri',
-        meeting: 'Dap Committee Meeting with Ali R',
-        time: '10am-12pm',
-        venue: 'SL-ILA',
-        actions: '...',
-        session: true
-      }],
+      group: [
+        {
+          _id: {
+            date: '10',
+            day: 'Wed'
+          },
+          schedules: [
+            {
+              meeting: 'APBC Committee Meeting ',
+              trainer: 'Ali R',
+              time: 'Happening Now',
+              venue: 'Remote',
+              join: 'Join',
+              session: false,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'happening_now',
+              schedule_info: 'Tuesday 27 April, 2021',
+              trainer_firstname: 'Josh',
+              trainer_lastname: 'Bryan',
+              dog_name: 'Bingo'
+            },
+            {
+              meeting: 'APBC Committee Meeting ',
+              trainer: 'Ali R',
+              time: '2pm-3pm',
+              venue: 'SMV-I12',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'cancelled',
+              schedule_info: 'Tuesday 27 April, 2021',
+              trainer_firstname: 'Josh',
+              trainer_lastname: 'Bryan',
+              dog_name: 'Bingo'
+            },
+            {
+              meeting: 'Dap Committee Meeting',
+              trainer: 'Josh',
+              time: '10am-12pm',
+              venue: 'SL-ILA',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'request',
+              schedule_info: 'Friday 31 April, 2021',
+              trainer_firstname: 'Daniel',
+              trainer_lastname: 'John',
+              dog_name: 'Polly'
+            },
+            {
+              meeting: 'Cap Committee Meeting',
+              trainer: 'Josh',
+              time: '10am-12pm',
+              venue: 'SL-ILA',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'confirmed',
+              schedule_info: 'Saturday 3 May, 2021',
+              trainer_firstname: 'Killian',
+              trainer_lastname: 'Abram',
+              dog_name: 'Potty'
+            }
+          ]
+        },
+        {
+          _id: {
+            date: '05',
+            day: 'Tue'
+          },
+          schedules: [
+            {
+              meeting: 'APBC Committee Meeting ',
+              trainer: 'Ali R',
+              time: 'Happening Now',
+              venue: 'Remote',
+              join: 'Join',
+              session: false,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'happening_now',
+              schedule_info: 'Tuesday 27 April, 2021',
+              trainer_firstname: 'Josh',
+              trainer_lastname: 'Bryan',
+              dog_name: 'Bingo'
+            },
+            {
+              meeting: 'APBC Committee Meeting ',
+              trainer: 'Ali R',
+              time: '2pm-3pm',
+              venue: 'SMV-I12',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'cancelled',
+              schedule_info: 'Tuesday 27 April, 2021',
+              trainer_firstname: 'Josh',
+              trainer_lastname: 'Bryan',
+              dog_name: 'Bingo'
+            },
+            {
+              meeting: 'Dap Committee Meeting',
+              trainer: 'Josh',
+              time: '10am-12pm',
+              venue: 'SL-ILA',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'request',
+              schedule_info: 'Friday 31 April, 2021',
+              trainer_firstname: 'Daniel',
+              trainer_lastname: 'John',
+              dog_name: 'Polly'
+            },
+            {
+              meeting: 'Cap Committee Meeting',
+              trainer: 'Josh',
+              time: '10am-12pm',
+              venue: 'SL-ILA',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'confirmed',
+              schedule_info: 'Saturday 3 May, 2021',
+              trainer_firstname: 'Killian',
+              trainer_lastname: 'Abram',
+              dog_name: 'Potty'
+            }
+          ]
+        },
+        {
+          _id: {
+            date: '15',
+            day: 'Fri'
+          },
+          schedules: [
+            {
+              meeting: 'APBC Committee Meeting ',
+              trainer: 'Ali R',
+              time: 'Happening Now',
+              venue: 'Remote',
+              join: 'Join',
+              session: false,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'happening_now',
+              schedule_info: 'Tuesday 27 April, 2021',
+              trainer_firstname: 'Josh',
+              trainer_lastname: 'Bryan',
+              dog_name: 'Bingo'
+            },
+            {
+              meeting: 'APBC Committee Meeting ',
+              trainer: 'Ali R',
+              time: '2pm-3pm',
+              venue: 'SMV-I12',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'cancelled',
+              schedule_info: 'Tuesday 27 April, 2021',
+              trainer_firstname: 'Josh',
+              trainer_lastname: 'Bryan',
+              dog_name: 'Bingo'
+            },
+            {
+              meeting: 'Dap Committee Meeting',
+              trainer: 'Josh',
+              time: '10am-12pm',
+              venue: 'SL-ILA',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'request',
+              schedule_info: 'Friday 31 April, 2021',
+              trainer_firstname: 'Daniel',
+              trainer_lastname: 'John',
+              dog_name: 'Polly'
+            },
+            {
+              meeting: 'Cap Committee Meeting',
+              trainer: 'Josh',
+              time: '10am-12pm',
+              venue: 'SL-ILA',
+              actions: '...',
+              session: true,
+              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
+              status: 'confirmed',
+              schedule_info: 'Saturday 3 May, 2021',
+              trainer_firstname: 'Killian',
+              trainer_lastname: 'Abram',
+              dog_name: 'Potty'
+            }
+          ]
+        }
+      ],
+
       calendarOptions: {
         headerToolbar: false,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],

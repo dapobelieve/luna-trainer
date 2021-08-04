@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="tail-fixed tail-z-10 tail-inset-0 tail-overflow-y-auto">
+  <div v-if="isOpen" class="tail-fixed tail-z-50 tail-inset-0 tail-overflow-y-auto">
     <div id="myModal" class="tail-flex tail-items-end tail-justify-center tail-min-h-screen tail-pt-4 tail-px-4 tail-pb-20 tail-text-center sm:tail-block sm:p-0">
       <transition
         enter="tail-ease-out tail-duration-300"
@@ -25,13 +25,15 @@
       >
         <div
           :style="{ width: width }"
-          class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-4/6 lg:tail-w-3/6"
+          class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-full md:tail-w-4/6 lg:tail-w-2/6"
         >
           <div class="tail-py-7 tail-px-6">
             <div class="tail-flex tail-justify-between tail-mb-6">
-              <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-                {{ status }}
-              </div>
+              <slot name="status">
+                <div>
+                  {{ status }}
+                </div>
+              </slot>
               <div class="hover:tail-cursor-pointer" @click="$emit('close', false)">
                 <img
                   class="tail-hidden md:tail-block"
@@ -63,10 +65,10 @@ export default {
       type: Boolean,
       default: false
     },
-    status: {
-      type: String,
-      default: 'draft'
-    },
+    // status: {
+    //   type: String,
+    //   default: 'draft'
+    // },
     inputWidth: {
       type: Number,
       default: 40
