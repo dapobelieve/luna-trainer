@@ -174,7 +174,7 @@ export default {
     login () {
       if (this.userInfo.userName && this.userInfo.password) {
         this.isLoading = true
-        this.$auth.login({
+        this.$auth.loginWith('local', {
           data: {
             userName: this.userInfo.userName.toLowerCase(),
             password: this.userInfo.password,
