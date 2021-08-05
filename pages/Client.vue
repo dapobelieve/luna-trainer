@@ -2,22 +2,26 @@
   <div>
     <PageHeader>
       <template v-slot:back-button>
-        <img src="~/assets/img/svgs/chevron-left.svg" alt="" srcset="">
+        <button type="button" @click="$router.go(-1)">
+          <img src="~/assets/img/svgs/chevron-back.svg" alt="" srcset="">
+        </button>
       </template>
       <template v-slot:avatar>
         <span
           class="tail-rounded-full tail-border-2 tail-border-red-400 tail-p-1 tail-mr-1 tail-ml-4"
         >
           <ClientAvatar
-            firstname="get"
-            lastname="welp"
-            width="1.5"
-            height="1.5"
+            :firstname="clientInfo && clientInfo.firstName"
+            :lastname="clientInfo && clientInfo.lastName"
+            :width="1.5"
+            :height="1.5"
           />
         </span>
       </template>
       <template v-slot:title>
-        Abi Carpenter
+        <span class="tail-capitalize">
+          {{ clientInfo && clientInfo.firstName }} {{ clientInfo && clientInfo.lastName }}
+        </span>
       </template>
       <template v-slot:buttons>
         <button
@@ -44,7 +48,7 @@
           <div class="tail-relative tail-max-w-4xl tail-mx-auto md:tail-px-8 xl:tail-px-0">
             <div class="tail-p-5">
               <div class="">
-                <nuxt-child />
+                <nuxt-child @clientName="clientInfo = $event" />
               </div>
             </div>
           </div>
@@ -56,7 +60,12 @@
 
 <script>
 export default {
-  name: 'Client'
+  name: 'Client',
+  data () {
+    return {
+      clientInfo: null
+    }
+  }
 }
 </script>
 

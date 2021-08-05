@@ -2,7 +2,7 @@
   <div
     class="tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-flex tail-items-center"
   >
-    <div class="tail-flex tail-w-full tail-cursor-pointer hover:tail-bg-gray-100" @click="openModal = true">
+    <div class="tail-flex tail-w-full tail-cursor-pointer hover:tail-bg-gray-100" @click="$router.push({ name: 'Client-id-Information', params: { id: client.userId } })">
       <span
         :class="[client.status !== 'invited' ? ['tail-rounded-full', 'tail-border-2', 'tail-border-red-400', 'tail-p-0.5', 'tail-flex', 'tail-items-center'] : ['']]"
       >
