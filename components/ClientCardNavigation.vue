@@ -1,54 +1,13 @@
 <template>
   <nav>
-    <NuxtLink class="card" :exact-active-class="$route.name === 'Client-id-Messages' ? 'active' : ''" :to="{ name: 'Client-id-Messages' }" aria-current="page">
-      <div class="tail-flex tail-items-center">
-        <span
-          class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
-        >
-          <i
-            class="ns-comment-alt tail-text-lg tail-text-gray-500"
-          ></i>
-        </span>
-        <span class="tail-pl-3">Messages</span>
-      </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 512 512"
-      >
-        <title>ionicons-v5-a</title>
-        <polyline
-          points="184 112 328 256 184 400"
-          style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"
-        />
-      </svg>
-    </NuxtLink>
-    <NuxtLink class="card" :exact-active-class="$route.name === 'Client-id-Information' ? 'active' : ''" :to="{ name: 'Client-id-Information' }" aria-current="page">
-      <div class="tail-flex tail-items-center">
-        <span
-          class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
-        >
-          <i
-            class="ns-user tail-text-lg tail-text-gray-500"
-          ></i>
-        </span>
-        <span class="tail-pl-3">Information</span>
-      </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 512 512"
-      >
-        <title>ionicons-v5-a</title>
-        <polyline
-          points="184 112 328 256 184 400"
-          style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"
-        />
-      </svg>
-    </NuxtLink>
-    <NuxtLink class="card" :exact-active-class="$route.name === 'Client-id-Calendar' ? 'active' : ''" :to="{ name: 'Client-id-Calendar' }" aria-current="page">
+    <NuxtLink
+      v-for="menu in menuItems"
+      :key="menu"
+      class="card"
+      :exact-active-class="$route.name === `Client-id-${menu.pathName}` ? 'active' : ''"
+      :to="{ name: `Client-id-${menu.pathName}` }"
+      aria-current="page"
+    >
       <div class="tail-flex tail-items-center">
         <span
           class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
@@ -57,27 +16,31 @@
             class="ns-calendar tail-text-lg tail-text-gray-500"
           ></i>
         </span>
-        <span class="tail-pl-3">Calendar</span>
+        <span class="tail-pl-3">{{ menu.pathName }}</span>
       </div>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="18"
-        height="18"
-        viewBox="0 0 512 512"
-      >
-        <title>ionicons-v5-a</title>
-        <polyline
-          points="184 112 328 256 184 400"
-          style="fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"
-        />
-      </svg>
+      <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="">
     </NuxtLink>
   </nav>
 </template>
 
 <script>
 export default {
-  name: 'ClientCardNavigation'
+  name: 'ClientCardNavigation',
+  data () {
+    return {
+      menuItems: [
+        {
+          pathName: 'Messages'
+        },
+        {
+          pathName: 'Information'
+        },
+        {
+          pathName: 'Calendar'
+        }
+      ]
+    }
+  }
 }
 </script>
 
@@ -112,9 +75,6 @@ nav {
   &:hover span:first-child i {
       color: rgba(86, 204, 242, 1);
   }
-}
-svg {
-  stroke: rgba(143, 151, 166, 1)
 }
 
 .active {

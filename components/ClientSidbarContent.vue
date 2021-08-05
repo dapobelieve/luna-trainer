@@ -53,7 +53,7 @@
           </div>
         </gw-summary-card>
         <gw-summary-card :data="receiptData">
-          <button class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
+          <button v-for="n in 2" :key="n" class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
             <div class="tail-flex tail-items-center tail-space-x-3">
               <ClientAvatar firstname="get" lastname="welp" />
               <div class="tail-text-left">
@@ -65,43 +65,7 @@
                 </p>
               </div>
             </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 512 512"
-            >
-              <title>ionicons-v5-a</title>
-              <polyline
-                points="184 112 328 256 184 400"
-                style="fill:none;stroke:#56CCF2;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"
-              />
-            </svg>
-          </button>
-          <button class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
-            <div class="tail-flex tail-items-center tail-space-x-3">
-              <ClientAvatar firstname="get" lastname="welp" />
-              <div class="tail-text-left">
-                <p>
-                  Abi Carpenter has paid you
-                </p>
-                <p>
-                  1:00 PM
-                </p>
-              </div>
-            </div>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 512 512"
-            >
-              <title>ionicons-v5-a</title>
-              <polyline
-                points="184 112 328 256 184 400"
-                style="fill:none;stroke:#56CCF2;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"
-              />
-            </svg>
+            <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="">
           </button>
         </gw-summary-card>
       </div>
@@ -124,5 +88,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
