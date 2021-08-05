@@ -22,7 +22,12 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: ['@/assets/css/theme.scss', '@/assets/css/fonts.css', 'vue-multiselect/dist/vue-multiselect.min.css','vue2-datepicker/index.css'],
+  css: [
+    '@/assets/css/theme.scss',
+    '@/assets/css/fonts.css',
+    'vue-multiselect/dist/vue-multiselect.min.css',
+    'vue2-datepicker/index.css'
+  ],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/v-calendar.js', ssr: false },
@@ -110,7 +115,10 @@ export default {
             url: `${process.env.ACCOUNT_HOST_URL}/auth/login`,
             method: 'post'
           },
-          refresh: { url: `${process.env.ACCOUNT_HOST_URL}/auth/renew-token`, method: 'post' },
+          refresh: {
+            url: `${process.env.ACCOUNT_HOST_URL}/auth/renew-token`,
+            method: 'patch'
+          },
           logout: { url: '/', method: 'post' },
           user: false
         }
