@@ -36,18 +36,35 @@
         <button
           type="button"
           class=" tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-sm tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          @click.prevent="showSubMenu"
         >
           <i class="ns-ellipsis  tail-text-lg"></i>
         </button>
+        <div v-show="meetSubMenu" class="tail-mt-8">
+          <GwOptions
+            :options="['Set Availability']"
+            selected="availability"
+            @selected="setAvailabilty"
+          />
+        </div>
       </template>
     </PageHeader>
+    <Modal
+      :is-open="openModal"
+      :input-width="30"
+      @close="openModal = $event"
+    >
+      <div>
+        hello
+      </div>
+    </Modal>
 
     <div
       v-if="1 > 0"
       class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full tail-mt-2 md:tail-mt-5"
     >
       <template v-if="displayDay">
-        <div v-for="data in group" :key="data">
+        <div v-for="data in group" :key="data.id">
           <GroupIdentifier :identifier="data" />
         </div>
       </template>
@@ -104,6 +121,7 @@ export default {
       filter: 'day',
       displayMonth: false,
       displayDay: true,
+      meetSubMenu: false,
       group: [
         {
           _id: {
@@ -130,7 +148,7 @@ export default {
               trainer: 'Ali R',
               time: '2pm-3pm',
               venue: 'SMV-I12',
-              actions: '...',
+              cancelled: true,
               session: true,
               address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
               status: 'cancelled',
@@ -353,6 +371,9 @@ export default {
         this.displayDay = true
       }
     },
+    showSubMenu () {
+      this.meetSubMenu = !this.meetSubMenu
+    },
     prev () {
       const calendarApi = this.$refs.fullCalendar.getApi()
       calendarApi.prev()
@@ -366,6 +387,9 @@ export default {
     },
     nextEvent () {
       console.log('prevEvent')
+    },
+    setAvailabilty () {
+      console.log('available')
     }
   }
 }

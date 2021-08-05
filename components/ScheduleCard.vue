@@ -45,6 +45,14 @@
                 <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
               </button>
             </div>
+             <div v-if="data.cancelled">
+              <button
+                class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+                @click.prevent="showSubMenu"
+              >
+                <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
+              </button>
+            </div>
           </div>
         </div>
         <div v-show="meetSubMenu" class="">
@@ -56,7 +64,6 @@
         </div>
         <Modal
           :is-open="openModal"
-          :status="data.status"
           :input-width="30"
           @close="openModal = $event"
         >
@@ -92,7 +99,7 @@ export default {
   name: 'ScheduleCard',
   props: {
     data: {
-      type: Array,
+      type: Object,
       required: true
     }
   },

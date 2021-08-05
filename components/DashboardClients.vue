@@ -121,7 +121,7 @@
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
-    <Modal v-for="client in acceptedClients" :key="client.index" :status="client.status" :is-open="openClientModal" @close="openClientModal = $event">
+    <Modal v-for="client in acceptedClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           {{ client.status }}
