@@ -2,10 +2,10 @@
   <nav>
     <NuxtLink
       v-for="menu in menuItems"
-      :key="menu"
+      :key="menu.index"
       class="card"
       :exact-active-class="$route.name === `Client-id-${menu.pathName}` ? 'active' : ''"
-      :to="{ name: `Client-id-${menu.pathName}` }"
+      :to="{ name: `Client-id-${menu.pathName}`, params: { id: $route.params.id } }"
       aria-current="page"
     >
       <div class="tail-flex tail-items-center">
@@ -13,7 +13,8 @@
           class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
         >
           <i
-            class="ns-calendar tail-text-lg tail-text-gray-500"
+            class="tail-text-lg tail-text-gray-500"
+            :class="[ menu.pathName === 'Messages' ? 'ns-comment-alt' : menu.pathName === 'Information' ? 'ns-user' : 'ns-calendar' ]"
           ></i>
         </span>
         <span class="tail-pl-3">{{ menu.pathName }}</span>
