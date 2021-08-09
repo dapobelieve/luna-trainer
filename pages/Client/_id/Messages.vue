@@ -100,7 +100,7 @@
         class=" tail-grid tail-place-content-center"
         style="height: calc(100vh - 271px)"
       >
-        <img :src="fileImage" class="tail-inline-block" />
+        <img :src="fileImage" class="tail-inline-block" style="max-width: 450px;" />
       </div>
     </div>
     <div
