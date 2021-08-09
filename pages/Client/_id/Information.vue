@@ -1,6 +1,6 @@
 <template>
   <async-view>
-    <div>
+    <div v-if="client" class="tail-py-4 tail-px-8">
       <client-information :client="client" />
     </div>
   </async-view>

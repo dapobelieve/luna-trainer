@@ -2,25 +2,7 @@
   <nav class="tail-flex tail-overflow-y-auto tail-text-sm">
     <div class="tail-flex-grow tail-flex">
       <div class="tail-flex-1 tail-space-y-4">
-        <div
-          class="tail-bg-white tail-rounded-lg tail-flex tail-justify-between tail-p-4 tail-mb-3"
-          aria-current="page"
-        >
-          <div>
-            <p>
-              Dog: Diesel
-            </p>
-            <p>
-              Age: 9
-            </p>
-            <p>
-              Breed: Pitbull
-            </p>
-          </div>
-          <p>
-            2 courses
-          </p>
-        </div>
+        <slot name="petSummary" />
         <client-card-navigation />
         <gw-summary-card :data="nextupData">
           <div class="tail-flex">
@@ -74,10 +56,8 @@
 </template>
 
 <script>
-import GwSummaryCard from './util/GwSummaryCard.vue'
 export default {
   name: 'ClientSidebarContent',
-  components: { GwSummaryCard },
   data () {
     return {
       receiptData: { title: 'payments', icon: 'receipt' },

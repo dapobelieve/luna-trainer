@@ -4,22 +4,40 @@
       v-for="menu in menuItems"
       :key="menu.index"
       class="card"
-      :exact-active-class="$route.name === `Client-id-${menu.pathName}` ? 'active' : ''"
-      :to="{ name: `Client-id-${menu.pathName}`, params: { id: $route.params.id } }"
+      exact-active-class="active"
+      :to="{
+        name: `Client-id-${menu.pathName}`,
+        params: { id: $route.params.id }
+      }"
       aria-current="page"
     >
       <div class="tail-flex tail-items-center">
-        <span
-          class="tail-p-2 tail-rounded-full tail-flex tail-items-center"
-        >
+        <span class="tail-p-2 tail-rounded-full tail-flex tail-items-center">
           <i
-            class="tail-text-lg tail-text-gray-500"
-            :class="[ menu.pathName === 'Messages' ? 'ns-comment-alt' : menu.pathName === 'Information' ? 'ns-user' : 'ns-calendar' ]"
+            :class="[
+              menu.pathName === 'Messages'
+                ? 'ns-comment-alt'
+                : menu.pathName === 'Information'
+                  ? 'ns-user'
+                  : 'ns-calendar',
+              'tail-text-lg',
+              'tail-text-gray-500'
+            ]"
           ></i>
         </span>
         <span class="tail-pl-3">{{ menu.pathName }}</span>
       </div>
-      <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="">
+      <span class="tail-flex tail-items-center">
+        <b
+          v-if="menu.pathName === 'Messages'"
+          class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-text-xs tail-text-white tail-mr-1"
+        >9+</b>
+        <b
+          v-else-if="menu.pathName === 'Calendar'"
+          class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-yellow-300 tail-rounded-full tail-text-xs tail-text-yellow-700 tail-mr-1"
+        >9+</b>
+        <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="" />
+      </span>
     </NuxtLink>
   </nav>
 </template>
@@ -48,7 +66,7 @@ export default {
 <style lang="scss" scoped>
 nav {
   display: grid;
-  grid-gap: 12px;
+  grid-gap: 14px;
 }
 .card {
   background: white;
@@ -67,24 +85,24 @@ nav {
     color: #000;
     opacity: 0.5;
   }
-  &:hover span:nth-child(2){
-      color: #000;
+  &:hover span:nth-child(2) {
+    color: #000;
   }
   &:hover span:first-child {
-      background: rgba(230, 246, 255, 1);
+    background: rgba(230, 246, 255, 1);
   }
   &:hover span:first-child i {
-      color: rgba(86, 204, 242, 1);
+    color: rgba(86, 204, 242, 1);
   }
 }
 
 .active {
-  border: 2px solid #56CCF2;
+  border: 2px solid #56ccf2;
   span:first-child {
-      background: rgba(230, 246, 255, 1);
+    background: rgba(230, 246, 255, 1);
   }
   span:first-child i {
-      color: rgba(86, 204, 242, 1);
+    color: rgba(86, 204, 242, 1);
   }
 }
 </style>
