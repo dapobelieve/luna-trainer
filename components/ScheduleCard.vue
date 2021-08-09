@@ -45,7 +45,7 @@
                 <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
               </button>
             </div>
-             <div v-if="data.cancelled">
+            <div v-if="data.cancelled">
               <button
                 class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
                 @click.prevent="showSubMenu"
@@ -62,6 +62,9 @@
             @selected="selectSession"
           />
         </div>
+        <Modal :is-open="openEditModal" :input-width="30" @close="openEditModal = $event">
+          <CreateSchedule :data="data" @close="openEditModal = $event" />
+        </Modal>
         <Modal
           :is-open="openModal"
           :input-width="30"
@@ -107,7 +110,8 @@ export default {
     return {
       meetSubMenu: false,
       openModal: false,
-      openDeleteModal: false
+      openDeleteModal: false,
+      openEditModal: false
     }
   },
   methods: {
@@ -119,7 +123,8 @@ export default {
         this.openDeleteModal = true
         this.meetSubMenu = false
       } else {
-        console.log('hi')
+        this.openEditModal = true
+        this.meetSubMenu = false
       }
     }
   }

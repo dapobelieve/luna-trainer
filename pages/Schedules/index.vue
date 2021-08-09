@@ -9,14 +9,14 @@
             class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? prev() : prevEvent()"
           >
-            <i class="ns-chevron-left  tail-text-lg"></i>
+            <svg class="tail-w-6 tail-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
           </button>
           <button
             type="button"
             class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? next() : nextEvent()"
           >
-            <i class="ns-chevron-right  tail-text-lg"></i>
+            <svg class="tail-w-6 tail-h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
           </button>
         </div>
       </template>
@@ -24,7 +24,7 @@
         <button
           type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          @click="openModal = true"
+          @click="openCreateModal = true"
         >
           <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
         </button>
@@ -50,12 +50,21 @@
       </template>
     </PageHeader>
     <Modal
-      :is-open="openModal"
+      :is-open="openAvailabilityModal"
       :input-width="30"
-      @close="openModal = $event"
+      @close="openAvailabilityModal = $event"
     >
-      <div>
+      <div @close="openAvailabilityModal = $event">
         hello
+      </div>
+    </Modal>
+    <Modal
+      :is-open="openCreateModal"
+      :input-width="30"
+      @close="openCreateModal = $event"
+    >
+      <div @close="openCreateModal = $event">
+        <CreateSchedule />
       </div>
     </Modal>
 
@@ -118,10 +127,12 @@ export default {
   data () {
     return {
       openModal: false,
+      openAvailabilityModal: false,
       filter: 'day',
       displayMonth: false,
       displayDay: true,
       meetSubMenu: false,
+      openCreateModal: false,
       group: [
         {
           _id: {
@@ -316,7 +327,6 @@ export default {
           ]
         }
       ],
-
       calendarOptions: {
         headerToolbar: false,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
@@ -325,6 +335,7 @@ export default {
         editable: true,
         droppable: true,
         eventResizableFromStart: true,
+        background: '#fffff',
         events: [
           {
             id: 1,
@@ -389,7 +400,7 @@ export default {
       console.log('prevEvent')
     },
     setAvailabilty () {
-      console.log('available')
+      this.openAvailabilityModal = true
     }
   }
 }
@@ -439,6 +450,13 @@ a {
 .my-fc::v-deep {
   .fc-daygrid-event-dot {
     display: none !important;
+  }
+  td th, .fc-theme-standard td,
+  .fc-theme-standard th,
+  .fc-daygrid-day-frame,
+   .fc-daygrid-day-events,
+    .fc-daygrid-event-harness  {
+    background-color: #fff !important;
   }
 }
 </style>

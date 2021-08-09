@@ -32,14 +32,14 @@
     {
       "icon": "ns-plus",
       "title": "Add New Session",
-      "path": "AddSession"
+      "path": "addSession"
     },
     {
       "section": "Clients",
       "classes":"tail-mt-4"
     },
     {
-      "icon": "ns-users",
+      "icon": "ns-user",
       "title": "my clients",
       "path": "Clients"
     },
@@ -47,6 +47,16 @@
       "icon": "ns-plus",
       "title": "invite new client",
       "path": "inviteClient"
+    },
+    {
+      "icon": "ns-users",
+      "title": "my courses",
+      "path": "Courses"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "new course",
+      "path": "newCourses"
     },
     {
       "section": "Invoicing"

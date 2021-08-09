@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="tail-fixed tail-z-50 tail-inset-0 tail-overflow-y-auto">
+  <div v-if="isOpen" class="tail-fixed index tail-inset-0 tail-overflow-y-auto">
     <div id="myModal" class="tail-flex tail-items-end tail-justify-center tail-min-h-screen tail-pt-4 tail-px-4 tail-pb-20 tail-text-center sm:tail-block sm:p-0">
       <transition
         enter="tail-ease-out tail-duration-300"
@@ -117,5 +117,8 @@ export default {
   color: #000;
   text-decoration: none;
   cursor: pointer;
+}
+.index{
+  z-index: 100;
 }
 </style>
