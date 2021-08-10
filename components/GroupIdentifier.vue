@@ -10,7 +10,7 @@
         </p>
       </div>
       <div class="tail-w-full">
-        <div v-for="data in identifier.schedules" :key="data" >
+        <div v-for="data in identifier.schedules" :key="data.id">
           <ScheduleCard :data="data" />
         </div>
       </div>
