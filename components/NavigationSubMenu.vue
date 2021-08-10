@@ -2,7 +2,6 @@
   <div
     v-if="value"
     :class="[
-      $route.name !== 'Dashboard' ? 'tail-mt-12' : '',
       'tail-absolute',
       'tail-top-0',
       'tail-z-30',
@@ -27,8 +26,9 @@
             @click="$emit('input', false)"
           ></div>
           <div
+            :class="[$route.name !== 'Dashboard' ? 'tail-pt-16' : '',]"
             class="tail-inline-block tail-relative tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-y-auto tail-shadow-xl tail-transform tail-transition-all tail-w-96"
-            style="height: 90vh"
+            :style="{height: getHeight}"
           >
             <div class="tail-sticky tail-top-0">
               <div class="tail-flex tail-justify-between tail-items-center tail-p-5 tail-bg-white">
@@ -54,6 +54,11 @@ export default {
   name: 'NavigationSubMenu',
   props: {
     value: Boolean
+  },
+  computed: {
+    getHeight () {
+      return this.$route.name !== 'Dashboard' ? '80vh' : '90vh'
+    }
   }
 }
 </script>
