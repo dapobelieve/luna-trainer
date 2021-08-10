@@ -9,14 +9,14 @@
             class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? prev() : prevEvent()"
           >
-            <i class="ns-chevron-left  tail-text-lg"></i>
+            <img class="tail-h-6" src="~/assets/img/chevron-left.svg" alt="">
           </button>
           <button
             type="button"
             class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? next() : nextEvent()"
           >
-            <i class="ns-chevron-right  tail-text-lg"></i>
+            <img class="tail-h-6" src="~/assets/img/chevron-right.svg" alt="">
           </button>
         </div>
       </template>
@@ -24,7 +24,7 @@
         <button
           type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          @click="openModal = true"
+          @click="openCreateModal = true"
         >
           <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
         </button>
@@ -36,18 +36,44 @@
         <button
           type="button"
           class=" tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-sm tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          @click.prevent="showSubMenu"
         >
           <i class="ns-ellipsis  tail-text-lg"></i>
         </button>
+        <div v-show="meetSubMenu" class="tail-mt-8">
+          <GwOptions
+            :options="['Set Availability']"
+            selected="availability"
+            @selected="setAvailabilty"
+          />
+        </div>
       </template>
     </PageHeader>
+    <Modal
+      :is-open="openAvailabilityModal"
+      :input-width="30"
+      @close="openAvailabilityModal = $event"
+    >
+      <div @close="openAvailabilityModal = $event">
+        hello
+      </div>
+    </Modal>
+    <Modal
+      :is-open="openCreateModal"
+      :input-width="40"
+      @close="openCreateModal = $event"
+    >
+      <div @close="openCreateModal = $event">
+        <CreateSchedule />
+      </div>
+    </Modal>
 
     <div
       v-if="1 > 0"
       class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full tail-mt-2 md:tail-mt-5"
     >
       <template v-if="displayDay">
-        <div v-for="data in group" :key="data">
+        <div v-for="data in group" :key="data.id">
           <GroupIdentifier :identifier="data" />
         </div>
       </template>
@@ -101,9 +127,12 @@ export default {
   data () {
     return {
       openModal: false,
+      openAvailabilityModal: false,
       filter: 'day',
       displayMonth: false,
       displayDay: true,
+      meetSubMenu: false,
+      openCreateModal: false,
       group: [
         {
           _id: {
@@ -130,7 +159,7 @@ export default {
               trainer: 'Ali R',
               time: '2pm-3pm',
               venue: 'SMV-I12',
-              actions: '...',
+              cancelled: true,
               session: true,
               address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
               status: 'cancelled',
@@ -298,7 +327,6 @@ export default {
           ]
         }
       ],
-
       calendarOptions: {
         headerToolbar: false,
         plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
@@ -307,6 +335,7 @@ export default {
         editable: true,
         droppable: true,
         eventResizableFromStart: true,
+        background: '#fffff',
         events: [
           {
             id: 1,
@@ -353,6 +382,9 @@ export default {
         this.displayDay = true
       }
     },
+    showSubMenu () {
+      this.meetSubMenu = !this.meetSubMenu
+    },
     prev () {
       const calendarApi = this.$refs.fullCalendar.getApi()
       calendarApi.prev()
@@ -366,6 +398,9 @@ export default {
     },
     nextEvent () {
       console.log('prevEvent')
+    },
+    setAvailabilty () {
+      this.openAvailabilityModal = true
     }
   }
 }
@@ -415,6 +450,13 @@ a {
 .my-fc::v-deep {
   .fc-daygrid-event-dot {
     display: none !important;
+  }
+  td th, .fc-theme-standard td,
+  .fc-theme-standard th,
+  .fc-daygrid-day-frame,
+   .fc-daygrid-day-events,
+    .fc-daygrid-event-harness  {
+    background-color: #fff !important;
   }
 }
 </style>

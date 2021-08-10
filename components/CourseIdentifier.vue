@@ -1,0 +1,92 @@
+<template>
+  <div>
+    <div
+      class="tail-rounded-md tail-bg-white tail-cursor-pointer tail-p-4 tail-mb-4 tail-flex tail-items-center tail-justify-between tail-m-4"
+    >
+      <div @click="viewClass">
+        <h3 class="tail-font-semibold tail-text-base tail-text-gray-800">
+          {{ identifier._id.title }}
+        </h3>
+        <p class="tail-text-sm tail-truncate tail-text-gray-500">
+          Started on {{ identifier._id.date }}
+        </p>
+        <p class="tail-text-sm tail-truncate tail-text-gray-500">
+          <span> {{ identifier._id.classNo }} classes</span>-
+          <span>{{ identifier._id.remainder }} remaining</span>
+        </p>
+        <p class="tail-font-semibold tail-text-gray-800">
+          {{ identifier._id.amount }}
+        </p>
+      </div>
+      <div v-if="identifier._id.status === 'active'">
+        <img class="tail-h-6" src="~/assets/img/chevron-right.svg" alt="google logo">
+      </div>
+      <div v-else>
+        <button
+          class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          @click.prevent="showSubMenu"
+        >
+          <i class="ns-ellipsis tail-font-bold tail-text-gray-600 tail-text-lg"></i>
+        </button>
+      </div>
+    </div>
+    <div v-show="meetSubMenu" class="tail-texl-sm">
+      <GwOptions
+        :options="['Reschedule Class', 'Cancel Class']"
+        selected=""
+        @selected="classDetails"
+      />
+    </div>
+    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+      <CancelAlert @close="openDeleteModal = $event">
+        <template v-slot:text>
+        <div class="tail-text-base tail-font-medium tail-text-left">
+            Do you want to cancel the class {{ identifier._id.title }}:{{ identifier._id.date }}?
+        </div>
+        </template>
+      </CancelAlert>
+    </Modal>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'CourseIdentifier',
+  props: {
+    identifier: {
+      type: Object,
+      required: true
+    }
+  },
+  data () {
+    return {
+      meetSubMenu: false,
+      openDeleteModal: false
+    }
+  },
+  methods: {
+    viewClass () {
+      this.$router.push({
+        name: 'Course-id',
+        params: {
+          id: this.identifier._id.id
+        }
+      })
+    },
+    showSubMenu () {
+      this.meetSubMenu = !this.meetSubMenu
+    },
+    classDetails (selected) {
+      if (selected === 'Cancel Class') {
+        this.openDeleteModal = true
+        this.meetSubMenu = false
+      } else {
+        console.log('holla')
+        this.meetSubMenu = false
+      }
+    }
+  }
+}
+</script>
+
+<style></style>

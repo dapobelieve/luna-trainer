@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-hidden lg:tail-block lg:tail-col-span-3 xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white">
+  <div class="tail-hidden lg:tail-block lg:tail-col-span-3 index xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white">
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
@@ -32,8 +32,16 @@
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="inviteClient = true"
             >
-              <i class="ns-user-add tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+              <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Invite Client</span>
+            </button>
+            <button
+              v-else-if="menu.path === 'addSession'"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              @click="addSession = true"
+            >
+              <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">Add New Session</span>
             </button>
 
             <button
@@ -155,6 +163,18 @@
     <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
+    <Modal :input-width="40" :is-open="inviteClient" @close="inviteClient = $event">
+      <InviteNewClient @close="inviteClient = $event" />
+    </Modal>
+    <Modal
+      :is-open="addSession"
+      :input-width="40"
+      @close="addSession = $event"
+    >
+      <div @close="addSession = $event">
+        <CreateSchedule />
+      </div>
+    </Modal>
     <Modal :input-width="30" :is-open="openModal" @close="openModal = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
@@ -197,6 +217,7 @@ export default {
       openModal: false,
       showNotificationsMenu: false,
       showMessagesMenu: false
+      addSession: false
     }
   },
   computed: {
@@ -241,5 +262,8 @@ export default {
   height: 30px;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
+}
+.index{
+  z-index: 50;
 }
 </style>
