@@ -14,7 +14,7 @@
             <ClientAvatar firstname="Get" lastname="Welp" />
             <div class="tail-pl-2">
               <p class="tail-font-bold">
-                {{ data.meeting }} with {{ data.client }}.
+                {{ data.meeting }} with {{ data.trainer_firstname }}.
               </p>
               <div>
                 <span
@@ -62,7 +62,7 @@
             @selected="selectSession"
           />
         </div>
-        <Modal :is-open="openEditModal" :input-width="30" @close="openEditModal = $event">
+        <Modal :is-open="openEditModal" :input-width="40" @close="openEditModal = $event">
           <CreateSchedule :data="data" @close="openEditModal = $event" />
         </Modal>
         <Modal
@@ -78,19 +78,13 @@
           <ScheduleInfoPreview :data="data" @close="openModal = $event" />
         </Modal>
         <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
-          <div>
-            <div class="tail-mb-2 tail-text-base">
-              Are you sure you want to cancel the appointment?
-            </div>
-            <div class="tail-flex tail-justify-end tail-items-center">
-              <button class="tail-hidden md:tail-flex tail-items-center tail-px-3.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1.5">
-                Yes
-              </button>
-              <button class="tail-hidden md:tail-flex tail-items-center tail-px-3.5 tail-py-1 tail-rounded-md tail-bg-blue-400 tail-text-white tail-border tail-border-gray-400 tail-m-1.5">
-                No
-              </button>
-            </div>
-          </div>
+          <CancelAlert @close="openDeleteModal = $event">
+            <template v-slot:text>
+              <div class="tail-text-base tail-font-medium tail-text-left">
+                Are you sure you want to cancel the appointment?
+              </div>
+            </template>
+          </CancelAlert>
         </Modal>
       </div>
     </div>

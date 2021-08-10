@@ -19,21 +19,7 @@
         </p>
       </div>
       <div v-if="identifier._id.status === 'active'">
-        <svg
-          class="tail-w-6 tail-h-6 tail-text-blue-500"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          @click="viewClass"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 5l7 7-7 7"
-          ></path>
-        </svg>
+        <img class="tail-h-6" src="~/assets/img/chevron-right.svg" alt="google logo">
       </div>
       <div v-else>
         <button
@@ -44,13 +30,22 @@
         </button>
       </div>
     </div>
-    <div v-show="meetSubMenu" class="">
+    <div v-show="meetSubMenu" class="tail-texl-sm">
       <GwOptions
         :options="['Reschedule Class', 'Cancel Class']"
         selected=""
         @selected="classDetails"
       />
     </div>
+    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+      <CancelAlert @close="openDeleteModal = $event">
+        <template v-slot:text>
+        <div class="tail-text-base tail-font-medium tail-text-left">
+            Do you want to cancel the class {{ identifier._id.title }}:{{ identifier._id.date }}?
+        </div>
+        </template>
+      </CancelAlert>
+    </Modal>
   </div>
 </template>
 
@@ -65,7 +60,8 @@ export default {
   },
   data () {
     return {
-      meetSubMenu: false
+      meetSubMenu: false,
+      openDeleteModal: false
     }
   },
   methods: {
@@ -80,8 +76,14 @@ export default {
     showSubMenu () {
       this.meetSubMenu = !this.meetSubMenu
     },
-    classDetails () {
-      console.log('clicked')
+    classDetails (selected) {
+      if (selected === 'Cancel Class') {
+        this.openDeleteModal = true
+        this.meetSubMenu = false
+      } else {
+        console.log('holla')
+        this.meetSubMenu = false
+      }
     }
   }
 }

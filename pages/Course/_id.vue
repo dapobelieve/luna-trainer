@@ -3,7 +3,9 @@
     <PageHeader>
       <template v-slot:title>
         <div class="tail-flex tail-items-center">
-          <svg class="tail-w-6 tail-h-6 tail-mr-2 tail-text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+          <button @click="$router.go(-1)">
+            <img src="~/assets/img/chevron-left.svg" alt="" class="tail-h-6">
+          </button>
           <p v-if="classCard" class="tail-text-gray-500  tail-text-xl tail-font-semibold">
             Courses
           </p>
@@ -54,11 +56,10 @@
         <ClassCard :data="data" @showInfo="showClassInfo" />
       </div>
     </div>
-    <div v-if="showClass">
-      something here
-      <!-- <div v-for="data in group" :key="data.id">
-        <ClassCardInfo :data="data" @showInfo="showClassInfo" />
-      </div> -->
+    <div v-else>
+      <div>
+        <ClassCardInfo />
+      </div>
     </div>
   </div>
 </template>
