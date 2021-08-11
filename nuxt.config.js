@@ -127,5 +127,19 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {
+    transpile: /@fullcalendar.*/,
+    postcss: {
+      plugins: {
+        'cssnano': {
+          preset: [
+            "default",
+            {
+              "calc": false
+            }
+          ]
+        }
+      }
+    }
+  }
 }
