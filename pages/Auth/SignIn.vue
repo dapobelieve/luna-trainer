@@ -112,6 +112,7 @@
 </template>
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import { mapActions } from 'vuex'
 export default {
   name: 'SignIn',
   layout: 'authLayout',
@@ -150,6 +151,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
+    }),
     authenticateWithTokens (tokens) {
       // set necessary tokens
       this.$store.dispatch('authorize/setToken', tokens)
@@ -158,6 +162,8 @@ export default {
         if (response === null) {
           this.$router.push({ name: 'Auth-ProfileSetup' })
         } else {
+          // connect user to sendbird server
+          this.connectToSendBird()
           this.$auth.setUser(response)
           // set user in local storage
           const getWelpUser = localStorage.getItem('getWelpUser')

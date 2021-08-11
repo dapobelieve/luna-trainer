@@ -51,7 +51,8 @@ export default {
     quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
     quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY,
     stripeReturn: process.env.RETURN_URL,
-    paymentHostUrl: process.env.PAYMENT_HOST_URL
+    paymentHostUrl: process.env.PAYMENT_HOST_URL,
+    sendBirdAppId: process.env.SENDBIRD_APP_ID
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

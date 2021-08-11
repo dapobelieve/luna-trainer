@@ -31,11 +31,15 @@
           class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
           <i class="ns-building tail-text-3xl tail-text-gray-500" />
-          <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-medium tail-text-xl">
+          <h3
+            class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-medium tail-text-xl"
+          >
             {{ $auth.user.businessName }}.
           </h3>
         </div>
-        <div class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20">
+        <div
+          class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20"
+        >
           <div class="tail-grid tail-gap-4">
             <DashboardClients />
             <DashboardMessages />
@@ -53,18 +57,38 @@
     <Modal :is-open="openBankModal" @close="openBankModal = $event">
       <BankAccountDetails />
     </Modal>
+    <NotificationsModal
+      :visible="showNotification"
+      @close="showNotification = $event"
+    >
+      <template v-slot:title>
+        Chat Connection Failed
+      </template>
+      <template v-slot:subtitle>
+        Reconnect chat to enjoy all of GetWelp's features
+      </template>
+      <template v-slot:actionButtons>
+        <button
+          class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
+          @click="retry"
+        >
+          retry
+        </button>
+      </template>
+    </NotificationsModal>
   </main>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
   layout: 'dashboardLayout',
   data () {
     return {
       openModal: false,
-      openBankModal: false
+      openBankModal: false,
+      showNotification: false
     }
   },
   head () {
@@ -72,19 +96,55 @@ export default {
       title: 'Dashboard'
     }
   },
+  computed: {
+    ...mapGetters({
+      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
+    })
+  },
+  watch: {
+    sendBirdConnStatus (newValue, oldValue) {
+      if (newValue || oldValue) {
+        this.$nextTick(() => {
+          setTimeout(() => {
+            this.showNotification = true
+          }, 2000)
+        })
+      }
+    }
+  },
   mounted () {
     this.fetchUserProfile()
   },
   updated () {
-    if (!this.$store.state.authorize.isStripeConnected && !this.$store.state.payment.isBankLinked && this.$route.query.stripe === 'connected') {
+    this.$nextTick(() => {
+      if (this.sendBirdConnStatus) {
+        setTimeout(() => {
+          this.showNotification = true
+        }, 2000)
+      }
+    })
+    if (
+      !this.$store.state.authorize.isStripeConnected &&
+      !this.$store.state.payment.isBankLinked &&
+      this.$route.query.stripe === 'connected'
+    ) {
       this.fetchUserProfile() // to set value of stripe in profile
       this.openBankModal = true
     }
   },
   methods: {
     ...mapActions({
-      fetchUserProfile: 'authorize/getUserProfile'
-    })
+      fetchUserProfile: 'authorize/getUserProfile',
+      connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
+    }),
+    retry () {
+      this.showNotification = false
+      return this.connectToSendBird().then((result) => {
+        if (result !== 'error') {
+          this.$toast.success('Chat connection successful')
+        }
+      })
+    }
   }
 }
 </script>
