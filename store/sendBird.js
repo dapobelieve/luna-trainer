@@ -7,6 +7,9 @@ export const mutations = {
   SET_SB_USER (state, user) {
     state.sbUser = user
   },
+  DISCONNECT_USER (state) {
+    state.sbUser = null
+  },
   CONNECTION_ERROR (state, status) {
     state.connectingStatus = status
   }
@@ -29,6 +32,13 @@ export const actions = {
     } catch (error) {
       return 'error'
     }
+  },
+  disconnectFromSendbirdServer ({ commit }) {
+    this.$sb.disconnect(() => {
+    // The current user is disconnected from Sendbird server.
+      commit('DISCONNECT_USER')
+      console.log('user logged out')
+    })
   }
 }
 
