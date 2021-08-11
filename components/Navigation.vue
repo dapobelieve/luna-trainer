@@ -216,7 +216,7 @@ export default {
       inviteClient: false,
       openModal: false,
       showNotificationsMenu: false,
-      showMessagesMenu: false
+      showMessagesMenu: false,
       addSession: false
     }
   },
