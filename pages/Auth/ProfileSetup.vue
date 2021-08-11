@@ -202,6 +202,8 @@ export default {
               }
             }
             this.$toast.success('Welcome', { position: 'bottom-right' })
+            // connect user to sendbird server
+            this.connectToSendBird()
             this.$router.push({ name: 'Dashboard' })
           }
         }).catch((err) => {
