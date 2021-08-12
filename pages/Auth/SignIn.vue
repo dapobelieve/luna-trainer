@@ -163,7 +163,7 @@ export default {
           this.$router.push({ name: 'Auth-ProfileSetup' })
         } else {
           // connect user to sendbird server
-          this.connectToSendBird()
+          this.connectToSendBird(response.sendbirdId)
           this.$auth.setUser(response)
           // set user in local storage
           const getWelpUser = localStorage.getItem('getWelpUser')

@@ -21,7 +21,7 @@
         </template>
         <template v-slot:title>
           <span class="tail-capitalize">
-            {{ firstName }} {{ lastName }} <span class="tail-text-gray-500 tail-text-xs tail-normal-case tail-tracking-wide">is typing...</span>
+            {{ firstName }} {{ lastName }}
           </span>
         </template>
         <template v-slot:buttons>
@@ -110,6 +110,7 @@ export default {
     }
   },
   mounted () {
+    // const u = this.getSendbirdUser('0003') // get this sendbird user profile
     this.getClientProfile(this.id).then((response) => {
       if (this.clientInfo === undefined) {
         this.clientInfo = response
@@ -118,7 +119,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getClientProfile: 'client/getSingleClient'
+      getClientProfile: 'client/getSingleClient',
+      getSendbirdUser: 'sendBird/getUser'
     })
   }
 }

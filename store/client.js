@@ -44,6 +44,8 @@ export const actions = {
         commit('SET_ALL_CLIENTS', response)
         commit('IS_LOADING', false)
         dispatch('loader/endProcess', null, { root: true })
+        // fetch their sendBird profiles
+        // dispatch('sendBird/listOfMySendBirdUsers', response, { root: true })
         return response.data
       }).catch(() => {
         dispatch('loader/endProcess', null, { root: true })

@@ -191,6 +191,7 @@ export default {
       if (!this.disabled) {
         this.isLoading = true
         return this.createTrainerProfile(this.profileInfo).then(async (response) => {
+          console.log('the response creating profile ', response)
           if (response.status === 'success') {
             this.$toast.info('Profile creations successfully', { position: 'bottom-right' })
             this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
@@ -203,7 +204,7 @@ export default {
             }
             this.$toast.success('Welcome', { position: 'bottom-right' })
             // connect user to sendbird server
-            this.connectToSendBird()
+            this.connectToSendBird(response.data.sendbirdId)
             this.$router.push({ name: 'Dashboard' })
           }
         }).catch((err) => {
