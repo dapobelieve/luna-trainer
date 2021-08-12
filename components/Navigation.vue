@@ -17,7 +17,7 @@
         <div class="tail-space-y-1">
           <div v-for="menu in menus.menu" :key="menu">
             <NuxtLink
-              v-if="menu.path && !['signout', 'Notifications', 'inviteClient', 'addSession'].includes(menu.path)"
+              v-if="menu.path && !['signout', 'Notifications', 'Messages', 'inviteClient'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
@@ -53,6 +53,14 @@
               <span class="tail-truncate tail-text-sm tail-font-normal">Notifications</span>
             </button>
             <button
+              v-else-if="menu.path === 'Messages'"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              @click="toggleMenu(menu.path)"
+            >
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
+            </button>
+            <button
               v-else-if="menu.path === 'signout'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
@@ -65,30 +73,31 @@
             </p>
           </div>
         </div>
+        <!-- flyout notifications -->
         <navigation-sub-menu v-model="showNotificationsMenu">
           <template v-slot:title>
-            <h2>
+            <h2 class="tail-font-semibold">
               Notifications
             </h2>
           </template>
           <template v-slot:body>
-            <div v-if="true" class="tail-p-6">
-              <div class="tail-flex">
+            <div v-if="true" class="tail-px-4 tail-py-2 tail-grid tail-gap-6">
+              <div v-for="n in 20" :key="n.index" class="tail-flex tail-space-x-3">
                 <div>
                   <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
                 </div>
                 <div>
-                  <div class="tail-flex tail-flex-col tail-px-2">
+                  <div class="tail-flex tail-flex-col tail-text-sm">
                     <span>
                       APBC Committee Meeting with Ali R
                     </span>
                     <span>7pm - 9pm . Remote</span>
                   </div>
-                  <div class="tail-flex tail-justify-between tail-pt-2">
-                    <button class="base-button tail-px-4 tail-mr-3">
+                  <div class="tail-flex tail-space-x-2 tail-pt-2">
+                    <button class="base-button tail-px-0 tail-text-sm">
                       Accept
                     </button>
-                    <button class="outline-button tail-px-4">
+                    <button class="outline-button tail-px-0 tail-text-sm">
                       Re-schedule
                     </button>
                   </div>
@@ -99,6 +108,48 @@
               <div class="tail-text-center tail-py-5">
                 <h2 class="tail-font-bold">
                   No Notifications.
+                </h2>
+                <div class="tail-pt-3">
+                  <p>We will notify you when something arrives</p>
+                </div>
+              </div>
+            </div>
+          </template>
+        </navigation-sub-menu>
+
+        <!-- flyout messages -->
+        <navigation-sub-menu v-model="showMessagesMenu">
+          <template v-slot:title>
+            <h2 class="tail-font-semibold">
+              Messages
+            </h2>
+          </template>
+          <template v-slot:search>
+            <div class="tail-flex tail-px-5 tail-py-2 tail-bg-gray-100 tail-items-center">
+              <i class="ns-search tail-text-gray-400 tail-text-2xl tail-pr-2"></i>
+              <input type="text" class="tail-w-full focus:tail-outline-none tail-bg-transparent" placeholder="Search or start new chat">
+            </div>
+          </template>
+          <template v-slot:body>
+            <div v-if="true" class="tail-py-2 tail-grid">
+              <div v-for="n in 2" :key="n.index" class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer">
+                <div>
+                  <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
+                </div>
+                <div class="tail-text-sm">
+                  <div class="tail-capitalize tail-font-semibold">
+                    <span class="tail-capitalize tail-font-semibold">james r</span> . <span class="tail-text-gray-400 tail-text-xs">7pm - 9pm</span>
+                  </div>
+                  <div class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-600">
+                    Lorem ipsum dolor sit amet, concude loema d...
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
+              <div class="tail-text-center tail-py-5">
+                <h2 class="tail-font-bold">
+                  No New Messages.
                 </h2>
                 <div class="tail-pt-3">
                   <p>We will notify you when something arrives</p>
@@ -165,6 +216,7 @@ export default {
       inviteClient: false,
       openModal: false,
       showNotificationsMenu: false,
+      showMessagesMenu: false
       addSession: false
     }
   },
@@ -187,13 +239,12 @@ export default {
     toggleMenu (path) {
       if (path === 'Notifications') {
         this.showNotificationsMenu = true
+      } else if (path === 'Messages') {
+        this.showMessagesMenu = true
       }
     },
     signOut () {
       this.logOut()
-    },
-    close () {
-      this.$emit('closemessagedrawer')
     }
   }
 }
