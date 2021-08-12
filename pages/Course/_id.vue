@@ -50,6 +50,25 @@
         />
       </div>
     </div>
+    <Modal :is-open="openAddParticipant" @close="openAddParticipant = $event">
+      <template v-slot:status>
+        <div class="tail-px-2 tail-text-2xl tail-font-bold">
+          Add Participant
+        </div>
+      </template>
+      <div>
+        <AddParticipant @close="openAddParticipant = $event" />
+      </div>
+    </Modal>
+    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+      <CancelAlert @close="openDeleteModal = $event">
+        <template v-slot:text>
+          <div class="tail-text-base tail-font-medium tail-text-left">
+            Are you sure you want to delete the course Puppies? A notification will be sent to all participants
+          </div>
+        </template>
+      </CancelAlert>
+    </Modal>
 
     <div v-if="classCard">
       <div v-for="data in group" :key="data.id">
@@ -71,6 +90,8 @@ export default {
       showClass: false,
       classCard: true,
       meetSubMenu: false,
+      openAddParticipant: false,
+      openDeleteModal: false,
       group: [
         {
           _id: {
@@ -215,12 +236,30 @@ export default {
     showSubMenu () {
       this.meetSubMenu = !this.meetSubMenu
     },
-    courseActions () {
-      console.log('clicked')
-    },
-    reschedule () {
-      console.log('clicked')
+    courseActions (selected) {
+      if (selected === 'Add Participant') {
+        this.openAddParticipant = true
+        this.meetSubMenu = false
+      } else if (selected === 'Delete Course') {
+        this.openDeleteModal = true
+        this.meetSubMenu = false
+      }
     }
+    // reschedule (selected) {
+    //   if (selected === 'Reschedule Class') {
+    //     this.openReschedule = true
+    //     this.meetSubMenu = false
+    //   }
+    // }
+    // selectSession (selected) {
+    //   if (selected === 'Cancel Session') {
+    //     this.openDeleteModal = true
+    //     this.meetSubMenu = false
+    //   } else {
+    //     this.openEditModal = true
+    //     this.meetSubMenu = false
+    //   }
+    // }
   }
 
 }

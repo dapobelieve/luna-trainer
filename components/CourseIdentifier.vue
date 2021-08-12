@@ -32,7 +32,7 @@
     </div>
     <div v-show="meetSubMenu" class="tail-texl-sm">
       <GwOptions
-        :options="['Reschedule Class', 'Cancel Class']"
+        :options="['Edit Draft', 'Delete Draft']"
         selected=""
         @selected="classDetails"
       />
@@ -40,9 +40,9 @@
     <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
-        <div class="tail-text-base tail-font-medium tail-text-left">
-            Do you want to cancel the class {{ identifier._id.title }}:{{ identifier._id.date }}?
-        </div>
+          <div class="tail-text-base tail-font-medium tail-text-left">
+            Are you sure you want to delete the course {{ identifier._id.title }}? A notification will be sent to all participants
+          </div>
         </template>
       </CancelAlert>
     </Modal>
@@ -77,7 +77,7 @@ export default {
       this.meetSubMenu = !this.meetSubMenu
     },
     classDetails (selected) {
-      if (selected === 'Cancel Class') {
+      if (selected === 'Delete Draft') {
         this.openDeleteModal = true
         this.meetSubMenu = false
       } else {

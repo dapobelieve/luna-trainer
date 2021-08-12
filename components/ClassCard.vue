@@ -32,6 +32,26 @@
         @selected="classActions"
       />
     </div>
+
+    <Modal :is-open="openReschedule" :input-width="30" @close="openReschedule = $event">
+      <template v-slot:status>
+        <div class="tail-px-2 tail-text-2xl tail-font-bold">
+          Reschedule Class
+        </div>
+      </template>
+      <div>
+        <Reschedule @close="openReschedule = $event" />
+      </div>
+    </Modal>
+    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+      <CancelAlert @close="openDeleteModal = $event">
+        <template v-slot:text>
+          <div class="tail-text-base tail-font-medium tail-text-left">
+           Are you sure you want to cancel the class Puppies : August 26?
+          </div>
+        </template>
+      </CancelAlert>
+    </Modal>
   </div>
 </template>
 
@@ -46,15 +66,23 @@ export default {
   },
   data () {
     return {
-      meetSubMenu: false
+      meetSubMenu: false,
+      openReschedule: false,
+      openDeleteModal: false
     }
   },
   methods: {
     showSubMenu () {
       this.meetSubMenu = !this.meetSubMenu
     },
-    classActions () {
-      console.log('clicked')
+    classActions (selected) {
+      if (selected === 'Reschedule Class') {
+        this.openReschedule = true
+        this.meetSubMenu = false
+      } else if (selected === 'Cancel Class') {
+        this.openDeleteModal = true
+        this.meetSubMenu = false
+      }
     }
   }
 

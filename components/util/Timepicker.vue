@@ -1,7 +1,7 @@
 <template>
   <div>
     <date-picker
-      v-model="time"
+      v-model="model"
       style="width: 100% !important"
       format="hh:mm A"
       type="time"
@@ -28,13 +28,32 @@ export default {
     format: {
       type: String
 
+    },
+    value: {
+      type: String,
+      required: true
     }
   },
   data () {
     return {
       time: ''
     }
+  },
+  computed: {
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    }
   }
+  // methods: {
+  //   updateValue (value) {
+  //     this.$emit('input', value)
+  //   }
+  // }
 }
 </script>
 
