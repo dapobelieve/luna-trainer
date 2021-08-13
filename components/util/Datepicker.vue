@@ -1,8 +1,8 @@
 <template>
   <div>
     <date-picker
-      v-model="date"
-      style="width: 100% !important"
+      v-model="model"
+      :style="{ width: widthSize }"
       class="tail-w-full my-dp"
       type="date"
       :disabled-date="
@@ -39,12 +39,33 @@ export default {
     },
     disabledDate: {
       type: Boolean
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    inputWidth: {
+      type: Number,
+      default: 100
     }
   },
   data () {
     return {
       dataType: '',
       date: new Date()
+    }
+  },
+  computed: {
+    widthSize () {
+      return `${this.inputWidth}%`
+    },
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
     }
   }
 }

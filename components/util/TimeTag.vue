@@ -19,23 +19,9 @@
       </div>
       <div class="tail-bg-gray-200 tail-py-1.5">
         <div class="tail-m-2 tail-flex tail-items-center tail-justify-around">
-          <date-picker
-            v-model.trim="field.first"
-            style="width: 100% !important"
-            format="hh:mm A"
-            type="time"
-            class="my-dx"
-            placeholder="HH:MM"
-          ></date-picker>
+          <Timepicker v-model.trim="field.first" />
           <span class="tail-m-2">-</span>
-          <date-picker
-            v-model.trim="field.last"
-            style="width: 100% !important"
-            format="hh:mm A"
-            type="time"
-            class="my-dx"
-            placeholder="HH:MM"
-          ></date-picker>
+          <Timepicker v-model.trim="field.last" />
           <button class="tail-text-sm tail-text-white tail-bg-blue-300 tail-rounded-md tail-py-3 tail-px-4 tail-m-1.5" @click="AddField()">
             Add
           </button>
@@ -46,10 +32,7 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker'
-import 'vue2-datepicker/index.css'
 export default {
-  components: { DatePicker },
   data () {
     return {
       tags: [],
