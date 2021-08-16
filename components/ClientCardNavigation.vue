@@ -29,9 +29,9 @@
       </div>
       <span class="tail-flex tail-items-center">
         <b
-          v-if="menu.pathName === 'Messages'"
+          v-if="menu.pathName === 'Messages' && $route.name !== 'Messages' && unreadMessages"
           class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-text-xs tail-text-white tail-mr-1"
-        >9+</b>
+        >{{ unreadMessages }}</b>
         <b
           v-else-if="menu.pathName === 'Calendar'"
           class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-yellow-300 tail-rounded-full tail-text-xs tail-text-yellow-700 tail-mr-1"
@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'ClientCardNavigation',
   data () {
@@ -58,6 +59,20 @@ export default {
           pathName: 'Calendar'
         }
       ]
+    }
+  },
+  computed: {
+    ...mapState({
+      thisUser: state => state.sendBird.tempClient
+    }),
+    ...mapGetters({
+      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount'
+    }),
+    unreadMessages () {
+      return this.unreadMessagesCount(this.thisUser)
+        ? this.unreadMessagesCount(this.thisUser)
+          .unreadMessageCount
+        : 0
     }
   }
 }

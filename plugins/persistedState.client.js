@@ -6,6 +6,8 @@ export default ({ store }) => {
     paths: [
       'authorize.getWelpUser',
       'auth',
+      'sendBird.connectedChannels',
+      'sendBird.tempClient',
       'client.clients'
     ],
     storage: localStorage

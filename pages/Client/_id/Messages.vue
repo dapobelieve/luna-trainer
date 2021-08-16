@@ -1,5 +1,8 @@
 <template>
-  <div v-if="isChannelLoading" class="tail-h-full tail-grid tail-place-content-center">
+  <div
+    v-if="isChannelLoading"
+    class="tail-h-full tail-grid tail-place-content-center"
+  >
     <div class="tail-flex tail-flex-col tail-items-center">
       <SingleLoader />
       <p class="tail-text-center">
@@ -7,12 +10,20 @@
       </p>
     </div>
   </div>
-  <div v-else-if="errorCreatingChannel" class="tail-h-full tail-grid tail-place-content-center">
+  <div
+    v-else-if="errorCreatingChannel"
+    class="tail-h-full tail-grid tail-place-content-center"
+  >
     <div class="tail-flex tail-flex-col tail-items-center">
       <p class="tail-text-center">
         An error occured. Please try again.
       </p>
-      <button class="base-button tail-text-sm tail-px-4" style="width: fit-content" type="button" @click="retry">
+      <button
+        class="base-button tail-text-sm tail-px-4"
+        style="width: fit-content"
+        type="button"
+        @click="retry"
+      >
         retry
       </button>
     </div>
@@ -24,9 +35,20 @@
     <ul id="chatBody" class="tail-h-full tail-w-full">
       <template v-if="messageHistory.length">
         <div v-for="msg in messageHistory" :key="msg.messageId">
-          <li v-if="msg._sender.userId === sender" class="me tail-flex tail-justify-end tail-mb-3">
-            <span v-if="msg.messageType === 'file'" class="msg tail-overflow-hidden tail-border-4" style="border-color: rgba(86, 204, 242, 1);">
-              <img class="tail-bg-white" :src="msg.imaging || msg.url" style="max-width: 250px">
+          <li
+            v-if="msg._sender.userId === sender"
+            class="me tail-flex tail-justify-end tail-mb-3"
+          >
+            <span
+              v-if="msg.messageType === 'file'"
+              class="msg tail-overflow-hidden tail-border-4"
+              style="border-color: rgba(86, 204, 242, 1);"
+            >
+              <img
+                class="tail-bg-white"
+                :src="msg.imaging || msg.url"
+                style="max-width: 250px"
+              />
             </span>
             <div v-else class="msg tail-p-2 tail-max-w-lg tail-break-all">
               {{ msg.message }}
@@ -39,24 +61,50 @@
               :height="2"
               :width="2"
             />
-            <div class="msg tail-p-2 tail-max-w-lg tail-ml-2 tail-break-all">
+            <span
+              v-if="msg.messageType === 'file'"
+              class="msg tail-overflow-hidden tail-border-4"
+              style="border-color: rgba(86, 204, 242, 1);"
+            >
+              <img
+                class="tail-bg-white"
+                :src="msg.url"
+                style="max-width: 250px"
+              />
+            </span>
+            <div v-else class="msg tail-p-2 tail-max-w-lg tail-break-all">
               {{ msg.message }}
             </div>
           </li>
         </div>
       </template>
       <template v-else>
-        <div class="tail-h-full tail-grid tail-place-content-center tail-text-gray-500">
+        <div
+          class="tail-h-full tail-grid tail-place-content-center tail-text-gray-500"
+        >
           <div class="tail-flex tail-items-center">
             <span class="tail-mr-2">Start a conversation</span>
-            <img class="tail-text-center tail-inline-block" src="~/assets/img/svgs/paw.svg" alt="" srcset="" />
+            <img
+              class="tail-text-center tail-inline-block"
+              src="~/assets/img/svgs/paw.svg"
+              alt=""
+              srcset=""
+            />
           </div>
         </div>
       </template>
     </ul>
     <!-- input area -->
-    <div class="tail-w-full">
-      <form @submit.prevent="sendChat">
+    <div class="">
+      <!-- loading notice -->
+      <div
+        v-if="uploadingFileToSb"
+        class="tail-bg-black tail-text-white tail-px-4 tail-py-2 tail-z-50"
+        style="width: fit-content"
+      >
+        {{ fileToBeSent.name }} file is uploading...
+      </div>
+      <form class="tail-w-full" @submit.prevent="sendChat">
         <div
           class="tail-border tail-flex align-items-center tail-bg-white tail-rounded-b-lg tail-shadow-sm tail-px-6 tail-py-3"
         >
@@ -99,10 +147,6 @@
         </div>
       </form>
     </div>
-    <!-- loading notice -->
-    <div class="tail-bg-black tail-text-white tail-px-4 tail-py-2 tail-fixed tail-bottom-0 tail-left-0 tail-z-50">
-      1 file is uploading...
-    </div>
   </div>
   <div
     v-else
@@ -132,7 +176,11 @@
         class=" tail-grid tail-place-content-center"
         style="height: calc(100vh - 271px)"
       >
-        <img :src="fileImage" class="tail-inline-block" style="max-width: 450px;" />
+        <img
+          :src="fileImage"
+          class="tail-inline-block"
+          style="max-width: 450px;"
+        />
       </div>
     </div>
     <div
@@ -157,12 +205,13 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Messages',
   data () {
     return {
       isChannelLoading: true,
+      uploadingFileToSb: false,
       isUploading: false,
       id: this.$route.params.id,
       errorCreatingChannel: false,
@@ -177,22 +226,40 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      connectedChannels: state => state.sendBird.connectedChannels
+    }),
     sender () {
       return this.$auth.user.sendbirdId
     },
     receiver () {
-      return this.channel && this.channel.members.find(u => u.userId !== this.sender).userId
+      return (
+        this.channel &&
+        this.channel.members.find(u => u.userId !== this.sender).userId
+      )
     }
   },
+  mounted () {
+    const channelHandler = new this.$sb.ChannelHandler()
+
+    channelHandler.onMessageReceived = this.onMessageReceived
+    // Add this channel event handler to the `SendBird` instance.
+    this.$sb.addChannelHandler('msgHandler', channelHandler)
+  },
   created () {
-    this.getClientProfile(this.id).then(async (response) => {
-      await response
-      this.createChannel(response.sendbirdId)
-    }).catch(err => console.log('error fetching client', err))
+    this.getClientProfile(this.id)
+      .then(async (response) => {
+        await response
+        this.createChannel(response.sendbirdId)
+      })
+      .catch(err => console.log('error fetching client', err))
   },
   methods: {
     ...mapActions({
-      getClientProfile: 'client/getSingleClient'
+      getClientProfile: 'client/getSingleClient',
+      markAsRead: 'sendBird/markMessageAsRead',
+      addChannel: 'sendBird/addNewChannel',
+      newMessage: 'sendBird/updateConnectedChannels'
     }),
     retry () {
       this.createChannel(this.receiver)
@@ -205,14 +272,14 @@ export default {
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
         if (error) {
-        // Handle error.
+          // Handle error.
           console.log('error retrieving chat', error)
         }
         if (messages) {
           this.messageHistory = messages
-          console.log('messages ', messages)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
+            this.markAsRead(channel)
           })
         }
       })
@@ -234,21 +301,26 @@ export default {
 
       this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
         if (error) {
-        // Handle error.
+          // Handle error.
           console.log('error creating channel', error)
           this.errorCreatingChannel = true
           this.isChannelLoading = false
         }
-
-        // A group channel with detailed configuration is successfully created.
-        // By using groupChannel.channelUrl, groupChannel.members, groupChannel.data, groupChannel.customType, and so on,
-        // you can access the result object from Sendbird server to check your GroupChannelParams configuration.
-        // const channelUrl = groupChannel.channelUrl
         if (groupChannel) {
-          console.log('created channel', groupChannel)
           this.channel = groupChannel
           this.fetchMessageHistory(groupChannel)
           this.isChannelLoading = false
+          if (
+            Object.keys(this.connectedChannels).length === 0 &&
+            this.connectedChannels.constructor === Object
+          ) {
+            this.addChannel({ channel: groupChannel, message: groupChannel })
+          } else if (
+            this.connectedChannels.size &&
+            !this.connectedChannels.has(groupChannel.url)
+          ) {
+            this.newMessage({ channel: groupChannel, message: groupChannel })
+          }
         }
       })
     },
@@ -266,39 +338,15 @@ export default {
             // Handle error.
             console.log('error sending messge', error)
           }
-
-          // A text message with detailed configuration is successfully sent to the channel.
-          // By using userMessage.messageId, userMessage.message, userMessage.customType, and so on,
-          // you can access the result object from Sendbird server to check your UserMessageParams configuration.
-          // The current user can receive messages from other users through the onMessageReceived() method of an event handler.
-          // const messageId = userMessage.messageId
           this.messageHistory.push(userMessage)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
           })
           this.message = ''
-          console.log('message sent', userMessage)
         })
-        // this.messageHistory.push({
-        //   type: 'text',
-        //   message: this.message
-        // })
-        // this.$nextTick(() => {
-        //   this.scrollFeedToBottom()
-        // })
-        // this.message = ''
       }
     },
     sendFile () {
-      // this.messageHistory.push({
-      //   type: 'file',
-      //   message: this.fileImage
-      // })
-      // this.fileImage = null
-      // this.$nextTick(() => {
-      //   this.scrollFeedToBottom()
-      // })
-
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
 
@@ -316,20 +364,17 @@ export default {
       this.$nextTick(() => {
         this.scrollFeedToBottom()
       })
+      this.uploadingFileToSb = true
       this.channel.sendFileMessage(params, (fileMessage, error) => {
         if (error) {
-        // Handle error.
+          // Handle error.
           console.log('error uploading file', error)
+          this.uploadingFileToSb = false
         }
-
-        // A file message with detailed configuration is successfully sent to the channel.
-        // By using fileMessage.messageId, fileMessage.fileName, fileMessage.customType, and so on,
-        // you can access the result object from Sendbird server to check your FileMessageParams configuration.
-        // The current user can receive messages from other users through the onMessageReceived() method of an event handler.
         const messageId = fileMessage.messageId
         console.log('file id', fileMessage)
         if (messageId) {
-          // this.messageHistory.push(this.fileImage)
+          this.uploadingFileToSb = false
           this.messageHistory.push({
             messageId,
             imaging: this.fileImage,
@@ -343,7 +388,6 @@ export default {
           this.$nextTick(() => {
             this.scrollFeedToBottom()
           })
-          // console.log('file message ', this.fileImage)
         }
       })
     },
@@ -372,6 +416,25 @@ export default {
     scrollFeedToBottom () {
       const messageFeed = document.getElementById('chatBody')
       return messageFeed.scrollTo(0, messageFeed.scrollHeight)
+    },
+    onMessageReceived (channel, message) {
+      console.log(
+        'new message in the channel ',
+        channel,
+        ' the message ',
+        message
+      )
+      if (
+        this.$route.name === 'Client-id-Messages' &&
+        channel.url === this.channel.url
+      ) {
+        console.log('logging in messages')
+        this.messageHistory.push(message)
+        this.$nextTick(() => {
+          this.scrollFeedToBottom()
+          this.markAsRead(channel)
+        })
+      }
     }
   }
 }

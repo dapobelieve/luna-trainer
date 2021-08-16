@@ -79,7 +79,8 @@
               Post Code
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-              {{ client && client.location.zip || 'Not Available' }}
+              <!-- {{ client && client.location.zip || 'Not Available' }} -->
+              {{ 'Not Available' }}
             </dd>
           </div>
         </div>

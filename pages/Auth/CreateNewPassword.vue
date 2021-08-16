@@ -77,7 +77,7 @@ import { required, sameAs, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'CreateNewPassword',
-  layout: 'authLayout',
+  layout: 'auth',
   auth: false,
   data () {
     return {

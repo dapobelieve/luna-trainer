@@ -18,7 +18,7 @@
 <script>
 export default {
   name: 'ErrorPage',
-  layout: 'errorLayout'
+  layout: 'error'
 }
 </script>
 

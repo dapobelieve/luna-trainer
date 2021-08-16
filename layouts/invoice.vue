@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-  name: 'InvoiceLayout'
+  name: 'invoice'
 }
 </script>
 <style lang="scss">

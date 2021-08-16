@@ -15,15 +15,6 @@
               just pop us a message in the live chat below!
             </p>
           </div>
-          <div class="tail-w-max">
-            <button
-              type="button"
-              class="base-button tail-gap-2"
-              @click="openModal = true"
-            >
-              <span class="tail-hidden sm:tail-block">New client</span>
-            </button>
-          </div>
         </div>
         <!-- Overall app status -->
         <DashboardStatusCard />
@@ -51,9 +42,6 @@
     <!-- <div>
       <CalendarView />
     </div> -->
-    <Modal :is-open="openModal" @close="openModal = $event">
-      <InviteNewClient @close="openModal = $event" />
-    </Modal>
     <Modal :is-open="openBankModal" @close="openBankModal = $event">
       <BankAccountDetails />
     </Modal>
@@ -83,10 +71,9 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Dashboard',
-  layout: 'dashboardLayout',
+  layout: 'dashboard',
   data () {
     return {
-      openModal: false,
       openBankModal: false,
       showNotification: false
     }
@@ -103,7 +90,7 @@ export default {
   },
   watch: {
     sendBirdConnStatus (newValue, oldValue) {
-      if (newValue || oldValue) {
+      if (newValue || oldValue || !this.store.state.sendbirdId.sbUser) {
         this.$nextTick(() => {
           setTimeout(() => {
             this.showNotification = true
@@ -138,8 +125,9 @@ export default {
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {
+      this.$store.commit('sendBird/CONNECTION_ERROR', false)
       this.showNotification = false
-      return this.connectToSendBird().then((result) => {
+      return this.connectToSendBird(this.$auth.user.sendbirdId).then((result) => {
         if (result !== 'error') {
           this.$toast.success('Chat connection successful')
         }
