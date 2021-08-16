@@ -1,8 +1,8 @@
-<template>
+`<template>
   <div>
     <date-picker
-      v-model="time"
-      style="width: 100% !important"
+      v-model="model"
+      :style="{ width: widthSize }"
       format="hh:mm A"
       type="time"
       class="my-dx"
@@ -28,13 +28,40 @@ export default {
     format: {
       type: String
 
+    },
+    value: {
+      type: String,
+      required: true
+    },
+    inputWidth: {
+      type: Number,
+      default: 100
     }
   },
   data () {
     return {
       time: ''
     }
+  },
+  computed: {
+    widthSize () {
+      return `${this.inputWidth}%`
+    },
+    model: {
+      get () {
+        return this.value
+      },
+      set (value) {
+        this.$emit('input', value)
+      }
+    }
+
   }
+  // methods: {
+  //   updateValue (value) {
+  //     this.$emit('input', value)
+  //   }
+  // }
 }
 </script>
 

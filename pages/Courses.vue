@@ -15,7 +15,6 @@
         <button
           type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          @click="openCourseModal = true"
         >
           <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
         </button>
@@ -26,6 +25,20 @@
         <CourseIdentifier :identifier="data" />
       </div>
     </div>
+    <Modal
+      :is-open="openCourseModal"
+      :input-width="40"
+      @close="openCourseModal = $event"
+    >
+      <template v-slot:status>
+        <div class="tail-px-2 tail-text-xl">
+          New Course
+        </div>
+      </template>
+      <div @close="openCourseModal = $event">
+        <CreateCourse />
+      </div>
+    </Modal>
   </div>
 </template>
 
@@ -38,6 +51,7 @@ export default {
       filter: 'active',
       displayDraft: false,
       displayActive: true,
+      openCourseModal: false,
       group: [
         {
           _id: {
@@ -266,18 +280,6 @@ export default {
         }
       ]
 
-    }
-  },
-  methods: {
-    filterCard () {
-      this.filter = this.filter === 'active' ? 'draft' : 'active'
-      if (this.filter === 'draft') {
-        this.displayDraft = true
-        this.displayActive = false
-      } else {
-        this.displayDraft = false
-        this.displayActive = true
-      }
     }
   }
 }

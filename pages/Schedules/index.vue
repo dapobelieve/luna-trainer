@@ -54,8 +54,13 @@
       :input-width="30"
       @close="openAvailabilityModal = $event"
     >
+      <template v-slot:status>
+        <div class="tail-px-2 tail-capitalize tail-text-xl tail-leading-normal">
+          Set availability
+        </div>
+      </template>
       <div @close="openAvailabilityModal = $event">
-        hello
+        <SetAvailabity />
       </div>
     </Modal>
     <Modal
@@ -77,13 +82,15 @@
           <GroupIdentifier :identifier="data" />
         </div>
       </template>
-      <div v-if="displayMonth">
-        <FullCalendar
-          ref="fullCalendar"
-          class="my-fc"
-          :options="calendarOptions"
-        ></FullCalendar>
-      </div>
+      <client-only>
+        <div v-if="displayMonth">
+          <FullCalendar
+            ref="fullCalendar"
+            class="my-fc"
+            :options="calendarOptions"
+          ></FullCalendar>
+        </div>
+      </client-only>
     </div>
     <div
       v-else
@@ -401,6 +408,7 @@ export default {
     },
     setAvailabilty () {
       this.openAvailabilityModal = true
+      this.meetSubMenu = false
     }
   }
 }
