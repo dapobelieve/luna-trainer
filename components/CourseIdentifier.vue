@@ -46,6 +46,18 @@
         </template>
       </CancelAlert>
     </Modal>
+    <Modal
+      :is-open="newCourse"
+      :input-width="40"
+      @close="newCourse = $event"
+    >
+      <template v-slot:status>
+        <div class="tail-px-2 tail-text-xl">
+          Edit Course
+        </div>
+      </template>
+      <CreateCourse @close="newCourse = $event" />
+    </Modal>
   </div>
 </template>
 
@@ -61,7 +73,8 @@ export default {
   data () {
     return {
       meetSubMenu: false,
-      openDeleteModal: false
+      openDeleteModal: false,
+      newCourse: false
     }
   },
   methods: {
@@ -81,7 +94,7 @@ export default {
         this.openDeleteModal = true
         this.meetSubMenu = false
       } else {
-        console.log('holla')
+        this.newCourse = true
         this.meetSubMenu = false
       }
     }
