@@ -45,12 +45,13 @@ export default {
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
+    STRIPE_RETURN: process.env.STRIPE_RETURN,
+    PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     quickbloxBaseUrl: process.env.QUICKBLOX_BASE_URL,
     quickbloxAppId: process.env.QUICKBLOX_APPLICATION_ID,
     quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
     quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
     quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY,
-    stripeReturn: process.env.RETURN_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
     sendBirdAppId: process.env.SENDBIRD_APP_ID
   },

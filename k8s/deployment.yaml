@@ -40,7 +40,7 @@ spec:
               value: https://api.getwelp.co.uk/accounts/v0
             - name: BASEURL_HOST
               value: https://api.getwelp.co.uk/core/v0
-            - name: RETURN_URL
+            - name: STRIPE_RETURN
               value: https://app.getwelp.co.uk/Dashboard
             - name: QUICKBLOX_AUTH_KEY
               value: E7jN9O53RLe67qx
@@ -54,4 +54,6 @@ spec:
               value: https://api.quickblox.com
             - name: PAYMENT_HOST_URL
               value: https://api.getwelp.co.uk/payments/v0
+            - name: SENDBIRD_APP_ID
+              value: F8F1D048-D132-4645-95FC-6B561F449FB4
 

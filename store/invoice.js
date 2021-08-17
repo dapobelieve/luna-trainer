@@ -88,7 +88,7 @@ export const actions = {
   stripeConnect ({ commit }) {
     return this.$axios
       .$get(
-          `https://api.getwelp.co.uk/payments/v0/connect/url?returnurl=${process.env.stripeReturn}&refreshurl=${process.env.stripeReturn}`
+          `${process.env.PAYMENT_HOST_URL}/connect/url?returnurl=${process.env.STRIPE_RETURN}&refreshurl=${process.env.STRIPE_RETURN}`
       )
       .then(({ url }) => {
         return url

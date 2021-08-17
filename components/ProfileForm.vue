@@ -113,6 +113,7 @@ export default {
       uploadPicture: 'authorize/uploadProfileImage'
     }),
     submit () {
+      console.log(this.profile)
       if (!this.disabled) {
         this.loading = true
         return this.updateProfile(this.profile).then(async (response) => {
