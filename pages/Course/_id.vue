@@ -4,9 +4,12 @@
       <template v-slot:title>
         <div class="tail-flex tail-items-center">
           <button @click="$router.go(-1)">
-            <img src="~/assets/img/chevron-left.svg" alt="" class="tail-h-6">
+            <img src="~/assets/img/chevron-left.svg" alt="" class="tail-h-6" />
           </button>
-          <p v-if="classCard" class="tail-text-gray-500  tail-text-xl tail-font-semibold">
+          <p
+            v-if="classCard"
+            class="tail-text-gray-500  tail-text-xl tail-font-semibold"
+          >
             Courses
           </p>
           <p v-else class="tail-text-gray-500  tail-text-xl tail-font-semibold">
@@ -18,7 +21,7 @@
         <button
           type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          @click="openCourseModal = true"
+          @click="newCourse = true"
         >
           <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
         </button>
@@ -35,7 +38,12 @@
     <div v-if="classCard">
       <div v-show="meetSubMenu" class="">
         <GwOptions
-          :options="['Edit Course', 'Duplicate Course', 'Add Participant', 'Delete Course']"
+          :options="[
+            'Edit Course',
+            'Duplicate Course',
+            'Add Participant',
+            'Delete Course'
+          ]"
           selected=""
           @selected="courseActions"
         />
@@ -60,14 +68,27 @@
         <AddParticipant @close="openAddParticipant = $event" />
       </div>
     </Modal>
-    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+    <Modal
+      :is-open="openDeleteModal"
+      :input-width="30"
+      @close="openDeleteModal = $event"
+    >
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">
-            Are you sure you want to delete the course Puppies? A notification will be sent to all participants
+            Are you sure you want to delete the course Puppies? A notification
+            will be sent to all participants
           </div>
         </template>
       </CancelAlert>
+    </Modal>
+    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event">
+      <template v-slot:status>
+        <div class="tail-px-2 tail-text-xl">
+          New Course
+        </div>
+      </template>
+      <CreateCourse @close="newCourse = $event" />
     </Modal>
 
     <div v-if="classCard">
@@ -92,6 +113,7 @@ export default {
       meetSubMenu: false,
       openAddParticipant: false,
       openDeleteModal: false,
+      newCourse: false,
       group: [
         {
           _id: {
@@ -237,34 +259,26 @@ export default {
       this.meetSubMenu = !this.meetSubMenu
     },
     courseActions (selected) {
-      if (selected === 'Add Participant') {
-        this.openAddParticipant = true
-        this.meetSubMenu = false
-      } else if (selected === 'Delete Course') {
-        this.openDeleteModal = true
-        this.meetSubMenu = false
+      switch (selected) {
+        case 'Add Participant':
+          this.openAddParticipant = true
+          this.meetSubMenu = false
+          break
+        case 'Delete Course':
+          this.openDeleteModal = true
+          this.meetSubMenu = false
+          break
+        case 'Edit Course':
+          this.newCourse = true
+          this.meetSubMenu = false
+          break
+
+        default:
+          break
       }
     }
-    // reschedule (selected) {
-    //   if (selected === 'Reschedule Class') {
-    //     this.openReschedule = true
-    //     this.meetSubMenu = false
-    //   }
-    // }
-    // selectSession (selected) {
-    //   if (selected === 'Cancel Session') {
-    //     this.openDeleteModal = true
-    //     this.meetSubMenu = false
-    //   } else {
-    //     this.openEditModal = true
-    //     this.meetSubMenu = false
-    //   }
-    // }
   }
-
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

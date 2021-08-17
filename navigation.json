@@ -56,7 +56,7 @@
     {
       "icon": "ns-plus",
       "title": "new course",
-      "path": "newCourses"
+      "path": "newCourse"
     },
     {
       "section": "Invoicing"

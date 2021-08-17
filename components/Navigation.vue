@@ -17,7 +17,7 @@
         <div class="tail-space-y-1">
           <div v-for="menu in menus.menu" :key="menu.index">
             <NuxtLink
-              v-if="menu.path && !['signout', 'Notifications', 'Messages', 'inviteClient'].includes(menu.path)"
+              v-if="menu.path && !['signout', 'Notifications', 'Messages', 'inviteClient', 'addSession', 'newCourse'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
@@ -43,7 +43,14 @@
               <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Add New Session</span>
             </button>
-
+            <button
+              v-else-if="menu.path === 'newCourse'"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              @click="newCourse = true"
+            >
+              <i class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">New Course</span>
+            </button>
             <button
               v-else-if="menu.path === 'Notifications'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
@@ -179,9 +186,14 @@
       :input-width="40"
       @close="addSession = $event"
     >
-      <div @close="addSession = $event">
-        <CreateSchedule />
-      </div>
+      <CreateSchedule @close="addSession = $event" />
+    </Modal>
+    <Modal
+      :is-open="newCourse"
+      :input-width="40"
+      @close="newCourse = $event"
+    >
+      <CreateCourse @close="newCourse = $event" />
     </Modal>
     <Modal :input-width="30" :is-open="openModal" @close="openModal = $event">
       <template v-slot:status>
@@ -227,7 +239,8 @@ export default {
       openModal: false,
       showNotificationsMenu: false,
       showMessagesMenu: false,
-      addSession: false
+      addSession: false,
+      newCourse: false
     }
   },
   computed: {

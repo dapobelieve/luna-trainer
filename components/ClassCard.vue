@@ -47,7 +47,7 @@
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">
-           Are you sure you want to cancel the class Puppies : August 26?
+            Are you sure you want to cancel the class Puppies : August 26?
           </div>
         </template>
       </CancelAlert>
@@ -76,12 +76,17 @@ export default {
       this.meetSubMenu = !this.meetSubMenu
     },
     classActions (selected) {
-      if (selected === 'Reschedule Class') {
-        this.openReschedule = true
-        this.meetSubMenu = false
-      } else if (selected === 'Cancel Class') {
-        this.openDeleteModal = true
-        this.meetSubMenu = false
+      switch (selected) {
+        case 'Reschedule Class':
+          this.openAddParticipant = true
+          this.meetSubMenu = false
+          break
+        case 'Cancel Class':
+          this.openDeleteModal = true
+          this.meetSubMenu = false
+          break
+        default:
+          break
       }
     }
   }
