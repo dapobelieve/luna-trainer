@@ -3,7 +3,7 @@
     <div
       class="tail-rounded-md tail-bg-white tail-cursor-pointer tail-p-4 tail-mb-4 tail-flex tail-items-center tail-justify-between tail-m-4"
     >
-      <div @click="viewClass">
+      <div class="tail-w-full hover:tail-bg-gray-100" @click="viewClass">
         <h3 class="tail-font-semibold tail-text-base tail-text-gray-800">
           {{ identifier._id.title }}
         </h3>
@@ -18,16 +18,18 @@
           {{ identifier._id.amount }}
         </p>
       </div>
-      <div v-if="identifier._id.status === 'active'">
-        <img class="tail-h-6" src="~/assets/img/chevron-right.svg" alt="google logo">
-      </div>
-      <div v-else>
-        <button
-          class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          @click.prevent="showSubMenu"
-        >
-          <i class="ns-ellipsis tail-font-bold tail-text-gray-600 tail-text-lg"></i>
-        </button>
+      <div>
+        <div v-if="identifier._id.status === 'active'">
+          <img class="tail-h-6" src="~/assets/img/chevron-right.svg" alt="google logo">
+        </div>
+        <div v-else>
+          <button
+            class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+            @click.prevent="showSubMenu"
+          >
+            <i class="ns-ellipsis tail-font-bold tail-text-gray-600 tail-text-lg"></i>
+          </button>
+        </div>
       </div>
     </div>
     <div v-show="meetSubMenu" class="tail-texl-sm">
