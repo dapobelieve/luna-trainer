@@ -135,7 +135,7 @@ import { mapActions } from 'vuex'
 
 export default {
   name: 'ProfileSetup',
-  layout: 'authLayout',
+  layout: 'auth',
   data: () => ({
     isLoading: false,
     profilePic: null,

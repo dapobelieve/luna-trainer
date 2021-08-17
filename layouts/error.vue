@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'ErrorLayout'
+  name: 'error'
 }
 </script>
 

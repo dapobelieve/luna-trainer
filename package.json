@@ -25,6 +25,7 @@
     "core-js": "^3.9.1",
     "crypto-js": "^4.0.0",
     "nuxt": "^2.15.3",
+    "sendbird": "^3.0.154",
     "sha1": "^1.1.1",
     "v-calendar": "^2.3.2",
     "vue-multiselect": "^2.1.6",

@@ -26,8 +26,7 @@
             @click="$emit('input', false)"
           ></div>
           <div
-            :class="[$route.name !== 'Dashboard' ? 'tail-pt-16' : '',]"
-            class="tail-inline-block tail-relative tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-y-auto tail-shadow-xl tail-transform tail-transition-all tail-w-96"
+            class="tail-inline-block tail-relative tail-align-bottom tail-border tail-border-gray-300 tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-y-auto tail-shadow-xl tail-transform tail-transition-all tail-w-96"
             :style="{height: getHeight}"
           >
             <div class="tail-sticky tail-top-0">

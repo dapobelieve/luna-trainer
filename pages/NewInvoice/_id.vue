@@ -29,7 +29,7 @@ import ButtonSpinner from '../../components/util/ButtonSpinner.vue'
 export default {
   name: 'Invoice',
   components: { ButtonSpinner },
-  layout: 'invoiceLayout',
+  layout: 'invoice',
   data () {
     return {
       invoice: { items: [], customerId: null, client: {} },

@@ -109,7 +109,7 @@ import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'SignUp',
-  layout: 'authLayout',
+  layout: 'auth',
   auth: false,
   data () {
     return {

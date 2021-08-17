@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="tail-space-y-1">
-          <div v-for="menu in menus.menu" :key="menu">
+          <div v-for="menu in menus.menu" :key="menu.index">
             <NuxtLink
               v-if="menu.path && !['signout', 'Notifications', 'Messages', 'inviteClient'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
@@ -58,7 +58,13 @@
               @click="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
-              <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
+              <div class="tail-flex">
+                <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
+                <b
+                  v-if="unreadMessages.length"
+                  class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-text-xs tail-text-white tail-ml-2"
+                >{{ unreadMessages.length }}</b>
+              </div>
             </button>
             <button
               v-else-if="menu.path === 'signout'"
@@ -127,24 +133,26 @@
           <template v-slot:search>
             <div class="tail-flex tail-px-5 tail-py-2 tail-bg-gray-100 tail-items-center">
               <i class="ns-search tail-text-gray-400 tail-text-2xl tail-pr-2"></i>
-              <input type="text" class="tail-w-full focus:tail-outline-none tail-bg-transparent" placeholder="Search or start new chat">
+              <input type="text" class="tail-w-full focus:tail-outline-none tail-bg-transparent" placeholder="Search name to start new chat">
             </div>
           </template>
           <template v-slot:body>
-            <div v-if="true" class="tail-py-2 tail-grid">
-              <div v-for="n in 2" :key="n.index" class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer">
+            <div v-if="unreadMessages.length" class="tail-py-2 tail-grid">
+              <button v-for="n in unreadMessages" :key="n.url" type="button" class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer" @click="gotoMessage(n.members)">
                 <div>
-                  <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
+                  <ClientAvatar :firstname="n.lastMessage._sender.nickname" :lastname="n.lastMessage._sender.nickname" />
                 </div>
                 <div class="tail-text-sm">
                   <div class="tail-capitalize tail-font-semibold">
-                    <span class="tail-capitalize tail-font-semibold">james r</span> . <span class="tail-text-gray-400 tail-text-xs">7pm - 9pm</span>
+                    <span class="tail-capitalize tail-font-semibold tail-mr-2">
+                      {{ n.lastMessage._sender.nickname }}
+                    </span> <span class="tail-text-gray-400 tail-text-xs tail-normal-case">{{ formatDistance(new Date(n.lastMessage.createdAt), new Date(), { addSuffix: true }) }}.</span>
                   </div>
                   <div class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-600">
-                    Lorem ipsum dolor sit amet, concude loema d...
+                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}...` : n.lastMessage.message }}
                   </div>
                 </div>
-              </div>
+              </button>
             </div>
             <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
               <div class="tail-text-center tail-py-5">
@@ -205,12 +213,14 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import { formatDistance } from 'date-fns'
 import menus from '~/navigation.json'
 
 export default {
   name: 'Navigation',
   data () {
     return {
+      formatDistance,
       menus,
       showNotification: false,
       inviteClient: false,
@@ -222,13 +232,36 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/acceptedClients'
-    })
+      acceptedClients: 'client/acceptedClients',
+      unreadMessages: 'sendBird/getUnreadMessages'
+    }),
+    firstName (string) {
+      if (string) {
+        const firstName = string.split(' ')
+        return firstName[0]
+      }
+      return 'get'
+    },
+    lastName (string) {
+      if (string) {
+        const lastName = string.split(' ')
+        return lastName[1]
+      }
+      return 'welp'
+    }
   },
   methods: {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
+    gotoMessage (arr) {
+      const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
+      const client = this.acceptedClients.find(c => c.sendbirdId === user.userId)
+      this.$router.push({
+        name: 'Client-id-Messages',
+        params: { id: user.userId, clientInfo: client }
+      })
+    },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {
         this.showNotification = true

@@ -114,7 +114,7 @@
 import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'SignIn',
-  layout: 'authLayout',
+  layout: 'auth',
   auth: false,
   data () {
     return {

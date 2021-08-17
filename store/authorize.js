@@ -85,6 +85,7 @@ export const actions = {
     await this.$auth.logout()
     commit('SET_GETWELP_USER', {})
     dispatch('client/clearAllClientStates', null, { root: true })
+    dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
     commit('CLEAR_LOCAL_STORAGE')
     return true
   }
