@@ -71,11 +71,11 @@
         </div>
         <div>
           <label for="Specialization">Specialization</label>
-          <tag-input v-model="profile.specialization" :tabindex="9" />
+          <settings-tag-input v-model="profile.specialization" :tabindex="9" />
         </div>
         <div>
           <label for="Specialization">Accreditations</label>
-          <tag-input v-model="profile.accreditations" :tabindex="10" />
+          <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
         </div>
         <div class="tail-flex tail-justify-end">
           <button-spinner :loading="loading" type="submit" style="width:fit-content">

@@ -19,6 +19,7 @@
       </template>
       <template v-slot:buttons>
         <button
+          v-if="classCard"
           type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
           @click="newCourse = true"
@@ -28,7 +29,6 @@
         <div>
           <button
             class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-            @click.prevent="showSubMenu"
           >
             <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
           </button>
@@ -81,14 +81,6 @@
           </div>
         </template>
       </CancelAlert>
-    </Modal>
-    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event">
-      <template v-slot:status>
-        <div class="tail-px-2 tail-text-xl">
-          New Course
-        </div>
-      </template>
-      <CreateCourse @close="newCourse = $event" />
     </Modal>
 
     <div v-if="classCard">
