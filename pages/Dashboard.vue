@@ -22,15 +22,11 @@
           class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
         >
           <i class="ns-building tail-text-3xl tail-text-gray-500" />
-          <h3
-            class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-medium tail-text-xl"
-          >
+          <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-medium tail-text-xl">
             {{ $auth.user.businessName }}.
           </h3>
         </div>
-        <div
-          class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20"
-        >
+        <div class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20">
           <div class="tail-grid tail-gap-4">
             <DashboardClients />
             <DashboardMessages />
@@ -42,13 +38,15 @@
     <!-- <div>
       <CalendarView />
     </div> -->
-    <Modal :is-open="openBankModal" @close="openBankModal = $event">
-      <BankAccountDetails />
-    </Modal>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
+     <NotificationsModal :visible="true">
+      <template v-slot:title>
+        Stripe Connect
+      </template>
+      <template v-slot:subtitle>
+        Account under review, please confirm all requirements have been met before proceeding to creating invoices.
+      </template>
+    </NotificationsModal>
+    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
         Chat Connection Failed
       </template>
@@ -85,7 +83,9 @@ export default {
   },
   computed: {
     ...mapGetters({
-      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
+      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus',
+      isStripeConnected: 'authorize/isStripeConnected',
+      isStripeReady: 'authorize/isStripeReady'
     })
   },
   watch: {
@@ -110,14 +110,6 @@ export default {
         }, 2000)
       }
     })
-    if (
-      !this.$store.state.authorize.isStripeConnected &&
-      !this.$store.state.payment.isBankLinked &&
-      this.$route.query.stripe === 'connected'
-    ) {
-      this.fetchUserProfile() // to set value of stripe in profile
-      this.openBankModal = true
-    }
   },
   methods: {
     ...mapActions({
@@ -163,11 +155,6 @@ export default {
   }
   .dash-view {
     width: 100%;
-    // width: calc(100% - 300px);
-  }
-
-  .main-view {
-    // max-width: calc(100% - 100px);
   }
 }
 </style>

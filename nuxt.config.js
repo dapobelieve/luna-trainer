@@ -25,6 +25,7 @@ export default {
   css: [
     '@/assets/css/theme.scss',
     '@/assets/css/fonts.css',
+    'vue-popperjs/dist/vue-popper.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
     'vue2-datepicker/index.css'
   ],

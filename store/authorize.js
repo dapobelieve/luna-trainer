@@ -1,23 +1,18 @@
 export const state = () => ({
   getWelpUser: {},
-  isStripeConnected: false,
-  loadingForStripeCheck: true
+  isStripeConnected: false
 })
 
 export const mutations = {
   SET_GETWELP_USER (state, user) {
     const checkEmptiness = Object.keys(user).length === 0 && user.constructor === Object
-    const gwuser = checkEmptiness ? {} : { ...state.getWelpUser, ...user }
+    const gwuser = checkEmptiness ? {} : user
     this.$auth.setUser(gwuser)
     localStorage.setItem('getWelpUser', JSON.stringify(gwuser))
     state.getWelpUser = gwuser
   },
   CLEAR_LOCAL_STORAGE () {
     window.localStorage.clear()
-  },
-  SET_STRIPE_STATUS (state, status) {
-    state.isStripeConnected = status
-    state.loadingForStripeCheck = false
   }
 }
 
@@ -29,7 +24,6 @@ export const actions = {
       .then((response) => {
         const { data } = response
         if (data !== null) {
-          data.stripeConnected && commit('SET_STRIPE_STATUS', data.stripeConnected)
           commit('SET_GETWELP_USER', data)
         }
         return response
@@ -52,7 +46,6 @@ export const actions = {
       .$get(`${process.env.BASEURL_HOST}/profile`)
       .then(({ data }) => {
         if (data !== null) {
-          data.stripeConnected && commit('SET_STRIPE_STATUS', data.stripeConnected)
           commit('SET_GETWELP_USER', data)
         }
         return data
@@ -92,5 +85,6 @@ export const actions = {
 }
 export const getters = {
   getUser: state => state.getWelpUser,
-  isStripeConnected: state => state.isStripeConnected
+  isStripeConnected: state => state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
+  isStripeReady: state => state.getWelpUser.stripe && state.getWelpUser.stripe.capabilities && state.getWelpUser.stripe.capabilities.card_payments === 'active' && state.getWelpUser.stripe.capabilities.transfers === 'active' && state.getWelpUser.stripe.capabilities.bacs_debit_payments === 'active'
 }

@@ -1,14 +1,9 @@
 <template>
   <div>
-    <div class="tail-py-6">
-      <h3 class="tail-text-2xl tail-font-medium sec-color">
-        Bank Details
-      </h3>
-    </div>
     <div class="tail-pb-4 tail-py-5 tail-px-5 tail-rounded-md tail-bg-white">
       <form autocomplete="off" class="tail-grid tail-gap-6">
         <p v-if="stripconnect">
-          Connect to Stripe
+          Connected to Stripe
         </p>
         <p v-else>
           Connected Accounts
@@ -22,7 +17,7 @@
           </div>
 
           <button class="tail-border-2 tail-border-gray-500 tail-px-2 tail-py-1 tail-rounded-md">
-            Connect with Strip
+            Connect with Stripe
           </button>
         </div>
       </form>

@@ -48,7 +48,7 @@
           to your Stripe account below!
         </small>
         <button
-          v-if="!$store.state.authorize.isStripeConnected"
+          v-if="!user.stripe || !user.stripe.connected"
           style="width: fit-content"
           class="base-button tail-mt-5"
           @click.prevent="stripeConnect"
@@ -105,6 +105,9 @@ export default {
     ...mapGetters({
       allInvoices: 'invoice/getAllDraftInvoices'
     }),
+    user () {
+      return this.$auth.user
+    },
     getMonth () {
       const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
       const thisMonth = new Date().getMonth()

@@ -9,20 +9,23 @@
     </p>
     <ul class="tail-inline-block sm:tail-flex tail-list-none tail-m-0 tail-p-0">
       <li>
-        <div class="tail-flex tail-items-center">
-          <p
-            :class="[isStripeConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
-          >
-            <i v-if="isStripeConnected" class="ns-check"></i>
-            <i v-else class="ns-cross" />
+        <div class="tail-flex tail-items-center" v-if="isStripeConnected && isStripeReady">
+          <p :class="[ 'tail-bg-green-500' , 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']">
+            <i class="ns-check"></i>
           </p>
-          <p
-            v-if="!true"
-            :class="['tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
-          >
+          <p>Stripe ready ! </p>
+        </div>
+        <div class="tail-flex tail-items-center" v-else-if="isStripeConnected">
+            <p :class="['tail-bg-indigo-500', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']">
+              <i class="ns-refresh"></i>
+            </p>
+            <p>Stripe account in review</p>
+        </div>
+        <div class="tail-flex tail-items-center" v-else>
+          <p :class="['tail-bg-red-600' , 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']" >
             <i class="ns-cross" />
           </p>
-          <p>Stripe</p>
+          <p>Stripe not connected</p>
         </div>
       </li>
       <li class="sm:tail-ml-2">
@@ -53,8 +56,7 @@
       <li class="sm:tail-ml-2">
         <div class="tail-flex tail-items-center">
           <p
-            :class="[fullyConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']"
-          >
+            :class="[fullyConnected ? 'tail-bg-green-500' : 'tail-bg-red-600', 'tail-mr-1', 'tail-rounded-full', 'tail-text-xs', 'tail-p-2', 'tail-flex']">
             <i class="ns-cross" />
           </p>
           <p>Fully connected <span class="tail-underline">Sync</span></p>
@@ -67,14 +69,15 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'DbStatusCard',
+  name: 'DashboardStatusCard',
   computed: {
     ...mapGetters({
       allClients: 'client/getAllClients',
-      isStripeConnected: 'authorize/isStripeConnected'
+      isStripeConnected: 'authorize/isStripeConnected',
+      isStripeReady: 'authorize/isStripeReady'
     }),
     fullyConnected () {
-      return this.allClients && this.isStripeConnected
+      return this.allClients && this.isStripeReady && this.isStripeConnected
     }
   }
 }

@@ -16,7 +16,7 @@
           </div>
 
           <button
-            v-if="!$store.state.authorize.stripeConnected"
+            v-if="!user.stripe || !user.stripe.connected"
             :disabled="isLoading"
             class="tail-flex tail-border-2 tail-border-gray-400 tail-px-2 tail-py-1 tail-rounded-md"
             @click.prevent="stripeConnect"
@@ -25,7 +25,7 @@
             {{ isLoading ? 'Establishing Stripe Connection' : 'Connect with Stripe' }}
           </button>
           <button v-else disabled class="tail-border-2 tail-border-gray-400 tail-px-2 tail-py-1 tail-rounded-md" @click.prevent="stripeConnect">
-            Stripe Connected
+            Stripe Already Connected
           </button>
         </div>
       </form>
@@ -34,7 +34,10 @@
 </template>
 <script>
 export default {
-  name: 'SettingsConnectGoogle',
+  name: 'SettingsIntegration',
+  props: {
+    user: Object
+  },
   data () {
     return {
       isLoading: false

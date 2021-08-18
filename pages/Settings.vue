@@ -29,7 +29,7 @@
               <SettingsServices id="services" :services="user.services" />
               <SettingsSecurity id="security" v-model="user" />
               <!-- <BankDetails v-if="this.user.stripeConnected" id="bankDetails" /> -->
-              <SettingsConnectGoogle id="connect" />
+              <SettingsIntegration id="connect" :user="user" />
             </div>
           </div>
         </div>
