@@ -169,7 +169,7 @@
         @click="sendFile"
       >
         <i
-          class="ns-envelope tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
+          class="ns-paper-plane tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
         ></i>
       </button>
       <div
