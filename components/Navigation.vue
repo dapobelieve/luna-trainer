@@ -94,7 +94,7 @@
             </h2>
           </template>
           <template v-slot:body>
-            <div v-if="true" class="tail-px-4 tail-py-2 tail-grid tail-gap-6">
+            <div v-if="0" class="tail-px-4 tail-py-2 tail-grid tail-gap-6">
               <div v-for="n in 20" :key="n.index" class="tail-flex tail-space-x-3">
                 <div>
                   <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />

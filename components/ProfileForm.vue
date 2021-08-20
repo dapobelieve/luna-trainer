@@ -1,7 +1,7 @@
 <template>
   <div class="tail-grid tail-gap-4 tail-bg-white tail-px-5 tail-py-10 tail-rounded-md">
     <div>
-      <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="submit">
+      <form autocomplete="off" class="tail-grid tail-gap-6">
         <div>
           <label for="location" class="form-label">Profile Image</label>
           <div style="cursor: pointer" class="border-dashed tail-flex tail-items-center tail-rounded tail-p-3" @click="()=>this.$refs.fileInput.click()">
@@ -78,7 +78,7 @@
           <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
         </div>
         <div class="tail-flex tail-justify-end">
-          <button-spinner :loading="loading" type="submit" style="width:fit-content">
+          <button-spinner :loading="loading" type="button" style="width:fit-content" @click="submit">
             Update profile
           </button-spinner>
         </div>

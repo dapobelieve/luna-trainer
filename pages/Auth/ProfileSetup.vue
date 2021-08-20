@@ -7,7 +7,7 @@
       <small class="tail-text-gray-400">Kindly provide all necessary information</small>
     </div>
     <div>
-      <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="createProfile">
+      <form autocomplete="off" class="tail-grid tail-gap-6">
         <div class="tail-flex tail-justify-between tail-gap-6">
           <div class="tail-w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
@@ -93,7 +93,7 @@
             class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           >
             <option
-              v-for="val in Array.from(Array(50).keys())"
+              v-for="val in 50"
               :key="val"
               :value="parseInt(val) + 1"
             >
@@ -121,7 +121,7 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-center">
-          <button-spinner :loading="isLoading" :disabled="$v.$invalid">
+          <button-spinner :loading="isLoading" :disabled="$v.$invalid" @click.prevent="createProfile">
             Proceed
           </button-spinner>
         </div>

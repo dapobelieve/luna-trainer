@@ -154,7 +154,7 @@
   >
     <div class="tail-h-full tail-relative">
       <div
-        class="tail-bg-green-200 tail-px-5 tail-py-3 tail-flex tail-items-center tail-justify-between"
+        class="tail-bg-white tail-px-5 tail-py-3 tail-flex tail-items-center tail-justify-between"
       >
         <span class="tail-capitalize tail-font-semibold">
           preview
@@ -169,11 +169,11 @@
         @click="sendFile"
       >
         <i
-          class="ns-envelope tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
+          class="ns-paper-plane tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
         ></i>
       </button>
       <div
-        class=" tail-grid tail-place-content-center"
+        class=" tail-grid tail-place-content-center tail-bg-black"
         style="height: calc(100vh - 271px)"
       >
         <img
