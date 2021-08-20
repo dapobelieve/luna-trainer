@@ -177,7 +177,7 @@ export default {
                   this.$store.dispatch('authorize/setToken', tokens)
                   // fetch user profile
                   this.$store
-                    .dispatch('authorize/getUserProfile')
+                    .dispatch('profile/getUserProfile')
                     .then((response) => {
                       response === null
                         ? this.$router.push({

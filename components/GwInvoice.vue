@@ -14,37 +14,37 @@
                   class="tail-bg-white tail-rounded-lg tail-overflow-hidden"
                 >
                   <tr class="">
-                    <th scope="col" class="tail-px-6 tail-py-3">
+                    <th scope="col" class="tail-px-1 tail-py-3">
                       <span class="tail-sr-only"></span>
                     </th>
 
                     <th
                       scope="col"
-                      class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
+                      class="tail-pr-12 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                     >
                       Name
                     </th>
                     <th
                       scope="col"
-                      class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
+                      class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                     >
                       Invoice No.
                     </th>
                     <th
                       scope="col"
-                      class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
+                      class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                     >
                       Created
                     </th>
                     <th
                       scope="col"
-                      class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
+                      class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                     >
                       Amount
                     </th>
                     <th
                       scope="col"
-                      class="tail-px-6 tail-py-3 tail-text-left tail-text-xs tail-font-medium text-gray-500 tail-uppercase tail-tracking-wider"
+                      class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium text-gray-500 tail-uppercase tail-tracking-wider"
                     >
                       Status
                     </th>
@@ -55,20 +55,20 @@
                     v-for="invoice in filteredInvoice"
                     :key="invoice.index"
                     class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
+                    @click.prevent="openDetails(invoice)"
                   >
                     <td
                       v-if="invoice && invoice.status === 'draft'"
-                      class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
+                      class="tail-px-1 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
                     >
-                      <input id="invoice._id" type="checkbox" @change="toggle(invoice._id)" />
+                      <input id="invoice._id" type="checkbox" @click="$event.stopPropagation()" @change="toggle(invoice._id)" />
                     </td>
                     <td v-else scope="col" class="tail-px-6 tail-py-3">
                       <span class="tail-sr-only">Action</span>
                     </td>
 
                     <td
-                      class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
-                      @click.prevent="openDetails(invoice)"
+                      class="tail-pr-12 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
                     >
                       <div
                         class="tail-flex tail-flex-row tail-items-center tail-gap-3"
@@ -84,30 +84,25 @@
                       </div>
                     </td>
                     <td
-                      class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
+                      class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                     >
                       {{ invoice.invoiceNo }}
                     </td>
                     <td
-                      class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
+                      class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                     >
                       {{ new Date(invoice.dueDate).toDateString() }}
                     </td>
                     <td
-                      class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
+                      class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                     >
                       {{ invoice.total | amount }}
                     </td>
                     <td
-                      class="tail-px-6 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
+                      class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                     >
                       <span
-                        :class="[
-                          invoice.status === 'sent'
-                            ? 'tail-bg-green-100'
-                            : 'tail-bg-red-300'
-                        ]"
-                        class="tail-px-2 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-text-gray-800 tail-capitalize"
+                        class="tail-px-2 tail-bg-gray-200 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-text-gray-800 tail-capitalize"
                       >
                         {{ invoice.status }}
                       </span>

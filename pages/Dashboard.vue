@@ -84,8 +84,8 @@ export default {
   computed: {
     ...mapGetters({
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus',
-      isStripeConnected: 'authorize/isStripeConnected',
-      isStripeReady: 'authorize/isStripeReady'
+      isStripeConnected: 'profile/isStripeConnected',
+      isStripeReady: 'profile/isStripeReady'
     })
   },
   watch: {
@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchUserProfile: 'authorize/getUserProfile',
+      fetchUserProfile: 'profile/getUserProfile',
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {

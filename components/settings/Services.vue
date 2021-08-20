@@ -112,7 +112,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateProfile: 'authorize/updateProfile'
+      updateProfile: 'profile/updateProfile'
     }),
     resetSelectedService () {
       this.selectedService = { pricing: {}, appointmentTypes: [] }

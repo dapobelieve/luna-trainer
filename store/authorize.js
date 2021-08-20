@@ -1,34 +1,11 @@
-export const state = () => ({
-  getWelpUser: {},
-  isStripeConnected: false
-})
 
 export const mutations = {
-  SET_GETWELP_USER (state, user) {
-    const checkEmptiness = Object.keys(user).length === 0 && user.constructor === Object
-    const gwuser = checkEmptiness ? {} : user
-    this.$auth.setUser(gwuser)
-    localStorage.setItem('getWelpUser', JSON.stringify(gwuser))
-    state.getWelpUser = gwuser
-  },
   CLEAR_LOCAL_STORAGE () {
     window.localStorage.clear()
   }
 }
 
 export const actions = {
-  createTrainerProfile ({ commit, dispatch }, payload) {
-    delete payload.profilePic
-    return this.$axios.$post(
-      `${process.env.BASEURL_HOST}/profile`, payload)
-      .then((response) => {
-        const { data } = response
-        if (data !== null) {
-          commit('SET_GETWELP_USER', data)
-        }
-        return response
-      })
-  },
   forgotPassword ({ commit }, payload) {
     return this.$axios.$post(
       `${process.env.ACCOUNT_HOST_URL}/auth/forgot-password`, payload).then((response) => {
@@ -41,50 +18,20 @@ export const actions = {
       return response
     })
   },
-  getUserProfile ({ commit }) {
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/profile`)
-      .then(({ data }) => {
-        if (data !== null) {
-          commit('SET_GETWELP_USER', data)
-        }
-        return data
-      })
-  },
   signUpUser ({ commit }, payload) {
     return this.$axios.$post(
       `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
     )
   },
-  updateProfile ({ commit }, payload) {
-    return this.$axios
-      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
-      .then((response) => {
-        commit('SET_GETWELP_USER', response.data)
-        return response
-      })
-  },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
-  uploadProfileImage ({ commit }, payload) {
-    return this.$axios.$patch(
-      `${process.env.BASEURL_HOST}/profile/upload-image`, payload, { headers: { 'Content-Type': 'multipart/form-data' } }).then((response) => {
-      commit('SET_GETWELP_USER', response.data)
-      return response
-    })
-  },
   async logOut ({ commit, dispatch }) {
     await this.$auth.logout()
-    commit('SET_GETWELP_USER', {})
+    dispatch('profile/clearGetWelpUser', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
     commit('CLEAR_LOCAL_STORAGE')
     return true
   }
-}
-export const getters = {
-  getUser: state => state.getWelpUser,
-  isStripeConnected: state => state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
-  isStripeReady: state => state.getWelpUser.stripe && state.getWelpUser.stripe.capabilities && state.getWelpUser.stripe.capabilities.card_payments === 'active' && state.getWelpUser.stripe.capabilities.transfers === 'active' && state.getWelpUser.stripe.capabilities.bacs_debit_payments === 'active'
 }

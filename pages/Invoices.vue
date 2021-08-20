@@ -96,16 +96,14 @@
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
-    <Modal
-      status="Delete Invoice"
-      :input-width="40"
-      :is-open="deleteClient"
-      @close="deleteClient = $event"
-    >
-      <DeleteInvoice
-        @close="deleteClient = $event"
-        @deleteDetails="deleteClientData"
-      />
+    <Modal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event">
+      <CancelAlert @close="deleteClient = $event" @cancel="deleteClientData">
+        <template v-slot:text>
+          <div class="tail-text-base tail-font-medium tail-text-left">
+            Are you sure you want to delete this invoice?
+          </div>
+        </template>
+      </CancelAlert>
     </Modal>
   </div>
 </template>
@@ -147,7 +145,6 @@ export default {
       this.tempTrashId = e
     },
     deleteInvoice () {
-      // console.log(this.tempTrashId, "hello9");
       this.deleteClient = true
     },
     deleteClientData () {
