@@ -93,7 +93,7 @@
             class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           >
             <option
-              v-for="val in profileInfo.experience"
+              v-for="val in 50"
               :key="val"
               :value="parseInt(val) + 1"
             >
@@ -147,7 +147,7 @@ export default {
       lastName: '',
       businessName: '',
       location: '',
-      experience: Array.from(Array(50).keys()),
+      experience: null,
       specialization: [],
       accreditations: [],
       useOfReinforcement: null,
