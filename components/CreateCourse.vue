@@ -29,7 +29,7 @@
             name="notes"
             rows="4"
             cols="50"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-border tail-border-gray-300 tail-rounded-md"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-pb-0 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-border tail-border-gray-300 tail-rounded-md"
             :maxlength="max"
           >
           </textarea>
@@ -39,7 +39,7 @@
           ></div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-2.5">
         <div class=" tail-mr-3">
           <img class="tail-h-6" src="~/assets/img/svgs/requirement.svg" alt="">
         </div>
@@ -72,14 +72,14 @@
                 <div class="inputwrapper tail-text-xs" data-required="Remote">
                   <input
                     type="text"
-                    class="tail-w-full tail-placeholder-gray-800 tail-bg-white tail-p-2.5 tail-block tail-text-sm tail-mt-1 focus:tail-outline-none focus:tail-bg-white"
+                    class="tail-w-full tail-placeholder-gray-400 tail-bg-white tail-p-2.5 tail-block tail-text-sm tail-mt-1 focus:tail-outline-none focus:tail-bg-white"
                     placeholder="Brief description about choosing remote"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div class="tail-w-full tail-mt-4">
+          <div class="tail-w-full tail-mt-3.5">
             <label for="name" class="tail-block tail-font-light">{{
               locationDetails
             }}</label>
@@ -143,9 +143,9 @@
               class="tail-block tail-font-light"
             >Class Schedule</label>
             <div
-              class="tail-m-2 tail-w-full tail-flex tail-items-center tail-flex-col"
+              class="tail-flex tail-flex-col tail--ml-4 tail-w-full"
             >
-              <div v-for="(schedule, index) in schedules" :key="index" class="tail-flex tail-m-2 tail-items-center tail-justify-around">
+              <div v-for="(schedule, index) in schedules" :key="index" class="tail-flex tail-ml-0 tail-m-2 tail-items-center tail-justify-around">
                 <div class="tail-text-gray-400 tail-text-sm tail-mr-3">
                   Class {{ index + 1 }} of {{ schedules.length }}
                 </div>

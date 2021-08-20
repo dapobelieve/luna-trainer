@@ -26,7 +26,7 @@ export const actions = {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/invoice`, payload)
       .then((response) => {
-        dispatch('authorize/getUserProfile', null, { root: true })
+        dispatch('profile/getUserProfile', null, { root: true })
         return response
       })
   },

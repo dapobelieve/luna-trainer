@@ -73,8 +73,8 @@ export default {
   computed: {
     ...mapGetters({
       allClients: 'client/getAllClients',
-      isStripeConnected: 'authorize/isStripeConnected',
-      isStripeReady: 'authorize/isStripeReady'
+      isStripeConnected: 'profile/isStripeConnected',
+      isStripeReady: 'profile/isStripeReady'
     }),
     fullyConnected () {
       return this.allClients && this.isStripeReady && this.isStripeConnected

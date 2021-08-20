@@ -154,7 +154,7 @@ export default {
       // set necessary tokens
       this.$store.dispatch('authorize/setToken', tokens)
       // fetch user profile
-      this.$store.dispatch('authorize/getUserProfile').then((response) => {
+      this.$store.dispatch('profile/getUserProfile').then((response) => {
         if (response === null) {
           this.$router.push({ name: 'Auth-ProfileSetup' })
         } else {
@@ -166,7 +166,7 @@ export default {
           localStorage.setItem('getWelpUser', JSON.stringify(response))
 
           // set user in store
-          this.$store.commit('authorize/SET_GETWELP_USER', response)
+          this.$store.commit('profile/SET_GETWELP_USER', response)
           this.$router.push({ name: 'Dashboard' })
         }
       })

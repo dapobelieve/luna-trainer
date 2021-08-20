@@ -27,8 +27,8 @@
         :tabindex="tabindex"
         class="tail-border-0 tail-text-blue-400 tail-ml-2"
         placeholder="Type in here..."
-        @keydown.enter="addItem($event)"
-        @keydown.tab="addItem($event)"
+        @keydown.enter.prevent="addItem($event)"
+        @keydown.tab.prevent="addItem($event)"
       />
     </div>
     <div
@@ -41,7 +41,7 @@
 </template>
 <script>
 export default {
-  name: 'TagInput',
+  name: 'SettingsTagInput',
   props: {
     block: Boolean,
     tabindex: Number,

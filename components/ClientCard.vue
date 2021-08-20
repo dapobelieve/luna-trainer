@@ -21,13 +21,21 @@
             src="~/assets/img/dog-paw.svg"
             alt="dog paw"
           />
-          <span class="tail-ml-1 tail-text-gray-500 tail-truncate">
-            {{ client.pet[0].name }}, {{ client.pet[0].breed }}
+          <span class="tail-ml-1 tail-text-gray-500 tail-truncate tail-capitalize">
+            {{ client.pet[0].name }}, {{ client.location }}
           </span>
         </div>
       </div>
     </div>
-    <div>
+    <Modal :is-open="openModal" @close="openModal = $event">
+      <template v-slot:status>
+        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
+          {{ client.status }}
+        </div>
+      </template>
+      <ClientInfoPreview :client="client" @close="openModal = $event" />
+    </Modal>
+    <div class="">
       <div class="tail-flex tail-gap-3">
         <button
           v-if="client.status === 'accepted'"
@@ -48,25 +56,8 @@
           <i class="ns-refresh"></i>
           <span class="tail-capitalize tail-ml-1">resend invite</span>
         </button>
-        <button
-          v-else
-          type="button"
-          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
-          @click="openMessage"
-        >
-          <i class="ns-comment-alt"></i>
-          <span class="tail-capitalize tail-ml-1">message</span>
-        </button>
       </div>
     </div>
-    <Modal :is-open="openModal" @close="openModal = $event">
-      <template v-slot:status>
-        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-          {{ client.status }}
-        </div>
-      </template>
-      <ClientInfoPreview :client="client" @close="openModal = $event" />
-    </Modal>
   </div>
 </template>
 

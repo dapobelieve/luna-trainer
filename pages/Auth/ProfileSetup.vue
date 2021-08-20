@@ -147,7 +147,7 @@ export default {
       lastName: '',
       businessName: '',
       location: '',
-      experience: null,
+      experience: '',
       specialization: [],
       accreditations: [],
       useOfReinforcement: null,
@@ -183,8 +183,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      createTrainerProfile: 'authorize/createTrainerProfile',
-      uploadPicture: 'authorize/uploadProfileImage'
+      createTrainerProfile: 'profile/createTrainerProfile',
+      uploadPicture: 'profile/uploadProfileImage'
     }),
 
     createProfile () {

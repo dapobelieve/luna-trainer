@@ -53,7 +53,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      user: 'authorize/getUser'
+      user: 'profile/getUser'
     })
   },
   async mounted () {
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getUserProfile: 'authorize/getUserProfile'
+      getUserProfile: 'profile/getUserProfile'
     })
   }
 }

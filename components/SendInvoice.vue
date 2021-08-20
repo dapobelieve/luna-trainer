@@ -19,7 +19,6 @@
         <SingleLoader v-if="isLoading" class="tail-mr-2" />
         {{ isLoading ? 'Sending Invoice...' : 'Send Invoice' }}
       </button>
-      </button>
     </div>
   </div>
 </template>

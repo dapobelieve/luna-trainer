@@ -38,7 +38,7 @@
                       |
                       <span
                         class="option__title tail-pl-2"
-                      >{{ props.option.location.address }}
+                      >{{ props.option.location }}
                       </span>
                       <div class="tail-pl-2 tail-break-words">
                         {{ props.option.email }}

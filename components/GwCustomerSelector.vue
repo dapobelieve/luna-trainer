@@ -23,7 +23,7 @@
         />
         <div>
           <span class="option__title tail-pl-2">{{ props.option.firstName }} {{ props.option.lastName }}</span>
-          <span class="option__title tail-pl-2">{{ props.option.location.address }}</span>
+          <span class="option__title tail-pl-2">{{ props.option.location }}</span>
           <div class="tail-pl-2 tail-break-words">
             {{ props.option.email }}
           </div>

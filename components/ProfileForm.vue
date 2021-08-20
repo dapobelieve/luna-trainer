@@ -109,8 +109,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateProfile: 'authorize/updateProfile',
-      uploadPicture: 'authorize/uploadProfileImage'
+      updateProfile: 'profile/updateProfile',
+      uploadPicture: 'profile/uploadProfileImage'
     }),
     submit () {
       console.log(this.profile)
