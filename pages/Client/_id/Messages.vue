@@ -154,7 +154,7 @@
   >
     <div class="tail-h-full tail-relative">
       <div
-        class="tail-bg-white tail-px-5 tail-py-3 tail-flex tail-items-center tail-justify-between"
+        class="tail-bg-green-200 tail-px-5 tail-py-3 tail-flex tail-items-center tail-justify-between"
       >
         <span class="tail-capitalize tail-font-semibold">
           preview
@@ -169,11 +169,11 @@
         @click="sendFile"
       >
         <i
-          class="ns-paper-plane tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
+          class="ns-envelope tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
         ></i>
       </button>
       <div
-        class=" tail-grid tail-place-content-center tail-bg-black"
+        class=" tail-grid tail-place-content-center"
         style="height: calc(100vh - 271px)"
       >
         <img
@@ -247,19 +247,30 @@ export default {
     this.$sb.addChannelHandler('msgHandler', channelHandler)
   },
   created () {
-    this.getClientProfile(this.id)
-      .then(async (response) => {
+    try {
+      this.getClientProfile(this.id).then(async (response) => {
         await response
-        this.createChannel(response.sendbirdId)
+        this.checkChannel(response.sendbirdId).then((res) => {
+          if (res === undefined) {
+            this.createChannel(response.sendbirdId)
+          } else if (res) {
+            this.existingChannel(res)
+          }
+        })
       })
-      .catch(err => console.log('error fetching client', err))
+    } catch (error) {
+      console.log('error occured ', error)
+    }
   },
   methods: {
     ...mapActions({
-      getClientProfile: 'client/getSingleClient',
-      markAsRead: 'sendBird/markMessageAsRead',
-      addChannel: 'sendBird/addNewChannel',
-      newMessage: 'sendBird/updateConnectedChannels'
+      getClientProfile: 'client/getSingleClient'
+    }),
+    ...mapActions('sendBird', {
+      markAsRead: 'markMessageAsRead',
+      addChannel: 'addNewChannel',
+      newMessage: 'updateConnectedChannels',
+      checkChannel: 'checkIfChannelExists'
     }),
     retry () {
       this.createChannel(this.receiver)
@@ -283,6 +294,11 @@ export default {
           })
         }
       })
+    },
+    existingChannel (groupChannel) {
+      this.channel = groupChannel
+      this.fetchMessageHistory(groupChannel)
+      this.isChannelLoading = false
     },
     createChannel (receiver) {
       // this.isChannelLoading = true
