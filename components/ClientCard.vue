@@ -1,8 +1,8 @@
 <template>
   <div
-    class="tail-rounded-md tail-bg-white tail-p-4 tail-mb-4 tail-flex tail-items-center"
+    class="tail-rounded-md tail-bg-white tail-mb-4 tail-flex tail-items-center"
   >
-    <div class="tail-flex tail-w-full tail-cursor-pointer hover:tail-bg-gray-100" @click="$router.push({ name: 'Client-id-Information', params: { id: client.userId, clientInfo: client } })">
+    <div class="tail-flex tail-w-full tail-p-4 tail-cursor-pointer hover:tail-bg-gray-100 hover:tail-shadow-lg" @click="$router.push({ name: 'Client-id-Information', params: { id: client.userId, clientInfo: client } })">
       <span
         :class="[client.status !== 'invited' ? ['tail-rounded-full', 'tail-border-2', 'tail-border-red-400', 'tail-p-0.5', 'tail-flex', 'tail-items-center'] : ['']]"
       >
@@ -37,16 +37,6 @@
     </Modal>
     <div class="">
       <div class="tail-flex tail-gap-3">
-        <button
-          v-if="client.status === 'accepted'"
-          type="button"
-          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400"
-          @click="newClientInvoice"
-        >
-          <i class="ns-receipt"></i>
-          <span class="tail-capitalize tail-ml-1">invoice</span>
-        </button>
-
         <button
           v-if="client.status === 'invited'"
           type="button"
@@ -95,22 +85,6 @@ export default {
           this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
         } else {
           this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
-        }
-      })
-    },
-    openMessage () {
-      this.$router.push({
-        name: 'Clients-id-Messages',
-        params: {
-          id: this.client.userId
-        }
-      })
-    },
-    newClientInvoice () {
-      this.$router.push({
-        name: 'NewInvoice-id',
-        params: {
-          id: this.client.userId
         }
       })
     }
