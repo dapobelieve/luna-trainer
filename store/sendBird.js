@@ -50,6 +50,18 @@ export const mutations = {
 }
 
 export const actions = {
+  checkIfChannelExists ({ state, commit }, userId) {
+    if (
+      Object.keys(state.connectedChannels).length === 0 &&
+      state.connectedChannels.constructor === Object
+    ) {
+      return false
+    } else if (state.connectedChannels.size) {
+      return Array.from(state.connectedChannels.values()).find(c =>
+        c.members.find(m => m.userId === userId)
+      )
+    }
+  },
   markMessageAsRead ({ commit, dispatch }, channel) {
     // Call the 'markAsRead()' when the current user views unread messages in a group channel.
     channel.markAsRead()
