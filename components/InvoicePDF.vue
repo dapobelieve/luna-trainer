@@ -18,7 +18,7 @@
           <p class="tail-text-gray-500 tail-text-xs">
             Date of Issue:<span class="tail-ml-3">{{ new Date() | date }}</span>
           </p>
-          <p class="tail-text-gray-500 tail-text-xs">
+          <p v-if="invoice.dueDate" class="tail-text-gray-500 tail-text-xs">
             Date Due:<span class="tail-ml-3">{{ invoice.dueDate | date }}</span>
           </p>
         </div>
@@ -27,14 +27,14 @@
         <div class="">
           <div>
             <p class="tail-text-gray-500 tail-text-sm">
-              Bill to: <span class="tail-capitalize tail-text-black">{{ `${ client.firstName} ${client && client.lastName}` }}</span>
+              Bill to: <span v-if="client && client.firstName" class="tail-capitalize tail-text-black">{{ `${ client.firstName} ${client && client.lastName}` }}</span>
             </p>
             <p class="tail-text-gray-500 tail-text-sm">
-              Email: <span class="tail-text-black">{{ `${client.email}` }}</span>
+              Email: <span v-if="client.email" class="tail-text-black">{{ `${client.email}` }}</span>
             </p>
           </div>
           <div class="tail-py-4">
-            <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate | date }}.</span>
+            <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate || new Date() | date }}.</span>
             <span v-else class="tail-text-xl tail-font-semibold">Please select a service.</span>
           </div>
           <div>

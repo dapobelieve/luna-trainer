@@ -8,19 +8,21 @@
     :option-height="104"
     :show-labels="false"
     :multiple="false"
-    @select="($event)=>this.$emit('select',$event)"
+    @select="($event)=>$emit('select',$event)"
   >
     <template
       slot="singleLabel"
       slot-scope="props"
     >
       <div class="option__desc tail-flex tail-items-center">
-        <ClientAvatar
-          :firstname="props.option.firstName"
-          :lastname="props.option.lastName"
-          :width="4"
-          :height="4"
-        />
+        <template v-if="!isEmpty">
+          <ClientAvatar
+            :firstname="props.option.firstName"
+            :lastname="props.option.lastName"
+            :width="4"
+            :height="4"
+          />
+        </template>
         <div>
           <span class="option__title tail-pl-2">{{ props.option.firstName }} {{ props.option.lastName }}</span>
           <span class="option__title tail-pl-2">{{ props.option.location }}</span>
@@ -50,6 +52,11 @@ export default {
   props: {
     clients: Array,
     selected: Object
+  },
+  computed: {
+    isEmpty () {
+      return Object.keys(this.selected).length === 0 && this.selected.constructor === Object
+    }
   }
 }
 </script>

@@ -30,10 +30,12 @@
             </div>
           </a>
         </div>
-        <div>
-          <span class="tail-text-gray-400 tail-text-sm">Choose a list of invoice items.</span>
-        </div>
-        <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
+        <template v-if="$auth.user.services">
+          <div>
+            <span class="tail-text-gray-400 tail-text-sm">Choose a list of invoice items.</span>
+          </div>
+          <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
+        </template>
       </div>
       <hr class="tail-pt-5" />
       <div class="tail-py-4">

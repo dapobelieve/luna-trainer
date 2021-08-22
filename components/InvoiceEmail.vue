@@ -17,7 +17,7 @@
             </div>
             <div>
               <span class="tail-text-gray-400">To</span>
-              <p class="tail-capitalize">
+              <p v-if="client && client.firstName" class="tail-capitalize">
                 {{ `${client && client.firstName} ${client && client.lastName}` }}
               </p>
             </div>
@@ -93,6 +93,13 @@ export default {
         )
       }
       return this.invoiceItems[0].price
+    }
+  },
+  watch: {
+    'invoice.client' (newValue) {
+      if (newValue) {
+        this.client = newValue
+      }
     }
   }
 }
