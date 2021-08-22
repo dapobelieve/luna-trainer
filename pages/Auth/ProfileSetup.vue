@@ -147,7 +147,7 @@ export default {
       lastName: '',
       businessName: '',
       location: '',
-      experience: '',
+      experience: 0,
       specialization: [],
       accreditations: [],
       useOfReinforcement: null,
