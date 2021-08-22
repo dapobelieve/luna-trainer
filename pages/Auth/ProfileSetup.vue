@@ -147,7 +147,7 @@ export default {
       lastName: '',
       businessName: '',
       location: '',
-      experience: '',
+      experience: 0,
       specialization: [],
       accreditations: [],
       useOfReinforcement: null,
@@ -193,9 +193,9 @@ export default {
         return this.createTrainerProfile(this.profileInfo).then(async (response) => {
           if (response.status === 'success') {
             this.$toast.info('Profile creations successfully', { position: 'bottom-right' })
-            this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
 
             if (this.profilePic) {
+              this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
               response = await this.uploadProfileImage()
               if (response.success === true) {
                 this.$toast.info('Profile picture upload successfully', { position: 'bottom-right' })

@@ -19,9 +19,10 @@ export const actions = {
     commit('SET_GETWELP_USER', {})
   },
   createTrainerProfile ({ commit, dispatch }, payload) {
-    delete payload.profilePic
+    const data = { ...payload }
+    delete data.profilePic
     return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/profile`, payload)
+      .$post(`${process.env.BASEURL_HOST}/profile`, data)
       .then((response) => {
         const { data } = response
         if (data !== null) {
