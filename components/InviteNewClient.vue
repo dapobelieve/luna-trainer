@@ -49,24 +49,6 @@
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
-            <i class="ns-phone tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
-            <div class="tail-w-full">
-              <label for="phone">Telephone</label>
-              <input
-                id="phone"
-                v-model.trim.number="$v.clientInfo.phoneNumber.$model"
-                type="tel"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ error: $v.clientInfo.phoneNumber.$invalid }"
-              />
-              <div v-if="$v.$anyDirty" class="tail-mt-1">
-                <small v-if="!$v.clientInfo.phoneNumber.minLength" class="tail-text-gray-500">
-                  Must be valid phone number.
-                </small>
-              </div>
-            </div>
-          </div>
-          <div class="tail-flex tail-gap-5">
             <i
               class="ns-envelope tail-mt-1 tail-text-2xl tail-text-gray-500"
             ></i>
@@ -79,11 +61,13 @@
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
                 :class="{ error: $v.clientInfo.email.$invalid }"
               />
-              <div v-if="$v.$anyDirty" class="tail-mt-1">
-                <small v-if="!$v.clientInfo.email.email" class="tail-text-gray-500">
-                  Must be valid email.
-                </small>
-              </div>
+            </div>
+          </div>
+          <div class="tail-flex tail-gap-5">
+            <i class="ns-phone tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
+            <div class="tail-w-full">
+              <label for="phone">Telephone</label>
+              <vue-tel-input v-model="clientInfo.phoneNumber" :value="clientInfo.phoneNumber" @input="onInput"></vue-tel-input>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -136,10 +120,9 @@
               <label for="dogName">Dog's name</label>
               <input
                 id="dogName"
-                v-model.trim="$v.clientInfo.petName.$model"
+                v-model.trim="clientInfo.petName"
                 type="text"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ error: !$v.clientInfo.petName.required }"
               />
             </div>
           </div>
@@ -155,20 +138,18 @@
                 >Breed</label>
                 <input
                   id="breed"
-                  v-model.trim="$v.clientInfo.petBreed.$model"
+                  v-model.trim="clientInfo.petBreed"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ error: !$v.clientInfo.petBreed.required }"
                 />
               </div>
               <div class="tail-w-full">
                 <label for="experience">Age</label>
                 <select
                   id="experience"
-                  v-model="$v.clientInfo.petAge.$model"
+                  v-model="clientInfo.petAge"
                   type="text"
                   class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ error: !$v.clientInfo.petAge.required }"
                 >
                   <option
                     v-for="val in Array.from(Array(13).keys())"
@@ -185,11 +166,11 @@
             <div class="tail-py-2 tail-ml-12">
               <div class="tail-flex">
                 <div class="tail-mr-4">
-                  <input id="male" v-model="$v.clientInfo.petGender.$model" type="radio" value="male" />
+                  <input id="male" v-model="clientInfo.petGender" type="radio" value="male" />
                   <label for="male" class="tail-text-gray-600">Male</label>
                 </div>
                 <div>
-                  <input id="female" v-model="$v.clientInfo.petGender.$model" type="radio" value="female" />
+                  <input id="female" v-model="clientInfo.petGender" type="radio" value="female" />
                   <label for="female" class="tail-text-gray-600">Female</label>
                 </div>
               </div>
@@ -236,7 +217,7 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { required, email, minLength } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 import ButtonSpinner from './util/ButtonSpinner.vue'
 
 export default {
@@ -266,28 +247,12 @@ export default {
       firstName: {
         required
       },
-      phoneNumber: {
-        required,
-        minLength: minLength(10)
-      },
       lastName: {
         required
       },
       email: {
         required,
         email
-      },
-      petName: {
-        required
-      },
-      petAge: {
-        required
-      },
-      petBreed: {
-        required
-      },
-      petGender: {
-        required
       }
     }
   },
@@ -298,7 +263,6 @@ export default {
     }),
     save () {
       this.isLoading = true
-      console.log(this.clientInfo.locationCity)
       return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
         console.log(response)
         if (response && response.data.status === true) {

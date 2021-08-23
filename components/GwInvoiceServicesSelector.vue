@@ -34,7 +34,7 @@
             <small class="ns-edit tail-flex tail-align-middle  primary-color tail-rounded-full tail-p-1 tail-text-white"></small>
           </button>
 
-          <button @click.once="removeSelectionItem(select.serviceId)">
+          <button type="button" @click.prevent="removeSelectionItem(select.serviceId)">
             <small class="ns-cross tail-flex tail-align-middle tail-bg-red-300 tail-rounded-full tail-p-1 tail-text-white"></small>
           </button>
         </div>
