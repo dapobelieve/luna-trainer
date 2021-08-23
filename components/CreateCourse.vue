@@ -2,7 +2,7 @@
   <div>
     <div>Create a course and add your client as they signup.</div>
     <div>
-      <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-5">
         <div class=" tail-mr-3">
           <i class="ns-user tail-text-gray-500 tail-text-2xl"></i>
         </div>
@@ -15,7 +15,7 @@
           />
         </div>
       </div>
-      <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-5">
         <div class=" tail-mr-3">
           <img class="tail-h-6" src="~/assets/img/svgs/description.svg" alt="">
         </div>
@@ -39,7 +39,7 @@
           ></div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-2.5">
+      <div class="tail-flex tail-mt-5">
         <div class=" tail-mr-3">
           <img class="tail-h-6" src="~/assets/img/svgs/requirement.svg" alt="">
         </div>
@@ -54,7 +54,7 @@
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-5">
         <div class=" tail-mr-3">
           <i class="ns-location-alt tail-text-gray-500 tail-text-2xl"></i>
         </div>
@@ -91,7 +91,7 @@
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-5">
         <div class=" tail-mr-3">
           <i class="ns-users tail-text-gray-500 tail-text-2xl"></i>
         </div>
@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-5">
         <div class=" tail-mr-3">
           <i class="ns-label tail-text-gray-500 tail-text-2xl"></i>
         </div>
@@ -132,8 +132,7 @@
           </div>
         </div>
       </div>
-      <div>
-        <div class="tail-flex tail-mt-3.5">
+      <div class="tail-flex tail-mt-5">
           <div class=" tail-mr-3">
             <i class="ns-calendar tail-text-gray-500 tail-text-2xl"></i>
           </div>
@@ -146,7 +145,7 @@
               class="tail-flex tail-flex-col tail--ml-4 tail-w-full"
             >
               <div v-for="(schedule, index) in schedules" :key="index" class="tail-flex tail-ml-0 tail-m-2 tail-items-center tail-justify-around">
-                <div class="tail-text-gray-400 tail-text-sm tail-mr-3">
+                <div class="tail-text-gray-400 tail-text-sm tail-mr-1">
                   Class {{ index + 1 }} of {{ schedules.length }}
                 </div>
                 <date-picker
@@ -157,7 +156,6 @@
                   :visible="false"
                   format="DD MMMM, YYYY hh:mm A"
                   range
-                  class="tail-m-1"
                 ></date-picker>
 
                 <span
@@ -172,7 +170,6 @@
               </div>
             </div>
           </div>
-        </div>
       </div>
       <div class="tail-flex tail-justify-end tail-items-center tail-mt-4">
         <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1">

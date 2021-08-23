@@ -88,10 +88,10 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'ProfileSetup',
+  name: 'ProfileForm',
   props: {
     value: {
       type: Object,
@@ -100,7 +100,7 @@ export default {
   },
   data () {
     return {
-      profile: this.value,
+      profile: JSON.parse(JSON.stringify(this.value)),
       profileImageUrl: this.value.imgURL,
       profileImageData: null,
       loading: false,
@@ -113,7 +113,6 @@ export default {
       uploadPicture: 'profile/uploadProfileImage'
     }),
     submit () {
-      console.log(this.profile)
       if (!this.disabled) {
         this.loading = true
         return this.updateProfile(this.profile).then(async (response) => {
@@ -158,6 +157,10 @@ export default {
       },
       lastName: {
         required
+      },
+      email: {
+        required,
+        email
       },
       businessName: {
         required

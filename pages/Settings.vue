@@ -57,6 +57,7 @@ export default {
     })
   },
   async mounted () {
+    console.log(this.user)
     await this.getUserProfile()
   },
   methods: {
