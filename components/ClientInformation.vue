@@ -5,52 +5,35 @@
     </h2>
     <!-- owner details -->
     <div class="tail-text-gray-700">
-      <h3>
-        DOG OWNER
-      </h3>
       <div class="tail-flex tail-flex-col tail-items-center tail-mb-5">
         <ClientAvatar
           :firstname="firstName"
           :lastname="lastName"
         />
-        <p class="tail-capitalize tail-font-semibold">
+        <p class="tail-capitalize tail-font-semibold tail-mt-2">
           {{ fullName }}
         </p>
       </div>
       <dl class="tail-grid tail-grid-cols-1 tail-gap-x-4 tail-gap-y-8 sm:tail-grid-cols-2">
-        <div class="sm:tail-col-span-1 tail-flex">
+         <div class="sm:tail-col-span-1 tail-flex">
           <i class="ns-envelope tail-text-2xl tail-text-gray-500"></i>
           <div class="tail-ml-4">
             <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Telephone
+               Email Address
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-              'Not Available'
+            {{ client && client.email }}
             </dd>
           </div>
         </div>
-
         <div class="sm:col-span-1">
           <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-            Email Address
+           Telephone
           </dt>
           <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-            {{ client && client.email }}
+            {{ client && client.phoneNumber || 'Not Available' }}
           </dd>
         </div>
-
-        <div class="sm:tail-col-span-2 tail-flex">
-          <i class="ns-envelope tail-text-2xl tail-invisible"></i>
-          <div class="tail-ml-4">
-            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Post Code
-            </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-              'Not Available'
-            </dd>
-          </div>
-        </div>
-
         <div class="sm:tail-col-span-1 tail-flex">
           <i class="ns-location-alt tail-text-2xl tail-text-gray-500"></i>
           <div class="tail-ml-4">
@@ -58,20 +41,18 @@
               Address
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-              'Not Available'
+                {{ client && client.location || 'Not Available' }}
             </dd>
           </div>
         </div>
-
         <div class="sm:col-span-1">
           <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
             City
           </dt>
           <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-            'Not Available'
+              {{ client && client.city  || 'Not Available'  }}
           </dd>
         </div>
-
         <div class="sm:tail-col-span-2 tail-flex">
           <i class="ns-envelope tail-text-2xl tail-invisible"></i>
           <div class="tail-ml-4">
@@ -80,7 +61,7 @@
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
               <!-- {{ client && client.location.zip || 'Not Available' }} -->
-              {{ 'Not Available' }}
+             {{ client && client.zip || 'Not Available' }}
             </dd>
           </div>
         </div>
@@ -99,7 +80,7 @@
               Dog name
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              {{ client && client.pet[0].name }}
+              {{ client.pet[0] && client.pet[0].name }}
             </dd>
           </div>
         </div>
@@ -109,7 +90,7 @@
             Breed
           </dt>
           <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-            {{ client && client.pet[0].breed }}
+            {{ client.pet[0] && client.pet[0].breed }}
           </dd>
         </div>
 
@@ -120,7 +101,7 @@
               Age
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              {{ client && client.pet[0].age }} weeks
+              {{ client && client.pet[0] && client.pet[0].age }} weeks
             </dd>
           </div>
         </div>
@@ -144,7 +125,7 @@
               Age
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              {{ client && client.pet[0].age }} weeks
+              {{ client &&  client.pet[0] && client.pet[0].age }} weeks
             </dd>
           </div>
         </div>
@@ -168,7 +149,7 @@
               Age
             </dt>
             <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              {{ client && client.pet[0].age }} weeks
+              {{ client &&  client.pet[0] && client.pet[0].age }} weeks
             </dd>
           </div>
         </div>

@@ -22,7 +22,7 @@
             />
             <small
               class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
-            >{{ client.pet[0].name }}</small>
+            >{{ client.pet[0] && client.pet[0].name }}</small>
           </div>
         </div>
         <button
@@ -91,7 +91,7 @@
             />
             <small
               class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
-            >{{ client.pet[0].name }}</small>
+            >{{ client.pet[0] && client.pet[0].name }}</small>
           </div>
         </div>
         <button

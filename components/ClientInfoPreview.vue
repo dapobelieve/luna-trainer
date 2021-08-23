@@ -31,7 +31,7 @@
               <span
                 class="tail-capitalize tail-ml-1 tail-text-gray-500 tail-truncate"
               >
-                {{ client.pet[0].name }},  {{ client.pet[0].breed }}.
+                {{client.pet[0] && client.pet[0].name }},  {{ client.pet[0] && client.pet[0].breed }}.
               </span>
             </div>
           </div>
@@ -98,7 +98,7 @@
             Name:
           </p>
           <span class="tail-capitalize tail-text-gray-500 tail-font-normal">
-            {{ client.pet[0].name }}
+            {{ client.pet[0] && client.pet[0].name }}
           </span>
         </div>
         <div class="tail-flex">
@@ -106,7 +106,7 @@
             Age:
           </p>
           <span class="tail-capitalize tail-text-gray-500 tail-font-normal">
-            {{ client.pet[0].age }}
+            {{ client.pet[0] && client.pet[0].age }}
           </span>
         </div>
         <div class="tail-flex">
@@ -114,7 +114,7 @@
             Breed:
           </p>
           <span class="tail-capitalize tail-text-gray-500 tail-font-normal">
-            {{ client.pet[0].breed }}
+            {{ client.pet[0] && client.pet[0].breed }}
           </span>
         </div>
         <div class="tail-flex">
@@ -122,7 +122,7 @@
             Gender:
           </p>
           <span class="tail-capitalize tail-text-gray-500 tail-font-normal">
-            {{ client.pet[0].gender }}
+            {{ client.pet[0] && client.pet[0].gender }}
           </span>
         </div>
       </div>

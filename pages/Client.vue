@@ -68,9 +68,11 @@
                         <p>Age: {{ petAge }}</p>
                         <p>Breed: {{ petBreed }}</p>
                       </div>
-                      <p>
-                        2 courses
-                      </p>
+                      <div>
+                        <span class="tail-bg-gray-400 tail-rounded-full tail-text-white tail-p-1 tail-px-2 tail-inline-block">
+                          0 courses
+                        </span>
+                      </div>
                     </div>
                     <div
                       v-else
@@ -122,18 +124,19 @@ export default {
       return (this.clientInfo && this.clientInfo.lastName) || ''
     },
     petName () {
-      return (this.clientInfo && this.clientInfo.pet[0].name) || ''
+      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].name) || ''
     },
     petAge () {
-      return (this.clientInfo && this.clientInfo.pet[0].age) || ''
+      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].age) || ''
     },
     petBreed () {
-      return (this.clientInfo && this.clientInfo.pet[0].breed) || ''
+      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].breed) || ''
     }
   },
   mounted () {
+    console.log(this)
     this.isUserOnline(this.id)
-    this.setCurrentClient(this.$route.params.clientInfo.sendbirdId)
+    this.setCurrentClient(this.id)
     // this.unreadMessages = this.unreadMessagesCount(this.thisUser).unreadMessageCount || 0
     this.getClientProfile(this.id)
       .then((response) => {
