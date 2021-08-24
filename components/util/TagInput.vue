@@ -1,11 +1,10 @@
 <template>
   <div>
-    <div class="tail-border tail-rounded tail-py-3 tail-bg-white">
-      <div class="tail-flex tail-flex-wrap tail-px-4 tail-pb-3">
-        <div class=" tail-flex tail-flex-wrap tail-px-4 tail-pb-3">
-          <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1 tail-ml-2">
+    <div class="tail-border tail-rounded tail-bg-white">
+      <div class="tail-flex tail-flex-wrap tail-px-4">
+        <div class=" tail-flex tail-flex-wrap tail-pb-3">
+          <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1">
             {{ tag }}
-
             <span class="tail-text-base tail-font-bold tail-px-2" @click="removeTag(index)">x</span>
           </div>
           <input

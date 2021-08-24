@@ -88,10 +88,10 @@
 </template>
 <script>
 import { mapActions } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 
 export default {
-  name: 'ProfileSetup',
+  name: 'ProfileForm',
   data () {
     return {
       profile: this.$auth.user,
@@ -107,7 +107,6 @@ export default {
       uploadPicture: 'profile/uploadProfileImage'
     }),
     submit () {
-      console.log(this.profile)
       if (!this.disabled) {
         this.loading = true
         return this.updateProfile(this.profile).then(async (response) => {
@@ -152,6 +151,10 @@ export default {
       },
       lastName: {
         required
+      },
+      email: {
+        required,
+        email
       },
       businessName: {
         required
