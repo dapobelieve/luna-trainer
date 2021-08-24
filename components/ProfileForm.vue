@@ -92,16 +92,10 @@ import { required } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ProfileSetup',
-  props: {
-    value: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
-      profile: this.value,
-      profileImageUrl: this.value.imgURL,
+      profile: this.$auth.user,
+      profileImageUrl: this.$auth.user.imgURL,
       profileImageData: null,
       loading: false,
       disabled: false

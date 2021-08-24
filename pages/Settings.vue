@@ -26,7 +26,7 @@
                   kindly ensure it is as accurate as possible</small>
               </div>
               <div class="tail-pt-4 tail-my-3 tail-max-w-xl tail-rounded-md">
-                <ProfileForm id="profile" v-model="user" />
+                <ProfileForm id="profile" />
                 <SettingsServices id="services" :services="user.services" />
                 <SettingsSecurity id="security" v-model="user" />
                 <!-- <BankDetails v-if="this.user.stripeConnected" id="bankDetails" /> -->
