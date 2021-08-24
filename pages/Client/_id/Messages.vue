@@ -11,6 +11,20 @@
     </div>
   </div>
   <div
+    v-else-if="!clientIsReady"
+    class="tail-h-full tail-grid tail-place-content-center"
+  >
+    <div class="tail-flex tail-items-center">
+      <span class="tail-mr-2">You can only message clients who have accepted your invites</span>
+      <img
+        class="tail-text-center tail-inline-block"
+        src="~/assets/img/svgs/paw.svg"
+        alt=""
+        srcset=""
+      />
+    </div>
+  </div>
+  <div
     v-else-if="errorCreatingChannel"
     class="tail-h-full tail-grid tail-place-content-center"
   >
@@ -222,7 +236,8 @@ export default {
       messageHistory: [],
       messageSentStatus: false,
       messageDeliveryStatus: false,
-      channel: null
+      channel: null,
+      clientIsReady: true
     }
   },
   computed: {
@@ -250,13 +265,17 @@ export default {
     try {
       this.getClientProfile(this.id).then(async (response) => {
         await response
-        this.checkChannel(response.sendbirdId).then((res) => {
-          if (res === undefined) {
-            this.createChannel(response.sendbirdId)
-          } else if (res) {
-            this.existingChannel(res)
-          }
-        })
+        if (response.status === 'invited') {
+          this.clientIsReady = false
+        } else {
+          this.checkChannel(response.sendbirdId).then((res) => {
+            if (res === undefined) {
+              this.createChannel(response.sendbirdId)
+            } else if (res) {
+              this.existingChannel(res)
+            }
+          })
+        }
       })
     } catch (error) {
       console.log('error occured ', error)

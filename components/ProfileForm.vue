@@ -92,16 +92,10 @@ import { required, email } from 'vuelidate/lib/validators'
 
 export default {
   name: 'ProfileForm',
-  props: {
-    value: {
-      type: Object,
-      required: true
-    }
-  },
   data () {
     return {
-      profile: JSON.parse(JSON.stringify(this.value)),
-      profileImageUrl: this.value.imgURL,
+      profile: this.$auth.user,
+      profileImageUrl: this.$auth.user.imgURL,
       profileImageData: null,
       loading: false,
       disabled: false
