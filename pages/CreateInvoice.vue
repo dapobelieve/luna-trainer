@@ -54,7 +54,7 @@ export default {
   methods: {
     ...mapActions({
       createNewInvoice: 'invoice/createInvoice',
-      getClient: 'client/getSingleClient'
+      getClient: 'client/getSingleClientById'
     }),
     createInvoice () {
       this.isLoading = true

@@ -283,7 +283,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getClientProfile: 'client/getSingleClient'
+      getClientProfile: 'client/getSingleClientById'
     }),
     ...mapActions('sendBird', {
       markAsRead: 'markMessageAsRead',
