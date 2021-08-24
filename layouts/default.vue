@@ -1,34 +1,36 @@
 <template>
-  <div class="tail-min-h-screen tail-bg-gray-100">
-    <GwHeader />
-    <div
-      class="tail-py-0 tail-max-w-12xl tail-mx-auto sm:tail-px-0 lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12"
-    >
-      <Navigation />
-      <main class="lg:tail-col-span-9 xl:tail-col-span-10">
-        <Nuxt :key="$route.fullpath" />
-      </main>
+  <async-view loader-id="logout">
+    <div class="tail-min-h-screen tail-bg-gray-100">
+      <GwHeader />
+      <div
+        class="tail-py-0 tail-max-w-12xl tail-mx-auto sm:tail-px-0 lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12"
+      >
+        <Navigation />
+        <main class="lg:tail-col-span-9 xl:tail-col-span-10">
+          <Nuxt :key="$route.fullpath" />
+        </main>
+      </div>
+      <NotificationsModal
+        :visible="showNotification"
+        @close="showNotification = $event"
+      >
+        <template v-slot:title>
+          Chat Connection Failed
+        </template>
+        <template v-slot:subtitle>
+          Reconnect chat to enjoy all of GetWelp's features
+        </template>
+        <template v-slot:actionButtons>
+          <button
+            class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
+            @click="retry"
+          >
+            retry
+          </button>
+        </template>
+      </NotificationsModal>
     </div>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
-      <template v-slot:title>
-        Chat Connection Failed
-      </template>
-      <template v-slot:subtitle>
-        Reconnect chat to enjoy all of GetWelp's features
-      </template>
-      <template v-slot:actionButtons>
-        <button
-          class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
-          @click="retry"
-        >
-          retry
-        </button>
-      </template>
-    </NotificationsModal>
-  </div>
+  </async-view>
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
