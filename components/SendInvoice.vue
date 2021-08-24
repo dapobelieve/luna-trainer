@@ -57,7 +57,7 @@ export default {
       this.send(details).then((result) => {
         if (result.status === 'success') {
           this.$toast.success('Invoice sent', { position: 'top-right' })
-          this.allDraftInvoices()
+          this.fetchInvoices()
           this.$emit('close', false)
         }
       }).catch((err) => {

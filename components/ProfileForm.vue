@@ -94,7 +94,7 @@ export default {
   name: 'ProfileForm',
   data () {
     return {
-      profile: this.$auth.user,
+      profile: JSON.parse(JSON.stringify(this.$auth.user)),
       profileImageUrl: this.$auth.user.imgURL,
       profileImageData: null,
       loading: false,

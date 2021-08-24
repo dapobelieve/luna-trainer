@@ -14,7 +14,7 @@
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="acceptedClients" :selected="invoice.client" @select="updateClient($event)" />
+        <gw-customer-selector :clients="allClients" :selected="invoice.client" @select="updateClient($event)" />
       </div>
     </div>
 
@@ -76,7 +76,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      acceptedClients: 'client/acceptedClients'
+      allClients: 'client/getAllClients'
     })
   },
   props: {
@@ -85,6 +85,7 @@ export default {
   methods: {
     updateClient ($event) {
       this.invoice.client = $event
+      this.invoice.customerId = this.invoice.client._id
       this.$emit('input', this.invoice)
     },
     updateSelectedItem (selected) {

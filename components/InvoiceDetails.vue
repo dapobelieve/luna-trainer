@@ -71,7 +71,7 @@
                 {{ details.customerId.firstName }} {{ details.customerId.lastName }}
               </p>
               <p class="tail-text-sm tail-text-gray-500 tail-truncate">
-                {{ details.customerId.pet[0].name }}
+                {{ details.customerId.pet[0] && details.customerId.pet[0].name }}
               </p>
             </div>
           </div>

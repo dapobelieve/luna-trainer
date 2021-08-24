@@ -1,23 +1,12 @@
 export const state = () => ({
   invoices: [],
-  invoiceCount: 0,
-  tempInvoice: {
-    date: new Date().toISOString().substring(0, 10),
-    services: [],
-    totalAmount: null
-  }
+  invoiceCount: 0
 })
 
 export const mutations = {
   SET_ALL_INVOICES (state, invoices) {
     state.invoices = invoices.data
     state.invoiceCount = invoices.size
-  },
-  SET_INVOICE_DUE_DATE (state, date) {
-    state.tempInvoice.date = date
-  },
-  SET_INVOICE_SERVICES (state, service) {
-    state.tempInvoice.services.push(service)
   }
 }
 

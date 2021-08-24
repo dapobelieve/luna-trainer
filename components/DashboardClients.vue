@@ -5,9 +5,9 @@
     </h5>
     <div v-if="!$store.state.client.isLoading" class="tail-grid tail-grid-cols-3 tail-gap-4">
       <!-- when clients are <= 5 but not equal to zero-->
-      <template v-if="acceptedClients.length < 2 && acceptedClients.length !== 0">
+      <template v-if="allClients.length < 2 && allClients.length !== 0">
         <div
-          v-for="client in acceptedClients"
+          v-for="client in allClients"
           :key="client.index"
           class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
           @click="openClientModal = true"
@@ -46,7 +46,7 @@
         </button>
       </template>
       <!-- when clients are 0 -->
-      <template v-else-if="!acceptedClients.length">
+      <template v-else-if="!allClients.length">
         <button
           type="button"
           class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
@@ -74,9 +74,9 @@
         </div>
       </template>
       <!-- when clients are >= 5 -->
-      <template v-else-if="acceptedClients.length >= 2">
+      <template v-else-if="allClients.length >= 2">
         <div
-          v-for="client in acceptedClients.slice(0,2)"
+          v-for="client in allClients.slice(0,2)"
           :key="client.index"
           class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
           @click="openClientModal = true"
@@ -121,7 +121,7 @@
     <Modal :is-open="openModal" @close="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
-    <Modal v-for="client in acceptedClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event">
+    <Modal v-for="client in allClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           {{ client.status }}
@@ -145,13 +145,7 @@ export default {
   computed: {
     ...mapGetters({
       allClients: 'client/getAllClients'
-    }),
-    acceptedClients () {
-      if (this.allClients.length) {
-        return this.allClients.filter(c => c.status === 'accepted')
-      }
-      return 0
-    }
+    })
   }
 }
 </script>
