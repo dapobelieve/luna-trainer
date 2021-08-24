@@ -27,11 +27,13 @@ export const actions = {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
   async logOut ({ commit, dispatch }) {
-    await this.$auth.logout()
-    dispatch('profile/clearGetWelpUser', null, { root: true })
-    dispatch('client/clearAllClientStates', null, { root: true })
+    dispatch('loader/startProcess', 'logout', { root: true })
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
+    dispatch('client/clearAllClientStates', null, { root: true })
+    dispatch('profile/clearGetWelpUser', null, { root: true })
+    await this.$auth.logout()
     commit('CLEAR_LOCAL_STORAGE')
+    dispatch('loader/endProcess', 'logout', { root: true })
     return true
   }
 }
