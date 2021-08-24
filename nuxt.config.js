@@ -124,7 +124,6 @@ export default {
             url: `${process.env.ACCOUNT_HOST_URL}/auth/renew-token`,
             method: 'patch'
           },
-          logout: { url: '/', method: 'post' },
           user: false
         }
       }
@@ -136,11 +135,11 @@ export default {
     transpile: /@fullcalendar.*/,
     postcss: {
       plugins: {
-        'cssnano': {
+        cssnano: {
           preset: [
-            "default",
+            'default',
             {
-              "calc": false
+              calc: false
             }
           ]
         }
