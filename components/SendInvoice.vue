@@ -2,7 +2,7 @@
   <div class="tail-grid tail-gap-4">
     <div>
       <span class="tail-block tail-text-sm">
-        Send invoice for {{ sendDetails.total }} to {{ sendDetails.customerId.email }}?
+        Send invoice for {{ sendDetails.total | amount }} to {{ sendDetails.customerId.email }}?
       </span>
       <small class="tail-text-gray-500">
         Invoices can’t be edited after they’re sent.

@@ -103,7 +103,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allInvoices: 'invoice/getAllDraftInvoices'
+      allInvoices: 'invoice/getAllinvoices'
     }),
     user () {
       return this.$auth.user
