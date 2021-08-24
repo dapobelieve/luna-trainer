@@ -58,6 +58,13 @@ export const actions = {
       dispatch('loader/endProcess', null, { root: true })
       return data
     })
+  },
+  getSingleClientById ({ commit, dispatch }, id) {
+    dispatch('loader/startProcess', null, { root: true })
+    return this.$axios.$get(`${process.env.BASEURL_HOST}/profile?id=${id}`).then(({ data }) => {
+      dispatch('loader/endProcess', null, { root: true })
+      return data
+    })
   }
 }
 

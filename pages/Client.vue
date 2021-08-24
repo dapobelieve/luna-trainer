@@ -134,11 +134,10 @@ export default {
     }
   },
   mounted () {
-    console.log(this)
-    this.isUserOnline(this.id)
-    this.setCurrentClient(this.id)
+    this.isUserOnline(this.userId)
+    this.setCurrentClient(this.clientInfo.userId)
     // this.unreadMessages = this.unreadMessagesCount(this.thisUser).unreadMessageCount || 0
-    this.getClientProfile(this.id)
+    this.getClientProfile(this.clientInfo._id)
       .then((response) => {
         if (!this.thisUser) {
           this.setCurrentClient(response.sendbirdId)
