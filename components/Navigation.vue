@@ -20,12 +20,15 @@
               v-if="menu.path && !['signout', 'Notifications', 'Messages', 'inviteClient', 'addSession', 'newCourse'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-justify-between tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
             >
-              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
-              <span class="tail-truncate tail-text-sm tail-font-normal">
-                {{ menu.title }}
-              </span>
+              <div class="tail-flex">
+                <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
+                <span class="tail-truncate tail-text-sm tail-font-normal">
+                  {{ menu.title }}
+                </span>
+              </div>
+              <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mr-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
             </NuxtLink>
             <button
               v-else-if="menu.path === 'inviteClient'"

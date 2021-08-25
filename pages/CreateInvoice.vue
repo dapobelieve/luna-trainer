@@ -1,26 +1,28 @@
 <template>
-  <div class="tail-h-screen bg-gray-50 tail-flex tail-overflow-hidden">
-    <div class="tail-flex-1 tail-flex tail-flex-col tail-overflow-hidden">
-      <!-- Main content -->
-      <div class="tail-flex-1 tail-flex tail-items-stretch tail-overflow-hidden">
-        <main class="tail-flex-1 tail-flex tail-flex-row-reverse tail-overflow-y-auto">
-          <div class="tail-pt-8 lg:tail-pt-0 lg:tail-w-8/12 sm:tail-w-12/12 tail-px-4 sm:tail-px-6 lg:tail-px-8">
-            <form autocomplete="off" class="tail-grid tail-gap-6">
-              <LeftInvoiceForm v-model="invoice" />
-              <button-spinner @click.prevent="createInvoice" :disabled="isLoading || isEmpty" :loading="isLoading" class="tail-mt-4">
-                Save Invoice
-              </button-spinner>
-            </form>
-          </div>
-        </main>
-        <aside style="background-color: #f0f5fa;" class="tail-hidden lg:tail-w-6/12 sm:tail-w tail-p-8 tail-pr-0 lg:tail-pt-0 tail-overflow-y-auto lg:tail-block">
-          <div class="tail-px-10 tail-py-8 tail-grid lg:tail-w-9/12 tail-gap-4 tail-rounded-lg">
-            <PreviewInvoice :invoice="invoice" />
-          </div>
-        </aside>
+  <client-only>
+    <div class="tail-h-screen bg-gray-50 tail-flex tail-overflow-hidden">
+      <div class="tail-flex-1 tail-flex tail-flex-col tail-overflow-hidden">
+        <!-- Main content -->
+        <div class="tail-flex-1 tail-flex tail-items-stretch tail-overflow-hidden">
+          <main class="tail-flex-1 tail-flex tail-flex-row-reverse tail-overflow-y-auto">
+            <div class="tail-pt-8 lg:tail-pt-0 lg:tail-w-8/12 sm:tail-w-12/12 tail-px-4 sm:tail-px-6 lg:tail-px-8">
+              <form autocomplete="off" class="tail-grid tail-gap-6">
+                <LeftInvoiceForm v-model="invoice" />
+                <button-spinner @click.prevent="createInvoice" :disabled="isLoading || isEmpty" :loading="isLoading" class="tail-mt-4">
+                  Save Invoice
+                </button-spinner>
+              </form>
+            </div>
+          </main>
+          <aside style="background-color: #f0f5fa;" class="tail-hidden lg:tail-w-6/12 sm:tail-w tail-p-8 tail-pr-0 lg:tail-pt-0 tail-overflow-y-auto lg:tail-block">
+            <div class="tail-px-10 tail-py-8 tail-grid lg:tail-w-9/12 tail-gap-4 tail-rounded-lg">
+              <PreviewInvoice :invoice="invoice" />
+            </div>
+          </aside>
+        </div>
       </div>
     </div>
-  </div>
+  </client-only>
 </template>
 <script>
 import { mapActions } from 'vuex'

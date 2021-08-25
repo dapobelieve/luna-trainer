@@ -27,7 +27,8 @@
     {
       "icon": "ns-calendar",
       "title": "my schedule",
-      "path": "Schedules"
+      "path": "Schedules",
+      "dev":true
     },
     {
       "icon": "ns-plus",
@@ -72,7 +73,8 @@
       "path": "CreateInvoice"
     },
     {
-      "section": "Help"
+      "section": "Help",
+      "dev":true
     },
     {
       "icon": "ns-headset",
