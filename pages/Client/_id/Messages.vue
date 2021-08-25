@@ -267,6 +267,7 @@ export default {
         await response
         if (response.status === 'invited') {
           this.clientIsReady = false
+          this.isChannelLoading = false
         } else {
           this.checkChannel(response.sendbirdId).then((res) => {
             if (res === undefined) {

@@ -35,20 +35,25 @@
           </div>
         </gw-summary-card>
         <gw-summary-card :data="receiptData">
-          <button v-for="n in 2" :key="n" class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
-            <div class="tail-flex tail-items-center tail-space-x-3">
-              <ClientAvatar firstname="get" lastname="welp" />
-              <div class="tail-text-left">
-                <p>
-                  Abi Carpenter has paid you
-                </p>
-                <p>
-                  1:00 PM
-                </p>
+          <template v-if="allInvoices.length">
+            <button v-for="n in allInvoices.slice(0, 3)" :key="n.index" class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
+              <div class="tail-flex tail-items-center tail-space-x-3">
+                <ClientAvatar :firstname="n.customerId.firstName" :lastname="n.customerId.firstName" />
+                <div class="tail-text-left">
+                  <p>
+                    {{ n.customerId.firstName }} {{ n.customerId.lastName }} has paid you
+                  </p>
+                  <p>
+                    1:00 PM
+                  </p>
+                </div>
               </div>
-            </div>
-            <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="">
-          </button>
+              <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="">
+            </button>
+          </template>
+          <p v-else class="tail-py-4">
+            No payment in this month.
+          </p>
         </gw-summary-card>
       </div>
     </div>
@@ -56,6 +61,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'ClientSidebarContent',
   data () {
@@ -63,6 +69,41 @@ export default {
       receiptData: { title: 'payments', icon: 'receipt' },
       nextupData: { title: 'Next up', icon: 'calendar' }
     }
+  },
+  computed: {
+    ...mapGetters({
+      allInvoices: 'invoice/getAllinvoices'
+    }),
+    getMonth () {
+      const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+      const thisMonth = new Date().getMonth()
+      return monthNames[thisMonth] + ', ' + new Date().getFullYear()
+    },
+    totalOfOwedInvoice () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(invoice => invoice.status === 'draft').reduce(
+          (accumulator, current) => accumulator + current.total, 0
+        )
+      }
+      return 0
+    },
+    totalOfPaidInvoice () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(invoice => invoice.status === 'paid').reduce(
+          (accumulator, current) => accumulator + current.total, 0
+        )
+      }
+      return 0
+    }
+  },
+  mounted () {
+    this.fetchAllInvoices()
+  },
+  methods: {
+    ...mapActions({
+      fetchAllInvoices: 'invoice/getInvoices',
+      connectToStripe: 'invoice/stripeConnect'
+    })
   }
 }
 </script>

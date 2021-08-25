@@ -50,6 +50,9 @@ export const mutations = {
 }
 
 export const actions = {
+  setCurrentViewingClient ({ commit }) {
+    commit('SET_CURRENT_VIEWING_CLIENT', {})
+  },
   checkIfChannelExists ({ state, commit }, userId) {
     if (
       Object.keys(state.connectedChannels).length === 0 &&

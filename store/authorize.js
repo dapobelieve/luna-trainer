@@ -31,9 +31,10 @@ export const actions = {
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     dispatch('profile/clearGetWelpUser', null, { root: true })
+    dispatch('sendBird/setCurrentViewingClient', {}, { root: true })
     await this.$auth.logout()
     commit('CLEAR_LOCAL_STORAGE')
     dispatch('loader/endProcess', 'logout', { root: true })
-    return true
+    // return true
   }
 }
