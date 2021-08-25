@@ -104,7 +104,7 @@ export default {
   name: 'Client',
   data () {
     return {
-      clientInfo: this.$route.params.clientInfo,
+      clientInfo: null,
       id: this.$route.params.id,
       unreadMessages: 0
     }
@@ -134,22 +134,18 @@ export default {
     }
   },
   mounted () {
-    this.isUserOnline(this.userId)
-    this.setCurrentClient(this.clientInfo.userId)
-    // this.unreadMessages = this.unreadMessagesCount(this.thisUser).unreadMessageCount || 0
-    this.getClientProfile(this.clientInfo._id)
+    this.getClientProfile(this.id)
       .then((response) => {
-        if (!this.thisUser) {
+        this.clientInfo = response
+        if (response.status === 'invited' && 'sendbirdId' in response) {
+          this.isUserOnline(response.sendbirdId)
           this.setCurrentClient(response.sendbirdId)
-        }
-        this.unreadMessages = this.unreadMessagesCount(
-          response.sendbirdId
-        )
-          ? this.unreadMessagesCount(response.sendbirdId)
-            .unreadMessageCount
-          : 0
-        if (this.clientInfo === undefined) {
-          this.clientInfo = response
+          this.unreadMessages = this.unreadMessagesCount(
+            response.sendbirdId
+          )
+            ? this.unreadMessagesCount(response.sendbirdId)
+              .unreadMessageCount
+            : 0
         }
       })
       .catch(err => console.log('error fetching client', err))
@@ -159,7 +155,7 @@ export default {
       setCurrentClient: 'sendBird/SET_CURRENT_VIEWING_CLIENT'
     }),
     ...mapActions({
-      getClientProfile: 'client/getSingleClient',
+      getClientProfile: 'client/getSingleClientById',
       getSendbirdUser: 'sendBird/getUser',
       isUserOnline: 'sendBird/isUserOnline'
     })

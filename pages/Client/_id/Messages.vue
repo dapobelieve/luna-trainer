@@ -15,13 +15,8 @@
     class="tail-h-full tail-grid tail-place-content-center"
   >
     <div class="tail-flex tail-items-center">
-      <span class="tail-mr-2">You can only message clients who have accepted your invites</span>
-      <img
-        class="tail-text-center tail-inline-block"
-        src="~/assets/img/svgs/paw.svg"
-        alt=""
-        srcset=""
-      />
+      <i class="ns-lock tail-text-lg tail-mr-1"></i>
+      <span class="tail-mr-2">You can only message clients who have accepted your invite.</span>
     </div>
   </div>
   <div
@@ -267,6 +262,7 @@ export default {
         await response
         if (response.status === 'invited') {
           this.clientIsReady = false
+          this.isChannelLoading = false
         } else {
           this.checkChannel(response.sendbirdId).then((res) => {
             if (res === undefined) {
