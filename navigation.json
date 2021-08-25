@@ -22,13 +22,13 @@
     },
      {
       "section": "Schedule",
-      "classes":"tail-mt-4"
+      "classes":"tail-mt-4",
+      "dev":true
     },
     {
       "icon": "ns-calendar",
       "title": "my schedule",
-      "path": "Schedules",
-      "dev":true
+      "path": "Schedules"
     },
     {
       "icon": "ns-plus",

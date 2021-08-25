@@ -20,7 +20,7 @@
               v-if="menu.path && !['signout', 'Notifications', 'Messages', 'inviteClient', 'addSession', 'newCourse'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-justify-between tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
             >
               <div class="tail-flex">
                 <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
@@ -28,7 +28,7 @@
                   {{ menu.title }}
                 </span>
               </div>
-              <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mr-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
+              <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
             </NuxtLink>
             <button
               v-else-if="menu.path === 'inviteClient'"
@@ -85,8 +85,9 @@
               <span class="tail-truncate tail-text-sm tail-font-normal">Signout</span>
             </button>
             <p v-if="menu.section" class="tail-px-3 tail-text-sm tail-my-4 tail-text-gray-500 uppercase tracking-wider">
-              {{ menu.section }}
-            </p>
+              <span>{{ menu.section }}</span>
+              <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
+           </p>
           </div>
         </div>
         <!-- flyout notifications -->
