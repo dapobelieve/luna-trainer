@@ -44,7 +44,7 @@
                     {{ n.customerId.firstName }} {{ n.customerId.lastName }} has paid you
                   </p>
                   <p>
-                    {{ n.dueDate | date }}
+                    {{ n.payments[0].updatedAt | date }}
                   </p>
                 </div>
               </div>
@@ -78,22 +78,6 @@ export default {
       const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
       const thisMonth = new Date().getMonth()
       return monthNames[thisMonth] + ', ' + new Date().getFullYear()
-    },
-    totalOfOwedInvoice () {
-      if (this.allInvoices.length) {
-        return this.allInvoices.filter(invoice => invoice.status === 'draft').reduce(
-          (accumulator, current) => accumulator + current.total, 0
-        )
-      }
-      return 0
-    },
-    totalOfPaidInvoice () {
-      if (this.allInvoices.length) {
-        return this.allInvoices.filter(invoice => invoice.status === 'paid').reduce(
-          (accumulator, current) => accumulator + current.total, 0
-        )
-      }
-      return 0
     }
   },
   mounted () {
