@@ -38,13 +38,13 @@
           <template v-if="allInvoices.length">
             <button v-for="n in allInvoices.slice(0, 3)" :key="n.index" class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
               <div class="tail-flex tail-items-center tail-space-x-3">
-                <ClientAvatar :firstname="n.customerId.firstName" :lastname="n.customerId.firstName" />
+                <ClientAvatar :firstname="n.customerId.firstName" :lastname="n.customerId.lastName" />
                 <div class="tail-text-left">
                   <p>
                     {{ n.customerId.firstName }} {{ n.customerId.lastName }} has paid you
                   </p>
                   <p>
-                    1:00 PM
+                    {{ n.dueDate | date }}
                   </p>
                 </div>
               </div>
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allInvoices: 'invoice/getAllinvoices'
+      allInvoices: 'invoice/getAllPaidInvoices'
     }),
     getMonth () {
       const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
