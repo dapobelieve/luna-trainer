@@ -3,7 +3,7 @@
     <div class="tail-flex-1 tail-flex tail-flex-col tail-overflow-hidden">
       <!-- Main content -->
       <div class="tail-flex-1 tail-flex tail-items-stretch tail-overflow-hidden">
-        <main class="tail-flex-1 tail-flex tail-flex-row-reverse">
+        <main class="tail-flex-1 tail-flex tail-flex-row-reverse tail-overflow-y-auto">
           <div class="tail-pt-8 lg:tail-pt-0 lg:tail-w-8/12 sm:tail-w-12/12 tail-px-4 sm:tail-px-6 lg:tail-px-8">
             <form autocomplete="off" class="tail-grid tail-gap-6">
               <LeftInvoiceForm v-model="invoice" />

@@ -9,7 +9,7 @@
         leave-from="tail-opacity-100"
         leave-to="tail-opacity-0"
       >
-        <div class="tail-fixed tail-inset-0 tail-bg-gray-500 tail-bg-opacity-75 tail-transition-opacity" @click="$emit('close', false)"></div>
+        <div class="tail-fixed tail-inset-0 tail-bg-gray-500 tail-bg-opacity-50 tail-transition-opacity" @click="$emit('close', false)"></div>
       </transition>
       <span
         class="tail-hidden sm:tail-inline-block sm:tail-align-middle"

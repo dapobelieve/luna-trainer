@@ -10,7 +10,7 @@
           leave-from-class="tail-opacity-100"
           leave-to-class="tail-opacity-0"
         >
-          <div v-show="visible" class="tail-absolute tail-inset-0 tail-bg-gray-500 tail-bg-opacity-75 tail-transition-opacity" aria-hidden="true" @click="close"></div>
+          <div v-show="visible" class="tail-absolute tail-inset-0 tail-bg-gray-500 tail-bg-opacity-50 tail-transition-opacity" aria-hidden="true" @click="close"></div>
         </transition>
         <div class="tail-fixed tail-inset-0 tail-max-w-full tail-flex">
           <transition
