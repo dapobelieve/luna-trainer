@@ -28,6 +28,7 @@ export default async function ({ $auth, $axios, redirect, store, $toast, route }
     }
   } else if (tokenUnknown || !isTokenValid) {
     $auth.strategy.token.reset()
+    store.dispatch('authorize/logOut')
     $toast.error('Kindly Re-login', {
       position: 'bottom-right'
     })
