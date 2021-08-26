@@ -87,7 +87,7 @@
             <p v-if="menu.section" class="tail-px-3 tail-text-sm tail-my-4 tail-text-gray-500 uppercase tracking-wider">
               <span>{{ menu.section }}</span>
               <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
-           </p>
+            </p>
           </div>
         </div>
         <!-- flyout notifications -->
@@ -276,7 +276,7 @@ export default {
       const client = this.acceptedClients.find(c => c.sendbirdId === user.userId)
       this.$router.push({
         name: 'Client-id-Messages',
-        params: { id: user.userId, clientInfo: client }
+        params: { id: client._id }
       })
     },
     createInvoice () {
