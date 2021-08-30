@@ -1,0 +1,80 @@
+{
+  "menu": [
+    {
+      "icon": "ns-home",
+      "title": "home",
+      "path": "Dashboard"
+    },
+    {
+      "icon": "ns-bell-ring",
+      "title": "notifications",
+      "path": "Notifications"
+    },
+    {
+      "icon": "ns-comment-alt",
+      "title": "messages",
+      "path": "Messages"
+    },
+    {
+      "icon": "ns-settings",
+      "title": "settings",
+      "path": "Settings"
+    },
+    {
+      "section": "Schedule",
+      "classes": "tail-mt-4",
+      "dev": true
+    },
+    {
+      "icon": "ns-calendar",
+      "title": "my schedule",
+      "path": "Schedules"
+    },
+    {
+      "section": "Clients",
+      "classes": "tail-mt-4"
+    },
+    {
+      "icon": "ns-user",
+      "title": "my clients",
+      "path": "Clients"
+    },
+    {
+      "icon": "ns-users",
+      "title": "my courses",
+      "path": "Courses"
+    },
+    {
+      "section": "Invoicing"
+    },
+    {
+      "icon": "ns-receipt",
+      "title": "my invoices",
+      "path": "Invoices"
+    },
+    {
+      "section": "Help",
+      "dev": true
+    },
+    {
+      "icon": "ns-headset",
+      "title": "help center",
+      "path": "#"
+    },
+    {
+      "icon": "ns-envelope",
+      "title": "send us an email",
+      "path": "#"
+    },
+    {
+      "icon": "ns-time-add",
+      "title": "what's coming next",
+      "path": "#"
+    },
+    {
+      "icon": "ns-power",
+      "title": "sign out",
+      "path": "signout"
+    }
+  ]
+}
