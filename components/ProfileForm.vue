@@ -38,7 +38,7 @@
             </div>
           </div>
         </div>
-        <div class="tail-flex tail-justify-between tail-gap-6">
+        <div class="tail-flex tail-justify-between tail-flex-col lg:tail-flex-row tail-gap-6">
           <div class="tail-w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
             <input type="text" :value="profile.firstName" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
