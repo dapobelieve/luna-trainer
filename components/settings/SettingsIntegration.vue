@@ -8,8 +8,8 @@
     <div class="tail-pb-4 tail-py-5 tail-px-5 tail-rounded-md tail-bg-white">
       <form autocomplete="off" class="tail-grid tail-gap-6">
         <div><span>Integrations</span></div>
-        <div class="tail-border tail-w-full tail-rounded tail-flex tail-justify-between tail-p-4">
-          <div class="tail-flex tail-justify-between tail-items-center">
+        <div class="tail-border tail-w-full tail-rounded tail-flex tail-flex-col md:tail-flex-row tail-justify-between tail-p-4">
+          <div class="tail-flex tail-justify-between tail-items-center tail-mx-auto md:tail-mx-0 tail-mb-2">
             <div>
               <img class="tail-h-8" src="~/assets/img/strip.png" alt="google logo">
             </div>

@@ -18,7 +18,7 @@
       <template v-if="false" slot="tag"></template>
     </multiselect>
     <ul class="tail-mt-4 tail-p-4 tail-pb-3 tail-border-gray-400 tail-border-solid tail-border tail-rounded-lg tail-border-opacity-30">
-      <li v-for="(select,index) in selection" :key="index" class="tail-flex tail-justify-between tail-mb-3">
+      <li v-for="(select,index) in selection" :key="index" class="tail-flex tail-w-full tail-justify-between tail-mb-3">
         <div>
           <h2 class="tail-font-medium tail-text-lg active-item">
             {{ select.description }}

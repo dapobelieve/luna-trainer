@@ -42,7 +42,7 @@ export default {
   },
   watch: {
     $route () {
-      this.open = !this.open
+      this.open = false
     }
   },
   methods: {

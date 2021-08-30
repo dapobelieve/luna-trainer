@@ -8,13 +8,13 @@
       </PageHeader>
       <div class="tail-py-5">
         <div class="tail-flex tail-justify-between tail-px-10">
-          <div class="tail-relative">
+          <div class="tail-relative tail-hidden lg:tail-block">
             <div class="tail-sticky tail-top-6 tail-pt-10">
               <SettingsNavigation />
             </div>
           </div>
 
-          <div class="tail-w-4/5">
+          <div class="tail-w-full lg:tail-w-4/5">
             <div>
               <div>
                 <h3 class="tail-text-2xl tail-font-medium sec-color">
@@ -25,7 +25,7 @@
                 >Your personal information will be public to your clients,
                   kindly ensure it is as accurate as possible</small>
               </div>
-              <div class="tail-pt-4 tail-my-3 tail-max-w-xl tail-rounded-md">
+              <div class="tail-pt-4 tail-my-3 lg:tail-max-w-xl tail-rounded-md">
                 <ProfileForm id="profile" />
                 <SettingsServices id="services" :services="user.services" />
                 <SettingsSecurity id="security" v-model="user" />
