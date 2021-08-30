@@ -1,12 +1,12 @@
-export default function ({ $auth, redirect, route }) {
+export default function ({ $auth, redirect, route, store }) {
   // If the user is not authenticated and path is root dir
-  if ($auth.loggedIn && route.path === '/') {
-    return redirect('/dashboard')
-  } else if (
-    $auth.loggedIn &&
-    Object.keys($auth.user).length === 0 &&
-    $auth.user.constructor === Object && route.path === '/dashboard'
-  ) {
-    return redirect('/Auth/ProfileSetup')
+  if (process.client) {
+    const isEmpty = Object.entries($auth.user).length === 0
+    const isTokenValid = $auth.strategy.token.status().valid()
+    if (route.path === '/') {
+      return redirect('/dashboard')
+    } else if ($auth.loggedIn && isEmpty && isTokenValid) {
+      return redirect('/Auth/ProfileSetup')
+    }
   }
 }
