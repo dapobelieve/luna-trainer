@@ -5,7 +5,7 @@
         v-model="title"
         type="text"
         placeholder="Enter a title"
-        class="tail-w-full tail-bg-gray-200 tail-text-gray-500 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+        class="tail-w-full tail-bg-gray-200 tail-text-gray-500 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
       />
     </div>
     <div class="tail-flex tail-mt-3.5">
@@ -17,7 +17,7 @@
         <input
           v-model="name"
           type="text"
-          class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+          class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
         />
       </div>
     </div>
@@ -62,7 +62,7 @@
         >Type of Appointment</label>
         <input
           type="text"
-          class="tail-w-full focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-text-sm md:tail-text-base tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+          class="tail-w-full focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-text-sm md:tail-text-base tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
         />
       </div>
     </div>
@@ -78,7 +78,7 @@
         <input
           v-model="venue"
           type="text"
-          class="tail-w-full tail-bg-white focus:tail-outline-none focus:tail-bg-white tail-text-sm md:tail-text-base focus:tail-border-blue-500 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+          class="tail-w-full tail-bg-white focus:tail-outline-none focus:tail-bg-white tail-text-sm md:tail-text-base focus:tail-border-blue-400 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
         />
       </div>
     </div>
@@ -93,7 +93,7 @@
           name="notes"
           rows="4"
           cols="50"
-          class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-border tail-border-gray-300 tail-rounded-md"
+          class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border tail-border-gray-300 tail-rounded-md"
           :maxlength="max"
         >
         </textarea>

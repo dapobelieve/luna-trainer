@@ -37,7 +37,8 @@ export default {
     { src: '~plugins/persistedState.client.js' },
     { src: '~plugins/filters.js' },
     { src: '~/plugins/axios.js' },
-    { src: '~/plugins/sendBird' }
+    { src: '~/plugins/sendBird' },
+    { src: '@/plugins/vClickOutside', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

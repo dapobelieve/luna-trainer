@@ -25,7 +25,7 @@
     <transition name="slide">
       <nav class="tail-block tail-h-screen lg:tail-hidden tail-absolute  tail-overflow-hidden" aria-label="Global">
         <div class="tail-max-w-3xl tail-space-y-1" :class="[open ? 'tail-max-w-lg' : 'tail-max-w-0']">
-          <MobileNavigation />
+          <MobileNavigation @closeSidebar="toggle()" />
         </div>
       </nav>
     </transition>
@@ -38,11 +38,6 @@ export default {
   data () {
     return {
       open: false
-    }
-  },
-  watch: {
-    $route () {
-      this.open = false
     }
   },
   methods: {

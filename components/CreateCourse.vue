@@ -11,7 +11,7 @@
           <input
             v-model="name"
             type="text"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
           />
         </div>
       </div>
@@ -29,7 +29,7 @@
             name="notes"
             rows="4"
             cols="50"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-pb-0 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-border tail-border-gray-300 tail-rounded-md"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-pb-0 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border tail-border-gray-300 tail-rounded-md"
             :maxlength="max"
           >
           </textarea>
@@ -61,7 +61,7 @@
         <div class="tail-w-full">
           <div>
             <div
-              class="tail-flex tail-items-center tail-w-full tail-bg-white tail-p-4 tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+              class="tail-flex tail-items-center tail-w-full tail-bg-white tail-p-4 tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
             >
               <input
                 v-model="checked"
@@ -86,7 +86,7 @@
             <input
               v-model="location"
               type="text"
-              class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+              class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
             />
           </div>
         </div>
@@ -104,7 +104,7 @@
             <input
               v-model="capacity"
               type="text"
-              class="tail-w-3/6 tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+              class="tail-w-3/6 tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
             />
             <div class="tail-flex tail-items-center">
               <input type="checkbox" class="tail-ml-2" />
@@ -127,7 +127,7 @@
             >£</span>
             <input
               type="number"
-              class="tail-w-3/6 tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r focus:tail-bg-white focus:tail-border-blue-500"
+              class="tail-w-3/6 tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r focus:tail-bg-white focus:tail-border-blue-400"
             />
           </div>
         </div>

@@ -32,7 +32,7 @@
         </div>
       </div>
     </div>
-    <div v-show="meetSubMenu" class="tail-texl-sm">
+    <div v-show="meetSubMenu" class="tail-texl-sm" v-click-outside="externalClick">
       <GwOptions
         :options="['Edit Draft', 'Delete Draft']"
         selected=""
@@ -64,8 +64,12 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 export default {
   name: 'CourseIdentifier',
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   props: {
     identifier: {
       type: Object,
@@ -99,6 +103,9 @@ export default {
         this.newCourse = true
         this.meetSubMenu = false
       }
+    },
+    externalClick (e) {
+      this.meetSubMenu = false
     }
   }
 }

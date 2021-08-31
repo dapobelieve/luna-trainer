@@ -36,7 +36,7 @@
       </template>
     </PageHeader>
     <div v-if="classCard">
-      <div v-show="meetSubMenu" class="">
+      <div v-show="meetSubMenu" v-click-outside="externalClick" class="">
         <GwOptions
           :options="[
             'Edit Course',
@@ -50,7 +50,7 @@
       </div>
     </div>
     <div v-else>
-      <div v-show="meetSubMenu" class="">
+      <div v-show="meetSubMenu" v-click-outside="externalClick" class="">
         <GwOptions
           :options="['Reschedule Class', 'Message', 'Cancel Class']"
           selected=""
@@ -97,7 +97,11 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 export default {
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data () {
     return {
       showClass: false,
@@ -268,6 +272,9 @@ export default {
         default:
           break
       }
+    },
+    externalClick (e) {
+      this.meetSubMenu = false
     }
   }
 }

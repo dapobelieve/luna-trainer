@@ -15,7 +15,7 @@
           </div>
         </div>
         <div class="tail-space-y-1">
-          <div v-for="menu in menus.menu" :key="menu.index">
+          <div v-for="menu in menus.menu" :key="menu.index" class="navItems" @click.prevent="hideSidebar">
             <NuxtLink
               v-if="menu.path && !['signout', 'Notifications', 'Messages'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
@@ -239,6 +239,11 @@ export default {
     },
     signOut () {
       this.logOut()
+    },
+    hideSidebar (e) {
+      if (e.currentTarget.classList.contains('navItems')) {
+        this.$emit('closeSidebar')
+      }
     }
   }
 }

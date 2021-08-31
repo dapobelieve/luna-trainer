@@ -29,7 +29,7 @@
       </div>
 
       <a
-        class="tail-capitalize tail-text-sm tail-mt-3 tail-text-blue-500 tail-no-underline tail-font-bold"
+        class="tail-capitalize tail-text-sm tail-mt-3 tail-text-blue-400 tail-no-underline tail-font-bold"
         href="#"
       >View All</a>
     </div>
