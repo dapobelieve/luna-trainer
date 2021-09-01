@@ -20,6 +20,20 @@
       "title": "settings",
       "path": "Settings"
     },
+      {
+      "section": "Clients",
+      "classes":"tail-mt-4"
+    },
+    {
+      "icon": "ns-user",
+      "title": "my clients",
+      "path": "Clients"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "invite new client",
+      "path": "inviteClient"
+    },
      {
       "section": "Schedule",
       "classes":"tail-mt-4",
@@ -35,19 +49,9 @@
       "title": "Add New Session",
       "path": "addSession"
     },
-    {
-      "section": "Clients",
+      {
+      "section": "Courses",
       "classes":"tail-mt-4"
-    },
-    {
-      "icon": "ns-user",
-      "title": "my clients",
-      "path": "Clients"
-    },
-    {
-      "icon": "ns-plus",
-      "title": "invite new client",
-      "path": "inviteClient"
     },
     {
       "icon": "ns-users",

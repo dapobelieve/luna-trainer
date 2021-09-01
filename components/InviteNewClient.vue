@@ -22,29 +22,37 @@
               <div class="tail-w-full">
                 <label
                   for="first_name"
-                  class="block text-sm font-medium text-gray-700"
+                  class="block text-sm font-medium text-gray-700 required"
                 >First name</label>
                 <input
                   id="first_name"
                   v-model.trim="$v.clientInfo.firstName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ error: !$v.clientInfo.firstName.required }"
                 />
+                <div v-if="$v.$anyDirty" class="tail-mt-1">
+                  <small v-if="!$v.clientInfo.firstName.required" class="error tail-text-gray-500">
+                    Field is required.
+                  </small>
+                </div>
               </div>
 
               <div class="tail-w-full">
                 <label
                   for="last_name"
-                  class="block text-sm font-medium text-gray-700"
+                  class="block text-sm font-medium text-gray-700 required"
                 >Last name</label>
                 <input
                   id="last_name"
                   v-model.trim="$v.clientInfo.lastName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                  :class="{ error: !$v.clientInfo.lastName.required }"
                 />
+                <div v-if="$v.$anyDirty" class="tail-mt-1">
+                  <small v-if="!$v.clientInfo.lastName.required" class="error tail-text-gray-500">
+                    Field is required.
+                  </small>
+                </div>
               </div>
             </div>
           </div>
@@ -53,14 +61,18 @@
               class="ns-envelope tail-mt-1 tail-text-2xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="email">Email Address</label>
+              <label for="email" class="required">Email Address</label>
               <input
                 id="email"
                 v-model.trim="$v.clientInfo.email.$model"
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
-                :class="{ error: $v.clientInfo.email.$invalid }"
               />
+              <div v-if="$v.$anyDirty" class="tail-mt-1">
+                <small v-if="!$v.clientInfo.email.required" class="error tail-text-gray-500">
+                  Field is required.
+                </small>
+              </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -264,7 +276,7 @@ export default {
     save () {
       this.isLoading = true
       return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
-        console.log(response)
+        // console.log(response)
         if (response && response.data.status === true) {
           this.$toast.success(
       `${this.clientInfo.firstName} ${this.clientInfo.lastName} has been sent an invite.`
@@ -307,7 +319,8 @@ export default {
 input:focus {
   outline: none;
 }
-.error {
-  border: 1px solid red;
-}
+  .required:after {
+    content:" *";
+    color: red;
+  }
 </style>
