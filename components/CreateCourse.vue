@@ -61,18 +61,19 @@
         <div class="tail-w-full">
           <div>
             <div
-              class="tail-flex tail-items-center tail-w-full tail-bg-white tail-p-4 tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+              class="tail-flex tail-items-center tail-w-full tail-bg-white tail-p-2.5 tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
             >
               <input
                 v-model="checked"
                 type="checkbox"
+                class="tail-h-5 tail-w-5"
                 @change="changeLocation($event)"
               />
-              <div class="tail-ml-2 tail-w-full">
-                <div class="inputwrapper tail-text-xs" data-required="Remote">
+              <div class="tail-ml-1.5 tail-w-full">
+                <div class="inputwrapper tail-text-xs tail-mt-1" data-required="Remote">
                   <input
                     type="text"
-                    class="tail-w-full tail-placeholder-gray-400 tail-bg-white tail-p-2.5 tail-block tail-text-sm tail-mt-1 focus:tail-outline-none focus:tail-bg-white"
+                    class="tail-w-full tail-placeholder-gray-400 tail-bg-white tail-mt-1.5 tail-p-2.5 tail-block tail-text-sm focus:tail-outline-none focus:tail-bg-white"
                     placeholder="Brief description about choosing remote"
                   />
                 </div>
@@ -133,43 +134,43 @@
         </div>
       </div>
       <div class="tail-flex tail-mt-5">
-          <div class=" tail-mr-3">
-            <i class="ns-calendar tail-text-gray-500 tail-text-2xl"></i>
-          </div>
-          <div class="tail-w-full">
-            <label
-              for="name"
-              class="tail-block tail-font-light"
-            >Class Schedule</label>
-            <div
-              class="tail-flex tail-flex-col tail--ml-4 tail-w-full"
-            >
-              <div v-for="(schedule, index) in schedules" :key="index" class="tail-flex tail-ml-0 tail-m-2 tail-items-center tail-justify-around">
-                <div class="tail-text-gray-400 tail-text-sm tail-mr-1">
-                  Class {{ index + 1 }} of {{ schedules.length }}
-                </div>
-                <date-picker
-                  v-model="schedule.class"
-                  :clearable="false"
-                  type="datetime"
-                  :append-to-body="false"
-                  :visible="false"
-                  format="DD MMMM, YYYY hh:mm A"
-                  range
-                ></date-picker>
-
-                <span
-                  class="tail-text-blue-400 tail-text-2xl tail-cursor-pointer tail-m-1"
-                  @click="add(index)"
-                >+</span>
-                <span
-                  v-show="schedules.length > 1"
-                  class="tail-text-blue-400 tail-text-2xl tail-cursor-pointer tail-m-1"
-                  @click="remove(index)"
-                >-</span>
+        <div class=" tail-mr-3">
+          <i class="ns-calendar tail-text-gray-500 tail-text-2xl"></i>
+        </div>
+        <div class="tail-w-full">
+          <label
+            for="name"
+            class="tail-block tail-font-light"
+          >Class Schedule</label>
+          <div
+            class="tail-flex tail-flex-col tail--ml-4 tail-w-full"
+          >
+            <div v-for="(schedule, index) in schedules" :key="index" class="tail-flex tail-ml-0 tail-m-2 tail-items-center tail-justify-around">
+              <div class="tail-text-gray-400 tail-text-sm tail-mr-1">
+                Class {{ index + 1 }} of {{ schedules.length }}
               </div>
+              <date-picker
+                v-model="schedule.class"
+                :clearable="false"
+                type="datetime"
+                :append-to-body="false"
+                :visible="false"
+                format="DD MMMM, YYYY hh:mm A"
+                range
+              ></date-picker>
+
+              <span
+                class="tail-text-blue-400 tail-text-2xl tail-cursor-pointer tail-m-1"
+                @click="add(index)"
+              >+</span>
+              <span
+                v-show="schedules.length > 1"
+                class="tail-text-blue-400 tail-text-2xl tail-cursor-pointer tail-m-1"
+                @click="remove(index)"
+              >-</span>
             </div>
           </div>
+        </div>
       </div>
       <div class="tail-flex tail-justify-end tail-items-center tail-mt-4">
         <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1">

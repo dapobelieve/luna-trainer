@@ -23,7 +23,7 @@
 
     <!-- Mobile menu, show/hide based on menu state. -->
     <transition name="slide">
-      <nav class="tail-block tail-h-screen lg:tail-hidden tail-absolute  tail-overflow-hidden" aria-label="Global">
+      <nav v-click-outside="externalClick" class="tail-block tail-h-screen lg:tail-hidden tail-absolute  tail-overflow-hidden" aria-label="Global">
         <div class="tail-max-w-3xl tail-space-y-1" :class="[open ? 'tail-max-w-lg' : 'tail-max-w-0']">
           <MobileNavigation @closeSidebar="toggle()" />
         </div>
@@ -33,8 +33,12 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 export default {
   name: 'GwHeader',
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   data () {
     return {
       open: false
@@ -43,6 +47,9 @@ export default {
   methods: {
     toggle () {
       this.open = !this.open
+    },
+    externalClick () {
+      this.open = false
     }
   }
 }

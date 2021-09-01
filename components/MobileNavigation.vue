@@ -179,16 +179,15 @@
 import { mapActions, mapGetters } from 'vuex'
 import { formatDistance } from 'date-fns'
 import menus from '~/mobilenavigation.json'
-
 export default {
-  name: 'Navigation',
+  name: 'MobileNavigation',
   data () {
     return {
       formatDistance,
       menus,
       showNotification: false,
-      showNotificationsMenu: false,
-      showMessagesMenu: false
+      showNotificationsMenu: true,
+      showMessagesMenu: true
     }
   },
   computed: {
