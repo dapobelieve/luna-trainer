@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:tail-hidden tail-h-screen tail-w-screen tail-block index tail-border-r tail-shadow-md tail-bg-white">
+  <div class="lg:tail-hidden tail-h-screen tail-w-screen md:tail-w-full tail-block index tail-border-r tail-shadow-md tail-bg-white">
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
@@ -33,7 +33,7 @@
             <button
               v-else-if="menu.path === 'Notifications'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="toggleMenu(menu.path)"
+              @click.prevent.stop="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Notifications</span>
@@ -41,7 +41,7 @@
             <button
               v-else-if="menu.path === 'Messages'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="toggleMenu(menu.path)"
+              @click.prevent.stop="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
               <div class="tail-flex">
