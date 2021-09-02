@@ -13,7 +13,7 @@
       <div class="tail-overflow-y-scroll">
         <form
           autocomplete="off"
-          class="tail-grid tail-gap-6 tail-mt-5"
+          class="tail-grid tail-gap-6 tail-mt-5 text-gray-700"
           @submit.prevent="save"
         >
           <div class="tail-flex tail-justify-between tail-gap-6">
