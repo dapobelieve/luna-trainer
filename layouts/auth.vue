@@ -35,7 +35,6 @@
 </template>
 <script>
 export default {
-  middleware: 'refreshToken'
 }
 </script>
 <style lang="scss">
