@@ -6,12 +6,16 @@
           Courses
         </div>
       </template>
+      <div>
+      </div>
       <template v-slot:buttons>
-        <gw-select
-          :options="['Active', 'Draft']"
-          selected="active"
-          @selected="filterCard"
-        />
+        <div>
+          <gw-select
+            :options="['Active', 'Draft']"
+            selected="active"
+            @selected="filterCard"
+          />
+        </div>
         <button
           type="button"
           class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"

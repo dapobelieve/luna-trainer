@@ -55,7 +55,11 @@
             </div>
           </div>
         </div>
-        <div v-show="meetSubMenu" class="">
+        <div
+          v-show="meetSubMenu"
+          v-click-outside="externalClick"
+          class=""
+        >
           <GwOptions
             :options="['Cancel Session', 'Edit Session']"
             selected=""
@@ -92,8 +96,12 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 export default {
   name: 'ScheduleCard',
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   props: {
     data: {
       type: Object,
@@ -120,6 +128,9 @@ export default {
         this.openEditModal = true
         this.meetSubMenu = false
       }
+    },
+    externalClick (e) {
+      this.meetSubMenu = false
     }
   }
 }

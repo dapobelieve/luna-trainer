@@ -3,7 +3,7 @@
     <div
       class="tail-rounded-md tail-bg-white tail-cursor-pointer tail-p-4 tail-mb-4 tail-flex tail-items-center tail-justify-between tail-m-4"
     >
-      <div  class="tail-w-full hover:tail-bg-gray-100">
+      <div class="tail-w-full hover:tail-bg-gray-100">
         <div @click="$emit('showInfo', false)">
           <h3 class="tail-font-semibold tail-text-base tail-text-gray-800">
             {{ data._id.title }} :  {{ data._id.date }}
@@ -25,7 +25,7 @@
         </button>
       </div>
     </div>
-    <div v-show="meetSubMenu" class="">
+    <div v-show="meetSubMenu" v-click-outside="externalClick" class="">
       <GwOptions
         :options="['Reschedule Class', 'Message', 'Cancel Class']"
         selected=""
@@ -56,8 +56,12 @@
 </template>
 
 <script>
+import vClickOutside from 'v-click-outside'
 export default {
   name: 'ClassCard',
+  directives: {
+    clickOutside: vClickOutside.directive
+  },
   props: {
     data: {
       type: Object,
@@ -88,6 +92,9 @@ export default {
         default:
           break
       }
+    },
+    externalClick (e) {
+      this.meetSubMenu = false
     }
   }
 
