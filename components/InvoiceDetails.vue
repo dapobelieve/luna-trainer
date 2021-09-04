@@ -63,7 +63,7 @@
         </p>
         <div class="tail-flex tail-items-center tail-space-x-3">
           <div class="tail-flex-shrink-0">
-            <ClientAvatar :firstname="details.customerId.firstName" :lastname="details.customerId.lastName" />
+            <ClientAvatar :client-info="details.customerId" />
           </div>
           <div class="tail-flex-1 tail-min-w-0">
             <div>

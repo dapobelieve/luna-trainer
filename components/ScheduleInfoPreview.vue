@@ -63,7 +63,12 @@
       <div>
         <p>Dog Owner</p>
         <div class="tail-flex tail-mt-2">
-          <ClientAvatar firstname="Get" lastname="Welp" />
+          <ClientAvatar
+            :client-info="{
+              firstName: 'Get',
+              lastName: 'Welp'
+            }"
+          />
           <div class="tail-ml-2">
             <p>{{ data.trainer_firstname }} {{ data.trainer_lastname }}</p>
             <div class="tail-flex">

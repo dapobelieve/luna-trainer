@@ -71,7 +71,7 @@
           :key="invoice.index"
           class="tail-flex tail-items-center tail-p-4"
         >
-          <ClientAvatar :firstname="invoice.customerId.firstName" :lastname="invoice.customerId.lastName" />
+          <ClientAvatar :client-info="invoice.customerId" />
           <div class="tail-ml-4 tail-mr-auto">
             <p class="tail-capitalize tail-font-medium tail-mb-0">
               {{ invoice.customerId.firstName }} {{ invoice.customerId.lastName }}

@@ -38,7 +38,7 @@
           <template v-if="allInvoices.length">
             <button v-for="n in allInvoices.slice(0, 3)" :key="n.index" class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
               <div class="tail-flex tail-items-center tail-space-x-3">
-                <ClientAvatar :firstname="n.customerId.firstName" :lastname="n.customerId.lastName" />
+                <ClientAvatar :client-info="n.customerId" />
                 <div class="tail-text-left">
                   <p>
                     {{ n.customerId.firstName }} {{ n.customerId.lastName }} has paid you

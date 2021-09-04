@@ -17,8 +17,7 @@
       <div class="option__desc tail-flex tail-items-center">
         <template v-if="!isEmpty">
           <ClientAvatar
-            :firstname="props.option.firstName"
-            :lastname="props.option.lastName"
+            :client-info="props.option"
             :width="4"
             :height="4"
           />

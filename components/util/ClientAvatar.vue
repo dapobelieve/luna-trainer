@@ -1,10 +1,18 @@
 <template>
   <div
+    v-if="!isImgAvailable"
     class="tail-rounded-full tail-flex tail-items-center tail-justify-center"
     :style="altStyling"
   >
     <span class="tail-font-medium">{{ displayInitials }}</span>
   </div>
+  <img
+    v-else
+    :src="clientInfo.imgURL"
+    class="tail-object-cover tail-rounded-full"
+    :style="altStyling"
+    alt="client profile image"
+  />
 </template>
 
 <script>
@@ -19,12 +27,8 @@ export default {
       type: Number,
       default: 2.5
     },
-    firstname: {
-      type: String,
-      required: true
-    },
-    lastname: {
-      type: String,
+    clientInfo: {
+      type: Object,
       required: true
     }
   },
@@ -39,11 +43,15 @@ export default {
     }
   },
   computed: {
+    isImgAvailable () {
+      return 'imgURL' in this.clientInfo
+    },
     displayInitials () {
       let initials = ''
-      if (this.firstname && this.lastname) {
+      if (this.clientInfo.firstName && this.clientInfo.lastName) {
         initials = (
-          this.firstname.charAt(0) + this.lastname.charAt(0)
+          this.clientInfo.firstName.charAt(0) +
+          this.clientInfo.lastName.charAt(0)
         ).toUpperCase()
       }
       return initials
@@ -52,5 +60,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
