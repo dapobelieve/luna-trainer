@@ -38,7 +38,7 @@
     <!-- <div>
       <CalendarView />
     </div> -->
-     <NotificationsModal :visible="true">
+    <NotificationsModal :visible="true">
       <template v-slot:title>
         Stripe Connect
       </template>
@@ -111,6 +111,9 @@ export default {
       }
     })
   },
+  // created () {
+  //   this.$intercom('show')
+  // },
   methods: {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',

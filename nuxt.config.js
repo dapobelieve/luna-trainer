@@ -35,6 +35,7 @@ export default {
     { src: '~/plugins/vue-tel-input.js', ssr: false },
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~plugins/persistedState.client.js' },
+    { src: '~plugins/intercom.js', ssr: false },
     { src: '~plugins/filters.js' },
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/sendBird' },
