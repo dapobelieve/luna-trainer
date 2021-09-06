@@ -7,7 +7,7 @@
       'tail-z-30',
       'tail-w-screen'
     ]"
-    style="left:100%"
+    class="tail-left-0 lg:tail-left-full"
   >
     <div
       class="tail-flex tail-position-relative tail-min-h-screen tail-pt-4 tail-px-4 tail-pb-20 sm:tail-block sm:p-0"
@@ -26,7 +26,7 @@
             @click="$emit('input', false)"
           ></div>
           <div
-            class="tail-inline-block tail-relative tail-align-bottom tail-border tail-border-gray-300 tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-y-auto tail-shadow-xl tail-transform tail-transition-all tail-w-96"
+            class="tail-inline-block tail-relative tail-align-bottom tail-border tail-border-gray-300 tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-y-auto tail-shadow-xl tail-transform tail-transition-all tail-w-full md:tail-w-96"
             :style="{height: getHeight}"
           >
             <div class="tail-sticky tail-top-0">
