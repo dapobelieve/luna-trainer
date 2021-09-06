@@ -1,5 +1,5 @@
 <template>
-  <div class="lg:tail-hidden tail-h-screen tail-w-screen md:tail-w-full tail-block index tail-border-r tail-shadow-md tail-bg-white">
+  <div class="lg:tail-hidden tail-h-screen tail-w-screen tail-block index tail-border-r tail-shadow-md tail-bg-white">
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
@@ -102,8 +102,10 @@
                 <h2 class="tail-font-bold">
                   No Notifications.
                 </h2>
-                <div class="tail-pt-3">
-                  <p>We will notify you when something arrives</p>
+                <div class="tail-pt-3 ">
+                  <p class="tail-mx-2">
+                    We will notify you when something arrives
+                  </p>
                 </div>
               </div>
             </div>
@@ -152,7 +154,9 @@
                   No New Messages.
                 </h2>
                 <div class="tail-pt-3">
-                  <p>We will notify you when something arrives</p>
+                  <p class="tail-mx-2">
+                    We will notify you when something arrives
+                  </p>
                 </div>
               </div>
             </div>
@@ -191,8 +195,8 @@ export default {
       formatDistance,
       menus,
       showNotification: false,
-      showNotificationsMenu: true,
-      showMessagesMenu: true
+      showNotificationsMenu: false,
+      showMessagesMenu: false
     }
   },
   computed: {
