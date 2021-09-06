@@ -11,7 +11,12 @@
           class="tail-rounded-md tail-bg-white tail-border-l-4 tail-cursor-pointer tail-flex tail-justify-between tail-items-center tail-flex-col md:tail-flex-row tail-text-gray-700 tail-p-2 md:tail-p-4 tail-w-full"
         >
           <div class="tail-flex " @click="openModal = true">
-            <ClientAvatar firstname="Get" lastname="Welp" />
+            <ClientAvatar
+              :client-info="{
+                firstName: 'Get',
+                lastName: 'Welp'
+              }"
+            />
             <div class="tail-pl-2">
               <p class="tail-font-bold">
                 {{ data.meeting }} with {{ data.trainer_firstname }}.
@@ -66,7 +71,11 @@
             @selected="selectSession"
           />
         </div>
-        <Modal :is-open="openEditModal" :input-width="40" @close="openEditModal = $event">
+        <Modal
+          :is-open="openEditModal"
+          :input-width="40"
+          @close="openEditModal = $event"
+        >
           <CreateSchedule :data="data" @close="openEditModal = $event" />
         </Modal>
         <Modal
@@ -75,13 +84,24 @@
           @close="openModal = $event"
         >
           <template v-slot:status>
-            <div :class="[data.status === 'cancelled' ? 'tail-text-red-500' : 'tail-text-gray-500']" class="tail-bg-gray-100  tail-px-2 tail-rounded-3xl">
+            <div
+              :class="[
+                data.status === 'cancelled'
+                  ? 'tail-text-red-500'
+                  : 'tail-text-gray-500'
+              ]"
+              class="tail-bg-gray-100  tail-px-2 tail-rounded-3xl"
+            >
               {{ data.status }}
             </div>
           </template>
           <ScheduleInfoPreview :data="data" @close="openModal = $event" />
         </Modal>
-        <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+        <Modal
+          :is-open="openDeleteModal"
+          :input-width="30"
+          @close="openDeleteModal = $event"
+        >
           <CancelAlert @close="openDeleteModal = $event">
             <template v-slot:text>
               <div class="tail-text-base tail-font-medium tail-text-left">

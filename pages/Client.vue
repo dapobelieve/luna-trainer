@@ -21,8 +21,7 @@
             ]"
           >
             <ClientAvatar
-              :firstname="firstName"
-              :lastname="lastName"
+              :client-info="clientInfo"
               :width="1.5"
               :height="1.5"
             />

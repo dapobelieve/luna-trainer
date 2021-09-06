@@ -7,8 +7,7 @@
         :class="[client.status !== 'invited' ? ['tail-rounded-full', 'tail-border-2', 'tail-border-red-400', 'tail-p-0.5', 'tail-flex', 'tail-items-center'] : ['']]"
       >
         <ClientAvatar
-          :firstname="client.firstName"
-          :lastname="client.lastName"
+          :client-info="client"
         />
       </span>
       <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">

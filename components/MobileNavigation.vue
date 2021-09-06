@@ -127,7 +127,12 @@
             <div v-if="unreadMessages.length" class="tail-py-2 tail-grid">
               <button v-for="n in unreadMessages" :key="n.url" type="button" class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer" @click="gotoMessage(n.members)">
                 <div>
-                  <ClientAvatar :firstname="n.lastMessage._sender.nickname" :lastname="n.lastMessage._sender.nickname" />
+                  <ClientAvatar
+                    :client-info="{
+                      firstName: 'Get',
+                      lastName: 'Welp'
+                    }"
+                  />
                 </div>
                 <div class="tail-text-sm">
                   <div class="tail-capitalize tail-font-semibold">

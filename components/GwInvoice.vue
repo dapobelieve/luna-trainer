@@ -69,8 +69,10 @@
                           class="tail-flex tail-flex-row tail-items-center tail-gap-3"
                         >
                           <ClientAvatar
-                            :firstname="invoice && invoice.customerId ? invoice.customerId.firstName : 'G'"
-                            :lastname="invoice && invoice.customerId ? invoice.customerId.lastName : 'W'"
+                            :client-info="invoice && invoice.customerId ? invoice.customerId : {
+                              firstName: 'Get',
+                              lastName: 'Welp'
+                            }"
                           />
                           <div>
                             {{ invoice && invoice.customerId ? invoice.customerId.firstName : 'Get' }}

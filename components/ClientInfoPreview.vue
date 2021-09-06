@@ -8,14 +8,14 @@
           alt="cancel"
           width="20px"
           height="auto"
-        >
+        />
       </div>
       <div class="tail-flex tail-flex-col">
         <p class="tail-capitalize tail-font-normal">
           Dog Owner
         </p>
         <div class="tail-flex tail-items-center">
-          <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" />
+          <ClientAvatar :client-info="client" />
           <div class="tail-ml-4 tail-truncate tail-mr-2 md:tail-mr-0">
             <h3 class="tail-capitalize tail-font-medium">
               {{ client.firstName }} {{ client.lastName }}
@@ -31,7 +31,8 @@
               <span
                 class="tail-capitalize tail-ml-1 tail-text-gray-500 tail-truncate"
               >
-                {{client.pet[0] && client.pet[0].name }},  {{ client.pet[0] && client.pet[0].breed }}.
+                {{ client.pet[0] && client.pet[0].name }},
+                {{ client.pet[0] && client.pet[0].breed }}.
               </span>
             </div>
           </div>
@@ -40,9 +41,7 @@
     </div>
     <div class="tail-flex tail-mb-5">
       <div class="tail-mr-5 tail-text-xl">
-        <i
-          class="ns-envelope tail-mt-1 tail-text-gray-500"
-        ></i>
+        <i class="ns-envelope tail-mt-1 tail-text-gray-500"></i>
       </div>
       <div class="tail-flex tail-flex-col">
         <p class="tail-capitalize tail-font-normal">
@@ -87,7 +86,7 @@
           alt="cancel"
           width="20px"
           height="auto"
-        >
+        />
       </div>
       <div class="tail-flex tail-flex-col">
         <p class="tail-capitalize tail-font-normal">
@@ -142,6 +141,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

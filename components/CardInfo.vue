@@ -4,7 +4,12 @@
       class="tail-rounded-md tail-bg-white tail-cursor-pointer tail-p-4 tail-mb-2 tail-flex tail-items-center tail-justify-between tail-m-4"
     >
       <div class="tail-flex tail-items-center">
-        <ClientAvatar firstname="Get" lastname="Welp" />
+        <ClientAvatar
+          :client-info="{
+            firstName: 'Get',
+            lastName: 'Welp'
+          }"
+        />
         <div class="tail-ml-2">
           <h3 class="tail-font-semibold tail-text-base tail-text-gray-800">
             Liz Rumble
@@ -31,6 +36,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

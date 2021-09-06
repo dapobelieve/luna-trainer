@@ -12,7 +12,7 @@
           class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
           @click="openClientModal = true"
         >
-          <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
+          <ClientAvatar :client-info="client" :width="4" :height="4" />
           <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
           <div class="tail-flex tail-items-center">
             <img
@@ -81,7 +81,7 @@
           class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
           @click="openClientModal = true"
         >
-          <ClientAvatar :firstname="client.firstName" :lastname="client.lastName" :width="4" :height="4" />
+          <ClientAvatar :client-info="client" :width="4" :height="4" />
           <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
           <div class="tail-flex tail-items-center">
             <img

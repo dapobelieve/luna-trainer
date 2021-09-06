@@ -25,16 +25,8 @@
   >
     <div class="tail-flex tail-flex-col tail-items-center">
       <p class="tail-text-center">
-        An error occured. Please try again.
+        An error occured. Please contact support.
       </p>
-      <button
-        class="base-button tail-text-sm tail-px-4"
-        style="width: fit-content"
-        type="button"
-        @click="retry"
-      >
-        retry
-      </button>
     </div>
   </div>
   <div
@@ -65,8 +57,10 @@
           </li>
           <li v-else class="you tail-flex tail-items-end tail-mb-3">
             <ClientAvatar
-              firstname="get"
-              lastname="welp"
+              :client-info="{
+                firstName: 'Get',
+                lastName: 'Welp'
+              }"
               :height="2"
               :width="2"
             />
@@ -264,13 +258,20 @@ export default {
           this.clientIsReady = false
           this.isChannelLoading = false
         } else {
-          this.checkChannel(response.sendbirdId).then((res) => {
-            if (res === undefined) {
-              this.createChannel(response.sendbirdId)
-            } else if (res) {
-              this.existingChannel(res)
-            }
-          })
+          try {
+            this.checkChannel(response.sendbirdId).then((res) => {
+              if (res === undefined) {
+                this.createChannel(response.sendbirdId)
+              } else if (res) {
+                this.existingChannel(res)
+              } else if (!res) {
+                this.errorCreatingChannel = true
+                this.isChannelLoading = false
+              }
+            })
+          } catch (error) {
+            console.log('errrrr', error)
+          }
         }
       })
     } catch (error) {
@@ -287,9 +288,9 @@ export default {
       newMessage: 'updateConnectedChannels',
       checkChannel: 'checkIfChannelExists'
     }),
-    retry () {
-      this.createChannel(this.receiver)
-    },
+    // retry () {
+    //   this.createChannel(this.receiver)
+    // },
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
       listQuery.includeMetaArray = true // Retrieve a list of messages along with their metaarrays.
