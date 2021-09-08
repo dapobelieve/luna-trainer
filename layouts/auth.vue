@@ -1,12 +1,9 @@
 <template>
   <main
     :class="[
-      $route.name === 'Auth-ForgotPassword' ||
-        $route.name === 'Auth-CreateNewPassword'
-        ? 'border-collie'
-        : $route.name === 'Auth-ProfileSetup' || $route.name === 'Auth-SignUp'
-          ? 'dobermann'
-          : 'shiba-inu'
+      $route.name === 'Auth-ProfileSetup' || $route.name === 'Auth-SignUp'
+        ? 'dobermann'
+        : 'shiba-inu'
     ]"
   >
     <div
@@ -69,7 +66,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 main {
     height: auto;
     min-height: 100vh;
@@ -78,7 +75,6 @@ main {
   position: fixed;
   top: 50%;
   left: 50%;
-  /* bring your own prefixes */
   transform: translate(-50%, -50%);
 }
 .height{
