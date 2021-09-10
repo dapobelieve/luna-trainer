@@ -138,9 +138,9 @@ export default {
     }
   },
   methods: {
-    authenticateWithTokens (tokens) {
+    authenticateWithTokens () {
       // set necessary tokens
-      this.$store.dispatch('authorize/setToken', tokens)
+      // this.$store.dispatch('authorize/setToken', tokens)
       // fetch user profile
       this.$store.dispatch('profile/getUserProfile').then((response) => {
         if (response === null) {
@@ -170,7 +170,6 @@ export default {
           }
         })
           .then((response) => {
-            console.log(response)
             this.$toast.success('Login Successful', { position: 'bottom-right' })
             this.$store.dispatch('authorize/setToken', {
               token: response.data.data.accessToken,
@@ -179,6 +178,8 @@ export default {
             if (response.data.data.forceResetPassword) {
               this.$router.push({ name: 'Auth-CreateNewPassword' })
               this.$toast.info('Please Create A New Password', { position: 'bottom-right' })
+            } else {
+              this.authenticateWithTokens()
             }
           })
           .catch(() => {

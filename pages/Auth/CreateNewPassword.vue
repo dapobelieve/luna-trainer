@@ -29,7 +29,7 @@
               />
               <div v-if="$v.$anyDirty" class="tail-mt-0.5">
                 <small
-                  v-if="!$v.userInfo.oldPrequired"
+                  v-if="!$v.userInfo.oldPassword.required"
                   class="tail-text-gray-600"
                 >
                   Password is required.
