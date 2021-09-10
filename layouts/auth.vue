@@ -1,36 +1,39 @@
 <template>
   <main
     :class="[
-      $route.name === 'Auth-ProfileSetup' || $route.name === 'Auth-SignUp'
+      routeName === 'Auth-ProfileSetup' || routeName === 'Auth-SignUp'
         ? 'dobermann'
         : 'shiba-inu'
     ]"
   >
     <div
-      class="tail-flex tail-items-center tail-flex-col lg:tail-flex-row md:tail-px-4 lg:tail-px-0 tail-justify-center centered"
+      class="tail-flex tail-items-center tail-flex-col tail-px-5 lg:tail-flex-row md:tail-px-4 lg:tail-px-0 tail-justify-center centered"
     >
       <header
         class="tail-py-4 tail-w-96 tail-h-full lg:tail--mt-36 tail-mt-8 tail-mr-0 lg:tail-mr-14 tail-text-center lg:tail-text-left"
       >
         <img
-          class="lg:tail-mr-auto lg:tail-m-0 tail-m-auto "
+          class="lg:tail-mr-auto lg:tail-m-0 tail-m-auto tail-pt-5 md:tail-pt-0"
           src="~/assets/img/svgs/logomark.svg"
           alt="getWelp logo"
         />
-        <h2 class="tail-gray-700 tail-my-4 md:tail-my-8 tail-text-2xl lg:tail-text-4xl tail-font-normal tail-tracking-wide">
+        <h2 class="tail-gray-700 tail-my-4 tail-px-3 md:tail-px-0 md:tail-my-8 tail-text-2xl lg:tail-text-4xl tail-font-normal tail-tracking-wide">
           We’re here to make dog trainers’ lives easier
         </h2>
-        <span class="tail-my-4 md:tail-my-6 tail-text-gray-500 tail-text-base">
+        <p v-if="routeName === 'Auth-SignUp'" class="tail-my-4 md:tail-my-6 tail-px-14 md:tail-px-0 tail-text-gray-500 tail-text-base">
           You can sign in with your Google account below to sign up.
-        </span>
+        </p>
+        <p v-else class="tail-my-4 md:tail-my-6 tail-px-14 md:tail-px-0 tail-text-gray-500 tail-text-base">
+          You can sign in with your Google account below which will sync everything you need at once
+        </p>
         <div class=" tail-mt-6">
           <button
             type="button"
             class="tail-bg-white tail-border tail-w-100 tail-flex tail-align-center tail-justify-center tail-py-3 tail-px-6 tail-rounded lg:tail-m-0 tail-m-auto"
-            handleOnClickGoogleButton
+            @click="routeName === 'Auth-SignIn' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
           >
             <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
-            <span class="tail-ml-1">Sign up with Google</span>
+            <span class="tail-ml-1">{{ routeName === 'Auth-SignIn' ? 'Sign in' : 'Sign up' }} with Google</span>
           </button>
         </div>
       </header>
@@ -45,7 +48,7 @@
         </div>
       </div>
       <article
-        class="md:tail-shadow tail-z-0 tail-rounded-lg tail-m-4 lg:tail-ml-14 tail-overflow-hidden tail-max-w-sm md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full md:tail-border tail-border-gray-300"
+        class="md:tail-shadow tail-z-0 tail-rounded-lg tail-m-4 lg:tail-ml-14 tail-overflow-hidden tail-max-w-xs md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full md:tail-border tail-border-gray-300"
       >
         <div
           class="tail-h-full md:tail-h-auto"
@@ -58,10 +61,35 @@
 </template>
 <script>
 export default {
+  // data () {
+  //   return {
+  //     actionText: this.$route.name === 'Auth-SignIn' ? 'Sign in' : 'Sign up'
+  //   }
+  // },
+  computed: {
+    routeName () {
+      return this.$route.name
+    }
+  },
+  created () {
+    const { redirectClient } = this.$route.query
+    if (redirectClient === 'google') {
+      this.handleGoogleAuthCallback()
+    }
+  },
   methods: {
-    handleOnClickGoogleButton () {
+    handleOnClickGoogleSignIn () {
       const { host, protocol } = window.location
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${protocol}//${host}/Auth/SignIn%3FredirectClient%3Dgoogle`
+    },
+    handleOnClickGoogleSignUp () {
+      window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
+    },
+    handleGoogleAuthCallback () {
+      this.authenticateWithTokens({
+        token: this.$cookies.get('access_token'),
+        refreshToken: this.$cookies.get('refresh_token')
+      })
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="tail-max-w-full">
-    <div class="tail-grid tail-gap-10 tail-w-full tail-p-6 tail-bg-white tail-rounded-md tail-text-gray-600">
+    <div class="tail-grid tail-gap-6 md:tail-gap-10 tail-w-full tail-p-6 tail-bg-white tail-rounded-md tail-text-gray-600">
       <div class="tail-grid tail-grid-col-12">
         <h2 class="tail-text-2xl tail-font-semibold">
           Sign in with email
@@ -137,12 +137,6 @@ export default {
       }
     }
   },
-  created () {
-    const { redirectClient } = this.$route.query
-    if (redirectClient === 'google') {
-      this.handleGoogleAuthCallback()
-    }
-  },
   methods: {
     authenticateWithTokens (tokens) {
       // set necessary tokens
@@ -176,11 +170,16 @@ export default {
           }
         })
           .then((response) => {
+            console.log(response)
             this.$toast.success('Login Successful', { position: 'bottom-right' })
-            this.authenticateWithTokens({
+            this.$store.dispatch('authorize/setToken', {
               token: response.data.data.accessToken,
               refreshToken: response.data.data.refreshToken
             })
+            if (response.data.data.forceResetPassword) {
+              this.$router.push({ name: 'Auth-CreateNewPassword' })
+              this.$toast.info('Please Create A New Password', { position: 'bottom-right' })
+            }
           })
           .catch(() => {
             this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
@@ -189,15 +188,6 @@ export default {
             this.isLoading = false
           })
       }
-    },
-    handleOnClickGoogleButton () {
-      window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
-    },
-    handleGoogleAuthCallback () {
-      this.authenticateWithTokens({
-        token: this.$cookies.get('access_token'),
-        refreshToken: this.$cookies.get('refresh_token')
-      })
     }
   }
 }

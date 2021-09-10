@@ -82,7 +82,7 @@
 import { required, sameAs, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'ResetPassword',
-  layout: 'auth',
+  layout: 'authPassword',
   auth: false,
   data () {
     return {

@@ -43,7 +43,7 @@
           </div>
 
           <div class="tail-flex tail-justify-end tail-py-1">
-            <button :disabled="isLoading" class="primary-button" style="width: fit-content">
+            <button :loading="isLoading" class="primary-button" style="width: fit-content" :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }" :disabled="$v.$invalid">
               <SingleLoader v-if="isLoading" class="tail-mr-2" />
               {{ isLoading ? 'Resetting...' : 'Save' }}
             </button>

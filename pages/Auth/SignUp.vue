@@ -1,6 +1,6 @@
 <template>
   <div class="tail-max-w-full">
-    <div class="tail-grid tail-gap-10 tail-w-full tail-p-6 tail-bg-white tail-rounded-md tail-text-gray-600">
+    <div class="tail-grid tail-gap-6 md:tail-gap-10 tail-w-full tail-p-6 tail-bg-white tail-rounded-md tail-text-gray-600">
       <div class="tail-grid tail-grid-col-12">
         <h3 class="tail-text-2xl tail-font-semibold">
           Sign up with email
