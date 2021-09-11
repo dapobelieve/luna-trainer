@@ -86,7 +86,7 @@
           />
         </template>
         <template v-else-if="step === 2">
-          <onboarding-services @validity="addedServices.isDisabled = $event" />
+          <onboarding-services @validity="allow($event)" />
         </template>
         <template v-else-if="step === 3">
           <onboarding-clients @validity="firstClient.isDisabled" />
@@ -167,7 +167,7 @@ export default {
       },
       firstClient: {
         id: 3,
-        isDisabled: false
+        isDisabled: true
       },
       stripeConnect: {
         id: 4,
@@ -218,6 +218,10 @@ export default {
     }
   },
   methods: {
+    allow (e) {
+      this.addedServices.isDisabled = e
+      this.firstClient.isDisabled = e
+    },
     increaseStep () {
       this.step++
     },

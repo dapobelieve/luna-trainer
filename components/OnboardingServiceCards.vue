@@ -5,7 +5,7 @@
       <b v-else>You have no services</b>
     </h2>
     <div class="tail-flex tail-flex-col tail-mt-5">
-      <div v-for="(n, index) in services" :key="n" class="tail-rounded-xl tail-border-2 tail-border-blue-300 tail-overflow-hidden tail-w-72 tail-bg-white tail-mb-4 last:tail-mb-0">
+      <div v-for="(n, index) in services" :key="index" class="tail-rounded-xl tail-border-2 tail-border-blue-300 tail-overflow-hidden tail-w-72 tail-bg-white tail-mb-4 last:tail-mb-0">
         <div class="tail-px-3 tail-py-2 tail-border tail-border-b">
           <div class="tail-flex tail-justify-between">
             <span class="tail-capitalize tail-text-gray-600 tail-font-semibold">{{ n.title }}</span>
