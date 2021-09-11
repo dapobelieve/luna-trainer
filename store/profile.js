@@ -30,14 +30,11 @@ export const state = () => ({
 
 export const mutations = {
   UPDATE_TRAINNER_REG_DATA (state, payload) {
-    console.log('pay ', payload)
     if ('type' in payload && payload.type === 'services') {
-      console.log('this')
       state.trainnerRegData[payload.parent].push(payload.value)
     } else if ('type' in payload && payload.type === 'deleteService') {
       state.trainnerRegData[payload.parent] = payload.value
     } else {
-      console.log('that')
       state.trainnerRegData[payload.parent][payload.key] = payload.value
     }
   },
