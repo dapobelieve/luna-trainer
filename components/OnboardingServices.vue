@@ -161,13 +161,13 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setProfileData: 'profile/UPDATE_TRAINNER_REG_DATA'
+      createService: 'profile/UPDATE_TRAINNER_REG_DATA'
     }),
     addNewService () {
       if (this.servicesFromStore.length && this.servicesFromStore.some(s => s.title.toLowerCase() === this.services.title.toLowerCase())) {
         this.$toast.error(`${this.services.title} service already exist`, { position: 'top-right' })
       } else {
-        this.setProfileData({ parent: 'services', type: 'services', value: { ...this.services } })
+        this.createService({ parent: 'services', type: 'services', value: { ...this.services } })
         this.services.title = ''
         this.services.appointmentType = []
         this.services.price = ''
