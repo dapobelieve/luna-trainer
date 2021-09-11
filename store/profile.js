@@ -21,14 +21,45 @@ export const state = () => ({
       firstName: '',
       lastName: '',
       email: '',
-      dogName: '',
-      breed: ''
+      petName: '',
+      petBreed: '',
+      petAge: 2,
+      petGender: 'male'
     },
     stripe: false
   }
 })
 
 export const mutations = {
+  SET_EMPTY_TRAINNER_REG_DATA (state) {
+    state.trainnerRegData = {
+      personalProfile: {
+        firstName: '',
+        lastName: '',
+        businessName: '',
+        website: '',
+        country: '',
+        currency: '',
+        timezone: ''
+      },
+      trainnerProfile: {
+        accreditations: [],
+        specialization: [],
+        reinforcement: 'no'
+      },
+      services: [],
+      client: {
+        firstName: '',
+        lastName: '',
+        email: '',
+        petName: '',
+        petBreed: '',
+        petAge: 2,
+        petGender: 'male'
+      },
+      stripe: false
+    }
+  },
   UPDATE_TRAINNER_REG_DATA (state, payload) {
     if ('type' in payload && payload.type === 'services') {
       state.trainnerRegData[payload.parent].push(payload.value)
@@ -51,6 +82,24 @@ export const mutations = {
 export const actions = {
   clearGetWelpUser ({ commit }) {
     commit('SET_GETWELP_USER', {})
+  },
+  createProfile (
+    { state, commit, dispatch },
+    payload = {
+      ...state.trainnerRegData.personalProfile,
+      ...state.trainnerRegData.trainnerProfile,
+      ...state.trainnerRegData.services
+    }
+  ) {
+    return this.$axios
+      .$post(`${process.env.BASEURL_HOST}/profile`, payload)
+      .then((response) => {
+        const { data } = response
+        if (data !== null) {
+          commit('SET_GETWELP_USER', data)
+        }
+        return response
+      })
   },
   createTrainerProfile ({ commit, dispatch }, payload) {
     const data = { ...payload }
@@ -88,7 +137,9 @@ export const actions = {
       .$patch(
                `${process.env.BASEURL_HOST}/profile/upload-image`,
                payload,
-               { headers: { 'Content-Type': 'multipart/form-data' } }
+               {
+                 headers: { 'Content-Type': 'multipart/form-data' }
+               }
       )
       .then((response) => {
         commit('SET_GETWELP_USER', response.data)

@@ -60,11 +60,10 @@
           back
         </button>
         <button
-          v-if="step !== 5"
           type="button"
           style="width: fit-content"
           class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click.prevent="increaseStep"
+          @click="step === 4 ? saveProfile : increaseStep"
         >
           {{ step === 4 ? "Save & Complete" : "Next" }}
         </button>
@@ -107,6 +106,7 @@
         </button>
         <button
           v-if="step"
+          :disabled="isLoading"
           type="button"
           style="width: fit-content"
           class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
@@ -115,7 +115,18 @@
           back
         </button>
         <button
-          v-if="step !== 5"
+          v-if="step === 4"
+          :disabled="isLoading"
+          type="button"
+          style="width: fit-content"
+          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          @click="saveProfile"
+        >
+          <SingleLoader v-if="isLoading" class="tail-mr-2" />
+          {{ isLoading ? "Creating Account" : "Save & Complete" }}
+        </button>
+        <button
+          v-else-if="step !== 5"
           :disabled="
             step === 0
               ? profile.isDisabled
@@ -130,9 +141,9 @@
           type="button"
           style="width: fit-content"
           class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click.prevent="increaseStep"
+          @click="increaseStep"
         >
-          {{ step === 4 ? "Save & Complete" : "Next" }}
+          Next
         </button>
       </div>
     </div>
@@ -146,12 +157,13 @@
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'OnboardingProfileSetup',
   layout: 'authOnboarding',
-  auth: false,
   data () {
     return {
+      isLoading: false,
       step: 0,
       profile: {
         id: 0,
@@ -217,7 +229,19 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState({
+      clientInfo: state => state.profile.trainnerRegData.client
+    })
+  },
   methods: {
+    ...mapMutations({
+      clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA'
+    }),
+    ...mapActions({
+      create: 'profile/createProfile',
+      addClient: 'client/inviteClient'
+    }),
     allow (e) {
       this.addedServices.isDisabled = e
       this.firstClient.isDisabled = e
@@ -229,10 +253,32 @@ export default {
       this.step--
     },
     saveProfile () {
-      // const trainnerData = JSON.parse(localStorage.getItem('trainnerData')) || []
+      this.isLoading = true
+      try {
+        return this.create().then((result) => {
+          if (result.status === 'success') {
+            return this.addClient(this.clientInfo).then((result) => {
+              if (result.status) {
+                this.clearTrainnerRegData()
+                this.$router.replace({ name: 'Dashboard' }).then(() => {
+                  this.$toast.success('Welcome', { position: 'bottom-right' })
+                })
+              }
+            })
+          }
+        })
+      } catch (err) {
+        this.isLoading = false
+        if (err.response) {
+          this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+        } else if (err.request) {
+          this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+        } else {
+          this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+        }
+      }
     }
   }
 }
 </script>
-
 <style lang="scss" scoped></style>
