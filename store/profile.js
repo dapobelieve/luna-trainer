@@ -1,9 +1,46 @@
 export const state = () => ({
   isStripeConnected: false,
-  getWelpUser: {}
+  getWelpUser: {},
+  trainnerRegData: {
+    personalProfile: {
+      firstName: '',
+      lastName: '',
+      businessName: '',
+      website: '',
+      country: '',
+      currency: '',
+      timezone: ''
+    },
+    trainnerProfile: {
+      accreditations: [],
+      specialization: [],
+      reinforcement: 'no'
+    },
+    services: [],
+    client: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      dogName: '',
+      breed: ''
+    },
+    stripe: false
+  }
 })
 
 export const mutations = {
+  UPDATE_TRAINNER_REG_DATA (state, payload) {
+    console.log('pay ', payload)
+    if ('type' in payload && payload.type === 'services') {
+      console.log('this')
+      state.trainnerRegData[payload.parent].push(payload.value)
+    } else if ('type' in payload && payload.type === 'deleteService') {
+      state.trainnerRegData[payload.parent] = payload.value
+    } else {
+      console.log('that')
+      state.trainnerRegData[payload.parent][payload.key] = payload.value
+    }
+  },
   SET_GETWELP_USER (state, user) {
     const checkEmptiness =
       Object.keys(user).length === 0 && user.constructor === Object
