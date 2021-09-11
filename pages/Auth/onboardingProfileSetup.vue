@@ -3,22 +3,53 @@
     <div
       class="tail-flex tail-flex-col tail-bg-blue-50 lg:tail-bg-white tail-h-screen tail-px-6 tail-py-10 tail-w-full"
     >
-      <circle-step-navigation :step-count="step" />
+      <circle-step-navigation
+        :step-count="step"
+        :disabled="[
+          profile,
+          trainerProfile,
+          addedServices,
+          firstClient,
+          stripeConnect
+        ]"
+        @stepper="step = $event"
+      />
       <div class="tail-mt-10 lg:tail-hidden tail-mb-auto">
-        Tell us about you. (form will display here)
+        <template v-if="step === 0">
+          <onboarding-profile :check-form="profile" />
+        </template>
       </div>
       <div class="tail-mt-20 tail-hidden lg:tail-block tail-text-gray-700">
-        <h2 class="tail-text-2xl tail-mb-8 tail-max-w-xs">
-          {{ pageIntro[step].title }}
-        </h2>
-        <small class="tail-text-sm tail-font-extralight">
-          {{ pageIntro[step].subTitle }}
-        </small>
+        <template v-if="'type' in pageIntro[step]">
+          <h2 class="tail-text-2xl tail-mb-8 tail-max-w-xs">
+            {{ pageIntro[step].title }}
+          </h2>
+          <div
+            class="tail-font-extralight"
+            v-html="pageIntro[step].subTitle"
+          ></div>
+        </template>
+        <template v-else>
+          <h2 class="tail-text-2xl tail-mb-8 tail-max-w-xs">
+            {{ pageIntro[step].title }}
+          </h2>
+          <p class="tail-font-extralight">
+            {{ pageIntro[step].subTitle }}
+          </p>
+        </template>
       </div>
       <div
-        class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4 lg:tail-hidden"
+        class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4 lg:tail-hidden tail-fixed tail-bottom-8 tail-right-0 tail-left-0 tail-px-5"
       >
-        <a href="#" class="tail-text-blue-500 tail-mr-auto" :class="[step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible']">Skip</a>
+        <button
+          class="tail-text-blue-500 tail-mr-auto"
+          :class="[
+            step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
+          ]"
+          @click.prevent="step++"
+        >
+          Skip
+        </button>
         <button
           v-if="step"
           type="button"
@@ -46,10 +77,34 @@
       <div
         class="tail-text-lg tail-font-medium tail-text-gray-900 tail-mb-auto"
       >
-        <b>Tell us a bit about you</b>
+        <template v-if="step === 0">
+          <onboarding-profile @validity="profile.isDisabled = $event" />
+        </template>
+        <template v-else-if="step === 1">
+          <onboarding-trainer-profile
+            @validity="trainerProfile.isDisabled = $event"
+          />
+        </template>
+        <template v-else-if="step === 2">
+          <onboarding-services @validity="allow($event)" />
+        </template>
+        <template v-else-if="step === 3">
+          <onboarding-clients @validity="firstClient.isDisabled" />
+        </template>
+        <template v-else-if="step === 4">
+          <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
+        </template>
       </div>
       <div class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4">
-        <a href="#" class="tail-text-blue-500 tail-mr-auto" :class="[step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible']">Skip</a>
+        <button
+          class="tail-text-blue-500 tail-mr-auto"
+          :class="[
+            step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
+          ]"
+          @click.prevent="step++"
+        >
+          Skip
+        </button>
         <button
           v-if="step"
           type="button"
@@ -61,6 +116,17 @@
         </button>
         <button
           v-if="step !== 5"
+          :disabled="
+            step === 0
+              ? profile.isDisabled
+              : step === 1
+                ? trainerProfile.isDisabled
+                : step === 2
+                  ? addedServices.isDisabled
+                  : step === 3
+                    ? firstClient.isDisabled
+                    : stripeConnect.isDisabled
+          "
           type="button"
           style="width: fit-content"
           class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
@@ -74,9 +140,7 @@
       class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border"
       :class="[step === 2 ? 'lg:tail-block' : 'lg:tail-hidden']"
     >
-      <h2 class="tail-text-lg tail-font-medium tail-text-gray-900">
-        <b>You have added 3 services</b>
-      </h2>
+      <onboarding-service-cards />
     </div>
   </div>
 </template>
@@ -89,6 +153,26 @@ export default {
   data () {
     return {
       step: 0,
+      profile: {
+        id: 0,
+        isDisabled: true
+      },
+      trainerProfile: {
+        id: 1,
+        isDisabled: true
+      },
+      addedServices: {
+        id: 2,
+        isDisabled: true
+      },
+      firstClient: {
+        id: 3,
+        isDisabled: true
+      },
+      stripeConnect: {
+        id: 4,
+        isDisabled: true
+      },
       pageIntro: [
         {
           id: 0,
@@ -105,30 +189,47 @@ export default {
         {
           id: 2,
           title: 'Your services',
+          type: 'html',
           subTitle:
-            'This first stage is your personal profile. Pretty simple, right?'
+            '<p class="tail-mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
+            '<p class="tail-mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
+            'For example:<br/><ul class="tail-list-disc tail-list-inside tail-mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
+            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         },
         {
           id: 3,
           title: 'Add your first client',
+          type: 'html',
           subTitle:
-            'To make things really simple for you, if you add a client at this stage, a template profile will be created in your Clients section in the platform and it’s super easy to navigate.'
+            '<p class="tail-mb-6">To make things really simple for you, if you add a client at this stage, a template profile will be created in your Clients section in the platform and it’s super easy to navigate. </p>' +
+            '<p class="tail-mb-6">Add your client’s name, email address, dog’s breed and dog’s name to get going. </p>' +
+            '<p class="tail-mb-6">A client invitation will not be sent just yet until you tell us when you’d like to send it. You can edit this too later. </p>' +
+            '<p>If you’d just like to skip this section and head on into the platform then feel free to do so too!</p>'
         },
         {
           id: 4,
           title: 'Stripe',
+          type: 'html',
           subTitle:
-            'If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier. '
+            '<p class="tail-mb-6">If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier. </p>' +
+            '<p>But, we also appreciate you’re new here so if you want to skip this section and head on into the rest of the onboarding process, you can do so and come back to setting up Stripe later! ✌️</p>'
         }
       ]
     }
   },
   methods: {
+    allow (e) {
+      this.addedServices.isDisabled = e
+      this.firstClient.isDisabled = e
+    },
     increaseStep () {
       this.step++
     },
     decreaseStep () {
       this.step--
+    },
+    saveProfile () {
+      // const trainnerData = JSON.parse(localStorage.getItem('trainnerData')) || []
     }
   }
 }
