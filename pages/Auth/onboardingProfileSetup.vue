@@ -237,7 +237,15 @@ export default {
     ...mapState({
       clientInfo: state => state.profile.trainnerRegData.client,
       editingService: state => state.profile.editingServiceCard
-    })
+    }),
+    isClientFormFilled () {
+      return (
+        Object.values(this.clientInfo).length &&
+        this.clientInfo.firstName &&
+        this.clientInfo.lastName &&
+        this.clientInfo.email
+      )
+    }
   },
   methods: {
     ...mapMutations({
@@ -279,7 +287,7 @@ export default {
       try {
         return this.create().then((result) => {
           if (result.status === 'success') {
-            if (Object.values(this.clientInfo).length) {
+            if (this.isClientFormFilled) {
               return this.addClient(this.clientInfo).then((result) => {
                 if (result.status) {
                   this.clearTrainnerRegData()
