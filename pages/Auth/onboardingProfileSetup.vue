@@ -85,7 +85,10 @@
           />
         </template>
         <template v-else-if="step === 2">
-          <onboarding-services :selected-service-index="selectedServiceProps" @validity="allow($event)" />
+          <onboarding-services
+            :selected-service-index="selectedServiceProps"
+            @validity="allow($event)"
+          />
         </template>
         <template v-else-if="step === 3">
           <onboarding-clients @validity="firstClient.isDisabled" />
@@ -151,9 +154,7 @@
       class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border"
       :class="[step === 2 ? 'lg:tail-block' : 'lg:tail-hidden']"
     >
-      <onboarding-service-cards
-        @editservice="selectedServiceProps = $event"
-      />
+      <onboarding-service-cards @editservice="selectedServiceProps = $event" />
     </div>
   </div>
 </template>
@@ -257,14 +258,18 @@ export default {
     },
     increaseStep () {
       if (this.editingService) {
-        this.$toast.error('You are currently editing a service', { position: 'top-right' })
+        this.$toast.error('You are currently editing a service', {
+          position: 'top-right'
+        })
       } else {
         this.step++
       }
     },
     decreaseStep () {
       if (this.editingService) {
-        this.$toast.error('You are currently editing a service', { position: 'top-right' })
+        this.$toast.error('You are currently editing a service', {
+          position: 'top-right'
+        })
       } else {
         this.step--
       }
@@ -274,14 +279,23 @@ export default {
       try {
         return this.create().then((result) => {
           if (result.status === 'success') {
-            return this.addClient(this.clientInfo).then((result) => {
-              if (result.status) {
-                this.clearTrainnerRegData()
-                this.$router.replace({ name: 'Dashboard' }).then(() => {
-                  this.$toast.success('Welcome', { position: 'bottom-right' })
-                })
-              }
-            })
+            if (Object.values(this.clientInfo).length) {
+              return this.addClient(this.clientInfo).then((result) => {
+                if (result.status) {
+                  this.clearTrainnerRegData()
+                  this.$router.replace({ name: 'Dashboard' }).then(() => {
+                    this.$toast.success('Welcome', {
+                      position: 'bottom-right'
+                    })
+                  })
+                }
+              })
+            } else {
+              this.clearTrainnerRegData()
+              this.$router.replace({ name: 'Dashboard' }).then(() => {
+                this.$toast.success('Welcome', { position: 'bottom-right' })
+              })
+            }
           }
         })
       } catch (err) {
