@@ -1,5 +1,6 @@
 export const state = () => ({
   isStripeConnected: false,
+  editingServiceCard: false,
   getWelpUser: {},
   trainnerRegData: {
     personalProfile: {
@@ -31,6 +32,9 @@ export const state = () => ({
 })
 
 export const mutations = {
+  SET_STATE (state, data) {
+    Object.keys(data).forEach(key => (state[key] = data[key]))
+  },
   SET_EMPTY_TRAINNER_REG_DATA (state) {
     state.trainnerRegData = {
       personalProfile: {
@@ -65,6 +69,8 @@ export const mutations = {
       state.trainnerRegData[payload.parent].push(payload.value)
     } else if ('type' in payload && payload.type === 'deleteService') {
       state.trainnerRegData[payload.parent] = payload.value
+    } else if ('type' in payload && payload.type === 'updateService') {
+      state.trainnerRegData.services.splice(payload.index, 1, payload.value)
     } else {
       state.trainnerRegData[payload.parent][payload.key] = payload.value
     }

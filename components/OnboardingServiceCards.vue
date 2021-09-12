@@ -18,7 +18,7 @@
           </p>
         </div>
         <div class="tail-flex tail-justify-around tail-py-3 tail-text-blue-500">
-          <i class="ns-pencil" role="button"></i>
+          <i class="ns-pencil" role="button" @click.prevent="editService(index)"></i>
           <i class="ns-trash" role="button" @click.prevent="deleteService(index)"></i>
         </div>
       </div>
@@ -32,20 +32,27 @@ export default {
   name: 'OnboardingServiceCards',
   computed: {
     ...mapState({
-      services: state => state.profile.trainnerRegData.services
+      services: state => state.profile.trainnerRegData.services,
+      editingService: state => state.profile.editingServiceCard
     })
   },
   methods: {
     ...mapMutations({
-      updateServices: 'profile/UPDATE_TRAINNER_REG_DATA'
+      updateServices: 'profile/UPDATE_TRAINNER_REG_DATA',
+      setTempState: 'profile/SET_STATE'
     }),
     deleteService (index) {
-      const updatedServices = [...this.services]
-      updatedServices.splice(index, 1)
-      this.updateServices({ parent: 'services', type: 'deleteService', value: updatedServices })
+      if (this.editingService) {
+        this.$toast.error('You are currently editing a service', { position: 'top-right' })
+      } else {
+        const updatedServices = [...this.services]
+        updatedServices.splice(index, 1)
+        this.updateServices({ parent: 'services', type: 'deleteService', value: updatedServices })
+      }
     },
     editService (index) {
-
+      this.$emit('editservice', index)
+      this.setTempState({ editingServiceCard: true })
     }
   }
 }

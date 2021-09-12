@@ -12,7 +12,7 @@
           firstClient,
           stripeConnect
         ]"
-        @stepper="step = $event"
+        @stepper="move($event)"
       />
       <div class="tail-mt-10 lg:tail-hidden tail-mb-auto">
         <template v-if="step === 0">
@@ -85,7 +85,7 @@
           />
         </template>
         <template v-else-if="step === 2">
-          <onboarding-services @validity="allow($event)" />
+          <onboarding-services :selected-service-index="selectedServiceProps" @validity="allow($event)" />
         </template>
         <template v-else-if="step === 3">
           <onboarding-clients @validity="firstClient.isDisabled" />
@@ -151,7 +151,9 @@
       class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border"
       :class="[step === 2 ? 'lg:tail-block' : 'lg:tail-hidden']"
     >
-      <onboarding-service-cards />
+      <onboarding-service-cards
+        @editservice="selectedServiceProps = $event"
+      />
     </div>
   </div>
 </template>
@@ -163,6 +165,7 @@ export default {
   layout: 'authOnboarding',
   data () {
     return {
+      selectedServiceProps: null,
       isLoading: false,
       step: 0,
       profile: {
@@ -231,26 +234,40 @@ export default {
   },
   computed: {
     ...mapState({
-      clientInfo: state => state.profile.trainnerRegData.client
+      clientInfo: state => state.profile.trainnerRegData.client,
+      editingService: state => state.profile.editingServiceCard
     })
   },
   methods: {
     ...mapMutations({
-      clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA'
+      clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
+      setTempState: 'profile/SET_STATE'
     }),
     ...mapActions({
       create: 'profile/createProfile',
       addClient: 'client/inviteClient'
     }),
+    move (e) {
+      this.setTempState({ editingServiceCard: false })
+      this.step = e
+    },
     allow (e) {
       this.addedServices.isDisabled = e
       this.firstClient.isDisabled = e
     },
     increaseStep () {
-      this.step++
+      if (this.editingService) {
+        this.$toast.error('You are currently editing a service', { position: 'top-right' })
+      } else {
+        this.step++
+      }
     },
     decreaseStep () {
-      this.step--
+      if (this.editingService) {
+        this.$toast.error('You are currently editing a service', { position: 'top-right' })
+      } else {
+        this.step--
+      }
     },
     saveProfile () {
       this.isLoading = true
@@ -270,11 +287,18 @@ export default {
       } catch (err) {
         this.isLoading = false
         if (err.response) {
-          this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+          this.$toast.error(
+            `Something went wrong: ${err.response.data.message}`,
+            { position: 'bottom-right' }
+          )
         } else if (err.request) {
-          this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+          this.$toast.error('Something went wrong. Try again', {
+            position: 'bottom-right'
+          })
         } else {
-          this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+          this.$toast.error(`Something went wrong: ${err.message}`, {
+            position: 'bottom-right'
+          })
         }
       }
     }

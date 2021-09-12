@@ -144,7 +144,7 @@ export default {
       // fetch user profile
       this.$store.dispatch('profile/getUserProfile').then((response) => {
         if (response === null) {
-          this.$router.push({ name: 'Auth-ProfileSetup' })
+          this.$router.push({ name: 'Auth-onboardingProfileSetup' })
         } else {
           this.$auth.setUser(response)
           // set user in local storage
