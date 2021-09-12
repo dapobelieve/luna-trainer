@@ -103,7 +103,7 @@
         </div>
       </div>
       <div class="sm:tail-col-span-2 tail-flex tail-justify-end tail-space-x-2">
-        <p v-if="servicesFromStore.length === 5">
+        <p v-if="servicesFromStore.length === 5 && !editing">
           You have enough services for now
         </p>
         <template v-else-if="editing">
@@ -230,7 +230,7 @@ export default {
       this.setTempState({ editingServiceCard: false })
       this.selectedService = null
       this.services.title = ''
-      this.services.appointmentType = ''
+      this.services.appointmentType = []
       this.services.price = ''
     }
   }
