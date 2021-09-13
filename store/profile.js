@@ -10,7 +10,9 @@ export const state = () => ({
       website: '',
       country: '',
       currency: '',
-      timezone: ''
+      phone: '',
+      timezone: '',
+      dateformat: 'DD/MM/YY'
     },
     trainnerProfile: {
       accreditations: [],
@@ -44,7 +46,9 @@ export const mutations = {
         website: '',
         country: '',
         currency: '',
-        timezone: ''
+        phone: '',
+        timezone: '',
+        dateformat: 'DD/MM/YY'
       },
       trainnerProfile: {
         accreditations: [],

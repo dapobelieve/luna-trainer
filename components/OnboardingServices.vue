@@ -32,7 +32,7 @@
           Type of appointment (you can tick both options)
           <span class="tail-text-red-700">*</span>
         </label>
-        <div class="tail-flex tail-space-x-2">
+        <div class="tail-flex tail-flex-col sm:tail-flex-row tail-space-y-2 sm:tail-space-y-0 sm:tail-space-x-2">
           <label
             class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full"
             :class="{
