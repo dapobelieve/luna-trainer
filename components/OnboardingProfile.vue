@@ -87,14 +87,11 @@
           </select>
         </div>
       </div>
-      <div class="sm:tail-col-span-2">
+      <div>
         <label
           for="currency"
           class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Please select your local currency
-          <span class="tail-text-red-700">*</span>
-        </label>
+        >Select your local currency <span class="tail-text-red-700">*</span></label>
         <div class="">
           <select
             id="currency"
@@ -112,6 +109,21 @@
               CAD
             </option>
           </select>
+        </div>
+      </div>
+      <div>
+        <label
+          for="phone"
+          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
+        >Phone number <span class="tail-text-red-700">*</span></label>
+        <div class="">
+          <input
+            id="phone"
+            v-model="phone"
+            type="text"
+            name="phone"
+            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+          />
         </div>
       </div>
       <div class="sm:tail-col-span-2">
@@ -143,9 +155,15 @@
         <div class="">
           <select
             id="dateformat"
+            v-model="dateformat"
             class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
-            <option>DD/MM/YY</option>
+            <option value="DD/MM/YY">
+              DD/MM/YY
+            </option>
+            <option value="YY/MM/DD">
+              YY/MM/DD
+            </option>
           </select>
         </div>
       </div>
@@ -206,10 +224,22 @@ export default {
         this.setProfileData({ parent: 'personalProfile', key: 'currency', value: val })
       }
     },
+    phone: {
+      get () { return this.personalProfile.phone },
+      set (val) {
+        this.setProfileData({ parent: 'personalProfile', key: 'phone', value: val })
+      }
+    },
     timezone: {
       get () { return this.personalProfile.timezone },
       set (val) {
         this.setProfileData({ parent: 'personalProfile', key: 'timezone', value: val })
+      }
+    },
+    dateformat: {
+      get () { return this.personalProfile.dateformat },
+      set (val) {
+        this.setProfileData({ parent: 'personalProfile', key: 'dateformat', value: val })
       }
     }
   },

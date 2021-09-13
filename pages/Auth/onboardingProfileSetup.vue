@@ -12,11 +12,33 @@
           firstClient,
           stripeConnect
         ]"
-        @stepper="step = $event"
+        @stepper="move($event)"
       />
-      <div class="tail-mt-10 lg:tail-hidden tail-mb-auto">
+
+      <!-- This section is for smaller screens -->
+      <div
+        class="tail-mt-10 lg:tail-hidden tail-pb-28"
+        :class="{ 'tail-pb-0': step === 2 }"
+      >
         <template v-if="step === 0">
-          <onboarding-profile :check-form="profile" />
+          <onboarding-profile @validity="profile.isDisabled = $event" />
+        </template>
+        <template v-else-if="step === 1">
+          <onboarding-trainer-profile
+            @validity="trainerProfile.isDisabled = $event"
+          />
+        </template>
+        <template v-else-if="step === 2">
+          <onboarding-services
+            :selected-service-index="selectedServiceProps"
+            @validity="allow($event)"
+          />
+        </template>
+        <template v-else-if="step === 3">
+          <onboarding-clients @validity="firstClient.isDisabled" />
+        </template>
+        <template v-else-if="step === 4">
+          <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
         </template>
       </div>
       <div class="tail-mt-20 tail-hidden lg:tail-block tail-text-gray-700">
@@ -38,6 +60,9 @@
           </p>
         </template>
       </div>
+      <!-- end of bigger screen view -->
+
+      <!-- this buttons is for small screens only -->
       <div
         class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4 lg:tail-hidden tail-fixed tail-bottom-8 tail-right-0 tail-left-0 tail-px-5"
       >
@@ -52,6 +77,7 @@
         </button>
         <button
           v-if="step"
+          :disabled="isLoading"
           type="button"
           style="width: fit-content"
           class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
@@ -60,17 +86,41 @@
           back
         </button>
         <button
-          v-if="step !== 5"
+          v-if="step === 4"
           type="button"
+          :disabled="isLoading"
           style="width: fit-content"
           class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click.prevent="increaseStep"
+          @click="saveProfile"
         >
-          {{ step === 4 ? "Save & Complete" : "Next" }}
+          <SingleLoader v-if="isLoading" class="tail-mr-2" />
+          {{ isLoading ? "Creating Account" : "Save & Complete" }}
+        </button>
+        <button
+          v-else-if="step !== 5"
+          type="button"
+          :disabled="
+            step === 0
+              ? profile.isDisabled
+              : step === 1
+                ? trainerProfile.isDisabled
+                : step === 2
+                  ? addedServices.isDisabled
+                  : step === 3
+                    ? firstClient.isDisabled
+                    : stripeConnect.isDisabled
+          "
+          style="width: fit-content"
+          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          @click="increaseStep"
+        >
+          Next
         </button>
       </div>
+      <!-- ends small screen view -->
     </div>
 
+    <!-- only shows on bigger screen -->
     <div
       class="tail-mt-10 lg:tail-mt-0 tail-hidden lg:tail-flex tail-flex-col tail-bg-blue-50 tail-h-screen tail-px-6 tail-py-10"
     >
@@ -86,7 +136,10 @@
           />
         </template>
         <template v-else-if="step === 2">
-          <onboarding-services @validity="allow($event)" />
+          <onboarding-services
+            :selected-service-index="selectedServiceProps"
+            @validity="allow($event)"
+          />
         </template>
         <template v-else-if="step === 3">
           <onboarding-clients @validity="firstClient.isDisabled" />
@@ -107,6 +160,7 @@
         </button>
         <button
           v-if="step"
+          :disabled="isLoading"
           type="button"
           style="width: fit-content"
           class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
@@ -115,7 +169,18 @@
           back
         </button>
         <button
-          v-if="step !== 5"
+          v-if="step === 4"
+          :disabled="isLoading"
+          type="button"
+          style="width: fit-content"
+          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          @click="saveProfile"
+        >
+          <SingleLoader v-if="isLoading" class="tail-mr-2" />
+          {{ isLoading ? "Creating Account" : "Save & Complete" }}
+        </button>
+        <button
+          v-else-if="step !== 5"
           :disabled="
             step === 0
               ? profile.isDisabled
@@ -130,28 +195,49 @@
           type="button"
           style="width: fit-content"
           class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click.prevent="increaseStep"
+          @click="increaseStep"
         >
-          {{ step === 4 ? "Save & Complete" : "Next" }}
+          Next
         </button>
       </div>
     </div>
+    <!-- end of bigger screen view -->
+
+    <!-- only shows on bigger screens -->
     <div
-      class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border"
-      :class="[step === 2 ? 'lg:tail-block' : 'lg:tail-hidden']"
+      class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border tail-hidden lg:tail-block"
     >
-      <onboarding-service-cards />
+      <template v-if="step === 2">
+        <onboarding-service-cards
+          @editservice="selectedServiceProps = $event"
+        />
+      </template>
     </div>
+    <!-- end of bigger screen view -->
+
+    <!-- only shows on smaller screen -->
+    <template v-if="step === 2">
+      <div
+        class="lg:tail-mt-0 tail-bg-blue-50 tail-px-6 tail-pt-10 tail-border-t lg:tail-border-l lg:tail-hidden tail--mt-80"
+      >
+        <onboarding-service-cards
+          @editservice="selectedServiceProps = $event"
+        />
+      </div>
+    </template>
+    <!-- end of smaller screen -->
   </div>
 </template>
 
 <script>
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'OnboardingProfileSetup',
   layout: 'authOnboarding',
-  auth: false,
   data () {
     return {
+      selectedServiceProps: null,
+      isLoading: false,
       step: 0,
       profile: {
         id: 0,
@@ -217,22 +303,98 @@ export default {
       ]
     }
   },
+  computed: {
+    ...mapState({
+      clientInfo: state => state.profile.trainnerRegData.client,
+      editingService: state => state.profile.editingServiceCard
+    }),
+    isClientFormFilled () {
+      return (
+        Object.values(this.clientInfo).length &&
+        this.clientInfo.firstName &&
+        this.clientInfo.lastName &&
+        this.clientInfo.email
+      )
+    }
+  },
   methods: {
+    ...mapMutations({
+      clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
+      setTempState: 'profile/SET_STATE'
+    }),
+    ...mapActions({
+      create: 'profile/createProfile',
+      addClient: 'client/inviteClient'
+    }),
+    move (e) {
+      this.setTempState({ editingServiceCard: false })
+      this.step = e
+    },
     allow (e) {
       this.addedServices.isDisabled = e
       this.firstClient.isDisabled = e
     },
     increaseStep () {
-      this.step++
+      if (this.editingService) {
+        this.$toast.error('You are currently editing a service', {
+          position: 'top-right'
+        })
+      } else {
+        this.step++
+      }
     },
     decreaseStep () {
-      this.step--
+      if (this.editingService) {
+        this.$toast.error('You are currently editing a service', {
+          position: 'top-right'
+        })
+      } else {
+        this.step--
+      }
     },
     saveProfile () {
-      // const trainnerData = JSON.parse(localStorage.getItem('trainnerData')) || []
+      this.isLoading = true
+      try {
+        return this.create().then((result) => {
+          if (result.status === 'success') {
+            if (this.isClientFormFilled) {
+              return this.addClient(this.clientInfo).then((result) => {
+                if (result.status) {
+                  this.clearTrainnerRegData()
+                  this.$router.replace({ name: 'Dashboard' }).then(() => {
+                    this.$toast.success('Welcome', {
+                      position: 'bottom-right'
+                    })
+                  })
+                }
+              })
+            } else {
+              this.clearTrainnerRegData()
+              this.$router.replace({ name: 'Dashboard' }).then(() => {
+                this.$toast.success('Welcome', { position: 'bottom-right' })
+              })
+            }
+          }
+        })
+      } catch (err) {
+        this.isLoading = false
+        if (err.response) {
+          this.$toast.error(
+            `Something went wrong: ${err.response.data.message}`,
+            { position: 'bottom-right' }
+          )
+        } else if (err.request) {
+          this.$toast.error('Something went wrong. Try again', {
+            position: 'bottom-right'
+          })
+        } else {
+          this.$toast.error(`Something went wrong: ${err.message}`, {
+            position: 'bottom-right'
+          })
+        }
+      }
     }
   }
 }
 </script>
-
 <style lang="scss" scoped></style>

@@ -32,7 +32,7 @@
           Type of appointment (you can tick both options)
           <span class="tail-text-red-700">*</span>
         </label>
-        <div class="tail-flex tail-space-x-2">
+        <div class="tail-flex tail-flex-col sm:tail-flex-row tail-space-y-2 sm:tail-space-y-0 sm:tail-space-x-2">
           <label
             class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full"
             :class="{
@@ -102,10 +102,28 @@
           />
         </div>
       </div>
-      <div class="sm:tail-col-span-2 tail-flex tail-justify-end">
-        <p v-if="servicesFromStore.length === 5">
+      <div class="sm:tail-col-span-2 tail-flex tail-justify-end tail-space-x-2">
+        <p v-if="servicesFromStore.length === 5 && !editing">
           You have enough services for now
         </p>
+        <template v-else-if="editing">
+          <button
+            type="button"
+            style="width: fit-content"
+            class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
+            @click="cancelEdit"
+          >
+            Cancel Edit
+          </button>
+          <button
+            type="button"
+            style="width: fit-content"
+            class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
+            @click="saveEdit"
+          >
+            Update Service
+          </button>
+        </template>
         <button
           v-else
           type="button"
@@ -125,8 +143,12 @@ import { mapState, mapMutations } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingServices',
+  props: {
+    selectedServiceIndex: [Number]
+  },
   data () {
     return {
+      selectedService: null,
       services: {
         title: '',
         appointmentType: [],
@@ -136,10 +158,29 @@ export default {
   },
   computed: {
     ...mapState({
-      servicesFromStore: state => state.profile.trainnerRegData.services
-    })
+      servicesFromStore: state => state.profile.trainnerRegData.services,
+      editing: state => state.profile.editingServiceCard
+    }),
+    disabled () {
+      return Boolean(this.services.title) && Boolean(this.services.price) && this.services.appointmentType.length
+    },
+    disableUpdate () {
+      if (this.disabled) {
+        return (
+          Object.values(this.services).toString() ===
+            Object.values(this.selectedService).toString()
+        )
+      }
+      return true
+    }
   },
   watch: {
+    selectedServiceIndex (newValue, oldValue) {
+      this.selectedService = this.servicesFromStore[newValue]
+      this.services.title = this.selectedService.title
+      this.services.appointmentType = this.selectedService.appointmentType
+      this.services.price = this.selectedService.price
+    },
     servicesFromStore (newValue, oldValue) {
       this.$emit('validity', Boolean(!this.servicesFromStore.length))
     }
@@ -161,17 +202,36 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setProfileData: 'profile/UPDATE_TRAINNER_REG_DATA'
+      createService: 'profile/UPDATE_TRAINNER_REG_DATA',
+      setTempState: 'profile/SET_STATE'
     }),
     addNewService () {
-      if (this.servicesFromStore.length && this.servicesFromStore.some(s => s.title.toLowerCase() === this.services.title.toLowerCase())) {
+      if (!this.disabled) {
+        this.$toast.error('All form fields are required', { position: 'top-right' })
+      } else if (this.servicesFromStore.length && this.servicesFromStore.some(s => s.title.toLowerCase() === this.services.title.toLowerCase())) {
         this.$toast.error(`${this.services.title} service already exist`, { position: 'top-right' })
       } else {
-        this.setProfileData({ parent: 'services', type: 'services', value: { ...this.services } })
+        this.createService({ parent: 'services', type: 'services', value: { ...this.services } })
         this.services.title = ''
         this.services.appointmentType = []
         this.services.price = ''
       }
+    },
+    saveEdit () {
+      if (this.disableUpdate) {
+        this.$toast.error('You have not made any change to the service', { position: 'top-right' })
+      } else {
+        this.createService({ parent: 'services', type: 'updateService', index: this.selectedServiceIndex, value: { ...this.services } })
+        this.cancelEdit()
+        this.$toast.success('Service Updated', { position: 'top-right' })
+      }
+    },
+    cancelEdit () {
+      this.setTempState({ editingServiceCard: false })
+      this.selectedService = null
+      this.services.title = ''
+      this.services.appointmentType = []
+      this.services.price = ''
     }
   }
 }

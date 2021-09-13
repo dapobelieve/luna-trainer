@@ -172,11 +172,11 @@ export default {
                     .dispatch('profile/getUserProfile')
                     .then((response) => {
                       response === null
-                        ? this.$router.push({
+                        ? this.$router.replace({
                           name: 'Auth-onboardingProfileSetup',
                           params: { email: this.userInfo.email }
                         })
-                        : this.$router.push({ name: 'Dashboard' })
+                        : this.$router.replace({ name: 'Dashboard' })
                     })
                 })
             } catch (error) {

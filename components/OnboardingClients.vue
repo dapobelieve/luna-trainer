@@ -55,30 +55,30 @@
       </div>
       <div class="sm:tail-col-span-2">
         <label
-          for="dogName"
+          for="petName"
           class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
         >
           Dog name <span class="tail-text-red-700">*</span>
         </label>
         <div class="">
           <input
-            id="dogName"
-            v-model="dogName"
+            id="petName"
+            v-model="petName"
             class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
       <div class="sm:tail-col-span-2">
         <label
-          for="breed"
+          for="petBreed"
           class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
         >
           Breed <span class="tail-text-red-700">*</span>
         </label>
         <div class="">
           <input
-            id="breed"
-            v-model="breed"
+            id="petBreed"
+            v-model="petBreed"
             class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
@@ -113,16 +113,16 @@ export default {
         this.addClient({ parent: 'client', key: 'email', value: val })
       }
     },
-    dogName: {
-      get () { return this.clientData.dogName },
+    petName: {
+      get () { return this.clientData.petName },
       set (val) {
-        this.addClient({ parent: 'client', key: 'dogName', value: val })
+        this.addClient({ parent: 'client', key: 'petName', value: val })
       }
     },
-    breed: {
-      get () { return this.clientData.breed },
+    petBreed: {
+      get () { return this.clientData.petBreed },
       set (val) {
-        this.addClient({ parent: 'client', key: 'breed', value: val })
+        this.addClient({ parent: 'client', key: 'petBreed', value: val })
       }
     }
   },
