@@ -10,7 +10,7 @@
       class="tail-flex tail-items-center tail-flex-col tail-px-5 lg:tail-flex-row md:tail-px-4 lg:tail-px-0 tail-justify-center centered"
     >
       <header
-        class="tail-py-4 tail-w-96 tail-h-full lg:tail--mt-36 tail-mt-8 tail-mr-0 lg:tail-mr-14 tail-text-center lg:tail-text-left"
+        class="tail-py-4 tail-w-96 tail-h-full lg:tail--mt-36 tail-mt-8 tail-mr-0 lg:tail-mr-8 tail-text-center lg:tail-text-left"
       >
         <img
           class="lg:tail-mr-auto lg:tail-m-0 tail-m-auto tail-pt-5 md:tail-pt-0"
@@ -48,7 +48,7 @@
         </div>
       </div>
       <article
-        class="md:tail-shadow tail-z-0 tail-rounded-lg tail-m-4 lg:tail-ml-14 tail-overflow-hidden tail-max-w-xs md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full md:tail-border tail-border-gray-300"
+        class="tail-z-0 tail-m-4 lg:tail-ml-14 tail-overflow-hidden tail-max-w-xs md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full"
       >
         <div
           class="tail-h-full md:tail-h-auto"
@@ -89,6 +89,27 @@ export default {
       this.authenticateWithTokens({
         token: this.$cookies.get('access_token'),
         refreshToken: this.$cookies.get('refresh_token')
+      })
+    },
+    authenticateWithTokens () {
+      // set necessary tokens
+      // this.$store.dispatch('authorize/setToken', tokens)
+      // fetch user profile
+      this.$store.dispatch('profile/getUserProfile').then((response) => {
+        if (response === null) {
+          this.$router.push({ name: 'Auth-onboardingProfileSetup' })
+        } else {
+          this.$auth.setUser(response)
+          // set user in local storage
+          const getWelpUser = localStorage.getItem('getWelpUser')
+          // eslint-disable-next-line curly
+          if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
+          localStorage.setItem('getWelpUser', JSON.stringify(response))
+
+          // set user in store
+          this.$store.commit('profile/SET_GETWELP_USER', response)
+          this.$router.push({ name: 'Dashboard' })
+        }
       })
     }
   }

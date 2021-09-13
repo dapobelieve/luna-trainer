@@ -6,8 +6,11 @@
           Sign in with email
         </h2>
       </div>
-      <div class="tail-grid tail-gap-12 md:tail-gap-8">
-        <form class="tail-grid tail-gap-12 md:tail-gap-8" @submit.prevent="login">
+      <div class="tail-grid tail-gap-8 md:tail-gap-4">
+        <form
+          class="tail-grid tail-gap-12 md:tail-gap-4"
+          @submit.prevent="login"
+        >
           <div class="tail-grid">
             <label
               for="userName"
