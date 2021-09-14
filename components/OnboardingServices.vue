@@ -18,8 +18,8 @@
         <div class="">
           <input
             id="service"
-            v-model="services.title"
-            placeholder="Separation Anxiety (Replace this title)"
+            v-model="services.description"
+            placeholder="Separation Anxiety (Replace this description)"
             class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
@@ -32,16 +32,18 @@
           Type of appointment (you can tick both options)
           <span class="tail-text-red-700">*</span>
         </label>
-        <div class="tail-flex tail-flex-col sm:tail-flex-row tail-space-y-2 sm:tail-space-y-0 sm:tail-space-x-2">
+        <div
+          class="tail-flex tail-flex-col sm:tail-flex-row tail-space-y-2 sm:tail-space-y-0 sm:tail-space-x-2"
+        >
           <label
             class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full"
             :class="{
-              'tail-bg-blue-200': services.appointmentType.includes('remote')
+              'tail-bg-blue-200': services.appointmentTypes.includes('remote')
             }"
           >
             <input
               id="remote"
-              v-model="services.appointmentType"
+              v-model="services.appointmentTypes"
               aria-describedby="remote-description"
               name="remote"
               type="checkbox"
@@ -60,12 +62,14 @@
           <label
             class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full"
             :class="{
-              'tail-bg-blue-200': services.appointmentType.includes('in-person')
+              'tail-bg-blue-200': services.appointmentTypes.includes(
+                'in-person'
+              )
             }"
           >
             <input
               id="inPerson"
-              v-model="services.appointmentType"
+              v-model="services.appointmentTypes"
               aria-describedby="remote-description"
               name="remote"
               type="checkbox"
@@ -94,10 +98,11 @@
         <div class="">
           <input
             id="price"
-            v-model.number="services.price"
-            placeholder="GBP (£)"
+            v-model.number="services.pricing.amount"
+            :placeholder="
+              $store.state.profile.trainnerRegData.personalProfile.currency
+            "
             type="number"
-            name="price"
             class="tail-py-1 tail-block tail-w-full tail-shadow-sm focus:tail-ring-indigo-500 focus:tail-border-indigo-500 tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
           />
         </div>
@@ -150,9 +155,12 @@ export default {
     return {
       selectedService: null,
       services: {
-        title: '',
-        appointmentType: [],
-        price: ''
+        description: '',
+        appointmentTypes: [],
+        pricing: {
+          plan: 'hourly',
+          amount: ''
+        }
       }
     }
   },
@@ -162,13 +170,17 @@ export default {
       editing: state => state.profile.editingServiceCard
     }),
     disabled () {
-      return Boolean(this.services.title) && Boolean(this.services.price) && this.services.appointmentType.length
+      return (
+        Boolean(this.services.description) &&
+        Boolean(this.services.pricing.amount) &&
+        this.services.appointmentTypes.length
+      )
     },
     disableUpdate () {
       if (this.disabled) {
         return (
           Object.values(this.services).toString() ===
-            Object.values(this.selectedService).toString()
+          Object.values(this.selectedService).toString()
         )
       }
       return true
@@ -177,9 +189,9 @@ export default {
   watch: {
     selectedServiceIndex (newValue, oldValue) {
       this.selectedService = this.servicesFromStore[newValue]
-      this.services.title = this.selectedService.title
-      this.services.appointmentType = this.selectedService.appointmentType
-      this.services.price = this.selectedService.price
+      this.services.description = this.selectedService.description
+      this.services.appointmentTypes = this.selectedService.appointmentTypes
+      this.services.pricing.amount = this.selectedService.pricing.amount
     },
     servicesFromStore (newValue, oldValue) {
       this.$emit('validity', Boolean(!this.servicesFromStore.length))
@@ -192,10 +204,10 @@ export default {
   },
   validations: {
     services: {
-      price: {
+      'pricing.amount': {
         required
       },
-      title: {
+      description: {
         required
       }
     }
@@ -207,21 +219,47 @@ export default {
     }),
     addNewService () {
       if (!this.disabled) {
-        this.$toast.error('All form fields are required', { position: 'top-right' })
-      } else if (this.servicesFromStore.length && this.servicesFromStore.some(s => s.title.toLowerCase() === this.services.title.toLowerCase())) {
-        this.$toast.error(`${this.services.title} service already exist`, { position: 'top-right' })
+        this.$toast.error('All form fields are required', {
+          position: 'top-right'
+        })
+      } else if (
+        this.servicesFromStore.length &&
+        this.servicesFromStore.some(
+          s =>
+            s.description.toLowerCase() ===
+            this.services.description.toLowerCase()
+        )
+      ) {
+        this.$toast.error(
+          `${this.services.description} service already exist`,
+          { position: 'top-right' }
+        )
       } else {
-        this.createService({ parent: 'services', type: 'services', value: { ...this.services } })
-        this.services.title = ''
-        this.services.appointmentType = []
-        this.services.price = ''
+        this.createService({
+          parent: 'services',
+          type: 'services',
+          value: { ...this.services }
+        })
+        this.services.description = ''
+        this.services.appointmentTypes = []
+        this.services.pricing = {
+          amount: '',
+          plan: 'hourly'
+        }
       }
     },
     saveEdit () {
       if (this.disableUpdate) {
-        this.$toast.error('You have not made any change to the service', { position: 'top-right' })
+        this.$toast.error('You have not made any change to the service', {
+          position: 'top-right'
+        })
       } else {
-        this.createService({ parent: 'services', type: 'updateService', index: this.selectedServiceIndex, value: { ...this.services } })
+        this.createService({
+          parent: 'services',
+          type: 'updateService',
+          index: this.selectedServiceIndex,
+          value: { ...this.services }
+        })
         this.cancelEdit()
         this.$toast.success('Service Updated', { position: 'top-right' })
       }
@@ -229,9 +267,12 @@ export default {
     cancelEdit () {
       this.setTempState({ editingServiceCard: false })
       this.selectedService = null
-      this.services.title = ''
-      this.services.appointmentType = []
-      this.services.price = ''
+      this.services.description = ''
+      this.services.appointmentTypes = []
+      this.services.pricing = {
+        amount: '',
+        plan: 'hourly'
+      }
     }
   }
 }

@@ -204,15 +204,15 @@
     <!-- end of bigger screen view -->
 
     <!-- only shows on bigger screens -->
-    <div
-      class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border tail-hidden lg:tail-block"
-    >
-      <template v-if="step === 2">
+    <template v-if="step === 2">
+      <div
+        class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border tail-hidden lg:tail-block"
+      >
         <onboarding-service-cards
           @editservice="selectedServiceProps = $event"
         />
-      </template>
-    </div>
+      </div>
+    </template>
     <!-- end of bigger screen view -->
 
     <!-- only shows on smaller screen -->
@@ -317,6 +317,12 @@ export default {
       )
     }
   },
+  mounted () {
+    if ('jumpto' in this.$route.query) {
+      const step = parseInt(this.$route.query.jumpto)
+      this.move(step)
+    }
+  },
   methods: {
     ...mapMutations({
       clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
@@ -378,6 +384,10 @@ export default {
         })
       } catch (err) {
         this.isLoading = false
+        this.$toast.error(
+          'Something went wrong',
+          { position: 'bottom-right' }
+        )
         if (err.response) {
           this.$toast.error(
             `Something went wrong: ${err.response.data.message}`,

@@ -26,8 +26,8 @@ export const state = () => ({
       email: '',
       petName: '',
       petBreed: '',
-      petAge: 2,
-      petGender: 'male'
+      petAge: '',
+      petGender: ''
     },
     stripe: false
   }
@@ -62,8 +62,8 @@ export const mutations = {
         email: '',
         petName: '',
         petBreed: '',
-        petAge: 2,
-        petGender: 'male'
+        petAge: '',
+        petGender: ''
       },
       stripe: false
     }
@@ -98,9 +98,10 @@ export const actions = {
     payload = {
       ...state.trainnerRegData.personalProfile,
       ...state.trainnerRegData.trainnerProfile,
-      ...state.trainnerRegData.services
+      services: state.trainnerRegData.services
     }
   ) {
+    console.log('the payload ', payload)
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
