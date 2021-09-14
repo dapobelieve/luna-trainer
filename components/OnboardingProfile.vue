@@ -99,14 +99,17 @@
             autocomplete="currency"
             class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
-            <option value="usd">
-              USD
+            <option value="AUD">
+              AUD
             </option>
-            <option value="gbp">
+            <option value="CAD">
+              CAD
+            </option>
+            <option value="GBP">
               GBP (£)
             </option>
-            <option value="cad">
-              CAD
+            <option value="USD">
+              USD
             </option>
           </select>
         </div>
