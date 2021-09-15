@@ -41,7 +41,7 @@
                   </dd>
                 </div>
               </div>
-              <div class="sm:col-span-1">
+              <!-- <div class="sm:col-span-1">
                 <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
                   City
                 </dt>
@@ -56,11 +56,11 @@
                     Post Code
                   </dt>
                   <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-                    <!-- {{ client && client.location.zip || 'Not Available' }} -->
+                    {{ client && client.location.zip || 'Not Available' }}
                     {{ client && client.zip || 'Not Available' }}
                   </dd>
                 </div>
-              </div>
+              </div> -->
             </dd>
           </div>
         </div>
@@ -91,54 +91,6 @@
           <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
             {{ client.pet[0] && client.pet[0].breed }}
           </dd>
-        </div>
-
-        <div class="sm:tail-col-span-2 tail-flex">
-          <i class="ns-envelope tail-text-2xl tail-invisible"></i>
-          <div class="tail-ml-4">
-            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Age
-            </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              {{ client && client.pet[0] && client.pet[0].age }} weeks
-            </dd>
-          </div>
-        </div>
-
-        <div class="sm:tail-col-span-2 tail-flex">
-          <i class="ns-building tail-text-2xl tail-text-gray-500"></i>
-          <div class="tail-ml-4">
-            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Training or Behavioural Type
-            </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              Not Available
-            </dd>
-          </div>
-        </div>
-
-        <div class="sm:tail-col-span-2 tail-flex">
-          <i class="ns-envelope tail-text-2xl tail-invisible"></i>
-          <div class="tail-ml-4">
-            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Age
-            </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              {{ client && client.pet[0] && client.pet[0].age }} weeks
-            </dd>
-          </div>
-        </div>
-
-        <div class="sm:tail-col-span-2 tail-flex">
-          <i class="ns-building tail-text-2xl tail-text-gray-500"></i>
-          <div class="tail-ml-4">
-            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Training or Behavioural Type
-            </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
-              Not Available
-            </dd>
-          </div>
         </div>
 
         <div class="sm:tail-col-span-2 tail-flex">
