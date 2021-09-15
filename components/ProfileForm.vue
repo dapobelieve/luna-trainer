@@ -55,7 +55,73 @@
         </div>
         <div>
           <label for="location">Location</label>
-          <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <div class="">
+          <select
+            v-model="profile.location"
+            autocomplete="country"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+          >
+            <option v-for="country in countries" :key="country.numericCode">
+              {{ country.name }}
+            </option>
+          </select>
+        </div>
+          <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
+        </div>
+        <div>
+          <label for="location">Time zone</label>
+            <div class="">
+          <select
+            id="timezone"
+            v-model="profile.timezone"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+          >
+            <option v-for="time in timezones" :key="time.index">
+              {{ time.text }}
+            </option>
+          </select>
+        </div>
+          <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
+        </div>
+        <div>
+          <label for="location">Date Format</label>
+            <div class="">
+          <select
+            id="dateformat"
+            v-model="profile.dateFormat"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+          >
+            <option value="DD/MM/YY">
+              DD/MM/YY
+            </option>
+            <option value="YY/MM/DD">
+              YY/MM/DD
+            </option>
+          </select>
+        </div>
+          <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
+        </div>
+        <div>
+          <label for="location">Currency</label>
+          <select
+            id="currency"
+            v-model="profile.currency"
+            autocomplete="currency"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+          >
+            <option value="AUD">
+              AUD
+            </option>
+            <option value="CAD">
+              CAD
+            </option>
+            <option value="GBP">
+              GBP (£)
+            </option>
+            <option value="USD">
+              USD
+            </option>
+          </select>
         </div>
         <div>
           <label for="business-name">Business Name</label>
@@ -63,7 +129,7 @@
         </div>
         <div>
           <label for="url">Website URL</label>
-          <input v-model="profile.webURL" type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input v-model="profile.websiteURL" type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div>
           <label for="experience">Years of experience</label>
@@ -89,6 +155,8 @@
 <script>
 import { mapActions } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
+import timezones from '~/timezones.json'
+import countries from '~/countries.json'
 
 export default {
   name: 'ProfileForm',
@@ -98,7 +166,9 @@ export default {
       profileImageUrl: this.$auth.user.imgURL,
       profileImageData: null,
       loading: false,
-      disabled: false
+      disabled: false,
+      countries,
+      timezones
     }
   },
   methods: {

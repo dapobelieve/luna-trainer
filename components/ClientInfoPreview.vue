@@ -52,7 +52,7 @@
         </p>
       </div>
     </div>
-    <div v-if="'address' && 'zip' in client.location" class="tail-flex tail-mb-5">
+    <div class="tail-flex tail-mb-5">
       <div class="tail-mr-5 tail-text-xl">
         <i class="ns-location-alt tail-mt-1 tail-text-gray-500"></i>
       </div>
@@ -60,15 +60,15 @@
         <p class="tail-capitalize tail-font-normal">
           Location
         </p>
-        <div v-if="'address' in client.location" class="tail-flex">
+        <div v-if="'location' in client" class="tail-flex">
           <p class="tail-capitalize tail-font-light tail-mr-1">
             Address:
           </p>
           <span class="tail-capitalize tail-text-gray-500 tail-font-normal">
-            {{ client.location.address }}
+            {{ client.location }}
           </span>
         </div>
-        <div v-if="'zip' in client.location" class="tail-flex">
+        <div v-if="'zip' in client" class="tail-flex">
           <p class="tail-capitalize tail-font-light tail-mr-1">
             Zip Code:
           </p>

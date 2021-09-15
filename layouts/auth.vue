@@ -61,56 +61,18 @@
 </template>
 <script>
 export default {
-  // data () {
-  //   return {
-  //     actionText: this.$route.name === 'Auth-SignIn' ? 'Sign in' : 'Sign up'
-  //   }
-  // },
   computed: {
     routeName () {
       return this.$route.name
     }
   },
-  created () {
-    const { redirectClient } = this.$route.query
-    if (redirectClient === 'google') {
-      this.handleGoogleAuthCallback()
-    }
-  },
   methods: {
-    handleOnClickGoogleSignIn () {
+    handleOnClickGoogleSignUp () {
       const { host, protocol } = window.location
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${protocol}//${host}/Auth/SignIn%3FredirectClient%3Dgoogle`
     },
-    handleOnClickGoogleSignUp () {
+    handleOnClickGoogleSignIn () {
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
-    },
-    handleGoogleAuthCallback () {
-      this.authenticateWithTokens({
-        token: this.$cookies.get('access_token'),
-        refreshToken: this.$cookies.get('refresh_token')
-      })
-    },
-    authenticateWithTokens () {
-      // set necessary tokens
-      // this.$store.dispatch('authorize/setToken', tokens)
-      // fetch user profile
-      this.$store.dispatch('profile/getUserProfile').then((response) => {
-        if (response === null) {
-          this.$router.push({ name: 'Auth-onboardingProfileSetup' })
-        } else {
-          this.$auth.setUser(response)
-          // set user in local storage
-          const getWelpUser = localStorage.getItem('getWelpUser')
-          // eslint-disable-next-line curly
-          if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
-          localStorage.setItem('getWelpUser', JSON.stringify(response))
-
-          // set user in store
-          this.$store.commit('profile/SET_GETWELP_USER', response)
-          this.$router.push({ name: 'Dashboard' })
-        }
-      })
     }
   }
 }

@@ -7,12 +7,12 @@ export const state = () => ({
       firstName: '',
       lastName: '',
       businessName: '',
-      website: '',
-      country: '',
+      websiteURL: '',
+      location: '',
       currency: '',
       phone: '',
       timezone: '',
-      dateformat: 'DD/MM/YY'
+      dateFormat: 'DD/MM/YY'
     },
     trainnerProfile: {
       accreditations: [],
@@ -43,12 +43,12 @@ export const mutations = {
         firstName: '',
         lastName: '',
         businessName: '',
-        website: '',
-        country: '',
+        websiteURL: '',
+        location: '',
         currency: '',
         phone: '',
         timezone: '',
-        dateformat: 'DD/MM/YY'
+        dateFormat: 'DD/MM/YY'
       },
       trainnerProfile: {
         accreditations: [],

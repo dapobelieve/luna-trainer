@@ -362,7 +362,6 @@ export default {
       this.isLoading = true
       try {
         return this.create().then((result) => {
-          console.log('result ', result)
           if (result.status === 'success') {
             if (this.isClientFormFilled) {
               return this.addClient(this.clientInfo).then((result) => {

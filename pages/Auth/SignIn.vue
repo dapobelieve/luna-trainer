@@ -140,10 +140,19 @@ export default {
       }
     }
   },
+  created () {
+    const { redirectClient } = this.$route.query
+    if (redirectClient === 'google') {
+      this.handleGoogleAuthCallback()
+    }
+  },
   methods: {
-    authenticateWithTokens () {
+    authenticateWithTokens (tokens) {
       // set necessary tokens
-      // this.$store.dispatch('authorize/setToken', tokens)
+      this.$store.dispatch('authorize/setToken', tokens)
+      this.authenticate()
+    },
+    authenticate () {
       // fetch user profile
       this.$store.dispatch('profile/getUserProfile').then((response) => {
         if (response === null) {
@@ -182,7 +191,7 @@ export default {
               this.$router.push({ name: 'Auth-CreateNewPassword' })
               this.$toast.info('Please Create A New Password', { position: 'bottom-right' })
             } else {
-              this.authenticateWithTokens()
+              this.authenticate()
             }
           })
           .catch(() => {
@@ -192,6 +201,16 @@ export default {
             this.isLoading = false
           })
       }
+    },
+    handleGoogleAuthCallback () {
+      // console.log('hi', {
+      //   token: this.$cookies.get('access_token'),
+      //   refreshToken: this.$cookies.get('refresh_token')
+      // })
+      this.authenticateWithTokens({
+        token: this.$cookies.get('access_token'),
+        refreshToken: this.$cookies.get('refresh_token')
+      })
     }
   }
 }

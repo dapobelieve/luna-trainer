@@ -55,15 +55,15 @@
       </div>
       <div class="sm:tail-col-span-2">
         <label
-          for="website"
+          for="websiteURL"
           class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
         >
-          What’s your website URL? <span class="tail-text-red-700">*</span>
+          What’s your websiteURL URL? <span class="tail-text-red-700">*</span>
         </label>
         <div class="">
           <input
             id="website"
-            v-model="website"
+            v-model="websiteURL"
             class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
@@ -77,7 +77,7 @@
         </label>
         <div class="">
           <select
-            v-model="country"
+            v-model="location"
             autocomplete="country"
             class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
@@ -158,7 +158,7 @@
         <div class="">
           <select
             id="dateformat"
-            v-model="dateformat"
+            v-model="dateFormat"
             class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
             <option value="DD/MM/YY">
@@ -209,16 +209,16 @@ export default {
         this.setProfileData({ parent: 'personalProfile', key: 'businessName', value: val })
       }
     },
-    website: {
-      get () { return this.personalProfile.website },
+    websiteURL: {
+      get () { return this.personalProfile.websiteURL },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'website', value: val })
+        this.setProfileData({ parent: 'personalProfile', key: 'websiteURL', value: val })
       }
     },
-    country: {
-      get () { return this.personalProfile.country },
+    location: {
+      get () { return this.personalProfile.location },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'country', value: val })
+        this.setProfileData({ parent: 'personalProfile', key: 'location', value: val })
       }
     },
     currency: {
@@ -239,10 +239,10 @@ export default {
         this.setProfileData({ parent: 'personalProfile', key: 'timezone', value: val })
       }
     },
-    dateformat: {
-      get () { return this.personalProfile.dateformat },
+    dateFormat: {
+      get () { return this.personalProfile.dateFormat },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'dateformat', value: val })
+        this.setProfileData({ parent: 'personalProfile', key: 'dateFormat', value: val })
       }
     }
   },
@@ -266,10 +266,10 @@ export default {
     businessName: {
       required
     },
-    website: {
+    websiteURL: {
       required
     },
-    country: {
+    location: {
       required
     },
     currency: {
