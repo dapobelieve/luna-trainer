@@ -5,6 +5,7 @@
         ? 'dobermann'
         : 'shiba-inu'
     ]"
+    class="tail-overflow-y-auto"
   >
     <div
       class="tail-flex tail-items-center tail-flex-col tail-px-5 lg:tail-flex-row md:tail-px-4 lg:tail-px-0 tail-justify-center centered"
@@ -82,12 +83,6 @@ main {
     height: auto;
     min-height: 100vh;
 }
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 .height{
   height: 30rem
 }
@@ -99,7 +94,7 @@ main {
   .height{
   width: 30rem;
   height: 1px;
-}
+ }
 }
 
 @media only screen and (min-width: 769px) {
@@ -107,6 +102,12 @@ main {
     margin-left: 99px;
     width: 100%;
   }
+  .centered {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
   article {
     min-width: 30rem;
