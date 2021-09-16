@@ -43,7 +43,6 @@
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
             <input v-model="profile.firstName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
-
           <div class="tail-w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
             <input v-model="profile.lastName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
@@ -66,7 +65,6 @@
               </option>
             </select>
           </div>
-          <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
         </div>
         <div>
           <label for="location">Time zone</label>
@@ -81,7 +79,6 @@
               </option>
             </select>
           </div>
-          <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
         </div>
         <div>
           <label for="location">Date Format</label>
@@ -99,7 +96,6 @@
               </option>
             </select>
           </div>
-          <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
         </div>
         <div>
           <label for="location">Currency</label>
@@ -125,7 +121,7 @@
         </div>
         <div>
           <label for="business-name">Business Name</label>
-          <input v-model="profile.businessName" disabled type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input v-model="profile.businessName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div>
           <label for="url">Website URL</label>
