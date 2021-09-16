@@ -18,49 +18,64 @@
           <i class="ns-envelope tail-text-2xl tail-text-gray-500"></i>
           <div class="tail-ml-4">
             <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-              Email Address
-            </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-              {{ client && client.email }}
-            </dd>
-          </div>
-          <div class="sm:col-span-1">
-            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
               Telephone
             </dt>
-            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
+            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
               {{ client && client.phoneNumber || 'Not Available' }}
-              <div class="sm:tail-col-span-1 tail-flex">
-                <i class="ns-location-alt tail-text-2xl tail-text-gray-500"></i>
-                <div class="tail-ml-4">
-                  <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-                    Address
-                  </dt>
-                  <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-                    {{ client && client.location || 'Not Available' }}
-                  </dd>
-                </div>
-              </div>
-              <!-- <div class="sm:col-span-1">
-                <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-                  City
-                </dt>
-                <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-                  {{ client && client.city || 'Not Available' }}
-                </dd>
-              </div>
-              <div class="sm:tail-col-span-2 tail-flex">
-                <i class="ns-envelope tail-text-2xl tail-invisible"></i>
-                <div class="tail-ml-4">
-                  <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
-                    Post Code
-                  </dt>
-                  <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
-                    {{ client && client.location.zip || 'Not Available' }}
-                    {{ client && client.zip || 'Not Available' }}
-                  </dd>
-                </div>
-              </div> -->
+            </dd>
+          </div>
+        </div>
+
+        <div class="sm:col-span-1">
+          <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
+            Email
+          </dt>
+          <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
+            {{ client && client.email }}
+          </dd>
+        </div>
+
+        <div class="sm:tail-col-span-2 tail-flex">
+          <i class="ns-envelope tail-text-2xl tail-invisible"></i>
+          <div class="tail-ml-4">
+            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
+              Post Code
+            </dt>
+            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
+              {{ client && client.zip || 'Not Available' }}
+            </dd>
+          </div>
+        </div>
+
+        <div class="sm:tail-col-span-1 tail-flex">
+          <i class="ns-location-alt tail-text-2xl tail-text-gray-500"></i>
+          <div class="tail-ml-4">
+            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
+              Address
+            </dt>
+            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
+              {{ client && client.location || 'Not Available' }}
+            </dd>
+          </div>
+        </div>
+
+        <div class="sm:col-span-1">
+          <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
+            City
+          </dt>
+          <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
+            {{ client && client.city || 'Not Available' }}
+          </dd>
+        </div>
+
+        <div class="sm:tail-col-span-2 tail-flex">
+          <i class="ns-envelope tail-text-2xl tail-invisible"></i>
+          <div class="tail-ml-4">
+            <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
+              Post Code
+            </dt>
+            <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
+              {{ client && client.zip || 'Not Available' }}
             </dd>
           </div>
         </div>
