@@ -58,7 +58,7 @@
           for="websiteURL"
           class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
         >
-          What’s your websiteURL URL? <span class="tail-text-red-700">*</span>
+          What’s your website? <span class="tail-text-red-700">*</span>
         </label>
         <div class="">
           <input
