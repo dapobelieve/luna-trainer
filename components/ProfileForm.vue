@@ -4,7 +4,7 @@
       <form autocomplete="off" class="tail-grid tail-gap-6">
         <div>
           <label for="location" class="form-label">Profile Image</label>
-          <div style="cursor: pointer" class="border-dashed tail-flex tail-items-center tail-rounded tail-p-3" @click="()=>this.$refs.fileInput.click()">
+          <div style="cursor: pointer" class="border-dashed tail-flex tail-items-center tail-rounded tail-p-3" @click="()=>$refs.fileInput.click()">
             <input
               ref="fileInput"
               type="file"
@@ -41,64 +41,64 @@
         <div class="tail-flex tail-justify-between tail-flex-col lg:tail-flex-row tail-gap-6">
           <div class="tail-w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-            <input type="text" :value="profile.firstName" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="profile.firstName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
 
           <div class="tail-w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-            <input type="text" :value="profile.lastName" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="profile.lastName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
         </div>
         <div>
           <label for="email">Email address</label>
-          <input disabled type="email" :value="profile.email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md tail-bg-gray-200">
+          <input v-model="profile.email" disabled type="email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md tail-bg-gray-200">
         </div>
         <div>
           <label for="location">Location</label>
-            <div class="">
-          <select
-            v-model="profile.location"
-            autocomplete="country"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
-          >
-            <option v-for="country in countries" :key="country.numericCode">
-              {{ country.name }}
-            </option>
-          </select>
-        </div>
+          <div class="">
+            <select
+              v-model="profile.location"
+              autocomplete="country"
+              class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            >
+              <option v-for="country in countries" :key="country.numericCode">
+                {{ country.name }}
+              </option>
+            </select>
+          </div>
           <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
         </div>
         <div>
           <label for="location">Time zone</label>
-            <div class="">
-          <select
-            id="timezone"
-            v-model="profile.timezone"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
-          >
-            <option v-for="time in timezones" :key="time.index">
-              {{ time.text }}
-            </option>
-          </select>
-        </div>
+          <div class="">
+            <select
+              id="timezone"
+              v-model="profile.timezone"
+              class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            >
+              <option v-for="time in timezones" :key="time.index">
+                {{ time.text }}
+              </option>
+            </select>
+          </div>
           <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
         </div>
         <div>
           <label for="location">Date Format</label>
-            <div class="">
-          <select
-            id="dateformat"
-            v-model="profile.dateFormat"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
-          >
-            <option value="DD/MM/YY">
-              DD/MM/YY
-            </option>
-            <option value="YY/MM/DD">
-              YY/MM/DD
-            </option>
-          </select>
-        </div>
+          <div class="">
+            <select
+              id="dateformat"
+              v-model="profile.dateFormat"
+              class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            >
+              <option value="DD/MM/YY">
+                DD/MM/YY
+              </option>
+              <option value="YY/MM/DD">
+                YY/MM/DD
+              </option>
+            </select>
+          </div>
           <!-- <input type="text" :value="profile.location" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"> -->
         </div>
         <div>
@@ -125,15 +125,15 @@
         </div>
         <div>
           <label for="business-name">Business Name</label>
-          <input disabled type="text" :value="profile.businessName" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input v-model="profile.businessName" disabled type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div>
           <label for="url">Website URL</label>
-          <input v-model="profile.websiteURL" type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input v-model="profile.websiteUrl" type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div>
           <label for="experience">Years of experience</label>
-          <input type="text" :value="profile.experience" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input v-model="profile.experience" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
         </div>
         <div>
           <label for="Specialization">Specialization</label>
