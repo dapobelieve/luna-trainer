@@ -55,10 +55,10 @@
       </div>
       <div class="sm:tail-col-span-2">
         <label
-          for="website"
+          for="websiteURL"
           class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
         >
-          What’s your website URL? <span class="tail-text-red-700">*</span>
+          What’s your website url? <span class="tail-text-red-700">*</span>
         </label>
         <div class="">
           <input
@@ -266,7 +266,7 @@ export default {
     businessName: {
       required
     },
-    website: {
+    websiteURL: {
       required
     },
     location: {
