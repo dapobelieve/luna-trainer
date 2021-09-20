@@ -14,10 +14,10 @@
       <div class="tail-grid tail-gap-4">
         <form class="tail-grid tail-gap-4" @submit.prevent="reset">
           <div class="">
-            <div class="tail-grid">
+            <div class="tail-grid tail-mb-6">
               <div class="tail-flex tail-justify-between tail-items-center">
                 <label for="password" class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required">Old Password</label>
-                <password-toggle v-model="showPassword" />
+                <password-toggle v-model="showOldPassword" />
               </div>
               <input
                 v-model.trim="$v.userInfo.oldPassword.$model"
@@ -46,7 +46,7 @@
             <div class="tail-grid">
               <div class="tail-flex tail-justify-between tail-items-center">
                 <label for="password" class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required">New Password</label>
-                <password-toggle v-model="showPassword" />
+                <password-toggle v-model="showNewPassword" />
               </div>
               <input
                 v-model.trim="$v.userInfo.newPassword.$model"
@@ -95,7 +95,8 @@ export default {
   auth: false,
   data () {
     return {
-      showPassword: false,
+      showOldPassword: false,
+      showNewPassword: false,
       isLoading: false,
       userInfo: {
         oldPassword: '',

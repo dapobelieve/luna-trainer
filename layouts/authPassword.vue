@@ -21,7 +21,7 @@
         />
       </header>
       <article
-        class="md:tail-shadow tail-z-0 tail-rounded-lg tail-m-4 tail-overflow-hidden tail-max-w-xs  md:tail-max-w-lg md:tail-mb-5 md:tail-border tail-border-gray-300"
+        class="tail-z-0 tail-rounded-lg tail-m-4 tail-overflow-hidden tail-max-w-xs  md:tail-max-w-lg md:tail-mb-5"
       >
         <div
           class="tail-h-full md:tail-h-auto"

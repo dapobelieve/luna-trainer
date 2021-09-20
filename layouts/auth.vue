@@ -38,15 +38,17 @@
           </button>
         </div>
       </header>
-      <div class="tail-relative tail-m-3">
+      <div class="tail-relative tail-m-3 tail-hidden lg:tail-block">
         <hr class="tail-border-0 tail-bg-gray-300 tail-ml-8 tail-text-gray-500 lg:tail-w-px height lg:tail-m-0 tail-mb-4">
         <div
           class="tail-w-full tail-absolute tail-transform lg:tail--translate-y-64 tail--translate-y-8 tail-flex tail-align-center tail-justify-center"
         >
           <small
-            class="tail-border tail-rounded-full or-secondary tail-text-grey tail-p-2 body-background"
+            class=" or-secondary tail-text-grey tail-p-2 body-background"
           >OR</small>
         </div>
+      </div>
+      <div data-text="OR" class="divide tail-block lg:tail-hidden">
       </div>
       <article
         class="tail-z-0 tail-m-4 lg:tail-ml-14 tail-overflow-hidden tail-max-w-xs md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full"
@@ -95,9 +97,29 @@ main {
   width: 30rem;
   height: 1px;
  }
+   .divide[data-text] {
+    margin: 2rem 0;
+    color: #666;
+}
+.divide[data-text]:before {
+    content: attr(data-text);
+    position: absolute;
+    padding: .25rem .75rem;
+    background: rgba(240, 245, 250, 1);
+    margin-bottom: 2px;
+}
+.divide {
+    border: 1px solid rgba(14,19,24,.07);
+    margin: 30px 0 15px 0;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 }
 
 @media only screen and (min-width: 769px) {
+
   .views {
     margin-left: 99px;
     width: 100%;
