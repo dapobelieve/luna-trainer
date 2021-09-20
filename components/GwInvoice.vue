@@ -133,7 +133,7 @@
         appear here.
       </p>
       <div v-if="status === 'All'" class="tail-w-max tail-mx-auto">
-        <button class="base-button" type="button" @click="createInvoice">
+        <button class="base-button" type="button" @click="$router.push({ name: 'CreateInvoice'})">
           Create an invoice
         </button>
       </div>
@@ -162,43 +162,6 @@
       </template>
       <CreateNewInvoice @close="openInvoice = $event" />
     </Modal>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
-      <template v-slot:title>
-        {{
-          !acceptedClients.length
-            ? "No Invited Clients"
-            : "Services Unavailable"
-        }}
-      </template>
-      <template v-slot:subtitle>
-        {{
-          !acceptedClients.length
-            ? "You need to invite a client before you can create an invoice."
-            : "You need to add at least one service before you can create an invoice."
-        }}
-      </template>
-      <template v-slot:actionButtons>
-        <button
-          v-if="!acceptedClients.length"
-          class="base-button tail-normal-case"
-          style="width: fit-content"
-          @click="inviteClient = true"
-        >
-          Invite a client
-        </button>
-        <NuxtLink
-          v-else
-          to="/Settings#services"
-          class="base-button tail-normal-case"
-          style="width: fit-content"
-        >
-          Add a service
-        </NuxtLink>
-      </template>
-    </NotificationsModal>
     <Modal
       :input-width="40"
       :is-open="inviteClient"
@@ -225,8 +188,7 @@ export default {
       openModalDetails: false,
       currentInvoice: {},
       openInvoice: false,
-      inviteClient: false,
-      showNotification: false
+      inviteClient: false
     }
   },
   computed: {
@@ -273,13 +235,6 @@ export default {
     resetModal (event) {
       this.openModalDetails = event
       this.currentInvoice = {}
-    },
-    createInvoice () {
-      if (!this.acceptedClients.length || !this.$auth.user.services.length) {
-        this.showNotification = true
-      } else {
-        this.openModal = true
-      }
     }
   }
 }
