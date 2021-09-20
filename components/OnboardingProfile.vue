@@ -19,7 +19,7 @@
             v-model="firstName"
             type="text"
             name="first-name"
-            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+            class="tail-bg-white tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
           />
         </div>
       </div>
@@ -34,7 +34,7 @@
             v-model="lastName"
             type="text"
             name="last-name"
-            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+            class="tail-bg-white tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
           />
         </div>
       </div>
@@ -49,7 +49,7 @@
           <input
             id="businessName"
             v-model="businessName"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
@@ -64,7 +64,7 @@
           <input
             id="website"
             v-model="websiteURL"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
@@ -79,7 +79,7 @@
           <select
             v-model="location"
             autocomplete="country"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
             <option v-for="country in countries" :key="country.numericCode">
               {{ country.name }}
@@ -97,7 +97,7 @@
             id="currency"
             v-model="currency"
             autocomplete="currency"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
             <option value="AUD">
               AUD
@@ -125,7 +125,7 @@
             v-model="phone"
             type="text"
             name="phone"
-            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-text-sm tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
           />
         </div>
       </div>
@@ -140,7 +140,7 @@
           <select
             id="timezone"
             v-model="timezone"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
             <option v-for="time in timezones" :key="time.index">
               {{ time.text }}
@@ -159,7 +159,7 @@
           <select
             id="dateformat"
             v-model="dateFormat"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
           >
             <option value="DD/MM/YY">
               DD/MM/YY

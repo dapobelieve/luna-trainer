@@ -6,7 +6,7 @@
         :key="tag.index"
         class="tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1 tail-ml-2"
       >
-        <span class="tail-ml-1 tail-capitalize">
+        <span class="tail-ml-1 tail-text-sm tail-capitalize">
           {{ tag }}
         </span>
         <button
@@ -25,7 +25,7 @@
       <input
         v-model.trim="input"
         :tabindex="tabindex"
-        class="tail-border-0 tail-text-blue-400 tail-ml-2"
+        class="tail-border-0 tail-text-blue-400 tail-text-sm tail-ml-2"
         placeholder="Type in here..."
         @keydown.enter.prevent="addItem($event)"
         @keydown.tab.prevent="addItem($event)"
