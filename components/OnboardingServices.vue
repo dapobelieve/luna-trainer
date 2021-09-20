@@ -103,7 +103,7 @@
               $store.state.profile.trainnerRegData.personalProfile.currency
             "
             type="number"
-            class="tail-py-1 tail-block tail-w-full tail-shadow-sm focus:tail-ring-indigo-500 focus:tail-border-indigo-500 tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+            class="tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm focus:tail-ring-indigo-500 focus:tail-border-indigo-500 tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
           />
         </div>
       </div>

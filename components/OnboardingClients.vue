@@ -19,7 +19,7 @@
           <input
             id="firstName"
             v-model="firstName"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
@@ -34,7 +34,7 @@
           <input
             id="lastName"
             v-model="lastName"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
@@ -49,7 +49,7 @@
           <input
             id="email"
             v-model="email"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
@@ -64,7 +64,7 @@
           <input
             id="petName"
             v-model="petName"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
@@ -79,7 +79,7 @@
           <input
             id="petBreed"
             v-model="petBreed"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
           />
         </div>
       </div>
