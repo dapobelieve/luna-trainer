@@ -16,18 +16,19 @@
           <div class="">
             <div class="tail-grid tail-mb-6">
               <div class="tail-flex tail-justify-between tail-items-center">
-                <label for="password" class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required">Old Password</label>
+                <label for="password" class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required">Temporary Password</label>
                 <password-toggle v-model="showOldPassword" />
               </div>
               <input
-                v-model.trim="$v.userInfo.oldPassword.$model"
+                v-model.lazy="$v.userInfo.oldPassword.$model"
                 tabindex="2"
                 :disabled="isLoading"
-                :type="showPassword ? 'text':'password'"
+                :type="showOldPassword ? 'text':'password'"
                 class="tail-bg-white tail-py-2 tail-px-4 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 :class="{invalid: $v.userInfo.oldPassword.$error}"
+                @blur="$v.userInfo.oldPassword.$touch()"
               />
-              <div v-if="$v.$anyDirty" class="tail-mt-0.5">
+              <div v-if="$v.userInfo.oldPassword.$error" class="tail-mt-0.5">
                 <small
                   v-if="!$v.userInfo.oldPassword.required"
                   class="tail-text-gray-600"
@@ -49,14 +50,15 @@
                 <password-toggle v-model="showNewPassword" />
               </div>
               <input
-                v-model.trim="$v.userInfo.newPassword.$model"
+                v-model.lazy="$v.userInfo.newPassword.$model"
                 tabindex="2"
                 :disabled="isLoading"
-                :type="showPassword ? 'text':'password'"
+                :type="showNewPassword ? 'text':'password'"
                 class="tail-bg-white tail-py-2 tail-px-4 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 :class="{invalid: $v.userInfo.newPassword.$error}"
+                @blur="$v.userInfo.newPassword.$touch()"
               />
-              <div v-if="$v.$anyDirty" class="tail-mt-0.5">
+              <div v-if="$v.userInfo.newPassword.$error" class="tail-mt-0.5">
                 <small
                   v-if="!$v.userInfo.newPassword.required"
                   class="tail-text-gray-600"
