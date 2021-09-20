@@ -1,109 +1,83 @@
 <template>
-  <div class="tail-max-w-full">
-    <div class="tail-grid tail-gap-6 md:tail-gap-10 tail-w-full tail-p-6 tail-bg-white tail-rounded-md tail-text-gray-600">
-      <div class="tail-grid tail-grid-col-12">
-        <h2 class="tail-text-2xl tail-font-semibold">
-          Sign in with email
-        </h2>
-      </div>
-      <div class="tail-grid tail-gap-8 md:tail-gap-4">
-        <form
-          class="tail-grid tail-gap-12 md:tail-gap-4"
-          @submit.prevent="login"
-        >
-          <div class="tail-grid">
-            <label
-              for="userName"
-              class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required"
-            >
-              Email
-            </label>
-            <input
-              v-model.trim="$v.userInfo.userName.$model"
-              tabindex="1"
-              :disabled="isLoading"
-              autocomplete="off"
-              type="text"
-              class="tail-bg-white tail-py-2 tail-px-4 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            />
-            <div v-if="$v.$dirty" class="tail-mt-0.5">
-              <small
-                v-if="!$v.userInfo.userName.required"
-                class="tail-text-gray-600"
-              >
-                Field is required.
-              </small>
-            </div>
+  <div class="tail-w-full">
+    <div
+      class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
+    >
+      <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Sign in with email</h1>
+      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="login">
+        <div class="tail-flex tail-flex-col tail-gap-1">
+          <label for="userName" class="required">Email</label>
+          <input
+            v-model.trim="$v.userInfo.userName.$model"
+            tabindex="1"
+            :disabled="isLoading"
+            autocomplete="off"
+            type="text"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+          />
+          <div v-if="$v.$dirty">
+            <small
+              v-if="!$v.userInfo.userName.required"
+              class="tail-text-gray-500"
+            >Field is required.</small>
           </div>
-          <div class="tail-grid">
-            <div class="tail-flex tail-justify-between tail-items-center">
-              <label for="password" class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required">Password</label>
-              <password-toggle v-model="showPassword" />
-            </div>
+        </div>
+        <div class="tail-flex tail-flex-col tail-gap-1">
+          <label for="password" class="required">Password</label>
+          <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
               v-model.trim="$v.userInfo.password.$model"
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-py-2 tail-px-4 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
               :class="{invalid: $v.userInfo.password.$error}"
             />
-            <div v-if="$v.$anyDirty" class="tail-mt-0.5">
-              <small
-                v-if="!$v.userInfo.password.required"
-                class="tail-text-gray-600"
-              >
-                Password is required.
-              </small>
-              <small
-                v-if="!$v.userInfo.password.minLength"
-                class="tail-text-gray-600"
-              >
-                Password must have at least
-                {{ $v.userInfo.password.$params.minLength.min }} letters.
-              </small>
-            </div>
+            <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
-          <!-- <div class="tail-flex tail-justify-center">
+          <div v-if="$v.$anyDirty">
+            <small
+              v-if="!$v.userInfo.password.required"
+              class="tail-text-gray-500"
+            >Password is required.</small>
+            <small v-if="!$v.userInfo.password.minLength" class="tail-text-gray-500">
+              Password must have at least
+              {{ $v.userInfo.password.$params.minLength.min }} letters.
+            </small>
+          </div>
+        </div>
+        <!-- <div class="tail-flex tail-justify-center">
             <button-spinner type="submit" :loading="isLoading" :disabled="$v.$invalid">
               Login
             </button-spinner>
-          </div> -->
-          <div class="tail-flex tail-justify-between tail-items-center tail-py-4">
-            <div>
-              <NuxtLink
-                :to="{ name: 'Auth-ForgotPassword' }"
-                class="tail-text-blue-500 tail-no-underline"
-              >
-                Forgot your password?
-              </NuxtLink>
-            </div>
-            <button
-              style="width: fit-content"
-              :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
-              type="submit"
-              :loading="isLoading"
-              :disabled="$v.$invalid"
-              class="primary-button"
-            >
-              <SingleLoader v-if="isLoading" class="tail-mr-2" />
-              Login
-            </button>
+        </div>-->
+        <div class="tail-flex tail-justify-between tail-items-center">
+          <div>
+            <NuxtLink
+              :to="{ name: 'Auth-ForgotPassword' }"
+              class="tail-text-blue-500 tail-font-medium tail-no-underline hover:tail-underline"
+            >Forgot your password?</NuxtLink>
           </div>
-        </form>
-      </div>
+          <button
+            :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
+            type="submit"
+            :loading="isLoading"
+            :disabled="$v.$invalid"
+            class="primary-button"
+          >
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />Login
+          </button>
+        </div>
+      </form>
     </div>
-    <div class="tail-text-center tail-mt-4 lg:tail-mt-8 tail-mb-6 md:tail-mb-0  tail-bg-white tail-rounded-md tail-py-8 tail-px-12">
-      <span
-        class="tail-text-gray-400"
-      >Don't have an account?
-        <NuxtLink
-          :to="{ name: 'Auth-SignUp' }"
-          class="tail-text-blue-500 tail-no-underline"
-        >
-          Sign up
-        </NuxtLink>
-      </span>
+    <div
+      class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6"
+    >
+      Don't have an account?
+      <NuxtLink
+        :to="{ name: 'Auth-SignUp' }"
+        class="tail-text-blue-500 tail-font-medium tail-ml-1 tail-no-underline hover:tail-underline"
+      >Sign up</NuxtLink>
     </div>
   </div>
 </template>
@@ -217,7 +191,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .required:after {
-    content:" *";
-    color: red;
-  }
+  content: " *";
+  @apply tail-text-red-500 tail-text-sm;
+}
 </style>

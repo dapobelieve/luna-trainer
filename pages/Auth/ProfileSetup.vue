@@ -247,6 +247,6 @@ export default {
 }
  .required:after {
     content:" *";
-    color: red;
+    @apply tail-text-red-500 tail-text-sm;
   }
 </style>
