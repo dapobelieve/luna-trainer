@@ -31,7 +31,7 @@
         <template v-else-if="step === 2">
           <onboarding-services
             :selected-service-index="selectedServiceProps"
-            @clearSelectedServiceIndex="checMe($event)"
+            @clearSelectedServiceIndex="selectedServiceProps = $event"
             @validity="allow($event)"
           />
         </template>
@@ -139,7 +139,7 @@
         <template v-else-if="step === 2">
           <onboarding-services
             :selected-service-index="selectedServiceProps"
-            @clearSelectedServiceIndex="checMe($event)"
+            @clearSelectedServiceIndex="selectedServiceProps = $event"
             @validity="allow($event)"
           />
         </template>
@@ -350,10 +350,6 @@ export default {
       } else {
         this.step++
       }
-    },
-    checMe (e) {
-      console.log('this is e ', e)
-      this.selectedServiceProps = e
     },
     decreaseStep () {
       if (this.editingService) {
