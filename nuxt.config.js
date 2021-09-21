@@ -1,6 +1,5 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
-  ssr: false,
   head: {
     title: 'Getwelp',
     titleTemplate: 'Getwelp | %s',
