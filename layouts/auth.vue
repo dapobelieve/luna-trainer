@@ -1,13 +1,9 @@
 <template>
   <main
-    :class="[
-      routeName === 'Auth-ProfileSetup' || routeName === 'Auth-SignUp'
-        ? 'dobermann'
-        : 'shiba-inu'
-    ]"
     class="tail-overflow-y-auto"
   >
     <div
+      v-if="sigupDisplay"
       class="tail-flex tail-items-center tail-flex-col tail-px-5 lg:tail-flex-row md:tail-px-4 lg:tail-px-0 tail-justify-center centered"
     >
       <header
@@ -60,14 +56,50 @@
         </div>
       </article>
     </div>
+    <div v-if="getStarted" class="tail-flex tail-items-center tail-justify-center tail-h-screen">
+      <Modal :is-open="letsGetStarted" @close="letsGetStarted = $event" @closeBackDrop="letsGetStarted = true">
+        <div class="tail-text-left">
+          <h1
+            class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6"
+          >
+            Welcome to GetWelp!
+          </h1>
+          <p class="tail-text-base tail-text-gray-700 taill-mb-6">
+            So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
+          </p>
+          <div class="tail-flex tail-justify-start tail-py-4">
+            <button
+              style="width: fit-content"
+              type="submit"
+              class="primary-button"
+              @click="displaySetUp"
+            >
+              Lets Get Started
+            </button>
+          </div>
+        </div>
+      </Modal>
+    </div>
   </main>
 </template>
 <script>
 export default {
+  data () {
+    return {
+      getStarted: false,
+      sigupDisplay: true,
+      letsGetStarted: true
+    }
+  },
   computed: {
     routeName () {
       return this.$route.name
     }
+  },
+  created () {
+    this.$nuxt.$on('profile', () => {
+      this.started()
+    })
   },
   methods: {
     handleOnClickGoogleSignUp () {
@@ -76,6 +108,15 @@ export default {
     },
     handleOnClickGoogleSignIn () {
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
+    },
+    started () {
+      this.getStarted = true
+      this.sigupDisplay = false
+    },
+    displaySetUp () {
+      this.$router.replace({
+        name: 'Auth-onboardingProfileSetup'
+      })
     }
   }
 }
@@ -133,28 +174,6 @@ main {
 
   article {
     min-width: 30rem;
-  }
-
-  .border-collie {
-    background-image: url("~assets/img/border-collie.png");
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    background-attachment: fixed;
-    height: auto;
-  }
-
-  .dobermann {
-    background-image: url("~assets/img/dobermann.png");
-    background-repeat: no-repeat;
-    background-position: right bottom;
-    background-attachment: fixed;
-  }
-
-  .shiba-inu {
-    background-image: url("~assets/img/shiba-inu.png");
-    background-repeat: no-repeat;
-    background-position: left bottom;
-    background-attachment: fixed;
   }
 }
 </style>

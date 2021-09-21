@@ -34,6 +34,7 @@
       :is-open="openCourseModal"
       :input-width="40"
       @close="openCourseModal = $event"
+      @closeBackDrop="openCourseModal = $event"
     >
       <template v-slot:status>
         <div class="tail-px-2 tail-text-xl">

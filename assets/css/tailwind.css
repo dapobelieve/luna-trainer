@@ -65,7 +65,7 @@
     background: #56ccf2;
   }
   .primary-button{
-    @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white tail-bg-blue-500;
+    @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white tail-bg-blue-500 tail-h-10 hover:tail-bg-blue-600;
   }
   
   .outline-button {

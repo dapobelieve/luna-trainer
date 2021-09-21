@@ -55,6 +55,7 @@
       :is-open="openAvailabilityModal"
       :input-width="30"
       @close="openAvailabilityModal = $event"
+      @closeBackDrop="openAvailabilityModal = $event"
     >
       <template v-slot:status>
         <div class="tail-px-2 tail-capitalize tail-text-xl tail-leading-normal">
@@ -69,6 +70,7 @@
       :is-open="openCreateModal"
       :input-width="40"
       @close="openCreateModal = $event"
+      @closeBackDrop="addCreateModal = $event"
     >
       <div @close="openCreateModal = $event">
         <CreateSchedule />

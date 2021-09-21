@@ -16,7 +16,7 @@
         <GwClients :status="filter" :page-number="pageNumber" />
       </template>
     </gw-pagination>
-    <Modal :is-open="openModal" @close="openModal = $event">
+    <Modal :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
   </div>

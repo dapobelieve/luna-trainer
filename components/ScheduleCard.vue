@@ -75,6 +75,7 @@
           :is-open="openEditModal"
           :input-width="40"
           @close="openEditModal = $event"
+          @closeBackDrop="openEditModal = $event"
         >
           <CreateSchedule :data="data" @close="openEditModal = $event" />
         </Modal>
@@ -82,6 +83,7 @@
           :is-open="openModal"
           :input-width="30"
           @close="openModal = $event"
+          @closeBackDrop="openModal = $event"
         >
           <template v-slot:status>
             <div
@@ -101,6 +103,7 @@
           :is-open="openDeleteModal"
           :input-width="30"
           @close="openDeleteModal = $event"
+          @closeBackDrop="openDeleteModal = $event"
         >
           <CancelAlert @close="openDeleteModal = $event">
             <template v-slot:text>

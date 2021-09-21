@@ -40,7 +40,7 @@
         </div>
       </li>
     </ul>
-    <Modal :is-open="openEditItem" @close="openEditItem = $event">
+    <Modal :is-open="openEditItem" @close="openEditItem = $event" @closeBackDrop="openEditItem = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           Edit Item

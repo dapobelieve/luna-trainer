@@ -295,6 +295,7 @@
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
+      @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
@@ -302,16 +303,17 @@
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
+      @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
-    <Modal :is-open="addSession" :input-width="40" @close="addSession = $event">
+    <Modal :is-open="addSession" :input-width="40" @close="addSession = $event" @closeBackDrop="openEditModal = $event">
       <CreateSchedule @close="addSession = $event" />
     </Modal>
-    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event">
+    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event" @closeBackDrop="newCourse = $event">
       <CreateCourse @close="newCourse = $event" />
     </Modal>
-    <Modal :input-width="30" :is-open="openModal" @close="openModal = $event">
+    <Modal :input-width="30" :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
       <template v-slot:status>
         <div
           class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl"

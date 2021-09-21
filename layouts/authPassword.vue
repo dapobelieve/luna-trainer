@@ -1,13 +1,5 @@
 <template>
-  <main
-    :class="[
-      $route.name === 'Auth-ForgotPassword' ||
-        $route.name === 'Auth-CreateNewPassword'
-        ? 'border-collie'
-        : 'shiba-inu'
-    ]"
-    class=""
-  >
+  <main>
     <div
       class="tail-flex tail-flex-col tail-items-center tail-w-full md:tail-w-5/6 md:tail-px-4 lg:tail-px-0 centered"
     >

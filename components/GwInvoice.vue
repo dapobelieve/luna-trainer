@@ -142,6 +142,7 @@
       :input-width="30"
       :is-open="openModalDetails"
       @close="resetModal($event)"
+      @closeBackDrop="resetModal($event)"
     >
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
@@ -154,6 +155,7 @@
       :input-width="30"
       :is-open="openInvoice"
       @close="openInvoice = $event"
+      @closeBackDrop="openInvoice = $event"
     >
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
@@ -203,6 +205,7 @@
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
+      @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
