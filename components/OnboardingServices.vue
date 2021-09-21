@@ -103,7 +103,7 @@
               $store.state.profile.trainnerRegData.personalProfile.currency
             "
             type="number"
-            class="tail-py-1 tail-block tail-w-full tail-shadow-sm focus:tail-ring-indigo-500 focus:tail-border-indigo-500 tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+            class="tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm focus:tail-ring-indigo-500 focus:tail-border-indigo-500 tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
           />
         </div>
       </div>
@@ -188,10 +188,12 @@ export default {
   },
   watch: {
     selectedServiceIndex (newValue, oldValue) {
-      this.selectedService = this.servicesFromStore[newValue]
-      this.services.description = this.selectedService.description
-      this.services.appointmentTypes = this.selectedService.appointmentTypes
-      this.services.pricing.amount = this.selectedService.pricing.amount
+      if (newValue !== null) {
+        this.selectedService = this.servicesFromStore[newValue]
+        this.services.description = this.selectedService.description
+        this.services.appointmentTypes = this.selectedService.appointmentTypes
+        this.services.pricing.amount = this.selectedService.pricing.amount
+      }
     },
     servicesFromStore (newValue, oldValue) {
       this.$emit('validity', Boolean(!this.servicesFromStore.length))
@@ -266,13 +268,14 @@ export default {
     },
     cancelEdit () {
       this.setTempState({ editingServiceCard: false })
-      this.selectedService = null
       this.services.description = ''
       this.services.appointmentTypes = []
       this.services.pricing = {
         amount: '',
         plan: 'hourly'
       }
+      this.selectedService = null
+      this.$emit('clearSelectedServiceIndex', null)
     }
   }
 }

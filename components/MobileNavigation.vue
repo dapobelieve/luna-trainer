@@ -5,13 +5,13 @@
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="tail-sticky tail-top-0 tail-divide-y tail-divide-gray-300">
       <div class="tail-relative tail-pt-8">
-        <div class="tail-px-3 tail-py-1 tail-mt-3 tail-mb-4">
+        <div class="tail-px-3 tail-py-0.5 tail-mt-3 tail-mb-4">
           <label for="search" class="tail-sr-only">Search</label>
           <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200">
             <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
               <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
             </div>
-            <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
+            <input type="text" name="search" class="tail-bg-gray-100 tail-py-0.5 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
           </div>
         </div>
         <div class="tail-space-y-1">
@@ -20,7 +20,7 @@
               v-if="menu.path && !['signout', 'Notifications', 'Messages'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-font-medium hover:tail-bg-gray-50"
             >
               <div class="tail-flex">
                 <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
@@ -32,7 +32,7 @@
             </NuxtLink>
             <button
               v-else-if="menu.path === 'Notifications'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click.prevent.stop="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
@@ -40,7 +40,7 @@
             </button>
             <button
               v-else-if="menu.path === 'Messages'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click.prevent.stop="toggleMenu(menu.path)"
             >
               <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
@@ -54,13 +54,13 @@
             </button>
             <button
               v-else-if="menu.path === 'signout'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
               <i class="ns-power tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />
               <span class="tail-truncate tail-text-sm tail-font-normal">Signout</span>
             </button>
-            <p v-if="menu.section" class="tail-px-3 tail-text-sm tail-my-4 tail-text-gray-500 uppercase tracking-wider">
+            <p v-if="menu.section" class="tail-px-3 tail-text-sm tail-my-2 tail-text-gray-500 uppercase tracking-wider">
               <span>{{ menu.section }}</span>
               <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
             </p>

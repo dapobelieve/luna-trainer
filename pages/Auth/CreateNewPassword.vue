@@ -87,7 +87,8 @@ export default {
   auth: false,
   data () {
     return {
-      showPassword: false,
+      showOldPassword: false,
+      showNewPassword: false,
       isLoading: false,
       userInfo: {
         oldPassword: '',

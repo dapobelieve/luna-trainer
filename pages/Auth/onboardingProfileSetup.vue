@@ -31,6 +31,7 @@
         <template v-else-if="step === 2">
           <onboarding-services
             :selected-service-index="selectedServiceProps"
+            @clearSelectedServiceIndex="selectedServiceProps = $event"
             @validity="allow($event)"
           />
         </template>
@@ -138,6 +139,7 @@
         <template v-else-if="step === 2">
           <onboarding-services
             :selected-service-index="selectedServiceProps"
+            @clearSelectedServiceIndex="selectedServiceProps = $event"
             @validity="allow($event)"
           />
         </template>
