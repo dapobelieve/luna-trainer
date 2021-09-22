@@ -14,7 +14,7 @@
       </div>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="password" class="required">Temporary Password</label>
+          <label for="password" class="required" :class="{'tail-text-red-700' : $v.userInfo.oldPassword.$error}">Temporary Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
               v-model.lazy="$v.userInfo.oldPassword.$model"
@@ -36,7 +36,7 @@
         </div>
         <div class="tail-flex tail-flex-col tail-gap-1">
           <div class="tail-flex tail-justify-between tail-items-center">
-            <label for="password" class="required">New Password</label>
+            <label for="password" class="required" :class="{'tail-text-red-700' : $v.userInfo.newPassword.$error}">New Password</label>
           </div>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input

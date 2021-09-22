@@ -16,7 +16,7 @@
 
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="email" class="required">Email address</label>
+          <label for="email" class="required" :class="{'tail-text-red-700' : $v.email.$error}">Email address</label>
           <input
             v-model.lazy="$v.email.$model"
             :disabled="isLoading"
