@@ -4,7 +4,9 @@
       class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
     >
       <div>
-        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Create New Passowrd</h1>
+        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+          Create New Passowrd
+        </h1>
         <p class="tail-text-gray-500 tail-mt-2 tail-text-sm">
           Your new password must be different from previously used
           passwords.
@@ -12,26 +14,23 @@
       </div>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="password" class="required">Old Password</label>
+          <label for="password" class="required">Temporary Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
-              v-model.trim="$v.userInfo.oldPassword.$model"
+              v-model.lazy="$v.userInfo.oldPassword.$model"
               tabindex="2"
               :disabled="isLoading"
-              :type="showPassword ? 'text':'password'"
+              :type="showOldPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{invalid: $v.userInfo.oldPassword.$error}"
+              :class="{'tail-border-red-700' : $v.userInfo.oldPassword.$error}"
+              @blur="$v.userInfo.oldPassword.$touch()"
             />
-            <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            <password-toggle v-model="showOldPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
-          <div v-if="$v.$anyDirty">
-            <small
-              v-if="!$v.userInfo.oldPassword.required"
-              class="tail-text-gray-500"
-            >Password is required.</small>
-            <small v-if="!$v.userInfo.oldPassword.minLength" class="tail-text-gray-500">
+          <div v-if="$v.userInfo.oldPassword.$error" class="tail-mt-0.5">
+            <small v-if="!$v.userInfo.oldPassword.minLength" class="error tail-text-red-700">
               Password must have at least
-              {{ $v.userInfo.oldPassword.$params.minLength.min }} letters.
+              {{ $v.userInfo.oldPassword.$params.minLength.min }} characters.
             </small>
           </div>
         </div>
@@ -41,23 +40,20 @@
           </div>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
-              v-model.trim="$v.userInfo.newPassword.$model"
+              v-model.lazy="$v.userInfo.newPassword.$model"
               tabindex="2"
               :disabled="isLoading"
-              :type="showPassword ? 'text':'password'"
+              :type="showNewPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{invalid: $v.userInfo.newPassword.$error}"
+              :class="{'tail-border-red-700' : $v.userInfo.newPassword.$error}"
+              @blur="$v.userInfo.newPassword.$touch()"
             />
-            <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            <password-toggle v-model="showNewPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
-          <div v-if="$v.$anyDirty">
-            <small
-              v-if="!$v.userInfo.newPassword.required"
-              class="tail-text-gray-500"
-            >Password is required.</small>
-            <small v-if="!$v.userInfo.newPassword.minLength" class="tail-text-gray-500">
+          <div v-if="$v.userInfo.newPassword.$error" class="tail-mt-0.5">
+            <small v-if="!$v.userInfo.newPassword.minLength" class="error tail-text-red-700">
               Password must have at least
-              {{ $v.userInfo.newPassword.$params.minLength.min }} letters.
+              {{ $v.userInfo.newPassword.$params.minLength.min }} characters.
             </small>
           </div>
         </div>

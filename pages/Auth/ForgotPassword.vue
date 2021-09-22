@@ -4,27 +4,33 @@
       class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
     >
       <div>
-        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Forgot Password?</h1>
+        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+          Forgot Password?
+        </h1>
         <p
           class="tail-text-gray-500 tail-mt-2 tail-text-sm"
-        >Please enter your registered email address to receive password reset instruction.</p>
+        >
+          Please enter your registered email address to receive password reset instruction.
+        </p>
       </div>
 
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
         <div class="tail-flex tail-flex-col tail-gap-1">
           <label for="email" class="required">Email address</label>
           <input
-            v-model.trim="$v.email.$model"
+            v-model.lazy="$v.email.$model"
             :disabled="isLoading"
             autocomplete="off"
             type="text"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{invalid: $v.email.$error}"
-            @click="$v.email.$touch()"
+            :class="{'tail-border-red-700' : $v.email.$error}"
+            @blur="$v.email.$touch()"
           />
-          <div v-if="$v.email.$error">
-            <small v-if="!$v.email.required" class="error tail-text-gray-500">Field is required.</small>
-            <small v-if="!$v.email.email" class="error tail-text-gray-500">Must be valid email.</small>
+          <div v-if="$v.email.$error" >
+            <small
+              v-if="!$v.email.email"
+              class="error tail-text-red-700"
+            >Please enter a valid email address.</small>
           </div>
         </div>
 
