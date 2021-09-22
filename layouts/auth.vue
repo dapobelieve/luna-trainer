@@ -1,60 +1,59 @@
 <template>
-  <main
-    class="tail-overflow-y-auto"
-  >
-    <div
-      v-if="sigupDisplay"
-      class="tail-flex tail-items-center tail-flex-col tail-px-5 lg:tail-flex-row md:tail-px-4 lg:tail-px-0 tail-justify-center centered"
-    >
-      <header
-        class="tail-py-4 tail-w-96 tail-h-full lg:tail--mt-36 tail-mt-8 tail-mr-0 lg:tail-mr-8 tail-text-center lg:tail-text-left"
-      >
-        <img
-          class="lg:tail-mr-auto lg:tail-m-0 tail-m-auto tail-pt-5 md:tail-pt-0"
-          src="~/assets/img/svgs/logomark.svg"
-          alt="getWelp logo"
-        />
-        <h2 class="tail-gray-700 tail-my-4 tail-px-3 md:tail-px-0 md:tail-my-8 tail-text-2xl lg:tail-text-4xl tail-font-normal tail-tracking-wide">
-          We’re here to make dog trainers’ lives easier
-        </h2>
-        <p v-if="routeName === 'Auth-SignUp'" class="tail-my-4 md:tail-my-6 tail-px-14 md:tail-px-0 tail-text-gray-500 tail-text-base">
-          You can sign in with your Google account below to sign up.
-        </p>
-        <p v-else class="tail-my-4 md:tail-my-6 tail-px-14 md:tail-px-0 tail-text-gray-500 tail-text-base">
-          You can sign in with your Google account below which will sync everything you need at once
-        </p>
-        <div class=" tail-mt-6">
-          <button
-            type="button"
-            class="tail-bg-white tail-border tail-w-100 tail-flex tail-align-center tail-justify-center tail-py-3 tail-px-6 tail-rounded lg:tail-m-0 tail-m-auto"
-            @click="routeName === 'Auth-SignIn' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
-          >
-            <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
-            <span class="tail-ml-1">{{ routeName === 'Auth-SignIn' ? 'Sign in' : 'Sign up' }} with Google</span>
-          </button>
-        </div>
-      </header>
-      <div class="tail-relative tail-m-3 tail-hidden lg:tail-block">
-        <hr class="tail-border-0 tail-bg-gray-300 tail-ml-8 tail-text-gray-500 lg:tail-w-px height lg:tail-m-0 tail-mb-4">
-        <div
-          class="tail-w-full tail-absolute tail-transform lg:tail--translate-y-64 tail--translate-y-8 tail-flex tail-align-center tail-justify-center"
-        >
-          <small
-            class=" or-secondary tail-text-grey tail-p-2 body-background"
-          >OR</small>
-        </div>
-      </div>
-      <div data-text="OR" class="divide tail-block lg:tail-hidden">
-      </div>
-      <article
-        class="tail-z-0 tail-m-4 lg:tail-ml-14 tail-overflow-hidden tail-max-w-xs md:tail-max-w-xl md:tail-mb-5 lg:tail-max-w-full"
+  <main>
+    <div class="tail-flex tail-justify-center tail-px-4 tail-pb-28 lg:pb-0">
+      <div
+        class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-items-center tail-max-w-lg lg:tail-max-w-screen-xl tail-w-full tail-mt-10 lg:tail-mt-20 2xl:tail-mt-28 tail-gap-4 lg:tail-gap-9 xl:tail-gap-12 tail-relative"
       >
         <div
-          class="tail-h-full md:tail-h-auto"
+          class="tail-max-w-full lg:tail-max-w-sm tail-w-full tail-flex tail-flex-col tail-text-center lg:tail-text-left tail-self-start"
         >
+          <img
+            class="lg:tail-mr-auto lg:tail-m-0 tail-m-auto tail-h-8 md:tail-h-10 2xl:tail-h-auto"
+            src="~/assets/img/svgs/logomark.svg"
+            alt="getWelp logo"
+          />
+          <div class="tail-mt-6 lg:tail-mt-10">
+            <h1
+              class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl"
+            >We’re here to make dog trainers’ lives easier</h1>
+            <div
+              class="tail-w-full md:tail-w-10/12 tail-flex tail-flex-col tail-mr-auto tail-ml-auto lg:tail-ml-0 tail-mt-4 lg:tail-mt-6"
+            >
+              <p
+                v-if="routeName === 'Auth-SignUp'"
+                class="tail-text-gray-500"
+              >You can sign in with your Google account below to sign up.</p>
+              <p
+                v-else
+                class="tail-text-gray-500"
+              >You can sign in with your Google account below which will sync everything you need at once</p>
+            </div>
+            <div class="tail-mt-6">
+              <button
+                type="button"
+                class="tail-bg-white tail-border tail-border-gray-400 tail-w-100 tail-flex tail-items-center tail-justify-center tail-py-3 tail-h-12 lg:tail-m-0 tail-m-auto tail-rounded-md tail-w-full lg:tail-w-max tail-px-3 lg:tail-px-12 hover:tail-bg-gray-50 tail-shadow-sm tail-transition-all"
+                @click="routeName === 'Auth-SignIn' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
+              >
+                <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
+                <span
+                  class="tail-ml-3"
+                >{{ routeName === 'Auth-SignIn' ? 'Sign in' : 'Sign up' }} With Google</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div
+          class="tail-h-16 tail-w-16 tail-flex-shrink-0 tail-rounded-full tail-flex tail-items-center tail-justify-center tail-text-xs tail-text-gray-500 tail-bg-gray-50"
+        >
+          <span class="tail-tracking-widest">OR</span>
+          <span
+            class="tail-h-px lg:tail-h-full tail-w-full lg:tail-w-px tail-border-b lg:tail-border-b-0 tail-border-r-0 lg:tail-border-r tail-absolute lg:tail-bottom-0 tail--z-10"
+          ></span>
+        </div>
+        <div class="tail-max-w-full lg:tail-max-w-sm tail-w-full">
           <Nuxt />
         </div>
-      </article>
+      </div>
     </div>
     <div v-if="getStarted" class="tail-flex tail-items-center tail-justify-center tail-h-screen">
       <Modal :is-open="letsGetStarted" @close="letsGetStarted = $event" @closeBackDrop="letsGetStarted = true">
@@ -122,58 +121,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-main {
-    height: auto;
-    min-height: 100vh;
-}
-.height{
-  height: 30rem
-}
-
-@media only screen and (max-width: 768px) {
-  article {
-    width: 100%;
-  }
-  .height{
-  width: 30rem;
-  height: 1px;
- }
-   .divide[data-text] {
-    margin: 2rem 0;
-    color: #666;
-}
-.divide[data-text]:before {
-    content: attr(data-text);
-    position: absolute;
-    padding: .25rem .75rem;
-    background: rgba(240, 245, 250, 1);
-    margin-bottom: 2px;
-}
-.divide {
-    border: 1px solid rgba(14,19,24,.07);
-    margin: 30px 0 15px 0;
-    width: 80%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-}
-
-@media only screen and (min-width: 769px) {
-
-  .views {
-    margin-left: 99px;
-    width: 100%;
-  }
-  .centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-  article {
-    min-width: 30rem;
-  }
-}
 </style>

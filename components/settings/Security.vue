@@ -73,14 +73,20 @@ export default {
   methods: {
     ...mapActions({ resetPassword: 'authorize/resetPassword' }),
     submit () {
-      this.loading = true
-      this.resetPassword(this.password).then((response) => {
-        this.$toast.success('Password changed successfully', { position: 'top-right' })
-      }).catch((error) => {
-        this.$toast.error(error.response.data.message)
-      }).finally(() => {
-        this.loading = false
-      })
+      if (this.password.oldPassword === this.password.newPassword) {
+        this.$toast.error('Please choose a new password', { position: 'bottom-right' })
+      } else {
+        this.loading = true
+        this.resetPassword(this.password).then((response) => {
+          this.password.oldPassword = ''
+          this.password.newPassword = ''
+          this.$toast.success('Password changed successfully', { position: 'top-right' })
+        }).catch((error) => {
+          this.$toast.error(error.response.data.message)
+        }).finally(() => {
+          this.loading = false
+        })
+      }
     }
   }
 }
