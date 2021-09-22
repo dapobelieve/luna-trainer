@@ -188,10 +188,12 @@ export default {
   },
   watch: {
     selectedServiceIndex (newValue, oldValue) {
-      this.selectedService = this.servicesFromStore[newValue]
-      this.services.description = this.selectedService.description
-      this.services.appointmentTypes = this.selectedService.appointmentTypes
-      this.services.pricing.amount = this.selectedService.pricing.amount
+      if (newValue !== null) {
+        this.selectedService = this.servicesFromStore[newValue]
+        this.services.description = this.selectedService.description
+        this.services.appointmentTypes = this.selectedService.appointmentTypes
+        this.services.pricing.amount = this.selectedService.pricing.amount
+      }
     },
     servicesFromStore (newValue, oldValue) {
       this.$emit('validity', Boolean(!this.servicesFromStore.length))
@@ -266,13 +268,14 @@ export default {
     },
     cancelEdit () {
       this.setTempState({ editingServiceCard: false })
-      this.selectedService = null
       this.services.description = ''
       this.services.appointmentTypes = []
       this.services.pricing = {
         amount: '',
         plan: 'hourly'
       }
+      this.selectedService = null
+      this.$emit('clearSelectedServiceIndex', null)
     }
   }
 }
