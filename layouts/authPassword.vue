@@ -1,34 +1,18 @@
 <template>
-  <main
-    :class="[
-      $route.name === 'Auth-ForgotPassword' ||
-        $route.name === 'Auth-CreateNewPassword'
-        ? 'border-collie'
-        : 'shiba-inu'
-    ]"
-    class=""
-  >
+  <main>
     <div
-      class="tail-flex tail-flex-col tail-items-center tail-w-full md:tail-w-5/6 md:tail-px-4 lg:tail-px-0 centered"
+      class="tail-flex tail-justify-center tail-w-full tail-px-4 tail-min-h-screen tail-pb-28 lg:pb-0"
     >
-      <header
-        class="tail-py-4 tail-sticky tail-top-0 tail-z-10 md:tail-static tail-w-full body-background"
+      <div
+        class="tail-max-w-lg lg:tail-max-w-sm tail-w-full tail-mt-10 lg:tail-mt-20 2xl:tail-mt-28 tail-flex tail-flex-col tail-gap-6 md:tail-gap-10"
       >
         <img
-          class="tail-mx-auto"
+          class="tail-mx-auto tail-h-8 md:tail-h-10 2xl:tail-h-auto"
           src="~/assets/img/svgs/logomark.svg"
           alt="getWelp logo"
         />
-      </header>
-      <article
-        class="tail-z-0 tail-rounded-lg tail-m-4 tail-overflow-hidden tail-max-w-xs  md:tail-max-w-lg md:tail-mb-5"
-      >
-        <div
-          class="tail-h-full md:tail-h-auto"
-        >
-          <Nuxt />
-        </div>
-      </article>
+        <Nuxt />
+      </div>
     </div>
   </main>
 </template>
@@ -40,10 +24,4 @@ export default {
 </script>
 
 <style scoped>
-.centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
 </style>
