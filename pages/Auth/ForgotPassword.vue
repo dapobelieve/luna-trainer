@@ -1,60 +1,55 @@
 <template>
-  <div class="tail-max-w-full">
-    <div class="tail-grid tail-gap-4 tail-w-full tail-p-6 tail-bg-white tail-rounded-md tail-text-gray-600">
-      <div class="tail-grid tail-grid-col-12">
-        <div class="">
-          <h2 class="tail-text-2xl tail-font-semibold tail-my-2">
-            Forgot Password?
-          </h2>
+  <div class="tail-w-full">
+    <div
+      class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
+    >
+      <div>
+        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Forgot Password?</h1>
+        <p
+          class="tail-text-gray-500 tail-mt-2 tail-text-sm"
+        >Please enter your registered email address to receive password reset instruction.</p>
+      </div>
+
+      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
+        <div class="tail-flex tail-flex-col tail-gap-1">
+          <label for="email" class="required">Email address</label>
+          <input
+            v-model.trim="$v.email.$model"
+            :disabled="isLoading"
+            autocomplete="off"
+            type="text"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{invalid: $v.email.$error}"
+            @click="$v.email.$touch()"
+          />
+          <div v-if="$v.email.$error">
+            <small v-if="!$v.email.required" class="error tail-text-gray-500">Field is required.</small>
+            <small v-if="!$v.email.email" class="error tail-text-gray-500">Must be valid email.</small>
+          </div>
         </div>
-        <small class="tail-text-gray-400 tail-text-base tail-my-2">
-          Please enter your registered email address to receive password reset instruction.
-        </small>
-      </div>
-      <div class="tail-grid tail-gap-4">
-        <form class="tail-grid tail-gap-4" @submit.prevent="reset">
-          <div class="">
-            <div class="tail-grid">
-              <label for="email" class="tail-block tail-text-base tail-font-medium tail-text-gray-700 required">Email address</label>
-              <input
-                v-model.trim="$v.email.$model"
-                :disabled="isLoading"
-                autocomplete="off"
-                type="text"
-                class="tail-bg-white tail-py-2 tail-px-4 tail-block tail-w-full sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                :class="{invalid: $v.email.$error}"
-                @click="$v.email.$touch()"
-              />
-              <div v-if="$v.email.$error" class="tail-mt-2">
-                <small
-                  v-if="!$v.email.required"
-                  class="error tail-text-gray-500"
-                >
-                  Field is required.
-                </small>
-                <small
-                  v-if="!$v.email.email"
-                  class="error tail-text-gray-500 tail-text-sm"
-                >
-                  Must be valid email.
-                </small>
-              </div>
-            </div>
-          </div>
 
-          <div class="tail-flex tail-justify-end tail-py-1">
-            <button :loading="isLoading" class="primary-button" style="width: fit-content" :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }" :disabled="$v.$invalid">
-              <SingleLoader v-if="isLoading" class="tail-mr-2" />
-              {{ isLoading ? 'Resetting...' : 'Save' }}
-            </button>
-          </div>
-        </form>
-      </div>
+        <div class="tail-flex tail-justify-end">
+          <button
+            :loading="isLoading"
+            class="primary-button"
+            style="width: fit-content"
+            :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
+            :disabled="$v.$invalid"
+          >
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            {{ isLoading ? 'Resetting...' : 'Save' }}
+          </button>
+        </div>
+      </form>
     </div>
-
-    <div class="tail-text-center tail-mt-4 lg:tail-mt-8 tail-mb-6 md:tail-mb-0  tail-bg-white tail-rounded-md tail-py-8 tail-px-12">
-      <NuxtLink :to="{ name: 'Auth-SignIn' }" class="tail-text-gray-900 tail-no-underline">
-        Back to <span class="tail-text-blue-500">Sign in</span>
+    <div
+      class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6"
+    >
+      <NuxtLink :to="{ name: 'Auth-SignIn' }">
+        Back to
+        <span
+          class="tail-text-blue-500 tail-font-medium tail-ml-1 tail-no-underline hover:tail-underline"
+        >Sign in</span>
       </NuxtLink>
     </div>
   </div>
@@ -107,8 +102,8 @@ export default {
 }
 </script>
 <style scoped>
- .required:after {
-    content:" *";
-    color: red;
-  }
+.required:after {
+  content: " *";
+  @apply tail-text-red-500 tail-text-sm;
+}
 </style>
