@@ -137,7 +137,7 @@ export default {
           const userPreferrences = localStorage.getItem('userPreferrences')
           // eslint-disable-next-line curly
           if (userPreferrences !== null) localStorage.removeItem('userPreferrences')
-          localStorage.setItem('userPreferrences', JSON.stringify({ currency: response.currency }))
+          localStorage.setItem('userPreferrences', { currency: response.currency })
           // set user in local storage
           const getWelpUser = localStorage.getItem('getWelpUser')
           // eslint-disable-next-line curly
