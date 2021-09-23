@@ -8,7 +8,7 @@
       </h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="email" class="required">Email address</label>
+          <label for="email" class="required" :class="{'tail-text-red-700' : $v.userInfo.email.$error}">Email address</label>
           <input
             v-model.lazy="$v.userInfo.email.$model"
             autocomplete="off"
@@ -25,7 +25,7 @@
           </div>
         </div>
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="password" class="required">Password</label>
+          <label for="password" class="required" :class="{'tail-text-red-700' : $v.userInfo.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
               v-model.lazy="$v.userInfo.password.$model"
