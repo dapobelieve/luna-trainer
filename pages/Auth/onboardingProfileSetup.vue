@@ -382,7 +382,7 @@ export default {
               const userPreferrences = localStorage.getItem('userPreferrences')
               // eslint-disable-next-line curly
               if (userPreferrences !== null) localStorage.removeItem('userPreferrences')
-              localStorage.setItem('userPreferrences', JSON.stringify({ currency: this.trainerRegInfo.currency }))
+              localStorage.setItem('userPreferrences', { currency: this.trainerRegInfo.currency })
               if (this.isClientFormFilled) {
                 return this.addClient(this.clientInfo).then((result) => {
                   if (result.status) {
