@@ -83,7 +83,7 @@
         Send Invoice
       </button>
     </div>
-    <Modal :input-width="100" :is-open="sendInvoice" @close="sendInvoice = $event">
+    <Modal :input-width="100" :is-open="sendInvoice" @close="sendInvoice = $event" @closeBackDrop="sendInvoice = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           Send Invoice

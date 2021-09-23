@@ -149,15 +149,11 @@ export default {
                     .dispatch('profile/getUserProfile')
                     .then((response) => {
                       response === null
-                        ? this.$router.replace({
-                          name: 'Auth-onboardingProfileSetup',
-                          params: { email: this.userInfo.email }
-                        })
+                        ? this.$nuxt.$emit('profile')
                         : this.$router.replace({ name: 'Dashboard' })
                     })
                 })
             } catch (error) {
-              console.log(error)
               if (error.response) {
                 this.$toast.error(
                   `Something went wrong: ${error.response.data.message}`,

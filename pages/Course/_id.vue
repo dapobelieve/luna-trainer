@@ -58,7 +58,7 @@
         />
       </div>
     </div>
-    <Modal :is-open="openAddParticipant" @close="openAddParticipant = $event">
+    <Modal :is-open="openAddParticipant" @close="openAddParticipant = $event" @closeBackDrop="openAddParticipant = $event">
       <template v-slot:status>
         <div class="tail-px-2 tail-text-2xl tail-font-bold">
           Add Participant
@@ -72,6 +72,7 @@
       :is-open="openDeleteModal"
       :input-width="30"
       @close="openDeleteModal = $event"
+      @closeBackDrop="openDeleteModal = $event"
     >
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
