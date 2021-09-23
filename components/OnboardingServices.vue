@@ -251,7 +251,7 @@ export default {
       }
     },
     saveEdit () {
-      if (this.disableUpdate) {
+      if (this.disableUpdate && this.services.pricing.amount === this.selectedService.pricing.amount) {
         this.$toast.error('You have not made any change to the service', {
           position: 'top-right'
         })

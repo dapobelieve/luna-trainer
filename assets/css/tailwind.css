@@ -63,9 +63,9 @@
   }
   @layer components {
     .base-button {
-      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white;
-      background: #56ccf2;
-    }
+    @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded tail-shadow-sm tail-text-base tail-font-medium tail-text-white disabled:tail-bg-blue-300 disabled:tail-cursor-not-allowed disabled:hover:tail-bg-none;
+    background: #56ccf2;
+  }
 
     .primary-button {
       @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white tail-bg-blue-500 hover:tail-bg-blue-600 tail-transition-all;
