@@ -156,7 +156,7 @@
                 />
               </div>
               <div class="tail-w-full">
-                <label for="experience">Age</label>
+                <label for="age">Age</label>
                 <select
                   id="experience"
                   v-model="clientInfo.petAge"
@@ -247,7 +247,7 @@ export default {
         locationCity: '',
         locationZip: '',
         petName: '',
-        petAge: 2,
+        petAge: '',
         petBreed: '',
         petGender: 'male',
         notes: ''

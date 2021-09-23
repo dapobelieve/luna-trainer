@@ -1,5 +1,5 @@
 <template>
-  <main>
+ <main>
     <div class="tail-flex tail-justify-center tail-px-4 tail-pb-28 lg:pb-0">
       <div
         class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-items-center tail-max-w-lg lg:tail-max-w-screen-xl tail-w-full tail-mt-10 lg:tail-mt-20 2xl:tail-mt-28 tail-gap-4 lg:tail-gap-9 xl:tail-gap-12 tail-relative"
