@@ -133,6 +133,7 @@
             </button>
             <button
               v-else-if="menu.path === 'signout'"
+              type="button"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
