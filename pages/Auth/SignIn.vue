@@ -14,8 +14,8 @@
             :disabled="isLoading"
             autocomplete="off"
             type="email"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-border-red-700' : $v.userInfo.email.$error}"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.userInfo.email.$error}"
             @blur="$v.userInfo.email.$touch()"
           />
           <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
@@ -33,8 +33,8 @@
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-border-red-700' : $v.userInfo.password.$error}"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              :class="{'tail-shadow-md tail-border-red-700' : $v.userInfo.password.$error}"
               @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
