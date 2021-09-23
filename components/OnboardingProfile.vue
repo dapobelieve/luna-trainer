@@ -20,8 +20,8 @@
             v-model="firstName"
             type="text"
             name="first-name"
-            class="tail-bg-white tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.firstName.$error}"
+            class="tail-bg-white tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2 focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.firstName.$error}"
             @blur="$v.firstName.$touch()"
           />
         </div>
@@ -38,8 +38,8 @@
             v-model="lastName"
             type="text"
             name="last-name"
-            class="tail-bg-white tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.lastName.$error}"
+            class="tail-bg-white tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2 focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.lastName.$error}"
             @blur="$v.lastName.$touch()"
           />
         </div>
@@ -56,8 +56,8 @@
           <input
             id="businessName"
             v-model="businessName"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.businessName.$error}"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2  focus:tail-shadow-md tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.businessName.$error}"
             @blur="$v.businessName.$touch()"
           />
         </div>
@@ -75,8 +75,8 @@
             id="website"
             v-model="websiteUrl"
             type="url"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.websiteUrl.$error}"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-ring-grape-500 focus:tail-shadow-md focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.websiteUrl.$error}"
             @blur="$v.websiteUrl.$touch()"
           />
           <div v-if="$v.websiteUrl.$error" class="tail-mt-0.5">
@@ -96,8 +96,8 @@
           <select
             v-model="location"
             autocomplete="country"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.location.$error}"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2 focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.location.$error}"
             @blur="$v.location.$touch()"
           >
             <option v-for="country in countries" :key="country.numericCode">
@@ -117,8 +117,8 @@
             id="currency"
             v-model="currency"
             autocomplete="currency"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.currency.$error}"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 focus:tail-shadow-md tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.currency.$error}"
             @blur="$v.currency.$touch()"
           >
             <option value="AUD">
@@ -148,8 +148,8 @@
             v-model="phone"
             type="number"
             name="phone"
-            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-text-sm tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.phone.$error}"
+            class="tail-bg-white tail-py-1 tail-block tail-w-full tail-text-sm tail-shadow-sm tail-border-gray-300 tail-rounded-md tail-border tail-px-2  focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.phone.$error}"
             @blur="$v.phone.$touch()"
           />
         </div>
@@ -166,8 +166,8 @@
           <select
             id="timezone"
             v-model="timezone"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-            :class="{'tail-border-red-700' : $v.timezone.$error}"
+            class="tail-bg-white tail-shadow-sm tail-block tail-w-full focus:tail-shadow-md tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.timezone.$error}"
             @blur="$v.timezone.$touch()"
           >
             <option v-for="time in timezones" :key="time.index">

@@ -23,36 +23,32 @@
                 <label
                   for="first_name"
                   class="block text-sm font-medium text-gray-700 required"
+                  :class="{'tail-text-red-700' : $v.clientInfo.firstName.$error}"
                 >First name</label>
                 <input
                   id="first_name"
-                  v-model.trim="$v.clientInfo.firstName.$model"
+                  v-model.trim.lazy="$v.clientInfo.firstName.$model"
                   type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+                  :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.firstName.$error}"
+                  @blur="$v.clientInfo.firstName.$touch()"
                 />
-                <div v-if="$v.$anyDirty" class="tail-mt-1">
-                  <small v-if="!$v.clientInfo.firstName.required" class="error tail-text-gray-500">
-                    Field is required.
-                  </small>
-                </div>
               </div>
 
               <div class="tail-w-full">
                 <label
                   for="last_name"
                   class="block text-sm font-medium text-gray-700 required"
+                  :class="{'tail-text-red-700' : $v.clientInfo.lastName.$error}"
                 >Last name</label>
                 <input
                   id="last_name"
-                  v-model.trim="$v.clientInfo.lastName.$model"
+                  v-model.trim.lazy="$v.clientInfo.lastName.$model"
                   type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+                  :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.lastName.$error}"
+                  @blur="$v.clientInfo.lastName.$touch()"
                 />
-                <div v-if="$v.$anyDirty" class="tail-mt-1">
-                  <small v-if="!$v.clientInfo.lastName.required" class="error tail-text-gray-500">
-                    Field is required.
-                  </small>
-                </div>
               </div>
             </div>
           </div>
@@ -61,17 +57,20 @@
               class="ns-envelope tail-mt-1 tail-text-2xl tail-text-gray-500"
             ></i>
             <div class="tail-w-full">
-              <label for="email" class="required">Email Address</label>
+              <label for="email" class="required" :class="{'tail-text-red-700' : $v.clientInfo.email.$error}">Email Address</label>
               <input
                 id="email"
-                v-model.trim="$v.clientInfo.email.$model"
+                v-model.trim.lazy="$v.clientInfo.email.$model"
                 type="email"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+                :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.email.$error}"
+                @blur="$v.clientInfo.email.$touch()"
               />
-              <div v-if="$v.$anyDirty" class="tail-mt-1">
-                <small v-if="!$v.clientInfo.email.required" class="error tail-text-gray-500">
-                  Field is required.
-                </small>
+              <div v-if="$v.clientInfo.email.$error" class="tail-mt-0.5">
+                <small
+                  v-if="!$v.clientInfo.email.email"
+                  class="error tail-text-red-700"
+                >Please enter a valid email address.</small>
               </div>
             </div>
           </div>
@@ -79,7 +78,7 @@
             <i class="ns-phone tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
             <div class="tail-w-full">
               <label for="phone">Telephone</label>
-              <vue-tel-input v-model="clientInfo.phoneNumber" :value="clientInfo.phoneNumber" @input="onInput"></vue-tel-input>
+              <vue-tel-input v-model="clientInfo.phoneNumber" :value="clientInfo.phoneNumber" v-bind="bindProps" @input="onInput"></vue-tel-input>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
@@ -92,13 +91,13 @@
                 id="locationAddress"
                 v-model.trim="clientInfo.locationAddress"
                 type="tel"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
               />
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
             <i
-              class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500"
+              class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500 "
             ></i>
             <div class="tail-w-full">
               <label for="city">Town/City</label>
@@ -106,7 +105,7 @@
                 id="city"
                 v-model.trim="clientInfo.locationCity"
                 type="text"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
               />
             </div>
           </div>
@@ -120,7 +119,7 @@
                 id="locationZip"
                 v-model.trim="clientInfo.locationZip"
                 type="tel"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
               />
             </div>
           </div>
@@ -134,7 +133,7 @@
                 id="dogName"
                 v-model.trim="clientInfo.petName"
                 type="text"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
               />
             </div>
           </div>
@@ -152,7 +151,7 @@
                   id="breed"
                   v-model.trim="clientInfo.petBreed"
                   type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 />
               </div>
               <div class="tail-w-full">
@@ -161,7 +160,7 @@
                   id="experience"
                   v-model="clientInfo.petAge"
                   type="text"
-                  class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                  class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 >
                   <option
                     v-for="val in Array.from(Array(13).keys())"
@@ -197,7 +196,7 @@
               <textarea
                 id="notes"
                 v-model="clientInfo.notes"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 cols="30"
                 rows="5"
               >
@@ -251,7 +250,23 @@ export default {
         petBreed: '',
         petGender: 'male',
         notes: ''
+      },
+      bindProps: {
+        mode: 'international',
+        disabled: false,
+        disabledFormatting: false,
+        ignoredCountries: [],
+        autocomplete: 'off',
+        maxLen: 25,
+        dropdownOptions: {
+          disabledDialCode: false
+        },
+        inputOptions: {
+          showDialCode: false
+        },
+        validCharactersOnly: true
       }
+
     }
   },
   validations: {
@@ -321,6 +336,6 @@ input:focus {
 }
   .required:after {
     content:" *";
-    color: red;
+    @apply tail-text-red-700 tail-text-sm;
   }
 </style>

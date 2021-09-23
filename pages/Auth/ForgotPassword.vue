@@ -22,11 +22,11 @@
             :disabled="isLoading"
             autocomplete="off"
             type="text"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-border-red-700' : $v.email.$error}"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.email.$error}"
             @blur="$v.email.$touch()"
           />
-          <div v-if="$v.email.$error" >
+          <div v-if="$v.email.$error">
             <small
               v-if="!$v.email.email"
               class="error tail-text-red-700"

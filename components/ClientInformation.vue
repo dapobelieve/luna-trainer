@@ -30,7 +30,7 @@
           <dt class="tail-text-sm tail-font-medium tail-text-gray-500">
             Email
           </dt>
-          <dd class="tail-mt-1 tail-text-sm tail-text-gray-900 tail-capitalize">
+          <dd class="tail-mt-1 tail-text-sm tail-text-gray-900">
             {{ client && client.email }}
           </dd>
         </div>

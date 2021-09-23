@@ -2,7 +2,7 @@
   <button
     :disabled="loading || disabled"
     class="base-button"
-    :class="[disabled?['tail-bg-gray-500', 'tail-pointer-events-none']: [] ]"
+    :class="[disabled?['tail-bg-gray-500', 'tail-cursor-not-allowed']: [] ]"
     type="submit"
     v-bind="$attrs"
     v-on="$listeners"
