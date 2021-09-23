@@ -81,7 +81,7 @@
           :disabled="isLoading"
           type="button"
           style="width: fit-content"
-          class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="base-button tail-bg-white tail-text-blue-500 tail-border-blue-500 tail-px-3 tail-py-1 hover:tail-text-white hover:tail-border-transparent"
           @click.prevent="decreaseStep"
         >
           back
@@ -112,7 +112,7 @@
                     : stripeConnect.isDisabled
           "
           style="width: fit-content"
-          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="base-button tail-bg-blue-500 tail-px-3 tail-py-1"
           @click="increaseStep"
         >
           Next
@@ -165,7 +165,7 @@
           :disabled="isLoading"
           type="button"
           style="width: fit-content"
-          class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="base-button tail-bg-white tail-text-blue-500 tail-border-blue-500 tail-px-3 tail-py-1 hover:tail-text-white hover:tail-border-transparent"
           @click.prevent="decreaseStep"
         >
           back
@@ -196,7 +196,7 @@
           "
           type="button"
           style="width: fit-content"
-          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="base-button tail-bg-blue-500 tail-px-3 tail-py-1"
           @click="increaseStep"
         >
           Next
@@ -320,9 +320,15 @@ export default {
     }
   },
   mounted () {
-    if ('jumpto' in this.$route.query) {
+    if (this.$auth.strategy.token.status().valid() && 'jumpto' in this.$route.query) {
       const step = parseInt(this.$route.query.jumpto)
       this.move(step)
+    }
+    if (!this.$auth.strategy.token.status().valid()) {
+      this.$router.replace({ name: 'Auth-SignIn' })
+      this.$toast.error('Session Expired. Please login', {
+        position: 'bottom-right'
+      })
     }
   },
   methods: {
@@ -361,48 +367,55 @@ export default {
       }
     },
     saveProfile () {
-      this.isLoading = true
-      try {
-        return this.create().then((result) => {
-          if (result.status === 'success') {
-            if (this.isClientFormFilled) {
-              return this.addClient(this.clientInfo).then((result) => {
-                if (result.status) {
-                  this.clearTrainnerRegData()
-                  this.$router.replace({ name: 'Dashboard' }).then(() => {
-                    this.$toast.success('Welcome', {
-                      position: 'bottom-right'
-                    })
-                  })
-                }
-              })
-            } else {
-              this.clearTrainnerRegData()
-              this.$router.replace({ name: 'Dashboard' }).then(() => {
-                this.$toast.success('Welcome', { position: 'bottom-right' })
-              })
-            }
-          }
+      if (!this.$auth.strategy.token.status().valid()) {
+        this.$router.replace({ name: 'Auth-SignIn' })
+        this.$toast.error('Session Expired. Please login', {
+          position: 'bottom-right'
         })
-      } catch (err) {
-        this.isLoading = false
-        this.$toast.error(
-          'Something went wrong',
-          { position: 'bottom-right' }
-        )
-        if (err.response) {
+      } else {
+        this.isLoading = true
+        try {
+          return this.create().then((result) => {
+            if (result.status === 'success') {
+              if (this.isClientFormFilled) {
+                return this.addClient(this.clientInfo).then((result) => {
+                  if (result.status) {
+                    this.clearTrainnerRegData()
+                    this.$router.replace({ name: 'Dashboard' }).then(() => {
+                      this.$toast.success('Welcome', {
+                        position: 'bottom-right'
+                      })
+                    })
+                  }
+                })
+              } else {
+                this.clearTrainnerRegData()
+                this.$router.replace({ name: 'Dashboard' }).then(() => {
+                  this.$toast.success('Welcome', { position: 'bottom-right' })
+                })
+              }
+            }
+          })
+        } catch (err) {
+          this.isLoading = false
           this.$toast.error(
-            `Something went wrong: ${err.response.data.message}`,
+            'Something went wrong',
             { position: 'bottom-right' }
           )
-        } else if (err.request) {
-          this.$toast.error('Something went wrong. Try again', {
-            position: 'bottom-right'
-          })
-        } else {
-          this.$toast.error(`Something went wrong: ${err.message}`, {
-            position: 'bottom-right'
-          })
+          if (err.response) {
+            this.$toast.error(
+              `Something went wrong: ${err.response.data.message}`,
+              { position: 'bottom-right' }
+            )
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', {
+              position: 'bottom-right'
+            })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, {
+              position: 'bottom-right'
+            })
+          }
         }
       }
     }
