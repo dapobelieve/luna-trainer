@@ -28,7 +28,7 @@
               <div class="tail-pt-4 tail-my-3 lg:tail-max-w-xl tail-rounded-md">
                 <ProfileForm id="profile" />
                 <SettingsServices id="services" :services="user.services" />
-                <SettingsSecurity id="security" v-model="user" />
+                <SettingsSecurity v-if="$auth.authProvider === 'local'" id="security" v-model="user" />
                 <!-- <BankDetails v-if="this.user.stripeConnected" id="bankDetails" /> -->
                 <SettingsIntegration id="connect" :user="user" />
               </div>
