@@ -56,14 +56,14 @@
       </div>
     </div>
     <div v-if="getStarted" class="tail-flex tail-items-center tail-justify-center tail-h-screen">
-      <Modal :is-open="letsGetStarted" @close="letsGetStarted = $event" @closeBackDrop="letsGetStarted = true">
+      <Modal :is-open="letsGetStarted" :close="false" :close-back-drop="letsGetStarted = true" :input-width="30" @close="letsGetStarted = $event">
         <div class="tail-text-left">
           <h1
             class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6"
           >
             Welcome to GetWelp!
           </h1>
-          <p class="tail-text-base tail-text-gray-700 taill-mb-6">
+          <p class="tail-text-base tail-text-gray-700 tail-mb-6 tail-leading-relaxed">
             So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
           </p>
           <div class="tail-flex tail-justify-start tail-py-4">

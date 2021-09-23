@@ -31,7 +31,7 @@
             <div class="tail-flex tail-justify-between tail-mb-6">
               <slot name="status">
               </slot>
-              <div class="hover:tail-cursor-pointer" @click="$emit('close', false)">
+              <div v-if="close" class="hover:tail-cursor-pointer" @click="$emit('close', false)">
                 <img
                   class="tail-hidden md:tail-block"
                   src="~/assets/img/cross-small.png"
@@ -59,6 +59,10 @@ export default {
       default: false
     },
     close: {
+      type: Boolean,
+      default: true
+    },
+    closeBackDrop: {
       type: Boolean,
       default: false
     },
