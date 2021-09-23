@@ -307,6 +307,7 @@ export default {
   },
   computed: {
     ...mapState({
+      trainerRegInfo: state => state.profile.trainnerRegData.personalProfile,
       clientInfo: state => state.profile.trainnerRegData.client,
       editingService: state => state.profile.editingServiceCard
     }),
@@ -377,6 +378,11 @@ export default {
         try {
           return this.create().then((result) => {
             if (result.status === 'success') {
+              // set currency into localStorage
+              const userPreferrences = localStorage.getItem('userPreferrences')
+              // eslint-disable-next-line curly
+              if (userPreferrences !== null) localStorage.removeItem('userPreferrences')
+              localStorage.setItem('userPreferrences', JSON.stringify({ currency: this.trainerRegInfo.currency }))
               if (this.isClientFormFilled) {
                 return this.addClient(this.clientInfo).then((result) => {
                   if (result.status) {

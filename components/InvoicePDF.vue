@@ -34,8 +34,10 @@
             </p>
           </div>
           <div class="tail-py-4">
-            <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate || new Date() | date }}.</span>
-            <span v-else class="tail-text-xl tail-font-semibold">Please select a service.</span>
+            <client-only>
+              <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate || new Date() | date }}.</span>
+              <span v-else class="tail-text-xl tail-font-semibold">Please select a service.</span>
+            </client-only>
           </div>
           <div>
             <table class="tail-table-auto tail-w-full">
@@ -63,9 +65,11 @@
                     <td class="tail-text-right tail-py-2">
                       {{ item.qty }}
                     </td>
-                    <td class="tail-text-right tail-font-medium tail-py-2 tail-text-black">
-                      {{ item.price | amount }}
-                    </td>
+                    <client-only>
+                      <td class="tail-text-right tail-font-medium tail-py-2 tail-text-black">
+                        {{ item.price | amount }}
+                      </td>
+                    </client-only>
                   </tr>
                 </template>
                 <tr v-else class="bg-emerald-200">
@@ -84,9 +88,11 @@
                   <td class="tail-text-right">
                     Sub Total
                   </td>
-                  <td class="tail-text-right tail-text-black">
-                    {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
-                  </td>
+                  <client-only>
+                    <td class="tail-text-right tail-text-black">
+                      {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
+                    </td>
+                  </client-only>
                 </tr>
                 <tr class="tail-text-sm">
                   <td></td>
@@ -94,9 +100,11 @@
                   <td class="tail-text-right">
                     Total
                   </td>
-                  <td class="tail-text-right tail-text-black">
-                    {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
-                  </td>
+                  <client-only>
+                    <td class="tail-text-right tail-text-black">
+                      {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
+                    </td>
+                  </client-only>
                 </tr>
               </tbody>
             </table>
