@@ -3,60 +3,57 @@
     <div
       class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
     >
-      <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Sign in with email</h1>
+      <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+        Sign in with email
+      </h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="login">
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="userName" class="required">Email</label>
+          <label for="email" class="required" :class="{'tail-text-red-700' : $v.email.$error}">Email</label>
           <input
-            v-model.trim="$v.userInfo.userName.$model"
-            tabindex="1"
+            v-model.lazy="$v.userInfo.email.$model"
             :disabled="isLoading"
             autocomplete="off"
-            type="text"
+            type="email"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{'tail-border-red-700' : $v.userInfo.email.$error}"
+            @blur="$v.userInfo.email.$touch()"
           />
-          <div v-if="$v.$dirty">
+          <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
             <small
-              v-if="!$v.userInfo.userName.required"
-              class="tail-text-gray-500"
-            >Field is required.</small>
+              v-if="!$v.userInfo.email.email"
+              class="error tail-text-red-700"
+            >Please enter a valid email address.</small>
           </div>
         </div>
         <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="password" class="required">Password</label>
+          <label for="password" class="required" :class="{'tail-text-red-700' : $v.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
-              v-model.trim="$v.userInfo.password.$model"
+              v-model.lazy="$v.userInfo.password.$model"
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{invalid: $v.userInfo.password.$error}"
+              :class="{'tail-border-red-700' : $v.userInfo.password.$error}"
+              @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
-          <div v-if="$v.$anyDirty">
-            <small
-              v-if="!$v.userInfo.password.required"
-              class="tail-text-gray-500"
-            >Password is required.</small>
-            <small v-if="!$v.userInfo.password.minLength" class="tail-text-gray-500">
+          <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
+            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
               Password must have at least
-              {{ $v.userInfo.password.$params.minLength.min }} letters.
+              {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
           </div>
         </div>
-        <!-- <div class="tail-flex tail-justify-center">
-            <button-spinner type="submit" :loading="isLoading" :disabled="$v.$invalid">
-              Login
-            </button-spinner>
-        </div>-->
         <div class="tail-flex tail-justify-between tail-items-center">
           <div>
             <NuxtLink
               :to="{ name: 'Auth-ForgotPassword' }"
               class="tail-text-blue-500 tail-font-medium tail-no-underline hover:tail-underline"
-            >Forgot your password?</NuxtLink>
+            >
+              Forgot your password?
+            </NuxtLink>
           </div>
           <button
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
@@ -77,12 +74,14 @@
       <NuxtLink
         :to="{ name: 'Auth-SignUp' }"
         class="tail-text-blue-500 tail-font-medium tail-ml-1 tail-no-underline hover:tail-underline"
-      >Sign up</NuxtLink>
+      >
+        Sign up
+      </NuxtLink>
     </div>
   </div>
 </template>
 <script>
-import { required, minLength } from 'vuelidate/lib/validators'
+import { required, minLength, email } from 'vuelidate/lib/validators'
 export default {
   name: 'SignIn',
   layout: 'auth',
@@ -92,7 +91,7 @@ export default {
       showPassword: false,
       isLoading: false,
       userInfo: {
-        userName: '',
+        email: '',
         password: '',
         domain: 'getwelp-trainer-ui'
       }
@@ -105,8 +104,9 @@ export default {
   },
   validations: {
     userInfo: {
-      userName: {
-        required
+      email: {
+        required,
+        email
       },
       password: {
         required,
@@ -146,11 +146,11 @@ export default {
       })
     },
     login () {
-      if (this.userInfo.userName && this.userInfo.password) {
+      if (this.userInfo.email && this.userInfo.password) {
         this.isLoading = true
         this.$auth.loginWith('local', {
           data: {
-            userName: this.userInfo.userName.toLowerCase(),
+            email: this.userInfo.email.toLowerCase(),
             password: this.userInfo.password,
             domain: 'getwelp-trainer-ui'
           }
@@ -177,10 +177,6 @@ export default {
       }
     },
     handleGoogleAuthCallback () {
-      // console.log('hi', {
-      //   token: this.$cookies.get('access_token'),
-      //   refreshToken: this.$cookies.get('refresh_token')
-      // })
       this.authenticateWithTokens({
         token: this.$cookies.get('access_token'),
         refreshToken: this.$cookies.get('refresh_token')
@@ -192,6 +188,6 @@ export default {
 <style lang="scss" scoped>
 .required:after {
   content: " *";
-  @apply tail-text-red-500 tail-text-sm;
+  @apply tail-text-red-700 tail-text-sm;
 }
 </style>
