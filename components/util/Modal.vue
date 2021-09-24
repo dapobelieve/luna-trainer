@@ -74,14 +74,6 @@ export default {
   computed: {
     width () {
       return `${this.inputWidth}%`
-    },
-    formattedSrc () {
-      const screenWidth = screen.width
-      if (screenWidth > 1024) {
-        return `${this.inputWidth}%`
-      } else {
-        return `${this.inputWidth}%`
-      }
     }
   }
 }
