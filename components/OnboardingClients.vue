@@ -104,7 +104,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingClients',
   computed: {
@@ -150,7 +150,8 @@ export default {
       required
     },
     email: {
-      required
+      required,
+      email
     }
   },
   methods: {
