@@ -26,9 +26,11 @@
           <small class="tail-text-gray-500 tail-ml-5">Qty {{ select.qty }}</small>
         </div>
         <div class="tail-flex tail-justify-between tail-items-center tail-gap-2">
-          <h5 class="tail-font-medium tail-text-lg">
-            {{ select.price | amount }}
-          </h5>
+          <client-only>
+            <h5 class="tail-font-medium tail-text-lg">
+              {{ select.price | amount }}
+            </h5>
+          </client-only>
 
           <button @click.prevent="editSelectionItem(select.serviceId)">
             <small class="ns-edit tail-flex tail-align-middle  primary-color tail-rounded-full tail-p-1 tail-text-white"></small>

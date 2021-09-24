@@ -69,10 +69,15 @@
       >
         <button
           class="tail-text-blue-500 tail-mr-auto"
-          :class="[
-            step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
-          ]"
+          :class="[step === 3 ? 'tail-visible' : step === 4 ? 'tail-hidden' : 'tail-invisible']"
           @click.prevent="step++"
+        >
+          Skip
+        </button>
+        <button
+          class="tail-text-blue-500 tail-mr-auto"
+          :class="[step === 4 ? 'tail-visible' : step === 3 ? 'tail-hidden' : 'tail-invisible']"
+          @click.prevent="saveProfile"
         >
           Skip
         </button>
@@ -153,10 +158,15 @@
       <div class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4">
         <button
           class="tail-text-blue-500 tail-mr-auto"
-          :class="[
-            step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
-          ]"
+          :class="[step === 3 ? 'tail-visible' : step === 4 ? 'tail-hidden' : 'tail-invisible']"
           @click.prevent="step++"
+        >
+          Skip
+        </button>
+        <button
+          class="tail-text-blue-500 tail-mr-auto"
+          :class="[step === 4 ? 'tail-visible' : step === 3 ? 'tail-hidden' : 'tail-invisible']"
+          @click.prevent="saveProfile"
         >
           Skip
         </button>
@@ -307,6 +317,7 @@ export default {
   },
   computed: {
     ...mapState({
+      trainerRegInfo: state => state.profile.trainnerRegData.personalProfile,
       clientInfo: state => state.profile.trainnerRegData.client,
       editingService: state => state.profile.editingServiceCard
     }),
@@ -377,6 +388,8 @@ export default {
         try {
           return this.create().then((result) => {
             if (result.status === 'success') {
+              // set currency in store
+              this.setTempState({ currency: this.trainerRegInfo.currency })
               if (this.isClientFormFilled) {
                 return this.addClient(this.clientInfo).then((result) => {
                   if (result.status) {

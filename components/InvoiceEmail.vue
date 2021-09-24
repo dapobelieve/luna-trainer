@@ -28,9 +28,11 @@
                 <p class="tail-text-gray-400">
                   Amount
                 </p>
-                <p class="tail-text-2xl">
-                  {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}
-                </p>
+                <client-only>
+                  <p class="tail-text-2xl">
+                    {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}
+                  </p>
+                </client-only>
                 <p class="tail-text-sm">
                   Due on {{ invoice.dueDate }}
                 </p>
@@ -61,9 +63,11 @@
               <div>
                 <p><strong>Amount Due</strong></p>
               </div>
-              <div class="tail-pr-2">
-                <span> {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}</span>
-              </div>
+              <client-only>
+                <div class="tail-pr-2">
+                  <span> {{ invoiceItems.length ? subTotalInvoice : 0 | amount }}</span>
+                </div>
+              </client-only>
             </div>
           </div>
         </div>
