@@ -20,8 +20,8 @@
           <input
             id="firstName"
             v-model="firstName"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-            :class="{'tail-border-red-700' : $v.firstName.$error}"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-shadow-md focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.firstName.$error}"
             @blur="$v.firstName.$touch()"
           />
         </div>
@@ -38,8 +38,8 @@
           <input
             id="lastName"
             v-model="lastName"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-            :class="{'tail-border-red-700' : $v.lastName.$error}"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-shadow-md focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.lastName.$error}"
             @blur="$v.lastName.$touch()"
           />
         </div>
@@ -56,8 +56,8 @@
           <input
             id="email"
             v-model="email"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-            :class="{'tail-border-red-700' : $v.email.$error}"
+            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-shadow-md focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            :class="{'tail-shadow-md tail-border-red-700' : $v.email.$error}"
             @blur="$v.email.$touch()"
           />
         </div>

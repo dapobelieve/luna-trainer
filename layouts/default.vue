@@ -1,9 +1,9 @@
 <template>
   <async-view loader-id="logout">
-    <div class="tail-min-h-screen tail-bg-gray-100">
+    <div class="tail-min-h-screen">
       <GwHeader />
       <div
-        class="tail-py-0 tail-max-w-12xl tail-mx-auto sm:tail-px-0 lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12"
+        class="tail-py-0 tail-max-w-12xl tail-mx-auto sm:tail-px-0 lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12 tail-h-screen"
       >
         <Navigation />
         <main class="lg:tail-col-span-9 xl:tail-col-span-10">
