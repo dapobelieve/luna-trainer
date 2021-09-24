@@ -36,10 +36,10 @@ export default {
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~plugins/persistedState.client.js' },
     { src: '~plugins/intercom.js', ssr: false },
-    { src: '~plugins/filters.js' },
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/sendBird' },
-    { src: '@/plugins/vClickOutside', ssr: false }
+    { src: '@/plugins/vClickOutside', ssr: false },
+    { src: '~plugins/filters.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

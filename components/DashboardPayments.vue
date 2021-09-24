@@ -13,17 +13,21 @@
           style="background: rgba(240, 245, 250, 1);"
         >
           <small class="tail-block">Due</small>
-          <h3 class="tail-mb-0 tail-font-medium">
-            {{ totalOfOwedInvoice | amount }}
-          </h3>
+          <client-only>
+            <h3 class="tail-mb-0 tail-font-medium">
+              {{ totalOfOwedInvoice | amount }}
+            </h3>
+          </client-only>
         </div>
         <div
           class="tail-rounded-md tail-border tail-px-4 tail-py-2 tail-text-gray-400 tail-border-gray-300"
         >
           <small class="tail-block">Received</small>
-          <h3 class="tail-mb-0 tail-font-medium">
-            {{ totalOfPaidInvoice | amount }}
-          </h3>
+          <client-only>
+            <h3 class="tail-mb-0 tail-font-medium">
+              {{ totalOfPaidInvoice | amount }}
+            </h3>
+          </client-only>
         </div>
       </div>
       <!-- TODO:: figure a better way for the v-if below -->
@@ -78,9 +82,11 @@
             </p>
             <small class="tail-text-gray-400">{{ invoice.dueDate | date }}</small>
           </div>
-          <p class="tail-font-medium">
-            {{ invoice.total | amount }}
-          </p>
+          <client-only>
+            <p class="tail-font-medium">
+              {{ invoice.total | amount }}
+            </p>
+          </client-only>
         </div>
         <div class="tail-flex tail-justify-center">
           <button :class="['tail-capitalize', 'tail-border-2', 'tail-border-gray-300', 'tail-bg-white', 'tail-rounded-md', 'tail-px-2', 'tail-font-normal']" @click="$router.push({ name: 'Invoices' })">
