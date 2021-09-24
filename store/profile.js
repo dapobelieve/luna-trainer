@@ -2,6 +2,7 @@ export const state = () => ({
   isStripeConnected: false,
   editingServiceCard: false,
   getWelpUser: {},
+  currency: 'GBP',
   trainnerRegData: {
     personalProfile: {
       firstName: '',

@@ -5,12 +5,12 @@ export default ({ store }) => {
     key: 'vuex',
     paths: [
       'profile.getWelpUser',
+      'profile.currency',
       'profile.trainnerRegData',
       'auth',
       'sendBird.connectedChannels',
       'sendBird.tempClient',
-      'client.clients',
-      'userPreferrences'
+      'client.clients'
     ],
     storage: localStorage
   })(store)

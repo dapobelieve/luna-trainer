@@ -133,11 +133,8 @@ export default {
           this.$router.push({ name: 'Auth-onboardingProfileSetup' })
         } else {
           this.$auth.setUser(response)
-          // set currency into localStorage
-          const userPreferrences = localStorage.getItem('userPreferrences')
-          // eslint-disable-next-line curly
-          if (userPreferrences !== null) localStorage.removeItem('userPreferrences')
-          localStorage.setItem('userPreferrences', { currency: response.currency })
+          // set currency in store
+          this.setTempState({ currency: response.currency })
           // set user in local storage
           const getWelpUser = localStorage.getItem('getWelpUser')
           // eslint-disable-next-line curly
