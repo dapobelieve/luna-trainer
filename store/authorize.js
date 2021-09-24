@@ -35,7 +35,6 @@ export const actions = {
     dispatch('sendBird/setCurrentViewingClient', {}, { root: true })
     commit('CLEAR_LOCAL_STORAGE')
     dispatch('loader/endProcess', 'logout', { root: true })
-    localStorage.removeItem('userPreferrences')
     // return true
   }
 }
