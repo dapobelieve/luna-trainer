@@ -130,7 +130,7 @@
               </div>
             </button>
             <button
-              v-else-if="menu.path === 'signout'"\
+              v-else-if="menu.path === 'signout'"
               class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-pb-6 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
@@ -263,11 +263,7 @@
                   <div
                     class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-600"
                   >
-                    {{
-                      n.lastMessage.message.length > 76
-                        ? `${n.lastMessage.message.substring(0, 76)}...`
-                        : n.lastMessage.message
-                    }}
+                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}`  : n.lastMessage.message }}
                   </div>
                 </div>
               </button>
