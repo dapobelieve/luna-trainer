@@ -1,5 +1,5 @@
 <template>
- <main>
+  <main class="tail-grid tail-place-content-center tail-min-h-screen">
     <div class="tail-flex tail-justify-center tail-px-4 tail-pb-28 lg:pb-0">
       <div
         class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-items-center tail-max-w-lg lg:tail-max-w-screen-xl tail-w-full tail-mt-10 lg:tail-mt-20 2xl:tail-mt-28 tail-gap-4 lg:tail-gap-9 xl:tail-gap-12 tail-relative"
@@ -15,18 +15,24 @@
           <div class="tail-mt-6 lg:tail-mt-10">
             <h1
               class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl"
-            >We’re here to make dog trainers’ lives easier</h1>
+            >
+              We’re here to make dog trainers’ lives easier
+            </h1>
             <div
               class="tail-w-full md:tail-w-10/12 tail-flex tail-flex-col tail-mr-auto tail-ml-auto lg:tail-ml-0 tail-mt-4 lg:tail-mt-6"
             >
               <p
                 v-if="routeName === 'Auth-SignUp'"
                 class="tail-text-gray-500"
-              >You can sign in with your Google account below to sign up.</p>
+              >
+                You can sign in with your Google account below to sign up.
+              </p>
               <p
                 v-else
                 class="tail-text-gray-500"
-              >You can sign in with your Google account below which will sync everything you need at once</p>
+              >
+                You can sign in with your Google account below which will sync everything you need at once
+              </p>
             </div>
             <div class="tail-mt-6">
               <button
