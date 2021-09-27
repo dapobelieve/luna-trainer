@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapState({
       services: state => state.profile.trainnerRegData.services,
-      currency: state => state.profile.currency,
+      currency: state => state.profile.trainnerRegData.personalProfile.currency,
       editingService: state => state.profile.editingServiceCard
     })
   },
