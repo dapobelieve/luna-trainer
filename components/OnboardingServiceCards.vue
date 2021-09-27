@@ -10,7 +10,7 @@
           <div class="tail-flex tail-justify-between">
             <span class="tail-capitalize tail-text-gray-600 tail-font-semibold tail-truncate tail-pr-3 lg:tail-pr-0">{{ n.description }}</span>
             <span class="tail-text-gray-600 tail-font-semibold">
-              £{{ n.pricing.amount }}.00
+              {{ currency }} {{ n.pricing.amount }}.00
             </span>
           </div>
           <p v-for="a in n.appointmentTypes" :key="a.index" class="tail-capitalize tail-font-thin tail-mb-0 tail-text-gray-500 tail-text-sm">
@@ -33,6 +33,7 @@ export default {
   computed: {
     ...mapState({
       services: state => state.profile.trainnerRegData.services,
+      currency: state => state.profile.currency,
       editingService: state => state.profile.editingServiceCard
     })
   },
