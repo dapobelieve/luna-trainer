@@ -82,6 +82,7 @@
 </template>
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
+import { mapMutations } from 'vuex'
 export default {
   name: 'SignIn',
   layout: 'auth',
@@ -121,6 +122,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setTempState: 'profile/SET_STATE'
+    }),
     authenticateWithTokens (tokens) {
       // set necessary tokens
       this.$store.dispatch('authorize/setToken', tokens)
