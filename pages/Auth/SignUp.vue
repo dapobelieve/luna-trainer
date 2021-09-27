@@ -12,6 +12,7 @@
           <input
             v-model.lazy="$v.userInfo.email.$model"
             autocomplete="off"
+            tabindex="1"
             type="email"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{'tail-shadow-md tail-border-red-700' : $v.userInfo.email.$error}"
@@ -30,6 +31,7 @@
             <input
               v-model.lazy="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
+              tabindex="2"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
               :class="{'tail-shadow-md tail-border-red-700' : $v.userInfo.password.$error}"
               @blur="$v.userInfo.password.$touch()"

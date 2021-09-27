@@ -60,6 +60,12 @@
             :class="{'tail-shadow-md tail-border-red-700' : $v.email.$error}"
             @blur="$v.email.$touch()"
           />
+          <div v-if="$v.email.$error" class="tail-mt-0.5">
+            <small
+              v-if="!$v.email.email"
+              class="error tail-text-red-700"
+            >Please enter a valid email address.</small>
+          </div>
         </div>
       </div>
       <div class="sm:tail-col-span-2">
@@ -98,7 +104,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingClients',
   computed: {
@@ -144,7 +150,8 @@ export default {
       required
     },
     email: {
-      required
+      required,
+      email
     }
   },
   methods: {

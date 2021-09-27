@@ -56,7 +56,7 @@
       </div>
     </div>
     <div v-if="getStarted" class="tail-flex tail-items-center tail-justify-center tail-h-screen">
-      <Modal :is-open="letsGetStarted" :close="false" :close-back-drop="letsGetStarted = true" :input-width="30" @close="letsGetStarted = $event">
+      <Modal :is-open="letsGetStarted" :close="false" :close-back-drop="letsGetStarted = true" :input-width="40" @close="letsGetStarted = $event">
         <div class="tail-text-left">
           <h1
             class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6"
