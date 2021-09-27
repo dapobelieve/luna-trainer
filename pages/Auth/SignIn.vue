@@ -5,7 +5,7 @@
     >
       <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Sign in with email</h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="login">
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="userName" class="required">Email</label>
           <input
             v-model.trim="$v.userInfo.userName.$model"
@@ -13,7 +13,7 @@
             :disabled="isLoading"
             autocomplete="off"
             type="text"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           />
           <div v-if="$v.$dirty">
             <small
@@ -22,7 +22,7 @@
             >Field is required.</small>
           </div>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="password" class="required">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
@@ -30,7 +30,7 @@
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
               :class="{invalid: $v.userInfo.password.$error}"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
@@ -63,7 +63,7 @@
             type="submit"
             :loading="isLoading"
             :disabled="$v.$invalid"
-            class="primary-button"
+            class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />Login
           </button>
@@ -190,8 +190,4 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.required:after {
-  content: " *";
-  @apply tail-text-red-500 tail-text-sm;
-}
 </style>

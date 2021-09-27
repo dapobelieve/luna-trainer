@@ -11,14 +11,14 @@
       </div>
 
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="email" class="required">Email address</label>
           <input
             v-model.trim="$v.email.$model"
             :disabled="isLoading"
             autocomplete="off"
             type="text"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{invalid: $v.email.$error}"
             @click="$v.email.$touch()"
           />
@@ -31,8 +31,7 @@
         <div class="tail-flex tail-justify-end">
           <button
             :loading="isLoading"
-            class="primary-button"
-            style="width: fit-content"
+            class="button-fill"
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
             :disabled="$v.$invalid"
           >

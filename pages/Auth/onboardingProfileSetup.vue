@@ -1,9 +1,12 @@
 <template>
-  <div class="lg:tail-grid lg:tail-grid-cols-3 tail-bg-blue-50 tail-h-full">
+  <div
+    class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-mx-auto lg:tail-justify-start tail-max-w-xl lg:tail-max-w-full tail-px-4 lg:tail-px-0 tail-min-h-screen"
+  >
     <div
-      class="tail-flex tail-flex-col tail-bg-blue-50 lg:tail-bg-white tail-h-screen tail-px-6 tail-py-10 tail-w-full"
+      class="tail-flex tail-flex-col tail-bg-none lg:tail-bg-white lg:tail-h-screen lg:tail-max-w-[26rem] 2xl:tail-max-w-md tail-w-full lg:tail-p-10 tail-gap-20 lg:tail-border-r lg:tail-sticky tail-top-0"
     >
       <circle-step-navigation
+        class="tail-flex tail-items-center tail-h-16 lg:tail-h-auto"
         :step-count="step"
         :disabled="[
           profile,
@@ -16,17 +19,12 @@
       />
 
       <!-- This section is for smaller screens -->
-      <div
-        class="tail-mt-10 lg:tail-hidden tail-pb-28"
-        :class="{ 'tail-pb-0': step === 2 }"
-      >
+      <!-- <div class="tail-mt-10 lg:tail-hidden tail-pb-28" :class="{ 'tail-pb-0': step === 2 }">
         <template v-if="step === 0">
           <onboarding-profile @validity="profile.isDisabled = $event" />
         </template>
         <template v-else-if="step === 1">
-          <onboarding-trainer-profile
-            @validity="trainerProfile.isDisabled = $event"
-          />
+          <onboarding-trainer-profile @validity="trainerProfile.isDisabled = $event" />
         </template>
         <template v-else-if="step === 2">
           <onboarding-services
@@ -41,30 +39,25 @@
         <template v-else-if="step === 4">
           <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
         </template>
-      </div>
-      <div class="tail-mt-20 tail-hidden lg:tail-block tail-text-gray-700">
+      </div>-->
+
+      <div class="tail-hidden lg:tail-block tail-flex-grow">
         <template v-if="'type' in pageIntro[step]">
-          <h2 class="tail-text-2xl tail-mb-8 tail-max-w-xs">
-            {{ pageIntro[step].title }}
-          </h2>
-          <div
-            class="tail-font-extralight"
+          <h1 class="tail-text-3xl">{{ pageIntro[step].title }}</h1>
+          <p
+            class="xl:tail-text-lg tail-mt-10 tail-text-gray-500"
             v-html="pageIntro[step].subTitle"
-          ></div>
+          ></p>
         </template>
         <template v-else>
-          <h2 class="tail-text-2xl tail-mb-8 tail-max-w-xs">
-            {{ pageIntro[step].title }}
-          </h2>
-          <p class="tail-font-extralight">
-            {{ pageIntro[step].subTitle }}
-          </p>
+          <h1 class="tail-text-3xl">{{ pageIntro[step].title }}</h1>
+          <p class="xl:tail-text-lg tail-mt-10 tail-text-gray-500">{{ pageIntro[step].subTitle }}</p>
         </template>
       </div>
       <!-- end of bigger screen view -->
 
       <!-- this buttons is for small screens only -->
-      <div
+      <!-- <div
         class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4 lg:tail-hidden tail-fixed tail-bottom-8 tail-right-0 tail-left-0 tail-px-5"
       >
         <button
@@ -73,9 +66,7 @@
             step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
           ]"
           @click.prevent="step++"
-        >
-          Skip
-        </button>
+        >Skip</button>
         <button
           v-if="step"
           :disabled="isLoading"
@@ -83,9 +74,7 @@
           style="width: fit-content"
           class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
           @click.prevent="decreaseStep"
-        >
-          back
-        </button>
+        >back</button>
         <button
           v-if="step === 4"
           type="button"
@@ -114,76 +103,76 @@
           style="width: fit-content"
           class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
           @click="increaseStep"
-        >
-          Next
-        </button>
-      </div>
+        >Next</button>
+      </div>-->
       <!-- ends small screen view -->
     </div>
 
-    <!-- only shows on bigger screen -->
-    <div
-      class="tail-mt-10 lg:tail-mt-0 tail-hidden lg:tail-flex tail-flex-col tail-bg-blue-50 tail-h-screen tail-px-6 tail-py-10"
-    >
+    <div class="lg:tail-flex tail-flex-col xl:tail-flex-row tail-flex-grow tail-mt-4 lg:tail-mt-0">
       <div
-        class="tail-text-lg tail-font-medium tail-text-gray-900 tail-mb-auto"
+        class="tail-flex tail-flex-col tail-items-center lg:tail-p-10 tail-flex-grow lg:tail-overflow-y-auto"
       >
-        <template v-if="step === 0">
-          <onboarding-profile @validity="profile.isDisabled = $event" />
-        </template>
-        <template v-else-if="step === 1">
-          <onboarding-trainer-profile
-            @validity="trainerProfile.isDisabled = $event"
-          />
-        </template>
-        <template v-else-if="step === 2">
-          <onboarding-services
-            :selected-service-index="selectedServiceProps"
-            @clearSelectedServiceIndex="selectedServiceProps = $event"
-            @validity="allow($event)"
-          />
-        </template>
-        <template v-else-if="step === 3">
-          <onboarding-clients @validity="firstClient.isDisabled" />
-        </template>
-        <template v-else-if="step === 4">
-          <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
-        </template>
-      </div>
-      <div class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4">
-        <button
-          class="tail-text-blue-500 tail-mr-auto"
-          :class="[
+        <div
+          class="tail-flex tail-flex-col tail-gap-6 lg:tail-max-w-lg 2xl:tail-max-w-xl tail-w-full tail-h-full"
+        >
+          <div class="tail-flex-grow">
+            <div>
+              <template v-if="step === 0">
+                <onboarding-profile @validity="profile.isDisabled = $event" />
+              </template>
+              <template v-else-if="step === 1">
+                <onboarding-trainer-profile @validity="trainerProfile.isDisabled = $event" />
+              </template>
+              <template v-else-if="step === 2">
+                <onboarding-services
+                  :selected-service-index="selectedServiceProps"
+                  @clearSelectedServiceIndex="selectedServiceProps = $event"
+                  @validity="allow($event)"
+                />
+              </template>
+              <template v-else-if="step === 3">
+                <onboarding-clients @validity="firstClient.isDisabled" />
+              </template>
+              <template v-else-if="step === 4">
+                <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
+              </template>
+            </div>
+            <!-- Service items for mobile screen -->
+            <template v-if="step === 2">
+              <div class="xl:tail-hidden tail-py-6">
+                <onboarding-service-cards @editservice="selectedServiceProps = $event" />
+              </div>
+            </template>
+          </div>
+
+          <div class="tail-flex tail-items-center tail-gap-2">
+            <button
+              class="button-text tail-mr-auto"
+              :class="[
             step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
           ]"
-          @click.prevent="step++"
-        >
-          Skip
-        </button>
-        <button
-          v-if="step"
-          :disabled="isLoading"
-          type="button"
-          style="width: fit-content"
-          class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click.prevent="decreaseStep"
-        >
-          back
-        </button>
-        <button
-          v-if="step === 4"
-          :disabled="isLoading"
-          type="button"
-          style="width: fit-content"
-          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click="saveProfile"
-        >
-          <SingleLoader v-if="isLoading" class="tail-mr-2" />
-          {{ isLoading ? "Creating Account" : "Save & Complete" }}
-        </button>
-        <button
-          v-else-if="step !== 5"
-          :disabled="
+              @click.prevent="step++"
+            >Skip</button>
+            <button
+              v-if="step"
+              :disabled="isLoading"
+              type="button"
+              class="button-outline"
+              @click.prevent="decreaseStep"
+            >back</button>
+            <button
+              v-if="step === 4"
+              :disabled="isLoading"
+              type="button"
+              class="button-fill"
+              @click="saveProfile"
+            >
+              <SingleLoader v-if="isLoading" />
+              {{ isLoading ? "Creating Account" : "Save & Complete" }}
+            </button>
+            <button
+              v-else-if="step !== 5"
+              :disabled="
             step === 0
               ? profile.isDisabled
               : step === 1
@@ -194,40 +183,23 @@
                     ? firstClient.isDisabled
                     : stripeConnect.isDisabled
           "
-          type="button"
-          style="width: fit-content"
-          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click="increaseStep"
-        >
-          Next
-        </button>
+              type="button"
+              class="button-fill"
+              @click="increaseStep"
+            >Next</button>
+          </div>
+        </div>
+      </div>
+      <!-- Service items for screen 1280 and above -->
+      <div class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl">
+        <template v-if="step === 2">
+          <div class="tail-h-screen tail-border-l tail-overflow-y-auto xl:tail-p-10">
+            <onboarding-service-cards @editservice="selectedServiceProps = $event" />
+            <div class="tail-h-20"></div>
+          </div>
+        </template>
       </div>
     </div>
-    <!-- end of bigger screen view -->
-
-    <!-- only shows on bigger screens -->
-    <template v-if="step === 2">
-      <div
-        class="tail-mt-10 lg:tail-mt-0 tail-bg-blue-50 tail-h-screen tail-px-6 tail-pt-10 tail-border tail-hidden lg:tail-block"
-      >
-        <onboarding-service-cards
-          @editservice="selectedServiceProps = $event"
-        />
-      </div>
-    </template>
-    <!-- end of bigger screen view -->
-
-    <!-- only shows on smaller screen -->
-    <template v-if="step === 2">
-      <div
-        class="lg:tail-mt-0 tail-bg-blue-50 tail-px-6 tail-pt-10 tail-border-t lg:tail-border-l lg:tail-hidden tail--mt-80"
-      >
-        <onboarding-service-cards
-          @editservice="selectedServiceProps = $event"
-        />
-      </div>
-    </template>
-    <!-- end of smaller screen -->
   </div>
 </template>
 

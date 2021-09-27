@@ -5,13 +5,13 @@
     >
       <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Sign up with email</h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="email" class="required">Email address</label>
           <input
             v-model.trim="$v.userInfo.email.$model"
             autocomplete="off"
             type="text"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           />
           <div v-if="$v.$anyDirty">
             <small
@@ -24,13 +24,13 @@
             >Email address be valid email.</small>
           </div>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="password" class="required">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
               v-model.trim="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
@@ -56,7 +56,7 @@
             type="submit"
             :loading="isLoading"
             :disabled="$v.$invalid"
-            class="primary-button"
+            class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ signUpText }}

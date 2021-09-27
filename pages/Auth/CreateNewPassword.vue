@@ -11,7 +11,7 @@
         </p>
       </div>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="password" class="required">Old Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
@@ -19,7 +19,7 @@
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
               :class="{invalid: $v.userInfo.oldPassword.$error}"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
@@ -35,7 +35,7 @@
             </small>
           </div>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <div class="tail-flex tail-justify-between tail-items-center">
             <label for="password" class="required">New Password</label>
           </div>
@@ -45,7 +45,7 @@
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
               :class="{invalid: $v.userInfo.newPassword.$error}"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
@@ -65,7 +65,7 @@
         <div class="tail-flex tail-justify-end tail-py-1">
           <button
             :loading="isLoading"
-            class="primary-button"
+            class="button-fill"
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
             :disabled="$v.$invalid"
           >

@@ -1,75 +1,53 @@
 <template>
   <div>
-    <h2
-      class="tail-text-lg tail-font-extrabold tail-tracking-tight tail-text-gray-700"
-    >
-      Tell us a bit about the type of Trainer you are
-    </h2>
-    <form
-      class="tail-grid tail-grid-cols-1 tail-gap-y-6 sm:tail-grid-cols-2 sm:tail-gap-x-8 tail-mt-10 tail-text-gray-700"
-    >
-      <div class="sm:tail-col-span-2">
-        <label
-          for="accreditations"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Do you have any accreditations? e.g APDT
-        </label>
-        <div class="">
-          <settings-tag-input v-model="accreditations" :block="false" />
-        </div>
+    <h5 class="tail-text-lg tail-font-bold">Tell us a bit about the type of Trainer you are</h5>
+    <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="accreditations">Do you have any accreditations? e.g APDT</label>
+        <settings-tag-input v-model="accreditations" :block="false" />
       </div>
-      <div class="sm:tail-col-span-2">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          What training or behavioural areas do you specialise in? e.g Puppies, Separation Anxiety <span class="tail-text-red-700">*</span>
-        </label>
-        <div class="">
-          <settings-tag-input v-model="specialization" :block="false" />
-        </div>
+          class="required"
+        >What training or behavioural areas do you specialise in? e.g Puppies, Separation Anxiety</label>
+        <settings-tag-input v-model="specialization" :block="false" />
       </div>
-      <div class="sm:tail-col-span-2">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label
           for="reinforcement"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Do you use positive reinforcement, force free, trust based methods?
-        </label>
-        <div class="tail-flex tail-space-x-2">
-          <label class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full" :class="{ 'tail-bg-blue-200' : reinforcement === 'yes' }">
+        >Do you use positive reinforcement, force free, trust based methods?</label>
+        <div class="tail-flex tail-flex-row tail-gap-2">
+          <label
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
+            :class="{ 'tail-bg-blue-50' : reinforcement === 'yes' }"
+          >
             <input
               v-model="reinforcement"
               type="radio"
               name="reinforcement"
               :checked="reinforcement"
               value="yes"
-              class="tail-h-4 tail-w-4 tail-mt-0.5 tail-cursor-pointer tail-text-indigo-600 tail-border-gray-300 focus:tail-ring-indigo-500"
+              class="tail-h-5 tail-w-5 tail-cursor-pointer tail-text-blue-500 tail-border-gray-200 focus:tail-ring-blue-500"
               aria-labelledby="reinforcement-0-label"
               aria-describedby="reinforcement-0-description"
-            >
-            <div class="tail-ml-3 tail-flex tail-flex-col">
-              <span id="reinforcement-0-label" class="tail-block tail-text-sm tail-font-medium">
-                Yes
-              </span>
-            </div>
+            />
+            <span id="reinforcement-0-label" class="tail-block tail-font-medium tail-ml-2">Yes</span>
           </label>
-          <label class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full" :class="{ 'tail-bg-blue-200' : reinforcement === 'no' }">
+          <label
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
+            :class="{ 'tail-bg-blue-50' : reinforcement === 'no' }"
+          >
             <input
               v-model="reinforcement"
               :checked="reinforcement"
               type="radio"
               name="reinforcement"
               value="no"
-              class="tail-h-4 tail-w-4 tail-mt-0.5 tail-cursor-pointer tail-text-indigo-600 tail-border-gray-300 focus:tail-ring-indigo-500"
+              class="tail-h-5 tail-w-5 tail-cursor-pointer tail-text-blue-500 tail-border-gray-200 focus:tail-ring-blue-500"
               aria-labelledby="reinforcement-0-label"
               aria-describedby="reinforcement-0-description"
-            >
-            <div class="tail-ml-3 tail-flex tail-flex-col">
-              <span id="reinforcement-0-label" class="tail-block tail-text-sm tail-font-medium">
-                No
-              </span>
-            </div>
+            />
+            <span id="reinforcement-0-label" class="tail-block tail-font-medium tail-ml-2">No</span>
           </label>
         </div>
       </div>
@@ -136,5 +114,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

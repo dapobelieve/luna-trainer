@@ -1,44 +1,25 @@
 <template>
   <div>
-    <h2
-      class="tail-text-lg tail-font-extrabold tail-tracking-tight tail-text-gray-700"
-    >
-      Add Your services
-    </h2>
-    <form
-      class="tail-grid tail-grid-cols-1 tail-gap-y-6 sm:tail-grid-cols-2 sm:tail-gap-x-8 tail-mt-10 tail-text-gray-700"
-    >
-      <div class="sm:tail-col-span-2">
-        <label
-          for="service"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Service Title <span class="tail-text-red-700">*</span>
-        </label>
-        <div class="">
-          <input
-            id="service"
-            v-model="services.description"
-            placeholder="Separation Anxiety (Replace this description)"
-            class="tail-block tail-w-full tail-shadow-sm sm:tail-text-sm focus:tail-ring-grape-500 focus:tail-border-grape-500 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-          />
-        </div>
+    <h5 class="tail-text-lg tail-font-bold">Add Your services</h5>
+    <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="service" class="required">Service Title</label>
+        <input
+          id="service"
+          v-model="services.description"
+          placeholder="Separation Anxiety (Replace this description)"
+          class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+        />
       </div>
-      <div class="sm:tail-col-span-2">
-        <label
-          for="reinforcement"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Type of appointment (you can tick both options)
-          <span class="tail-text-red-700">*</span>
-        </label>
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="reinforcement" class="required">Type of appointment (you can tick both options)</label>
         <div
           class="tail-flex tail-flex-col sm:tail-flex-row tail-space-y-2 sm:tail-space-y-0 sm:tail-space-x-2"
         >
           <label
-            class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full"
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
             :class="{
-              'tail-bg-blue-200': services.appointmentTypes.includes('remote')
+              'tail-bg-blue-50': services.appointmentTypes.includes('remote')
             }"
           >
             <input
@@ -48,21 +29,14 @@
               name="remote"
               type="checkbox"
               value="remote"
-              class="focus:tail-ring-indigo-500 tail-h-4 tail-w-4 tail-text-indigo-600 tail-border-gray-300 tail-rounded"
+              class="tail-h-5 tail-w-5 tail-rounded"
             />
-            <div class="tail-ml-3 tail-flex tail-flex-col">
-              <span
-                id="reinforcement-0-label"
-                class="tail-block tail-text-sm tail-font-medium"
-              >
-                Yes
-              </span>
-            </div>
+            <span id="reinforcement-0-label" class="tail-ml-2 tail-font-medium">Yes</span>
           </label>
           <label
-            class="tail-rounded-tl-md tail-rounded-md tail-relative tail-border tail-px-4 tail-py-2.5 tail-flex tail-cursor-pointer focus:tail-outline-none tail-w-full"
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
             :class="{
-              'tail-bg-blue-200': services.appointmentTypes.includes(
+              'tail-bg-blue-50': services.appointmentTypes.includes(
                 'in-person'
               )
             }"
@@ -74,28 +48,20 @@
               name="remote"
               type="checkbox"
               value="in-person"
-              class="focus:tail-ring-indigo-500 tail-h-4 tail-w-4 tail-text-indigo-600 tail-border-gray-300 tail-rounded"
+              class="tail-h-5 tail-w-5"
             />
-            <div class="tail-ml-3 tail-flex tail-flex-col">
-              <span
-                id="reinforcement-0-label"
-                class="tail-block tail-text-sm tail-font-medium"
-              >
-                In-person (1-2-1)
-              </span>
-            </div>
+            <span id="reinforcement-0-label" class="tail-ml-2 tail-font-medium">In-person (1-2-1)</span>
           </label>
         </div>
       </div>
-      <div class="sm:tail-col-span-2">
-        <label
-          for="currency"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Price
-          <span class="tail-text-red-700">*</span>
-        </label>
-        <div class="">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="currency" class="required">Price</label>
+        <div class="tail-relative tail-flex">
+          <div
+            class="tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none tail-bg-white tail-h-10 tail-border tail-shadow-sm tail-rounded-l-md tail-border-r-0"
+          >
+            <span class="tail-text-gray-500">GBP</span>
+          </div>
           <input
             id="price"
             v-model.number="services.pricing.amount"
@@ -103,41 +69,25 @@
               $store.state.profile.trainnerRegData.personalProfile.currency
             "
             type="number"
-            class="tail-py-1 tail-block tail-text-sm tail-w-full tail-shadow-sm focus:tail-ring-indigo-500 focus:tail-border-indigo-500 tail-border-gray-300 tail-rounded-md tail-border tail-px-2"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-r-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 focus:tail-border tail-border-l-0"
           />
         </div>
       </div>
-      <div class="sm:tail-col-span-2 tail-flex tail-justify-end tail-space-x-2">
-        <p v-if="servicesFromStore.length === 5 && !editing">
-          You have enough services for now
-        </p>
+      <div class="sm:tail-col-span-2 tail-flex tail-justify-end tail-gap-2">
+        <p
+          v-if="servicesFromStore.length === 5 && !editing"
+          class="tail-text-gray-500 tail-font-medium"
+        >You have enough services for now</p>
         <template v-else-if="editing">
-          <button
-            type="button"
-            style="width: fit-content"
-            class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
-            @click="cancelEdit"
-          >
-            Cancel Edit
-          </button>
-          <button
-            type="button"
-            style="width: fit-content"
-            class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
-            @click="saveEdit"
-          >
-            Update Service
-          </button>
+          <button type="button" class="button-text" @click="cancelEdit">Cancel Edit</button>
+          <button type="button" class="button-outline" @click="saveEdit">Update Service</button>
         </template>
         <button
           v-else
           type="button"
-          style="width: fit-content"
-          class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="button-outline"
           @click="addNewService"
-        >
-          Save & add another service
-        </button>
+        >Save & add another service</button>
       </div>
     </form>
   </div>
