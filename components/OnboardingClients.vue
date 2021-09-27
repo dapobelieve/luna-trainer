@@ -2,6 +2,7 @@
   <div>
     <h2
       class="tail-text-lg tail-font-extrabold tail-tracking-tight tail-text-gray-700"
+
     >Add your first client</h2>
     <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
       <div class="tail-flex tail-flex-row tail-gap-4">
@@ -33,9 +34,17 @@
             id="email"
             v-model="email"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+
           />
+          <div v-if="$v.email.$error" class="tail-mt-0.5">
+            <small
+              v-if="!$v.email.email"
+              class="error tail-text-red-700"
+            >Please enter a valid email address.</small>
+          </div>
         </div>
       </div>
+
       <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="petName" class="required">Dog name</label>
         <div class>
@@ -53,6 +62,7 @@
             id="petBreed"
             v-model="petBreed"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+
           />
         </div>
       </div>
@@ -62,6 +72,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+import { required, email } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingClients',
   computed: {
@@ -97,6 +108,18 @@ export default {
       set (val) {
         this.addClient({ parent: 'client', key: 'petBreed', value: val })
       }
+    }
+  },
+  validations: {
+    firstName: {
+      required
+    },
+    lastName: {
+      required
+    },
+    email: {
+      required,
+      email
     }
   },
   methods: {

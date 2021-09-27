@@ -9,7 +9,7 @@
         leave-from="tail-opacity-100"
         leave-to="tail-opacity-0"
       >
-        <div class="tail-fixed tail-inset-0 tail-bg-gray-500 tail-bg-opacity-50 tail-transition-opacity" @click="$emit('close', false)"></div>
+        <div class="tail-fixed tail-inset-0 tail-bg-gray-500 tail-bg-opacity-50 tail-transition-opacity" @click="$emit('closeBackDrop', false)"></div>
       </transition>
       <span
         class="tail-hidden sm:tail-inline-block sm:tail-align-middle"
@@ -25,13 +25,13 @@
       >
         <div
           :style="{ width: width }"
-          class="tail-inline-block tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-full md:tail-w-4/6 lg:tail-w-2/6"
+          class="tail-inline-block tail-mt-6 tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-full md:tail-w-4/6 lg:tail-w-2/6"
         >
           <div class="tail-py-7 tail-px-6">
             <div class="tail-flex tail-justify-between tail-mb-6">
               <slot name="status">
               </slot>
-              <div class="hover:tail-cursor-pointer" @click="$emit('close', false)">
+              <div v-if="close" class="hover:tail-cursor-pointer" @click="$emit('close', false)">
                 <img
                   class="tail-hidden md:tail-block"
                   src="~/assets/img/cross-small.png"
@@ -60,12 +60,12 @@ export default {
     },
     close: {
       type: Boolean,
+      default: true
+    },
+    closeBackDrop: {
+      type: Boolean,
       default: false
     },
-    // status: {
-    //   type: String,
-    //   default: 'draft'
-    // },
     inputWidth: {
       type: Number,
       default: 40

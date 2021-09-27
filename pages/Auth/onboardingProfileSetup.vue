@@ -62,17 +62,22 @@
       >
         <button
           class="tail-text-blue-500 tail-mr-auto"
-          :class="[
-            step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
-          ]"
+          :class="[step === 3 ? 'tail-visible' : step === 4 ? 'tail-hidden' : 'tail-invisible']"
           @click.prevent="step++"
         >Skip</button>
+        <button
+          class="tail-text-blue-500 tail-mr-auto"
+          :class="[step === 4 ? 'tail-visible' : step === 3 ? 'tail-hidden' : 'tail-invisible']"
+          @click.prevent="saveProfile"
+        >
+          Skip
+        </button>
         <button
           v-if="step"
           :disabled="isLoading"
           type="button"
           style="width: fit-content"
-          class="base-button tail-bg-white tail-text-blue-500 tail-border tail-border-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="base-button tail-bg-white tail-text-blue-500 tail-border-blue-500 tail-px-3 tail-py-1 hover:tail-text-white hover:tail-border-transparent"
           @click.prevent="decreaseStep"
         >back</button>
         <button
@@ -101,7 +106,7 @@
                     : stripeConnect.isDisabled
           "
           style="width: fit-content"
-          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
+          class="base-button tail-bg-blue-500 tail-px-3 tail-py-1"
           @click="increaseStep"
         >Next</button>
       </div>-->
@@ -173,6 +178,7 @@
             <button
               v-else-if="step !== 5"
               :disabled="
+
             step === 0
               ? profile.isDisabled
               : step === 1
@@ -183,12 +189,14 @@
                     ? firstClient.isDisabled
                     : stripeConnect.isDisabled
           "
+
               type="button"
               class="button-fill"
               @click="increaseStep"
             >Next</button>
           </div>
         </div>
+
       </div>
       <!-- Service items for screen 1280 and above -->
       <div class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl">
@@ -279,6 +287,7 @@ export default {
   },
   computed: {
     ...mapState({
+      trainerRegInfo: state => state.profile.trainnerRegData.personalProfile,
       clientInfo: state => state.profile.trainnerRegData.client,
       editingService: state => state.profile.editingServiceCard
     }),
@@ -292,9 +301,15 @@ export default {
     }
   },
   mounted () {
-    if ('jumpto' in this.$route.query) {
+    if (this.$auth.strategy.token.status().valid() && 'jumpto' in this.$route.query) {
       const step = parseInt(this.$route.query.jumpto)
       this.move(step)
+    }
+    if (!this.$auth.strategy.token.status().valid()) {
+      this.$router.replace({ name: 'Auth-SignIn' })
+      this.$toast.error('Session Expired. Please login', {
+        position: 'bottom-right'
+      })
     }
   },
   methods: {
@@ -333,48 +348,57 @@ export default {
       }
     },
     saveProfile () {
-      this.isLoading = true
-      try {
-        return this.create().then((result) => {
-          if (result.status === 'success') {
-            if (this.isClientFormFilled) {
-              return this.addClient(this.clientInfo).then((result) => {
-                if (result.status) {
-                  this.clearTrainnerRegData()
-                  this.$router.replace({ name: 'Dashboard' }).then(() => {
-                    this.$toast.success('Welcome', {
-                      position: 'bottom-right'
-                    })
-                  })
-                }
-              })
-            } else {
-              this.clearTrainnerRegData()
-              this.$router.replace({ name: 'Dashboard' }).then(() => {
-                this.$toast.success('Welcome', { position: 'bottom-right' })
-              })
-            }
-          }
+      if (!this.$auth.strategy.token.status().valid()) {
+        this.$router.replace({ name: 'Auth-SignIn' })
+        this.$toast.error('Session Expired. Please login', {
+          position: 'bottom-right'
         })
-      } catch (err) {
-        this.isLoading = false
-        this.$toast.error(
-          'Something went wrong',
-          { position: 'bottom-right' }
-        )
-        if (err.response) {
+      } else {
+        this.isLoading = true
+        try {
+          return this.create().then((result) => {
+            if (result.status === 'success') {
+              // set currency in store
+              this.setTempState({ currency: this.trainerRegInfo.currency })
+              if (this.isClientFormFilled) {
+                return this.addClient(this.clientInfo).then((result) => {
+                  if (result.status) {
+                    this.clearTrainnerRegData()
+                    this.$router.replace({ name: 'Dashboard' }).then(() => {
+                      this.$toast.success('Welcome', {
+                        position: 'bottom-right'
+                      })
+                    })
+                  }
+                })
+              } else {
+                this.clearTrainnerRegData()
+                this.$router.replace({ name: 'Dashboard' }).then(() => {
+                  this.$toast.success('Welcome', { position: 'bottom-right' })
+                })
+              }
+            }
+          })
+        } catch (err) {
+          this.isLoading = false
           this.$toast.error(
-            `Something went wrong: ${err.response.data.message}`,
+            'Something went wrong',
             { position: 'bottom-right' }
           )
-        } else if (err.request) {
-          this.$toast.error('Something went wrong. Try again', {
-            position: 'bottom-right'
-          })
-        } else {
-          this.$toast.error(`Something went wrong: ${err.message}`, {
-            position: 'bottom-right'
-          })
+          if (err.response) {
+            this.$toast.error(
+              `Something went wrong: ${err.response.data.message}`,
+              { position: 'bottom-right' }
+            )
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', {
+              position: 'bottom-right'
+            })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, {
+              position: 'bottom-right'
+            })
+          }
         }
       }
     }

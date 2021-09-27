@@ -32,14 +32,14 @@
         </div>
       </div>
     </div>
-    <div v-show="meetSubMenu" class="tail-texl-sm" v-click-outside="externalClick">
+    <div v-show="meetSubMenu" v-click-outside="externalClick" class="tail-texl-sm">
       <GwOptions
         :options="['Edit Draft', 'Delete Draft']"
         selected=""
         @selected="classDetails"
       />
     </div>
-    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event">
+    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event" @closeBackDrop="openDeleteModal = $event">
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">
@@ -52,6 +52,7 @@
       :is-open="newCourse"
       :input-width="40"
       @close="newCourse = $event"
+      @closeBackDrop="newCourse = $event"
     >
       <template v-slot:status>
         <div class="tail-px-2 tail-text-xl">

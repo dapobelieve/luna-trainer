@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="tail-hidden lg:tail-block lg:tail-col-span-3 index xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white"
-  >
+  <div class="tail-hidden lg:tail-block  lg:tail-col-span-3 tail-h-full index xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white">
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
@@ -9,8 +7,8 @@
       aria-label="Sidebar"
       class="tail-sticky tail-top-0 tail-divide-y tail-divide-gray-300"
     >
-      <div class="tail-relative tail-pt-8">
-        <div class="tail-px-3 tail-py-1 tail-mt-3 tail-mb-4">
+      <div class="tail-relative tail-pt-4">
+        <div class="tail-px-3 tail-py-1 tail-mt-3 tail-mb-4 tail-sticky tail-top-0 tail-left-0 tail-backdrop-filter tail-backdrop-saturate-200 tail-backdrop-blur-2xl tail-z-10">
           <label for="search" class="tail-sr-only">Search</label>
           <div
             class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200"
@@ -133,7 +131,7 @@
             </button>
             <button
               v-else-if="menu.path === 'signout'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-pb-6 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
               <i
@@ -265,11 +263,7 @@
                   <div
                     class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-600"
                   >
-                    {{
-                      n.lastMessage.message.length > 76
-                        ? `${n.lastMessage.message.substring(0, 76)}...`
-                        : n.lastMessage.message
-                    }}
+                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}`  : n.lastMessage.message }}
                   </div>
                 </div>
               </button>
@@ -295,6 +289,7 @@
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
+      @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
@@ -302,16 +297,17 @@
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
+      @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
-    <Modal :is-open="addSession" :input-width="40" @close="addSession = $event">
+    <Modal :is-open="addSession" :input-width="40" @close="addSession = $event" @closeBackDrop="openEditModal = $event">
       <CreateSchedule @close="addSession = $event" />
     </Modal>
-    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event">
+    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event" @closeBackDrop="newCourse = $event">
       <CreateCourse @close="newCourse = $event" />
     </Modal>
-    <Modal :input-width="30" :is-open="openModal" @close="openModal = $event">
+    <Modal :input-width="30" :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
       <template v-slot:status>
         <div
           class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl"
@@ -452,4 +448,18 @@ export default {
 .index {
   z-index: 50;
 }
+::-webkit-scrollbar {
+  width:8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(180, 187, 199);
+  border-radius: 10px;
+}
+
 </style>

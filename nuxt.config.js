@@ -36,10 +36,10 @@ export default {
     { src: '~/plugins/vuelidate.js', ssr: true },
     { src: '~plugins/persistedState.client.js' },
     { src: '~plugins/intercom.js', ssr: false },
-    { src: '~plugins/filters.js' },
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/sendBird' },
-    { src: '@/plugins/vClickOutside', ssr: false }
+    { src: '@/plugins/vClickOutside', ssr: false },
+    { src: '~plugins/filters.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -51,11 +51,6 @@ export default {
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
     STRIPE_RETURN: process.env.STRIPE_RETURN,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
-    quickbloxBaseUrl: process.env.QUICKBLOX_BASE_URL,
-    quickbloxAppId: process.env.QUICKBLOX_APPLICATION_ID,
-    quickbloxAuthKey: process.env.QUICKBLOX_AUTH_KEY,
-    quickbloxAuthSecret: process.env.QUICKBLOX_AUTH_SECRET,
-    quickbloxAccountKey: process.env.QUICKBLOX_ACCOUNT_KEY,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
     sendBirdAppId: process.env.SENDBIRD_APP_ID
   },

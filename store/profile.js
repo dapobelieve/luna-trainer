@@ -2,12 +2,13 @@ export const state = () => ({
   isStripeConnected: false,
   editingServiceCard: false,
   getWelpUser: {},
+  currency: 'GBP',
   trainnerRegData: {
     personalProfile: {
       firstName: '',
       lastName: '',
       businessName: '',
-      websiteURL: '',
+      websiteUrl: '',
       location: '',
       currency: '',
       phone: '',
@@ -43,7 +44,7 @@ export const mutations = {
         firstName: '',
         lastName: '',
         businessName: '',
-        websiteURL: '',
+        websiteUrl: '',
         location: '',
         currency: '',
         phone: '',

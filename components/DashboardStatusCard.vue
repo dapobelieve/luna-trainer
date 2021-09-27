@@ -78,7 +78,7 @@
         </div>
       </li>
     </ul>
-    <Modal :is-open="addClient" @close="addClient = $event">
+    <Modal :is-open="addClient" @close="addClient = $event" @closeBackDrop="addClient = $event">
       <InviteNewClient @close="addClient = $event" />
     </Modal>
   </div>

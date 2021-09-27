@@ -3,53 +3,52 @@
     <div
       class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
     >
-      <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Sign up with email</h1>
+      <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+        Sign up with email
+      </h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
+
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="email" class="required">Email address</label>
+          <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}>Email address</label>
+
           <input
-            v-model.trim="$v.userInfo.email.$model"
+            v-model.lazy="$v.userInfo.email.$model"
             autocomplete="off"
-            type="text"
+            tabindex="1"
+            type="email"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{'tail-border-red-400' : $v.userInfo.email.$error}"
+            @blur="$v.userInfo.email.$touch()"
+
           />
-          <div v-if="$v.$anyDirty">
-            <small
-              v-if="!$v.userInfo.email.required"
-              class="error tail-text-gray-500"
-            >Email address is required.</small>
+          <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
             <small
               v-if="!$v.userInfo.email.email"
-              class="error tail-text-gray-500"
-            >Email address be valid email.</small>
+              class="error tail-text-red-700"
+            >Please enter a valid email address.</small>
           </div>
         </div>
+
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="password" class="required">Password</label>
+          <label for="password" class="required :class="{'tail-text-red-400' : $v.userInfo.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
-              v-model.trim="$v.userInfo.password.$model"
+              v-model.lazy="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
+              tabindex="2"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              :class="{'tail-shadow-md tail-border-red-400' : $v.userInfo.password.$error}"
+              @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
-          <div v-if="$v.$anyDirty">
-            <small
-              v-if="!$v.userInfo.password.required"
-              class="error tail-text-gray-500"
-            >Password is required.</small>
-            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-gray-500">
+          <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
+            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
               Password must have at least
-              {{ $v.userInfo.password.$params.minLength.min }} letters.
+              {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
           </div>
         </div>
-        <!-- <div class="tail-flex tail-justify-center">
-          <button-spinner type="submit" :loading="isLoading" :disabled="$v.$invalid">
-            {{ signUpText }}
-          </button-spinner>
-        </div>-->
         <div class="tail-flex tail-justify-end">
           <button
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
@@ -72,7 +71,9 @@
       <NuxtLink
         :to="{ name: 'Auth-SignIn' }"
         class="tail-text-blue-500 tail-font-medium tail-no-underline tail-ml-1 hover:tail-underline"
-      >Sign in</NuxtLink>
+      >
+        Sign in
+      </NuxtLink>
     </div>
   </div>
 </template>
@@ -149,15 +150,11 @@ export default {
                     .dispatch('profile/getUserProfile')
                     .then((response) => {
                       response === null
-                        ? this.$router.replace({
-                          name: 'Auth-onboardingProfileSetup',
-                          params: { email: this.userInfo.email }
-                        })
+                        ? this.$nuxt.$emit('profile')
                         : this.$router.replace({ name: 'Dashboard' })
                     })
                 })
             } catch (error) {
-              console.log(error)
               if (error.response) {
                 this.$toast.error(
                   `Something went wrong: ${error.response.data.message}`,
@@ -208,10 +205,10 @@ export default {
   }
 }
 .error {
-  @apply tail-border-red-500;
+  @apply tail-border-red-700;
 }
 .required:after {
   content: " *";
-  @apply tail-text-red-500 tail-text-sm;
+  @apply tail-text-red-700 tail-text-sm;
 }
 </style>

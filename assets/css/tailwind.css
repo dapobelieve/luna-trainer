@@ -70,11 +70,13 @@
   }
 }
 
-  @layer components {
 
+  @layer components {
     .base-button {
+
       @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white;
       background: #56ccf2;
+
     }
     
     .outline-button {

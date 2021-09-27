@@ -44,6 +44,7 @@
       :input-width="30"
       :is-open="openModal"
       @close="openModal = $event"
+      @closeBackDrop="openModal = $event"
     >
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
@@ -93,10 +94,11 @@
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
+      @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
-    <Modal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event">
+    <Modal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event" @closeBackDrop="deleteClient = $event">
       <CancelAlert @close="deleteClient = $event" @cancel="deleteClientData">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">

@@ -129,7 +129,22 @@
         </div>
         <div>
           <label for="experience">Years of experience</label>
-          <input v-model="profile.experience" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <select
+            id="experience"
+            v-model="profile.experience"
+            type="text"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+          >
+            >
+            <option
+              v-for="val in Array.from(Array(13).keys())"
+              :key="val"
+              :value="parseInt(val) + 1"
+              :selected="val.id == '' "
+            >
+              {{ parseInt(val) + 1 }}
+            </option>
+          </select>
         </div>
         <div>
           <label for="Specialization">Specialization</label>

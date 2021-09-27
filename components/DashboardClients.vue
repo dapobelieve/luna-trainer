@@ -118,10 +118,10 @@
     <div v-else class="tail-grid tail-place-content-center tail-h-full">
       <SingleLoader />
     </div>
-    <Modal :is-open="openModal" @close="openModal = $event">
+    <Modal :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
       <InviteNewClient @close="openModal = $event" />
     </Modal>
-    <Modal v-for="client in allClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event">
+    <Modal v-for="client in allClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event" @closeBackDrop="openClientModal = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           {{ client.status }}
