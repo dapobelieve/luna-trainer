@@ -7,16 +7,22 @@
         Sign in with email
       </h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="login">
-        <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="email" class="required" :class="{'tail-text-red-700' : $v.userInfo.email.$error}">Email</label>
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
+          <label
+            for="email"
+            class="required"
+            :class="{'tail-text-red-400' : $v.userInfo.email.$error}"
+          >Email</label>
+
           <input
-            v-model.lazy="$v.userInfo.email.$model"
+            v-model.lazy="
+              $v.userInfo.email.$model"
             :disabled="isLoading"
             tabindex="1"
             autocomplete="off"
             type="email"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-shadow-md tail-border-red-700' : $v.userInfo.email.$error}"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{'tail-border-red-400' : $v.userInfo.email.$error}"
             @blur="$v.userInfo.email.$touch()"
           />
           <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
@@ -26,19 +32,31 @@
             >Please enter a valid email address.</small>
           </div>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1">
-          <label for="password" class="required" :class="{'tail-text-red-700' : $v.userInfo.password.$error}">Password</label>
-          <div class="tail-flex tail-justify-between tail-items-center tail-relative">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
+          <label
+            for="password"
+            class="required"
+            :class="{'tail-text-red-400' : $v.userInfo.password.$error}"
+          >Password</label>
+
+          <div
+            class="
+            tail-flex
+            tail-justify-between
+            tail-items-center
+            tail-relative"
+          >
             <input
               v-model.lazy="$v.userInfo.password.$model"
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-shadow-md tail-border-red-700' : $v.userInfo.password.$error}"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              :class="{'tail-shadow-md tail-border-red-400' : $v.userInfo.password.$error}"
               @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            </label>
           </div>
           <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
             <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
@@ -61,16 +79,14 @@
             type="submit"
             :loading="isLoading"
             :disabled="$v.$invalid"
-            class="primary-button"
+            class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />Login
           </button>
         </div>
       </form>
     </div>
-    <div
-      class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6"
-    >
+    <div class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6">
       Don't have an account?
       <NuxtLink
         :to="{ name: 'Auth-SignUp' }"
@@ -192,9 +208,4 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.required:after {
-  content: " *";
-  @apply tail-text-red-700 tail-text-sm;
-}
-</style>
+<style lang="scss" scoped></style>

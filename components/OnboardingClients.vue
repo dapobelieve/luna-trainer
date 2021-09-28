@@ -2,63 +2,39 @@
   <div>
     <h2
       class="tail-text-lg tail-font-extrabold tail-tracking-tight tail-text-gray-700"
-    >
-      Add your first client
-    </h2>
-    <form
-      class="tail-grid tail-grid-cols-1 tail-gap-y-6 sm:tail-grid-cols-2 sm:tail-gap-x-8 tail-mt-10 tail-text-gray-700"
-    >
-      <div class="sm:tail-col-span-2">
-        <label
-          for="firstName"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-          :class="{'tail-text-red-700' : $v.firstName.$error}"
-        >
-          First name <span v-if="$v.firstName.$dirty" class="tail-text-red-700">*</span>
-        </label>
-        <div class="">
-          <input
-            id="firstName"
-            v-model="firstName"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-shadow-md focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-            :class="{'tail-shadow-md tail-border-red-700' : $v.firstName.$error}"
-            @blur="$v.firstName.$touch()"
-          />
+
+    >Add your first client</h2>
+    <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
+      <div class="tail-flex tail-flex-row tail-gap-4">
+        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-w-full">
+          <label for="firstName" class="required">First name</label>
+          <div class>
+            <input
+              id="firstName"
+              v-model="firstName"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            />
+          </div>
+        </div>
+        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-w-full">
+          <label for="lastName" class="required">Last name</label>
+          <div class>
+            <input
+              id="lastName"
+              v-model="lastName"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            />
+          </div>
         </div>
       </div>
-      <div class="sm:tail-col-span-2">
-        <label
-          for="lastName"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-          :class="{'tail-text-red-700' : $v.lastName.$error}"
-        >
-          Last name <span v-if="$v.firstName.$dirty" class="tail-text-red-700">*</span>
-        </label>
-        <div class="">
-          <input
-            id="lastName"
-            v-model="lastName"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-shadow-md focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-            :class="{'tail-shadow-md tail-border-red-700' : $v.lastName.$error}"
-            @blur="$v.lastName.$touch()"
-          />
-        </div>
-      </div>
-      <div class="sm:tail-col-span-2">
-        <label
-          for="email"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-          :class="{'tail-text-red-700' : $v.email.$error}"
-        >
-          Email Address <span v-if="$v.firstName.$dirty" class="tail-text-red-700">*</span>
-        </label>
-        <div class="">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="email" class="required">Email Address</label>
+        <div class>
           <input
             id="email"
             v-model="email"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-shadow-md focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
-            :class="{'tail-shadow-md tail-border-red-700' : $v.email.$error}"
-            @blur="$v.email.$touch()"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+
           />
           <div v-if="$v.email.$error" class="tail-mt-0.5">
             <small
@@ -68,33 +44,25 @@
           </div>
         </div>
       </div>
-      <div class="sm:tail-col-span-2">
-        <label
-          for="petName"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Dog name
-        </label>
-        <div class="">
+
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="petName" class="required">Dog name</label>
+        <div class>
           <input
             id="petName"
             v-model="petName"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           />
         </div>
       </div>
-      <div class="sm:tail-col-span-2">
-        <label
-          for="petBreed"
-          class="tail-block tail-text-sm tail-font-extralight tail-mb-2"
-        >
-          Breed
-        </label>
-        <div class="">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
+        <label for="petBreed" class="required">Breed</label>
+        <div class>
           <input
             id="petBreed"
             v-model="petBreed"
-            class="tail-block tail-w-full tail-shadow-sm tail-text-sm focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border-gray-300 tail-rounded-md tail-py-2 tail-border tail-px-2"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+
           />
         </div>
       </div>
@@ -163,5 +131,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>

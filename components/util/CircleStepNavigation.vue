@@ -1,26 +1,25 @@
 <template>
-  <nav class="tail-grid tail-place-items-center" aria-label="Progress">
-    <ol role="list" class="tail-flex tail-items-center">
-      <li
-        v-for="(count, index) in 5"
-        :key="index"
-        class="tail-relative tail-pr-8 sm:tail-pr-10 last:tail-pr-0 sm:last:tail-pr-0"
-      >
+  <nav aria-label="Progress">
+    <ol
+      role="list"
+      class="tail-flex tail-items-center tail-justify-between tail-w-full tail-relative tail-z-10 tail-transition-all"
+    >
+      <li v-for="(count, index) in 5" :key="index" class="tail-relative tail-w-full last:tail-w-5">
         <div
-          class="tail-absolute tail-inset-0 tail-flex tail-items-center"
+          class="tail-absolute tail-inset-0 tail-flex tail-items-center tail--z-10"
           aria-hidden="true"
         >
           <div
-            class="tail-h-0.5 tail-w-full"
+            class="tail-h-px tail-w-full"
             :class="[
               stepCount > index ? 'tail-bg-blue-500' : 'tail-bg-gray-200'
             ]"
           ></div>
         </div>
         <button
-          class="tail-relative tail-w-8 tail-h-8 tail-flex tail-items-center tail-justify-center tail-bg-white tail-border-2 tail-rounded-full"
+          class="tail-relative tail-w-5 tail-h-5 tail-flex tail-items-center tail-justify-center tail-bg-white tail-border tail-rounded-full"
           :class="[
-            index > stepCount ? 'tail-border-gray-300' : 'tail-border-blue-500'
+            index > stepCount ? 'tail-border-gray-200' : 'tail-border-blue-500'
           ]"
           aria-current="step"
           @click.prevent="moveToStep(index)"
@@ -41,12 +40,12 @@
           </svg>
           <span
             v-else-if="stepCount === index"
-            class="tail-h-2.5 tail-w-2.5 tail-bg-blue-500 tail-rounded-full"
+            class="tail-h-5 tail-w-5 tail-bg-blue-500 tail-rounded-full tail-shadow-md"
             aria-hidden="true"
           ></span>
           <span
             v-else
-            class="tail-h-2.5 tail-w-2.5 tail-bg-transparent tail-rounded-full tail-group-hover:tail-bg-gray-300"
+            class="tail-h-5 tail-w-5 tail-bg-gray-200 tail-rounded-full tail-group-hover:tail-bg-gray-200"
             aria-hidden="true"
           ></span>
           <span class="tail-sr-only">Step {{ index }}</span>
@@ -79,4 +78,5 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+</style>

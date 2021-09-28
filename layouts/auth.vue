@@ -31,7 +31,7 @@
             <div class="tail-mt-6">
               <button
                 type="button"
-                class="tail-bg-white tail-border tail-border-gray-400 tail-w-100 tail-flex tail-items-center tail-justify-center tail-py-3 tail-h-12 lg:tail-m-0 tail-m-auto tail-rounded-md tail-w-full lg:tail-w-max tail-px-3 lg:tail-px-12 hover:tail-bg-gray-50 tail-shadow-sm tail-transition-all"
+                class="tail-bg-white tail-border tail-border-gray-400 tail-w-100 tail-flex tail-items-center tail-justify-center tail-py-3 tail-h-12 lg:tail-m-0 tail-m-auto tail-rounded-md tail-w-full lg:tail-w-max tail-px-3 lg:tail-px-12 hover:tail-bg-gray-50 tail-shadow-sm"
                 @click="routeName === 'Auth-SignIn' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
               >
                 <img src="~/assets/img/googleLogoImg.png" alt="google logo" />

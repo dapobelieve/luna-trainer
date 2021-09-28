@@ -11,13 +11,13 @@
         </p>
       </div>
       <form class="tail-flex tail-flex-col tail-gap-4">
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="exampleInputPassword1" class="required">Password</label>
           <input
             id="exampleInputPassword1"
             v-model.trim="$v.userInfo.password.$model"
             type="password"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{'invalid':$v.userInfo.password.$error}"
             @click="$v.userInfo.password.$touch()"
           />
@@ -33,13 +33,13 @@
             {{ $v.userInfo.password.$params.minLength.min }} letters.
           </small>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1">
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="exampleInputConfirmPassword1" class="required">Confirm Password</label>
           <input
             id="exampleInputConfirmPassword1"
             v-model.trim="$v.userInfo.confirmPassword.$model"
             type="password"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             @click="$v.userInfo.confirmPassword.$touch()"
           />
           <div v-if="$v.userInfo.confirmPassword.$error">
@@ -50,7 +50,7 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-end">
-          <button type="submit" class="primary-button">Save</button>
+          <button type="submit" class="button-fill">Save</button>
         </div>
       </form>
     </div>
