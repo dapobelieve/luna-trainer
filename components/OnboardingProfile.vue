@@ -1,7 +1,8 @@
 <template>
   <div>
-
-    <h5 class="tail-text-lg tail-font-bold">Tell us a bit about you</h5>
+    <h5 class="tail-text-lg tail-font-bold">
+      Tell us a bit about you
+    </h5>
     <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
       <div class="tail-flex tail-gap-4">
         <div class="tail-flex tail-flex-col tail-gap-1.5 tail-flex-grow">
@@ -41,7 +42,7 @@
         <label for="websiteURL" class="required">What’s your website url?</label>
         <input
           id="website"
-          v-model="websiteURL"
+          v-model="websiteUrl"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
         />
       </div>
@@ -52,7 +53,9 @@
           autocomplete="country"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
         >
-          <option v-for="country in countries" :key="country.numericCode">{{ country.name }}</option>
+          <option v-for="country in countries" :key="country.numericCode">
+            {{ country.name }}
+          </option>
         </select>
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
@@ -63,16 +66,23 @@
           autocomplete="currency"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
         >
-          <option value="AUD">AUD</option>
-          <option value="CAD">CAD</option>
-          <option value="GBP">GBP (£)</option>
-          <option value="USD">USD</option>
+          <option value="AUD">
+            AUD
+          </option>
+          <option value="CAD">
+            CAD
+          </option>
+          <option value="GBP">
+            GBP (£)
+          </option>
+          <option value="USD">
+            USD
+          </option>
         </select>
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="phone" class="required">Phone number</label>
         <div class>
-
           <input
             id="phone"
             v-model="phone"
@@ -89,9 +99,10 @@
           v-model="timezone"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
         >
-          <option v-for="time in timezones" :key="time.index">{{ time.text }}</option>
+          <option v-for="time in timezones" :key="time.index">
+            {{ time.text }}
+          </option>
         </select>
-
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="dateformat" class="required">Date format</label>
@@ -100,24 +111,13 @@
           v-model="dateFormat"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
         >
-
-          Date format
-        </label>
-        <div class="">
-          <select
-            id="dateformat"
-            v-model="dateFormat"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
-          >
-            <option value="DD/MM/YY">
-              DD/MM/YY
-            </option>
-            <option value="YY/MM/DD">
-              YY/MM/DD
-            </option>
-          </select>
-        </div>
-
+          <option value="DD/MM/YY">
+            DD/MM/YY
+          </option>
+          <option value="YY/MM/DD">
+            YY/MM/DD
+          </option>
+        </select>
       </div>
     </form>
   </div>

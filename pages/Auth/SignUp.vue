@@ -7,9 +7,8 @@
         Sign up with email
       </h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
-
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}>Email address</label>
+          <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}">Email address</label>
 
           <input
             v-model.lazy="$v.userInfo.email.$model"
@@ -19,7 +18,6 @@
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{'tail-border-red-400' : $v.userInfo.email.$error}"
             @blur="$v.userInfo.email.$touch()"
-
           />
           <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
             <small
@@ -30,7 +28,7 @@
         </div>
 
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="password" class="required :class="{'tail-text-red-400' : $v.userInfo.password.$error}">Password</label>
+          <label for="password" class="required" :class="{'tail-text-red-400' : $v.userInfo.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
               v-model.lazy="$v.userInfo.password.$model"

@@ -18,7 +18,9 @@
           <div
             class="tail-flex tail-flex-col tail-w-full tail-whitespace-nowrap tail-overflow-ellipsis tail-overflow-hidden"
           >
-            <div class="tail-font-bold tail-truncate">{{ n.description }}</div>
+            <div class="tail-font-bold tail-truncate">
+              {{ n.description }}
+            </div>
             <div class="tail-inline-flex tail-gap-2">
               <span
                 v-for="a in n.appointmentTypes"
@@ -27,18 +29,22 @@
               >{{ a }}</span>
             </div>
           </div>
-          <div class="tail-font-medium">£{{ n.pricing.amount }}.00</div>
+          <div class="tail-font-medium">
+            {{ $store.state.profile.trainnerRegData.personalProfile.currency }}{{ n.pricing.amount }}.00
+          </div>
         </div>
         <div class="tail-flex tail-px-2 tail-py-1 tail-gap-2 tail-bg-gray-50">
           <button
             class="tail-w-full tail-h-8 tail-flex tail-items-center tail-justify-center tail-text-blue-500 tail-rounded-md hover:tail-bg-blue-50"
+            @click.prevent="editService(index)"
           >
-            <i class="ns-pencil" role="button" @click.prevent="editService(index)"></i>
+            <i class="ns-pencil"></i>
           </button>
           <button
             class="tail-w-full tail-h-8 tail-flex tail-items-center tail-justify-center tail-text-blue-500 tail-rounded-md hover:tail-bg-blue-50"
+            @click.prevent="deleteService(index)"
           >
-            <i class="ns-trash" role="button" @click.prevent="deleteService(index)"></i>
+            <i class="ns-trash"></i>
           </button>
         </div>
       </div>

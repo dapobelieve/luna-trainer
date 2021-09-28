@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h5 class="tail-text-lg tail-font-bold">Add Your services</h5>
+    <h5 class="tail-text-lg tail-font-bold">
+      Add Your services
+    </h5>
     <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
       <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="service" class="required">Service Title</label>
@@ -60,14 +62,11 @@
           <div
             class="tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none tail-bg-white tail-h-10 tail-border tail-shadow-sm tail-rounded-l-md tail-border-r-0"
           >
-            <span class="tail-text-gray-500">GBP</span>
+            <span class="tail-text-gray-500">{{ $store.state.profile.trainnerRegData.personalProfile.currency }}</span>
           </div>
           <input
-            id="price"
+            id="currency"
             v-model.number="services.pricing.amount"
-            :placeholder="
-              $store.state.profile.trainnerRegData.personalProfile.currency
-            "
             type="number"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-r-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 focus:tail-border tail-border-l-0"
           />
@@ -77,17 +76,25 @@
         <p
           v-if="servicesFromStore.length === 5 && !editing"
           class="tail-text-gray-500 tail-font-medium"
-        >You have enough services for now</p>
+        >
+          You have enough services for now
+        </p>
         <template v-else-if="editing">
-          <button type="button" class="button-text" @click="cancelEdit">Cancel Edit</button>
-          <button type="button" class="button-outline" @click="saveEdit">Update Service</button>
+          <button type="button" class="button-text" @click="cancelEdit">
+            Cancel Edit
+          </button>
+          <button type="button" class="button-outline" @click="saveEdit">
+            Update Service
+          </button>
         </template>
         <button
           v-else
           type="button"
           class="button-outline"
           @click="addNewService"
-        >Save & add another service</button>
+        >
+          Save & add another service
+        </button>
       </div>
     </form>
   </div>

@@ -7,12 +7,16 @@
         Sign in with email
       </h1>
       <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="login">
-
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}>Email</label>
+          <label
+            for="email"
+            class="required"
+            :class="{'tail-text-red-400' : $v.userInfo.email.$error}"
+          >Email</label>
 
           <input
-            v-model.lazy="$v.userInfo.email.$model"
+            v-model.lazy="
+              $v.userInfo.email.$model"
             :disabled="isLoading"
             tabindex="1"
             autocomplete="off"
@@ -29,9 +33,19 @@
           </div>
         </div>
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="password" class="required" :class="{'tail-text-red-400' : $v.userInfo.password.$error}>Password</label>
+          <label
+            for="password"
+            class="required"
+            :class="{'tail-text-red-400' : $v.userInfo.password.$error}"
+          >Password</label>
 
-          <div class="tail-flex tail-justify-between tail-items-center tail-relative">
+          <div
+            class="
+            tail-flex
+            tail-justify-between
+            tail-items-center
+            tail-relative"
+          >
             <input
               v-model.lazy="$v.userInfo.password.$model"
               tabindex="2"
@@ -42,6 +56,7 @@
               @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            </label>
           </div>
           <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
             <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
@@ -71,9 +86,7 @@
         </div>
       </form>
     </div>
-    <div
-      class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6"
-    >
+    <div class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6">
       Don't have an account?
       <NuxtLink
         :to="{ name: 'Auth-SignUp' }"
