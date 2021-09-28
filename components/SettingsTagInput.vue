@@ -1,42 +1,30 @@
 <template>
-  <div class="tail-border tail-rounded tail-py-3 tail-bg-white">
-    <div class="tail-flex tail-flex-wrap tail-px-4 tail-pb-3">
-      <div
-        v-for="tag in value"
-        :key="tag.index"
-        class="tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1 tail-ml-2"
-      >
-        <span class="tail-ml-1 tail-text-sm tail-capitalize">
-          {{ tag }}
-        </span>
-        <button
-          title="Delete item"
-          type="button"
-          class="btn tail-bg-red-400"
-          style="line-height: 0.5; padding: 0.1em"
-          @click="removeItem(tag)"
-        >
-          <span
-            class="tail-text-white"
-            style="font-size: .9em;line-height: 0.5; padding: 0.1em"
-          >x</span>
-        </button>
-      </div>
-      <input
-        v-model.trim="input"
-        :tabindex="tabindex"
-        class="tail-border-0 tail-text-blue-400 tail-text-sm tail-ml-2"
-        placeholder="Type in here..."
-        @keydown.enter.prevent="addItem($event)"
-        @keydown.tab.prevent="addItem($event)"
-      />
-    </div>
+  <div
+    class="tail-bg-white tail-h-auto tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md tail-flex tail-flex-wrap tail-gap-1"
+  >
     <div
-      class="tail-flex tail-items-center tail-px-4 tail-pt-2 tail-border-t border-top tail-text-blue-400 tail-text-sm tail-opacity-60"
+      v-for="tag in value"
+      :key="tag.index"
+      class="tail-bg-whites tail-inline-flex tail-items-center tail-border tail-rounded-full tail-h-8 tail-w-auto tail-pl-2 tail-pr-1 tail-font-medium"
     >
-      <i class="ns-plus tail-ml-1"></i>
-      <span>Press enter or tab to insert item</span>
+      <span class="tail-text-sm tail-capitalize">{{ tag }}</span>
+      <button
+        title="Delete item"
+        type="button"
+        class="tail-text-blue-500 tail-text-xs tail-h-5 tail-w-5 tail-flex tail-justify-center tail-items-center tail-ml-1 hover:tail-bg-blue-50 tail-rounded-full"
+        @click="removeItem(tag)"
+      >
+        <i class="ns-cross"></i>
+      </button>
     </div>
+    <input
+      v-model.trim="input"
+      :tabindex="tabindex"
+      class="tail-border-0 tail-bg-transparent tail-w-full tail-text-sm tail-h-6"
+      placeholder="Type here and press enter or tab"
+      @keydown.enter.prevent="addItem($event)"
+      @keydown.tab.prevent="addItem($event)"
+    />
   </div>
 </template>
 <script>
@@ -77,7 +65,7 @@ export default {
 </script>
 
 <style scoped>
-  input{
-    outline: none;
-  }
+input {
+  outline: none;
+}
 </style>

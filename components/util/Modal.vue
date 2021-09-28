@@ -66,14 +66,6 @@ export default {
       type: Boolean,
       default: false
     },
-    closeBackDrop: {
-      type: Boolean,
-      default: false
-    },
-    // status: {
-    //   type: String,
-    //   default: 'draft'
-    // },
     inputWidth: {
       type: Number,
       default: 40

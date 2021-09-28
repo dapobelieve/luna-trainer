@@ -61,29 +61,55 @@
   .gw-body-color {
     background-color: #F0F5FA;
   }
+
+  .required {
+    &:after {
+      content: " *";
+      @apply tail-text-red-500 tail-text-sm;
+    }
+  }
+}
+
+
   @layer components {
     .base-button {
-    @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-w-full tail-px-6 tail-py-1.5 tail-border tail-border-transparent tail-rounded tail-shadow-sm tail-text-base tail-font-medium tail-text-white disabled:tail-bg-blue-300 disabled:tail-cursor-not-allowed disabled:hover:tail-bg-none;
-    background: #56ccf2;
-  }
 
-    .primary-button {
-      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white tail-bg-blue-500 hover:tail-bg-blue-600 tail-transition-all;
+      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white disabled:tail-bg-blue-300 disabled:tail-cursor-not-allowed disabled:hover:tail-bg-none;
+      background: #56ccf2;
+
     }
     
     .outline-button {
-      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-6 tail-py-1 tail-h-10 tail-bg-white tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium hover:tail-bg-blue-600;
+      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm  tail-text-blue-500 tail-border-blue-500 tail-bg-white hover:tail-bg-blue-50;
     }
 
     button {
-      @apply focus:tail-outline-none tail-font-medium;
+
+      @apply focus:tail-outline-none tail-font-medium tail-capitalize tail-inline-flex tail-items-center tail-justify-center tail-transition-all;
+
+      &.button-fill {
+        @apply tail-shadow-sm tail-text-white tail-bg-blue-500 tail-border-blue-500  hover:tail-bg-blue-600 hover:tail-border-blue-600 tail-px-4 tail-py-1 tail-h-10 tail-rounded-md;
+      }
+
+      &.button-outline {
+        @apply tail-text-blue-500 tail-bg-transparent hover:tail-bg-blue-50 hover:tail-border-blue-500 tail-border tail-px-4 tail-py-1 tail-h-10 tail-rounded-md;
+      }
+
+      &.button-text {
+        @apply tail-text-blue-500 tail-bg-transparent hover:tail-bg-blue-50 hover:tail-border-blue-50 tail-px-4 tail-py-1 tail-h-10 tail-rounded-md;
+      }
+    }
+
+    input {
+      @apply tail-placeholder-gray-400;
     }
 
     /* form input styles */
     /* .form-input {
       @apply tail-block tail-w-full tail-pr-10 tail-border-red-300 tail-text-red-900 tail-placeholder-red-300 focus:tail-outline-none focus:tail-ring-red-500 focus:tail-border-red-500 sm:tail-text-sm tail-rounded-md;
     } */
+
   }
 
-}
+
 
