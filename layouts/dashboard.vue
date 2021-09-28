@@ -25,6 +25,7 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 export default {
+  middleware: ['isUserProfileEmpty'],
   data () {
     return {
       page: this.$route.name
@@ -36,6 +37,7 @@ export default {
     })
   },
   async mounted () {
+    console.log('token ', this.$auth.strategy.token.get())
     this.fetchAllClients()
     // connect user to sendbird server
     await this.connectToSendBird(this.$auth.user.sendbirdId)
