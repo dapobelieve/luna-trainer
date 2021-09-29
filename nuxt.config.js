@@ -79,7 +79,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    // baseURL: 'https://api.getwelp.co.uk/accounts/v0'
+    // baseURL: 'https://api.getwelp.com/accounts/v0'
   },
 
   router: {
