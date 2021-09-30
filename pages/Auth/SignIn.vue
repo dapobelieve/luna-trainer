@@ -47,7 +47,7 @@
             tail-relative"
           >
             <input
-              v-model.lazy="$v.userInfo.password.$model"
+              v-model.trim="$v.userInfo.password.$model"
               tabindex="2"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
@@ -56,9 +56,8 @@
               @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
-            </label>
           </div>
-          <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
+          <div v-if="!$v.userInfo.password.$error" class="tail-mt-0.5">
             <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.
