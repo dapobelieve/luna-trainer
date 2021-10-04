@@ -27,7 +27,7 @@
             tail-relative"
           >
             <input
-              v-model.lazy="$v.userInfo.oldPassword.$model"
+              v-model.trim="$v.userInfo.oldPassword.$model"
               tabindex="1"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
@@ -36,7 +36,6 @@
               @blur="$v.userInfo.oldPassword.$touch()"
             />
             <password-toggle v-model="showOldPassword" class="tail-absolute tail-right-0 tail-p-3" />
-            </label>
           </div>
           <div v-if="$v.userInfo.oldPassword.$error" class="tail-mt-0.5">
             <small v-if="!$v.userInfo.oldPassword.minLength" class="error tail-text-red-700">
@@ -45,45 +44,43 @@
             </small>
           </div>
         </div>
+        <div class="tail-flex tail-flex-col tail-gap-1.5">
+          <div class="tail-flex tail-justify-between tail-items-center">
+            <label for="password" class="required" :class="{'tail-text-red-700' : $v.userInfo.newPassword.$error}">New Password</label>
+          </div>
+          <div class="tail-flex tail-justify-between tail-items-center tail-relative">
+            <input
+              v-model.trim="$v.userInfo.newPassword.$model"
+              tabindex="2"
+              :disabled="isLoading"
+              :type="showPassword ? 'text':'password'"
+              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              :class="{'tail-border-red-400' : $v.userInfo.newPassword.$error}"
+              @blur="$v.userInfo.newPassword.$touch()"
+            />
+            <password-toggle v-model="showNewPassword" class="tail-absolute tail-right-0 tail-p-3" />
+          </div>
+          <div v-if="$v.userInfo.newPassword.$error" class="tail-mt-0.5">
+            <small v-if="!$v.userInfo.newPassword.minLength" class="error tail-text-red-700">
+              Password must have at least
+              {{ $v.userInfo.newPassword.$params.minLength.min }} characters.
+            </small>
+          </div>
+        </div>
+
+        <div class="tail-flex tail-justify-end tail-py-1">
+          <button
+            :loading="isLoading"
+            class="button-fill"
+            :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
+            :disabled="$v.$invalid"
+          >
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            {{ isLoading ? 'Resetting...' : 'Save' }}
+          </button>
+        </div>
       </form>
     </div>
-    <div class="tail-flex tail-flex-col tail-gap-1.5">
-      <div class="tail-flex tail-justify-between tail-items-center">
-        <label for="password" class="required" :class="{'tail-text-red-700' : $v.userInfo.newPassword.$error}">New Password</label>
-      </div>
-      <div class="tail-flex tail-justify-between tail-items-center tail-relative">
-        <input
-          v-model.lazy="$v.userInfo.newPassword.$model"
-          tabindex="2"
-          :disabled="isLoading"
-          :type="showPassword ? 'text':'password'"
-          class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-          :class="{'tail-border-red-400' : $v.userInfo.newPassword.$error}"
-          @blur="$v.userInfo.newPassword.$touch()"
-        />
-        <password-toggle v-model="showNewPassword" class="tail-absolute tail-right-0 tail-p-3" />
-      </div>
-      <div v-if="$v.userInfo.newPassword.$error" class="tail-mt-0.5">
-        <small v-if="!$v.userInfo.newPassword.minLength" class="error tail-text-red-700">
-          Password must have at least
-          {{ $v.userInfo.newPassword.$params.minLength.min }} characters.
-        </small>
-      </div>
-    </div>
-
-    <div class="tail-flex tail-justify-end tail-py-1">
-      <button
-        :loading="isLoading"
-        class="button-fill"
-        :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
-        :disabled="$v.$invalid"
-      >
-        <SingleLoader v-if="isLoading" class="tail-mr-2" />
-        {{ isLoading ? 'Resetting...' : 'Save' }}
-      </button>
-    </div>
-    </form>
-  </div>
   </div>
 </template>
 

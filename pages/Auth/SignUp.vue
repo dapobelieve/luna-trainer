@@ -31,7 +31,7 @@
           <label for="password" class="required" :class="{'tail-text-red-400' : $v.userInfo.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
-              v-model.lazy="$v.userInfo.password.$model"
+              v-model.trim="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
               tabindex="2"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
@@ -173,7 +173,6 @@ export default {
         .catch((err) => {
           this.isLoading = false
           this.signUpText = 'get started'
-          console.log(err)
           if (err.response) {
             this.$toast.error(
               `Something went wrong: ${err.response.data.message}`,
