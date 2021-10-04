@@ -1,25 +1,20 @@
 <template>
   <async-view loader-id="logout">
-    <div class="tail-min-h-screen tail-bg-gray-100">
-      <GwHeader />
-      <div class="tail-py-0 ">
-        <div
-          class="tail-max-w-3xl tail-h-screen tail-mx-auto sm:tail-px-0 lg:tail-max-w-full lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12 lg:tail-gap-8 "
-        >
-          <Navigation />
-          <main class="lg:tail-col-span-9 md:tail-col-span-10 sm:tail-col-span-12 xl:tail-col-span-8 sm:tail-pr-0 lg:tail-pr-8 xl:tail-pr-8">
-            <Nuxt />
-          </main>
-        </div>
+    <GwHeader />
+    <div class="tail-flex">
+      <Navigation />
+      <div class="tail-w-full tail-p-4">
+        <Nuxt />
       </div>
     </div>
-     <!-- <div
+
+    <!-- <div
           class="tail-max-w-3xl tail-mx-auto sm:tail-px-0 lg:tail-max-w-full lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12 lg:tail-gap-8 tail-overflow-x-hidden"
         >
           <Navigation />
           <main class="lg:tail-col-span-9 md:tail-col-span-10 sm:tail-col-span-12 xl:tail-col-span-8 sm:tail-pr-0 lg:tail-pr-8 xl:tail-pr-8">
             <Nuxt />
-          </main> -->
+    </main>-->
   </async-view>
 </template>
 <script>
