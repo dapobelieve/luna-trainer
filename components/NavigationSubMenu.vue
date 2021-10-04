@@ -2,15 +2,19 @@
   <div
     v-if="value"
     :class="[
-      'tail-absolute',
+      'tail-fixed',
+      'tail-w-full',
       'tail-top-0',
-      'tail-z-30',
-      'tail-w-screen'
+      'lg:tail-left-64',
+      'tail-left-0',
+      'tail-z-10',
+      'tail-h-screen',
+      'tail-bg-gray-50',
+      'tail-bg-opacity-95',
     ]"
-    class="tail-left-0 lg:tail-left-full"
   >
     <div
-      class="tail-flex tail-position-relative tail-min-h-screen tail-pt-4 tail-px-4 tail-pb-20 sm:tail-block sm:p-0"
+      class="tail-relative tail-p-0 sm:tail-p-3 tail-h-full tail-flex tail-justify-center lg:tail-justify-start"
     >
       <transition
         enter="tail-ease-out tail-duration-300"
@@ -20,28 +24,26 @@
         leave-from="tail-opacity-100 tail-translate-y-0 sm:tail-scale-100"
         leave-to="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
       >
-        <div>
+        <div
+          class="sm:tail-border tail-border-none tail-bg-white tail-rounded-none sm:tail-rounded-xl tail-overflow-y-auto tail-shadow-xl sm:tail-max-w-md lg:tail-max-w-sm tail-w-full tail-h-full"
+        >
           <div
-            class="tail-opacity-50 tail-w-full tail-h-full tail-absolute tail-left-0 tail-top-0 tail-z-0"
+            class="tail-opacity-50 tail-w-full tail-h-full tail-absolute tail-left-0 tail-top-0 tail--z-10"
             @click="$emit('input', false)"
           ></div>
-          <div
-            class="tail-inline-block tail-relative tail-align-bottom tail-border tail-border-gray-300 tail-bg-white tail-rounded-lg tail-text-left tail-z-10 tail-overflow-y-auto tail-shadow-xl tail-transform tail-transition-all tail-w-full md:tail-w-96"
-            :style="{height: getHeight}"
-          >
-            <div class="tail-sticky tail-top-0">
-              <div class="tail-flex tail-justify-between tail-items-center tail-p-5 tail-bg-white">
-                <slot name="title" />
-                <i
-                  class="ns-cross"
-                  role="button"
-                  @click="$emit('input', false)"
-                ></i>
+
+          <div class="tail-sticky tail-top-0">
+            <div class="tail-flex tail-justify-between tail-items-center tail-bg-white tail-p-4">
+              <slot name="title" />
+              <div
+                class="hover:tail-bg-blue-50 tail-h-8 tail-w-8 tail-flex tail-items-center tail-justify-center tail-rounded-full"
+              >
+                <i class="ns-cross tail-text-blue-500" role="button" @click="$emit('input', false)"></i>
               </div>
-              <slot name="search" />
             </div>
-            <slot name="body" />
+            <slot name="search" />
           </div>
+          <slot name="body" />
         </div>
       </transition>
     </div>
@@ -53,11 +55,7 @@ export default {
   name: 'NavigationSubMenu',
   props: {
     value: Boolean
-  },
-  computed: {
-    getHeight () {
-      return this.$route.name !== 'Dashboard' ? '80vh' : '90vh'
-    }
   }
+
 }
 </script>
