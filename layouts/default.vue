@@ -35,6 +35,7 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
+  middleware: ['isUserProfileEmpty'],
   data () {
     return {
       page: this.$route.name,

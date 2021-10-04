@@ -89,6 +89,7 @@
 </template>
 <script>
 export default {
+  middleware: ['validToken'],
   data () {
     return {
       getStarted: false,
