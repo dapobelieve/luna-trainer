@@ -1,17 +1,9 @@
 <template>
   <div
     v-if="value"
+    :style="{ height: resizeHeight, top: resizeTop }"
     :class="[
-      'tail-fixed',
-      'tail-w-full',
-      'tail-top-0',
-      'lg:tail-left-64',
-      'tail-left-0',
-      'tail-z-10',
-      'tail-h-screen',
-      'tail-bg-gray-50',
-      'tail-bg-opacity-95',
-    ]"
+      'tail-fixed tail-w-full lg:tail-left-64 tail-left-0 tail-z-10 tail-bg-gray-50 tail-bg-opacity-95']"
   >
     <div
       class="tail-relative tail-p-0 sm:tail-p-3 tail-h-full tail-flex tail-justify-center lg:tail-justify-start"
@@ -55,6 +47,20 @@ export default {
   name: 'NavigationSubMenu',
   props: {
     value: Boolean
+  },
+  computed: {
+    resizeHeight () {
+      if (this.$route.name !== 'Dashboard') {
+        return 'calc(100vh - 52px)'
+      }
+      return '100vh'
+    },
+    resizeTop () {
+      if (this.$route.name !== 'Dashboard') {
+        return '3rem'
+      }
+      return '0'
+    }
   }
 
 }

@@ -26,16 +26,16 @@
             <div v-for="menu in menus.menu" :key="menu.index">
               <NuxtLink
                 v-if="
-                menu.path &&
-                  ![
-                    'signout',
-                    'Notifications',
-                    'Messages',
-                    'inviteClient',
-                    'addSession',
-                    'newCourse'
-                  ].includes(menu.path)
-              "
+                  menu.path &&
+                    ![
+                      'signout',
+                      'Notifications',
+                      'Messages',
+                      'inviteClient',
+                      'addSession',
+                      'newCourse'
+                    ].includes(menu.path)
+                "
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
                 class="tail-flex tail-items-center tail-relative"
@@ -73,7 +73,9 @@
                 </button>
                 <p
                   class="tail-text-gray-400 tail-px-4 tail-py-3 tail-text-sm"
-                >We’re still developing this, so bear with us!</p>
+                >
+                  We’re still developing this, so bear with us!
+                </p>
               </div>
               <div
                 v-else-if="menu.path === 'newCourse'"
@@ -89,7 +91,9 @@
                 </button>
                 <p
                   class="tail-text-gray-400 tail-px-4 tail-py-3 tail-text-sm"
-                >We’re still developing this, so bear with us!</p>
+                >
+                  We’re still developing this, so bear with us!
+                </p>
               </div>
               <button
                 v-else-if="menu.path === 'Notifications'"
@@ -139,7 +143,9 @@
         <!-- flyout notifications -->
         <navigation-sub-menu v-model="showNotificationsMenu">
           <template v-slot:title>
-            <h5 class="tail-text-xl tail-text-gray-700">Notifications</h5>
+            <h5 class="tail-text-xl tail-text-gray-700">
+              Notifications
+            </h5>
           </template>
           <template v-slot:body>
             <div v-if="10" class="tail-px-1 tail-pb-20 lg:tail-pb-1">
@@ -162,8 +168,12 @@
                     <span class="tail-text-sm">7pm - 9pm . Remote</span>
                   </div>
                   <div class="tail-flex tail-gap-2 tail-mt-3">
-                    <button class="button-fill">Accept</button>
-                    <button class="button-outline">Re-schedule</button>
+                    <button class="button-fill">
+                      Accept
+                    </button>
+                    <button class="button-outline">
+                      Re-schedule
+                    </button>
                   </div>
                 </div>
               </div>
@@ -174,8 +184,12 @@
               class="tail-text-center tail-py-8 tail-px-4 tail-flex tail-w-full tail-justify-center"
             >
               <div class="tail-max-w-xs tail-flex tail-gap-3 tail-flex-col">
-                <h5 class="tail-font-bold tail-text-lg tail-text-gray-700">No Notifications.</h5>
-                <p class="tail-text-sm">We will notify you when something arrives</p>
+                <h5 class="tail-font-bold tail-text-lg tail-text-gray-700">
+                  No Notifications.
+                </h5>
+                <p class="tail-text-sm">
+                  We will notify you when something arrives
+                </p>
               </div>
             </div>
           </template>
@@ -184,7 +198,9 @@
         <!-- flyout messages -->
         <navigation-sub-menu v-model="showMessagesMenu">
           <template v-slot:title>
-            <h5 class="tail-text-xl tail-text-gray-700">Messages</h5>
+            <h5 class="tail-text-xl tail-text-gray-700">
+              Messages
+            </h5>
           </template>
           <template v-slot:search>
             <div class="tail-pb-2 tail-px-4 tail-bg-white">
@@ -204,7 +220,7 @@
                 v-for="n in unreadMessages"
                 :key="n.url"
                 type="button"
-                class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer"
+                class="tail-flex tail-justify-start tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer tail-w-full"
                 @click="gotoMessage(n.members)"
               >
                 <div>
@@ -222,17 +238,19 @@
                     >{{ n.lastMessage._sender.nickname }}</span>
                     <span class="tail-text-gray-400 tail-text-xs tail-normal-case">
                       {{
-                      formatDistance(
-                      new Date(n.lastMessage.createdAt),
-                      new Date(),
-                      { addSuffix: true }
-                      )
+                        formatDistance(
+                          new Date(n.lastMessage.createdAt),
+                          new Date(),
+                          { addSuffix: true }
+                        )
                       }}.
                     </span>
                   </div>
                   <div
                     class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-700"
-                  >{{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}</div>
+                  >
+                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
+                  </div>
                 </div>
               </button>
             </div>
@@ -241,8 +259,12 @@
               class="tail-text-center tail-py-8 tail-px-4 tail-flex tail-w-full tail-justify-center"
             >
               <div class="tail-max-w-xs tail-flex tail-gap-3 tail-flex-col">
-                <h2 class="tail-font-bold tail-text-lg tail-text-gray-700">No New Messages.</h2>
-                <p class="tail-text-sm">We will notify you when something arrives</p>
+                <h2 class="tail-font-bold tail-text-lg tail-text-gray-700">
+                  No New Messages.
+                </h2>
+                <p class="tail-text-sm">
+                  We will notify you when something arrives
+                </p>
               </div>
             </div>
           </template>
@@ -291,23 +313,25 @@
       <template v-slot:status>
         <div
           class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl"
-        >Create New Invoice</div>
+        >
+          Create New Invoice
+        </div>
       </template>
       <CreateNewInvoice @close="openModal = $event" />
     </Modal>
     <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
         {{
-        !acceptedClients.length
-        ? "No Invited Clients"
-        : "Services Unavailable"
+          !acceptedClients.length
+            ? "No Invited Clients"
+            : "Services Unavailable"
         }}
       </template>
       <template v-slot:subtitle>
         {{
-        !acceptedClients.length
-        ? "You need to invite a client before you can create an invoice."
-        : "You need to add at least one service before you can create an invoice."
+          !acceptedClients.length
+            ? "You need to invite a client before you can create an invoice."
+            : "You need to add at least one service before you can create an invoice."
         }}
       </template>
       <template v-slot:actionButtons>
@@ -316,13 +340,17 @@
           class="base-button tail-normal-case"
           style="width: fit-content"
           @click="inviteClient = true"
-        >Invite a client</button>
+        >
+          Invite a client
+        </button>
         <NuxtLink
           v-else
           to="/Settings#services"
           class="base-button tail-normal-case"
           style="width: fit-content"
-        >Add a service</NuxtLink>
+        >
+          Add a service
+        </NuxtLink>
       </template>
     </NotificationsModal>
   </div>
