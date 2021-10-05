@@ -112,7 +112,7 @@ nav {
 }
 
 .active {
-  border: 2px solid #56ccf2;
+  border: 2px solid rgba(59, 130, 246, 1);
   span:first-child {
     background: rgba(230, 246, 255, 1);
   }

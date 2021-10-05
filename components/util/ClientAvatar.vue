@@ -37,7 +37,7 @@ export default {
       altStyling: {
         width: this.width + 'em',
         height: this.height + 'em',
-        background: '#56CCF2',
+        background: 'rgba(59, 130, 246, 1)',
         color: '#000'
       }
     }

@@ -265,7 +265,7 @@ export default {
   content: "";
   display: block;
   width: 3%;
-  background-color: #56CCF2;
+  background-color: rgba(59, 130, 246, 1);
   height: 30px;
   border-bottom-right-radius: 10px;
   border-top-right-radius: 10px;
