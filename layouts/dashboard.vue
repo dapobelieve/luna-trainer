@@ -3,7 +3,7 @@
     <GwHeader />
     <div class="tail-flex">
       <Navigation />
-      <div class="tail-w-full tail-p-4">
+      <div class="tail-w-full tail-p-4 tail-bg-gray-50">
         <div class="tail-text-right tail-mx-3 lg:tail-mx-0 tail-my-2">
           <span class="tail-text-gray-700 tail-text-base tail-font-medium">
             {{ new Date().toDateString() }}
