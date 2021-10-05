@@ -39,7 +39,8 @@ export default {
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/sendBird' },
     { src: '@/plugins/vClickOutside', ssr: false },
-    { src: '~plugins/filters.js', ssr: false }
+    { src: '~plugins/filters.js', ssr: false },
+    { src: '~plugins/v-tooltip.js', ssr: false }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
