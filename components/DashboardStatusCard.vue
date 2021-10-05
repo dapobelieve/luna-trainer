@@ -1,15 +1,18 @@
 <template>
-  <div
-    class="tail-w-full tail-p-3 tail-grid tail-bg-gray-50 tail-space-y-4"
-  >
+  <div class="tail-w-full tail-p-3 tail-grid tail-bg-gray-50 tail-space-y-4">
     <p class="tail-text-gray-700">
-      Get the best out of GetWelp by connecting your calendars and Zoom, Stripe, and onboard your clients!
+      Get the best out of GetWelp by connecting your calendars and Zoom, Stripe,
+      and onboard your clients!
     </p>
-    <ul class="tail-inline-block sm:tail-flex tail-list-none tail-m-0 tail-p-0 tail-space-y-3 md:tail-space-y-0 md:tail-space-x-5">
+    <ul
+      class="tail-inline-block sm:tail-flex tail-list-none tail-m-0 tail-p-0 tail-space-y-3 md:tail-space-y-0 md:tail-space-x-5"
+    >
       <li>
         <div class="tail-flex tail-items-center tail-space-x-2">
           <p
-            :class="['tail-bg-red-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex']"
+            :class="[
+              'tail-bg-red-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
+            ]"
           >
             <i class="ns-exclamation tail-text-red-500 tail-text-lg" />
           </p>
@@ -19,29 +22,77 @@
         </div>
       </li>
       <li>
-        <div v-if="isStripeConnected && isStripeReady" class="tail-flex tail-items-center tail-space-x-2">
-          <p :class="['tail-bg-green-500 tail-rounded-full tail-text-xs tail-p-2 tail-flex']">
+        <div
+          v-if="isStripeConnected && isStripeReady"
+          class="tail-flex tail-items-center tail-space-x-2"
+        >
+          <p
+            :class="[
+              'tail-bg-green-500 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
+            ]"
+          >
             <i class="ns-check"></i>
           </p>
           <p class="tail-text-gray-700 tail-text-base tail-font-medium">
             Stripe ready !
           </p>
         </div>
-        <div v-else-if="isStripeConnected" class="tail-flex tail-items-center tail-space-x-2">
-          <button :class="['tail-bg-indigo-500 tail-rounded-full tail-text-xs tail-p-2 tail-flex']">
+        <div
+          v-else-if="isStripeConnected"
+          class="tail-flex tail-items-center tail-space-x-2"
+        >
+          <button
+            :class="[
+              'tail-bg-indigo-500 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
+            ]"
+          >
             <i class="ns-refresh"></i>
           </button>
           <p class="tail-text-gray-700 tail-text-base tail-font-medium">
             Stripe account in review
           </p>
+          <!-- {{ stripeErrors }} -->
+          <button
+            v-tooltip="{
+              content: `${stripeErrors
+                .map(error => {
+                  return `<div class='tail-pb-3'>
+                    <div class='tail-bg-gray-200'>
+                      <h3 class='tail-font-medium tail-p-2 tail-text-left tail-capitalize'>${error.code
+                        .split('_')
+                  .join(' ')}</h3>
+                    </div>
+                <p class='tail-p-3'>${error.reason}</p>
+                  </div>`;
+                })
+                .join('')}`,
+              placement: 'right',
+              classes: ['info']
+            }"
+            class="tail-p-1.5 tail-flex"
+          >
+            <i class="ns-info tail-text-white tail-text-lg"></i>
+          </button>
         </div>
-        <div v-else class="tail-flex tail-items-center tail-space-x-2 tail-cursor-pointer" :disabled="isLoading" @click.prevent="stripeConnect">
+        <div
+          v-else
+          class="tail-flex tail-items-center tail-space-x-2 tail-cursor-pointer"
+          :disabled="isLoading"
+          @click.prevent="stripeConnect"
+        >
           <SingleLoader v-if="isLoading" />
-          <p v-else :class="['tail-bg-yellow-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex']">
+          <p
+            v-else
+            :class="[
+              'tail-bg-yellow-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
+            ]"
+          >
             <i class="ns-time-forward tail-text-yellow-500 tail-text-lg" />
           </p>
           <p class="tail-text-gray-700 tail-text-base tail-font-medium">
-            {{ isLoading ? 'Establishing Stripe Connection' : 'Stripe pending' }}
+            {{
+              isLoading ? "Establishing Stripe Connection" : "Stripe pending"
+            }}
           </p>
         </div>
       </li>
@@ -50,21 +101,40 @@
           <SingleLoader v-if="$store.state.client.isLoading" />
           <template v-else>
             <p
-              :class="[allClients.length ? 'tail-bg-green-50' : 'tail-bg-red-600', 'tail-rounded-full tail-text-xs tail-p-2 tail-flex']"
+              :class="[
+                allClients.length ? 'tail-bg-green-50' : 'tail-bg-red-600',
+                'tail-rounded-full tail-text-xs tail-p-2 tail-flex'
+              ]"
             >
-              <i :class="[allClients.length ? 'ns-check' : 'ns-users', 'tail-text-green-700 tail-text-lg']" />
+              <i
+                :class="[
+                  allClients.length ? 'ns-check' : 'ns-users',
+                  'tail-text-green-700 tail-text-lg'
+                ]"
+              />
             </p>
           </template>
-          <p v-if="allClients.length" class="tail-text-gray-700 tail-text-base tail-font-medium">
+          <p
+            v-if="allClients.length"
+            class="tail-text-gray-700 tail-text-base tail-font-medium"
+          >
             Added your first client
           </p>
-          <button v-else class="tail-text-gray-700 tail-text-base tail-font-medium" @click="addClient = true">
+          <button
+            v-else
+            class="tail-text-gray-700 tail-text-base tail-font-medium"
+            @click="addClient = true"
+          >
             Add your first client
           </button>
         </div>
       </li>
     </ul>
-    <Modal :is-open="addClient" @close="addClient = $event" @closeBackDrop="addClient = $event">
+    <Modal
+      :is-open="addClient"
+      @close="addClient = $event"
+      @closeBackDrop="addClient = $event"
+    >
       <InviteNewClient @close="addClient = $event" />
     </Modal>
   </div>
@@ -89,20 +159,52 @@ export default {
     }),
     fullyConnected () {
       return this.allClients && this.isStripeReady && this.isStripeConnected
+    },
+    stripeErrors () {
+      return this.$auth.user.stripe?.requirements.errors
     }
   },
   methods: {
     stripeConnect () {
       this.isLoading = true
-      return this.$store.dispatch('invoice/stripeConnect').then((response) => {
-        window.location.href = response
-      }).finally(() => {
-        this.isLoading = false
-      })
+      return this.$store
+        .dispatch('invoice/stripeConnect')
+        .then((response) => {
+          window.location.href = response
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.tooltip {
+  // ...
+  z-index: 1000;
+  &.info {
+    $color: #fff;
+    .tooltip-inner {
+      background: $color;
+      color: #000;
+      padding: 2px;
+      border-radius: 5px;
+      box-shadow: 0 5px 30px rgba(black, 0.1);
+      max-width: 350px;
+    }
+    .tooltip-arrow {
+      border-color: $color;
+    }
+  }
+}
+.btn-2:hover {
+  border: 1px solid transparent;
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(255, 255, 255, 0.2);
+  text-shadow: 1px 1px 2px #427388;
+  padding: 0 3px 0 3px;
+  border-radius: 5px;
+}
 </style>

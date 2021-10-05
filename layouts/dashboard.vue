@@ -40,42 +40,61 @@ export default {
       connectedChannels: state => state.sendBird.connectedChannels
     })
   },
-  async mounted () {
-    this.fetchAllClients()
-    // connect user to sendbird server
-    await this.connectToSendBird(this.$auth.user.sendbirdId)
-    // sendbird events
-    const channelHandler = new this.$sb.ChannelHandler()
+  async created () {
+    this.startFullPageLoad()
+    const tokenValidity = this.$auth.strategy.token.status().valid()
+    if (
+      this.$auth.loggedIn &&
+      Object.entries(this.$auth.user).length === 0 &&
+      tokenValidity
+    ) {
+      this.$router.replace({ name: 'Auth-onboardingProfileSetup' }).then(() => {
+        this.endFullPageLoad()
+      })
+    } else {
+      this.endFullPageLoad()
+      this.fetchAllClients()
+      // connect user to sendbird server
+      await this.connectToSendBird(this.$auth.user.sendbirdId)
+      // sendbird events
+      const channelHandler = new this.$sb.ChannelHandler()
 
-    channelHandler.onMessageReceived = this.onMessageReceived
-    channelHandler.onMessageUpdated = function (channel, message) {}
-    channelHandler.onMessageDeleted = function (channel, messageId) {}
-    channelHandler.onMentionReceived = function (channel, message) {}
-    channelHandler.onChannelChanged = function (channel) {}
-    channelHandler.onMetaDataCreated = function (channel, metaData) {}
-    channelHandler.onMetaDataUpdated = function (channel, metaData) {}
-    channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
-    channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
-    channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
-    channelHandler.onMetaCountersDeleted = function (
-      channel,
-      metaCounterKeys
-    ) {}
-    channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
-    channelHandler.onReadReceiptUpdated = function (groupChannel) {}
-    channelHandler.onTypingStatusUpdated = function (groupChannel) {}
-    channelHandler.onChannelMemberCountChanged = function (channels) {}
-    channelHandler.onChannelParticipantCountChanged = function (channels) {}
+      channelHandler.onMessageReceived = this.onMessageReceived
+      channelHandler.onMessageUpdated = function (channel, message) {}
+      channelHandler.onMessageDeleted = function (channel, messageId) {}
+      channelHandler.onMentionReceived = function (channel, message) {}
+      channelHandler.onChannelChanged = function (channel) {}
+      channelHandler.onMetaDataCreated = function (channel, metaData) {}
+      channelHandler.onMetaDataUpdated = function (channel, metaData) {}
+      channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
+      channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
+      channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
+      channelHandler.onMetaCountersDeleted = function (
+        channel,
+        metaCounterKeys
+      ) {}
+      channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
+      channelHandler.onReadReceiptUpdated = function (groupChannel) {}
+      channelHandler.onTypingStatusUpdated = function (groupChannel) {}
+      channelHandler.onChannelMemberCountChanged = function (channels) {}
+      channelHandler.onChannelParticipantCountChanged = function (channels) {}
 
-    // Add this channel event handler to the `SendBird` instance.
-    this.$sb.addChannelHandler('dashboardLayoutHandler', channelHandler)
+      // Add this channel event handler to the `SendBird` instance.
+      this.$sb.addChannelHandler('dashboardLayoutHandler', channelHandler)
+    }
   },
   methods: {
+    ...mapActions('sendBird', {
+      connectToSendBird: 'connect_to_sb_server_with_userid',
+      newMessage: 'updateConnectedChannels',
+      addChannel: 'addNewChannel'
+    }),
+    ...mapActions('authorize', {
+      startFullPageLoad: 'startFullPageLoading',
+      endFullPageLoad: 'endFullPageLoading'
+    }),
     ...mapActions({
-      fetchAllClients: 'client/fetchAllClients',
-      connectToSendBird: 'sendBird/connect_to_sb_server_with_userid',
-      newMessage: 'sendBird/updateConnectedChannels',
-      addChannel: 'sendBird/addNewChannel'
+      fetchAllClients: 'client/fetchAllClients'
     }),
 
     // events for sendbird
