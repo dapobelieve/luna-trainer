@@ -6,6 +6,12 @@ export const mutations = {
 }
 
 export const actions = {
+  startFullPageLoading ({ commit, dispatch }) {
+    dispatch('loader/startProcess', 'logout', { root: true })
+  },
+  endFullPageLoading ({ commit, dispatch }) {
+    dispatch('loader/endProcess', 'logout', { root: true })
+  },
   forgotPassword ({ commit }, payload) {
     return this.$axios.$post(
       `${process.env.ACCOUNT_HOST_URL}/auth/forgot-password`, payload).then((response) => {

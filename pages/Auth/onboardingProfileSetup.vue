@@ -1,214 +1,153 @@
 <template>
-  <div
-    class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-mx-auto lg:tail-justify-start tail-max-w-xl lg:tail-max-w-full tail-px-4 lg:tail-px-0 tail-min-h-screen"
-  >
+  <async-view loader-id="logout">
     <div
-      class="tail-flex tail-flex-col tail-bg-none lg:tail-bg-white lg:tail-h-screen lg:tail-max-w-[26rem] 2xl:tail-max-w-md tail-w-full lg:tail-p-10 tail-gap-20 lg:tail-border-r lg:tail-sticky tail-top-0"
+      class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-mx-auto lg:tail-justify-start tail-max-w-xl lg:tail-max-w-full tail-px-4 lg:tail-px-0 tail-min-h-screen"
     >
-      <circle-step-navigation
-        class="tail-flex tail-items-center tail-h-16 lg:tail-h-auto"
-        :step-count="step"
-        :disabled="[
-          profile,
-          trainerProfile,
-          addedServices,
-          firstClient,
-          stripeConnect
-        ]"
-        @stepper="move($event)"
-      />
-
-      <!-- This section is for smaller screens -->
-      <!-- <div class="tail-mt-10 lg:tail-hidden tail-pb-28" :class="{ 'tail-pb-0': step === 2 }">
-        <template v-if="step === 0">
-          <onboarding-profile @validity="profile.isDisabled = $event" />
-        </template>
-        <template v-else-if="step === 1">
-          <onboarding-trainer-profile @validity="trainerProfile.isDisabled = $event" />
-        </template>
-        <template v-else-if="step === 2">
-          <onboarding-services
-            :selected-service-index="selectedServiceProps"
-            @clearSelectedServiceIndex="selectedServiceProps = $event"
-            @validity="allow($event)"
-          />
-        </template>
-        <template v-else-if="step === 3">
-          <onboarding-clients @validity="firstClient.isDisabled" />
-        </template>
-        <template v-else-if="step === 4">
-          <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
-        </template>
-      </div>-->
-
-      <div class="tail-hidden lg:tail-block tail-flex-grow">
-        <template v-if="'type' in pageIntro[step]">
-          <h1 class="tail-text-3xl">{{ pageIntro[step].title }}</h1>
-          <p
-            class="xl:tail-text-lg tail-mt-10 tail-text-gray-500"
-            v-html="pageIntro[step].subTitle"
-          ></p>
-        </template>
-        <template v-else>
-          <h1 class="tail-text-3xl">{{ pageIntro[step].title }}</h1>
-          <p class="xl:tail-text-lg tail-mt-10 tail-text-gray-500">{{ pageIntro[step].subTitle }}</p>
-        </template>
-      </div>
-      <!-- end of bigger screen view -->
-
-      <!-- this buttons is for small screens only -->
-      <!-- <div
-        class="tail-flex tail-items-center tail-space-x-2 sm:tail-space-x-4 lg:tail-hidden tail-fixed tail-bottom-8 tail-right-0 tail-left-0 tail-px-5"
-      >
-        <button
-          class="tail-text-blue-500 tail-mr-auto"
-          :class="[step === 3 ? 'tail-visible' : step === 4 ? 'tail-hidden' : 'tail-invisible']"
-          @click.prevent="step++"
-        >Skip</button>
-        <button
-          class="tail-text-blue-500 tail-mr-auto"
-          :class="[step === 4 ? 'tail-visible' : step === 3 ? 'tail-hidden' : 'tail-invisible']"
-          @click.prevent="saveProfile"
-        >
-          Skip
-        </button>
-        <button
-          v-if="step"
-          :disabled="isLoading"
-          type="button"
-          style="width: fit-content"
-          class="base-button tail-bg-white tail-text-blue-500 tail-border-blue-500 tail-px-3 tail-py-1 hover:tail-text-white hover:tail-border-transparent"
-          @click.prevent="decreaseStep"
-        >back</button>
-        <button
-          v-if="step === 4"
-          type="button"
-          :disabled="isLoading"
-          style="width: fit-content"
-          class="base-button tail-text-white tail-border tail-bg-blue-500 tail-px-3 tail-py-1 tail-rounded"
-          @click="saveProfile"
-        >
-          <SingleLoader v-if="isLoading" class="tail-mr-2" />
-          {{ isLoading ? "Creating Account" : "Save & Complete" }}
-        </button>
-        <button
-          v-else-if="step !== 5"
-          type="button"
-          :disabled="
-            step === 0
-              ? profile.isDisabled
-              : step === 1
-                ? trainerProfile.isDisabled
-                : step === 2
-                  ? addedServices.isDisabled
-                  : step === 3
-                    ? firstClient.isDisabled
-                    : stripeConnect.isDisabled
-          "
-          style="width: fit-content"
-          class="base-button tail-bg-blue-500 tail-px-3 tail-py-1"
-          @click="increaseStep"
-        >Next</button>
-      </div>-->
-      <!-- ends small screen view -->
-    </div>
-
-    <div class="lg:tail-flex tail-flex-col xl:tail-flex-row tail-flex-grow tail-mt-4 lg:tail-mt-0">
       <div
-        class="tail-flex tail-flex-col tail-items-center lg:tail-p-10 tail-flex-grow lg:tail-overflow-y-auto"
+        class="tail-flex tail-flex-col tail-bg-none lg:tail-bg-white lg:tail-h-screen lg:tail-max-w-[26rem] 2xl:tail-max-w-md tail-w-full lg:tail-p-10 tail-gap-20 lg:tail-border-r lg:tail-sticky tail-top-0"
       >
+        <circle-step-navigation
+          class="tail-flex tail-items-center tail-h-16 lg:tail-h-auto"
+          :step-count="step"
+          :disabled="[
+            profile,
+            trainerProfile,
+            addedServices,
+            firstClient,
+            stripeConnect
+          ]"
+          @stepper="move($event)"
+        />
+
+        <div class="tail-hidden lg:tail-block tail-flex-grow">
+          <template v-if="'type' in pageIntro[step]">
+            <h1 class="tail-text-3xl">
+              {{ pageIntro[step].title }}
+            </h1>
+            <p
+              class="xl:tail-text-lg tail-mt-10 tail-text-gray-500"
+              v-html="pageIntro[step].subTitle"
+            ></p>
+          </template>
+          <template v-else>
+            <h1 class="tail-text-3xl">
+              {{ pageIntro[step].title }}
+            </h1>
+            <p class="xl:tail-text-lg tail-mt-10 tail-text-gray-500">
+              {{ pageIntro[step].subTitle }}
+            </p>
+          </template>
+        </div>
+      <!-- end of bigger screen view -->
+      </div>
+
+      <div class="lg:tail-flex tail-flex-col xl:tail-flex-row tail-flex-grow tail-mt-4 lg:tail-mt-0">
         <div
-          class="tail-flex tail-flex-col tail-gap-6 lg:tail-max-w-lg 2xl:tail-max-w-xl tail-w-full tail-h-full"
+          class="tail-flex tail-flex-col tail-items-center lg:tail-p-10 tail-flex-grow lg:tail-overflow-y-auto"
         >
-          <div class="tail-flex-grow">
-            <div>
-              <template v-if="step === 0">
-                <onboarding-profile @validity="profile.isDisabled = $event" />
-              </template>
-              <template v-else-if="step === 1">
-                <onboarding-trainer-profile @validity="trainerProfile.isDisabled = $event" />
-              </template>
-              <template v-else-if="step === 2">
-                <onboarding-services
-                  :selected-service-index="selectedServiceProps"
-                  @clearSelectedServiceIndex="selectedServiceProps = $event"
-                  @validity="allow($event)"
-                />
-              </template>
-              <template v-else-if="step === 3">
-                <onboarding-clients @validity="firstClient.isDisabled" />
-              </template>
-              <template v-else-if="step === 4">
-                <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
+          <div
+            class="tail-flex tail-flex-col tail-gap-6 lg:tail-max-w-lg 2xl:tail-max-w-xl tail-w-full tail-h-full"
+          >
+            <div class="tail-flex-grow">
+              <div>
+                <template v-if="step === 0">
+                  <onboarding-profile @validity="profile.isDisabled = $event" />
+                </template>
+                <template v-else-if="step === 1">
+                  <onboarding-trainer-profile @validity="trainerProfile.isDisabled = $event" />
+                </template>
+                <template v-else-if="step === 2">
+                  <onboarding-services
+                    :selected-service-index="selectedServiceProps"
+                    @clearSelectedServiceIndex="selectedServiceProps = $event"
+                    @validity="allow($event)"
+                  />
+                </template>
+                <template v-else-if="step === 3">
+                  <onboarding-clients @validity="firstClient.isDisabled" />
+                </template>
+                <template v-else-if="step === 4">
+                  <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
+                </template>
+              </div>
+              <!-- Service items for mobile screen -->
+              <template v-if="step === 2">
+                <div class="xl:tail-hidden tail-py-6">
+                  <onboarding-service-cards @editservice="selectedServiceProps = $event" />
+                </div>
               </template>
             </div>
-            <!-- Service items for mobile screen -->
-            <template v-if="step === 2">
-              <div class="xl:tail-hidden tail-py-6">
-                <onboarding-service-cards @editservice="selectedServiceProps = $event" />
-              </div>
-            </template>
-          </div>
 
-          <div class="tail-flex tail-items-center tail-gap-2">
-            <button
-              class="button-text tail-mr-auto"
-              :class="[
-            step === 3 || step === 4 ? 'tail-visible' : 'tail-invisible'
-          ]"
-              @click.prevent="step++"
-            >Skip</button>
-            <button
-              v-if="step"
-              :disabled="isLoading"
-              type="button"
-              class="button-outline"
-              @click.prevent="decreaseStep"
-            >back</button>
-            <button
-              v-if="step === 4"
-              :disabled="isLoading"
-              type="button"
-              class="button-fill"
-              @click="saveProfile"
-            >
-              <SingleLoader v-if="isLoading" />
-              {{ isLoading ? "Creating Account" : "Save & Complete" }}
-            </button>
-            <button
-              v-else-if="step !== 5"
-              :disabled="
+            <div class="tail-flex tail-items-center tail-gap-2">
+              <button
+                class="button-text tail-mr-auto"
+                :class="[step === 3 ? 'tail-visible' : step === 4 ? 'tail-hidden' : 'tail-invisible']"
+                @click.prevent="step++"
+              >
+                Skip
+              </button>
+              <button
+                class="tail-text-blue-500 tail-mr-auto"
+                :class="[step === 4 ? 'tail-visible' : step === 3 ? 'tail-hidden' : 'tail-invisible']"
+                @click.prevent="saveProfile"
+              >
+                Skip
+              </button>
+              <button
+                v-if="step"
+                :disabled="isLoading"
+                type="button"
+                class="button-outline"
+                @click.prevent="decreaseStep"
+              >
+                back
+              </button>
+              <button
+                v-if="step === 4"
+                :disabled="isLoading"
+                type="button"
+                class="button-fill"
+                @click="saveProfile"
+              >
+                <SingleLoader v-if="isLoading" />
+                {{ isLoading ? "Creating Account" : "Save & Complete" }}
+              </button>
+              <button
+                v-else-if="step !== 5"
+                :disabled="
 
-            step === 0
-              ? profile.isDisabled
-              : step === 1
-                ? trainerProfile.isDisabled
-                : step === 2
-                  ? addedServices.isDisabled
-                  : step === 3
-                    ? firstClient.isDisabled
-                    : stripeConnect.isDisabled
-          "
+                  step === 0
+                    ? profile.isDisabled
+                    : step === 1
+                      ? trainerProfile.isDisabled
+                      : step === 2
+                        ? addedServices.isDisabled
+                        : step === 3
+                          ? firstClient.isDisabled
+                          : stripeConnect.isDisabled
+                "
 
-              type="button"
-              class="button-fill"
-              @click="increaseStep"
-            >Next</button>
+                type="button"
+                class="button-fill"
+                @click="increaseStep"
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
-
-      </div>
-      <!-- Service items for screen 1280 and above -->
-      <div class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl">
-        <template v-if="step === 2">
-          <div class="tail-h-screen tail-border-l tail-overflow-y-auto xl:tail-p-10">
-            <onboarding-service-cards @editservice="selectedServiceProps = $event" />
-            <div class="tail-h-20"></div>
-          </div>
-        </template>
+        <!-- Service items for screen 1280 and above -->
+        <div class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl">
+          <template v-if="step === 2">
+            <div class="tail-h-screen tail-border-l tail-overflow-y-auto xl:tail-p-10">
+              <onboarding-service-cards @editservice="selectedServiceProps = $event" />
+              <div class="tail-h-20"></div>
+            </div>
+          </template>
+        </div>
       </div>
     </div>
-  </div>
+  </async-view>
 </template>
 
 <script>
@@ -300,22 +239,40 @@ export default {
       )
     }
   },
-  mounted () {
-    if (this.$auth.strategy.token.status().valid() && 'jumpto' in this.$route.query) {
-      const step = parseInt(this.$route.query.jumpto)
-      this.move(step)
-    }
-    if (!this.$auth.strategy.token.status().valid()) {
-      this.$router.replace({ name: 'Auth-SignIn' })
+  created () {
+    this.startFullPageLoad()
+    const tokenValidity = this.$auth.strategy.token.status().valid()
+    if (
+      this.$auth.loggedIn &&
+      Object.entries(this.$auth.user).length !== 0 &&
+      tokenValidity
+    ) {
+      this.$router.replace({ name: 'Dashboard' }).then(() => {
+        this.endFullPageLoad()
+      })
+    } else if (!this.$auth.strategy.token.status().valid()) {
+      this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
+        this.endFullPageLoad()
+      })
       this.$toast.error('Session Expired. Please login', {
         position: 'bottom-right'
       })
+    } else if (this.$auth.strategy.token.status().valid() && 'jumpto' in this.$route.query) {
+      this.endFullPageLoad()
+      const step = parseInt(this.$route.query.jumpto)
+      this.move(step)
+    } else {
+      this.endFullPageLoad()
     }
   },
   methods: {
     ...mapMutations({
       clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
       setTempState: 'profile/SET_STATE'
+    }),
+    ...mapActions('authorize', {
+      startFullPageLoad: 'startFullPageLoading',
+      endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions({
       create: 'profile/createProfile',

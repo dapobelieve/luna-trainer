@@ -1,38 +1,31 @@
 <template>
-  <div class="tail-hidden lg:tail-block  lg:tail-col-span-3 tail-h-full index xl:tail-col-span-2 tail-border-r tail-shadow-md tail-bg-white">
+  <div
+    class="tail-hidden lg:tail-flex lg:tail-h-screen tail-z-10 tail-w-64 lg:tail-border-r lg:tail-shadow-sm tail-bg-white lg:tail-sticky lg:tail-top-0 lg:tail-left-0 lg:tail-rounded-none tail-text-gray-500 tail-flex-shrink-0 tail-fixed tail-top-14 tail-left-4 tail-border tail-rounded-xl tail-shadow-xl tail-h-auto"
+  >
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
-    <nav
-      aria-label="Sidebar"
-      class="tail-sticky tail-top-0 tail-divide-y tail-divide-gray-300"
-    >
-      <div class="tail-relative tail-pt-4">
-        <div class="tail-px-3 tail-py-1 tail-mt-3 tail-mb-4 tail-sticky tail-top-0 tail-left-0 tail-backdrop-filter tail-backdrop-saturate-200 tail-backdrop-blur-2xl tail-z-10">
-          <label for="search" class="tail-sr-only">Search</label>
-          <div
-            class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200"
-          >
-            <div
-              class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none"
-              aria-hidden="true"
-            >
-              <i
-                class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg"
+    <nav aria-label="Sidebar" class="tail-w-full">
+      <div class="tail-relative">
+        <div
+          class="tail-px-1 tail-pb-1 tail-pt-1 lg:tail-pt-0 lg:tail-pb-6 tail-overflow-y-auto lg:tail-h-screen tail-max-h-[28rem] lg:tail-max-h-screen"
+        >
+          <div class="tail-px-3 tail-py-4">
+            <label for="search" class="tail-sr-only">Search</label>
+            <div class="tail-relative tail-flex tail-items-center tail-h-8">
+              <i class="ns-search tail-absolute tail-left-2 tail-text-gray-400" aria-hidden="true"></i>
+              <input
+                type="text"
+                name="search"
+                class="focus:tail-outline-none tail-w-full sm:tail-text-sm tail-border tail-rounded-md tail-h-8 tail-pl-7 tail-shadow-sm focus:tail-border-blue-500"
+                placeholder="Search"
               />
             </div>
-            <input
-              type="text"
-              name="search"
-              class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md"
-              placeholder="Search"
-            />
           </div>
-        </div>
-        <div class="tail-space-y-1">
-          <div v-for="menu in menus.menu" :key="menu.index">
-            <NuxtLink
-              v-if="
+          <div>
+            <div v-for="menu in menus.menu" :key="menu.index">
+              <NuxtLink
+                v-if="
                 menu.path &&
                   ![
                     'signout',
@@ -43,165 +36,146 @@
                     'newCourse'
                   ].includes(menu.path)
               "
-              :to="{ name: menu.path, params: menu.params }"
-              exact-active-class="active"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-font-medium hover:tail-bg-gray-50"
-            >
-              <div class="tail-flex">
-                <i
-                  :class="[menu.icon ? menu.icon : '']"
-                  class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg"
-                />
-                <span class="tail-truncate tail-text-sm tail-font-normal">
-                  {{ menu.title }}
-                </span>
-              </div>
-              <span
-                v-if="menu.dev"
-                class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono"
-              >Development</span>
-            </NuxtLink>
-            <button
-              v-else-if="menu.path === 'inviteClient'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="inviteClient = true"
-            >
-              <i
-                class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500"
-              />
-              <span
-                class="tail-truncate tail-text-sm tail-font-normal"
-              >Invite Client</span>
-            </button>
-            <button
-              v-else-if="menu.path === 'addSession'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="addSession = true"
-            >
-              <i
-                class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500"
-              />
-              <span
-                class="tail-truncate tail-text-sm tail-font-normal"
-              >Add New Session</span>
-            </button>
-            <button
-              v-else-if="menu.path === 'newCourse'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="newCourse = true"
-            >
-              <i
-                class="ns-plus tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-gray-500"
-              />
-              <span
-                class="tail-truncate tail-text-sm tail-font-normal"
-              >New Course</span>
-            </button>
-            <button
-              v-else-if="menu.path === 'Notifications'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="toggleMenu(menu.path)"
-            >
-              <i
-                :class="[menu.icon ? menu.icon : '']"
-                class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg"
-              />
-              <span
-                class="tail-truncate tail-text-sm tail-font-normal"
-              >Notifications</span>
-            </button>
-            <button
-              v-else-if="menu.path === 'Messages'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="toggleMenu(menu.path)"
-            >
-              <i
-                :class="[menu.icon ? menu.icon : '']"
-                class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg"
-              />
-              <div class="tail-flex">
+                :to="{ name: menu.path, params: menu.params }"
+                exact-active-class="active"
+                class="tail-flex tail-items-center tail-relative"
+              >
+                <div
+                  class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
+                >
+                  <i :class="[menu.icon ? menu.icon : '']" />
+                  <span class="tail-truncate">{{ menu.title }}</span>
+                </div>
                 <span
-                  class="tail-truncate tail-text-sm tail-font-normal"
-                >Messages</span>
-                <b
-                  v-if="unreadMessages.length"
-                  class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-text-xs tail-text-white tail-ml-2"
-                >{{ unreadMessages.length }}</b>
+                  v-if="menu.dev"
+                  class="tail-inline-block tail-rounded-full tail-mx-3 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono"
+                >Development</span>
+              </NuxtLink>
+              <button
+                v-else-if="menu.path === 'inviteClient'"
+                class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
+                @click="inviteClient = true"
+              >
+                <i class="ns-plus" />
+                <span class="tail-truncate">Invite Client</span>
+              </button>
+              <div
+                v-else-if="menu.path === 'addSession'"
+                class="tail-bg-gray-50 tail-border tail-rounded-lg"
+              >
+                <button
+                  class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 tail-cursor-default tail-w-full tail-h-9 tail-rounded-md tail-px-4 disabled:tail-opacity-50"
+                  disabled
+                  @click="addSession = true"
+                >
+                  <i class="ns-plus" />
+                  <span class="tail-truncate">New Session</span>
+                </button>
+                <p
+                  class="tail-text-gray-400 tail-px-4 tail-py-3 tail-text-sm"
+                >We’re still developing this, so bear with us!</p>
               </div>
-            </button>
-            <button
-              v-else-if="menu.path === 'signout'"
-              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-1 tail-pb-6 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
-              @click="signOut"
-            >
-              <i
-                class="ns-power tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-red-600"
-              />
-              <span
-                class="tail-truncate tail-text-sm tail-font-normal"
-              >Signout</span>
-            </button>
-            <p
-              v-if="menu.section"
-              class="tail-px-3 tail-text-sm tail-my-4 tail-text-gray-500 uppercase tracking-wider"
-            >
-              <span>{{ menu.section }}</span>
-              <span
-                v-if="menu.dev"
-                class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono"
-              >Development</span>
-            </p>
+              <div
+                v-else-if="menu.path === 'newCourse'"
+                class="tail-bg-gray-50 tail-border tail-rounded-lg"
+              >
+                <button
+                  class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 tail-cursor-default tail-w-full tail-h-9 tail-rounded-md tail-px-4 disabled:tail-opacity-50"
+                  disabled
+                  @click="newCourse = true"
+                >
+                  <i class="ns-plus" />
+                  <span class="tail-truncate">New Course</span>
+                </button>
+                <p
+                  class="tail-text-gray-400 tail-px-4 tail-py-3 tail-text-sm"
+                >We’re still developing this, so bear with us!</p>
+              </div>
+              <button
+                v-else-if="menu.path === 'Notifications'"
+                class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
+                @click="toggleMenu(menu.path)"
+              >
+                <i :class="[menu.icon ? menu.icon : '']" />
+                <span class="tail-truncate">Notifications</span>
+              </button>
+              <button
+                v-else-if="menu.path === 'Messages'"
+                class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
+                @click="toggleMenu(menu.path)"
+              >
+                <i :class="[menu.icon ? menu.icon : '']" />
+                <div class="tail-flex tail-items-center tail-flex-grow tail-justify-between">
+                  <span class="tail-truncate">Messages</span>
+                  <span
+                    v-if="unreadMessages.length"
+                    class="tail-inline-flex tail-items-center tail-justify-center tail-bg-blue-500 tail-rounded-full tail-text-xs tail-text-white tail-ml-2 tail-px-1 tail-h-5 tail-font-medium tail-flex-shrink-0 tail-min-w-[1.25rem]"
+                  >{{ unreadMessages.length }}</span>
+                </div>
+              </button>
+              <button
+                v-else-if="menu.path === 'signout'"
+                class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
+                @click="signOut"
+              >
+                <i class="ns-power" />
+                <span class="tail-truncate">Sign out</span>
+              </button>
+              <div
+                v-if="menu.section"
+                class="tail-p-4 tail-flex tail-justify-between tail-items-center"
+              >
+                <span
+                  class="tail-uppercase tail-tracking-wider tail-font-medium tail-text-xs"
+                >{{ menu.section }}</span>
+                <span
+                  v-if="menu.dev"
+                  class="tail-inline-flex tail-items-center tail-rounded-full tail-bg-indigo-50 tail-text-indigo-500 tail-text-xs tail-p-1.5 tail-h-6 tail-normal-case tail-font-medium"
+                >Coming soon</span>
+              </div>
+            </div>
           </div>
         </div>
         <!-- flyout notifications -->
         <navigation-sub-menu v-model="showNotificationsMenu">
           <template v-slot:title>
-            <h2 class="tail-font-semibold">
-              Notifications
-            </h2>
+            <h5 class="tail-text-xl tail-text-gray-700">Notifications</h5>
           </template>
           <template v-slot:body>
-            <div v-if="0" class="tail-px-4 tail-py-2 tail-grid tail-gap-6">
+            <div v-if="10" class="tail-px-1 tail-pb-20 lg:tail-pb-1">
               <div
                 v-for="n in 20"
                 :key="n.index"
-                class="tail-flex tail-space-x-3"
+                class="tail-flex tail-gap-4 tail-py-4 tail-px-3 tail-rounded-lg hover:tail-bg-gray-100 hover:tail-transition-all"
               >
-                <div>
+                <div class="tail-flex-shrink-0">
                   <img
                     src="https://picsum.photos/seed/picsum/200/300"
                     class="tail-rounded-full tail-w-12 tail-h-12"
                   />
                 </div>
                 <div>
-                  <div class="tail-flex tail-flex-col tail-text-sm">
-                    <span>
-                      APBC Committee Meeting with Ali R
-                    </span>
-                    <span>7pm - 9pm . Remote</span>
+                  <div class="tail-flex tail-flex-col tail-gap-1">
+                    <span
+                      class="tail-font-medium tail-text-gray-700"
+                    >APBC Committee Meeting with Ali R</span>
+                    <span class="tail-text-sm">7pm - 9pm . Remote</span>
                   </div>
-                  <div class="tail-flex tail-space-x-2 tail-pt-2">
-                    <button class="base-button tail-px-0 tail-text-sm">
-                      Accept
-                    </button>
-                    <button class="outline-button tail-px-0 tail-text-sm">
-                      Re-schedule
-                    </button>
+                  <div class="tail-flex tail-gap-2 tail-mt-3">
+                    <button class="button-fill">Accept</button>
+                    <button class="button-outline">Re-schedule</button>
                   </div>
                 </div>
               </div>
             </div>
+
             <div
               v-else
-              class="tail-flex tail-justify-center tail-items-center tail-pt-2"
+              class="tail-text-center tail-py-8 tail-px-4 tail-flex tail-w-full tail-justify-center"
             >
-              <div class="tail-text-center tail-py-5">
-                <h2 class="tail-font-bold">
-                  No Notifications.
-                </h2>
-                <div class="tail-pt-3">
-                  <p>We will notify you when something arrives</p>
-                </div>
+              <div class="tail-max-w-xs tail-flex tail-gap-3 tail-flex-col">
+                <h5 class="tail-font-bold tail-text-lg tail-text-gray-700">No Notifications.</h5>
+                <p class="tail-text-sm">We will notify you when something arrives</p>
               </div>
             </div>
           </template>
@@ -210,26 +184,22 @@
         <!-- flyout messages -->
         <navigation-sub-menu v-model="showMessagesMenu">
           <template v-slot:title>
-            <h2 class="tail-font-semibold">
-              Messages
-            </h2>
+            <h5 class="tail-text-xl tail-text-gray-700">Messages</h5>
           </template>
           <template v-slot:search>
-            <div
-              class="tail-flex tail-px-5 tail-py-2 tail-bg-gray-100 tail-items-center"
-            >
-              <i
-                class="ns-search tail-text-gray-400 tail-text-2xl tail-pr-2"
-              ></i>
-              <input
-                type="text"
-                class="tail-w-full focus:tail-outline-none tail-bg-transparent"
-                placeholder="Search name to start new chat"
-              />
+            <div class="tail-pb-2 tail-px-4 tail-bg-white">
+              <div class="tail-relative tail-flex tail-items-center tail-h-8">
+                <i class="ns-search tail-absolute tail-left-2 tail-text-gray-400"></i>
+                <input
+                  type="text"
+                  class="focus:tail-outline-none tail-w-full sm:tail-text-sm tail-border tail-rounded-md tail-h-8 tail-pl-7 tail-shadow-sm focus:tail-border-blue-500"
+                  placeholder="Search name to start new chat"
+                />
+              </div>
             </div>
           </template>
           <template v-slot:body>
-            <div v-if="unreadMessages.length" class="tail-py-2 tail-grid">
+            <div v-if="unreadMessages.length">
               <button
                 v-for="n in unreadMessages"
                 :key="n.url"
@@ -247,44 +217,39 @@
                 </div>
                 <div class="tail-text-sm">
                   <div class="tail-capitalize tail-font-semibold">
-                    <span class="tail-capitalize tail-font-semibold tail-mr-2">
-                      {{ n.lastMessage._sender.nickname }}
-                    </span>
                     <span
-                      class="tail-text-gray-400 tail-text-xs tail-normal-case"
-                    >{{
+                      class="tail-capitalize tail-font-semibold tail-mr-2"
+                    >{{ n.lastMessage._sender.nickname }}</span>
+                    <span class="tail-text-gray-400 tail-text-xs tail-normal-case">
+                      {{
                       formatDistance(
-                        new Date(n.lastMessage.createdAt),
-                        new Date(),
-                        { addSuffix: true }
+                      new Date(n.lastMessage.createdAt),
+                      new Date(),
+                      { addSuffix: true }
                       )
-                    }}.</span>
+                      }}.
+                    </span>
                   </div>
                   <div
-                    class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-600"
-                  >
-                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}`  : n.lastMessage.message }}
-                  </div>
+                    class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-700"
+                  >{{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}</div>
                 </div>
               </button>
             </div>
             <div
               v-else
-              class="tail-flex tail-justify-center tail-items-center tail-pt-2"
+              class="tail-text-center tail-py-8 tail-px-4 tail-flex tail-w-full tail-justify-center"
             >
-              <div class="tail-text-center tail-py-5">
-                <h2 class="tail-font-bold">
-                  No New Messages.
-                </h2>
-                <div class="tail-pt-3">
-                  <p>We will notify you when something arrives</p>
-                </div>
+              <div class="tail-max-w-xs tail-flex tail-gap-3 tail-flex-col">
+                <h2 class="tail-font-bold tail-text-lg tail-text-gray-700">No New Messages.</h2>
+                <p class="tail-text-sm">We will notify you when something arrives</p>
               </div>
             </div>
           </template>
         </navigation-sub-menu>
       </div>
     </nav>
+
     <Modal
       :input-width="40"
       :is-open="inviteClient"
@@ -301,38 +266,48 @@
     >
       <InviteNewClient @close="inviteClient = $event" />
     </Modal>
-    <Modal :is-open="addSession" :input-width="40" @close="addSession = $event" @closeBackDrop="openEditModal = $event">
+    <Modal
+      :is-open="addSession"
+      :input-width="40"
+      @close="addSession = $event"
+      @closeBackDrop="openEditModal = $event"
+    >
       <CreateSchedule @close="addSession = $event" />
     </Modal>
-    <Modal :is-open="newCourse" :input-width="40" @close="newCourse = $event" @closeBackDrop="newCourse = $event">
+    <Modal
+      :is-open="newCourse"
+      :input-width="40"
+      @close="newCourse = $event"
+      @closeBackDrop="newCourse = $event"
+    >
       <CreateCourse @close="newCourse = $event" />
     </Modal>
-    <Modal :input-width="30" :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
+    <Modal
+      :input-width="30"
+      :is-open="openModal"
+      @close="openModal = $event"
+      @closeBackDrop="openModal = $event"
+    >
       <template v-slot:status>
         <div
           class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl"
-        >
-          Create New Invoice
-        </div>
+        >Create New Invoice</div>
       </template>
       <CreateNewInvoice @close="openModal = $event" />
     </Modal>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
+    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
         {{
-          !acceptedClients.length
-            ? "No Invited Clients"
-            : "Services Unavailable"
+        !acceptedClients.length
+        ? "No Invited Clients"
+        : "Services Unavailable"
         }}
       </template>
       <template v-slot:subtitle>
         {{
-          !acceptedClients.length
-            ? "You need to invite a client before you can create an invoice."
-            : "You need to add at least one service before you can create an invoice."
+        !acceptedClients.length
+        ? "You need to invite a client before you can create an invoice."
+        : "You need to add at least one service before you can create an invoice."
         }}
       </template>
       <template v-slot:actionButtons>
@@ -341,17 +316,13 @@
           class="base-button tail-normal-case"
           style="width: fit-content"
           @click="inviteClient = true"
-        >
-          Invite a client
-        </button>
+        >Invite a client</button>
         <NuxtLink
           v-else
           to="/Settings#services"
           class="base-button tail-normal-case"
           style="width: fit-content"
-        >
-          Add a service
-        </NuxtLink>
+        >Add a service</NuxtLink>
       </template>
     </NotificationsModal>
   </div>
@@ -434,32 +405,16 @@ export default {
 
 <style lang="scss" scoped>
 .active {
-  color: black;
+  @apply tail-text-gray-700 tail-font-medium;
+  &::before {
+    @apply tail-bg-blue-500 tail-w-1 tail-h-6 tail-rounded-sm tail-shadow-md tail-absolute tail-left-0;
+    content: "";
+  }
 }
-.active::before {
-  content: "";
-  display: block;
-  width: 3%;
-  background-color: #56ccf2;
-  height: 30px;
-  border-bottom-right-radius: 10px;
-  border-top-right-radius: 10px;
+button {
+  @apply tail-font-normal tail-text-base;
 }
-.index {
-  z-index: 50;
+i {
+  @apply tail-text-lg;
 }
-::-webkit-scrollbar {
-  width:8px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 5px grey;
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background: rgb(180, 187, 199);
-  border-radius: 10px;
-}
-
 </style>
