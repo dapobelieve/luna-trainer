@@ -1,22 +1,10 @@
 <template>
-  <main class="">
+  <main>
     <article class="tail-mx-3 lg:tail-mx-0">
       <div class="tail-space-y-3 tail-mb-5">
-        <div
-          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 tail-shadow md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
-        >
-          <div>
-            <h2 class="tail-capitalize tail-text-2xl tail-font-medium">
-              hello, {{ $auth.user.firstName }}!
-            </h2>
-            <p class="lg:tail-max-w-3xl tail-font-normal">
-              Welcome back! If you need the GetWelp Team’s help with anything,
-              just pop us a message in the live chat below!
-            </p>
-          </div>
-        </div>
-        <!-- Overall app status -->
-        <!-- <DashboardStatusCard /> -->
+        <!-- dashboard intro -->
+        <dashboard-intro-card />
+
         <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
           <div class="tail-grid tail-gap-4">
             <!-- client registration -->
@@ -71,7 +59,7 @@
       </div>
     </article>
 
-    <!-- others -->
+    <!-- modals -->
     <NotificationsModal :visible="true">
       <template v-slot:title>
         Stripe Connect

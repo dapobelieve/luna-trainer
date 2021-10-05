@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-rounded-xl tail-p-3 border tail-border-gray-50 tail-bg-white tail-shadow tail-flex tail-flex-col tail-h-full">
+  <div class="tail-rounded-xl tail-p-3 tail-border tail-border-gray-50 tail-bg-white tail-shadow tail-flex tail-flex-col tail-h-full">
     <div class="tail-w-full tail-h-full tail-mb-auto">
       <!-- header -->
       <div class="tail-w-full tail-flex tail-items-center">
