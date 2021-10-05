@@ -34,6 +34,37 @@
       "title": "invite new client",
       "path": "inviteClient"
     },
+    {
+      "section": "Invoicing"
+    },
+    {
+      "icon": "ns-receipt",
+      "title": "my invoices",
+      "path": "Invoices"
+    },
+    {
+      "icon": "ns-plus",
+      "title": "new invoice",
+      "path": "CreateInvoice"
+    },
+    {
+      "section": "Help"
+    },
+    {
+      "icon": "ns-headset",
+      "title": "get help",
+      "path": "#"
+    },
+    {
+      "icon": "ns-time-add",
+      "title": "what's coming next",
+      "path": "comingNext"
+    },
+    {
+      "icon": "ns-power",
+      "title": "sign out",
+      "path": "signout"
+    },
      {
       "section": "Schedule",
       "classes":"tail-mt-4",
@@ -51,7 +82,8 @@
     },
       {
       "section": "Courses",
-      "classes":"tail-mt-4"
+      "classes":"tail-mt-4",
+      "dev":true
     },
     {
       "icon": "ns-users",
@@ -62,43 +94,6 @@
       "icon": "ns-plus",
       "title": "new course",
       "path": "newCourse"
-    },
-    {
-      "section": "Invoicing"
-    },
-    {
-      "icon": "ns-receipt",
-      "title": "my invoices",
-      "path": "Invoices"
-    },
-    {
-      "icon": "ns-plus",
-      "title": "new invoice",
-      "path": "CreateInvoice"
-    },
-    {
-      "section": "Help",
-      "dev":true
-    },
-    {
-      "icon": "ns-headset",
-      "title": "get help",
-      "path": "#"
-    },
-    {
-      "icon": "ns-envelope",
-      "title": "send us an email",
-      "path": "#"
-    },
-    {
-      "icon": "ns-time-add",
-      "title": "what's coming next",
-      "path": "#"
-    },
-    {
-      "icon": "ns-power",
-      "title": "sign out",
-      "path": "signout"
     }
   ]
 }
