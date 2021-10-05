@@ -7,7 +7,7 @@
     <ul
       class="tail-inline-block sm:tail-flex tail-list-none tail-m-0 tail-p-0 tail-space-y-3 md:tail-space-y-0 md:tail-space-x-5"
     >
-      <li>
+      <!-- <li>
         <div class="tail-flex tail-items-center tail-space-x-2">
           <p
             :class="[
@@ -20,7 +20,7 @@
             Calendar(s) <span class="tail-underline">Sync</span>
           </p>
         </div>
-      </li>
+      </li> -->
       <li>
         <div
           v-if="isStripeConnected && isStripeReady"
