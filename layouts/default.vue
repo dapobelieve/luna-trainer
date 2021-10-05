@@ -8,14 +8,23 @@
           <Nuxt :key="$route.fullpath" />
         </main>
       </div>
-      <NotificationsModal :visible="showNotification" @close="showNotification = $event">
-        <template v-slot:title>Chat Connection Failed</template>
-        <template v-slot:subtitle>Reconnect chat to enjoy all of GetWelp's features</template>
+      <NotificationsModal
+        :visible="showNotification"
+        @close="showNotification = $event"
+      >
+        <template v-slot:title>
+          Chat Connection Failed
+        </template>
+        <template v-slot:subtitle>
+          Reconnect chat to enjoy all of GetWelp's features
+        </template>
         <template v-slot:actionButtons>
           <button
             class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
             @click="retry"
-          >retry</button>
+          >
+            retry
+          </button>
         </template>
       </NotificationsModal>
     </div>
@@ -24,7 +33,6 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 export default {
-  middleware: ['isUserProfileEmpty'],
   data () {
     return {
       page: this.$route.name,
@@ -50,35 +58,48 @@ export default {
       }
     }
   },
-  async mounted () {
-    // connect user to sendbird server
-    await this.connectToSendBird(this.$auth.user.sendbirdId)
+  async created () {
+    this.startFullPageLoad()
+    const tokenValidity = this.$auth.strategy.token.status().valid()
+    if (
+      this.$auth.loggedIn &&
+      Object.entries(this.$auth.user).length === 0 &&
+      tokenValidity
+    ) {
+      this.$router.replace({ name: 'Auth-onboardingProfileSetup' }).then(() => {
+        this.endFullPageLoad()
+      })
+    } else {
+      this.endFullPageLoad()
+      // connect user to sendbird server
+      await this.connectToSendBird(this.$auth.user.sendbirdId)
 
-    // sendbird events
-    const channelHandler = new this.$sb.ChannelHandler()
+      // sendbird events
+      const channelHandler = new this.$sb.ChannelHandler()
 
-    channelHandler.onMessageReceived = this.onMessageReceived
-    channelHandler.onMessageUpdated = function (channel, message) {}
-    channelHandler.onMessageDeleted = function (channel, messageId) {}
-    channelHandler.onMentionReceived = function (channel, message) {}
-    channelHandler.onChannelChanged = function (channel) {}
-    channelHandler.onMetaDataCreated = function (channel, metaData) {}
-    channelHandler.onMetaDataUpdated = function (channel, metaData) {}
-    channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
-    channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
-    channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
-    channelHandler.onMetaCountersDeleted = function (
-      channel,
-      metaCounterKeys
-    ) {}
-    channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
-    channelHandler.onReadReceiptUpdated = function (groupChannel) {}
-    channelHandler.onTypingStatusUpdated = function (groupChannel) {}
-    channelHandler.onChannelMemberCountChanged = function (channels) {}
-    channelHandler.onChannelParticipantCountChanged = function (channels) {}
+      channelHandler.onMessageReceived = this.onMessageReceived
+      channelHandler.onMessageUpdated = function (channel, message) {}
+      channelHandler.onMessageDeleted = function (channel, messageId) {}
+      channelHandler.onMentionReceived = function (channel, message) {}
+      channelHandler.onChannelChanged = function (channel) {}
+      channelHandler.onMetaDataCreated = function (channel, metaData) {}
+      channelHandler.onMetaDataUpdated = function (channel, metaData) {}
+      channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
+      channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
+      channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
+      channelHandler.onMetaCountersDeleted = function (
+        channel,
+        metaCounterKeys
+      ) {}
+      channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
+      channelHandler.onReadReceiptUpdated = function (groupChannel) {}
+      channelHandler.onTypingStatusUpdated = function (groupChannel) {}
+      channelHandler.onChannelMemberCountChanged = function (channels) {}
+      channelHandler.onChannelParticipantCountChanged = function (channels) {}
 
-    // Add this channel event handler to the `SendBird` instance.
-    this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
+      // Add this channel event handler to the `SendBird` instance.
+      this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
+    }
   },
   updated () {
     this.$nextTick(() => {
@@ -90,10 +111,14 @@ export default {
     })
   },
   methods: {
-    ...mapActions({
-      connectToSendBird: 'sendBird/connect_to_sb_server_with_userid',
-      newMessage: 'sendBird/updateConnectedChannels',
-      addChannel: 'sendBird/addNewChannel'
+    ...mapActions('authorize', {
+      startFullPageLoad: 'startFullPageLoading',
+      endFullPageLoad: 'endFullPageLoading'
+    }),
+    ...mapActions('sendBird', {
+      connectToSendBird: 'connect_to_sb_server_with_userid',
+      newMessage: 'updateConnectedChannels',
+      addChannel: 'addNewChannel'
     }),
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)

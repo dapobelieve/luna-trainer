@@ -8,9 +8,7 @@
 </template>
 
 <script>
-export default {
-  middleware: ['validToken']
-}
+export default {}
 </script>
 
 <style lang="scss" scoped></style>
