@@ -102,6 +102,7 @@ import { mapMutations } from 'vuex'
 export default {
   name: 'SignIn',
   layout: 'auth',
+  middleware: ['validToken'],
   auth: false,
   data () {
     return {

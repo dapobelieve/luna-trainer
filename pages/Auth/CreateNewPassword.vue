@@ -89,6 +89,13 @@ import { required, minLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'CreateNewPassword',
+  beforeRouteEnter (to, from, next) {
+    // called before the route that renders this component is confirmed.
+    // does NOT have access to `this` component instance,
+    // because it has not been created yet when this guard is called!
+    console.log('to ', to, ' from ', from)
+    next()
+  },
   layout: 'authPassword',
   auth: false,
   data () {
