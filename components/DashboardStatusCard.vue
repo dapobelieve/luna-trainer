@@ -1,7 +1,7 @@
 <template>
   <div
     style="background: #4F638C;"
-    class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-grid  tail-order-3 md:tail-order-2"
+    class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 tail-grid"
   >
     <p class="tail-mb-4 tail-text-white">
       Get the best out of GetWelp by connecting your calendars and Zoom,
