@@ -5,7 +5,7 @@
     <p class="tail-text-gray-700">
       Get the best out of GetWelp by connecting your calendars and Zoom, Stripe, and onboard your clients!
     </p>
-    <ul class="tail-inline-block sm:tail-flex tail-list-none tail-m-0 tail-p-0 tail-space-x-5">
+    <ul class="tail-inline-block sm:tail-flex tail-list-none tail-m-0 tail-p-0 tail-space-y-3 md:tail-space-y-0 md:tail-space-x-5">
       <li>
         <div class="tail-flex tail-items-center tail-space-x-2">
           <p
