@@ -102,7 +102,7 @@ export default {
   width: 10px;
   position: absolute;
   height: 10px;
-  background: #56ccf2;
+  background: rgba(59, 130, 246, 1);;
   content: "";
   top: calc(50% - 5px);
   border-radius: 100%;

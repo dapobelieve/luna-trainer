@@ -124,7 +124,7 @@
                 role="button"
                 class="tail-text-2xl tail-text-center tail-inline-block tail-p-1 tail-absolute tail-z-50 tail--top-14 tail-right-2 tail-rounded-full"
                 src="~/assets/img/svgs/image.svg"
-                style="background: #56CCF2"
+                style="background: rgba(59, 130, 246, 1)"
                 @click="uploadPhoto"
               />
             </transition>
@@ -190,7 +190,7 @@
       class="tail-h-32 tail-grid tail-place-items-center tail-py-0"
       style="background: rgba(230, 246, 255, 1)"
     >
-      <div class="tail-border-4 tail-relative" style="border-color: #56ccf2">
+      <div class="tail-border-4 tail-relative" style="border-color: rgba(59, 130, 246, 1)">
         <button
           type="button"
           class="tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-absolute tail--right-3 tail--top-3"

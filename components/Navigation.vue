@@ -33,7 +33,10 @@
                       'Messages',
                       'inviteClient',
                       'addSession',
-                      'newCourse'
+                      'newCourse',
+                      'comingNext',
+                      'Schedules',
+                      'Courses'
                     ].includes(menu.path)
                 "
                 :to="{ name: menu.path, params: menu.params }"

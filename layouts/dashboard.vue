@@ -3,18 +3,15 @@
     <GwHeader />
     <div class="tail-flex">
       <Navigation />
-      <div class="tail-w-full tail-p-4">
+      <div class="tail-w-full tail-p-4 tail-bg-gray-50">
+        <div class="tail-text-right tail-mx-3 lg:tail-mx-0 tail-my-2">
+          <span class="tail-text-gray-700 tail-text-base tail-font-medium">
+            {{ new Date().toDateString() }}
+          </span>
+        </div>
         <Nuxt />
       </div>
     </div>
-
-    <!-- <div
-          class="tail-max-w-3xl tail-mx-auto sm:tail-px-0 lg:tail-max-w-full lg:tail-px-0 lg:tail-pl-0 lg:tail-grid lg:tail-grid-cols-12 lg:tail-gap-8 tail-overflow-x-hidden"
-        >
-          <Navigation />
-          <main class="lg:tail-col-span-9 md:tail-col-span-10 sm:tail-col-span-12 xl:tail-col-span-8 sm:tail-pr-0 lg:tail-pr-8 xl:tail-pr-8">
-            <Nuxt />
-    </main>-->
   </async-view>
 </template>
 <script>
