@@ -27,7 +27,7 @@
                 >First name</label>
                 <input
                   id="first_name"
-                  v-model.trim.lazy="$v.clientInfo.firstName.$model"
+                  v-model.trim="$v.clientInfo.firstName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                   :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.firstName.$error}"
@@ -43,7 +43,7 @@
                 >Last name</label>
                 <input
                   id="last_name"
-                  v-model.trim.lazy="$v.clientInfo.lastName.$model"
+                  v-model.trim="$v.clientInfo.lastName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                   :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.lastName.$error}"
@@ -60,7 +60,7 @@
               <label for="email" class="required" :class="{'tail-text-red-700' : $v.clientInfo.email.$error}">Email Address</label>
               <input
                 id="email"
-                v-model.trim.lazy="$v.clientInfo.email.$model"
+                v-model.trim="$v.clientInfo.email.$model"
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.email.$error}"

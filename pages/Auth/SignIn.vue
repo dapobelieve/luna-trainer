@@ -15,7 +15,7 @@
           >Email</label>
 
           <input
-            v-model.lazy="
+            v-model="
               $v.userInfo.email.$model"
             :disabled="isLoading"
             tabindex="1"
@@ -57,7 +57,7 @@
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
-          <div v-if="!$v.userInfo.password.$error" class="tail-mt-0.5">
+          <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
             <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.

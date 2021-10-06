@@ -11,7 +11,7 @@
           <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}">Email address</label>
 
           <input
-            v-model.lazy="$v.userInfo.email.$model"
+            v-model="$v.userInfo.email.$model"
             autocomplete="off"
             tabindex="1"
             type="email"
