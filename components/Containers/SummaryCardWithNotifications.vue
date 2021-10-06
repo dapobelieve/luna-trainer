@@ -23,7 +23,7 @@
     </div>
 
     <!-- bottom button -->
-    <div class="tail-mx-0.5">
+    <div v-if="displayViewAllButton" class="tail-mx-0.5">
       <button class="tail-text-sm lg:tail-text-base tail-text-blue-500 tail-w-full hover:tail-bg-blue-50 tail-py-1 tail-rounded-xl">
         <slot name="button">
           View all
@@ -35,7 +35,13 @@
 
 <script>
 export default {
-  name: 'SummaryCardWithNotifications'
+  name: 'SummaryCardWithNotifications',
+  props: {
+    displayViewAllButton: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 

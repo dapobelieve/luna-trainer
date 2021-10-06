@@ -10,7 +10,9 @@
             <!-- client registration -->
             <containers-summary-card-with-notifications>
               <template v-slot:icon>
-                <i class="ns-users tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"></i>
+                <i
+                  class="ns-users tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"
+                ></i>
               </template>
               <template v-slot:title>
                 new client registrations
@@ -19,14 +21,38 @@
                 2 new requests
               </template>
               <template v-slot:content>
-                <containers-summary-information-with-avatar />
+                <ul role="list" class="tail-relative tail-z-0 tail-mx-0.5">
+                  <li
+                    v-for="invoice in 2"
+                    :key="invoice.index"
+                  >
+                    <containers-summary-information-with-avatar>
+                      <template v-slot:avatar>
+                        <ClientAvatar
+                          :client-info="{
+                            firstName: 'Get',
+                            lastName: 'Welp'
+                          }"
+                        />
+                      </template>
+                      <template v-slot:content>
+                        New client registration from Peter.
+                      </template>
+                      <template v-slot:date>
+                        {{ new Date().toDateString() }}
+                      </template>
+                    </containers-summary-information-with-avatar>
+                  </li>
+                </ul>
               </template>
             </containers-summary-card-with-notifications>
 
             <!-- new messages -->
             <containers-summary-card-with-notifications>
               <template v-slot:icon>
-                <i class="ns-comment-alt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"></i>
+                <i
+                  class="ns-comment-alt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"
+                ></i>
               </template>
               <template v-slot:title>
                 new messages
@@ -35,26 +61,35 @@
                 2 new messages
               </template>
               <template v-slot:content>
-                <containers-summary-information-with-avatar />
+                <ul role="list" class="tail-relative tail-z-0 tail-mx-0.5">
+                  <li
+                    v-for="invoice in 2"
+                    :key="invoice.index"
+                  >
+                    <containers-summary-information-with-avatar>
+                      <template v-slot:avatar>
+                        <ClientAvatar
+                          :client-info="{
+                            firstName: 'Get',
+                            lastName: 'Welp'
+                          }"
+                        />
+                      </template>
+                      <template v-slot:content>
+                        Abi Carpenter has sent you a message.
+                      </template>
+                      <template v-slot:date>
+                        {{ new Date().toDateString() }}
+                      </template>
+                    </containers-summary-information-with-avatar>
+                  </li>
+                </ul>
               </template>
             </containers-summary-card-with-notifications>
           </div>
 
           <!-- invoices -->
-          <containers-summary-card-with-notifications>
-            <template v-slot:icon>
-              <i class="ns-receipt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"></i>
-            </template>
-            <template v-slot:title>
-              invoices
-            </template>
-            <template v-slot:notifications>
-              4 new notifications
-            </template>
-            <template v-slot:content>
-              <containers-summary-information-with-avatar />
-            </template>
-          </containers-summary-card-with-notifications>
+          <dashboard-payments :paid-invoices="paidInvoices" />
         </div>
       </div>
     </article>
@@ -65,10 +100,14 @@
         Stripe Connect
       </template>
       <template v-slot:subtitle>
-        Account under review, please confirm all requirements have been met before proceeding to creating invoices.
+        Account under review, please confirm all requirements have been met
+        before proceeding to creating invoices.
       </template>
     </NotificationsModal>
-    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+    <NotificationsModal
+      :visible="showNotification"
+      @close="showNotification = $event"
+    >
       <template v-slot:title>
         Chat Connection Failed
       </template>
@@ -104,11 +143,20 @@ export default {
     }
   },
   computed: {
+    ...mapGetters('profile', {
+      isStripeConnected: 'isStripeConnected',
+      isStripeReady: 'isStripeReady'
+    }),
     ...mapGetters({
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus',
-      isStripeConnected: 'profile/isStripeConnected',
-      isStripeReady: 'profile/isStripeReady'
-    })
+      allInvoices: 'invoice/getAllinvoices'
+    }),
+    paidInvoices () {
+      if (this.allInvoices.length) {
+        return this.allInvoices.filter(i => i.status === 'paid')
+      }
+      return []
+    }
   },
   watch: {
     sendBirdConnStatus (newValue, oldValue) {
@@ -123,6 +171,7 @@ export default {
   },
   mounted () {
     this.fetchUserProfile()
+    this.fetchAllInvoices()
   },
   updated () {
     this.$nextTick(() => {
@@ -133,12 +182,10 @@ export default {
       }
     })
   },
-  // created () {
-  //   this.$intercom('show')
-  // },
   methods: {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
+      fetchAllInvoices: 'invoice/getInvoices',
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {
@@ -154,5 +201,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
