@@ -1,7 +1,7 @@
 <template>
-  <ul role="list" class="tail-relative tail-z-0">
+  <ul role="list" class="tail-relative tail-z-0 tail-mx-0.5">
     <li v-for="n in 2" :key="n">
-      <div class="tail-relative tail-py-2 tail-flex tail-items-center hover:tail-bg-gray-50">
+      <div class="tail-relative tail-py-2 tail-flex tail-items-center hover:tail-bg-blue-50 tail-rounded-xl tail-px-3">
         <div class="tail-mr-auto tail-flex tail-items-center tail-space-x-3">
           <div class="flex-shrink-0">
             <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://source.unsplash.com/random" alt="">
