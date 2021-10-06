@@ -1,43 +1,65 @@
 <template>
-  <main class="tail-flex">
-    <!-- <article class="dash-view tail-pb-48 tail-mx-3 lg:tail-mx-0"> -->
-    <article class="dash-view tail-mx-3 lg:tail-mx-0">
-      <div class="main-view tail-grid tail-gap-4 tail-my-5 tail-mx-auto">
-        <div
-          class="tail-bg-white tail-rounded-md tail-w-full tail-p-5 tail-shadow-2xl md:tail-p-8 tail-flex tail-flex-col lg:tail-flex-row tail-justify-between tail-text-black tail-order-first dog-paw"
-        >
-          <div>
-            <h2 class="tail-capitalize tail-text-2xl tail-font-medium">
-              hello, {{ $auth.user.firstName }}!
-            </h2>
-            <p class="lg:tail-max-w-3xl tail-font-normal">
-              Welcome back! If you need the GetWelp Team’s help with anything,
-              just pop us a message in the live chat below!
-            </p>
-          </div>
-        </div>
-        <!-- Overall app status -->
-        <DashboardStatusCard />
-        <div
-          class="tail-rounded-md tail-w-full tail-p-5 md:tail-p-8 md:tail-py-4 tail-flex tail-items-center tail-text-black tail-bg-white tail-order-2 md:tail-order-3"
-        >
-          <i class="ns-building tail-text-3xl tail-text-gray-500" />
-          <h3 class="tail-ml-2 tail-mb-0 tail-capitalize tail-font-medium tail-text-xl">
-            {{ $auth.user.businessName }}.
-          </h3>
-        </div>
-        <div class="tail-grid md:tail-grid-cols-2 tail-gap-4 tail-order-4 md:tail-mb-20">
+  <main>
+    <article class="tail-mx-3 lg:tail-mx-0">
+      <div class="tail-space-y-3 tail-mb-5">
+        <!-- dashboard intro -->
+        <dashboard-intro-card />
+
+        <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
           <div class="tail-grid tail-gap-4">
-            <DashboardClients />
-            <DashboardMessages />
+            <!-- client registration -->
+            <containers-summary-card-with-notifications>
+              <template v-slot:icon>
+                <i class="ns-users tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"></i>
+              </template>
+              <template v-slot:title>
+                new client registrations
+              </template>
+              <template v-slot:notifications>
+                2 new requests
+              </template>
+              <template v-slot:content>
+                <containers-summary-information-with-avatar />
+              </template>
+            </containers-summary-card-with-notifications>
+
+            <!-- new messages -->
+            <containers-summary-card-with-notifications>
+              <template v-slot:icon>
+                <i class="ns-comment-alt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"></i>
+              </template>
+              <template v-slot:title>
+                new messages
+              </template>
+              <template v-slot:notifications>
+                2 new messages
+              </template>
+              <template v-slot:content>
+                <containers-summary-information-with-avatar />
+              </template>
+            </containers-summary-card-with-notifications>
           </div>
-          <DashboardPayments />
+
+          <!-- invoices -->
+          <containers-summary-card-with-notifications>
+            <template v-slot:icon>
+              <i class="ns-receipt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"></i>
+            </template>
+            <template v-slot:title>
+              invoices
+            </template>
+            <template v-slot:notifications>
+              4 new notifications
+            </template>
+            <template v-slot:content>
+              <containers-summary-information-with-avatar />
+            </template>
+          </containers-summary-card-with-notifications>
         </div>
       </div>
     </article>
-    <!-- <div>
-      <CalendarView />
-    </div> -->
+
+    <!-- modals -->
     <NotificationsModal :visible="true">
       <template v-slot:title>
         Stripe Connect
@@ -133,31 +155,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.dog-paw {
-  background-image: url("~/assets/img/dog-paw.svg");
-  background-repeat: no-repeat;
-  background-position: right bottom;
-}
-@media only screen and (max-width: 768px) {
-  .calendar {
-    display: none;
-  }
-  ul {
-    li {
-      display: block;
-    }
-  }
-}
-
-@media only screen and (min-width: 769px) {
-  ul {
-    li {
-      display: inline-block;
-      margin-right: 1em;
-    }
-  }
-  .dash-view {
-    width: 100%;
-  }
-}
 </style>
