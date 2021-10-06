@@ -15,7 +15,7 @@
 //   background: rgba(240, 245, 250, 1);
 // }
 .primary-color {
-  background: #56ccf2;
+  @apply tail-bg-blue-500;
 }
 // .body-background {
 //   background: rgba(240, 245, 250, 1);
@@ -67,27 +67,26 @@
 }
 
 .add-icon-color {
-  background-color: #56ccf2;
-  color: #fff;
+  @apply tail-bg-blue-500 tail-text-white;
 }
 
 .text-primary-color {
-  color: #56ccf2;
+  @apply tail-text-blue-500;
 }
 
 .multiselect__spinner:after,
 .multiselect__spinner:before {
-    border-top-color: #56ccf2 !important;
+    border-top-color: rgba(59, 130, 246, 1) !important;
 }
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-    background: #54b0cf !important;
+    background: #54abe6 !important;
 }
 
 .multiselect__tag,
 .multiselect__option--highlight,
 .multiselect__option--highlight:after{
-  background: #56ccf2 !important;
+  background: rgba(59, 130, 246, 1) !important;
 }
 
 .vue-tel-input{

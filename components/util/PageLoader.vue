@@ -38,7 +38,7 @@ body {
 
 .path {
     // stroke: hsl(210, 70, 75);
-    stroke: #56CCF2;
+    stroke: rgba(59, 130, 246, 1);
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite
 }
