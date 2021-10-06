@@ -76,7 +76,7 @@
             <button
               style="width: fit-content"
               type="submit"
-              class="primary-button"
+              class="button-fill"
               @click="displaySetUp"
             >
               Lets Get Started

@@ -44,7 +44,10 @@
           id="website"
           v-model="websiteUrl"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+          @input="change($event)"
+          @change="change($event)"
         />
+        <small v-if="isValid" class="tail-text-red-700">url is invalid</small>
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="country" class="required">Where are you based?</label>
@@ -125,7 +128,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { required, url } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 import timezones from '~/timezones.json'
 import countries from '~/countries.json'
 export default {
@@ -133,7 +136,10 @@ export default {
   data () {
     return {
       countries,
-      timezones
+      timezones,
+      isValid: false,
+      // eslint-disable-next-line
+      regex: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     }
   },
   computed: {
@@ -216,8 +222,7 @@ export default {
       required
     },
     websiteUrl: {
-      required,
-      url
+      required
     },
     location: {
       required
@@ -235,7 +240,16 @@ export default {
   methods: {
     ...mapMutations({
       setProfileData: 'profile/UPDATE_TRAINNER_REG_DATA'
-    })
+    }),
+
+    change (e) {
+      const url = e.target.value
+      if (this.regex.test(url)) {
+        this.isValid = false
+      } else {
+        this.isValid = true
+      }
+    }
   }
 }
 </script>

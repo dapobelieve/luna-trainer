@@ -125,7 +125,14 @@
         </div>
         <div>
           <label for="url">Website URL</label>
-          <input v-model="profile.websiteUrl" type="website" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input
+            v-model="profile.websiteUrl"
+            type="website"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            @input="change($event)"
+            @change="change($event)"
+          >
+          <small v-if="isValid" class="tail-text-red-700">url is invalid</small>
         </div>
         <div>
           <label for="experience">Years of experience</label>
@@ -179,7 +186,10 @@ export default {
       loading: false,
       disabled: false,
       countries,
-      timezones
+      timezones,
+      isValid: false,
+      // eslint-disable-next-line
+      regex: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
     }
   },
   methods: {
@@ -223,6 +233,14 @@ export default {
         this.profileImageUrl = e.target.result
       }
       reader.readAsDataURL(this.profileImageData)
+    },
+    change (e) {
+      const url = e.target.value
+      if (this.regex.test(url)) {
+        this.isValid = false
+      } else {
+        this.isValid = true
+      }
     }
   },
   validations: {
