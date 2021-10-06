@@ -51,7 +51,6 @@
           <p class="tail-text-gray-700 tail-text-base tail-font-medium">
             Stripe account in review
           </p>
-          <!-- {{ stripeErrors }} -->
           <button
             v-tooltip="{
               content: `${stripeErrors
@@ -59,7 +58,7 @@
                   return `<div class='tail-pb-3'>
                     <div class='tail-bg-gray-200'>
                       <h3 class='tail-font-medium tail-p-2 tail-text-left tail-capitalize'>${error.code
-                        .split('_')
+                    .split('_')
                   .join(' ')}</h3>
                     </div>
                 <p class='tail-p-3'>${error.reason}</p>
@@ -71,7 +70,7 @@
             }"
             class="tail-p-1.5 tail-flex"
           >
-            <i class="ns-info tail-text-white tail-text-lg"></i>
+            <i class="ns-info tail-text-lg"></i>
           </button>
         </div>
         <div
@@ -180,10 +179,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .tooltip {
   // ...
-  z-index: 1000;
+  z-index: 10000;
   &.info {
     $color: #fff;
     .tooltip-inner {
