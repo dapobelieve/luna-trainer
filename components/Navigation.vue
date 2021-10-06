@@ -223,7 +223,7 @@
                 v-for="n in unreadMessages"
                 :key="n.url"
                 type="button"
-                class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer"
+                class="tail-flex tail-justify-start tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer tail-w-full"
                 @click="gotoMessage(n.members)"
               >
                 <div>
