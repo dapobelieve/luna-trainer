@@ -8,7 +8,7 @@
         <NuxtLink
           :to="{ name: 'CreateInvoice'}"
           exact-active-class="active"
-          class="tail-inline-flex primary-color tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          class="tail-inline-flex primary-color tail-items-center tail-p-2 tail-h-9 tail-w-9 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-blue-600 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
         >
           <i class="ns-plus tail-text-white tail-text-lg"></i>
         </NuxtLink>

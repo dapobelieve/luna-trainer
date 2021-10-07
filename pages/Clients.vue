@@ -5,7 +5,7 @@
         Clients
       </template>
       <template v-slot:buttons>
-        <button type="button" class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="openModal = true">
+        <button type="button"  class="tail-inline-flex primary-color tail-items-center tail-p-2 tail-h-9 tail-w-9 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-blue-600 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="openModal = true">
           <i class="ns-plus tail-text-white tail-text-lg"></i>
         </button>
         <gw-select :options="['All', 'Active', 'Invited']" selected="All" @selected="filterInvoice" />
