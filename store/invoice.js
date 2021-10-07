@@ -11,6 +11,23 @@ export const mutations = {
 }
 
 export const actions = {
+  fetchInvoiceWithStatusAndLimit ({ commit }, payload) {
+    const stat =
+      payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage =
+      payload !== undefined && 'page' in payload ? payload.page : 1
+    const limit =
+        payload !== undefined && 'limit' in payload ? payload.limit : 10
+    return this.$axios
+      .$get(
+        `${process.env.BASEURL_HOST}/invoice${
+          stat ? `?status=${stat}&` : '?'
+        }limit=$${limit}&page=${currPage}`
+      )
+      .then((response) => {
+        return response.data
+      })
+  },
   createInvoice ({ commit, dispatch }, payload) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/invoice`, payload)
@@ -30,10 +47,9 @@ export const actions = {
   },
   sendInvoice ({ commit }, sendDetails) {
     return this.$axios
-      .$post(
-               `${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`,
-               { recipients: [sendDetails.recipient] }
-      )
+      .$post(`${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`, {
+        recipients: [sendDetails.recipient]
+      })
       .then((response) => {
         return response
       })
@@ -48,15 +64,15 @@ export const actions = {
   },
   getInvoices ({ commit, dispatch }, payload) {
     const stat =
-             payload !== undefined && 'status' in payload ? payload.status : ''
+      payload !== undefined && 'status' in payload ? payload.status : ''
     const currPage =
-             payload !== undefined && 'page' in payload ? payload.page : 1
+      payload !== undefined && 'page' in payload ? payload.page : 1
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
       .$get(
-               `${process.env.BASEURL_HOST}/invoice${
-                 stat ? `?status=${stat}&` : '?'
-               }limit=10&page=${currPage}`
+        `${process.env.BASEURL_HOST}/invoice${
+          stat ? `?status=${stat}&` : '?'
+        }limit=10&page=${currPage}`
       )
       .then((response) => {
         commit('SET_ALL_INVOICES', response)
@@ -77,7 +93,7 @@ export const actions = {
   stripeConnect ({ commit }) {
     return this.$axios
       .$get(
-          `${process.env.PAYMENT_HOST_URL}/connect/url?returnurl=${process.env.STRIPE_RETURN}&refreshurl=${process.env.STRIPE_RETURN}`
+        `${process.env.PAYMENT_HOST_URL}/connect/url?returnurl=${process.env.STRIPE_RETURN}&refreshurl=${process.env.STRIPE_RETURN}`
       )
       .then(({ url }) => {
         return url
@@ -89,9 +105,7 @@ export const getters = {
   getAllinvoices: state => state.invoices,
   getAllDraftInvoices: state =>
     state.invoices.filter(i => i.status === 'draft'),
-  getAllPaidInvoices: state =>
-    state.invoices.filter(i => i.status === 'paid'),
-  getAllSentInvoices: state =>
-    state.invoices.filter(i => i.status === 'sent'),
+  getAllPaidInvoices: state => state.invoices.filter(i => i.status === 'paid'),
+  getAllSentInvoices: state => state.invoices.filter(i => i.status === 'sent'),
   invoiceCount: state => state.invoiceCount
 }

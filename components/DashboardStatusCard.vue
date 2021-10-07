@@ -28,10 +28,10 @@
         >
           <p
             :class="[
-              'tail-bg-green-500 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
+              'tail-bg-green-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
             ]"
           >
-            <i class="ns-check"></i>
+            <i class="ns-check tail-text-lg tail-text-green-500"></i>
           </p>
           <p class="tail-text-gray-700 tail-text-base tail-font-medium">
             Stripe ready !
@@ -101,15 +101,12 @@
           <SingleLoader v-if="$store.state.client.isLoading" />
           <template v-else>
             <p
-              :class="[
-                allClients.length ? 'tail-bg-green-50' : 'tail-bg-red-600',
-                'tail-rounded-full tail-text-xs tail-p-2 tail-flex'
-              ]"
+              class="tail-bg-green-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex"
             >
               <i
                 :class="[
                   allClients.length ? 'ns-check' : 'ns-users',
-                  'tail-text-green-700 tail-text-lg'
+                  'tail-text-green-500 tail-text-lg'
                 ]"
               />
             </p>
