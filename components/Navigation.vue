@@ -54,6 +54,15 @@
                   class="tail-inline-block tail-rounded-full tail-mx-3 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono"
                 >Development</span>
               </NuxtLink>
+              <a
+                v-else-if="menu.path === 'comingNext'"
+                href="https://getwelp.notion.site/Where-is-GetWelp-going-f6089a0568ff442ca6b825c422c45d08"
+                target="_blank"
+                class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
+              >
+                <i class="ns-time-add" />
+                <span class="tail-truncate">What’s coming next...</span>
+              </a>
               <button
                 v-else-if="menu.path === 'inviteClient'"
                 class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
