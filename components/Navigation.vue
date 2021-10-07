@@ -56,7 +56,7 @@
               </NuxtLink>
               <a
                 v-else-if="menu.path === 'comingNext'"
-                href="https://www.notion.so/getwelp/Where-is-GetWelp-going-f6089a0568ff442ca6b825c422c45d08"
+                href="https://getwelp.notion.site/Where-is-GetWelp-going-f6089a0568ff442ca6b825c422c45d08"
                 target="_blank"
                 class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
               >
