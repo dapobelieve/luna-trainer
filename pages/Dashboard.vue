@@ -134,7 +134,8 @@ export default {
   data () {
     return {
       openBankModal: false,
-      showNotification: false
+      showNotification: false,
+      paidInvoices: []
     }
   },
   head () {
@@ -148,15 +149,8 @@ export default {
       isStripeReady: 'isStripeReady'
     }),
     ...mapGetters({
-      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus',
-      allInvoices: 'invoice/getAllinvoices'
-    }),
-    paidInvoices () {
-      if (this.allInvoices.length) {
-        return this.allInvoices.filter(i => i.status === 'paid')
-      }
-      return []
-    }
+      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
+    })
   },
   watch: {
     sendBirdConnStatus (newValue, oldValue) {
@@ -171,7 +165,7 @@ export default {
   },
   mounted () {
     this.fetchUserProfile()
-    this.fetchAllInvoices()
+    this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
   },
   updated () {
     this.$nextTick(() => {
@@ -185,7 +179,7 @@ export default {
   methods: {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
-      fetchAllInvoices: 'invoice/getInvoices',
+      fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {
