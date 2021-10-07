@@ -22,7 +22,7 @@
             :class="{'tail-text-red-400' : $v.email.$error}"
           >Email address</label>
           <input
-            v-model.lazy="
+            v-model="
               $v.email.$model"
             :disabled="isLoading"
             autocomplete="off"
