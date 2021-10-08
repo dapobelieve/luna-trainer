@@ -14,7 +14,6 @@
         </small>
       </div>
       <!-- end of header -->
-
       <!-- list area -->
       <div class="tail-my-3">
         <slot name="content" />
@@ -24,7 +23,12 @@
 
     <!-- bottom button -->
     <div v-if="displayViewAllButton" class="tail-mx-0.5">
-      <button class="tail-text-sm lg:tail-text-base tail-text-blue-500 tail-w-full hover:tail-bg-blue-50 tail-py-1 tail-rounded-xl">
+      <button v-if="url === '#'" class="tail-text-sm lg:tail-text-base tail-text-blue-500 tail-w-full hover:tail-bg-blue-50 tail-py-1 tail-rounded-xl">
+        <slot name="button">
+          View all
+        </slot>
+      </button>
+      <button v-else class="tail-text-sm lg:tail-text-base tail-text-blue-500 tail-w-full hover:tail-bg-blue-50 tail-py-1 tail-rounded-xl" @click.prevent="showList">
         <slot name="button">
           View all
         </slot>
@@ -40,6 +44,15 @@ export default {
     displayViewAllButton: {
       type: Boolean,
       default: true
+    },
+    url: {
+      type: String,
+      default: '#'
+    }
+  },
+  methods: {
+    showList () {
+      this.$router.push({ name: this.url })
     }
   }
 }
