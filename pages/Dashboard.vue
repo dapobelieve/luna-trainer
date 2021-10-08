@@ -8,10 +8,10 @@
         <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
           <div class="tail-grid tail-gap-4">
             <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" />
+            <dashboard-clients :accepted-clients="acceptedClients" :class="[acceptedClients.length ? 'tail-h-auto' : 'tail-h-72']" />
 
             <!-- new messages -->
-            <containers-summary-card-with-notifications>
+            <containers-summary-card-with-notifications class="tail-h-72">
               <template v-slot:icon>
                 <i
                   class="ns-comment-alt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"

@@ -34,7 +34,7 @@
           </containers-summary-information-with-avatar>
         </li>
       </ul>
-      <div v-else class="tail-text-center tail-mt-10">
+      <div v-else class="tail-text-center tail-mt-10 tail-px-4">
         Newly accepted client requests will be displayed here.
       </div>
     </template>

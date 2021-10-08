@@ -18,7 +18,7 @@
     <template v-slot:content>
       <ul v-if="paidInvoices.length" role="list" class="tail-relative tail-z-0 tail-mx-0.5">
         <li
-          v-for="invoice in paidInvoices.slice(0, 5)"
+          v-for="invoice in paidInvoices"
           :key="invoice.index"
         >
           <containers-summary-information-with-avatar>
@@ -35,7 +35,7 @@
           </containers-summary-information-with-avatar>
         </li>
       </ul>
-      <div v-else class="tail-text-center tail-mt-10">
+      <div v-else class="tail-text-center tail-mt-10 tail-px-4">
         Newly paid invoices will be displayed here.
       </div>
     </template>
