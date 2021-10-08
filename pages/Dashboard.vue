@@ -132,7 +132,7 @@ export default {
   mounted () {
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
-    this.fetchAcceptedClients({ status: 'accepted', limit: 5 }).then((r) => { this.acceptedClients = r }).catch(e => console.error(e))
+    this.fetchAcceptedClients({ status: 'accepted', limit: 2 }).then((r) => { this.acceptedClients = r }).catch(e => console.error(e))
   },
   updated () {
     this.$nextTick(() => {

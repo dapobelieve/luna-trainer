@@ -17,13 +17,19 @@
         </a>
       </div>
     </div>
-    <img class="tail-h-4" src="~/assets/img/svgs/chevron-right-blue.svg" alt="arrow-right" />
+    <img v-if="showChevronRight" class="tail-h-4" src="~/assets/img/svgs/chevron-right-blue.svg" alt="arrow-right" />
   </div>
 </template>
 
 <script>
 export default {
-  name: 'SummaryInformationWithAvatar'
+  name: 'SummaryInformationWithAvatar',
+  props: {
+    showChevronRight: {
+      type: Boolean,
+      default: true
+    }
+  }
 }
 </script>
 
