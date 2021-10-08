@@ -8,44 +8,7 @@
         <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
           <div class="tail-grid tail-gap-4">
             <!-- client registration -->
-            <containers-summary-card-with-notifications>
-              <template v-slot:icon>
-                <i
-                  class="ns-users tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"
-                ></i>
-              </template>
-              <template v-slot:title>
-                new client registrations
-              </template>
-              <template v-slot:notifications>
-                2 new requests
-              </template>
-              <template v-slot:content>
-                <ul role="list" class="tail-relative tail-z-0 tail-mx-0.5">
-                  <li
-                    v-for="invoice in 2"
-                    :key="invoice.index"
-                  >
-                    <containers-summary-information-with-avatar>
-                      <template v-slot:avatar>
-                        <ClientAvatar
-                          :client-info="{
-                            firstName: 'Get',
-                            lastName: 'Welp'
-                          }"
-                        />
-                      </template>
-                      <template v-slot:content>
-                        New client registration from Peter.
-                      </template>
-                      <template v-slot:date>
-                        {{ new Date().toDateString() }}
-                      </template>
-                    </containers-summary-information-with-avatar>
-                  </li>
-                </ul>
-              </template>
-            </containers-summary-card-with-notifications>
+            <dashboard-clients :accepted-clients="acceptedClients" />
 
             <!-- new messages -->
             <containers-summary-card-with-notifications>
@@ -128,14 +91,17 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import DashboardClients from '~/components/DashboardClients.vue'
 export default {
   name: 'Dashboard',
+  components: { DashboardClients },
   layout: 'dashboard',
   data () {
     return {
       openBankModal: false,
       showNotification: false,
-      paidInvoices: []
+      paidInvoices: [],
+      acceptedClients: []
     }
   },
   head () {
@@ -166,6 +132,7 @@ export default {
   mounted () {
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
+    this.fetchAcceptedClients({ status: 'accepted', limit: 5 }).then((r) => { this.acceptedClients = r }).catch(e => console.error(e))
   },
   updated () {
     this.$nextTick(() => {
@@ -180,6 +147,7 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
+      fetchAcceptedClients: 'client/fetchClientsWithStatusAndLimit',
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {

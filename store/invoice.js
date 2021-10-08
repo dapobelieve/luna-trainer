@@ -22,7 +22,7 @@ export const actions = {
       .$get(
         `${process.env.BASEURL_HOST}/invoice${
           stat ? `?status=${stat}&` : '?'
-        }limit=$${limit}&page=${currPage}`
+        }limit=${limit}&page=${currPage}`
       )
       .then((response) => {
         return response.data

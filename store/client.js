@@ -15,6 +15,23 @@ export const mutations = {
 }
 
 export const actions = {
+  fetchClientsWithStatusAndLimit ({ commit }, payload) {
+    const stat =
+             payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage =
+             payload !== undefined && 'page' in payload ? payload.page : 1
+    const limit =
+             payload !== undefined && 'limit' in payload ? payload.limit : 10
+    return this.$axios
+      .$get(
+               `${process.env.BASEURL_HOST}/client/invites${
+                 stat ? `?status=${stat}&` : '?'
+               }limit=${limit}&page=${currPage}`
+      )
+      .then((response) => {
+        return response.data
+      })
+  },
   clearAllClientStates ({ commit }) {
     // for local storage force logout
     commit('SET_ALL_CLIENTS', { data: [], size: 0 })
@@ -34,12 +51,18 @@ export const actions = {
       })
   },
   fetchAllClients ({ commit, dispatch }, payload) {
-    const stat = payload !== undefined && 'status' in payload ? payload.status : ''
-    const currPage = payload !== undefined && 'page' in payload ? payload.page : 1
+    const stat =
+             payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage =
+             payload !== undefined && 'page' in payload ? payload.page : 1
     commit('IS_LOADING', true)
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/client/invites${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
+      .$get(
+               `${process.env.BASEURL_HOST}/client/invites${
+                 stat ? `?status=${stat}&` : '?'
+               }limit=10&page=${currPage}`
+      )
       .then((response) => {
         commit('SET_ALL_CLIENTS', response)
         commit('IS_LOADING', false)
@@ -47,17 +70,20 @@ export const actions = {
         // fetch their sendBird profiles
         // dispatch('sendBird/listOfMySendBirdUsers', response, { root: true })
         return response.data
-      }).catch(() => {
+      })
+      .catch(() => {
         dispatch('loader/endProcess', null, { root: true })
         commit('IS_LOADING', false)
       })
   },
   getSingleClientById ({ commit, dispatch }, id) {
     dispatch('loader/startProcess', null, { root: true })
-    return this.$axios.$get(`${process.env.BASEURL_HOST}/profile?id=${id}`).then(({ data }) => {
-      dispatch('loader/endProcess', null, { root: true })
-      return data
-    })
+    return this.$axios
+      .$get(`${process.env.BASEURL_HOST}/profile?id=${id}`)
+      .then(({ data }) => {
+        dispatch('loader/endProcess', null, { root: true })
+        return data
+      })
   }
 }
 
