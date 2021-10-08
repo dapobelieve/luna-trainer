@@ -15,6 +15,25 @@ export const mutations = {
 }
 
 export const actions = {
+  fetchClientsWithStatusAndLimit ({ commit }, payload) {
+    const stat =
+             payload !== undefined && 'status' in payload ? payload.status : ''
+    const currPage =
+             payload !== undefined && 'page' in payload ? payload.page : 1
+    const limit =
+             payload !== undefined && 'limit' in payload ? payload.limit : 10
+    commit('IS_LOADING', true)
+    return this.$axios
+      .$get(
+               `${process.env.BASEURL_HOST}/client/invites${
+                 stat ? `?status=${stat}&` : '?'
+               }limit=${limit}&page=${currPage}`
+      )
+      .then((response) => {
+        commit('IS_LOADING', false)
+        return response.data
+      })
+  },
   clearAllClientStates ({ commit }) {
     // for local storage force logout
     commit('SET_ALL_CLIENTS', { data: [], size: 0 })

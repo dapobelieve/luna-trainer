@@ -1,154 +1,65 @@
 <template>
-  <div>
-    <h5 class="tail-font-medium tail-mb-2">
-      Clients
-    </h5>
-    <div v-if="!$store.state.client.isLoading" class="tail-grid tail-grid-cols-3 tail-gap-4">
-      <!-- when clients are <= 5 but not equal to zero-->
-      <template v-if="allClients.length < 2 && allClients.length !== 0">
-        <div
-          v-for="client in allClients"
-          :key="client.index"
-          class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
-          @click="openClientModal = true"
+  <containers-summary-card-with-notifications
+    :display-view-all-button="Boolean(acceptedClients.length)"
+    url="Clients"
+  >
+    <template v-slot:icon>
+      <i
+        class="ns-users tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"
+      ></i>
+    </template>
+    <template v-slot:title>
+      new client registrations
+    </template>
+    <template v-slot:notifications>
+      {{ acceptedClients.length }} new request{{
+        acceptedClients.length > 1 ? "s" : ""
+      }}
+    </template>
+    <template v-slot:content>
+      <div v-if="$store.state.client.isLoading" class="tail-flex tail-place-content-center tail-mt-16">
+        <SingleLoader />
+      </div>
+      <template v-else>
+        <ul
+          v-if="acceptedClients.length"
+          role="list"
+          class="tail-relative tail-z-0 tail-mx-0.5"
         >
-          <ClientAvatar :client-info="client" :width="4" :height="4" />
-          <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
-          <div class="tail-flex tail-items-center">
-            <img
-              class="tail-bg-green-400 tail-p-1 tail-rounded-full"
-              src="~/assets/img/dog-paw.svg"
-              alt="dog paw"
-            />
-            <small
-              class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
-            >{{ client.pet[0] && client.pet[0].name }}</small>
-          </div>
-        </div>
-        <button
-          type="button"
-          class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
-          @click="openModal = true"
-        >
-          <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
-            <i
-              class="ns-plus tail-text-2xl"
-            ></i>
-          </div>
-
-          <div>
-            <div
-              class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
+          <li v-for="client in acceptedClients" :key="client.index">
+            <containers-summary-information-with-avatar
+              :show-chevron-right="false"
             >
-              Invite clients
-            </div>
-          </div>
-        </button>
-      </template>
-      <!-- when clients are 0 -->
-      <template v-else-if="!allClients.length">
-        <button
-          type="button"
-          class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
-          @click="openModal = true"
-        >
-          <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
-            <i
-              class="ns-plus tail-text-2xl"
-            ></i>
-          </div>
-
-          <div>
-            <div
-              class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
-            >
-              Invite clients
-            </div>
-          </div>
-        </button>
-        <div
-          v-for="n in 2"
-          :key="n"
-          class="tail-rounded-lg tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center tail-h-40 gw-bg-color"
-        >
+              <template v-slot:avatar>
+                <ClientAvatar :client-info="client" />
+              </template>
+              <template v-slot:content>
+                new client registration from {{ client.firstName }}.
+              </template>
+              <template v-slot:date>
+                {{ new Date().toDateString() }}
+              </template>
+            </containers-summary-information-with-avatar>
+          </li>
+        </ul>
+        <div v-else class="tail-text-center tail-mt-10 tail-px-4">
+          Newly accepted client requests will be displayed here.
         </div>
       </template>
-      <!-- when clients are >= 5 -->
-      <template v-else-if="allClients.length >= 2">
-        <div
-          v-for="client in allClients.slice(0,2)"
-          :key="client.index"
-          class="tail-rounded-md tail-bg-white tail-py-4 tail-grid tail-justify-items-center tail-mb-0 tail-cursor-pointer"
-          @click="openClientModal = true"
-        >
-          <ClientAvatar :client-info="client" :width="4" :height="4" />
-          <b class="tail-capitalize tail-text-sm tail-mt-3">{{ client.firstName }}</b>
-          <div class="tail-flex tail-items-center">
-            <img
-              class="tail-bg-green-400 tail-p-1 tail-rounded-full"
-              src="~/assets/img/dog-paw.svg"
-              alt="dog paw"
-            />
-            <small
-              class="tail-text-gray-500 tail-ml-1 tail-capitalize tail-text-sm"
-            >{{ client.pet[0] && client.pet[0].name }}</small>
-          </div>
-        </div>
-        <button
-          class="tail-rounded-lg tail-bg-white tail-pt-4 tail-pb-10 tail-grid tail-justify-items-center"
-          @click="$router.push({ name: 'Clients' })"
-        >
-          <div class="tail-mb-2 tail-flex tail-justify-center tail-items-center tail-rounded-full tail-w-16 tail-h-16" style="background: rgba(240, 245, 250, 1);">
-            <i
-              class="ns-angle-right tail-text-2xl"
-            ></i>
-          </div>
-
-          <div>
-            <NuxtLink
-              :to="{ name: 'Clients' }"
-              class="tail-capitalize tail-text-xs tail-mt-3 gw-pry-text-color tail-no-underline tail-font-bold"
-            >
-              View All
-            </NuxtLink>
-          </div>
-        </button>
-      </template>
-    </div>
-    <div v-else class="tail-grid tail-place-content-center tail-h-full">
-      <SingleLoader />
-    </div>
-    <Modal :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
-      <InviteNewClient @close="openModal = $event" />
-    </Modal>
-    <Modal v-for="client in allClients" :key="client.index" :is-open="openClientModal" @close="openClientModal = $event" @closeBackDrop="openClientModal = $event">
-      <template v-slot:status>
-        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-          {{ client.status }}
-        </div>
-      </template>
-      <ClientInfoPreview :client="client" />
-    </Modal>
-  </div>
+    </template>
+  </containers-summary-card-with-notifications>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 export default {
-  name: 'DbClients',
-  data () {
-    return {
-      openModal: false,
-      openClientModal: false
+  name: 'DashboardClients',
+  props: {
+    acceptedClients: {
+      type: Array,
+      required: true
     }
-  },
-  computed: {
-    ...mapGetters({
-      allClients: 'client/getAllClients'
-    })
   }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

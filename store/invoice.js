@@ -1,12 +1,16 @@
 export const state = () => ({
   invoices: [],
-  invoiceCount: 0
+  invoiceCount: 0,
+  isLoading: false
 })
 
 export const mutations = {
   SET_ALL_INVOICES (state, invoices) {
     state.invoices = invoices.data
     state.invoiceCount = invoices.size
+  },
+  IS_LOADING (state, loadingStatus) {
+    state.isLoading = loadingStatus
   }
 }
 
@@ -18,13 +22,15 @@ export const actions = {
       payload !== undefined && 'page' in payload ? payload.page : 1
     const limit =
         payload !== undefined && 'limit' in payload ? payload.limit : 10
+    commit('IS_LOADING', true)
     return this.$axios
       .$get(
         `${process.env.BASEURL_HOST}/invoice${
           stat ? `?status=${stat}&` : '?'
-        }limit=$${limit}&page=${currPage}`
+        }limit=${limit}&page=${currPage}`
       )
       .then((response) => {
+        commit('IS_LOADING', false)
         return response.data
       })
   },
