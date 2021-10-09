@@ -94,6 +94,10 @@
         Sign up
       </NuxtLink>
     </div>
+
+    <modal name="my-first-modal">
+        This is my first modal
+    </modal>
   </div>
 </template>
 <script>
@@ -104,6 +108,9 @@ export default {
   layout: 'auth',
   middleware: ['validToken'],
   auth: false,
+  mounted () {
+    // this.$modal.show('my-first-modal')
+  },
   data () {
     return {
       showPassword: false,
