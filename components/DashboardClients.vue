@@ -34,7 +34,7 @@
                 <ClientAvatar :client-info="client" />
               </template>
               <template v-slot:content>
-                New client registration from <span class="tail-font-medium">{{ client.firstName }}</span>.
+                New client registration from <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span>.
               </template>
               <template v-slot:date>
                 {{ new Date().toDateString() }}
