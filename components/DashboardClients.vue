@@ -9,7 +9,7 @@
       ></i>
     </template>
     <template v-slot:title>
-      new client registrations
+      recently accepted clients
     </template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
@@ -34,7 +34,7 @@
                 <ClientAvatar :client-info="client" />
               </template>
               <template v-slot:content>
-                New client registration from <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span>.
+                <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span> has accepted your invitation.
               </template>
               <template v-slot:date>
                 {{ new Date().toDateString() }}

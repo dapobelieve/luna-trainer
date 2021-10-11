@@ -41,9 +41,8 @@ export const actions = {
   inviteClient ({ commit }, clientInfo) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
-      .then((response) => {
-        return response
-      })
+      .then(response => response)
+      .catch(e => e)
   },
   resendClientInvite ({ commit, dispatch }, id) {
     return this.$axios
@@ -54,16 +53,16 @@ export const actions = {
   },
   fetchAllClients ({ commit, dispatch }, payload) {
     const stat =
-             payload !== undefined && 'status' in payload ? payload.status : ''
+      payload !== undefined && 'status' in payload ? payload.status : ''
     const currPage =
-             payload !== undefined && 'page' in payload ? payload.page : 1
+      payload !== undefined && 'page' in payload ? payload.page : 1
     commit('IS_LOADING', true)
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
       .$get(
-               `${process.env.BASEURL_HOST}/client/invites${
-                 stat ? `?status=${stat}&` : '?'
-               }limit=10&page=${currPage}`
+        `${process.env.BASEURL_HOST}/client/invites${
+          stat ? `?status=${stat}&` : '?'
+        }limit=10&page=${currPage}`
       )
       .then((response) => {
         commit('SET_ALL_CLIENTS', response)
