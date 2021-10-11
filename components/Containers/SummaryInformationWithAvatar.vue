@@ -10,7 +10,7 @@
         <a href="#" class="focus:tail-outline-none">
           <!-- Extend touch target to entire panel -->
           <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
-          <div>
+          <p class="tail-text-base tail-font-normal tail-text-gray-700">
             <slot name="content" />
           </div>
           <span class="tail-text-xs tail-text-gray-500 tail-truncate">

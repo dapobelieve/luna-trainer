@@ -38,10 +38,12 @@
             </p>
           </template>
         </div>
-      <!-- end of bigger screen view -->
+        <!-- end of bigger screen view -->
       </div>
 
-      <div class="lg:tail-flex tail-flex-col xl:tail-flex-row tail-flex-grow tail-mt-4 lg:tail-mt-0">
+      <div
+        class="lg:tail-flex tail-flex-col xl:tail-flex-row tail-flex-grow tail-mt-4 lg:tail-mt-0"
+      >
         <div
           class="tail-flex tail-flex-col tail-items-center lg:tail-p-10 tail-flex-grow lg:tail-overflow-y-auto"
         >
@@ -54,7 +56,9 @@
                   <onboarding-profile @validity="profile.isDisabled = $event" />
                 </template>
                 <template v-else-if="step === 1">
-                  <onboarding-trainer-profile @validity="trainerProfile.isDisabled = $event" />
+                  <onboarding-trainer-profile
+                    @validity="trainerProfile.isDisabled = $event"
+                  />
                 </template>
                 <template v-else-if="step === 2">
                   <onboarding-services
@@ -67,13 +71,17 @@
                   <onboarding-clients @validity="firstClient.isDisabled" />
                 </template>
                 <template v-else-if="step === 4">
-                  <onboarding-stripe @validity="stripeConnect.isDisabled = $event" />
+                  <onboarding-stripe
+                    @validity="stripeConnect.isDisabled = $event"
+                  />
                 </template>
               </div>
               <!-- Service items for mobile screen -->
               <template v-if="step === 2">
                 <div class="xl:tail-hidden tail-py-6">
-                  <onboarding-service-cards @editservice="selectedServiceProps = $event" />
+                  <onboarding-service-cards
+                    @editservice="selectedServiceProps = $event"
+                  />
                 </div>
               </template>
             </div>
@@ -81,14 +89,26 @@
             <div class="tail-flex tail-items-center tail-gap-2">
               <button
                 class="button-text tail-mr-auto"
-                :class="[step === 3 ? 'tail-visible' : step === 4 ? 'tail-hidden' : 'tail-invisible']"
+                :class="[
+                  step === 3
+                    ? 'tail-visible'
+                    : step === 4
+                      ? 'tail-hidden'
+                      : 'tail-invisible'
+                ]"
                 @click.prevent="step++"
               >
                 Skip
               </button>
               <button
                 class="tail-text-blue-500 tail-mr-auto"
-                :class="[step === 4 ? 'tail-visible' : step === 3 ? 'tail-hidden' : 'tail-invisible']"
+                :class="[
+                  step === 4
+                    ? 'tail-visible'
+                    : step === 3
+                      ? 'tail-hidden'
+                      : 'tail-invisible'
+                ]"
                 @click.prevent="saveProfile"
               >
                 Skip
@@ -115,7 +135,6 @@
               <button
                 v-else-if="step !== 5"
                 :disabled="
-
                   step === 0
                     ? profile.isDisabled
                     : step === 1
@@ -126,7 +145,6 @@
                           ? firstClient.isDisabled
                           : stripeConnect.isDisabled
                 "
-
                 type="button"
                 class="button-fill"
                 @click="increaseStep"
@@ -137,10 +155,16 @@
           </div>
         </div>
         <!-- Service items for screen 1280 and above -->
-        <div class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl">
+        <div
+          class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl"
+        >
           <template v-if="step === 2">
-            <div class="tail-h-screen tail-border-l tail-overflow-y-auto xl:tail-p-10">
-              <onboarding-service-cards @editservice="selectedServiceProps = $event" />
+            <div
+              class="tail-h-screen tail-border-l tail-overflow-y-auto xl:tail-p-10"
+            >
+              <onboarding-service-cards
+                @editservice="selectedServiceProps = $event"
+              />
               <div class="tail-h-20"></div>
             </div>
           </template>
@@ -233,8 +257,7 @@ export default {
     isClientFormFilled () {
       return (
         Object.values(this.clientInfo).length &&
-        this.clientInfo.firstName &&
-        this.clientInfo.lastName &&
+        (this.clientInfo.firstName || this.clientInfo.lastName) &&
         this.clientInfo.email
       )
     }
@@ -257,7 +280,10 @@ export default {
       this.$toast.error('Session Expired. Please login', {
         position: 'bottom-right'
       })
-    } else if (this.$auth.strategy.token.status().valid() && 'jumpto' in this.$route.query) {
+    } else if (
+      this.$auth.strategy.token.status().valid() &&
+      'jumpto' in this.$route.query
+    ) {
       this.endFullPageLoad()
       const step = parseInt(this.$route.query.jumpto)
       this.move(step)
@@ -312,51 +338,34 @@ export default {
         })
       } else {
         this.isLoading = true
-        try {
-          return this.create().then((result) => {
-            if (result.status === 'success') {
-              // set currency in store
-              this.setTempState({ currency: this.trainerRegInfo.currency })
-              if (this.isClientFormFilled) {
-                return this.addClient(this.clientInfo).then((result) => {
-                  if (result.status) {
-                    this.clearTrainnerRegData()
-                    this.$router.replace({ name: 'Dashboard' }).then(() => {
-                      this.$toast.success('Welcome', {
-                        position: 'bottom-right'
-                      })
-                    })
-                  }
-                })
-              } else {
-                this.clearTrainnerRegData()
+        return this.create().then((result) => {
+          if (result.status === 'success') {
+            // set currency in store
+            this.setTempState({ currency: this.trainerRegInfo.currency })
+            if (this.isClientFormFilled) {
+              return this.addClient(this.clientInfo).then((result) => {
+                if (result.response !== undefined) {
+                  this.isLoading = false
+                  this.$toast.error(
+                    `Something went wrong: ${result.response.data.message}`,
+                    { position: 'bottom-right' }
+                  )
+                }
                 this.$router.replace({ name: 'Dashboard' }).then(() => {
-                  this.$toast.success('Welcome', { position: 'bottom-right' })
+                  this.clearTrainnerRegData()
+                  this.$toast.success('Welcome', {
+                    position: 'bottom-right'
+                  })
                 })
-              }
+              })
+            } else {
+              this.clearTrainnerRegData()
+              this.$router.replace({ name: 'Dashboard' }).then(() => {
+                this.$toast.success('Welcome', { position: 'bottom-right' })
+              })
             }
-          })
-        } catch (err) {
-          this.isLoading = false
-          this.$toast.error(
-            'Something went wrong',
-            { position: 'bottom-right' }
-          )
-          if (err.response) {
-            this.$toast.error(
-              `Something went wrong: ${err.response.data.message}`,
-              { position: 'bottom-right' }
-            )
-          } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', {
-              position: 'bottom-right'
-            })
-          } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, {
-              position: 'bottom-right'
-            })
           }
-        }
+        })
       }
     }
   }

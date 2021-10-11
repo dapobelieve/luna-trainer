@@ -40,7 +40,8 @@ export default {
     { src: '~/plugins/sendBird' },
     { src: '@/plugins/vClickOutside', ssr: false },
     { src: '~plugins/filters.js', ssr: false },
-    { src: '~plugins/v-tooltip.js', ssr: false }
+    { src: '~plugins/v-tooltip.js', ssr: false },
+    { src: '~plugins/v-modal.js', ssr: true }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

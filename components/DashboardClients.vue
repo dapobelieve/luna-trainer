@@ -8,7 +8,9 @@
         class="ns-users tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
       ></i>
     </template>
-    <template v-slot:title>Clients</template>
+    <template v-slot:title>
+      recently accepted clients
+    </template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
       acceptedClients.length > 1 ? "s" : ""
@@ -28,8 +30,12 @@
               <template v-slot:avatar>
                 <ClientAvatar :client-info="client" />
               </template>
-              <template v-slot:content>new client registration from {{ client.firstName }}.</template>
-              <template v-slot:date>{{ new Date().toDateString() }}</template>
+              <template v-slot:content>
+                <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span> has accepted your invitation.
+              </template>
+              <template v-slot:date>
+                {{ new Date().toDateString() }}
+              </template>
             </containers-summary-information-with-avatar>
           </li>
         </ul>
