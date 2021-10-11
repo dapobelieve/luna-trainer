@@ -1,34 +1,26 @@
 <template>
   <main>
-    <article class="tail-mx-3 lg:tail-mx-0">
-      <div class="tail-space-y-3 tail-mb-5">
+    <article>
+      <div class="tail-grid tail-gap-4">
         <!-- dashboard intro -->
         <dashboard-intro-card />
 
         <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
           <div class="tail-grid tail-gap-4">
             <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" :class="[acceptedClients.length ? 'tail-h-auto' : 'tail-h-72']" />
-
+            <dashboard-clients :accepted-clients="acceptedClients" class="tail-h-72" />
             <!-- new messages -->
-            <containers-summary-card-with-notifications class="tail-h-72">
+            <containers-summary-card-with-notifications>
               <template v-slot:icon>
                 <i
-                  class="ns-comment-alt tail-bg-blue-50 tail-p-1 tail-rounded-full tail-text-blue-500 tail-text-2xl"
+                  class="ns-comment-alt tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
                 ></i>
               </template>
-              <template v-slot:title>
-                new messages
-              </template>
-              <template v-slot:notifications>
-                2 new messages
-              </template>
+              <template v-slot:title>messages</template>
+              <template v-slot:notifications>2 new messages</template>
               <template v-slot:content>
-                <ul role="list" class="tail-relative tail-z-0 tail-mx-0.5">
-                  <li
-                    v-for="invoice in 2"
-                    :key="invoice.index"
-                  >
+                <ul role="list" class="tail-relative tail-z-0 tail-px-1">
+                  <li v-for="invoice in 2" :key="invoice.index">
                     <containers-summary-information-with-avatar>
                       <template v-slot:avatar>
                         <ClientAvatar
@@ -39,11 +31,9 @@
                         />
                       </template>
                       <template v-slot:content>
-                        Abi Carpenter has sent you a message.
+                        <span class="tail-font-medium">Abi Carpenter</span> has sent you a message.
                       </template>
-                      <template v-slot:date>
-                        {{ new Date().toDateString() }}
-                      </template>
+                      <template v-slot:date>{{ new Date().toDateString() }}</template>
                     </containers-summary-information-with-avatar>
                   </li>
                 </ul>
@@ -59,31 +49,20 @@
 
     <!-- modals -->
     <NotificationsModal :visible="true">
-      <template v-slot:title>
-        Stripe Connect
-      </template>
+      <template v-slot:title>Stripe Connect</template>
       <template v-slot:subtitle>
         Account under review, please confirm all requirements have been met
         before proceeding to creating invoices.
       </template>
     </NotificationsModal>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
-      <template v-slot:title>
-        Chat Connection Failed
-      </template>
-      <template v-slot:subtitle>
-        Reconnect chat to enjoy all of GetWelp's features
-      </template>
+    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+      <template v-slot:title>Chat Connection Failed</template>
+      <template v-slot:subtitle>Reconnect chat to enjoy all of GetWelp's features</template>
       <template v-slot:actionButtons>
         <button
           class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
           @click="retry"
-        >
-          retry
-        </button>
+        >retry</button>
       </template>
     </NotificationsModal>
   </main>

@@ -1,24 +1,12 @@
 <template>
   <div>
-    <h5 class="tail-font-medium tail-mb-2">
-      Messages
-    </h5>
+    <h5 class="tail-font-medium tail-mb-2">Messages</h5>
     <div class="tail-rounded-md tail-bg-white tail-p-4 md:tail-h-full">
-      <div
-        v-if="1"
-        class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto"
-      >
+      <div v-if="1" class="tail-text-center tail-h-full tail-max-w-xs tail-m-auto">
         <div class="tail-w-full tail-my-5">
-          <img
-            class="tail-text-center tail-inline-block"
-            src="~/assets/img/low-dog.png"
-            alt=""
-            srcset=""
-          />
+          <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt srcset />
         </div>
-        <h5 class="tail-font-medium">
-          No messages
-        </h5>
+        <h5 class="tail-font-medium">No messages</h5>
         <p class="tail-px-5 tail-text-sm tail-mb-0">
           New messages will appear here when you invite and onboard a new
           client.
@@ -62,7 +50,7 @@
             </div>
           </li>
         </ul>
-      </template> -->
+      </template>-->
     </div>
   </div>
 </template>
