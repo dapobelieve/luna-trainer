@@ -68,6 +68,18 @@
       @apply tail-text-red-500 tail-text-sm;
     }
   }
+
+  .snap-scroll-x {
+    scroll-snap-type: x mandatory;
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    > * {
+      scroll-snap-align: start;
+    }
+  }
 }
 
 

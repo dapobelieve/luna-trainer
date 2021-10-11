@@ -5,7 +5,7 @@
         class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-items-center tail-max-w-lg lg:tail-max-w-screen-xl tail-w-full tail-mt-10 lg:tail-mt-20 2xl:tail-mt-28 tail-gap-4 lg:tail-gap-9 xl:tail-gap-12 tail-relative"
       >
         <div
-          class="tail-max-w-full lg:tail-max-w-sm tail-w-full tail-flex tail-flex-col tail-text-center lg:tail-text-left tail-self-start"
+          class="tail-max-w-full lg:tail-max-w-sm tail-w-full tail-flex-shrink-0 tail-flex tail-flex-col tail-text-center lg:tail-text-left tail-self-start"
         >
           <img
             class="lg:tail-mr-auto lg:tail-m-0 tail-m-auto tail-h-8 md:tail-h-10 2xl:tail-h-auto"
@@ -15,24 +15,18 @@
           <div class="tail-mt-6 lg:tail-mt-10">
             <h1
               class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl"
-            >
-              We’re here to make dog trainers’ lives easier
-            </h1>
+            >We’re here to make dog trainers’ lives easier</h1>
             <div
               class="tail-w-full md:tail-w-10/12 tail-flex tail-flex-col tail-mr-auto tail-ml-auto lg:tail-ml-0 tail-mt-4 lg:tail-mt-6"
             >
               <p
                 v-if="routeName === 'Auth-SignUp'"
                 class="tail-text-gray-500"
-              >
-                You can sign in with your Google account below to sign up.
-              </p>
+              >You can sign in with your Google account below to sign up.</p>
               <p
                 v-else
                 class="tail-text-gray-500"
-              >
-                You can sign in with your Google account below which will sync everything you need at once
-              </p>
+              >You can sign in with your Google account below which will sync everything you need at once</p>
             </div>
             <div class="tail-mt-6">
               <button
@@ -56,31 +50,31 @@
             class="tail-h-px lg:tail-h-full tail-w-full lg:tail-w-px tail-border-b lg:tail-border-b-0 tail-border-r-0 lg:tail-border-r tail-absolute lg:tail-bottom-0 tail--z-10"
           ></span>
         </div>
-        <div class="tail-max-w-full lg:tail-max-w-sm tail-w-full">
+        <div class="tail-max-w-full lg:tail-max-w-sm tail-w-full tail-flex-shrink-0">
           <Nuxt />
         </div>
       </div>
     </div>
     <div v-if="getStarted" class="tail-flex tail-items-center tail-justify-center tail-h-screen">
-      <Modal :is-open="letsGetStarted" :close="false" :close-back-drop="letsGetStarted = true" :input-width="40" @close="letsGetStarted = $event">
+      <Modal
+        :is-open="letsGetStarted"
+        :close="false"
+        :close-back-drop="letsGetStarted = true"
+        :input-width="40"
+        @close="letsGetStarted = $event"
+      >
         <div class="tail-text-left">
-          <h1
-            class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6"
-          >
-            Welcome to GetWelp!
-          </h1>
-          <p class="tail-text-base tail-text-gray-700 tail-mb-6 tail-leading-relaxed">
-            So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
-          </p>
+          <h1 class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6">Welcome to GetWelp!</h1>
+          <p
+            class="tail-text-base tail-text-gray-700 tail-mb-6 tail-leading-relaxed"
+          >So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!</p>
           <div class="tail-flex tail-justify-start tail-py-4">
             <button
               style="width: fit-content"
               type="submit"
               class="button-fill"
               @click="displaySetUp"
-            >
-              Lets Get Started
-            </button>
+            >Lets Get Started</button>
           </div>
         </div>
       </Modal>

@@ -1,37 +1,42 @@
 <template>
-  <div class="tail-rounded-xl tail-py-3 tail-border tail-border-gray-50 tail-bg-white tail-shadow tail-flex tail-flex-col tail-h-full">
+  <div
+    class="tail-rounded-xl tail-border tail-bg-white tail-flex tail-flex-col tail-min-h-0 md:tail-min-h-[20rem] tail-h-full"
+  >
     <div class="tail-w-full tail-h-full tail-mb-auto">
       <!-- header -->
-      <div class="tail-w-full tail-flex tail-items-center tail-px-3">
-        <div class="tail-mr-auto tail-flex tail-items-center tail-space-x-3">
+      <div class="tail-w-full tail-flex tail-items-center tail-p-4">
+        <div class="tail-mr-auto tail-flex tail-items-center tail-space-x-4">
           <slot name="icon" />
-          <h2 class="tail-capitalize tail-text-gray-700 tail-text-sm lg:tail-text-lg">
+          <h4 class="tail-capitalize tail-text-md lg:tail-text-lg tail-font-medium">
             <slot name="title" />
-          </h2>
+          </h4>
         </div>
-        <small class="tail-text-gray-500 tail-text-xs lg:tail-text-sm">
+        <div class="tail-text-gray-500 tail-text-xs lg:tail-text-sm tail-text-right">
           <slot name="notifications" />
-        </small>
+        </div>
       </div>
       <!-- end of header -->
       <!-- list area -->
-      <div class="tail-my-3">
+      <div>
         <slot name="content" />
       </div>
       <!-- end of list area -->
     </div>
 
     <!-- bottom button -->
-    <div v-if="displayViewAllButton" class="tail-mx-0.5">
-      <button v-if="url === '#'" class="tail-text-sm lg:tail-text-base tail-text-blue-500 tail-w-full hover:tail-bg-blue-50 tail-py-1 tail-rounded-xl">
-        <slot name="button">
-          View all
-        </slot>
+    <div v-if="displayViewAllButton" class="tail-px-4 tail-pb-2">
+      <button
+        v-if="url === '#'"
+        class="tail-text-blue-500 tail-h-10 tail-w-full hover:tail-bg-blue-50 tail-p-1 tail-rounded-md"
+      >
+        <slot name="button">View all</slot>
       </button>
-      <button v-else class="tail-text-sm lg:tail-text-base tail-text-blue-500 tail-w-full hover:tail-bg-blue-50 tail-py-1 tail-rounded-xl" @click.prevent="showList">
-        <slot name="button">
-          View all
-        </slot>
+      <button
+        v-else
+        class="tail-text-blue-500 tail-h-10 tail-w-full hover:tail-bg-blue-50 tail-p-1 tail-rounded-md"
+        @click.prevent="showList"
+      >
+        <slot name="button">View all</slot>
       </button>
     </div>
   </div>
@@ -59,5 +64,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
