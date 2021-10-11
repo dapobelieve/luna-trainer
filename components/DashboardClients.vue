@@ -34,7 +34,7 @@
                 <ClientAvatar :client-info="client" />
               </template>
               <template v-slot:content>
-                {{ client.firstName }} has accepted your invitation.
+                <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span> has accepted your invitation.
               </template>
               <template v-slot:date>
                 {{ new Date().toDateString() }}
