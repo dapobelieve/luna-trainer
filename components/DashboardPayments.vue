@@ -31,8 +31,8 @@
                 <ClientAvatar :client-info="invoice.customerId" />
               </template>
               <template v-slot:content>
-                {{ invoice.customerId.firstName }}
-                {{ invoice.customerId.lastName }} has paid you.
+                <span class="tail-font-medium">{{ invoice.customerId.firstName }}
+                  {{ invoice.customerId.lastName }}</span> has paid you.
               </template>
               <template v-slot:date>
                 {{ invoice.dueDate | date }}

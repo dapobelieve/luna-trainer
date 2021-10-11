@@ -8,7 +8,7 @@
         <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
           <div class="tail-grid tail-gap-4">
             <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" :class="[acceptedClients.length ? 'tail-h-auto' : 'tail-h-72']" />
+            <dashboard-clients :accepted-clients="acceptedClients" class="tail-h-72" />
 
             <!-- new messages -->
             <containers-summary-card-with-notifications class="tail-h-72">
@@ -39,7 +39,7 @@
                         />
                       </template>
                       <template v-slot:content>
-                        Abi Carpenter has sent you a message.
+                        <span class="tail-font-medium">Abi Carpenter</span> has sent you a message.
                       </template>
                       <template v-slot:date>
                         {{ new Date().toDateString() }}
