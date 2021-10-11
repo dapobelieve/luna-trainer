@@ -1,7 +1,9 @@
 <template>
-  <div class="tail-relative tail-py-2 tail-flex tail-items-center hover:tail-bg-blue-50 tail-rounded-xl tail-px-3">
-    <div class="tail-mr-auto tail-flex tail-items-center tail-space-x-3">
-      <div class="flex-shrink-0">
+  <div
+    class="tail-relative tail-py-4 tail-flex tail-items-center hover:tail-bg-gray-100 tail-rounded-lg tail-px-3 tail-transition-all"
+  >
+    <div class="tail-mr-auto tail-flex tail-items-center tail-space-x-4">
+      <div class="flex-shrink-0 tail-h-12 tail-w-12">
         <slot name="avatar" />
       </div>
       <div class="tail-flex-1 tail-min-w-0">
@@ -10,14 +12,19 @@
           <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
           <p class="tail-text-base tail-font-normal tail-text-gray-700">
             <slot name="content" />
-          </p>
-          <small class="tail-text-xs tail-text-gray-500 tail-truncate">
+          </div>
+          <span class="tail-text-xs tail-text-gray-500 tail-truncate">
             <slot name="date" />
-          </small>
+          </span>
         </a>
       </div>
     </div>
-    <img v-if="showChevronRight" class="tail-h-4" src="~/assets/img/svgs/chevron-right-blue.svg" alt="arrow-right" />
+    <img
+      v-if="showChevronRight"
+      class="tail-h-4 tail-ml-4"
+      src="~/assets/img/svgs/chevron-right.svg"
+      alt="arrow-right"
+    />
   </div>
 </template>
 
@@ -34,5 +41,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
