@@ -9,7 +9,7 @@
       ></i>
     </template>
     <template v-slot:title>
-      new client registrations
+      recently accepted clients
     </template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
