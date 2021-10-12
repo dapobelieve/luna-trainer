@@ -2,7 +2,7 @@
   <async-view loader-id="logout">
     <GwHeader />
     <div class="tail-flex">
-      <Navigation v-if="open" />
+      <Navigation :class="open ? 'tail-block' : 'tail-hidden'" class="lg:tail-block sm:tail-transform sm:tail-ease-in-out sm:tail-transition-all sm:tail-duration-300" />
       <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-50 tail-flex tail-justify-center">
         <div
           class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full"
@@ -79,6 +79,11 @@ export default {
       this.$sb.addChannelHandler('dashboardLayoutHandler', channelHandler)
     }
   },
+  mounted () {
+    if (window.innerWidth <= 768) {
+      this.open = false
+    }
+  },
   methods: {
     ...mapActions('sendBird', {
       connectToSendBird: 'connect_to_sb_server_with_userid',
@@ -93,11 +98,9 @@ export default {
       fetchAllClients: 'client/fetchAllClients'
     }),
     toggleSide () {
-      console.log('toggle')
       this.open = !this.open
     },
     hideSide () {
-      console.log('hide')
       this.open = false
     },
 

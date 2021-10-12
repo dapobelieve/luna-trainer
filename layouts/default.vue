@@ -3,7 +3,7 @@
     <div class="tail-min-h-screen">
       <GwHeader />
       <div class="tail-flex">
-        <Navigation v-if="open" />
+        <Navigation :class="open ? 'tail-block' : 'tail-hidden'" class="lg:tail-block sm:tail-transform sm:tail-ease-in-out sm:tail-transition-all sm:tail-duration-300" />
         <main class="tail-w-full">
           <Nuxt :key="$route.fullpath" />
         </main>
@@ -108,6 +108,11 @@ export default {
       this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
     }
   },
+  mounted () {
+    if (window.innerWidth <= 768) {
+      this.open = false
+    }
+  },
   updated () {
     this.$nextTick(() => {
       if (this.sendBirdConnStatus) {
@@ -131,7 +136,6 @@ export default {
       this.open = !this.open
     },
     hideSide () {
-      console.log('hide')
       this.open = false
     },
 

@@ -440,7 +440,7 @@ export default {
       this.logOut()
     },
     hideSidebar (e) {
-      if (window.innerWidth <= 768 && e.currentTarget.classList.contains('navItems')) {
+      if (window.innerWidth <= 768 && e.currentTarget.querySelector('a').classList.contains('navItems')) {
         this.$nuxt.$emit('hideSideBar')
       }
     }
