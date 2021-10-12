@@ -59,7 +59,6 @@ export const mutations = {
       services: [],
       client: {
         firstName: '',
-        lastName: '',
         email: '',
         petName: '',
         petBreed: '',
@@ -102,7 +101,6 @@ export const actions = {
       services: state.trainnerRegData.services
     }
   ) {
-    console.log('the payload ', payload)
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
