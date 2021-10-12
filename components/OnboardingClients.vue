@@ -6,30 +6,16 @@
       Add your first client
     </h2>
     <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
-      <div class="tail-flex tail-flex-row tail-gap-4">
-        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-w-full">
-          <label for="firstName" :class="{'tail-text-red-400' : $v.firstName.$error}">First name<span v-if="$v.firstName.$dirty" class="tail-text-red-400">*</span></label>
-          <div class>
-            <input
-              id="firstName"
-              v-model="firstName"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              :class="{'tail-shadow-md tail-border-red-400' : $v.firstName.$error}"
-              @blur="$v.firstName.$touch()"
-            />
-          </div>
-        </div>
-        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-w-full">
-          <label for="lastName" :class="{'tail-text-red-400' : $v.lastName.$error}">Last name<span v-if="$v.firstName.$dirty" class="tail-text-red-400">*</span></label>
-          <div class>
-            <input
-              id="lastName"
-              v-model="lastName"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              :class="{'tail-shadow-md tail-border-red-400' : $v.lastName.$error}"
-              @blur="$v.lastName.$touch()"
-            />
-          </div>
+      <div class="tail-flex tail-flex-col tail-gap-1.5 tail-w-full">
+        <label for="firstName" :class="{'tail-text-red-400' : $v.firstName.$error}">First name<span v-if="$v.firstName.$dirty" class="tail-text-red-400">*</span></label>
+        <div class>
+          <input
+            id="firstName"
+            v-model="firstName"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            :class="{'tail-shadow-md tail-border-red-400' : $v.firstName.$error}"
+            @blur="$v.firstName.$touch()"
+          />
         </div>
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
@@ -90,12 +76,6 @@ export default {
         this.addClient({ parent: 'client', key: 'firstName', value: val })
       }
     },
-    lastName: {
-      get () { return this.clientData.lastName },
-      set (val) {
-        this.addClient({ parent: 'client', key: 'lastName', value: val })
-      }
-    },
     email: {
       get () { return this.clientData.email },
       set (val) {
@@ -117,9 +97,6 @@ export default {
   },
   validations: {
     firstName: {
-      required
-    },
-    lastName: {
       required
     },
     email: {
