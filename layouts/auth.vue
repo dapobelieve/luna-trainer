@@ -15,18 +15,24 @@
           <div class="tail-mt-6 lg:tail-mt-10">
             <h1
               class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl"
-            >We’re here to make dog trainers’ lives easier</h1>
+            >
+              We’re here to make dog trainers’ lives easier
+            </h1>
             <div
               class="tail-w-full md:tail-w-10/12 tail-flex tail-flex-col tail-mr-auto tail-ml-auto lg:tail-ml-0 tail-mt-4 lg:tail-mt-6"
             >
               <p
                 v-if="routeName === 'Auth-SignUp'"
                 class="tail-text-gray-500"
-              >You can sign in with your Google account below to sign up.</p>
+              >
+                You can sign in with your Google account below to sign up.
+              </p>
               <p
                 v-else
                 class="tail-text-gray-500"
-              >You can sign in with your Google account below which will sync everything you need at once</p>
+              >
+                You can sign in with your Google account below which will sync everything you need at once
+              </p>
             </div>
             <div class="tail-mt-6">
               <button
@@ -55,38 +61,34 @@
         </div>
       </div>
     </div>
-    <div v-if="getStarted" class="tail-flex tail-items-center tail-justify-center tail-h-screen">
-      <Modal
-        :is-open="letsGetStarted"
-        :close="false"
-        :close-back-drop="letsGetStarted = true"
-        :input-width="40"
-        @close="letsGetStarted = $event"
-      >
-        <div class="tail-text-left">
-          <h1 class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6">Welcome to GetWelp!</h1>
-          <p
-            class="tail-text-base tail-text-gray-700 tail-mb-6 tail-leading-relaxed"
-          >So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!</p>
-          <div class="tail-flex tail-justify-start tail-py-4">
-            <button
-              style="width: fit-content"
-              type="submit"
-              class="button-fill"
-              @click="displaySetUp"
-            >Lets Get Started</button>
-          </div>
+    <modal name="my-modal">
+      <div class="tail-text-left tail-m-5">
+        <h1 class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6">
+          Welcome to GetWelp!
+        </h1>
+        <p
+          class="tail-text-base tail-text-gray-700 tail-mb-6 tail-leading-relaxed"
+        >
+          So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
+        </p>
+        <div class="tail-flex tail-justify-start tail-py-4">
+          <button
+            style="width: fit-content"
+            type="submit"
+            class="button-fill"
+            @click="displaySetUp"
+          >
+            Lets Get Started
+          </button>
         </div>
-      </Modal>
-    </div>
+      </div>
+    </modal>
   </main>
 </template>
 <script>
 export default {
   data () {
     return {
-      getStarted: false,
-      sigupDisplay: true,
       letsGetStarted: true
     }
   },
@@ -109,8 +111,7 @@ export default {
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
     },
     started () {
-      this.getStarted = true
-      this.sigupDisplay = false
+      this.$modal.show('my-modal')
     },
     displaySetUp () {
       this.$router.replace({
