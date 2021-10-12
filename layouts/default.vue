@@ -3,7 +3,7 @@
     <div class="tail-min-h-screen">
       <GwHeader />
       <div class="tail-flex">
-        <Navigation />
+        <Navigation v-if="open" />
         <main class="tail-w-full">
           <Nuxt :key="$route.fullpath" />
         </main>
@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       page: this.$route.name,
-      showNotification: false
+      showNotification: false,
+      open: true
     }
   },
   computed: {
@@ -59,6 +60,12 @@ export default {
     }
   },
   async created () {
+    this.$nuxt.$on('toggleSideBar', () => {
+      this.toggleSide()
+    })
+    this.$nuxt.$on('hideSideBar', () => {
+      this.hideSide()
+    })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
@@ -120,6 +127,14 @@ export default {
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
+    toggleSide () {
+      this.open = !this.open
+    },
+    hideSide () {
+      console.log('hide')
+      this.open = false
+    },
+
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
       this.showNotification = false

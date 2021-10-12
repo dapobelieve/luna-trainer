@@ -2,7 +2,7 @@
   <header
     class="lg:tail-hidden tail-bg-white tail-sticky tail-top-0 tail-z-10 tail-h-14 tail-w-full tail-flex tail-items-center tail-px-4 tail-py-1"
   >
-    <button class="button-outline tail-w-10" @click.prevent="toggle()">
+    <button class="button-outline tail-w-10" @click="toggle">
       <i class="ns-menu-burger tail-text-xl" />
     </button>
 
@@ -19,7 +19,7 @@
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
-    <transition name="slide">
+    <!-- <transition name="slide">
       <nav
         class="tail-block tail-h-screen lg:tail-hidden tail-absolute tail-overflow-hidden"
         aria-label="Global"
@@ -28,10 +28,10 @@
           class="tail-max-w-3xl tail-space-y-1"
           :class="[open ? 'tail-max-w-lg' : 'tail-max-w-0']"
         >
-          <MobileNavigation @closeSidebar="externalClick()" />
+          <Navigation @closeSidebar="externalClick()" />
         </div>
       </nav>
-    </transition>
+    </transition> -->
   </header>
 </template>
 
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     toggle () {
-      this.open = !this.open
+      this.$nuxt.$emit('toggleSideBar')
     },
     externalClick () {
       this.open = false

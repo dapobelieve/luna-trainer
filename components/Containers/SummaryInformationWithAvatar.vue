@@ -12,12 +12,11 @@
           <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
           <p class="tail-text-base tail-font-normal tail-text-gray-700">
             <slot name="content" />
-          </div>
-          <span class="tail-text-xs tail-text-gray-500 tail-truncate">
-            <slot name="date" />
-          </span>
-        </a>
+          </p></a>
       </div>
+      <span class="tail-text-xs tail-text-gray-500 tail-truncate">
+        <slot name="date" />
+      </span>
     </div>
     <img
       v-if="showChevronRight"

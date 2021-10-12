@@ -2,7 +2,7 @@
   <async-view loader-id="logout">
     <GwHeader />
     <div class="tail-flex">
-      <Navigation />
+      <Navigation v-if="open" />
       <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-50 tail-flex tail-justify-center">
         <div
           class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full"
@@ -21,7 +21,8 @@ import { mapState, mapActions } from 'vuex'
 export default {
   data () {
     return {
-      page: this.$route.name
+      page: this.$route.name,
+      open: true
     }
   },
   computed: {
@@ -30,6 +31,12 @@ export default {
     })
   },
   async created () {
+    this.$nuxt.$on('toggleSideBar', () => {
+      this.toggleSide()
+    })
+    this.$nuxt.$on('hideSideBar', () => {
+      this.hideSide()
+    })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
@@ -85,6 +92,14 @@ export default {
     ...mapActions({
       fetchAllClients: 'client/fetchAllClients'
     }),
+    toggleSide () {
+      console.log('toggle')
+      this.open = !this.open
+    },
+    hideSide () {
+      console.log('hide')
+      this.open = false
+    },
 
     // events for sendbird
     onMessageReceived (channel, message) {
