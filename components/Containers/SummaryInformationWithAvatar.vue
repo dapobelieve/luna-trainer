@@ -12,18 +12,20 @@
           <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
           <p class="tail-text-base tail-font-normal tail-text-gray-700">
             <slot name="content" />
-          </p></a>
+          </p>
+        </a>
       </div>
       <span class="tail-text-xs tail-text-gray-500 tail-truncate">
         <slot name="date" />
       </span>
     </div>
-    <img
-      v-if="showChevronRight"
-      class="tail-h-4 tail-ml-4"
-      src="~/assets/img/svgs/chevron-right.svg"
-      alt="arrow-right"
-    />
+    <slot v-if="showChevronRight" name="button">
+      <img
+        class="tail-h-4 tail-ml-4"
+        src="~/assets/img/svgs/chevron-right.svg"
+        alt="arrow-right"
+      />
+    </slot>
   </div>
 </template>
 
@@ -39,5 +41,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

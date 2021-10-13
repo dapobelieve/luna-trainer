@@ -4,9 +4,13 @@
       <template v-if="$route.name === 'Clients-id-Messages'">
         <nuxt-child />
       </template>
-      <template v-else>
-        <ClientCard v-for="n in filteredClients" :key="n._id" :client="n" />
-      </template>
+      <div v-else class="tail-p-1 tail-rounded-lg tail-bg-white tail-border tail-mb-4">
+        <ul v-if="filteredClients.length" role="list" class="tail-relative tail-z-0">
+          <li v-for="client in filteredClients" :key="client._id">
+            <ClientCard :client="client" />
+          </li>
+        </ul>
+      </div>
     </div>
     <div v-else-if="firstTimeVisit" class="tail-h-full tail-flex">
       <div
