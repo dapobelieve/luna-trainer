@@ -51,6 +51,10 @@ export default {
           this.clientInfo.firstName.charAt(0) +
           this.clientInfo.lastName.charAt(0)
         ).toUpperCase()
+      } else if (!this.clientInfo.lastName) {
+        initials = (
+          this.clientInfo.firstName.charAt(0)
+        ).toUpperCase()
       }
       return initials
     }
