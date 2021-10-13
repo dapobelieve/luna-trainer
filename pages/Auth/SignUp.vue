@@ -6,7 +6,7 @@
       <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
         Sign up with email
       </h1>
-      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
+      <form class="tail-flex tail-flex-col fixed-content tail-gap-4" @submit.prevent="signUp">
         <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}">Email address</label>
 
@@ -203,10 +203,10 @@ export default {
   }
 }
 .error {
-  @apply tail-border-red-700;
+  @apply tail-border-red-500;
 }
 .required:after {
   content: " *";
-  @apply tail-text-red-700 tail-text-sm;
+  @apply tail-text-red-500 tail-text-sm;
 }
 </style>

@@ -6,7 +6,7 @@
       <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
         Sign in with email
       </h1>
-      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="login">
+      <form class="tail-flex tail-flex-col tail-gap-4 fixed-content" @submit.prevent="login">
         <div class="tail-flex tail-flex-col tail-gap-1.5">
           <label
             for="email"
@@ -25,10 +25,10 @@
             :class="{'tail-border-red-400' : $v.userInfo.email.$error}"
             @blur="$v.userInfo.email.$touch()"
           />
-          <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
+          <div v-show="$v.userInfo.email.$error" class="tail-mt-0.5">
             <small
-              v-if="!$v.userInfo.email.email"
-              class="error tail-text-red-700"
+              v-show="!$v.userInfo.email.email"
+              class="error tail-text-red-500 tail-p-2"
             >Please enter a valid email address.</small>
           </div>
         </div>
@@ -58,7 +58,7 @@
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
           <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
-            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
+            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-500">
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
@@ -208,4 +208,5 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+</style>
