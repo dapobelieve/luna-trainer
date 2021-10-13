@@ -1,5 +1,5 @@
 <template>
-  <containers-summary-information-with-avatar>
+  <containers-summary-information-with-avatar url="Client-id-Information">
     <template v-slot:avatar>
       <ClientAvatar :client-info="client" />
     </template>
@@ -21,10 +21,9 @@
           <i class="ns-ellipsis tail-text-2xl tail-text-blue-500 tail-pb-3"></i>
         </button>
         <!-- dropdown menu -->
-        <div v-show="showDropDown" class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none">
+        <div v-show="showDropDown" class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40">
           <div class="tail-py-2" role="none">
             <nuxt-link
-              id="menu-item-0"
               :to="{ name: 'CreateInvoice' }"
               class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
             >
