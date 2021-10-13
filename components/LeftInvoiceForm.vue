@@ -54,9 +54,9 @@
         ></date-picker>
       </div>
     </div>
-    <Modal :is-open="openInviteModal" @close="openInviteModal = $event" @closeBackDrop="openInviteModal = $event">
+    <GwModal :is-open="openInviteModal" @close="openInviteModal = $event" @closeBackDrop="openInviteModal = $event">
       <InviteNewClient @close="openInviteModal = $event" />
-    </Modal>
+    </GwModal>
   </div>
 </template>
 <script>

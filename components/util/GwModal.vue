@@ -52,7 +52,7 @@
 
 <script>
 export default {
-  name: 'Modal',
+  name: 'GwModal',
   props: {
     isOpen: {
       type: Boolean,

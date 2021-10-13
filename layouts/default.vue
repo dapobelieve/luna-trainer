@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       page: this.$route.name,
-      showNotification: false
+      showNotification: false,
+      open: true
     }
   },
   computed: {
@@ -59,6 +60,12 @@ export default {
     }
   },
   async created () {
+    this.$nuxt.$on('toggleSideBar', () => {
+      this.toggleSide()
+    })
+    this.$nuxt.$on('hideSideBar', () => {
+      this.hideSide()
+    })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
@@ -101,6 +108,11 @@ export default {
       this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
     }
   },
+  mounted () {
+    if (window.innerWidth <= 768) {
+      this.open = false
+    }
+  },
   updated () {
     this.$nextTick(() => {
       if (this.sendBirdConnStatus) {
@@ -120,6 +132,13 @@ export default {
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
+    toggleSide () {
+      this.open = !this.open
+    },
+    hideSide () {
+      this.open = false
+    },
+
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
       this.showNotification = false

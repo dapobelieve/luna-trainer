@@ -33,7 +33,7 @@
       />
     </div>
 
-    <Modal :is-open="openReschedule" :input-width="30" @close="openReschedule = $event" @closeBackDrop="openReschedule = $event">
+    <GwModal :is-open="openReschedule" :input-width="30" @close="openReschedule = $event" @closeBackDrop="openReschedule = $event">
       <template v-slot:status>
         <div class="tail-px-2 tail-text-2xl tail-font-bold">
           Reschedule Class
@@ -42,8 +42,8 @@
       <div>
         <Reschedule @close="openReschedule = $event" />
       </div>
-    </Modal>
-    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event" @closeBackDrop="openDeleteModal = $event">
+    </GwModal>
+    <GwModal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event" @closeBackDrop="openDeleteModal = $event">
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">
@@ -51,7 +51,7 @@
           </div>
         </template>
       </CancelAlert>
-    </Modal>
+    </GwModal>
   </div>
 </template>
 

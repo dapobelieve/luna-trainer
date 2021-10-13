@@ -115,9 +115,9 @@
         </div>
       </li>
     </ul>
-    <Modal :is-open="addClient" @close="addClient = $event" @closeBackDrop="addClient = $event">
+    <GwModal :is-open="addClient" @close="addClient = $event" @closeBackDrop="addClient = $event">
       <InviteNewClient @close="addClient = $event" />
-    </Modal>
+    </GwModal>
   </div>
 </template>
 

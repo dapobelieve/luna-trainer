@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tail-hidden lg:tail-flex lg:tail-h-screen tail-z-10 tail-w-64 lg:tail-border-r lg:tail-shadow-sm tail-bg-white lg:tail-sticky lg:tail-top-0 lg:tail-left-0 lg:tail-rounded-none tail-text-gray-500 tail-flex-shrink-0 tail-fixed tail-top-14 tail-left-4 tail-border tail-rounded-xl tail-shadow-xl tail-h-auto"
+    class="tail-block lg:tail-flex lg:tail-h-screen tail-z-40 lg:tail-w-64 tail-fixed lg:tail-border-r lg:tail-shadow-sm tail-bg-white lg:tail-sticky lg:tail-top-0 tail-left-0 lg:tail-rounded-none tail-text-gray-500 tail-flex-shrink-0 tail-top-14 tail-border tail-rounded-xl tail-shadow-xl tail-h-full tail-w-full md:tail-w-1/2"
   >
     <!-- Sidebar Search -->
 
@@ -8,7 +8,7 @@
     <nav aria-label="Sidebar" class="tail-w-full">
       <div class="tail-relative">
         <div
-          class="tail-px-1 tail-pb-1 tail-pt-1 lg:tail-pt-0 lg:tail-pb-6 tail-overflow-y-auto lg:tail-h-screen tail-max-h-[28rem] lg:tail-max-h-screen"
+          class="tail-px-1 tail-pb-1 tail-pt-1 lg:tail-pt-0 lg:tail-pb-6 tail-overflow-y-auto tail-h-screen tail-max-h-screen"
         >
           <div class="tail-px-3 tail-py-4">
             <label for="search" class="tail-sr-only">Search</label>
@@ -23,7 +23,7 @@
             </div>
           </div>
           <div>
-            <div v-for="menu in menus.menu" :key="menu.index">
+            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebar">
               <NuxtLink
                 v-if="
                   menu.path &&
@@ -41,7 +41,7 @@
                 "
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
-                class="tail-flex tail-items-center tail-relative"
+                class="tail-flex tail-items-center tail-relative navItems"
               >
                 <div
                   class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
@@ -66,7 +66,7 @@
               <button
                 v-else-if="menu.path === 'inviteClient'"
                 class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
-                @click="inviteClient = true"
+                @click="inviteClient"
               >
                 <i class="ns-plus" />
                 <span class="tail-truncate">Invite Client</span>
@@ -284,39 +284,26 @@
       </div>
     </nav>
 
-    <Modal
-      :input-width="40"
-      :is-open="inviteClient"
-      @close="inviteClient = $event"
-      @closeBackDrop="inviteClient = $event"
-    >
-      <InviteNewClient @close="inviteClient = $event" />
-    </Modal>
-    <Modal
-      :input-width="40"
-      :is-open="inviteClient"
-      @close="inviteClient = $event"
-      @closeBackDrop="inviteClient = $event"
-    >
-      <InviteNewClient @close="inviteClient = $event" />
-    </Modal>
-    <Modal
+    <modal name="inviteClientModal" :height="400">
+      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
+    </modal>
+    <GwModal
       :is-open="addSession"
       :input-width="40"
       @close="addSession = $event"
       @closeBackDrop="openEditModal = $event"
     >
       <CreateSchedule @close="addSession = $event" />
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :is-open="newCourse"
       :input-width="40"
       @close="newCourse = $event"
       @closeBackDrop="newCourse = $event"
     >
       <CreateCourse @close="newCourse = $event" />
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :input-width="30"
       :is-open="openModal"
       @close="openModal = $event"
@@ -330,7 +317,7 @@
         </div>
       </template>
       <CreateNewInvoice @close="openModal = $event" />
-    </Modal>
+    </GwModal>
     <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
         {{
@@ -351,7 +338,7 @@
           v-if="!acceptedClients.length"
           class="base-button tail-normal-case"
           style="width: fit-content"
-          @click="inviteClient = true"
+          @click="inviteClient"
         >
           Invite a client
         </button>
@@ -380,7 +367,6 @@ export default {
       formatDistance,
       menus,
       showNotification: false,
-      inviteClient: false,
       openModal: false,
       showNotificationsMenu: false,
       showMessagesMenu: false,
@@ -436,8 +422,16 @@ export default {
         this.showMessagesMenu = true
       }
     },
+    inviteClient () {
+      this.$modal.show('inviteClientModal')
+    },
     signOut () {
       this.logOut()
+    },
+    hideSidebar (e) {
+      if (window.innerWidth <= 768 && e.currentTarget.querySelector('a').classList.contains('navItems')) {
+        this.$nuxt.$emit('hideSideBar')
+      }
     }
   }
 }

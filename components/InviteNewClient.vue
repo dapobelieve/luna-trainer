@@ -1,15 +1,24 @@
 <template>
   <div class="tail-grid">
     <div class="tail-py-0 tail-overflow-y-scroll">
-      <h2 class="tail-text-2xl tail-font-normal tail-mb-3">
-        Client Registration
-      </h2>
-      <div
-        class="tail-py-2 tail-px-5 tail-rounded-md gw-body-color tail-text-gray-500 tail-flex tail-items-center tail-gap-1 tail-border-gray-400 tail-border"
-      >
-        <i class="ns-info tail-text-xl"></i>
-        <span class="gw-body-color">Brief information here</span>
+      <div class="tail-flex tail-justify-between tail-items-center tail-mb-2">
+        <h2 class="tail-text-2xl tail-font-normal tail-text-gray-700 tail-mb-1.5">
+          Invite New Client
+        </h2>
+        <button
+          class="focus:tail-outline-none tail-outline-none tail-border-0"
+          @click="$emit('close', false)"
+        >
+          <img
+            class="tail-p-1 tail-rounded-full"
+            src="~/assets/img/svgs/cancel.svg"
+            alt="cancel"
+          />
+        </button>
       </div>
+      <p class="tail-text-gray-500 tail-text-base">
+        Let us know your client’s name and email address so we can invite them to GetWelp!
+      </p>
       <div class="tail-overflow-y-scroll">
         <form
           autocomplete="off"
@@ -18,206 +27,49 @@
         >
           <div class="tail-flex tail-justify-between tail-gap-6">
             <div class="tail-flex tail-gap-5 tail-w-full">
-              <i class="ns-user tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-w-full">
                 <label
                   for="first_name"
                   class="block text-sm font-medium text-gray-700 required"
-                  :class="{'tail-text-red-700' : $v.clientInfo.firstName.$error}"
+                  :class="{'tail-text-red-500' : $v.clientInfo.firstName.$error}"
                 >First name</label>
                 <input
                   id="first_name"
                   v-model.trim="$v.clientInfo.firstName.$model"
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                  :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.firstName.$error}"
+                  :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.firstName.$error}"
                   @blur="$v.clientInfo.firstName.$touch()"
-                />
-              </div>
-
-              <div class="tail-w-full">
-                <label
-                  for="last_name"
-                  class="block text-sm font-medium text-gray-700 required"
-                  :class="{'tail-text-red-700' : $v.clientInfo.lastName.$error}"
-                >Last name</label>
-                <input
-                  id="last_name"
-                  v-model.trim="$v.clientInfo.lastName.$model"
-                  type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                  :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.lastName.$error}"
-                  @blur="$v.clientInfo.lastName.$touch()"
                 />
               </div>
             </div>
           </div>
           <div class="tail-flex tail-gap-5">
-            <i
-              class="ns-envelope tail-mt-1 tail-text-2xl tail-text-gray-500"
-            ></i>
             <div class="tail-w-full">
-              <label for="email" class="required" :class="{'tail-text-red-700' : $v.clientInfo.email.$error}">Email Address</label>
+              <label for="email" class="required" :class="{'tail-text-red-500' : $v.clientInfo.email.$error}">Email Address</label>
               <input
                 id="email"
                 v-model.trim="$v.clientInfo.email.$model"
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                :class="{'tail-shadow-md tail-border-red-700' : $v.clientInfo.email.$error}"
+                :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.email.$error}"
                 @blur="$v.clientInfo.email.$touch()"
               />
               <div v-if="$v.clientInfo.email.$error" class="tail-mt-0.5">
                 <small
                   v-if="!$v.clientInfo.email.email"
-                  class="error tail-text-red-700"
+                  class="error tail-text-red-500"
                 >Please enter a valid email address.</small>
               </div>
             </div>
           </div>
-          <div class="tail-flex tail-gap-5">
-            <i class="ns-phone tail-mt-1 tail-text-2xl tail-text-gray-500"></i>
-            <div class="tail-w-full">
-              <label for="phone">Telephone</label>
-              <vue-tel-input v-model="clientInfo.phoneNumber" :value="clientInfo.phoneNumber" v-bind="bindProps" @input="onInput"></vue-tel-input>
-            </div>
-          </div>
-          <div class="tail-flex tail-gap-5">
-            <i
-              class="ns-location-alt tail-text-3xl tail-text-gray-500"
-            ></i>
-            <div class="tail-w-full">
-              <label for="locationAddress">Address</label>
-              <input
-                id="locationAddress"
-                v-model.trim="clientInfo.locationAddress"
-                type="tel"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              />
-            </div>
-          </div>
-          <div class="tail-flex tail-gap-5">
-            <i
-              class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500 "
-            ></i>
-            <div class="tail-w-full">
-              <label for="city">Town/City</label>
-              <input
-                id="city"
-                v-model.trim="clientInfo.locationCity"
-                type="text"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              />
-            </div>
-          </div>
-          <div class="tail-flex tail-gap-5">
-            <i
-              class="ns-location-alt tail-invisible tail-text-3xl tail-text-gray-500"
-            ></i>
-            <div class="tail-w-full">
-              <label for="locationZip">Post Code</label>
-              <input
-                id="locationZip"
-                v-model.trim="clientInfo.locationZip"
-                type="tel"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              />
-            </div>
-          </div>
-          <div class="tail-flex tail-gap-5">
-            <i
-              class="ns-location-alt tail-text-3xl tail-text-gray-500"
-            ></i>
-            <div class="tail-w-full">
-              <label for="dogName">Dog's name</label>
-              <input
-                id="dogName"
-                v-model.trim="clientInfo.petName"
-                type="text"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              />
-            </div>
-          </div>
-          <div class="tail-flex tail-justify-between tail-gap-6 tail-ml-2">
-            <div class="tail-flex tail-gap-5 tail-w-full">
-              <i
-                class="ns-user tail-invisible tail-text-2xl tail-text-gray-500"
-              ></i>
-              <div class="tail-w-full">
-                <label
-                  for="breed"
-                  class="block text-sm font-medium text-gray-700"
-                >Breed</label>
-                <input
-                  id="breed"
-                  v-model.trim="clientInfo.petBreed"
-                  type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                />
-              </div>
-              <div class="tail-w-full">
-                <label for="age">Age</label>
-                <select
-                  id="experience"
-                  v-model="clientInfo.petAge"
-                  type="text"
-                  class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                >
-                  <option
-                    v-for="val in Array.from(Array(13).keys())"
-                    :key="val"
-                    :value="parseInt(val) + 1"
-                  >
-                    {{ parseInt(val) + 1 }}
-                  </option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="tail-w-full tail-gap-5">
-            <div class="tail-py-2 tail-ml-12">
-              <div class="tail-flex">
-                <div class="tail-mr-4">
-                  <input id="male" v-model="clientInfo.petGender" type="radio" value="male" />
-                  <label for="male" class="tail-text-gray-600">Male</label>
-                </div>
-                <div>
-                  <input id="female" v-model="clientInfo.petGender" type="radio" value="female" />
-                  <label for="female" class="tail-text-gray-600">Female</label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="tail-flex tail-gap-5">
-            <i
-              class="ns-notebook tail-text-3xl tail-text-gray-500"
-            ></i>
-            <div class="tail-w-full">
-              <label for="notes">Notes</label>
-              <textarea
-                id="notes"
-                v-model="clientInfo.notes"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                cols="30"
-                rows="5"
-              >
-              Write your message</textarea>
-            </div>
-          </div>
           <div class="tail-flex tail-justify-end tail-gap-5">
-            <button
-              type="button"
-              style="width: fit-content"
-              class="base-button tail-bg-white tail-font-normal tail-text-black tail-border tail-border-gray-300 tail-px-3"
-              @click="$emit('close', false)"
-            >
-              cancel
-            </button>
             <button-spinner
               style="width:fit-content"
               :disabled="$v.$invalid"
               :loading="isLoading"
             >
-              save &amp; send invite
+              send
             </button-spinner>
           </div>
         </form>
@@ -239,32 +91,7 @@ export default {
       isLoading: false,
       clientInfo: {
         firstName: '',
-        lastName: '',
-        phoneNumber: '',
-        email: '',
-        locationAddress: '',
-        locationCity: '',
-        locationZip: '',
-        petName: '',
-        petAge: '',
-        petBreed: '',
-        petGender: 'male',
-        notes: ''
-      },
-      bindProps: {
-        mode: 'international',
-        disabled: false,
-        disabledFormatting: false,
-        ignoredCountries: [],
-        autocomplete: 'off',
-        maxLen: 25,
-        dropdownOptions: {
-          disabledDialCode: false
-        },
-        inputOptions: {
-          showDialCode: false
-        },
-        validCharactersOnly: true
+        email: ''
       }
 
     }
@@ -272,9 +99,6 @@ export default {
   validations: {
     clientInfo: {
       firstName: {
-        required
-      },
-      lastName: {
         required
       },
       email: {
@@ -291,10 +115,9 @@ export default {
     save () {
       this.isLoading = true
       return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
-        // console.log(response)
         if (response && response.data.status === true) {
           this.$toast.success(
-      `${this.clientInfo.firstName} ${this.clientInfo.lastName} has been sent an invite.`
+      `${this.clientInfo.firstName} has been sent an invite.`
           )
           this.$emit('close', false)
         } else {
@@ -336,6 +159,6 @@ input:focus {
 }
   .required:after {
     content:" *";
-    @apply tail-text-red-700 tail-text-sm;
+    @apply tail-text-red-500 tail-text-sm;
   }
 </style>

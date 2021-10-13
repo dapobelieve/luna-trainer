@@ -58,7 +58,7 @@
         />
       </div>
     </div>
-    <Modal :is-open="openAddParticipant" @close="openAddParticipant = $event" @closeBackDrop="openAddParticipant = $event">
+    <GwModal :is-open="openAddParticipant" @close="openAddParticipant = $event" @closeBackDrop="openAddParticipant = $event">
       <template v-slot:status>
         <div class="tail-px-2 tail-text-2xl tail-font-bold">
           Add Participant
@@ -67,8 +67,8 @@
       <div>
         <AddParticipant @close="openAddParticipant = $event" />
       </div>
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :is-open="openDeleteModal"
       :input-width="30"
       @close="openDeleteModal = $event"
@@ -82,7 +82,7 @@
           </div>
         </template>
       </CancelAlert>
-    </Modal>
+    </GwModal>
 
     <div v-if="classCard">
       <div v-for="data in group" :key="data.id">

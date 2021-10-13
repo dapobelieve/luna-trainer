@@ -39,7 +39,7 @@
         @selected="classDetails"
       />
     </div>
-    <Modal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event" @closeBackDrop="openDeleteModal = $event">
+    <GwModal :is-open="openDeleteModal" :input-width="30" @close="openDeleteModal = $event" @closeBackDrop="openDeleteModal = $event">
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">
@@ -47,8 +47,8 @@
           </div>
         </template>
       </CancelAlert>
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :is-open="newCourse"
       :input-width="40"
       @close="newCourse = $event"
@@ -60,7 +60,7 @@
         </div>
       </template>
       <CreateCourse @close="newCourse = $event" />
-    </Modal>
+    </GwModal>
   </div>
 </template>
 

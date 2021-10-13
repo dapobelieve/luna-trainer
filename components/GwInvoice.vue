@@ -138,7 +138,7 @@
         </button>
       </div>
     </div>
-    <Modal
+    <GwModal
       :input-width="30"
       :is-open="openModalDetails"
       @close="resetModal($event)"
@@ -150,8 +150,8 @@
         </div>
       </template>
       <InvoiceDetails :details="currentInvoice" @close="resetModal($event)" />
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :input-width="30"
       :is-open="openInvoice"
       @close="openInvoice = $event"
@@ -163,15 +163,15 @@
         </div>
       </template>
       <CreateNewInvoice @close="openInvoice = $event" />
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
       @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
-    </Modal>
+    </GwModal>
   </async-view>
 </template>
 
