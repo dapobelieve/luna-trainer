@@ -33,7 +33,7 @@
               value="remote"
               class="tail-h-5 tail-w-5 tail-rounded"
             />
-            <span id="reinforcement-0-label" class="tail-ml-2 tail-font-medium">Yes</span>
+            <span id="reinforcement-0-label" class="tail-ml-2 tail-font-medium">Remote</span>
           </label>
           <label
             class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"

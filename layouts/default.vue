@@ -4,7 +4,7 @@
       <GwHeader />
       <div class="tail-flex">
         <Navigation />
-        <main class="tail-w-full">
+        <main class="tail-w-full tail-bg-gray-50">
           <Nuxt :key="$route.fullpath" />
         </main>
       </div>
