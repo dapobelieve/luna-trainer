@@ -51,7 +51,7 @@
         </div>
       </template>
     </PageHeader>
-    <Modal
+    <GwModal
       :is-open="openAvailabilityModal"
       :input-width="30"
       @close="openAvailabilityModal = $event"
@@ -65,8 +65,8 @@
       <div @close="openAvailabilityModal = $event">
         <SetAvailabity />
       </div>
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :is-open="openCreateModal"
       :input-width="40"
       @close="openCreateModal = $event"
@@ -75,7 +75,7 @@
       <div @close="openCreateModal = $event">
         <CreateSchedule />
       </div>
-    </Modal>
+    </GwModal>
 
     <div
       v-if="1 > 0"

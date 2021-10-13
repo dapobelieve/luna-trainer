@@ -2,7 +2,7 @@
   <async-view loader-id="logout">
     <GwHeader />
     <div class="tail-flex">
-      <Navigation :class="open ? 'tail-block' : 'tail-hidden'" class="lg:tail-block sm:tail-transform sm:tail-ease-in-out sm:tail-transition-all sm:tail-duration-300" />
+      <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
       <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-50 tail-flex tail-justify-center">
         <div
           class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full"

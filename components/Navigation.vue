@@ -66,7 +66,7 @@
               <button
                 v-else-if="menu.path === 'inviteClient'"
                 class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 hover:tail-bg-gray-100 tail-w-full tail-h-9 tail-rounded-md tail-px-4"
-                @click="inviteClient = true"
+                @click="inviteClient"
               >
                 <i class="ns-plus" />
                 <span class="tail-truncate">Invite Client</span>
@@ -284,39 +284,26 @@
       </div>
     </nav>
 
-    <Modal
-      :input-width="40"
-      :is-open="inviteClient"
-      @close="inviteClient = $event"
-      @closeBackDrop="inviteClient = $event"
-    >
-      <InviteNewClient @close="inviteClient = $event" />
-    </Modal>
-    <Modal
-      :input-width="40"
-      :is-open="inviteClient"
-      @close="inviteClient = $event"
-      @closeBackDrop="inviteClient = $event"
-    >
-      <InviteNewClient @close="inviteClient = $event" />
-    </Modal>
-    <Modal
+    <modal name="inviteClientModal" :height="400">
+      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
+    </modal>
+    <GwModal
       :is-open="addSession"
       :input-width="40"
       @close="addSession = $event"
       @closeBackDrop="openEditModal = $event"
     >
       <CreateSchedule @close="addSession = $event" />
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :is-open="newCourse"
       :input-width="40"
       @close="newCourse = $event"
       @closeBackDrop="newCourse = $event"
     >
       <CreateCourse @close="newCourse = $event" />
-    </Modal>
-    <Modal
+    </GwModal>
+    <GwModal
       :input-width="30"
       :is-open="openModal"
       @close="openModal = $event"
@@ -330,7 +317,7 @@
         </div>
       </template>
       <CreateNewInvoice @close="openModal = $event" />
-    </Modal>
+    </GwModal>
     <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
         {{
@@ -351,7 +338,7 @@
           v-if="!acceptedClients.length"
           class="base-button tail-normal-case"
           style="width: fit-content"
-          @click="inviteClient = true"
+          @click="inviteClient"
         >
           Invite a client
         </button>
@@ -380,7 +367,6 @@ export default {
       formatDistance,
       menus,
       showNotification: false,
-      inviteClient: false,
       openModal: false,
       showNotificationsMenu: false,
       showMessagesMenu: false,
@@ -435,6 +421,9 @@ export default {
       } else if (path === 'Messages') {
         this.showMessagesMenu = true
       }
+    },
+    inviteClient () {
+      this.$modal.show('inviteClientModal')
     },
     signOut () {
       this.logOut()

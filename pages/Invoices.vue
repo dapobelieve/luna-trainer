@@ -40,7 +40,7 @@
         />
       </template>
     </gw-pagination>
-    <Modal
+    <GwModal
       :input-width="30"
       :is-open="openModal"
       @close="openModal = $event"
@@ -52,7 +52,7 @@
         </div>
       </template>
       <CreateNewInvoice @close="openModal = $event" />
-    </Modal>
+    </GwModal>
     <NotificationsModal
       :visible="showNotification"
       @close="showNotification = $event"
@@ -90,15 +90,15 @@
         </NuxtLink>
       </template>
     </NotificationsModal>
-    <Modal
+    <GwModal
       :input-width="40"
       :is-open="inviteClient"
       @close="inviteClient = $event"
       @closeBackDrop="inviteClient = $event"
     >
       <InviteNewClient @close="inviteClient = $event" />
-    </Modal>
-    <Modal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event" @closeBackDrop="deleteClient = $event">
+    </GwModal>
+    <GwModal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event" @closeBackDrop="deleteClient = $event">
       <CancelAlert @close="deleteClient = $event" @cancel="deleteClientData">
         <template v-slot:text>
           <div class="tail-text-base tail-font-medium tail-text-left">
@@ -106,7 +106,7 @@
           </div>
         </template>
       </CancelAlert>
-    </Modal>
+    </GwModal>
   </div>
 </template>
 

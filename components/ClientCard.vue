@@ -26,14 +26,14 @@
         </div>
       </div>
     </div>
-    <Modal :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
+    <GwModal :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
       <template v-slot:status>
         <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           {{ client.status }}
         </div>
       </template>
       <ClientInfoPreview :client="client" @close="openModal = $event" />
-    </Modal>
+    </GwModal>
     <div class="">
       <div class="tail-flex tail-gap-3">
         <button
