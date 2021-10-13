@@ -3,7 +3,7 @@
     <div class="tail-min-h-screen">
       <GwHeader />
       <div class="tail-flex">
-        <Navigation />
+        <Navigation :class="open ? 'tail-block' : 'tail-hidden'" class="lg:tail-block sm:tail-transform sm:tail-ease-in-out sm:tail-transition-all sm:tail-duration-300" />
         <main class="tail-w-full">
           <Nuxt :key="$route.fullpath" />
         </main>
@@ -36,7 +36,8 @@ export default {
   data () {
     return {
       page: this.$route.name,
-      showNotification: false
+      showNotification: false,
+      open: true
     }
   },
   computed: {
@@ -59,6 +60,12 @@ export default {
     }
   },
   async created () {
+    this.$nuxt.$on('toggleSideBar', () => {
+      this.toggleSide()
+    })
+    this.$nuxt.$on('hideSideBar', () => {
+      this.hideSide()
+    })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
@@ -101,6 +108,11 @@ export default {
       this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
     }
   },
+  mounted () {
+    if (window.innerWidth <= 768) {
+      this.open = false
+    }
+  },
   updated () {
     this.$nextTick(() => {
       if (this.sendBirdConnStatus) {
@@ -120,6 +132,13 @@ export default {
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
+    toggleSide () {
+      this.open = !this.open
+    },
+    hideSide () {
+      this.open = false
+    },
+
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
       this.showNotification = false
