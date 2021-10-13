@@ -3,7 +3,7 @@
     <div class="tail-min-h-screen">
       <GwHeader />
       <div class="tail-flex">
-        <Navigation :class="open ? 'tail-block' : 'tail-hidden'" class="lg:tail-block sm:tail-transform sm:tail-ease-in-out sm:tail-transition-all sm:tail-duration-300" />
+        <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
         <main class="tail-w-full">
           <Nuxt :key="$route.fullpath" />
         </main>

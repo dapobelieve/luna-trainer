@@ -30,7 +30,7 @@
         <CourseIdentifier :identifier="data" />
       </div>
     </div>
-    <Modal
+    <GwModal
       :is-open="openCourseModal"
       :input-width="40"
       @close="openCourseModal = $event"
@@ -44,7 +44,7 @@
       <div @close="openCourseModal = $event">
         <CreateCourse />
       </div>
-    </Modal>
+    </GwModal>
   </div>
 </template>
 

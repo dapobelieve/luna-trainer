@@ -71,15 +71,15 @@
             @selected="selectSession"
           />
         </div>
-        <Modal
+        <GwModal
           :is-open="openEditModal"
           :input-width="40"
           @close="openEditModal = $event"
           @closeBackDrop="openEditModal = $event"
         >
           <CreateSchedule :data="data" @close="openEditModal = $event" />
-        </Modal>
-        <Modal
+        </GwModal>
+        <GwModal
           :is-open="openModal"
           :input-width="30"
           @close="openModal = $event"
@@ -98,8 +98,8 @@
             </div>
           </template>
           <ScheduleInfoPreview :data="data" @close="openModal = $event" />
-        </Modal>
-        <Modal
+        </GwModal>
+        <GwModal
           :is-open="openDeleteModal"
           :input-width="30"
           @close="openDeleteModal = $event"
@@ -112,7 +112,7 @@
               </div>
             </template>
           </CancelAlert>
-        </Modal>
+        </GwModal>
       </div>
     </div>
   </div>
