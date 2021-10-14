@@ -164,14 +164,12 @@
       </template>
       <CreateNewInvoice @close="openInvoice = $event" />
     </GwModal>
-    <GwModal
-      :input-width="40"
-      :is-open="inviteClient"
-      @close="inviteClient = $event"
-      @closeBackDrop="inviteClient = $event"
+    <modal
+      name="inviteClientModal"
+      :height="400"
     >
-      <InviteNewClient @close="inviteClient = $event" />
-    </GwModal>
+      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')"  />
+    </modal>
   </async-view>
 </template>
 
@@ -190,8 +188,7 @@ export default {
     return {
       openModalDetails: false,
       currentInvoice: {},
-      openInvoice: false,
-      inviteClient: false
+      openInvoice: false
     }
   },
   computed: {
@@ -238,6 +235,9 @@ export default {
     resetModal (event) {
       this.openModalDetails = event
       this.currentInvoice = {}
+    },
+    inviteClient () {
+      this.$modal.show('inviteClientModal')
     }
   }
 }

@@ -76,7 +76,7 @@
           v-if="!acceptedClients.length"
           class="base-button tail-normal-case"
           style="width: fit-content"
-          @click="inviteClient = true"
+          @click="inviteClient"
         >
           Invite a client
         </button>
@@ -90,14 +90,9 @@
         </NuxtLink>
       </template>
     </NotificationsModal>
-    <GwModal
-      :input-width="40"
-      :is-open="inviteClient"
-      @close="inviteClient = $event"
-      @closeBackDrop="inviteClient = $event"
-    >
-      <InviteNewClient @close="inviteClient = $event" />
-    </GwModal>
+    <modal name="inviteClientModal" :height="400">
+      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
+    </modal>
     <GwModal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event" @closeBackDrop="deleteClient = $event">
       <CancelAlert @close="deleteClient = $event" @cancel="deleteClientData">
         <template v-slot:text>
@@ -119,7 +114,6 @@ export default {
       active: true,
       openModal: false,
       showNotification: false,
-      inviteClient: false,
       filter: 'All',
       trash: false,
       deleteClient: false,
@@ -148,6 +142,9 @@ export default {
     },
     deleteInvoice () {
       this.deleteClient = true
+    },
+    inviteClient () {
+      this.$modal.show('inviteClientModal')
     },
     deleteClientData () {
       return this.deleteInvoices(this.tempTrashId)

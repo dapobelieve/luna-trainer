@@ -11,7 +11,7 @@
           <label
             for="email"
             class="required"
-            :class="{'tail-text-red-400' : $v.userInfo.email.$error}"
+            :class="{'tail-text-red-500' : $v.userInfo.email.$error}"
           >Email</label>
 
           <input
@@ -22,7 +22,7 @@
             autocomplete="off"
             type="email"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-border-red-400' : $v.userInfo.email.$error}"
+            :class="{'tail-border-red-500' : $v.userInfo.email.$error}"
             @blur="$v.userInfo.email.$touch()"
           />
           <div v-show="$v.userInfo.email.$error" class="tail-mt-0.5">
@@ -36,7 +36,7 @@
           <label
             for="password"
             class="required"
-            :class="{'tail-text-red-400' : $v.userInfo.password.$error}"
+            :class="{'tail-text-red-500' : $v.userInfo.password.$error}"
           >Password</label>
 
           <div
@@ -52,7 +52,7 @@
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-shadow-md tail-border-red-400' : $v.userInfo.password.$error}"
+              :class="{'tail-shadow-md tail-border-red-500' : $v.userInfo.password.$error}"
               @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
@@ -76,8 +76,7 @@
           <button
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
             type="submit"
-            :loading="isLoading"
-            :disabled="$v.$invalid"
+            :disabled="isLoading"
             class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />Login

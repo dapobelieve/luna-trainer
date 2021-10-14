@@ -17,7 +17,7 @@
           <label
             for="password"
             class="required"
-            :class="{'tail-text-red-400' : $v.userInfo.oldPassword.$error}"
+            :class="{'tail-text-red-500' : $v.userInfo.oldPassword.$error}"
           >Old Password</label>
           <div
             class="
@@ -30,9 +30,9 @@
               v-model.trim="$v.userInfo.oldPassword.$model"
               tabindex="1"
               :disabled="isLoading"
-              :type="showPassword ? 'text':'password'"
+              :type="showOldPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-border-red-400' : $v.userInfo.oldPassword.$error}"
+              :class="{'tail-border-red-500' : $v.userInfo.oldPassword.$error}"
               @blur="$v.userInfo.oldPassword.$touch()"
             />
             <password-toggle v-model="showOldPassword" class="tail-absolute tail-right-0 tail-p-3" />
@@ -55,7 +55,7 @@
               :disabled="isLoading"
               :type="showNewPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-border-red-400' : $v.userInfo.newPassword.$error}"
+              :class="{'tail-border-red-500' : $v.userInfo.newPassword.$error}"
               @blur="$v.userInfo.newPassword.$touch()"
             />
             <password-toggle v-model="showNewPassword" class="tail-absolute tail-right-0 tail-p-3" />
@@ -70,10 +70,10 @@
 
         <div class="tail-flex tail-justify-end tail-py-1">
           <button
-            :loading="isLoading"
-            class="button-fill"
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
-            :disabled="$v.$invalid"
+            type="submit"
+            :disabled="isLoading"
+            class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ isLoading ? 'Resetting...' : 'Save' }}

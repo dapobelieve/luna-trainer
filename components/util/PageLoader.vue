@@ -21,7 +21,7 @@ export default {
 html,
 body {
     height: 100%;
-    background-image: linear-gradient(-105deg, #009acc, #363795)
+    background-image: linear-gradient(-105deg, #0052cc, #363795)
 }
 
 .spinner {
@@ -38,7 +38,7 @@ body {
 
 .path {
     // stroke: hsl(210, 70, 75);
-    stroke: rgba(59, 130, 246, 1);
+    stroke: rgb(12, 85, 202);
     stroke-linecap: round;
     animation: dash 1.5s ease-in-out infinite
 }
