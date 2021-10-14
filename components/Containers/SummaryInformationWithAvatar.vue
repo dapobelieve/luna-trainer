@@ -2,7 +2,23 @@
   <div
     class="tail-relative tail-py-4 tail-flex tail-items-center hover:tail-bg-gray-100 tail-rounded-lg tail-px-3 tail-transition-all"
   >
-    <nuxt-link v-if="url !== '#'" :to="{ name: url, params: { parameter } }" class="tail-mr-auto tail-flex tail-items-center tail-space-x-4 tail-w-full">
+    <nuxt-link v-if="url !== '#' && Boolean(parameter)" :to="{ name: url, params: { ...parameter } }" class="tail-mr-auto tail-flex tail-items-center tail-space-x-4 tail-w-full">
+      <div class="flex-shrink-0 tail-h-12 tail-w-12">
+        <slot name="avatar" />
+      </div>
+      <div class="tail-flex-1 tail-min-w-0">
+        <div class="focus:tail-outline-none">
+          <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
+          <p class="tail-text-base tail-font-normal tail-text-gray-700">
+            <slot name="content" />
+          </p>
+        </div>
+      </div>
+      <span class="tail-text-xs tail-text-gray-500 tail-truncate">
+        <slot name="date" />
+      </span>
+    </nuxt-link>
+    <nuxt-link v-else-if="url !== '#'" :to="{ name: url }" class="tail-mr-auto tail-flex tail-items-center tail-space-x-4 tail-w-full">
       <div class="flex-shrink-0 tail-h-12 tail-w-12">
         <slot name="avatar" />
       </div>

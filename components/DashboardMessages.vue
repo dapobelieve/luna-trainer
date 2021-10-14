@@ -22,8 +22,6 @@
         <li v-for="msg in unreadMessages" :key="msg.url">
           <containers-summary-information-with-avatar
             :show-chevron-right="false"
-            url="Client-id-Messages"
-            :parameter="computeParam(msg.members)"
           >
             <template v-slot:avatar>
               <ClientAvatar
@@ -81,14 +79,7 @@ export default {
     ...mapGetters({
       unreadMessages: 'sendBird/getUnreadMessages',
       acceptedClients: 'client/acceptedClients'
-    }),
-    computeParam (arr) {
-      const findClient = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
-      const client = this.acceptedClients.find(
-        c => c.sendbirdId === findClient.userId
-      )
-      return { id: client._id }
-    }
+    })
   }
 }
 </script>
