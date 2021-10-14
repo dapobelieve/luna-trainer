@@ -5,7 +5,7 @@
     >
       <div>
         <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
-          Create New Passowrd
+          Create New Password
         </h1>
         <p class="tail-text-gray-500 tail-mt-2 tail-text-sm">
           Your new password must be different from previously used
