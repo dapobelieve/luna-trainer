@@ -83,9 +83,9 @@ export default {
       acceptedClients: 'client/acceptedClients'
     }),
     computeParam (arr) {
-      const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
+      const findClient = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
       const client = this.acceptedClients.find(
-        c => c.sendbirdId === user.userId
+        c => c.sendbirdId === findClient.userId
       )
       return { id: client._id }
     }
