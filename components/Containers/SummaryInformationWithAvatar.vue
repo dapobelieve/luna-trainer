@@ -2,7 +2,7 @@
   <div
     class="tail-relative tail-py-4 tail-flex tail-items-center hover:tail-bg-gray-100 tail-rounded-lg tail-px-3 tail-transition-all"
   >
-    <nuxt-link v-if="url !== '#'" :to="{ name: url }" class="tail-mr-auto tail-flex tail-items-center tail-space-x-4 tail-w-full">
+    <nuxt-link v-if="url !== '#'" :to="{ name: url, params: { parameter } }" class="tail-mr-auto tail-flex tail-items-center tail-space-x-4 tail-w-full">
       <div class="flex-shrink-0 tail-h-12 tail-w-12">
         <slot name="avatar" />
       </div>
@@ -57,6 +57,10 @@ export default {
     url: {
       type: String,
       default: '#'
+    },
+    parameter: {
+      type: Object,
+      default: () => {}
     }
   }
 }
