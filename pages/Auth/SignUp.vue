@@ -6,9 +6,9 @@
       <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
         Sign up with email
       </h1>
-      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
+      <form class="tail-flex tail-flex-col fixed-content tail-gap-4" @submit.prevent="signUp">
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="email" class="required" :class="{'tail-text-red-400' : $v.userInfo.email.$error}">Email address</label>
+          <label for="email" class="required" :class="{'tail-text-red-500' : $v.userInfo.email.$error}">Email address</label>
 
           <input
             v-model="$v.userInfo.email.$model"
@@ -16,32 +16,32 @@
             tabindex="1"
             type="email"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-border-red-400' : $v.userInfo.email.$error}"
+            :class="{'tail-border-red-500' : $v.userInfo.email.$error}"
             @blur="$v.userInfo.email.$touch()"
           />
           <div v-if="$v.userInfo.email.$error" class="tail-mt-0.5">
             <small
               v-if="!$v.userInfo.email.email"
-              class="error tail-text-red-700"
+              class="error tail-text-red-500"
             >Please enter a valid email address.</small>
           </div>
         </div>
 
         <div class="tail-flex tail-flex-col tail-gap-1.5">
-          <label for="password" class="required" :class="{'tail-text-red-400' : $v.userInfo.password.$error}">Password</label>
+          <label for="password" class="required" :class="{'tail-text-red-500' : $v.userInfo.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
             <input
               v-model.trim="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
               tabindex="2"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-shadow-md tail-border-red-400' : $v.userInfo.password.$error}"
+              :class="{'tail-shadow-md tail-border-red-500' : $v.userInfo.password.$error}"
               @blur="$v.userInfo.password.$touch()"
             />
             <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
           </div>
           <div v-if="$v.userInfo.password.$error" class="tail-mt-0.5">
-            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-700">
+            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-500">
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
@@ -51,8 +51,7 @@
           <button
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
             type="submit"
-            :loading="isLoading"
-            :disabled="$v.$invalid"
+            :disabled="isLoading"
             class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
@@ -189,6 +188,9 @@ export default {
             })
           }
         })
+        .finally(() => {
+          this.isLoading = false
+        })
     }
   }
 }
@@ -203,10 +205,10 @@ export default {
   }
 }
 .error {
-  @apply tail-border-red-700;
+  @apply tail-border-red-500;
 }
 .required:after {
   content: " *";
-  @apply tail-text-red-700 tail-text-sm;
+  @apply tail-text-red-500 tail-text-sm;
 }
 </style>

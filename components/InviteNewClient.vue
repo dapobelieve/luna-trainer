@@ -1,8 +1,8 @@
 <template>
   <div class="tail-grid">
-    <div class="tail-py-0 tail-overflow-y-scroll">
+    <div class="tail-py-0">
       <div class="tail-flex tail-justify-between tail-items-center tail-mb-2">
-        <h2 class="tail-text-2xl tail-font-normal tail-text-gray-700 tail-mb-1.5">
+        <h2 class="tail-text-2xl tail-font-normal tail-text-gray-700 tail-mb-1">
           Invite New Client
         </h2>
         <button

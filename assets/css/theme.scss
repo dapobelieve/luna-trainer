@@ -34,7 +34,7 @@
 
 .base-button {
   &:hover {
-    background: #46a6c8;
+    @apply tail-bg-blue-600
   }
   &:focus {
     outline: none;
@@ -76,17 +76,17 @@
 
 .multiselect__spinner:after,
 .multiselect__spinner:before {
-    border-top-color: rgba(59, 130, 246, 1) !important;
+    @apply tail-bg-blue-500 
 }
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-    background: #54abe6 !important;
+   @apply tail-bg-blue-500 
 }
 
 .multiselect__tag,
 .multiselect__option--highlight,
 .multiselect__option--highlight:after{
-  background: rgba(59, 130, 246, 1) !important;
+  @apply tail-bg-blue-500 
 }
 
 .vue-tel-input{
@@ -96,4 +96,8 @@
     font-size: 0.875rem;
     line-height: 2.6rem;;
   }
+}
+.fixed-content{
+  min-width: 334px;
+  min-height: 280px;
 }
