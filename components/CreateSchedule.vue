@@ -104,7 +104,7 @@
       <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1.5">
         Cancel
       </button>
-      <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-text-white tail-bg-blue-400 tail-border tail-border-gray-400 tail-m-1.5">
+      <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-text-white tail-bg-blue-500 tail-border tail-border-gray-400 tail-m-1.5">
         Save
       </button>
     </div>

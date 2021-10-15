@@ -83,12 +83,12 @@
       <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1.5">
         Cancel
       </button>
-      <button :class="[data.status === 'request' ? 'tail-bg-white tail-border tail-border-gray-400' : 'tail-bg-blue-400 tail-border tail-text-white tail-border-gray-400']" class="tail-hidden md:tail-flex tail-items-center tail-m-1.5 tail-px-2.5 tail-py-1 tail-rounded-md ">
+      <button :class="[data.status === 'request' ? 'tail-bg-white tail-border tail-border-gray-400' : 'tail-bg-blue-500 tail-border tail-text-white tail-border-gray-400']" class="tail-hidden md:tail-flex tail-items-center tail-m-1.5 tail-px-2.5 tail-py-1 tail-rounded-md ">
         Re-Schedule
       </button>
       <button
         v-if="data.status ==='request'"
-        class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-m-1.5 tail-py-1 tail-rounded-md tail-bg-blue-400 tail-border tail-text-white tail-border-gray-400"
+        class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-m-1.5 tail-py-1 tail-rounded-md tail-bg-blue-500 tail-border tail-text-white tail-border-gray-400"
       >
         Accept
       </button>

@@ -26,7 +26,6 @@
             >Please enter a valid email address.</small>
           </div>
         </div>
-
         <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-3">
           <label for="password" class="required" :class="{'tail-text-red-500' : $v.userInfo.password.$error}">Password</label>
           <div class="tail-flex tail-justify-between tail-items-center tail-relative">
@@ -51,8 +50,7 @@
           <button
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
             type="submit"
-            :loading="isLoading"
-            :disabled="$v.$invalid"
+            :disabled="isLoading"
             class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
@@ -188,6 +186,9 @@ export default {
               position: 'bottom-right'
             })
           }
+        })
+        .finally(() => {
+          this.isLoading = false
         })
     }
   }

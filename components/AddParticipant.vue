@@ -27,7 +27,7 @@
     </div>
     <div class="tail-flex tail-justify-end tail-items-center tail-mt-3 tail-m-5">
       <button
-        class="tail-hidden md:tail-flex tail-items-center tail-px-6 tail-py-1 tail-rounded-md tail-text-white tail-bg-blue-400 tail-border tail-border-gray-400"
+        class="tail-hidden md:tail-flex tail-items-center tail-px-6 tail-py-1 tail-rounded-md tail-text-white tail-bg-blue-500 tail-border tail-border-gray-400"
       >Save</button>
     </div>
   </div>

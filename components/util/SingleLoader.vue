@@ -29,7 +29,7 @@ export default {
 .loader {
   border: 3px solid #f3f3f3;
   border-radius: 50%;
-  border-top: 3px solid #56CCF2;
+  border-top: 3px solid rgb(59, 130, 246);
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 450ms linear infinite;
 }
