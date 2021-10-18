@@ -45,7 +45,7 @@
 </template>
 
 <script>
-// import { mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'OnboardingStripe',
   data () {
@@ -54,9 +54,9 @@ export default {
     }
   },
   methods: {
-    // ...mapActions({
-    //   connectStripe: 'invoice/stripeConnect'
-    // }),
+    ...mapActions({
+      connectStripe: 'invoice/stripeConnect'
+    }),
     stripeConnect () {
       this.isLoading = true
       return this.$store.dispatch('invoice/stripeConnect').then((response) => {
