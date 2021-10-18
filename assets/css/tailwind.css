@@ -84,6 +84,9 @@
 
 
   @layer components {
+    .contain-default-pages {
+      @apply tail-mx-3 sm:tail-mx-5 2xl:tail-mx-auto tail-mt-5 md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full;
+    }
     .base-button {
 
       @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white disabled:tail-bg-blue-300 disabled:tail-cursor-not-allowed disabled:hover:tail-bg-none tail-bg-blue-500 hover:tail-bg-blue-600;
