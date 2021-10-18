@@ -85,7 +85,7 @@
 
   @layer components {
     .contain-default-pages {
-      @apply tail-mx-3 sm:tail-mx-5 md:tail-mx-auto tail-mt-5 md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full;
+      @apply tail-mx-3 sm:tail-mx-5 2xl:tail-mx-auto tail-mt-5 md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full;
     }
     .base-button {
 
