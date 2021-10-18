@@ -41,10 +41,10 @@
 
         <div class="tail-flex tail-justify-end">
           <button
-            :loading="isLoading"
-            class="button-fill"
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
-            :disabled="$v.$invalid"
+            type="submit"
+            :disabled="isLoading"
+            class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ isLoading ? 'Resetting...' : 'Save' }}

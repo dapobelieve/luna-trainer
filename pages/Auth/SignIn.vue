@@ -52,6 +52,7 @@
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+
               :class="{'tail-shadow-md tail-border-red-500' : $v.userInfo.password.$error}"
               @blur="$v.userInfo.password.$touch()"
             />
@@ -76,8 +77,7 @@
           <button
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
             type="submit"
-            :loading="isLoading"
-            :disabled="$v.$invalid"
+            :disabled="isLoading"
             class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />Login
@@ -208,4 +208,5 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss">
+</style>

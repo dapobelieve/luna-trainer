@@ -10,35 +10,7 @@
             <!-- client registration -->
             <dashboard-clients :accepted-clients="acceptedClients" class="tail-h-72" />
             <!-- new messages -->
-            <containers-summary-card-with-notifications>
-              <template v-slot:icon>
-                <i
-                  class="ns-comment-alt tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
-                ></i>
-              </template>
-              <template v-slot:title>messages</template>
-              <template v-slot:notifications>2 new messages</template>
-              <template v-slot:content>
-                <ul role="list" class="tail-relative tail-z-0 tail-px-1">
-                  <li v-for="invoice in 2" :key="invoice.index">
-                    <containers-summary-information-with-avatar>
-                      <template v-slot:avatar>
-                        <ClientAvatar
-                          :client-info="{
-                            firstName: 'Get',
-                            lastName: 'Welp'
-                          }"
-                        />
-                      </template>
-                      <template v-slot:content>
-                        <span class="tail-font-medium">Abi Carpenter</span> has sent you a message.
-                      </template>
-                      <template v-slot:date>{{ new Date().toDateString() }}</template>
-                    </containers-summary-information-with-avatar>
-                  </li>
-                </ul>
-              </template>
-            </containers-summary-card-with-notifications>
+            <dashboard-messages />
           </div>
 
           <!-- invoices -->

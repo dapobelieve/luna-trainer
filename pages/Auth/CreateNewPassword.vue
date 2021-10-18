@@ -5,7 +5,7 @@
     >
       <div>
         <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
-          Create New Passowrd
+          Create New Password
         </h1>
         <p class="tail-text-gray-500 tail-mt-2 tail-text-sm">
           Your new password must be different from previously used
@@ -32,6 +32,7 @@
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+
               :class="{'tail-border-red-500' : $v.userInfo.oldPassword.$error}"
               @blur="$v.userInfo.oldPassword.$touch()"
             />
@@ -55,6 +56,7 @@
               :disabled="isLoading"
               :type="showNewPassword ? 'text':'password'"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+
               :class="{'tail-border-red-500' : $v.userInfo.newPassword.$error}"
               @blur="$v.userInfo.newPassword.$touch()"
             />
@@ -70,10 +72,10 @@
 
         <div class="tail-flex tail-justify-end tail-py-1">
           <button
-            :loading="isLoading"
-            class="button-fill"
             :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
-            :disabled="$v.$invalid"
+            type="submit"
+            :disabled="isLoading"
+            class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ isLoading ? 'Resetting...' : 'Save' }}

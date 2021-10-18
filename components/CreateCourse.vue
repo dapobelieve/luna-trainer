@@ -180,7 +180,7 @@
           Save Draft
         </button>
         <button
-          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-m-1 tail-py-1 tail-rounded-md tail-bg-blue-400 tail-border tail-text-white tail-border-gray-400"
+          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-m-1 tail-py-1 tail-rounded-md tail-bg-blue-500 tail-border tail-text-white tail-border-gray-400"
         >
           Save &#38; Publish
         </button>

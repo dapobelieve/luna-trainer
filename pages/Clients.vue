@@ -5,7 +5,7 @@
         Clients
       </template>
       <template v-slot:buttons>
-        <button type="button"  class="tail-inline-flex primary-color tail-items-center tail-p-2 tail-h-9 tail-w-9 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-blue-600 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="openModal = true">
+        <button type="button" class="tail-inline-flex primary-color tail-items-center tail-p-2 tail-h-9 tail-w-9 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-blue-600 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="inviteClient">
           <i class="ns-plus tail-text-white tail-text-lg"></i>
         </button>
         <gw-select :options="['All', 'Active', 'Invited']" selected="All" @selected="filterInvoice" />
@@ -16,9 +16,9 @@
         <GwClients :status="filter" :page-number="pageNumber" />
       </template>
     </gw-pagination>
-    <GwModal :is-open="openModal" @close="openModal = $event" @closeBackDrop="openModal = $event">
-      <InviteNewClient @close="openModal = $event" />
-    </GwModal>
+    <modal name="inviteClientModal" :height="400">
+      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
+    </modal>
   </div>
 </template>
 
@@ -46,6 +46,9 @@ export default {
   methods: {
     filterInvoice (link) {
       this.filter = link
+    },
+    inviteClient () {
+      this.$modal.show('inviteClientModal')
     }
   }
 }
