@@ -34,7 +34,7 @@
                 <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span> has accepted your invitation.
               </template>
               <template v-slot:date>
-                {{ new Date().toDateString() }}
+                {{ client.updatedAt | howLongAgo }}
               </template>
             </containers-summary-information-with-avatar>
           </li>
