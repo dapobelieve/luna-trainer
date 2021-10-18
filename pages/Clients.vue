@@ -11,7 +11,7 @@
         <gw-select :options="['All', 'Active', 'Invited']" selected="All" @selected="filterInvoice" />
       </template>
     </PageHeader>
-    <gw-pagination class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full" :visible="Boolean(size)" :total-items="size">
+    <gw-pagination class="tail-m-5 sm:tail-m-3 tail-h-full" :visible="Boolean(size)" :total-items="size">
       <template v-slot:content="{ pageNumber }">
         <GwClients :status="filter" :page-number="pageNumber" />
       </template>
