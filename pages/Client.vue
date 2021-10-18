@@ -7,41 +7,36 @@
             <img src="~/assets/img/svgs/chevron-back.svg" alt="" srcset="" />
           </button>
         </template>
-        <template v-slot:avatar>
-          <span
-            :class="[
-              isOnline === 'online'
-                ? 'tail-border-green-400'
-                : 'tail-border-red-400',
-              'tail-rounded-full',
-              'tail-border-2',
-              'tail-p-1',
-              'tail-mr-1',
-              'tail-ml-4'
-            ]"
-          >
-            <ClientAvatar
-              :client-info="clientInfo"
-              :width="1.5"
-              :height="1.5"
-            />
-          </span>
-        </template>
         <template v-slot:title>
-          <span class="tail-capitalize"> {{ firstName }} {{ lastName }} </span>
+          <span class="tail-capitalize tail-ml-5 tail-font-medium tail-text-lg"> {{ firstName }} {{ lastName }} </span>
         </template>
         <template v-slot:buttons>
-          <button
-            type="button"
-            class="tail-bg-white tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border-none tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          >
-            <img src="~/assets/img/svgs/ellipsis.svg" alt="" srcset="" />
-          </button>
+          <div class="tail-relative">
+            <button
+              type="button"
+              class="tail-bg-white tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border-none tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+              @click="showDropdown"
+            >
+              <img src="~/assets/img/svgs/ellipsis.svg" alt="" srcset="" />
+            </button>
+            <!-- dropdown menu -->
+            <div v-show="showDropDown" class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40">
+              <div class="tail-py-2" role="none">
+                <nuxt-link
+                  :to="{ name: 'CreateInvoice' }"
+                  class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                >
+                  Create Invoice
+                </nuxt-link>
+                <a href="#" class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100">Archive</a>
+              </div>
+            </div>
+          </div>
         </template>
       </PageHeader>
     </transition>
     <div
-      class="tail-relative tail-flex tail-overflow-hidden tail-px-5 tail-py-4"
+      class="tail-relative tail-flex tail-overflow-hidden tail-px-5 tail-py-4 tail-max-w-xl md:tail-mx-auto md:tail-max-w-4xl lg:tail-max-w-full 2xl:tail-max-w-7xl"
       style="height: calc(100vh - 63px)"
     >
       <div
@@ -103,6 +98,7 @@ export default {
   name: 'Client',
   data () {
     return {
+      showDropDown: false,
       clientInfo: null,
       id: this.$route.params.id,
       unreadMessages: 0
@@ -157,7 +153,10 @@ export default {
       getClientProfile: 'client/getSingleClientById',
       getSendbirdUser: 'sendBird/getUser',
       isUserOnline: 'sendBird/isUserOnline'
-    })
+    }),
+    showDropdown () {
+      this.showDropDown = !this.showDropDown
+    }
   }
 }
 </script>
