@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-border tail-bg-gray-100 tail-rounded-lg">
+  <div class="tail-border tail-bg-gray-50 tail-rounded-lg">
     <slot name="content" :pageNumber="pageNumber" />
     <div v-if="totalItems" class="tail-w-max flex tail-ml-auto">
       <div class="tail-mx-8 tail-my-4 tail-space-x-4">
