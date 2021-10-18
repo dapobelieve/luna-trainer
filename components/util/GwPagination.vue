@@ -1,7 +1,7 @@
 <template>
   <div class="tail-border tail-bg-gray-100 tail-rounded-lg">
     <slot name="content" :pageNumber="pageNumber" />
-    <div v-if="visible" class="tail-w-max flex tail-ml-auto">
+    <div v-if="totalItems" class="tail-w-max flex tail-ml-auto">
       <div class="tail-mx-8 tail-my-4 tail-space-x-4">
         <button :disabled="pageNumber <= 1" :class="[pageNumber <= 1 ? 'disabled' : 'cursor-auto', 'tail-capitalize tail-text-blue-500 tail-font-normal']" @click="changePageNumber(pageNumber - 1)">
           previous
