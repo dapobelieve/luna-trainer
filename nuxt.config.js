@@ -54,7 +54,8 @@ export default {
     STRIPE_RETURN: process.env.STRIPE_RETURN,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
-    sendBirdAppId: process.env.SENDBIRD_APP_ID
+    sendBirdAppId: process.env.SENDBIRD_APP_ID,
+    ONBOARDING_STRIPE_RETURN: process.env.ONBOARDING_STRIPE_RETURN
   },
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules

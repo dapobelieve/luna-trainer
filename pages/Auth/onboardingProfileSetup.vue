@@ -13,8 +13,7 @@
             profile,
             trainerProfile,
             addedServices,
-            firstClient,
-            stripeConnect
+            firstClient
           ]"
           @stepper="move($event)"
         />
@@ -70,11 +69,9 @@
                 <template v-else-if="step === 3">
                   <onboarding-clients @validity="firstClient.isDisabled" />
                 </template>
-                <template v-else-if="step === 4">
-                  <onboarding-stripe
-                    @validity="stripeConnect.isDisabled = $event"
-                  />
-                </template>
+                <modal name="stripe-modal" :width="450" :height="450">
+                  <onboarding-stripe class="tail-m-6" @save="saveProfile" />
+                </modal>
               </div>
               <!-- Service items for mobile screen -->
               <template v-if="step === 2">
@@ -92,24 +89,9 @@
                 :class="[
                   step === 3
                     ? 'tail-visible'
-                    : step === 4
-                      ? 'tail-hidden'
-                      : 'tail-invisible'
+                    : 'tail-invisible'
                 ]"
-                @click.prevent="step++"
-              >
-                Skip
-              </button>
-              <button
-                class="tail-text-blue-500 tail-mr-auto"
-                :class="[
-                  step === 4
-                    ? 'tail-visible'
-                    : step === 3
-                      ? 'tail-hidden'
-                      : 'tail-invisible'
-                ]"
-                @click.prevent="saveProfile"
+                @click.prevent="$modal.show('stripe-modal')"
               >
                 Skip
               </button>
@@ -123,17 +105,15 @@
                 back
               </button>
               <button
-                v-if="step === 4"
-                :disabled="isLoading"
+                v-if="step === 3"
                 type="button"
                 class="button-fill"
-                @click="saveProfile"
+                @click="$modal.show('stripe-modal')"
               >
-                <SingleLoader v-if="isLoading" />
-                {{ isLoading ? "Creating Account" : "Save & Complete" }}
+                Connect to Stripe
               </button>
               <button
-                v-else-if="step !== 5"
+                v-else-if="step !== 4"
                 :disabled="
                   step === 0
                     ? profile.isDisabled
@@ -141,9 +121,7 @@
                       ? trainerProfile.isDisabled
                       : step === 2
                         ? addedServices.isDisabled
-                        : step === 3
-                          ? firstClient.isDisabled
-                          : stripeConnect.isDisabled
+                        : firstClient.isDisabled
                 "
                 type="button"
                 class="button-fill"
@@ -171,6 +149,25 @@
         </div>
       </div>
     </div>
+    <modal name="done" :width="400" :height="300">
+      <div class="tail-m-8">
+        <div class="tail-flex  tail-justify-start tail-flex-col">
+          <img src="~/assets/img/svgs/check-icon.svg" alt="checked" class="tail-h-8 tail-w-8 tail-mb-2">
+          <h3 class="tail-my-2 tail-gray-700 tail-text-2xl">
+            All done!
+          </h3>
+          <p class="tail-my-1.5">
+            We’re now setting up your environment on GetWelp
+          </p>
+          <p class="tail-my-1.5">
+            In a second you’ll be taken to the dashboard and we will walk you through how to use it!
+          </p>
+        </div>
+        <button class="button-fill" @click="finishedSetUp">
+          Finish
+        </button>
+      </div>
+    </modal>
   </async-view>
 </template>
 
@@ -291,6 +288,14 @@ export default {
       this.endFullPageLoad()
     }
   },
+  mounted () {
+    // check if they are returning from stripe connection
+    const hasStripeConnected = this.$route.query.stripeonboarding
+    if (hasStripeConnected) {
+      this.step = this.$route.query.step
+      this.$model.show('stripe-modal')
+    }
+  },
   methods: {
     ...mapMutations({
       clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
@@ -351,22 +356,22 @@ export default {
                     { position: 'bottom-right' }
                   )
                 }
-                this.$router.replace({ name: 'Dashboard' }).then(() => {
-                  this.clearTrainnerRegData()
-                  this.$toast.success('Welcome', {
-                    position: 'bottom-right'
-                  })
-                })
+                this.$modal.hide('stripe-modal')
+                this.$modal.show('done')
               })
             } else {
-              this.clearTrainnerRegData()
-              this.$router.replace({ name: 'Dashboard' }).then(() => {
-                this.$toast.success('Welcome', { position: 'bottom-right' })
-              })
+              this.$modal.hide('stripe-modal')
+              this.$modal.show('done')
             }
           }
         })
       }
+    },
+    finishedSetUp () {
+      this.clearTrainnerRegData()
+      this.$router.replace({ name: 'Dashboard' }).then(() => {
+        this.$toast.success('Welcome', { position: 'bottom-right' })
+      })
     }
   }
 }

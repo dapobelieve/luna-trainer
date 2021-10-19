@@ -4,7 +4,7 @@
       role="list"
       class="tail-flex tail-items-center tail-justify-between tail-w-full tail-relative tail-z-10 tail-transition-all"
     >
-      <li v-for="(count, index) in 5" :key="index" class="tail-relative tail-w-full last:tail-w-5">
+      <li v-for="(count, index) in  numberOfSteps" :key="index" class="tail-relative tail-w-full last:tail-w-5">
         <div
           class="tail-absolute tail-inset-0 tail-flex tail-items-center tail--z-10"
           aria-hidden="true"
@@ -66,6 +66,11 @@ export default {
     disabled: {
       type: Array,
       required: true
+    }
+  },
+  data () {
+    return {
+      numberOfSteps: 4
     }
   },
   methods: {

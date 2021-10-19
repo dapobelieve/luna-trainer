@@ -6,7 +6,7 @@
     <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
       <div class="tail-flex tail-gap-4">
         <div class="tail-flex tail-flex-col tail-gap-1.5 tail-flex-grow">
-          <label for="first-name" class="required" :class="{'tail-text-red-400' : $v.firstName.$error}">First name</label>
+          <label for="first-name" class="required" :class="{'tail-text-red-500' : $v.firstName.$error}">First name</label>
           <div class>
             <input
               id="first-name"
@@ -14,13 +14,13 @@
               type="text"
               name="first-name"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              :class="{'tail-border-red-400' : $v.firstName.$error}"
+              :class="{'tail-border-red-500' : $v.firstName.$error}"
               @blur="$v.firstName.$touch()"
             />
           </div>
         </div>
         <div class="tail-flex tail-flex-col tail-gap-1.5 tail-flex-grow">
-          <label for="last-name" class="required" :class="{'tail-text-red-400' : $v.lastName.$error}">Last name</label>
+          <label for="last-name" class="required" :class="{'tail-text-red-500' : $v.lastName.$error}">Last name</label>
           <div class>
             <input
               id="last-name"
@@ -28,42 +28,42 @@
               type="text"
               name="last-name"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-              :class="{'tail-border-red-400' : $v.lastName.$error}"
+              :class="{'tail-border-red-500' : $v.lastName.$error}"
               @blur="$v.lastName.$touch()"
             />
           </div>
         </div>
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
-        <label for="businessName" class="required" :class="{'tail-text-red-400' : $v.businessName.$error}">What’s your business’s name?</label>
+        <label for="businessName" class="required" :class="{'tail-text-red-500' : $v.businessName.$error}">What’s your business’s name?</label>
         <input
           id="businessName"
           v-model="businessName"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-          :class="{'tail-border-red-400' : $v.businessName.$error}"
+          :class="{'tail-border-red-500' : $v.businessName.$error}"
           @blur="$v.businessName.$touch()"
         />
       </div>
-      <div class="tail-flex tail-flex-col tail-gap-1.5">
-        <label for="websiteURL" class="required" :class="{'tail-text-red-400' : $v.websiteUrl.$error}">What’s your website url?</label>
+      <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-1">
+        <label for="websiteURL" class="required" :class="{'tail-text-red-500' : $v.websiteUrl.$error}">What’s your website url?</label>
         <input
           id="website"
           v-model="websiteUrl"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-          :class="{'tail-border-red-400' : $v.websiteUrl.$error}"
+          :class="{'tail-border-red-500' : $v.websiteUrl.$error}"
           @input="change($event)"
           @change="change($event)"
           @blur="$v.websiteUrl.$touch()"
         />
-        <small v-if="isValid" class="tail-text-red-700 tail-text-sm">url is invalid</small>
+        <small v-if="isValid" class="tail-text-red-500 tail-text-sm tail-absolute tail--bottom-5">url is invalid</small>
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5">
-        <label for="country" class="required" :class="{'tail-text-red-400' : $v.location.$error}">Where are you based?</label>
+        <label for="country" class="required" :class="{'tail-text-red-500' : $v.location.$error}">Where are you based?</label>
         <select
           v-model="location"
           autocomplete="country"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-          :class="{'tail-border-red-400' : $v.location.$error}"
+          :class="{'tail-border-red-500' : $v.location.$error}"
           @blur="$v.location.$touch()"
         >
           <option v-for="country in countries" :key="country.numericCode">

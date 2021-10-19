@@ -80,7 +80,7 @@ export default {
     userInfo: {
       password: {
         required,
-        minLength: minLength(6)
+        minLength: minLength(8)
       },
       confirmPassword: {
         required,
