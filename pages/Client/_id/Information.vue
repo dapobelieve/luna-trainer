@@ -28,7 +28,6 @@
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <!-- <input v-model="clientInfo.firstName" type="text" class="tail-capitalize tail-font-normal tail-text-xl tail-mt-2 tail-border tail-border-gray-300 tail-rounded-md"> -->
             <p class="tail-capitalize tail-font-normal tail-text-xl tail-mt-2">
               {{ fullName }}
             </p>
@@ -118,7 +117,7 @@
               />
             </div>
 
-            <div class="sm:tail-col-span-2 tail-flex">
+            <div class="sm:tail-col-span-1 tail-flex">
               <i class="ns-envelope tail-text-2xl tail-invisible"></i>
               <div class="tail-ml-4">
                 <dt class="input-label-title">
@@ -207,17 +206,16 @@ export default {
         info: {
           location: this.clientInfo.location,
           phoneNumber: this.clientInfo.phoneNumber,
-          pet: [{
-            petName: this.clientInfo.pet[0].name,
-            petAge: this.clientInfo.pet[0].age,
-            petBreed: this.clientInfo.pet[0].breed,
-            petGender: 'male'
-          }]
+          petName: this.clientInfo.pet[0].name,
+          petAge: this.clientInfo.pet[0].age,
+          petBreed: this.clientInfo.pet[0].breed
         }
       })
         .then((response) => {
           if (response.status === 'success') {
-            location.reload()
+            this.clientInfo = response.data
+            this.isLoading = false
+            this.$toast.success('Updated profile successfully')
           }
         })
         .catch((err) => {
