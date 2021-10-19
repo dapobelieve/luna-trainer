@@ -15,6 +15,12 @@ export const mutations = {
 }
 
 export const actions = {
+  updateClientProfile ({ commit }, details) {
+    return this.$axios
+      .$patch(`${process.env.BASEURL_HOST}/client/${details.id}`, details.info)
+      .then(response => response)
+      .catch(e => e)
+  },
   fetchClientsWithStatusAndLimit ({ commit }, payload) {
     const stat =
              payload !== undefined && 'status' in payload ? payload.status : ''

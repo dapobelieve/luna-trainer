@@ -2,91 +2,79 @@
   <nav class="tail-flex tail-overflow-y-auto tail-text-sm">
     <div class="tail-flex-grow tail-flex">
       <div class="tail-flex-1 tail-space-y-4">
-        <slot name="petSummary" />
+        <!-- navigation -->
         <client-card-navigation />
-        <gw-summary-card :data="nextupData">
-          <div class="tail-flex">
-            <div class="tail-flex tail-items-center tail-space-x-3">
-              <span class="tail-p-1 tail-bg-green-600 tail-rounded-full"></span>
-              <div class="">
-                <p>
-                  <b>
-                    1:1</b> with <b>Abi Carpenter</b>
-                </p>
-                <p>
-                  23 May, 1:00 PM
-                </p>
+
+        <!-- invoices -->
+        <div class="tail-hidden lg:tail-block">
+          <containers-summary-card-with-notifications
+            :display-view-all-button="Boolean(paidInvoices.length)"
+            url="Invoices"
+          >
+            <template v-slot:icon>
+              <i
+                class="ns-receipt tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-gray-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
+              ></i>
+            </template>
+            <template v-slot:title>
+              <span class="tail-text-base">
+                payments
+              </span>
+            </template>
+            <template v-slot:content>
+              <div
+                v-if="$store.state.invoice.isLoading"
+                class="tail-flex tail-place-content-center tail-mt-16"
+              >
+                <SingleLoader />
               </div>
-            </div>
-          </div>
-          <div class="tail-flex">
-            <div class="tail-flex tail-items-center tail-space-x-3">
-              <span class="tail-p-1 tail-bg-green-600 tail-rounded-full"></span>
-              <div class="">
-                <p>
-                  <b>
-                    1:1</b> with <b>Abi Carpenter</b>
-                </p>
-                <p>
-                  23 May, 1:00 PM
-                </p>
-              </div>
-            </div>
-          </div>
-        </gw-summary-card>
-        <gw-summary-card :data="receiptData">
-          <template v-if="allInvoices.length">
-            <button v-for="n in allInvoices.slice(0, 3)" :key="n.index" class="tail-flex tail-justify-between tail-items-center tail-w-full hover:tail-bg-gray-50">
-              <div class="tail-flex tail-items-center tail-space-x-3">
-                <ClientAvatar :client-info="n.customerId" />
-                <div class="tail-text-left">
-                  <p>
-                    {{ n.customerId.firstName }} {{ n.customerId.lastName }} has paid you
-                  </p>
-                  <p>
-                    {{ n.payments[0].updatedAt | date }}
-                  </p>
+              <template v-else>
+                <ul v-if="paidInvoices.length" role="list" class="tail-relative tail-z-0 tail-px-1">
+                  <li v-for="invoice in paidInvoices" :key="invoice.index">
+                    <containers-summary-information-with-avatar>
+                      <template v-slot:avatar>
+                        <ClientAvatar :client-info="invoice.customerId" />
+                      </template>
+                      <template v-slot:content>
+                        <span class="tail-font-medium">{{ invoice.customerId.firstName }}
+                          {{ invoice.customerId.lastName }}</span> has paid you.
+                      </template>
+                      <template v-slot:date>
+                        {{ invoice.dueDate | date }}
+                      </template>
+                    </containers-summary-information-with-avatar>
+                  </li>
+                </ul>
+                <div
+                  v-else
+                  class="tail-text-center tail-pt-8 tail-pb-12 tail-px-4 tail-text-gray-500 tail-text-sm"
+                >
+                  Newly paid invoices will be displayed here.
                 </div>
-              </div>
-              <img src="~/assets/img/svgs/chevron-right.svg" alt="" srcset="">
-            </button>
-          </template>
-          <p v-else class="tail-py-4">
-            No payment in this month.
-          </p>
-        </gw-summary-card>
+              </template>
+            </template>
+          </containers-summary-card-with-notifications>
+        </div>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'ClientSidebarContent',
   data () {
     return {
-      receiptData: { title: 'payments', icon: 'receipt' },
-      nextupData: { title: 'Next up', icon: 'calendar' }
-    }
-  },
-  computed: {
-    ...mapGetters({
-      allInvoices: 'invoice/getAllPaidInvoices'
-    }),
-    getMonth () {
-      const monthNames = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
-      const thisMonth = new Date().getMonth()
-      return monthNames[thisMonth] + ', ' + new Date().getFullYear()
+      paidInvoices: []
     }
   },
   mounted () {
-    this.fetchAllInvoices()
+    this.fetchPaidInvoices({ status: 'paid', limit: 3 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
   },
   methods: {
     ...mapActions({
-      fetchAllInvoices: 'invoice/getInvoices',
-      connectToStripe: 'invoice/stripeConnect'
+      fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit'
     })
   }
 }
