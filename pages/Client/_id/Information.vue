@@ -53,7 +53,7 @@
               <dt class="input-text-label">
                 Email
               </dt>
-              <dd class="tail-mt-1 input-text tail-truncate">
+              <dd class="tail-mt-1 tail-truncate">
                 {{ clientInfo && clientInfo.email }}
               </dd>
             </div>
