@@ -57,12 +57,13 @@
           </li>
           <li v-else class="you tail-flex tail-items-end tail-mb-3">
             <ClientAvatar
+              class="tail-mr-2"
               :client-info="{
                 firstName: 'Get',
                 lastName: 'Welp'
               }"
-              :height="2"
-              :width="2"
+              :height="3"
+              :width="3"
             />
             <span
               v-if="msg.messageType === 'file'"
@@ -245,7 +246,6 @@ export default {
   },
   mounted () {
     const channelHandler = new this.$sb.ChannelHandler()
-
     channelHandler.onMessageReceived = this.onMessageReceived
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
@@ -295,7 +295,6 @@ export default {
       const listQuery = channel.createPreviousMessageListQuery()
       listQuery.includeMetaArray = true // Retrieve a list of messages along with their metaarrays.
       listQuery.includeReaction = true // Retrieve a list of messages along with their reactions.
-
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
         if (error) {
@@ -330,7 +329,6 @@ export default {
       // params.coverImage = FILE // Or .coverUrl = COVER_URL;
       // params.data = DATA
       // params.customType = CUSTOM_TYPE
-
       this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
         if (error) {
           // Handle error.
@@ -359,12 +357,10 @@ export default {
     sendChat () {
       if (this.message) {
         const params = new this.$sb.UserMessageParams()
-
         params.message = this.message
         params.mentionType = 'users' // Either 'users' or 'channel'
         params.mentionedUserIds = [this.receiver]
         params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
-
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
             // Handle error.
@@ -381,7 +377,6 @@ export default {
     sendFile () {
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
-
       params.file = this.fileToBeSent // Or .fileUrl  = FILE_URL (You can also send a file message with a file URL.)
       params.fileName = this.fileToBeSent.name
       params.fileSize = this.fileToBeSent.size
@@ -391,7 +386,6 @@ export default {
       params.mentionType = 'users' // Either 'users' or 'channel'
       params.mentionedUserIds = [this.receiver] // Or mentionedUsers = Array<User>;
       params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
-
       this.isUploading = false
       this.$nextTick(() => {
         this.scrollFeedToBottom()
@@ -487,8 +481,8 @@ export default {
   .me {
     .msg {
       border-radius: 8px 8px 1px 8px;
-      background-color: rgba(86, 204, 242, 1);
       color: #fff;
+      @apply tail-bg-blue-500
     }
   }
   .you {

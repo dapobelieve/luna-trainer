@@ -1,15 +1,11 @@
 <template>
-  <div
-    v-if="!isImgAvailable"
-    class="tail-rounded-full tail-flex tail-items-center tail-justify-center tail-h-full tail-w-full tail-bg-indigo-50 tail-text-indigo-500 tail-text-sm"
-    :style="altStyling"
-  >
-    <span class="tail-font-medium">{{ displayInitials }}</span>
-  </div>
+  <span v-if="!isImgAvailable" class="tail-inline-flex tail-items-center tail-justify-center tail-h-10 tail-w-10 tail-rounded-full tail-bg-indigo-50" :style="altStyling">
+    <span class="tail-text-sm tail-font-medium tail-leading-none tail-text-indigo-500">{{ displayInitials }}</span>
+  </span>
   <img
     v-else
     :src="clientInfo.imgURL"
-    class="tail-object-cover tail-rounded-full tail-h-full tail-w-full"
+    class="tail-object-cover tail-rounded-full tail-h-10 tail-w-10"
     :style="altStyling"
     alt="client profile image"
   />
@@ -21,11 +17,11 @@ export default {
   props: {
     width: {
       type: Number,
-      default: 100
+      default: 3
     },
     height: {
       type: Number,
-      default: 100
+      default: 3
     },
     clientInfo: {
       type: Object,
@@ -35,8 +31,8 @@ export default {
   data () {
     return {
       altStyling: {
-        width: this.width + '%',
-        height: this.height + '%'
+        width: this.width + 'rem',
+        height: this.height + 'rem'
       }
     }
   },
