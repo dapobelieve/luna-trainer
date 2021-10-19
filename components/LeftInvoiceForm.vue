@@ -14,7 +14,7 @@
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="allClients" :selected="invoice.client" @select="updateClient($event)" />
+        <gw-customer-selector :clients="allClients" :selected="invoice.client" @select="updateClient($event)" @showClientModal="$modal.show('inviteClientModal')" />
       </div>
     </div>
 
@@ -54,9 +54,15 @@
         ></date-picker>
       </div>
     </div>
-    <GwModal :is-open="openInviteModal" @close="openInviteModal = $event" @closeBackDrop="openInviteModal = $event">
+    <!-- <GwModal :is-open="openInviteModal" @close="openInviteModal = $event" @closeBackDrop="openInviteModal = $event">
       <InviteNewClient @close="openInviteModal = $event" />
-    </GwModal>
+    </GwModal> -->
+    <modal
+      name="inviteClientModal"
+      :height="400"
+    >
+      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
+    </modal>
   </div>
 </template>
 <script>
