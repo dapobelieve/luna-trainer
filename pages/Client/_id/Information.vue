@@ -38,19 +38,19 @@
             <div class="sm:tail-col-span-1 tail-flex">
               <i class="ns-envelope tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-ml-4">
-                <dt class="input-label-title">
+                <dt class="input-text-label">
                   Telephone
                 </dt>
                 <input
                   v-model="clientInfo.phoneNumber"
                   type="number"
-                  class="input"
+                  class="input-text"
                 />
               </div>
             </div>
 
             <div class="sm:col-span-1">
-              <dt class="input-label-title">
+              <dt class="input-text-label">
                 Email
               </dt>
               <dd class="tail-mt-1 input-text tail-truncate">
@@ -61,14 +61,14 @@
             <div class="sm:tail-col-span-1 tail-flex">
               <i class="ns-location-alt tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-ml-4">
-                <dt class="input-label-title">
+                <dt class="input-text-label">
                   Location
                 </dt>
                 <dd class="">
                   <select
                     v-model="clientInfo.location"
                     autocomplete="country"
-                    class="input"
+                    class="input-text"
                   >
                     <option
                       v-for="country in countries"
@@ -95,39 +95,39 @@
             <div class="sm:tail-col-span-1 tail-flex">
               <i class="ns-time-add tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-ml-4">
-                <dt class="input-label-title">
+                <dt class="input-text-label">
                   Dog name
                 </dt>
                 <input
                   v-model="clientInfo.pet[0].name"
                   type="text"
-                  class="input"
+                  class="input-text"
                 />
               </div>
             </div>
 
             <div class="sm:col-span-1">
-              <dt class="input-label-title">
+              <dt class="input-text-label">
                 Breed
               </dt>
               <input
                 v-model="clientInfo.pet[0].breed"
                 type="text"
-                class="input"
+                class="input-text"
               />
             </div>
 
             <div class="sm:tail-col-span-1 tail-flex">
               <i class="ns-envelope tail-text-2xl tail-invisible"></i>
               <div class="tail-ml-4">
-                <dt class="input-label-title">
+                <dt class="input-text-label">
                   Age
                 </dt>
                 <div class="tail-flex tail-items-center">
                   <input
                     v-model="clientInfo.pet[0].age"
                     type="text"
-                    class="input tail-w-14 tail-mr-2"
+                    class="input-text tail-w-14 tail-mr-2"
                   />
                   <span>weeks</span>
                 </div>
@@ -137,7 +137,7 @@
             <div class="sm:tail-col-span-2 tail-flex">
               <i class="ns-envelope tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-ml-4">
-                <dt class="input-label-title">
+                <dt class="input-text-label">
                   Behavioural Problems
                 </dt>
                 <dd class="tail-mt-1 input-text tail-truncate">
@@ -149,10 +149,10 @@
             <div class="sm:tail-col-span-2 tail-flex">
               <i class="ns-notebook tail-text-2xl tail-text-gray-500"></i>
               <div class="tail-ml-4">
-                <dt class="input-label-title">
+                <dt class="input-text-label">
                   Note
                 </dt>
-                <input v-model="clientInfo.notes" type="text" class="input" />
+                <input v-model="clientInfo.notes" type="text" class="input-text" />
               </div>
             </div>
           </dl>
@@ -234,7 +234,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.input-text {
-  @apply tail-text-base tail-font-normal tail-text-gray-700;
-}
 </style>
