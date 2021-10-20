@@ -87,14 +87,16 @@ import ButtonSpinner from './util/ButtonSpinner.vue'
 export default {
   name: 'InviteNewClient',
   components: { ButtonSpinner },
+  props: {
+    client: Object
+  },
   data () {
     return {
       isLoading: false,
       clientInfo: {
-        firstName: '',
-        email: ''
+        firstName: this.client ? this.client.firstName : '',
+        email: this.client ? this.client.email : ''
       }
-
     }
   },
   validations: {

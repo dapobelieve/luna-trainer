@@ -1,45 +1,18 @@
 <template>
   <div>
-    <ServicesMultiSelect :options="services" @on-service-selected="addService" />
-    <ul v-if="selectedServices.length" class="tail-mt-4 tail-p-4 tail-pb-3 tail-border-gray-400 tail-border-solid tail-border tail-rounded-lg tail-border-opacity-30">
-      <li v-for="(select,index) in selectedServices" :key="index" class="tail-flex tail-w-full tail-justify-between tail-mb-3">
-        <div>
-          <h2 class="tail-font-medium tail-text-lg active-item">
-            {{ select.description }}
-          </h2>
-          <small class="tail-text-gray-500 tail-ml-5">Qty {{ select.qty }}</small>
-        </div>
-        <div class="tail-flex tail-justify-between tail-items-center tail-gap-2">
-          <client-only>
-            <h5 class="tail-font-medium tail-text-lg">
-              {{ select.pricing.amount | amount }}
-            </h5>
-          </client-only>
-
-          <button @click.prevent="editSelectionItem(select.serviceId)">
-            <small class="ns-edit tail-flex tail-align-middle  primary-color tail-rounded-full tail-p-1 tail-text-white"></small>
-          </button>
-
-          <button type="button" @click.prevent="removeSelectionItem(select.serviceId)">
-            <small class="ns-cross tail-flex tail-align-middle tail-bg-red-300 tail-rounded-full tail-p-1 tail-text-white"></small>
-          </button>
-        </div>
-      </li>
-    </ul>
-    <GwModal :is-open="openEditItem" @close="openEditItem = $event" @closeBackDrop="openEditItem = $event">
-      <template v-slot:status>
-        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-          Edit Item
-        </div>
-      </template>
-      <EditItem v-model="selectedItem" @close="openEditItem = $event" />
-    </GwModal>
+    <MultiSelect 
+      v-model="services"
+      @selected="addService"
+      name="description"
+      description="pricing.amount"
+    />
   </div>
 </template>
 <script>
 
 export default {
   name: 'GwInvoiceServicesSelector',
+  
   props: {
     services: Array
   },

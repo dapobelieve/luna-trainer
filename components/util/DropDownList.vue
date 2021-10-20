@@ -1,40 +1,32 @@
 <template>
   <div>
     <div
-      v-for="client in options"
-      :key="client._id"
+      v-for="option in options"
+      :key="option[valueKey]"
       class="dropdown-Client"
-      :class="[client._id === selectedItemId ? 'tail-bg-blue-50' : 'tail-bg-white']"
-      @click="showSelected(client)"
+      :class="[option[valueKey] === selectedOptionId ? 'tail-bg-blue-50' : 'tail-bg-white']"
+      @click="selectOption(option)"
     >
       <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
-        <div v-if="isClient" class="tail-flex">
-          <ClientAvatar :client-info="client" />
+        <div class="tail-flex">
+          <ClientAvatar :client-info="option" v-if="showAvatar" />
           <div class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
             <p class="tail-capitalize">
-              {{ client.firstName }}
+              {{ option[name]}}
             </p>
-            <p> {{ client.email }}</p>
+            <p> {{ option[description] }}</p>
           </div>
         </div>
-        <div v-else class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
-          <p class="tail-capitalize tail-text-sm">
-            {{ client.description }}
-          </p>
-          <p class="-text-base">
-            {{ client.pricing.amount | amount }}
-          </p>
-        </div>
-        <div v-if="client._id === selectedItemId">
+        <div v-if="option[valueKey] === selectedOptionId">
           <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
         </div>
       </div>
     </div>
-    <button type="button" class="tail-py-4 tail-pl-3 tail-outline-none" @click="emitButtonFunction">
+    <button type="button" class="tail-py-4 tail-pl-3 tail-outline-none" @click="emitAddNewItem">
       <div class="tail-flex">
         <div class="tail-rounded-full tail-px-2 tail-py-1 tail-flex tail-items-center tail-justify-center">
           <i class="ns-plus tail-text-base tail-rounded-full tail-text-blue-500 tail-p-1" />
-          <span class="text-primary-color tail-text-base tail-pl-2">{{ isClient ? 'Add New Client' : 'Add New Service' }} </span>
+          <span class="text-primary-color tail-text-base tail-pl-2">{{ newItemText }} </span>
         </div>
       </div>
     </button>
@@ -48,25 +40,39 @@ export default {
       type: Array,
       required: true
     },
-    selectedItemId: {
-      type: [Number, String],
+    valueKey: {
+      type: String,
       default: ''
     },
-    isClient: {
+    name: {
+      type: String,
+      default: 'firstName'
+    },
+    description: {
+      type: String,
+      default: 'description'
+    },
+    newItemText: {
+      type: String,
+      default: 'Add New Item'
+    },
+    showAvatar: {
       type: Boolean,
-      default: true
+      default: false
+    }
+  },
+  data () {
+    return {
+      selectedOptionId: ''
     }
   },
   methods: {
-    showSelected (client) {
-      this.$emit('has-selected-service', client)
+    selectOption (option) {
+      this.selectedOptionId = option[this.valueKey]
+      this.$emit('selected-option', option)
     },
-    emitButtonFunction () {
-      if (this.isClient) {
-        this.$nuxt.$emit('displayModal')
-      } else {
-        this.$nuxt.$emit('displayService')
-      }
+    emitAddNewItem () {
+      this.$emit('add-new-item')
     }
   }
 }

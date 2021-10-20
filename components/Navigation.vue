@@ -283,10 +283,6 @@
         </navigation-sub-menu>
       </div>
     </nav>
-
-    <modal name="inviteClientModal" :height="400">
-      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
-    </modal>
     <GwModal
       :is-open="addSession"
       :input-width="40"

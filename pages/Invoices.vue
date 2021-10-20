@@ -90,9 +90,6 @@
         </NuxtLink>
       </template>
     </NotificationsModal>
-    <modal name="inviteClientModal" :height="400">
-      <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
-    </modal>
     <GwModal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event" @closeBackDrop="deleteClient = $event">
       <CancelAlert @close="deleteClient = $event" @cancel="deleteClientData">
         <template v-slot:text>

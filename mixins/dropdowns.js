@@ -1,12 +1,11 @@
 export default {
   watch: {
     inputValue (newValue) {
+      this.showDropdown = true
       if (newValue) {
-        this.showfilteredDropdown = true
-        this.showDropdown = false
+        this.showFilteredOptions = true
       } else {
-        this.showfilteredDropdown = false
-        this.showDropdown = false
+        this.showFilteredOptions = false
       }
     }
   }
