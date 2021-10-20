@@ -22,10 +22,10 @@
       v-show="showfilteredDropdown"
       class="dropdown-list"
     >
-      <DropDownList :options="filteredResult" :selected-item-id="selectedClient._id" @has-selected-service="selectClient" />
+      <DropDownList :options="filteredResult" :selected-item-id="selectedService._id" :is-client="false" @has-selected-service="selectService" />
     </div>
     <div v-if="showDropdown" class="dropdown-list">
-      <DropDownList :options="options" :selected-item-id="selectedClient._id" @has-selected-service="selectClient" />
+      <DropDownList :options="options" :selected-item-id="selectedService._id" :is-client="false" @has-selected-service="selectService" />
     </div>
   </div>
 </template>
@@ -46,36 +46,33 @@ export default {
   },
   data () {
     return {
-      selectedClient: {},
       inputValue: '',
-      ClientList: [],
       showDropdown: false,
-      showfilteredDropdown: false
+      showfilteredDropdown: false,
+      selectedService: {}
     }
   },
   computed: {
     filteredResult () {
       return this.options.filter((option) => {
-        return option.firstName.toLowerCase().includes(this.inputValue.toLowerCase())
+        return option.description.toLowerCase().includes(this.inputValue.toLowerCase())
       })
     }
   },
   methods: {
-    selectClient (client) {
-      console.log('text')
-      console.log(this.selectedClient)
-      this.selectedClient = client
-      this.inputValue = client.firstName
+    selectService (service) {
+      service = { ...service, qty: 1 }
+      this.selectedService = service
+      this.inputValue = ''
       this.$nextTick(() => {
         this.showDropdown = false
         this.showfilteredDropdown = false
       })
-      this.$emit('on-client-selected', client)
+      this.$emit('on-service-selected', service)
     }
   }
 }
 </script>
 
-<style>
-
+<style scoped>
 </style>

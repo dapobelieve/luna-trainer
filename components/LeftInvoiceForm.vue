@@ -14,7 +14,7 @@
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="allClients" :selected="invoice.client" @select="updateClient($event)" @showClientModal="$modal.show('inviteClientModal')" />
+        <gw-customer-selector :clients="allClients" :selected="invoice.client" @select="updateClient($event)" />
       </div>
     </div>
 
@@ -54,9 +54,6 @@
         ></date-picker>
       </div>
     </div>
-    <!-- <GwModal :is-open="openInviteModal" @close="openInviteModal = $event" @closeBackDrop="openInviteModal = $event">
-      <InviteNewClient @close="openInviteModal = $event" />
-    </GwModal> -->
     <modal
       name="inviteClientModal"
       :height="400"
@@ -87,6 +84,18 @@ export default {
   },
   props: {
     value: Object
+  },
+  created () {
+    this.$nuxt.$on('displayModal', () => {
+      this.$modal.show('inviteClientModal')
+    })
+    this.$nuxt.$on('displayService', () => {
+      this.$router.push('/Settings#services')
+    })
+  },
+  beforeDestroy () {
+    this.$nuxt.$off('displayModal')
+    this.$nuxt.$off('displayService')
   },
   methods: {
     updateClient ($event) {

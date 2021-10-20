@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Dropdown :options="clients" @showModal="$emit('showClientModal')" />
-
-    <!-- {{ dropdownSelection.name }} -->
+    <Dropdown :options="clients" />
   </div>
 </template>
 <script>

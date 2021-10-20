@@ -1,24 +1,8 @@
 <template>
   <div>
-    <multiselect
-      v-model="selection"
-      :options="options"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      :preserve-search="true"
-      placeholder="Select invoice items"
-      label="description"
-      track-by="description"
-      :preselect-first="true"
-    >
-      <template slot="selection" slot-scope="{ isOpen }">
-        <span v-if="selection.length &amp;&amp; !isOpen" class="multiselect__single">{{ selection.length }} options selection</span>
-      </template>
-      <template v-if="false" slot="tag"></template>
-    </multiselect>
-    <ul class="tail-mt-4 tail-p-4 tail-pb-3 tail-border-gray-400 tail-border-solid tail-border tail-rounded-lg tail-border-opacity-30">
-      <li v-for="(select,index) in selection" :key="index" class="tail-flex tail-w-full tail-justify-between tail-mb-3">
+    <ServicesMultiSelect :options="services" @on-service-selected="addService" />
+    <ul v-if="selectedServices.length" class="tail-mt-4 tail-p-4 tail-pb-3 tail-border-gray-400 tail-border-solid tail-border tail-rounded-lg tail-border-opacity-30">
+      <li v-for="(select,index) in selectedServices" :key="index" class="tail-flex tail-w-full tail-justify-between tail-mb-3">
         <div>
           <h2 class="tail-font-medium tail-text-lg active-item">
             {{ select.description }}
@@ -28,7 +12,7 @@
         <div class="tail-flex tail-justify-between tail-items-center tail-gap-2">
           <client-only>
             <h5 class="tail-font-medium tail-text-lg">
-              {{ select.price | amount }}
+              {{ select.pricing.amount | amount }}
             </h5>
           </client-only>
 
@@ -53,34 +37,32 @@
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect'
+
 export default {
   name: 'GwInvoiceServicesSelector',
-  components: {
-    Multiselect
-  },
   props: {
     services: Array
   },
   data () {
     return {
+      selectedServices: [],
       selection: [],
       selectedItem: null,
-      openEditItem: false,
-      options: this.services.map(item => ({ description: item.description, serviceId: item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
+      openEditItem: false
+      // options: this.services.map(item => ({ description: item.description, serviceId: item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
     }
   },
-  watch: {
-    selection (newValue) {
-      this.$emit('selected', newValue)
-    },
-    selectedItem (newValue) {
-      if (newValue) {
-        this.selection = this.selection.map(item => item.serviceId === newValue.serviceId ? newValue : item)
-        this.$emit('selected', this.selection)
-      }
-    }
-  },
+  // watch: {
+  //   selection (newValue) {
+  //     this.$emit('selected', newValue)
+  //   },
+  //   selectedItem (newValue) {
+  //     if (newValue) {
+  //       this.selection = this.selection.map(item => item.serviceId === newValue.serviceId ? newValue : item)
+  //       this.$emit('selected', this.selection)
+  //     }
+  //   }
+  // },
   methods: {
     editSelectionItem (id) {
       this.selectedItem = this.selection.find(item => item.serviceId === id)
@@ -88,6 +70,10 @@ export default {
     },
     removeSelectionItem (id) {
       this.selection = this.selection.filter(item => item.serviceId !== id)
+    },
+    addService (service) {
+      this.selectedServices.push(service)
+      this.$emit('selected', service)
     }
   }
 }

@@ -6,6 +6,7 @@
           Invite New Client
         </h2>
         <button
+          type="button"
           class="focus:tail-outline-none tail-outline-none tail-border-0"
           @click="$emit('close', false)"
         >
