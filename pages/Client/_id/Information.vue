@@ -140,7 +140,7 @@
                 <dt class="input-text-label">
                   Behavioural Problems
                 </dt>
-                <dd class="tail-mt-1 input-text tail-truncate">
+                <dd class="tail-mt-1 tail-truncate">
                   Not Available
                 </dd>
               </div>
@@ -152,7 +152,11 @@
                 <dt class="input-text-label">
                   Note
                 </dt>
-                <input v-model="clientInfo.notes" type="text" class="input-text" />
+                <input
+                  v-model="clientInfo.notes"
+                  type="text"
+                  class="input-text"
+                />
               </div>
             </div>
           </dl>
@@ -181,7 +185,7 @@ export default {
       return this.clientInfo ? this.clientInfo.firstName : ''
     },
     lastName () {
-      return this.clientInfo ? this.clientInfo.lastName : ''
+      return this.clientInfo && this.clientInfo.lastName !== undefined ? this.clientInfo.lastName : ''
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
@@ -190,7 +194,11 @@ export default {
   mounted () {
     this.getClientProfile(this.id)
       .then((response) => {
-        this.clientInfo = response
+        if (!response.pet.length) {
+          this.clientInfo = { ...response, pet: [{ name: '', age: '', breed: '' }] }
+        } else {
+          this.clientInfo = response
+        }
       })
       .catch(err => console.log('error fetching client', err))
   },
@@ -233,5 +241,4 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
