@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <button type="button" class="tail-py-4 tail-pl-3 tail-outline-none" @click="test">
+    <button type="button" class="tail-py-4 tail-pl-3 tail-outline-none" @click="emitButtonFunction">
       <div class="tail-flex">
         <div class="tail-rounded-full tail-px-2 tail-py-1 tail-flex tail-items-center tail-justify-center">
           <i class="ns-plus tail-text-base tail-rounded-full tail-text-blue-500 tail-p-1" />
@@ -61,7 +61,7 @@ export default {
     showSelected (client) {
       this.$emit('has-selected-service', client)
     },
-    test () {
+    emitButtonFunction () {
       if (this.isClient) {
         this.$nuxt.$emit('displayModal')
       } else {

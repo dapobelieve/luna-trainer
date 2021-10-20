@@ -62,8 +62,6 @@ export default {
   },
   methods: {
     selectClient (client) {
-      console.log('text')
-      console.log(this.selectedClient)
       this.selectedClient = client
       this.inputValue = client.firstName
       this.$nextTick(() => {
@@ -77,5 +75,4 @@ export default {
 </script>
 
 <style>
-
 </style>
