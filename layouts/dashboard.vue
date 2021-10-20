@@ -3,7 +3,7 @@
     <GwHeader />
     <div class="tail-flex">
       <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
-      <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-50 tail-flex tail-justify-center">
+      <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-100 tail-flex tail-justify-center">
         <div
           class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full"
         >

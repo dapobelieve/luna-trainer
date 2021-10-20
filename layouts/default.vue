@@ -1,10 +1,10 @@
 <template>
   <async-view loader-id="logout">
     <div class="tail-min-h-screen">
-      <GwHeader />
+      <GwHeader :class="{ 'tail-hidden': $route.name === 'Client-id-Information' }" />
       <div class="tail-flex">
         <Navigation />
-        <main class="tail-w-full tail-bg-gray-50">
+        <main class="tail-w-full tail-bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
       </div>
