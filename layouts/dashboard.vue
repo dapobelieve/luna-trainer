@@ -1,5 +1,8 @@
 <template>
   <async-view loader-id="logout">
+    <modal name="stripe-modal" :width="450" :height="450">
+      <onboarding-stripe class="tail-m-6" @closeModal="skipStripeProcess" />
+    </modal>
     <GwHeader />
     <div class="tail-flex">
       <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
@@ -27,7 +30,8 @@ export default {
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
+      connectedChannels: state => state.sendBird.connectedChannels,
+      isStripeConnected: state => state.profile.isStripeConnected
     })
   },
   async created () {
@@ -80,6 +84,10 @@ export default {
     }
   },
   mounted () {
+    const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
+    if (isProfileSetUpCompleted && !this.isStripeConnected) {
+      this.$modal.show('stripe-modal')
+    }
     if (window.innerWidth <= 768) {
       this.open = false
     }
@@ -103,7 +111,10 @@ export default {
     hideSide () {
       this.open = false
     },
-
+    skipStripeProcess () {
+      localStorage.removeItem('profileCompleted')
+      this.$modal.hide('stripe-modal')
+    },
     // events for sendbird
     onMessageReceived (channel, message) {
       if (this.$route.name === 'Dashboard') {
