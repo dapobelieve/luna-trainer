@@ -11,15 +11,9 @@
   box-sizing: inherit;
 }
 
-// body {
-//   background: rgba(240, 245, 250, 1);
-// }
 .primary-color {
   @apply tail-bg-blue-500;
 }
-// .body-background {
-//   background: rgba(240, 245, 250, 1);
-// }
 
 
 .btn-size {
@@ -50,7 +44,6 @@
 .notification-dropdown-box {
   width: 21.5rem;
   height: 27.344rem;
-  // border: 0px solid rgba(250, 248, 247);
   box-shadow: 0px 2px 6px rgba(23, 41, 66, 0.05);
 }
 
@@ -101,54 +94,58 @@
   min-width: 334px;
   min-height: 280px;
 }
-.dropdown{
-  position: relative;
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
+
+/** v-select***/
+.v-select{
+  border-radius: 5px;
+  border-width: 1px;
+  @apply tail-border-blue-600
 }
-.dropdown-input, .dropdown-selected{
-  width: 100%;
-  padding: 10px 16px;
-  border: 1px solid #edf2f7;
-  background: #fff;
-  line-height: 1.5em;
-  outline: none;
-  border-radius: 8px;
+.v-select .vs__search::placeholder,
+.v-select .vs__dropdown-toggle,
+.v-select .vs__dropdown-menu {
+  background: white;
+  @apply tail-text-gray-500;
 }
-.dropdown-input:focus, .dropdown-selected:hover{
-  background: #fff;
-  border-color: #e2e8f0;
+.v-select .vs__dropdown-menu {
+  padding-top:10px;
+  border-radius: 0 0 10px 10px;
+  overflow: hidden;
+  border: 1px solid rgb(189 185 185 / 26%);
 }
-.dropdown-input::placeholder{
-  opacity: 0.7;
+.v-select .vs__dropdown-option .check{
+  display: none;
 }
-.dropdown-selected{
-  font-weight: bold;
-  cursor: pointer;
+.v-select .vs__dropdown-option--selected .check{
+  display: block;
 }
-.dropdown-list{
-  position: absolute;
-  width: 100%;
-  max-height: 500px;
-  margin-top: 4px;
-  overflow-y: auto;
-  background: #ffffff;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  z-index: 787;
+.v-select .vs__selected-options {
+  padding: 4px 4px;
 }
-.dropdown-Client{
-  display: flex;
-  width: 100%;
-  padding: 11px 16px;
-  cursor: pointer;
+.v-select .vs__dropdown-option:hover,
+.v-select .vs__dropdown-option--selected,
+.v-select .vs__dropdown-option--highlight{
+  background: #F0F9FF;
 }
-.dropdown-Client:hover{
-  background: #f8fafc;
+.v-select .vs__dropdown-option{
+  @apply tail-text-gray-500;
 }
-.dropdown-item-flag{
-  max-width: 24px;
-  max-height: 18px;
-  margin: auto 12px auto 0px;
+.v-select .vs__selected{
+  background: #3b82f6;;
+  padding: 0 0.5rem;
+  border:0;
+}
+.v-select .vs__selected{
+  background: #3b82f6;;
+  padding: 0 0.5rem;
+  min-width: 20px;
+  min-height: 24px;
+  border:0;
+}
+.v-select.vs--multiple .vs__selected{
+  color: white !important;
+}
+.v-select .vs__deselected{
+  font-size: 0.9rem;
+  color: white !important;
 }

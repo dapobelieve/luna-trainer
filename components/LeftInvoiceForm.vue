@@ -32,10 +32,7 @@
           </a>
         </div>
         <template v-if="$auth.user.services">
-          <div>
-            <span class="tail-text-gray-400 tail-text-sm">Choose a list of invoice items.</span>
-          </div>
-          <gw-invoice-services-selector :services="$auth.user.services"  v-model="invoice.items" />
+          <gw-invoice-services-selector class="tail-mt-4" :services="$auth.user.services"  v-model="invoice.items" />
           <p>{{invoice.items}}</p>
         </template>
       </div>
