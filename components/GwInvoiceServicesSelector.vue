@@ -1,52 +1,47 @@
 <template>
   <div>
-    <MultiSelect 
-      v-model="services"
-      @selected="addService"
+    <MultiSelect
+      v-model="$data.$selected"
+      :options="services"
+      @add-new-item="addNewItem"
+      valueKey="_id"
+      newItemText="Add New Service"
       name="description"
       description="pricing.amount"
     />
+    <modal name="addNewServiceModal" :height="400">
+      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('addNewServiceModal')" />
+    </modal>
   </div>
 </template>
 <script>
 
 export default {
   name: 'GwInvoiceServicesSelector',
-  
   props: {
-    services: Array
+    services: Array,
+    selected: Array
+  },
+  model: {
+    prop: 'selected',
+    event: 'change'
   },
   data () {
     return {
-      selectedServices: [],
-      selection: [],
-      selectedItem: null,
-      openEditItem: false
-      // options: this.services.map(item => ({ description: item.description, serviceId: item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
+      $selected: this.selected || [],
+      clientInfo: {}
     }
   },
-  // watch: {
-  //   selection (newValue) {
-  //     this.$emit('selected', newValue)
-  //   },
-  //   selectedItem (newValue) {
-  //     if (newValue) {
-  //       this.selection = this.selection.map(item => item.serviceId === newValue.serviceId ? newValue : item)
-  //       this.$emit('selected', this.selection)
-  //     }
-  //   }
-  // },
+  watch: {
+    '$data.$selected' (newValue) {
+      console.trace(newValue)
+      this.$emit('change', newValue)
+    }
+  },
   methods: {
-    editSelectionItem (id) {
-      this.selectedItem = this.selection.find(item => item.serviceId === id)
-      this.openEditItem = true
-    },
-    removeSelectionItem (id) {
-      this.selection = this.selection.filter(item => item.serviceId !== id)
-    },
-    addService (service) {
-      this.selectedServices.push(service)
-      this.$emit('selected', service)
+    addNewItem (value) {
+      this.clientInfo = { email: '', firstName: value }
+      this.$modal.show('addNewServiceModal')
     }
   }
 }

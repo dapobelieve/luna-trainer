@@ -1,7 +1,8 @@
 <template>
   <div>
     <MultiSelect
-      v-model="this.$clients"
+      v-model="$data.$selected"
+      :options="clients"
       name="firstName"
       description="email"
       valueKey="_id"
@@ -10,8 +11,8 @@
       single
       showAvatar
       />
-    <modal name="inviteClientModal2" :height="400">
-      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('inviteClientModal2')" />
+    <modal name="addNewClientModal" :height="400">
+      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('addNewClientModal')" />
     </modal>
   </div>
 </template>
@@ -22,21 +23,25 @@ export default {
     clients: Array,
     selected: Object
   },
-  data () {
-    return {
-      $clients: this.clients,
-      clientInfo: {}
+  model: {
+    prop: 'selected',
+    event: 'change'
+  },
+  watch: {
+    '$data.$selected' (newValue) {
+      this.$emit('change', newValue && newValue.length ? newValue[1] : {})
     }
   },
-  computed: {
-    isEmpty () {
-      return Object.keys(this.selected).length === 0 && this.selected.constructor === Object
+  data () {
+    return {
+      $selected: !Object.keys(this.selected).length ? [this.selected] : [],
+      clientInfo: {}
     }
   },
   methods: {
     addNewItem (value) {
       this.clientInfo = { email: '', firstName: value }
-      this.$modal.show('inviteClientModal')
+      this.$modal.show('addNewClientModal')
     }
   }
 }

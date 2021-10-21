@@ -6,6 +6,7 @@
             tail-justify-between
             tail-items-center
             tail-relative"
+            @click="showDropdown = true"
     >
       <input
         ref="dropdowninput"
@@ -24,8 +25,8 @@
       class="dropdown-list"
     >
       <DropDownList
+        v-model="$data.$selectedOptions"
         :options="showFilteredOptions ? filteredOptions : options"
-        @selected-option="selectOption"
         @add-new-item="addNewItem"
         v-bind="{...$props, ...$attrs}"/>
     </div>
@@ -37,7 +38,7 @@ import DropDown from '../../mixins/dropdowns'
 export default {
   mixins: [DropDown],
   model: {
-    prop: 'options',
+    prop: 'selectedOptions',
     event: 'change'
   },
   props: {
@@ -68,6 +69,10 @@ export default {
     showAvatar: {
       type: Boolean,
       default: false
+    },
+    selectedOptions: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -75,7 +80,20 @@ export default {
       inputValue: '',
       showFilteredOptions: false,
       showDropdown: false,
-      selectedOptions: []
+      $selectedOptions: this.selectedOptions
+    }
+  },
+  watch: {
+    '$data.$selectedOptions' (newValue) {
+      if (this.single) {
+        this.hideDropdown()
+      }
+      if (newValue && newValue.length >= 1) {
+        this.inputValue = this.single ? newValue[1][this.name] : ''
+        this.$emit('change', newValue)
+        return
+      }
+      this.$emit('change', [])
     }
   },
   computed: {
@@ -87,15 +105,6 @@ export default {
     }
   },
   methods: {
-    selectOption (option) {
-      this.selectedOptions.push(option)
-
-      this.inputValue = this.single ? option[this.name] : ''
-
-      this.hideDropdown()
-
-      this.$emit('change', this.single ? this.selectedOptions[0] : this.selectedOptions)
-    },
     hideDropdown () {
       this.$nextTick(() => {
         this.showFilteredDropdown = false

@@ -15,6 +15,7 @@
       </div>
       <div>
         <gw-customer-selector :clients="allClients" v-model="invoice.client" />
+        <p>{{invoice.client}}</p>
       </div>
     </div>
 
@@ -34,7 +35,8 @@
           <div>
             <span class="tail-text-gray-400 tail-text-sm">Choose a list of invoice items.</span>
           </div>
-          <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
+          <gw-invoice-services-selector :services="$auth.user.services"  v-model="invoice.items" />
+          <p>{{invoice.items}}</p>
         </template>
       </div>
       <hr class="tail-pt-5" />
@@ -78,17 +80,6 @@ export default {
   },
   props: {
     value: Object
-  },
-  methods: {
-    updateClient ($event) {
-      this.invoice.client = $event
-      this.invoice.customerId = this.invoice.client._id
-      this.$emit('input', this.invoice)
-    },
-    updateSelectedItem (selected) {
-      this.invoice.items = selected
-      this.$emit('input', this.invoice)
-    }
   }
 }
 </script>
