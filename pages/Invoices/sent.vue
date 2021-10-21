@@ -38,7 +38,7 @@
             </td>
             <td class="tail-py-4 tail-text-left tail-px-6 tail-w-3/6">
               <div class="tail-flex tail-items-center">
-                <ClientAvatar />
+                <ClientAvatar :clientInfo="data.customerId" />
                 <div class="tail-ml-4">
                   <h6 class="tail-text-base tail-text-gray-700 tail-text-capitalize">{{ data.customerId.firstName }}  {{ data.customerId.lastName }}</h6>
                   <span class="tail-text-sm tail-text-gray-500">{{ data.customerId.email }}</span>
