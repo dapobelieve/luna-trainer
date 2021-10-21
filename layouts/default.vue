@@ -3,6 +3,7 @@
     <div class="tail-min-h-screen">
       <GwHeader :class="{ 'tail-hidden': $route.name === 'Client-id-Information' }" />
       <div class="tail-flex">
+        <invite-new-client-modal />
         <Navigation />
         <main class="tail-w-full tail-bg-gray-100">
           <Nuxt :key="$route.fullpath" />
@@ -32,7 +33,9 @@
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
+import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 export default {
+  components: { InviteNewClientModal },
   data () {
     return {
       page: this.$route.name,

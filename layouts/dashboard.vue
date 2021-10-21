@@ -5,6 +5,7 @@
     </modal>
     <GwHeader />
     <div class="tail-flex">
+      <invite-new-client-modal />
       <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
       <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-100 tail-flex tail-justify-center">
         <div
@@ -21,7 +22,9 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 export default {
+  components: { InviteNewClientModal },
   data () {
     return {
       page: this.$route.name,

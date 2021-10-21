@@ -14,7 +14,8 @@
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="allClients" :selected="invoice.client" @select="updateClient($event)" />
+        <gw-customer-selector :clients="allClients" v-model="invoice.client" />
+        <p>{{invoice.client}}</p>
       </div>
     </div>
 
@@ -31,10 +32,8 @@
           </a>
         </div>
         <template v-if="$auth.user.services">
-          <div>
-            <span class="tail-text-gray-400 tail-text-sm">Choose a list of invoice items.</span>
-          </div>
-          <gw-invoice-services-selector :services="$auth.user.services" @selected="updateSelectedItem" />
+          <gw-invoice-services-selector class="tail-mt-4" :services="$auth.user.services"  v-model="invoice.items" />
+          <p>{{invoice.items}}</p>
         </template>
       </div>
       <hr class="tail-pt-5" />
@@ -54,9 +53,6 @@
         ></date-picker>
       </div>
     </div>
-    <GwModal :is-open="openInviteModal" @close="openInviteModal = $event" @closeBackDrop="openInviteModal = $event">
-      <InviteNewClient @close="openInviteModal = $event" />
-    </GwModal>
   </div>
 </template>
 <script>
@@ -81,17 +77,6 @@ export default {
   },
   props: {
     value: Object
-  },
-  methods: {
-    updateClient ($event) {
-      this.invoice.client = $event
-      this.invoice.customerId = this.invoice.client._id
-      this.$emit('input', this.invoice)
-    },
-    updateSelectedItem (selected) {
-      this.invoice.items = selected
-      this.$emit('input', this.invoice)
-    }
   }
 }
 </script>

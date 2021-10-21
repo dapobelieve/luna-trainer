@@ -46,13 +46,6 @@ export default {
       return Object.keys(this.invoice.client).length === 0 && this.invoice.client.constructor === Object
     }
   },
-  // async mounted () {
-  //   const client = await this.getClient(this.$route.params.id)
-  //   if (client) {
-  //     this.invoices.customerId = client._id
-  //     this.invoices.client = client
-  //   }
-  // },
   methods: {
     ...mapActions({
       createNewInvoice: 'invoice/createInvoice',

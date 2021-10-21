@@ -6,6 +6,7 @@
           Invite New Client
         </h2>
         <button
+          type="button"
           class="focus:tail-outline-none tail-outline-none tail-border-0"
           @click="$emit('close', false)"
         >
@@ -86,14 +87,16 @@ import ButtonSpinner from './util/ButtonSpinner.vue'
 export default {
   name: 'InviteNewClient',
   components: { ButtonSpinner },
+  props: {
+    client: Object
+  },
   data () {
     return {
       isLoading: false,
       clientInfo: {
-        firstName: '',
-        email: ''
+        firstName: this.client ? this.client.firstName : '',
+        email: this.client ? this.client.email : ''
       }
-
     }
   },
   validations: {
