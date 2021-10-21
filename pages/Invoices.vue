@@ -6,8 +6,8 @@
       </template>
       <template  v-slot:buttons>
         <div class="tail-flex tail-items-center">
-          <span class="tail-font-medium tail-cursor-pointer text-primary-color tail-mr-5">
-            Sent
+          <span class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
+            <span>Sent</span>
           <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
           <NuxtLink
             :to="{ name: 'CreateInvoice'}"
@@ -19,15 +19,7 @@
         </div>
       </template>
     </PageHeader>
-    <div class="tail-flex tail-mt-3 tail-px-3">
-      <div class="actions">
-        <span class="tail-inline-flex tail-items-center tail-text-sm tail-font-medium text-primary-color tail-text-base" to="/">
-          <i class="ns-archive"></i>
-          <span>Archive</span>
-        </span>
-        <Nuxt-link to="/"></Nuxt-link>
-      </div>
-    </div>
+    <NuxtChild />
   </div>
 </template>
 
@@ -37,6 +29,7 @@ export default {
   name: 'Invoices',
   data () {
     return {
+      img: 'https://res.cloudinary.com/rohing/image/upload/v1585572497/harley-davidson-1HZcJjdtc9g-unsplash_vwslej.jpg',
       active: true,
       openModal: false,
       showNotification: false,

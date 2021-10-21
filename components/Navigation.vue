@@ -329,8 +329,8 @@
       <template v-slot:subtitle>
         {{
           !acceptedClients.length
-            ? "You need to invite a client before you can create an invoice."
-            : "You need to add at least one service before you can create an invoice."
+            ? "You need to invite a client before you can create an invoices."
+            : "You need to add at least one service before you can create an invoices."
         }}
       </template>
       <template v-slot:actionButtons>

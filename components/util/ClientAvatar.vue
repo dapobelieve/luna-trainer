@@ -1,10 +1,10 @@
 <template>
-  <span v-if="!isImgAvailable" class="tail-inline-flex tail-items-center tail-justify-center tail-h-10 tail-w-10 tail-rounded-full tail-bg-indigo-50" :style="altStyling">
-    <span class="tail-text-sm tail-font-medium tail-leading-none tail-text-indigo-500">{{ displayInitials }}</span>
+  <span v-if="user && !user.imgUrl" class="tail-inline-flex tail-items-center tail-justify-center tail-h-10 tail-w-10 tail-rounded-full tail-bg-indigo-50" :style="altStyling">
+    <span class="tail-text-sm tail-font-medium tail-leading-none tail-text-indigo-500">{{ avatar }}</span>
   </span>
   <img
     v-else
-    :src="clientInfo.imgURL"
+    :src="avatar"
     class="tail-object-cover tail-rounded-full tail-h-10 tail-w-10"
     :style="altStyling"
     alt="client profile image"
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'UserAvatar',
   props: {
@@ -25,7 +26,7 @@ export default {
     },
     clientInfo: {
       type: Object,
-      required: true
+      // required: true
     }
   },
   data () {
@@ -37,25 +38,15 @@ export default {
     }
   },
   computed: {
-    isImgAvailable () {
-      return 'imgURL' in this.clientInfo
-    },
-    displayInitials () {
-      let initials = ''
-      if (this.clientInfo.firstName && this.clientInfo.lastName) {
-        initials = (
-          this.clientInfo.firstName.charAt(0) +
-          this.clientInfo.lastName.charAt(0)
-        ).toUpperCase()
-      } else if (!this.clientInfo.lastName) {
-        initials = (
-          this.clientInfo.firstName.charAt(0)
-        ).toUpperCase()
+    ...mapGetters({
+      user: 'profile/getUser'
+    }),
+    avatar () {
+      if (this.user.imgUrl) {
+        return this.user.imgUrl
       }
-      return initials
+      return this.user.firstName.charAt(0).toUpperCase()
     }
   }
 }
 </script>
-
-<style lang="scss" scoped></style>
