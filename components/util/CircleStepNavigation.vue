@@ -70,7 +70,7 @@ export default {
   },
   data () {
     return {
-      numberOfSteps: 4
+      numberOfSteps: 3
     }
   },
   methods: {
