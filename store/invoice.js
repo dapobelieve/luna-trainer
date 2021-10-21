@@ -68,8 +68,8 @@ export const actions = {
         return response
       })
   },
-  async export({commit}) {
-    const res = await this.$axios.get(`${process.env.BASEURL_HOST}/invoice/export`);
+  async export ({ commit }) {
+    const res = await this.$axios.get(`${process.env.BASEURL_HOST}/invoice/export`)
     console.log(res)
   },
   async getInvoices ({ commit, dispatch }, payload) {
@@ -79,13 +79,12 @@ export const actions = {
       payload !== undefined && 'page' in payload ? payload.page : 1
     dispatch('loader/startProcess', null, { root: true })
     try {
-      let response = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice${ stat ? `?status=${stat}&` : '?'      }limit=10&page=${currPage}`);
+      const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
       commit('SET_ALL_INVOICES', response)
       return response.data
-    }catch (e) {
+    } catch (e) {
       return e
-    }
-    finally {
+    } finally {
       dispatch('loader/endProcess', '', { root: true })
     }
   },

@@ -4,11 +4,11 @@
       <template v-slot:title>
         <span class="tail-font-normal">Invoices</span>
       </template>
-      <template  v-slot:buttons>
+      <template v-slot:buttons>
         <div class="tail-flex tail-items-center">
           <span class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
             <span>Sent</span>
-          <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
+            <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
           <NuxtLink
             :to="{ name: 'CreateInvoice'}"
             exact-active-class="active"

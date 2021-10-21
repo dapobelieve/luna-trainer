@@ -15,7 +15,6 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    'vue/': 'off',
     'vue/v-slot-style': ['error', {
       atComponent: 'longform',
       default: 'v-slot',

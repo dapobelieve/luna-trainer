@@ -16,7 +16,7 @@
                 <p class="tail-w-0 tail-flex-1 tail-text-sm tail-font-medium tail-text-gray-900">
                   Please add a service to continue
                 </p>
-                <button @click="$router.push({ path: '/Settings#services' })" class="tail-underline tail-ml-3 tail-flex-shrink-0 tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-text-indigo-600 hover:tail-text-indigo-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500">
+                <button class="tail-underline tail-ml-3 tail-flex-shrink-0 tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-text-indigo-600 hover:tail-text-indigo-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500" @click="$router.push({ path: '/Settings#services' })">
                   Services
                 </button>
               </div>
