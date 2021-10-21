@@ -21,20 +21,28 @@
 
     <!-- modals -->
     <NotificationsModal :visible="true">
-      <template v-slot:title>Stripe Connect</template>
+      <template v-slot:title>
+        Stripe Connect
+      </template>
       <template v-slot:subtitle>
         Account under review, please confirm all requirements have been met
         before proceeding to creating invoices.
       </template>
     </NotificationsModal>
     <NotificationsModal :visible="showNotification" @close="showNotification = $event">
-      <template v-slot:title>Chat Connection Failed</template>
-      <template v-slot:subtitle>Reconnect chat to enjoy all of GetWelp's features</template>
+      <template v-slot:title>
+        Chat Connection Failed
+      </template>
+      <template v-slot:subtitle>
+        Reconnect chat to enjoy all of GetWelp's features
+      </template>
       <template v-slot:actionButtons>
         <button
           class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
           @click="retry"
-        >retry</button>
+        >
+          retry
+        </button>
       </template>
     </NotificationsModal>
   </main>

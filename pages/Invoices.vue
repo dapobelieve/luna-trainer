@@ -2,103 +2,24 @@
   <div>
     <PageHeader>
       <template v-slot:title>
-        Invoices
+        <span class="tail-font-normal">Invoices</span>
       </template>
       <template v-slot:buttons>
-        <NuxtLink
-          :to="{ name: 'CreateInvoice'}"
-          exact-active-class="active"
-          class="tail-inline-flex primary-color tail-items-center tail-p-2 tail-h-9 tail-w-9 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-blue-600 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-        >
-          <i class="ns-plus tail-text-white tail-text-lg"></i>
-        </NuxtLink>
-        <gw-select :options="['All', 'Sent', 'Draft', 'Paid']" selected="All" @selected="filterInvoice" />
-        <button type="button" class="tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-rounded-md tail-shadow-sm tail-tail-text-sm tail-font-medium tail-text-white tail-bg-white hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2">
-          <i class="ns-download tail-mr-2 tail-text-black tail-text-sm"></i>
-          <span class="tail-text-black tail-text-sm">Export</span>
-        </button>
-        <button
-          v-if="trash"
-          type="button"
-          class="base-button tail-bg-red-500 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
-          @click.prevent="deleteInvoice()"
-        >
-          <i class="ns-trash tail-text-white tail-text-lg"></i>
-        </button>
-      </template>
-    </PageHeader>
-    <gw-pagination
-      class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full"
-      :visible="Boolean(size)"
-      :total-items="size"
-    >
-      <template v-slot:content="{ pageNumber }">
-        <GwInvoice
-          :status="filter"
-          :page-number="pageNumber"
-          @checked="deleteIcon($event)"
-        />
-      </template>
-    </gw-pagination>
-    <GwModal
-      :input-width="30"
-      :is-open="openModal"
-      @close="openModal = $event"
-      @closeBackDrop="openModal = $event"
-    >
-      <template v-slot:status>
-        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-          Create New Invoice
+        <div class="tail-flex tail-items-center">
+          <span class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
+            <span>Sent</span>
+            <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
+          <NuxtLink
+            :to="{ name: 'CreateInvoice'}"
+            exact-active-class="active"
+            class="tail-inline-flex focus:tail-outline-none primary-color tail-items-center tail-justify-center tail-h-9 tail-w-9 tail-text-sm tail-font-medium tail-rounded-lg tail-shadow-sm hover:tail-bg-blue-500 focus:tail-outline-none "
+          >
+            <i class="ns-plus tail-text-white tail-text-2xl tail-text-lg"></i>
+          </NuxtLink>
         </div>
       </template>
-      <CreateNewInvoice @close="openModal = $event" />
-    </GwModal>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
-      <template v-slot:title>
-        {{
-          !acceptedClients.length
-            ? "No Invited Clients"
-            : "Services Unavailable"
-        }}
-      </template>
-      <template v-slot:subtitle>
-        {{
-          !acceptedClients.length
-            ? "You need to invite a client before you can create an invoice."
-            : "You need to add at least one service before you can create an invoice."
-        }}
-      </template>
-      <template v-slot:actionButtons>
-        <button
-          v-if="!acceptedClients.length"
-          class="base-button tail-normal-case"
-          style="width: fit-content"
-          @click="inviteClient"
-        >
-          Invite a client
-        </button>
-        <NuxtLink
-          v-else
-          to="/Settings#services"
-          class="base-button tail-normal-case"
-          style="width: fit-content"
-        >
-          Add a service
-        </NuxtLink>
-      </template>
-    </NotificationsModal>
-    <GwModal status="Delete Invoice" :is-open="deleteClient" :input-width="40" @close="deleteClient = $event" @closeBackDrop="deleteClient = $event">
-      <CancelAlert @close="deleteClient = $event" @cancel="deleteClientData">
-        <template v-slot:text>
-          <div class="tail-text-base tail-font-medium tail-text-left">
-            Are you sure you want to delete this invoice?
-          </div>
-        </template>
-      </CancelAlert>
-    </GwModal>
+    </PageHeader>
+    <NuxtChild />
   </div>
 </template>
 
@@ -108,6 +29,7 @@ export default {
   name: 'Invoices',
   data () {
     return {
+      img: 'https://res.cloudinary.com/rohing/image/upload/v1585572497/harley-davidson-1HZcJjdtc9g-unsplash_vwslej.jpg',
       active: true,
       openModal: false,
       showNotification: false,

@@ -170,7 +170,7 @@
       </template>
       <template v-slot:subtitle>
         {{
-          !acceptedClients.length ? 'You need to invite a client before you can create an invoice.' : 'You need to add at least one service before you can create an invoice.' }}
+          !acceptedClients.length ? 'You need to invite a client before you can create an invoices.' : 'You need to add at least one service before you can create an invoices.' }}
       </template>
       <template v-slot:actionButtons>
         <button v-if="!acceptedClients.length" class="base-button tail-normal-case" style="width: fit-content" @click="inviteClient = true">

@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h5 class="tail-text-lg tail-font-bold">Tell us a bit about the type of Trainer you are</h5>
+    <h5 class="tail-text-lg tail-font-bold">
+      Tell us a bit about the type of Trainer you are
+    </h5>
     <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
       <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="accreditations">Do you have any accreditations? e.g APDT</label>

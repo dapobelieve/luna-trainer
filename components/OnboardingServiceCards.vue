@@ -18,7 +18,9 @@
           <div
             class="tail-flex tail-flex-col tail-w-full tail-whitespace-nowrap tail-overflow-ellipsis tail-overflow-hidden"
           >
-            <div class="tail-font-bold tail-truncate">{{ n.description }}</div>
+            <div class="tail-font-bold tail-truncate">
+              {{ n.description }}
+            </div>
             <div class="tail-inline-flex tail-gap-2">
               <span
                 v-for="a in n.appointmentTypes"
@@ -29,7 +31,9 @@
           </div>
           <div
             class="tail-font-medium"
-          >{{ $store.state.profile.trainnerRegData.personalProfile.currency }}{{ n.pricing.amount }}.00</div>
+          >
+            {{ $store.state.profile.trainnerRegData.personalProfile.currency }}{{ n.pricing.amount }}.00
+          </div>
         </div>
         <div class="tail-flex tail-px-2 tail-py-1 tail-gap-2 tail-bg-gray-50">
           <button
