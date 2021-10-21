@@ -68,26 +68,25 @@ export const actions = {
         return response
       })
   },
-  getInvoices ({ commit, dispatch }, payload) {
+  async export ({ commit }) {
+    const res = await this.$axios.get(`${process.env.BASEURL_HOST}/invoice/export`)
+    console.log(res)
+  },
+  async getInvoices ({ commit, dispatch }, payload) {
     const stat =
       payload !== undefined && 'status' in payload ? payload.status : ''
     const currPage =
       payload !== undefined && 'page' in payload ? payload.page : 1
     dispatch('loader/startProcess', null, { root: true })
-    return this.$axios
-      .$get(
-        `${process.env.BASEURL_HOST}/invoice${
-          stat ? `?status=${stat}&` : '?'
-        }limit=10&page=${currPage}`
-      )
-      .then((response) => {
-        commit('SET_ALL_INVOICES', response)
-        dispatch('loader/endProcess', '', { root: true })
-        return response.data
-      })
-      .catch(() => {
-        dispatch('loader/endProcess', '', { root: true })
-      })
+    try {
+      const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
+      commit('SET_ALL_INVOICES', response)
+      return response.data
+    } catch (e) {
+      return e
+    } finally {
+      dispatch('loader/endProcess', '', { root: true })
+    }
   },
   getSingleInvoice ({ commit }, invoiceId) {
     return this.$axios

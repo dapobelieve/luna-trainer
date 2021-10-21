@@ -4,7 +4,9 @@
       class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
     >
       <div>
-        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">Create New Passowrd</h1>
+        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+          Create New Passowrd
+        </h1>
         <p class="tail-text-gray-500 tail-mt-2 tail-text-sm">
           Your new password must be different from previously used
           passwords.
@@ -50,7 +52,9 @@
           </div>
         </div>
         <div class="tail-flex tail-justify-end">
-          <button type="submit" class="button-fill">Save</button>
+          <button type="submit" class="button-fill">
+            Save
+          </button>
         </div>
       </form>
     </div>

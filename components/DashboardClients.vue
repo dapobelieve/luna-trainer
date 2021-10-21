@@ -13,7 +13,7 @@
     </template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
-      acceptedClients.length > 1 ? "s" : ""
+        acceptedClients.length > 1 ? "s" : ""
       }}
     </template>
     <template v-slot:content>
@@ -42,7 +42,9 @@
         <div
           v-else
           class="tail-text-center tail-pt-8 tail-pb-12 tail-px-4 tail-text-gray-500 tail-text-sm"
-        >Newly accepted client requests will be displayed here.</div>
+        >
+          Newly accepted client requests will be displayed here.
+        </div>
       </template>
     </template>
   </containers-summary-card-with-notifications>

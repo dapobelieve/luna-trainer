@@ -40,7 +40,7 @@
     {
       "icon": "ns-receipt",
       "title": "my invoices",
-      "path": "Invoices"
+      "path": "Invoices-sent"
     },
     {
       "icon": "ns-plus",

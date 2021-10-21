@@ -33,7 +33,9 @@
           >
             <i class="ns-check tail-text-lg tail-text-green-500"></i>
           </p>
-          <p class="tail-font-medium tail-whitespace-nowrap">Stripe ready !</p>
+          <p class="tail-font-medium tail-whitespace-nowrap">
+            Stripe ready !
+          </p>
         </div>
         <div v-else-if="isStripeConnected" class="tail-flex tail-items-center tail-space-x-2">
           <button
@@ -43,7 +45,9 @@
           >
             <i class="ns-refresh"></i>
           </button>
-          <p class="tail-font-medium tail-whitespace-nowrap">Stripe account in review</p>
+          <p class="tail-font-medium tail-whitespace-nowrap">
+            Stripe account in review
+          </p>
           <button
             v-tooltip="{
               content: `${stripeErrors
@@ -83,7 +87,7 @@
           </p>
           <p class="tail-font-medium tail-whitespace-nowrap">
             {{
-            isLoading ? "Establishing Stripe Connection" : "Stripe pending"
+              isLoading ? "Establishing Stripe Connection" : "Stripe pending"
             }}
           </p>
         </div>
@@ -106,12 +110,16 @@
           <p
             v-if="allClients.length"
             class="tail-font-medium tail-whitespace-nowrap"
-          >Added your first client</p>
+          >
+            Added your first client
+          </p>
           <button
             v-else
             class="tail-font-medium tail-whitespace-nowrap"
             @click="addClient = true"
-          >Add your first client</button>
+          >
+            Add your first client
+          </button>
         </div>
       </li>
     </ul>

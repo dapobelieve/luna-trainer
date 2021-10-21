@@ -29,14 +29,18 @@
         v-if="url === '#'"
         class="tail-text-blue-500 tail-h-10 tail-w-full hover:tail-bg-blue-50 tail-p-1 tail-rounded-md"
       >
-        <slot name="button">View all</slot>
+        <slot name="button">
+          View all
+        </slot>
       </button>
       <button
         v-else
         class="tail-text-blue-500 tail-h-10 tail-w-full hover:tail-bg-blue-50 tail-p-1 tail-rounded-md"
         @click.prevent="showList"
       >
-        <slot name="button">View all</slot>
+        <slot name="button">
+          View all
+        </slot>
       </button>
     </div>
   </div>

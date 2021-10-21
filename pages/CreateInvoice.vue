@@ -49,8 +49,8 @@ export default {
   // async mounted () {
   //   const client = await this.getClient(this.$route.params.id)
   //   if (client) {
-  //     this.invoice.customerId = client._id
-  //     this.invoice.client = client
+  //     this.invoices.customerId = client._id
+  //     this.invoices.client = client
   //   }
   // },
   methods: {
