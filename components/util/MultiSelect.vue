@@ -6,7 +6,6 @@
             tail-justify-between
             tail-items-center
             tail-relative"
-            @click="showDropdown = true"
     >
       <input
         ref="dropdowninput"
@@ -16,6 +15,7 @@
         type="text"
       />
       <i
+        :class="{'ns-caret-down':!showDropdown, 'ns-caret-up':showDropdown}"
         class="ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer tail-absolute tail-right-0 tail-p-3"
         @click="showDropdown = !showDropdown"
       ></i>
