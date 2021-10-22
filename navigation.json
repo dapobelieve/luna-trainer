@@ -45,7 +45,7 @@
     {
       "icon": "ns-plus",
       "title": "new invoice",
-      "path": "CreateInvoice"
+      "path": "NewInvoice"
     },
     {
       "section": "Help"

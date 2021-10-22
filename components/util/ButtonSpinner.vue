@@ -1,7 +1,7 @@
 <template>
   <button
     :disabled="loading || disabled"
-    class="base-button"
+    class="button-fill"
     :class="[disabled?['tail-bg-gray-500', 'tail-cursor-not-allowed']: [] ]"
     type="submit"
     v-bind="$attrs"
