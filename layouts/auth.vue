@@ -61,11 +61,11 @@
         </div>
       </div>
     </div>
-    <modal name="my-modal" height="auto" :adaptive="true">
-      <div class="tail-text-left tail-m-5">
-        <h1 class="tail-text-2xl md:tail-text-3xl lg:tail-text-4xl tail-mb-6">
+    <modal name="my-modal" height="auto" :adaptive="true" maxWidth="450">
+      <div class="tail-text-left tail-mx-6 tail-mt-8 tail-mb-4">
+        <h2 class="tail-text-2xl md:tail-text-3xl lg:tail-text-3xl tail-mb-4">
           Welcome to GetWelp!
-        </h1>
+        </h2>
         <p
           class="tail-text-base tail-text-gray-700 tail-mb-6 tail-leading-relaxed"
         >

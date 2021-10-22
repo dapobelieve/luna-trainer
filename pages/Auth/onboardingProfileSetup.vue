@@ -139,16 +139,16 @@
         </div>
       </div>
     </div>
-    <connect-to-stripe-modal @closeStripeModal="finishedSetUp" />
+    <onboarding-complete-modal @closeOnboardingCompleteModal="finishedSetUp" />
   </async-view>
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
-import ConnectToStripeModal from '~/components/modals/ConnectToStripeModal.vue'
+import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
 export default {
   name: 'OnboardingProfileSetup',
-  components: { ConnectToStripeModal },
+  components: { OnboardingCompleteModal },
   layout: 'authOnboarding',
   data () {
     return {
