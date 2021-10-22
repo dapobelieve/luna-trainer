@@ -75,6 +75,24 @@
                 v-else-if="menu.path === 'addSession'"
                 class="tail-bg-gray-50 tail-border tail-rounded-lg"
               >
+                <div
+                  class="tail-p-4 tail-flex tail-justify-between tail-items-center"
+                >
+                  <span
+                    class="tail-uppercase tail-tracking-wider tail-font-medium tail-text-xs"
+                  >SCHEDULE</span>
+                  <span
+                    class="tail-inline-flex tail-items-center tail-rounded-full tail-bg-indigo-50 tail-text-indigo-500 tail-text-xs tail-p-1.5 tail-h-6 tail-normal-case tail-font-medium"
+                  >Coming soon</span>
+                </div>
+                <button
+                  class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 tail-cursor-default tail-w-full tail-h-9 tail-rounded-md tail-px-4 disabled:tail-opacity-50"
+                  disabled
+                  @click="addSession = true"
+                >
+                  <i class="ns-calendar" />
+                  <span class="tail-truncate">My Schedule</span>
+                </button>
                 <button
                   class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 tail-cursor-default tail-w-full tail-h-9 tail-rounded-md tail-px-4 disabled:tail-opacity-50"
                   disabled
@@ -91,8 +109,30 @@
               </div>
               <div
                 v-else-if="menu.path === 'newCourse'"
-                class="tail-bg-gray-50 tail-border tail-rounded-lg"
+                class="tail-bg-gray-50 tail-border tail-rounded-lg tail-mt-2"
               >
+                <div
+                  class="tail-p-4 tail-flex tail-justify-between tail-items-center"
+                >
+                  <span
+                    class="tail-uppercase tail-tracking-wider tail-font-medium tail-text-xs"
+                  >COURSES</span>
+                  <span
+                    class="tail-inline-flex tail-items-center tail-rounded-full tail-bg-indigo-50 tail-text-indigo-500 tail-text-xs tail-p-1.5 tail-h-6 tail-normal-case tail-font-medium"
+                  >Coming soon</span>
+                </div>
+                <button
+                  class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 tail-cursor-default tail-w-full tail-h-9 tail-rounded-md tail-px-4 disabled:tail-opacity-50"
+                  disabled
+                  @click="addSession = true"
+                >
+                  <img
+                    class="tail-p-1 tail-rounded-full"
+                    src="~/assets/img/svgs/course.svg"
+                    alt="course"
+                  />
+                  <span class="tail-truncate">My Courses</span>
+                </button>
                 <button
                   class="tail-capitalize tail-flex tail-items-center tail-justify-start tail-gap-3 tail-cursor-default tail-w-full tail-h-9 tail-rounded-md tail-px-4 disabled:tail-opacity-50"
                   disabled

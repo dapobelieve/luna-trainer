@@ -65,11 +65,6 @@
       "title": "sign out",
       "path": "signout"
     },
-     {
-      "section": "Schedule",
-      "classes":"tail-mt-4",
-      "dev":true
-    },
     {
       "icon": "ns-calendar",
       "title": "my schedule",
@@ -79,11 +74,6 @@
       "icon": "ns-plus",
       "title": "Add New Session",
       "path": "addSession"
-    },
-      {
-      "section": "Courses",
-      "classes":"tail-mt-4",
-      "dev":true
     },
     {
       "icon": "ns-users",

@@ -69,7 +69,7 @@
                 <!-- <template v-else-if="step === 3">
                   <onboarding-clients @validity="firstClient.isDisabled" />
                 </template>
-                <modal name="stripe-modal" :width="450" :height="450">
+                <modal name="stripe-modal" :width="450" :height="450" :adaptive="true">
                   <onboarding-stripe class="tail-m-6" @save="saveProfile" />
                 </modal> -->
               </div>
@@ -139,7 +139,7 @@
         </div>
       </div>
     </div>
-    <modal name="done" :width="400" :height="300">
+    <modal name="done" height="auto" :adaptive="true">
       <div class="tail-m-8">
         <div class="tail-flex  tail-justify-start tail-flex-col">
           <img src="~/assets/img/svgs/check-icon.svg" alt="checked" class="tail-h-8 tail-w-8 tail-mb-2">
