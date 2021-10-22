@@ -16,7 +16,7 @@
           But, we also appreciate you’re new here so if you want to skip this section and head on into the rest of the onboarding process, you can do so and come back to setting up Stripe later! ✌️
         </p>
       </div>
-      <div class="tail-mt-5 lg:tail-mt-10 tail-mb-3 ">
+      <div class="tail-mt-5 lg:tail-mt-6 tail-mb-3 ">
         <button
           :disabled="isLoading"
           type="button"

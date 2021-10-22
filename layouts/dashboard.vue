@@ -1,6 +1,6 @@
 <template>
   <async-view loader-id="logout">
-    <modal name="stripe-modal" height="auto" :adaptive="true">
+    <modal name="stripe-modal" height="auto" :adaptive="true" maxWidth="450">
       <onboarding-stripe class="tail-m-6" @closeModal="skipStripeProcess" />
     </modal>
     <GwHeader />
@@ -87,6 +87,7 @@ export default {
     }
   },
   mounted () {
+    this.$modal.show('stripe-modal')
     const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
     if (isProfileSetUpCompleted && !this.isStripeConnected) {
       this.$modal.show('stripe-modal')
