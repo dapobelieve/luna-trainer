@@ -87,7 +87,6 @@ export default {
     }
   },
   mounted () {
-    this.$modal.show('stripe-modal')
     const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
     if (isProfileSetUpCompleted && !this.isStripeConnected) {
       this.$modal.show('stripe-modal')
