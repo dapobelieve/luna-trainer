@@ -9,12 +9,7 @@
         <circle-step-navigation
           class="tail-flex tail-items-center tail-h-16 lg:tail-h-auto"
           :step-count="step"
-          :disabled="[
-            profile,
-            trainerProfile,
-            addedServices,
-            firstClient
-          ]"
+          :disabled="[profile, trainerProfile, addedServices, firstClient]"
           @stepper="move($event)"
         />
 
@@ -66,12 +61,9 @@
                     @validity="allow($event)"
                   />
                 </template>
-                <!-- <template v-else-if="step === 3">
+                <template v-else-if="step === 3">
                   <onboarding-clients @validity="firstClient.isDisabled" />
                 </template>
-                <modal name="stripe-modal" :width="450" :height="450" :adaptive="true">
-                  <onboarding-stripe class="tail-m-6" @save="saveProfile" />
-                </modal> -->
               </div>
               <!-- Service items for mobile screen -->
               <template v-if="step === 2">
@@ -82,7 +74,16 @@
                 </div>
               </template>
             </div>
-            <div class="tail-flex tail-items-center tail-justify-end tail-gap-2">
+            <div
+              class="tail-flex tail-items-center tail-justify-end tail-gap-2"
+            >
+              <button
+                class="tail-text-blue-500 tail-mr-auto"
+                :class="{'tail-hidden' : step !== 3 }"
+                @click.prevent="saveProfile"
+              >
+                Skip
+              </button>
               <button
                 v-if="step"
                 :disabled="isLoading"
@@ -92,18 +93,17 @@
               >
                 back
               </button>
-              <button
-                v-if="step === 2"
+              <button-spinner
+                v-if="step === 3"
+                :loading="isLoading"
                 type="button"
-                :disabled="isLoading"
-                class="button-fill"
+                style="width:fit-content"
                 @click="saveProfile"
               >
-                <SingleLoader v-if="isLoading" class="tail-mr-2" />
-                Save and Complete
-              </button>
+                Save & Complete
+              </button-spinner>
               <button
-                v-else-if="step !== 4"
+                v-else-if="step !== 5"
                 :disabled="
                   step === 0
                     ? profile.isDisabled
@@ -139,32 +139,16 @@
         </div>
       </div>
     </div>
-    <modal name="done" height="auto" :adaptive="true">
-      <div class="tail-m-8">
-        <div class="tail-flex  tail-justify-start tail-flex-col">
-          <img src="~/assets/img/svgs/check-icon.svg" alt="checked" class="tail-h-8 tail-w-8 tail-mb-2">
-          <h3 class="tail-my-2 tail-gray-700 tail-text-xl lg:tail-text-2xl">
-            All done!
-          </h3>
-          <p class="tail-my-1.5 tail-text-sm lg:tail-text-base">
-            We’re now setting up your environment on GetWelp
-          </p>
-          <p class="tail-my-1.5">
-            In a second you’ll be taken to the dashboard and we will walk you through how to use it!
-          </p>
-        </div>
-        <button type="button" class="button-fill" @click.prevent="finishedSetUp">
-          Finish
-        </button>
-      </div>
-    </modal>
+    <connect-to-stripe @closeStripeModal="finishedSetUp" />
   </async-view>
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import ConnectToStripe from '~/components/modals/ConnectToStripe.vue'
 export default {
   name: 'OnboardingProfileSetup',
+  components: { ConnectToStripe },
   layout: 'authOnboarding',
   data () {
     return {
@@ -185,10 +169,6 @@ export default {
       },
       firstClient: {
         id: 3,
-        isDisabled: true
-      },
-      stripeConnect: {
-        id: 4,
         isDisabled: true
       },
       pageIntro: [
