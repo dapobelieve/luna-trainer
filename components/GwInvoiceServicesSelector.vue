@@ -46,8 +46,12 @@
         </div>
       </template>
     </v-select>
-    <modal name="addNewServiceModal" height="auto" :adaptive="true">
-      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('addNewServiceModal')" />
+    <modal name="add-service" height="auto" :adaptive="true">
+      <invoices-add-new-invoice-service
+        class="tail-m-6"
+        :selected-service-index="null"
+        @close-modal="$modal.hide('add-service')"
+      />
     </modal>
   </div>
 </template>
@@ -81,7 +85,7 @@ export default {
   methods: {
     addNewItem (value) {
       this.clientInfo = { email: '', firstName: '' }
-      this.$modal.show('addNewServiceModal')
+      this.$modal.show('add-service')
     }
   }
 }
