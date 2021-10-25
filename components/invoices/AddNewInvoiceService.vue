@@ -183,7 +183,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      updateProfile: 'profile/updateProfile'
+      updateService: 'profile/updateProfile'
     }),
     resetSelectedService () {
       this.services.description = ''
@@ -212,7 +212,7 @@ export default {
         )
       } else {
         this.isLoading = true
-        return this.updateProfile({
+        return this.updateService({
           services: [this.services, ...this.servicesFromStore]
         })
           .then((response) => {
@@ -230,7 +230,7 @@ export default {
           })
       }
     },
-    saveEdit () {
+    saveEditedServiceItem () {
       if (
         this.disableUpdate &&
         this.services.pricing.amount === this.selectedService.pricing.amount
@@ -242,7 +242,7 @@ export default {
         this.isLoading = true
         const allServices = [...this.servicesFromStore]
         allServices.splice(this.selectedServiceIndex, 1)
-        return this.updateProfile({
+        return this.updateService({
           services: [...allServices, this.services]
         })
           .then((response) => {
