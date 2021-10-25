@@ -29,7 +29,6 @@
             type="text"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{'tail-border-red-400' : $v.email.$error}"
-            @blur="$v.email.$touch()"
           />
           <div v-if="$v.email.$error">
             <small

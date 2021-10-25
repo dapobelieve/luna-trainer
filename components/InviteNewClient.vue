@@ -40,7 +40,6 @@
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                   :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.firstName.$error}"
-                  @blur="$v.clientInfo.firstName.$touch()"
                 />
               </div>
             </div>
@@ -54,7 +53,6 @@
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.email.$error}"
-                @blur="$v.clientInfo.email.$touch()"
               />
               <div v-if="$v.clientInfo.email.$error" class="tail-mt-0.5">
                 <small

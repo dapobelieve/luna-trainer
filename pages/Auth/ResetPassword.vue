@@ -21,7 +21,6 @@
             type="password"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{'invalid':$v.userInfo.password.$error}"
-            @click="$v.userInfo.password.$touch()"
           />
           <div v-if="$v.userInfo.password.$error">
             <small
