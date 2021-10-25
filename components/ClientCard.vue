@@ -34,7 +34,7 @@
         >
           <div class="tail-py-2" role="none">
             <nuxt-link
-              :to="{ name: 'CreateInvoice' }"
+              :to="{ name: 'NewInvoice', params: { pushedClient: client } }"
               class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
             >
               Create Invoice
