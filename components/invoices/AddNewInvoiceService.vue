@@ -99,7 +99,7 @@
             :loading="isLoading"
             type="button"
             style="width:fit-content"
-            @click="saveEdit"
+            @click="saveEditedServiceItem"
           >
             Edit Service
           </button-spinner>
