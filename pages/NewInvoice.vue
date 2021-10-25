@@ -14,14 +14,19 @@
             srcset=""
           />
         </button>
-        <modal name="inviteClientModal" height="auto" :adaptive="true">
-          <InviteNewClient class="tail-m-6" @close="$modal.hide('inviteClientModal')" />
-        </modal>
       </template>
       <template v-slot:content>
-        <!-- this portion will hold component for fetching client -->
-        <!-- TODO:: import selector component here -->
-        <!-- end of portion -->
+        <div>
+          <label
+            class="input-text-label"
+          >
+            Choose
+          </label>
+          <gw-customer-selector
+            v-model="invoiceDetails.client"
+            :clients="allClients"
+          />
+        </div>
         <div class="tail-flex tail-items-center tail-justify-between">
           <p class="tail-capitalize tail-text-xl tail-font-normal">
             invoice service &amp; items
@@ -37,32 +42,38 @@
         </div>
         <div class="tail-space-y-6">
           <div class="tail-flex tail-flex-col tail-space-y-2">
-            <!-- this portion will hold component for fetching servuces -->
-            <!-- TODO:: import selector component here -->
-            <!-- end of portion -->
+            <label
+              class="input-text-label"
+            >
+              Choose
+            </label>
+            <gw-invoice-services-selector
+              :services="$auth.user.services"
+              @change="invoiceDetails.services = $event"
+            />
             <div
+              v-if="invoiceDetails.services.length"
               class="tail-rounded-xl tail-border tail-bg-gray-50 tail-py-4 tail-px-3 tail-space-y-3"
             >
               <div
-                v-for="service in selectedServices"
-                :id="service.id"
-                :key="service.id"
+                v-for="(service, index) in invoiceDetails.services"
+                :key="service._id"
                 class="tail-flex tail-justify-between tail-items-center"
               >
                 <div
                   class="tail-max-w-[180px] md:tail-max-w-[500px] lg:tail-max-w-[300px]"
                 >
-                  <p class="tail-font-medium">
-                    {{ service.title }}
+                  <p class="tail-font-medium tail-capitalize">
+                    {{ service.description }}
                   </p>
                   <p class="tail-text-xs tail-truncate">
-                    {{ service.description }}
+                    {{ service.subtitle }}
                   </p>
                 </div>
                 <div class="tail-flex tail-items-center tail-space-x-2">
-                  <span> {{ 60 | amount }} </span>
+                  <span> {{ service.pricing.amount | amount }} </span>
                   <div class="tail-relative">
-                    <button @click="showDropDown = !showDropDown">
+                    <button type="button" @click="showDropdown">
                       <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
                     </button>
                     <!-- dropdown menu -->
@@ -73,15 +84,17 @@
                       <div class="tail-py-2" role="none">
                         <button
                           type="button"
-                          class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
-                          @click="editServiceItem(service.id)"
+                          class="dropdown-button"
+                          @click="editServiceItem(index)"
                         >
                           Edit
                         </button>
-                        <a
-                          href="#"
-                          class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
-                        >Delete</a>
+                        <button
+                          type="button"
+                          class="dropdown-button"
+                        >
+                          Delete
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -96,10 +109,10 @@
           <div>
             <label
               for="dueDate"
-              class="tail-block tail-text-base tail-font-normal tail-text-gray-700 tail-capitalize"
+              class="input-text-label"
             >Due date</label>
             <date-picker
-              v-model="dueDate"
+              v-model="invoiceDetails.dueDate"
               style="width: 100% !important"
               class="tail-w-full"
               :disabled-date="date => date < new Date()"
@@ -111,14 +124,19 @@
         <div
           class="tail-flex tail-justify-end tail-space-x-6 lg:tail-space-x-0"
         >
-          <button type="button" class="button-outline lg:tail-hidden">
+          <button
+            type="button"
+            class="button-outline lg:tail-hidden"
+            @click="$modal.show('preview-invoice')"
+          >
             preview
           </button>
           <button-spinner
             :loading="isLoading"
-            :disabled="true"
+            :disabled="!allowCreating"
             type="button"
             style="width:fit-content"
+            @click="createInvoice"
           >
             send invoice
           </button-spinner>
@@ -126,9 +144,30 @@
       </template>
     </containers-container-with-title>
 
-    <!-- modal -->
+    <!-- divider -->
+    <span
+      class="divider"
+    ></span>
+
+    <!-- invoice previews -->
+    <invoices-invoice-preview
+      :client="invoiceDetails.client"
+      :services="invoiceDetails.services"
+      :due-date="invoiceDetails.dueDate"
+    />
+
+    <!-- modals -->
+    <!-- invite clietn modal -->
+    <modal name="inviteClientModal" height="auto" :adaptive="true">
+      <InviteNewClient
+        class="tail-m-6"
+        @close="$modal.hide('inviteClientModal')"
+      />
+    </modal>
+
+    <!-- adding and editing services modal -->
     <modal name="add-service-modal" height="auto" :adaptive="true">
-      <creating-invoice-new-service
+      <invoices-add-new-invoice-service
         class="tail-m-6"
         :selected-service-index="selectedServiceProps"
         @clearSelectedServiceIndex="selectedServiceProps = $event"
@@ -136,17 +175,21 @@
       />
     </modal>
 
-    <!-- divider -->
-    <span
-      class="tail-hidden lg:tail-block tail-bg-gray-200 tail-w-[1px]"
-    ></span>
-
-    <!-- invoice previews -->
-    <invoices-invoice-preview />
+    <!-- previewing invoices -->
+    <modal name="preview-invoice" height="100%" width="100%" :adaptive="true">
+      <invoices-invoice-preview
+        class="tail-m-6"
+        :client="invoiceDetails.client"
+        :services="invoiceDetails.services"
+        :due-date="invoiceDetails.dueDate"
+        @close="$modal.hide('preview-invoice')"
+      />
+    </modal>
   </div>
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
 export default {
   name: 'NewInvoice',
@@ -154,46 +197,92 @@ export default {
   layout: 'invoice',
   data () {
     return {
+      invoiceDetails: {
+        client: this.$route.params.pushedClient || null,
+        services: [],
+        dueDate: new Date()
+      },
       isLoading: false,
-      dueDate: new Date(),
       showDropDown: false,
-      selectedServiceProps: null,
-      selectedServices: [
-        {
-          id: 1,
-          title: 'Service one',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates praesentium necessitatibus iste sequi perferendis! Quidem harumaccusamus vero sunt at.'
-        },
-        {
-          id: 2,
-          title: 'Service one',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates praesentium necessitatibus iste sequi perferendis! Quidem harumaccusamus vero sunt at.'
-        },
-        {
-          id: 3,
-          title: 'Service one',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates praesentium necessitatibus iste sequi perferendis! Quidem harumaccusamus vero sunt at.'
-        },
-        {
-          id: 4,
-          title: 'Service one',
-          description:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptates praesentium necessitatibus iste sequi perferendis! Quidem harumaccusamus vero sunt at.'
-        }
-      ]
+      selectedServiceProps: null
+    }
+  },
+  computed: {
+    ...mapGetters({
+      allClients: 'client/getAllClients'
+    }),
+    allowCreating () {
+      return (
+        !!this.invoiceDetails.client &&
+        Boolean(this.invoiceDetails.services.length)
+      )
     }
   },
   methods: {
+    ...mapActions({
+      createNewInvoice: 'invoice/createInvoice'
+    }),
+    showDropdown () {
+      this.showDropDown = !this.showDropDown
+    },
     editServiceItem (id) {
-      console.log('id ', id)
-      this.selectedServiceProps = id - 1
+      this.selectedServiceProps = id
       this.$modal.show('add-service-modal')
+    },
+    createInvoice () {
+      this.isLoading = true
+      const invoiceToBeSent = {
+        items: this.invoiceDetails.services.map((service) => {
+          return {
+            serviceId: service._id,
+            qty: 1,
+            price: service.pricing.amount
+          }
+        }),
+        customerId: this.invoiceDetails.client._id,
+        dueDate: this.invoiceDetails.dueDate,
+        dueDateEpoch: new Date(this.invoiceDetails.dueDate).getTime() / 1000,
+        client: this.invoiceDetails.client
+      }
+      this.createNewInvoice(invoiceToBeSent)
+        .then((result) => {
+          if (result.status === 'success') {
+            this.$router.push({ name: 'Invoices-sent' })
+            this.$toast.success('Invoice created successfully', {
+              position: 'top-right'
+            })
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            this.$toast.error(
+              `Something went wrong: ${err.response.data.message}`,
+              { position: 'bottom-right' }
+            )
+          } else if (err.request) {
+            this.$toast.error('Something went wrong. Try again', {
+              position: 'bottom-right'
+            })
+          } else {
+            this.$toast.error(`Something went wrong: ${err.message}`, {
+              position: 'bottom-right'
+            })
+          }
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.divider {
+  @apply tail-hidden lg:tail-block tail-bg-gray-200 tail-w-[1px];
+}
+
+.dropdown-button {
+  @apply tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100 tail-w-full tail-text-left;
+}
+</style>

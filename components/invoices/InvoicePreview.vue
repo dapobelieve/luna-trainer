@@ -35,15 +35,17 @@
                     From
                   </p>
                   <p class="tail-text-gray-700 tail-font-medium">
-                    Brand name
+                    {{ $auth.user.businessName }}
                   </p>
                 </div>
                 <div>
                   <p class="tail-text-gray-500 tail-text-base">
                     To
                   </p>
-                  <p class="tail-text-gray-700 tail-font-medium">
-                    Client's name
+                  <p
+                    class="tail-text-gray-700 tail-font-medium tail-capitalize"
+                  >
+                    {{ client ? client.firstName : "Client's name" }}
                   </p>
                 </div>
               </div>
@@ -54,39 +56,42 @@
                   Amount
                 </p>
                 <p class="tail-text-3xl tail-text-gray-700 tail-pb-2">
-                  {{ 0.0 | amount }}
+                  {{ getTotal | amount }}
                 </p>
                 <p class="tail-text-sm tail-text-gray-700">
-                  Due on May 25, 2021
+                  Due on {{ dueDate | date }}
                 </p>
               </div>
             </div>
             <div>
-              <div class="tail-space-y-5">
+              <div v-if="services.length" class="tail-space-y-5">
                 <div
-                  v-for="n in 3"
-                  :key="n.index"
+                  v-for="service in services"
+                  :key="service._id"
                   class="tail-flex tail-justify-between tail-items-center last:tail-border-b last:tail-pb-5"
                 >
                   <div>
-                    <p class="tail-text-gray-700 tail-font-medium">
-                      service one
+                    <p class="tail-text-gray-700 tail-font-medium tail-capitalize">
+                      {{ service.description }}
                     </p>
                     <p class="tail-text-gray-500 tail-text-sm">
                       Qty 1
                     </p>
                   </div>
                   <span class="tail-text-gray-700 tail-font-medium">{{
-                    60.0 | amount
+                    service.pricing.amount | amount
                   }}</span>
                 </div>
+              </div>
+              <div v-else class="tail-text-center">
+                <em>Please select a service</em>
               </div>
               <div class="tail-flex tail-justify-between tail-py-3">
                 <p class="tail-text-gray-700 tail-text-xl">
                   Total
                 </p>
                 <p class="tail-text-lg tail-font-bold tail-text-gray-700">
-                  {{ 70.0 | amount }}
+                  {{ getTotal | amount }}
                 </p>
               </div>
             </div>
@@ -110,14 +115,14 @@
           <template v-slot:content>
             <div>
               <div class="tail-pb-4 tail-space-y-1">
-                <p class="tail-text-gray-500 tail-text-sm">
+                <p class="tail-text-gray-700 tail-text-base tail-capitalize">
                   Bill to
                 </p>
                 <p class="tail-text-gray-700 tail-text-base">
-                  James
+                  {{ client ? client.firstName : 'N/A' }}
                 </p>
                 <p class="tail-text-gray-700 tail-text-base">
-                  James@getwelp.com
+                  {{ client ? client.email : '' }}
                 </p>
               </div>
               <div class="tail-grid tail-grid-cols-2 tail-pb-4">
@@ -126,7 +131,7 @@
                     Date of issue:
                   </p>
                   <p class="tail-text-gray-500 tail-text-sm">
-                    {{ new Date() | date }}
+                    {{ dueDate | date }}
                   </p>
                 </div>
                 <div>
@@ -134,7 +139,7 @@
                     Due Date
                   </p>
                   <p class="tail-text-gray-500 tail-text-sm">
-                    {{ new Date() | date }}
+                    {{ dueDate | date }}
                   </p>
                 </div>
               </div>
@@ -161,29 +166,36 @@
                     amount
                   </p>
                 </div>
-                <div
-                  v-for="n in 3"
-                  :key="n.index"
-                  class="tail-grid tail-grid-cols-4 last:tail-border-b last:tail-pb-5"
-                >
-                  <p class="tail-text-gray-500 tail-text-sm tail-capitalize">
-                    behaviour consulting
-                  </p>
-                  <p
-                    class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
+                <template v-if="services.length">
+                  <div
+                    v-for="service in services"
+                    :key="service._id"
+                    class="tail-grid tail-grid-cols-4 last:tail-border-b last:tail-pb-5"
                   >
-                    1
-                  </p>
-                  <p
-                    class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
-                  >
-                    {{ 100.0 | amount }}
-                  </p>
-                  <p
-                    class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
-                  >
-                    {{ 100.0 | amount }}
-                  </p>
+                    <p class="tail-text-gray-500 tail-text-sm tail-capitalize">
+                      {{ service.description }}
+                    </p>
+                    <p
+                      class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
+                    >
+                      1
+                    </p>
+                    <p
+                      class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
+                    >
+                      {{ service.pricing.amount | amount }}
+                    </p>
+                    <p
+                      class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
+                    >
+                      {{ service.pricing.amount | amount }}
+                    </p>
+                  </div>
+                </template>
+                <div v-else class="tail-text-center">
+                  <em>
+                    Please select a service
+                  </em>
                 </div>
               </div>
               <div class="tail-flex tail-justify-between tail-py-3">
@@ -191,7 +203,7 @@
                   Total
                 </p>
                 <p class="tail-text-lg tail-font-bold tail-text-gray-700">
-                  {{ 70.0 | amount }}
+                  {{ getTotal | amount }}
                 </p>
               </div>
             </div>
@@ -205,6 +217,21 @@
 <script>
 export default {
   name: 'InvoicePreview',
+  props: {
+    services: Array,
+    dueDate: [Date, String],
+    client: Object
+  },
+  computed: {
+    getTotal () {
+      if (this.services.length) {
+        return this.services.reduce(
+          (accumulator, current) => accumulator + current.pricing.amount, 0
+        )
+      }
+      return 0
+    }
+  },
   mounted () {
     document.getElementById('defaultOpen').click()
   },
