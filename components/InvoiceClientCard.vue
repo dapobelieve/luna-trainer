@@ -1,5 +1,5 @@
 <template>
-  <div @click.stop="" class="tail-rounded-lg tail-w-full hover:tail-bg-blue-50 bg-bad-red tail-flex tail-items-center tail-justify-between tail-py-5 tail-px-4">
+  <div class="tail-rounded-lg tail-w-full hover:tail-bg-blue-50 bg-bad-red tail-flex tail-items-center tail-justify-between tail-py-5 tail-px-4">
     <div class="tail-flex tail-items-center">
       <div>
         <ClientAvatar :clientInfo="client.ownerId" />
@@ -9,9 +9,9 @@
         <span class="tail-text-sm tail-text-gray-500">{{client.ownerId.email}}</span>
       </div>
     </div>
-    <div class="tail-relative">
-      <span @click="showDropDown = !showDropDown" class="ns-menu-dots tail-font-medium tail-text-2xl text-primary-color"></span>
-      <ClickOutside :do="() => showDropdown = false">
+    <ClickOutside :do="() => { showDropDown = false }">
+      <div class="tail-relative">
+      <span @click="showDropDown = !showDropDown" class="ns-menu-dots cursor-pointer tail-font-medium tail-text-2xl text-primary-color"></span>
         <div
           v-show="showDropDown"
           class="tail-absolute tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
@@ -27,8 +27,8 @@
             </a>
           </div>
         </div>
-      </ClickOutside>
     </div>
+    </ClickOutside>
   </div>
 </template>
 
