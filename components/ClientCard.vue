@@ -27,7 +27,6 @@
         <button type="button" @click="showDropdown">
           <i class="ns-ellipsis tail-text-2xl tail-text-blue-500 tail-pb-3"></i>
         </button>
-        <!-- dropdown menu -->
         <div
           v-show="showDropDown"
           class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"

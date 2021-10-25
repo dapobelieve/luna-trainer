@@ -6,9 +6,29 @@
       </template>
       <template v-slot:buttons>
         <div class="tail-flex tail-items-center">
-          <span class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
-            <span>Sent</span>
-            <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
+          <ClickOutside :do="() => showDropDown = false">
+            <div class="tail-relative">
+            <span @click="showDropDown = !showDropDown" class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
+              <span>{{ currentInvoice }}</span>
+              <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i>
+            </span>
+              <div
+                v-show="showDropDown"
+                class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
+              >
+                <div class="tail-py-1" role="none">
+                  <a
+                    class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                    @click.prevent="$router.push({name: 'Invoices-sent'}); showDropDown=false">Sent
+                  </a>
+                  <a
+                    class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                    @click.prevent="$router.push({name: 'Invoices-drafts'}); showDropDown=false">Drafts
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ClickOutside>
           <NuxtLink
             :to="{ name: 'CreateInvoice'}"
             exact-active-class="active"
@@ -31,9 +51,9 @@
 import { mapActions, mapGetters } from 'vuex'
 export default {
   name: 'Invoices',
-  // layout: 'dashboard',
   data () {
     return {
+      showDropDown: false,
       img: 'https://res.cloudinary.com/rohing/image/upload/v1585572497/harley-davidson-1HZcJjdtc9g-unsplash_vwslej.jpg',
       active: true,
       openModal: false,
@@ -50,6 +70,9 @@ export default {
     }
   },
   computed: {
+    currentInvoice () {
+      return `${this.$route.name.split('-')[1].charAt(0).toUpperCase()}${this.$route.name.split('-')[1].slice(1)}`
+    },
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
       size: 'invoice/invoiceCount'
