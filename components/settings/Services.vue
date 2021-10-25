@@ -135,7 +135,6 @@ export default {
     },
     editServiceItem (id) {
       this.selectedService = JSON.parse(JSON.stringify(this.services.find(service => service._id === id)))
-      console.log(this.selectedService)
     },
     upsertServiceItem () {
       this.isLoading = true

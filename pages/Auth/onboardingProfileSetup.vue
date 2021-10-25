@@ -9,12 +9,7 @@
         <circle-step-navigation
           class="tail-flex tail-items-center tail-h-16 lg:tail-h-auto"
           :step-count="step"
-          :disabled="[
-            profile,
-            trainerProfile,
-            addedServices,
-            firstClient
-          ]"
+          :disabled="[profile, trainerProfile, addedServices, firstClient]"
           @stepper="move($event)"
         />
 
@@ -69,9 +64,6 @@
                 <template v-else-if="step === 3">
                   <onboarding-clients @validity="firstClient.isDisabled" />
                 </template>
-                <modal name="stripe-modal" :width="450" :height="450">
-                  <onboarding-stripe class="tail-m-6" @save="saveProfile" />
-                </modal>
               </div>
               <!-- Service items for mobile screen -->
               <template v-if="step === 2">
@@ -82,16 +74,13 @@
                 </div>
               </template>
             </div>
-
-            <div class="tail-flex tail-items-center tail-gap-2">
+            <div
+              class="tail-flex tail-items-center tail-justify-end tail-gap-2"
+            >
               <button
-                class="button-text tail-mr-auto"
-                :class="[
-                  step === 3
-                    ? 'tail-visible'
-                    : 'tail-invisible'
-                ]"
-                @click.prevent="$modal.show('stripe-modal')"
+                class="tail-text-blue-500 tail-mr-auto"
+                :class="{'tail-hidden' : step !== 3 }"
+                @click.prevent="saveProfile"
               >
                 Skip
               </button>
@@ -104,16 +93,17 @@
               >
                 back
               </button>
-              <button
+              <button-spinner
                 v-if="step === 3"
+                :loading="isLoading"
                 type="button"
-                class="button-fill"
-                @click="$modal.show('stripe-modal')"
+                style="width:fit-content"
+                @click="saveProfile"
               >
-                Connect to Stripe
-              </button>
+                Save & Complete
+              </button-spinner>
               <button
-                v-else-if="step !== 4"
+                v-else-if="step !== 5"
                 :disabled="
                   step === 0
                     ? profile.isDisabled
@@ -149,32 +139,16 @@
         </div>
       </div>
     </div>
-    <modal name="done" :width="400" :height="300">
-      <div class="tail-m-8">
-        <div class="tail-flex  tail-justify-start tail-flex-col">
-          <img src="~/assets/img/svgs/check-icon.svg" alt="checked" class="tail-h-8 tail-w-8 tail-mb-2">
-          <h3 class="tail-my-2 tail-gray-700 tail-text-2xl">
-            All done!
-          </h3>
-          <p class="tail-my-1.5">
-            We’re now setting up your environment on GetWelp
-          </p>
-          <p class="tail-my-1.5">
-            In a second you’ll be taken to the dashboard and we will walk you through how to use it!
-          </p>
-        </div>
-        <button class="button-fill" @click="finishedSetUp">
-          Finish
-        </button>
-      </div>
-    </modal>
+    <onboarding-complete-modal @closeOnboardingCompleteModal="finishedSetUp" />
   </async-view>
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
+import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
 export default {
   name: 'OnboardingProfileSetup',
+  components: { OnboardingCompleteModal },
   layout: 'authOnboarding',
   data () {
     return {
@@ -195,10 +169,6 @@ export default {
       },
       firstClient: {
         id: 3,
-        isDisabled: true
-      },
-      stripeConnect: {
-        id: 4,
         isDisabled: true
       },
       pageIntro: [
@@ -288,14 +258,6 @@ export default {
       this.endFullPageLoad()
     }
   },
-  mounted () {
-    // check if they are returning from stripe connection
-    const hasStripeConnected = this.$route.query.stripeonboarding
-    if (hasStripeConnected) {
-      this.step = this.$route.query.step
-      this.$model.show('stripe-modal')
-    }
-  },
   methods: {
     ...mapMutations({
       clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
@@ -344,6 +306,7 @@ export default {
       } else {
         this.isLoading = true
         return this.create().then((result) => {
+          localStorage.setItem('profileCompleted', 'true')
           if (result.status === 'success') {
             // set currency in store
             this.setTempState({ currency: this.trainerRegInfo.currency })

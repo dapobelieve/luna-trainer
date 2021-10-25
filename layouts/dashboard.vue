@@ -1,7 +1,11 @@
 <template>
   <async-view loader-id="logout">
+    <modal name="stripe-modal" height="auto" :adaptive="true" maxWidth="450">
+      <onboarding-stripe class="tail-m-6" @closeModal="skipStripeProcess" />
+    </modal>
     <GwHeader />
     <div class="tail-flex">
+      <invite-new-client-modal />
       <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
       <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-100 tail-flex tail-justify-center">
         <div class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full">
@@ -16,7 +20,9 @@
 </template>
 <script>
 import { mapState, mapActions } from 'vuex'
+import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 export default {
+  components: { InviteNewClientModal },
   data () {
     return {
       page: this.$route.name,
@@ -25,7 +31,8 @@ export default {
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
+      connectedChannels: state => state.sendBird.connectedChannels,
+      isStripeConnected: state => state.profile.isStripeConnected
     })
   },
   async created () {
@@ -78,6 +85,10 @@ export default {
     }
   },
   mounted () {
+    const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
+    if (isProfileSetUpCompleted && !this.isStripeConnected) {
+      this.$modal.show('stripe-modal')
+    }
     if (window.innerWidth <= 768) {
       this.open = false
     }
@@ -101,7 +112,10 @@ export default {
     hideSide () {
       this.open = false
     },
-
+    skipStripeProcess () {
+      localStorage.removeItem('profileCompleted')
+      this.$modal.hide('stripe-modal')
+    },
     // events for sendbird
     onMessageReceived (channel, message) {
       if (this.$route.name === 'Dashboard') {

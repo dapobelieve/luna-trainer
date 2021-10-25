@@ -1,111 +1,85 @@
 <template>
   <div>
-    <multiselect
-      v-model="selection"
-      :options="options"
-      :multiple="true"
-      :close-on-select="false"
-      :clear-on-select="false"
-      :preserve-search="true"
-      placeholder="Select invoice items"
-      label="description"
-      track-by="description"
-      :preselect-first="true"
-    >
-      <template slot="selection" slot-scope="{ isOpen }">
-        <span v-if="selection.length &amp;&amp; !isOpen" class="multiselect__single">{{ selection.length }} options selection</span>
+    <v-select
+        class="v-select"
+        v-model="selected"
+        :options="services"
+        placeholder="Choose a list of invoice items"
+        label="description"
+        multiple>
+      <template v-slot:open-indicator="{}">
+        <span>
+            <i
+              class="ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer"
+            ></i>
+        </span>
       </template>
-      <template v-if="false" slot="tag"></template>
-    </multiselect>
-    <ul class="tail-mt-4 tail-p-4 tail-pb-3 tail-border-gray-400 tail-border-solid tail-border tail-rounded-lg tail-border-opacity-30">
-      <li v-for="(select,index) in selection" :key="index" class="tail-flex tail-w-full tail-justify-between tail-mb-3">
-        <div>
-          <h2 class="tail-font-medium tail-text-lg active-item">
-            {{ select.description }}
-          </h2>
-          <small class="tail-text-gray-500 tail-ml-5">Qty {{ select.qty }}</small>
-        </div>
-        <div class="tail-flex tail-justify-between tail-items-center tail-gap-2">
-          <client-only>
-            <h5 class="tail-font-medium tail-text-lg">
-              {{ select.price | amount }}
-            </h5>
-          </client-only>
-
-          <button @click.prevent="editSelectionItem(select.serviceId)">
-            <small class="ns-edit tail-flex tail-align-middle  primary-color tail-rounded-full tail-p-1 tail-text-white"></small>
-          </button>
-
-          <button type="button" @click.prevent="removeSelectionItem(select.serviceId)">
-            <small class="ns-cross tail-flex tail-align-middle tail-bg-red-300 tail-rounded-full tail-p-1 tail-text-white"></small>
-          </button>
-        </div>
-      </li>
-    </ul>
-    <GwModal :is-open="openEditItem" @close="openEditItem = $event" @closeBackDrop="openEditItem = $event">
-      <template v-slot:status>
-        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
-          Edit Item
-        </div>
-      </template>
-      <EditItem v-model="selectedItem" @close="openEditItem = $event" />
-    </GwModal>
+      <template v-slot:list-footer>
+        <button type="button" class="tail-py-2 tail-outline-none" @click="addNewItem">
+          <div class="tail-flex tail-px-2  tail-ml-1 tail-items-center tail-justify-center">
+            <i class="ns-plus tail-text-base tail-rounded-full tail-text-blue-500 tail-p-1" />
+            <span class="text-primary-color tail-text-base tail-pl-2">Add New Service</span>
+          </div>
+        </button>
+       </template>
+       <template v-slot:selected-option-container="{option}">
+          <div style="display: flex; align-items: baseline">
+            <div class="vs__selected">{{ option.description }}</div>
+          </div>
+       </template>
+       <template v-slot:option="{ description, pricing }" >
+          <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
+            <div class="tail-flex tail-content-center tail-py-1">
+              <div class="tail-flex tail-flex-col tail-ml-1 tail-text-gray-700">
+                <p class="tail-capitalize">
+                  {{ description }}
+                </p>
+                <small class="tail-text-gray-500"> {{ pricing.amount | amount }}</small>
+              </div>
+            </div>
+            <div class="check">
+              <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
+            </div>
+          </div>
+        </template>
+    </v-select>
+    <modal name="addNewServiceModal" :height="400">
+      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('addNewServiceModal')" />
+    </modal>
   </div>
 </template>
 <script>
-import Multiselect from 'vue-multiselect'
 export default {
-  name: 'GwInvoiceServicesSelector',
-  components: {
-    Multiselect
-  },
+  name: 'GwnInvoiceServiceSelector',
   props: {
-    services: Array
+    services: Array,
+    value: Object
+  },
+  watch: {
+    selected (newValue) {
+      this.$emit('change', newValue)
+    }
+  },
+  model: {
+    prop: 'value',
+    event: 'change'
   },
   data () {
     return {
-      selection: [],
-      selectedItem: null,
-      openEditItem: false,
-      options: this.services.map(item => ({ description: item.description, serviceId: item._id, price: item.pricing && item.pricing.amount, qty: 1 }))
-    }
-  },
-  watch: {
-    selection (newValue) {
-      this.$emit('selected', newValue)
-    },
-    selectedItem (newValue) {
-      if (newValue) {
-        this.selection = this.selection.map(item => item.serviceId === newValue.serviceId ? newValue : item)
-        this.$emit('selected', this.selection)
+      selected: this.value,
+      clientInfo: {},
+      dropdowIndicatorattributes: {
+        ref: 'openIndicator',
+        role: 'presentation',
+        class: 'ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer tail-absolute tail-right-0 tail-p-3'
       }
     }
   },
   methods: {
-    editSelectionItem (id) {
-      this.selectedItem = this.selection.find(item => item.serviceId === id)
-      this.openEditItem = true
-    },
-    removeSelectionItem (id) {
-      this.selection = this.selection.filter(item => item.serviceId !== id)
+    addNewItem (value) {
+      this.clientInfo = { email: '', firstName: '' }
+      this.$modal.show('addNewServiceModal')
     }
   }
 }
 </script>
-<style scoped>
-.active-item {
-  position: relative;
-  padding-left: 20px;
-}
-.active-item::after {
-  display: block;
-  width: 10px;
-  position: absolute;
-  height: 10px;
-  background: rgba(59, 130, 246, 1);;
-  content: "";
-  top: calc(50% - 5px);
-  border-radius: 100%;
-  left: 0;
-}
-</style>

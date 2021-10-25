@@ -6,6 +6,7 @@
           Invite New Client
         </h2>
         <button
+          type="button"
           class="focus:tail-outline-none tail-outline-none tail-border-0"
           @click="$emit('close', false)"
         >
@@ -39,7 +40,6 @@
                   type="text"
                   class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                   :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.firstName.$error}"
-                  @blur="$v.clientInfo.firstName.$touch()"
                 />
               </div>
             </div>
@@ -53,7 +53,6 @@
                 type="email"
                 class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
                 :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.email.$error}"
-                @blur="$v.clientInfo.email.$touch()"
               />
               <div v-if="$v.clientInfo.email.$error" class="tail-mt-0.5">
                 <small
@@ -86,14 +85,16 @@ import ButtonSpinner from './util/ButtonSpinner.vue'
 export default {
   name: 'InviteNewClient',
   components: { ButtonSpinner },
+  props: {
+    client: Object
+  },
   data () {
     return {
       isLoading: false,
       clientInfo: {
-        firstName: '',
-        email: ''
+        firstName: this.client ? this.client.firstName : '',
+        email: this.client ? this.client.email : ''
       }
-
     }
   },
   validations: {

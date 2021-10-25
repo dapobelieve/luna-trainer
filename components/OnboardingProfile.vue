@@ -15,7 +15,6 @@
               name="first-name"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
               :class="{'tail-border-red-500' : $v.firstName.$error}"
-              @blur="$v.firstName.$touch()"
             />
           </div>
         </div>
@@ -29,7 +28,6 @@
               name="last-name"
               class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
               :class="{'tail-border-red-500' : $v.lastName.$error}"
-              @blur="$v.lastName.$touch()"
             />
           </div>
         </div>
@@ -41,7 +39,6 @@
           v-model="businessName"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           :class="{'tail-border-red-500' : $v.businessName.$error}"
-          @blur="$v.businessName.$touch()"
         />
       </div>
       <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-1">
@@ -53,7 +50,6 @@
           :class="{'tail-border-red-500' : $v.websiteUrl.$error}"
           @input="change($event)"
           @change="change($event)"
-          @blur="$v.websiteUrl.$touch()"
         />
         <small v-if="isValid" class="tail-text-red-500 tail-text-sm tail-absolute tail--bottom-5">url is invalid</small>
       </div>
@@ -64,7 +60,6 @@
           autocomplete="country"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           :class="{'tail-border-red-500' : $v.location.$error}"
-          @blur="$v.location.$touch()"
         >
           <option v-for="country in countries" :key="country.numericCode">
             {{ country.name }}
@@ -79,7 +74,6 @@
           autocomplete="currency"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           :class="{'tail-border-red-400' : $v.currency.$error}"
-          @blur="$v.currency.$touch()"
         >
           <option value="AUD">
             AUD
@@ -105,7 +99,6 @@
             name="phone"
             class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
             :class="{'tail-border-red-400' : $v.phone.$error}"
-            @blur="$v.phone.$touch()"
           />
         </div>
       </div>
@@ -116,7 +109,6 @@
           v-model="timezone"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           :class="{'tail-border-red-400' : $v.timezone.$error}"
-          @blur="$v.timezone.$touch()"
         >
           <option v-for="time in timezones" :key="time.index">
             {{ time.text }}
@@ -130,7 +122,6 @@
           v-model="dateFormat"
           class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
           :class="{'tail-border-red-400' : $v.dateFormat.$error}"
-          @blur="$v.dateFormat.$touch()"
         >
           <option value="DD/MM/YY">
             DD/MM/YY

@@ -2,7 +2,7 @@
   <div>
     <div class="tail-flex tail-items-center tail-justify-center tail-flex-col">
       <div
-        class="tail-p-1 purple tail-h-10 tail-w-10 tail-mb-2 tail-rounded-full"
+        class="tail-p-1 purple tail-h-10 tail-w-10 tail-mb-4 tail-rounded-full"
       >
         <h3 class="tail-font-bold tail-text-white tail-text-2xl tail-text-center">
           S
@@ -16,7 +16,7 @@
           But, we also appreciate you’re new here so if you want to skip this section and head on into the rest of the onboarding process, you can do so and come back to setting up Stripe later! ✌️
         </p>
       </div>
-      <div class="tail-mt-5 lg:tail-mt-10 tail-mb-3 ">
+      <div class="tail-mt-5 lg:tail-mt-6 tail-mb-3 ">
         <button
           :disabled="isLoading"
           type="button"
@@ -37,7 +37,7 @@
       </div>
     </div>
     <div class=" tail-flex tail-justify-end tail-mt-2 lg:tail-mt-4">
-      <button class="tail-font-medium tail-whitespace-nowrap tail-text-blue-500" @click="$emit('save')">
+      <button class="tail-font-medium tail-whitespace-nowrap tail-text-blue-500 tail-outline-none" @click="$emit('closeModal')">
         Skip
       </button>
     </div>
