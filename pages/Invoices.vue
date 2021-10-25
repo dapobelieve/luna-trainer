@@ -10,11 +10,11 @@
             <span>Sent</span>
             <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
           <NuxtLink
-            :to="{ name: 'CreateInvoice'}"
+            :to="{ name: 'NewInvoice'}"
             exact-active-class="active"
-            class="tail-inline-flex focus:tail-outline-none primary-color tail-items-center tail-justify-center tail-h-9 tail-w-9 tail-text-sm tail-font-medium tail-rounded-lg tail-shadow-sm hover:tail-bg-blue-500 focus:tail-outline-none "
+            class="tail-inline-flex primary-color tail-items-center tail-justify-center tail-h-9 tail-w-9 tail-text-sm tail-font-medium tail-rounded-lg tail-shadow-sm hover:tail-bg-blue-500 focus:tail-outline-none "
           >
-            <i class="ns-plus tail-text-white tail-text-2xl tail-text-lg"></i>
+            <i class="ns-plus tail-text-white tail-text-2xl"></i>
           </NuxtLink>
         </div>
       </template>
