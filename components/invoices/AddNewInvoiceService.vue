@@ -247,7 +247,6 @@ export default {
         })
           .then((response) => {
             this.isLoading = false
-            console.log('you say? ', response)
             if (response.status === 'success') {
               this.cancelEdit()
               this.$toast.success('Service Updated', { position: 'top-right' })
