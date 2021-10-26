@@ -1,5 +1,5 @@
 <template>
-  <div class="error-screen tail-grid tail-gap-4 tail-place-content-center tail-text-center">
+  <div class="error-screen grid gap-4 place-content-center text-center">
     <h1>404</h1>
     <p>
       Page not found
@@ -7,7 +7,7 @@
     <p>
       The page you’re looking for was not found
     </p>
-    <div class="tail-justify-items-center">
+    <div class="justify-items-center">
       <button class="base-button" style="width: fit-content" @click="$router.push({ name: 'Dashboard' })">
         Back to home
       </button>

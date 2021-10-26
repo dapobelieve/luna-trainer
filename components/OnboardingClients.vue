@@ -1,57 +1,57 @@
 <template>
   <div>
     <h2
-      class="tail-text-lg tail-font-extrabold tail-tracking-tight tail-text-gray-700"
+      class="text-lg font-extrabold tracking-tight text-gray-700"
     >
       Add your first client
     </h2>
-    <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
-      <div class="tail-flex tail-flex-col tail-gap-1.5">
-        <label for="firstName" :class="{'tail-text-red-500' : $v.firstName.$error}">First name<span v-if="$v.firstName.$dirty" class="tail-text-red-500">*</span></label>
+    <form class="flex flex-col gap-6 mt-6 lg:mt-10">
+      <div class="flex flex-col gap-1.5">
+        <label for="firstName" :class="{'text-red-500' : $v.firstName.$error}">First name<span v-if="$v.firstName.$dirty" class="text-red-500">*</span></label>
         <div class>
           <input
             id="firstName"
             v-model="firstName"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-shadow-md tail-border-red-500' : $v.firstName.$error}"
+            class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+            :class="{'shadow-md border-red-500' : $v.firstName.$error}"
           />
         </div>
       </div>
-      <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-3">
-        <label for="email" :class="{'tail-text-red-500' : $v.email.$error}">Email Address<span v-if="$v.firstName.$dirty" class="tail-text-red-500">*</span></label>
+      <div class="flex flex-col gap-1.5 relative mb-3">
+        <label for="email" :class="{'text-red-500' : $v.email.$error}">Email Address<span v-if="$v.firstName.$dirty" class="text-red-500">*</span></label>
         <div class>
           <input
             id="email"
             v-model="email"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-shadow-md tail-border-red-500' : $v.email.$error}"
+            class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+            :class="{'shadow-md border-red-500' : $v.email.$error}"
           />
-          <div v-if="$v.email.$error" class="tail-absolute tail--bottom-5">
+          <div v-if="$v.email.$error" class="absolute -bottom-5">
             <small
               v-if="!$v.email.email"
-              class="error tail-text-red-500"
+              class="error text-red-500"
             >Please enter a valid email address.</small>
           </div>
         </div>
       </div>
 
-      <div class="tail-flex tail-flex-col tail-gap-1.5">
+      <div class="flex flex-col gap-1.5">
         <label for="petName">Dog name</label>
         <div class>
           <input
             id="petName"
             v-model="petName"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
       </div>
-      <div class="tail-flex tail-flex-col tail-gap-1.5">
+      <div class="flex flex-col gap-1.5">
         <label for="petBreed">Breed</label>
         <div class>
           <input
             id="petBreed"
             v-model="petBreed"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
+            class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
       </div>

@@ -1,8 +1,8 @@
 <template>
   <div class="error-page">
-    <header class="tail-bg-white tail-py-5">
+    <header class="bg-white py-5">
       <img
-        class="tail-mx-auto"
+        class="mx-auto"
         src="~/assets/img/getWelpLogo.png"
         alt="getWelp logo"
       />

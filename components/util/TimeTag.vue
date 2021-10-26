@@ -1,10 +1,10 @@
 <template>
   <div>
-    <div class="tail-rounded tail-border tail-border-gray-200 tail-m-3">
-      <div class="tail-flex tail-items-center  tail-bg-white tail-m-6">
-        <div v-for="(tag, index) in tags" :key="index" class="tail-flex tail-items-center">
+    <div class="rounded border border-gray-200 m-3">
+      <div class="flex items-center  bg-white m-6">
+        <div v-for="(tag, index) in tags" :key="index" class="flex items-center">
           <div
-            class="tail-text-base tail-px-3 tail-bg-white tail-border-2 tail-border-gray-100 tail-text-gray-800 tail-rounded-full tail-py-1.5 tail-flex items-center"
+            class="text-base px-3 bg-white border-2 border-gray-100 text-gray-800 rounded-full py-1.5 flex items-center"
           >
             {{ tag.first.toLocaleString('en',{
               hour: '2-digit',
@@ -13,16 +13,16 @@
               hour: '2-digit',
               minute:'2-digit'
             }) }}
-            <span class="tail-rounded-full tail-cursor-pointer tail-h-5 tail-w-5 tail-bg-gray-300 tail-text-base tail-flex tail-items-center tail-justify-center" @click="removeTag(index)">x</span>
+            <span class="rounded-full cursor-pointer h-5 w-5 bg-gray-300 text-base flex items-center justify-center" @click="removeTag(index)">x</span>
           </div>
         </div>
       </div>
-      <div class="tail-bg-gray-200 tail-py-1.5">
-        <div class="tail-m-2 tail-flex tail-items-center tail-justify-around">
+      <div class="bg-gray-200 py-1.5">
+        <div class="m-2 flex items-center justify-around">
           <Timepicker v-model.trim="field.first" />
-          <span class="tail-m-2">-</span>
+          <span class="m-2">-</span>
           <Timepicker v-model.trim="field.last" />
-          <button class="tail-text-sm tail-text-white tail-bg-blue-300 tail-rounded-md tail-py-3 tail-px-4 tail-m-1.5" @click="AddField()">
+          <button class="text-sm text-white bg-blue-300 rounded-md py-3 px-4 m-1.5" @click="AddField()">
             Add
           </button>
         </div>

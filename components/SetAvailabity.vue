@@ -1,13 +1,13 @@
 <template>
   <div>
-    <span class="tail-text-sm tail-pb-1.5">Your clients can only schedule an appointment based on your available days and times</span>
+    <span class="text-sm pb-1.5">Your clients can only schedule an appointment based on your available days and times</span>
     <div>
-      <div v-for="day in days" :key="day.id" class="tail-m-2">
-        <div class="tail-flex tail-items-center">
+      <div v-for="day in days" :key="day.id" class="m-2">
+        <div class="flex items-center">
           <input type="checkbox" value="index" @change="displayTag(day)" />
-          <label for="day" class="tail-ml-3 tail-text-base tail-leading-tight">{{ day.day }}</label>
+          <label for="day" class="ml-3 text-base leading-tight">{{ day.day }}</label>
         </div>
-        <div v-if="day.checked" class="tail-m-3">
+        <div v-if="day.checked" class="m-3">
           <TimeTag />
         </div>
       </div>

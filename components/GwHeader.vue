@@ -1,32 +1,32 @@
 <template>
   <header
-    class="lg:tail-hidden tail-bg-white tail-sticky tail-top-0 tail-z-10 tail-h-14 tail-w-full tail-flex tail-items-center tail-px-4 tail-py-1"
+    class="lg:hidden bg-white sticky top-0 z-10 h-14 w-full flex items-center px-4 py-1"
   >
-    <button class="button-outline tail-w-10" @click="toggle">
-      <i class="ns-menu-burger tail-text-xl" />
+    <button class="button-outline w-10" @click="toggle">
+      <i class="ns-menu-burger text-xl" />
     </button>
 
-    <div class="tail-flex tail-items-center lg:tail-hidden tail-space-x-2 tail-ml-auto">
+    <div class="flex items-center lg:hidden space-x-2 ml-auto">
       <button class="button-outline" style="padding: .5rem">
-        <i class="ns-comment-alt tail-text-xl tail-mr-1" />
-        <span class="tail-text-sm">9</span>
+        <i class="ns-comment-alt text-xl mr-1" />
+        <span class="text-sm">9</span>
       </button>
 
       <button class="button-outline" style="padding: .5rem">
-        <i class="ns-bell-ring tail-text-xl tail-mr-1" />
-        <span class="tail-text-sm">999</span>
+        <i class="ns-bell-ring text-xl mr-1" />
+        <span class="text-sm">999</span>
       </button>
     </div>
 
     <!-- Mobile menu, show/hide based on menu state. -->
     <!-- <transition name="slide">
       <nav
-        class="tail-block tail-h-screen lg:tail-hidden tail-absolute tail-overflow-hidden"
+        class="block h-screen lg:hidden absolute overflow-hidden"
         aria-label="Global"
       >
         <div
-          class="tail-max-w-3xl tail-space-y-1"
-          :class="[open ? 'tail-max-w-lg' : 'tail-max-w-0']"
+          class="max-w-3xl space-y-1"
+          :class="[open ? 'max-w-lg' : 'max-w-0']"
         >
           <Navigation @closeSidebar="externalClick()" />
         </div>

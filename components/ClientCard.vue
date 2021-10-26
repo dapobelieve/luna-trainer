@@ -7,7 +7,7 @@
       <ClientAvatar :client-info="client" />
     </template>
     <template v-slot:content>
-      <span class="tail-font-medium tail-capitalize">{{
+      <span class="font-medium capitalize">{{
         client.firstName
       }}</span>
     </template>
@@ -15,32 +15,32 @@
       <button
         v-if="client.status === 'invited'"
         type="button"
-        class="tail-w-36 tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border"
+        class="w-36 hidden md:flex items-center px-2.5 py-1 rounded-md bg-white border"
         @click="resendInvite"
       >
         <i class="ns-refresh"></i>
         <span
-          class="tail-capitalize tail-ml-1 tail-text-gray-700 tail-text-sm"
+          class="capitalize ml-1 text-gray-700 text-sm"
         >resend invite</span>
       </button>
-      <div v-else class="tail-relative">
+      <div v-else class="relative">
         <button type="button" @click="showDropdown">
-          <i class="ns-ellipsis tail-text-2xl tail-text-blue-500 tail-pb-3"></i>
+          <i class="ns-ellipsis text-2xl text-blue-500 pb-3"></i>
         </button>
         <div
           v-show="showDropDown"
-          class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
+          class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
         >
-          <div class="tail-py-2" role="none">
+          <div class="py-2" role="none">
             <nuxt-link
               :to="{ name: 'NewInvoice', params: { pushedClient: client } }"
-              class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+              class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
             >
               Create Invoice
             </nuxt-link>
             <a
               href="#"
-              class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+              class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
             >Archive</a>
           </div>
         </div>

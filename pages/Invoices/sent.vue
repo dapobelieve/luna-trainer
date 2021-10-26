@@ -1,82 +1,82 @@
 <template>
   <div>
     <template v-if="invoices && invoices.length">
-      <div class="tail-flex tail-mt-1 tail-px-3 tail-mb-5">
+      <div class="flex mt-1 px-3 mb-5">
         <div class="actions">
-          <span class="tail-cursor-pointer tail-mr-4 tail-inline-flex tail-items-center tail-text-sm tail-font-medium text-primary-color tail-text-base" to="/">
-            <i class="ns-archive tail-mr-1"></i>
+          <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/">
+            <i class="ns-archive mr-1"></i>
             <span>Archive</span>
           </span>
-          <span v-if="!exporting" class="tail-cursor-pointer tail-inline-flex tail-items-center tail-text-sm tail-font-medium text-primary-color tail-text-base" to="/" @click="exportInvoice()">
-            <i class="ns-download tail-mr-1"></i>
+          <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
+            <i class="ns-download mr-1"></i>
             <span>Export</span>
           </span>
-          <span v-else class="tail-cursor-pointer tail-inline-flex tail-items-center tail-text-sm tail-font-medium tail-text-gray-400 tail-text-base" to="/">
-            <i class="ns-download tail-mr-1"></i>
+          <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
+            <i class="ns-download mr-1"></i>
             <span>Exporting...</span>
           </span>
         </div>
       </div>
       <GwPagination v-if="invoices" :totalItems="invoices.length">
         <template v-slot:content>
-          <div class="tail-overflow-scroll lg:tail-overflow-hidden">
-            <table class="tail-table-auto table tail-bg-white tail-w-full tail-text-xs tail-rounded-md">
+          <div class="overflow-scroll lg:overflow-hidden">
+            <table class="table-auto table bg-white w-full text-xs rounded-md">
               <thead class="">
-              <tr class="tail-uppercase tail-tracking-wider tail-text-gray-500">
-                <th class="tail-w-12 tail-py-4 tail-font-medium tail-pl-1">
-                  <div class="tail-pl-3">
-                    <input v-model="selectAll" class="tail-cursor-pointer tail-h-5 tail-w-5 tail-border-grey-500" type="checkbox">
+              <tr class="uppercase tracking-wider text-gray-500">
+                <th class="w-12 py-4 font-medium pl-1">
+                  <div class="pl-3">
+                    <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
                   </div>
                 </th>
-                <th class="tail-py-4 tail-font-medium tail-text-left tail-px-6 tail-w-3/6">
+                <th class="py-4 font-medium text-left px-6 w-3/6">
                   Name
                 </th>
-                <th class="tail-py-4 tail-font-medium tail-px-6">
+                <th class="py-4 font-medium px-6">
                   INVOICE#
                 </th>
-                <th class="tail-py-4 tail-font-medium tail-px-6">
+                <th class="py-4 font-medium px-6">
                   CREATED
                 </th>
-                <th class="tail-py-4 tail-font-medium tail-px-6">
+                <th class="py-4 font-medium px-6">
                   AMOUNT
                 </th>
-                <th class="tail-py-4 tail-font-medium tail-px-6">
+                <th class="py-4 font-medium px-6">
                   STATUS
                 </th>
               </tr>
               </thead>
               <tbody>
-              <tr v-for="(data) in invoices" :key="data._id" class="tail-text-center tail-relative tail-text-gray-500 hover-row hover:tail-cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
-                <td class="tail-w-12 tail-py-4 tail-font-medium tail-pl-3">
+              <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
+                <td class="w-12 py-4 font-medium pl-3">
                   <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data.customerId._id" />
                 </td>
-                <td class="tail-py-4 tail-text-left tail-px-6 tail-w-3/6">
-                  <div class="tail-flex tail-items-center">
+                <td class="py-4 text-left px-6 w-3/6">
+                  <div class="flex items-center">
                     <ClientAvatar :client-info="data.customerId" />
-                    <div class="tail-ml-4">
-                      <h6 class="tail-text-base tail-text-gray-700 tail-text-capitalize">
+                    <div class="ml-4">
+                      <h6 class="text-base text-gray-700 text-capitalize">
                         {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
                       </h6>
-                      <span class="tail-text-sm tail-text-gray-500">{{ data.customerId.email }}</span>
+                      <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
                     </div>
                   </div>
                 </td>
-                <td class="tail-py-4  tail-px-6">
-                  <div class="tail-text-base tail-text-gray-700">
+                <td class="py-4  px-6">
+                  <div class="text-base text-gray-700">
                     {{ data.invoiceNo }}
                   </div>
                 </td>
-                <td class="tail-py-4  tail-px-6">
-                  <div class="tail-text-xs md:tail-text-base tail-text-gray-700">
+                <td class="py-4  px-6">
+                  <div class="text-xs md:text-base text-gray-700">
                     {{ data.createdAt | date }}
                   </div>
                 </td>
-                <td class="tail-py-4 tail-px-6">
-                  <div class="tail-text-sm md:tail-text-base tail-text-gray-700">
+                <td class="py-4 px-6">
+                  <div class="text-sm md:text-base text-gray-700">
                     {{ "\uFFE1" }}{{ data.total }}
                   </div>
                 </td>
-                <td class="tail-py-4 tail-px-6">
+                <td class="py-4 px-6">
                   <InvoiceStatusComponent status="paid" />
                 </td>
               </tr>
@@ -87,17 +87,17 @@
       </GwPagination>
     </template>
     <template v-else>
-      <div class="tail-flex tail-justify-around">
-        <div class="tail-mt-5 tail-text-center" style="margin-top: 12rem">
-          <h4 class="tail-font-bold tail-text-gray-700 tail-mb-1">
+      <div class="flex justify-around">
+        <div class="mt-5 text-center" style="margin-top: 12rem">
+          <h4 class="font-bold text-gray-700 mb-1">
             No clients yet
           </h4>
-          <p class="tail-text-sm tail-text-gray-500 tail-mb-4">
+          <p class="text-sm text-gray-500 mb-4">
             We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
           </p>
-          <button class="primary-color tail-rounded-lg tail-px-4 tail-py-2" type="button" @click="$router.push({ name: 'NewInvoice' })">
-            <i class="ns-plus tail-text-white"></i>
-            <span class="tail-text-font-medium tail-text-white tail-text-base tail-ml-2">Create your first invoice</span>
+          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'NewInvoice' })">
+            <i class="ns-plus text-white"></i>
+            <span class="text-font-medium text-white text-base ml-2">Create your first invoice</span>
           </button>
         </div>
       </div>
@@ -171,20 +171,20 @@ input[type='checkbox'] {
 .table{
   tbody {
     .active {
-      @apply tail-relative tail-z-[2];
+      @apply relative z-[2];
       &:after {
         content: "";
-        @apply tail-w-[99%] tail-h-[95%] tail-bg-blue-50 tail-rounded-lg tail-absolute tail-top-0 tail-left-0 tail-ml-[6px];
+        @apply w-[99%] h-[95%] bg-blue-50 rounded-lg absolute top-0 left-0 ml-[6px];
       }
     }
     tr {
       td {
-        @apply tail-relative tail-z-[2];
+        @apply relative z-[2];
       }
       &:hover {
         &:after {
           content: "";
-          @apply tail-w-[99%] tail-h-[95%] tail-bg-blue-50 tail-rounded-lg tail-absolute tail-top-0 tail-left-0 tail-ml-[6px];
+          @apply w-[99%] h-[95%] bg-blue-50 rounded-lg absolute top-0 left-0 ml-[6px];
         }
       }
     }
