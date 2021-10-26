@@ -1,27 +1,27 @@
 <template>
   <async-view>
-    <div v-if="filteredClients.length" class="tail-grid">
+    <div v-if="filteredClients.length" class="grid">
       <template v-if="$route.name === 'Clients-id-Messages'">
         <nuxt-child />
       </template>
-      <div v-else class="tail-p-1 tail-rounded-lg tail-bg-white tail-border">
-        <ul v-if="filteredClients.length" role="list" class="tail-relative tail-z-0">
+      <div v-else class="p-1 rounded-lg bg-white border">
+        <ul v-if="filteredClients.length" role="list" class="relative z-0">
           <li v-for="client in filteredClients" :key="client._id">
             <ClientCard :client="client" />
           </li>
         </ul>
       </div>
     </div>
-    <div v-else-if="firstTimeVisit" class="tail-h-full tail-flex">
+    <div v-else-if="firstTimeVisit" class="h-full flex">
       <div
-        class="tail-bg-white tail-m-auto tail-rounded-lg tail-border tail-border-gray-300 tail-shadow-md tail-overflow-hidden md:tail-grid tail-grid-cols-5 tail-p-5 md:tail-p-0 md:tail-h-4/6 md:tail-w-4/6"
+        class="bg-white m-auto rounded-lg border border-gray-300 shadow-md overflow-hidden md:grid grid-cols-5 p-5 md:p-0 md:h-4/6 md:w-4/6"
       >
         <div
-          class="tail-hidden md:tail-block tail-h-full invite-client tail-col-span-2"
+          class="hidden md:block h-full invite-client col-span-2"
         ></div>
-        <div class="tail-py-10 tail-col-span-3 tail-m-auto md:tail-px-5 xl:tail-px-0">
-          <div class="tail-max-w-sm tail-grid tail-gap-5 md:tail-gap-5">
-            <h2 class="tail-text-3xl tail-font-semibold">
+        <div class="py-10 col-span-3 m-auto md:px-5 xl:px-0">
+          <div class="max-w-sm grid gap-5 md:gap-5">
+            <h2 class="text-3xl font-semibold">
               Add Your Clients
             </h2>
             <p>
@@ -38,17 +38,17 @@
         </div>
       </div>
     </div>
-    <div v-else class="tail-mt-16 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center">
-      <div class="tail-w-full">
-        <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
+    <div v-else class="mt-16 px-5 grid gap-5 justify-center text-center">
+      <div class="w-full">
+        <img class="text-center inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
-      <h5 class="tail-font-bold">
+      <h5 class="font-bold">
         No clients yet
       </h5>
-      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-xs">
+      <p class="px-5 text-sm mb-0 max-w-xs">
         All your client list will appear here. Send an invite to a potential client to get started
       </p>
-      <div class="tail-w-max tail-mx-auto">
+      <div class="w-max mx-auto">
         <button
           class="base-button"
           type="button"

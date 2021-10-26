@@ -1,6 +1,6 @@
 <template>
   <main>
-    <h1 class="tail-sr-only">
+    <h1 class="sr-only">
       Registration page
     </h1>
     <nuxt />

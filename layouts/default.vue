@@ -1,11 +1,11 @@
 <template>
   <async-view loader-id="logout">
-    <div class="tail-min-h-screen">
-      <GwHeader :class="{ 'tail-hidden': $route.name === 'Client-id-Information' }" />
-      <div class="tail-flex">
+    <div class="min-h-screen">
+      <GwHeader :class="{ 'hidden': $route.name === 'Client-id-Information' }" />
+      <div class="flex">
         <invite-new-client-modal />
         <Navigation />
-        <main class="tail-w-full tail-bg-gray-100">
+        <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
       </div>
@@ -21,7 +21,7 @@
         </template>
         <template v-slot:actionButtons>
           <button
-            class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
+            class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
             @click="retry"
           >
             retry

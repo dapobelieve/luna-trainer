@@ -1,13 +1,13 @@
 <template>
   <main>
     <div
-      class="tail-flex tail-justify-center tail-w-full tail-px-4 tail-min-h-screen tail-pb-28 lg:pb-0"
+      class="flex justify-center w-full px-4 min-h-screen pb-28 lg:pb-0"
     >
       <div
-        class="tail-max-w-lg lg:tail-max-w-sm tail-w-full tail-mt-10 lg:tail-mt-20 2xl:tail-mt-28 tail-flex tail-flex-col tail-gap-6 md:tail-gap-10"
+        class="max-w-lg lg:max-w-sm w-full mt-10 lg:mt-20 2xl:mt-28 flex flex-col gap-6 md:gap-10"
       >
         <img
-          class="tail-mx-auto tail-h-8 md:tail-h-10 2xl:tail-h-auto"
+          class="mx-auto h-8 md:h-10 2xl:h-auto"
           src="~/assets/img/svgs/logomark.svg"
           alt="getWelp logo"
         />

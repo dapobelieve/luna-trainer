@@ -1,46 +1,46 @@
 <template>
   <div>
-    <div class="tail-pb-5 tail-pt-10">
-      <h3 class="tail-text-2xl tail-font-medium sec-color">
+    <div class="pb-5 pt-10">
+      <h3 class="text-2xl font-medium sec-color">
         Services
       </h3>
-      <small class="tail-text-gray-400">Add services you offer and pricing here.</small>
+      <small class="text-gray-400">Add services you offer and pricing here.</small>
     </div>
-    <div class="tail-pb-4 tail-py-5 tail-px-5 tail-bg-white tail-rounded-md">
-      <div class="tail-bg-white tail-rounded-lg">
-        <form class="tail-grid tail-gap-4" @submit.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
+    <div class="pb-4 py-5 px-5 bg-white rounded-md">
+      <div class="bg-white rounded-lg">
+        <form class="grid gap-4" @submit.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
           <div>
-            <label for="services" class="tail-block">Service</label>
-            <input v-model="selectedService.description" type="text" placeholder="Seperation Anxiety" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" />
+            <label for="services" class="block">Service</label>
+            <input v-model="selectedService.description" type="text" placeholder="Seperation Anxiety" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md" />
           </div>
           <div>
-            <label for="" class="tail-block tail-my-2">Type of appointment</label>
-            <div class="tail-py-2 ">
-              <div class="tail-flex">
-                <div class="tail-mr-4">
+            <label for="" class="block my-2">Type of appointment</label>
+            <div class="py-2 ">
+              <div class="flex">
+                <div class="mr-4">
                   <input id="video" v-model="selectedService.appointmentTypes" type="checkbox" value="video" />
-                  <label for="video" class="tail-text-gray-600">Available on video</label>
+                  <label for="video" class="text-gray-600">Available on video</label>
                 </div>
                 <div>
                   <input id="in-person" v-model="selectedService.appointmentTypes" type="checkbox" value="in-person" />
-                  <label for="in-person" class="tail-text-gray-600">Available in person</label>
+                  <label for="in-person" class="text-gray-600">Available in person</label>
                 </div>
               </div>
             </div>
           </div>
           <div class="">
-            <label for="price" class="tail-pb-8">Price</label>
-            <div class="tail-flex">
-              <span class="tail-w-11 tail-h-11 tail-border-r-0 tail-mt-1 tail-text-xl tail-bg-gray-300 tail-text-center tail-rounded-l tail-flex tail-justify-center tail-items-center">£</span>
-              <input v-model.number="selectedService.pricing.amount" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
+            <label for="price" class="pb-8">Price</label>
+            <div class="flex">
+              <span class="w-11 h-11 border-r-0 mt-1 text-xl bg-gray-300 text-center rounded-l flex justify-center items-center">£</span>
+              <input v-model.number="selectedService.pricing.amount" type="number" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 border-l-0 rounded-r">
             </div>
           </div>
-          <button :disabled="disabled" :class="[disabled?['tail-text-gray-500', 'tail-pointer-events-none']: [] ]" @click.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
-            <div class="tail-flex">
-              <div class="tail-rounded-full tail-px-2 tail-py-1 tail-flex tail-items-center tail-justify-center">
-                <SingleLoader v-if="isLoading" class="tail-mr-2" />
-                <i v-if="!isLoading" class="ns-plus tail-text-base tail-rounded-full tail-text-white tail-p-1 primary-color" />
-                <span class="text-primary-color tail-pl-2">{{ !selectedService._id ? "Add New Service Item" : "Update Service Item" }} </span>
+          <button :disabled="disabled" :class="[disabled?['text-gray-500', 'pointer-events-none']: [] ]" @click.prevent="selectedService._id ? updateServiceItem() : insertServiceItem()">
+            <div class="flex">
+              <div class="rounded-full px-2 py-1 flex items-center justify-center">
+                <SingleLoader v-if="isLoading" class="mr-2" />
+                <i v-if="!isLoading" class="ns-plus text-base rounded-full text-white p-1 primary-color" />
+                <span class="text-primary-color pl-2">{{ !selectedService._id ? "Add New Service Item" : "Update Service Item" }} </span>
               </div>
             </div>
           </button>
@@ -48,21 +48,21 @@
             <div
               v-for="service in services"
               :key="service.index"
-              class="tail-flex tail-flex-col"
+              class="flex flex-col"
             >
-              <div class="tail-flex tail-mt-4">
-                <h1 class="tail-flex-1 tail-text-xl tail-sec-color">
+              <div class="flex mt-4">
+                <h1 class="flex-1 text-xl sec-color">
                   {{ service.description }}
                 </h1>
-                <h1 class="tail-ml-4 ">
+                <h1 class="ml-4 ">
                   {{ service.pricing.amount | amount }}
                 </h1>
-                <button class="tail-ml-4" @click.prevent="editServiceItem(service._id)">
-                  <i class="ns-edit tail-text-base" />
+                <button class="ml-4" @click.prevent="editServiceItem(service._id)">
+                  <i class="ns-edit text-base" />
                 </button>
               </div>
               <div>
-                <span v-for="appointmentType in service.appointmentTypes" :key="appointmentType.index" class="tail-inline-block tail-bg-gray-200 tail-rounded-full tail-px-3 tail-py-1 tail-text-sm tail-text-gray-700 tail-mr-2 tail-mb-2 tail-mt-2">{{ appointmentType }}</span>
+                <span v-for="appointmentType in service.appointmentTypes" :key="appointmentType.index" class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm text-gray-700 mr-2 mb-2 mt-2">{{ appointmentType }}</span>
               </div>
             </div>
           </div>

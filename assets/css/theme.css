@@ -4,10 +4,10 @@ body {
   margin: auto;
 }
 .btn-primary {
-  @apply tail-bg-blue-500
+  @apply bg-blue-500
 }
 .btn-primary:hover {
-  @apply tail-bg-blue-600
+  @apply bg-blue-600
 }
 .or-secondary {
   background-color: rgba(240, 245, 250, 0.9);
