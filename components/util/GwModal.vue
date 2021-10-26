@@ -1,39 +1,39 @@
 <template>
-  <div v-if="isOpen" class="fixed index inset-0 overflow-y-auto">
-    <div id="myModal" class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+  <div v-if="isOpen" class="tail-fixed index tail-inset-0 tail-overflow-y-auto">
+    <div id="myModal" class="tail-flex tail-items-end tail-justify-center tail-min-h-screen tail-pt-4 tail-px-4 tail-pb-20 tail-text-center sm:tail-block sm:p-0">
       <transition
-        enter="ease-out duration-300"
-        enter-from="opacity-0"
-        enter-to="opacity-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100"
-        leave-to="opacity-0"
+        enter="tail-ease-out tail-duration-300"
+        enter-from="tail-opacity-0"
+        enter-to="tail-opacity-100"
+        leave="tail-ease-in tail-duration-200"
+        leave-from="tail-opacity-100"
+        leave-to="tail-opacity-0"
       >
-        <div class="fixed inset-0 bg-gray-500 bg-opacity-50 transition-opacity" @click="$emit('closeBackDrop', false)"></div>
+        <div class="tail-fixed tail-inset-0 tail-bg-gray-500 tail-bg-opacity-50 tail-transition-opacity" @click="$emit('closeBackDrop', false)"></div>
       </transition>
       <span
-        class="hidden sm:inline-block sm:align-middle"
+        class="tail-hidden sm:tail-inline-block sm:tail-align-middle"
         aria-hidden="true"
       >&#8203;</span>
       <transition
-        enter="ease-out duration-300"
-        enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        enter-to="opacity-100 translate-y-0 sm:scale-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100 translate-y-0 sm:scale-100"
-        leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        enter="tail-ease-out tail-duration-300"
+        enter-from="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
+        enter-to="tail-opacity-100 tail-translate-y-0 sm:tail-scale-100"
+        leave="tail-ease-in tail-duration-200"
+        leave-from="tail-opacity-100 tail-translate-y-0 sm:tail-scale-100"
+        leave-to="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
       >
         <div
           :style="{ width: width }"
-          class="inline-block mt-6 align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:align-middle w-full md:w-4/6 lg:w-2/6"
+          class="tail-inline-block tail-mt-6 tail-align-bottom tail-bg-white tail-rounded-lg tail-text-left tail-overflow-hidden tail-shadow-xl tail-transform tail-transition-all sm:tail-align-middle tail-w-full md:tail-w-4/6 lg:tail-w-2/6"
         >
-          <div class="py-7 px-6">
-            <div class="flex justify-between mb-6">
+          <div class="tail-py-7 tail-px-6">
+            <div class="tail-flex tail-justify-between tail-mb-6">
               <slot name="status">
               </slot>
-              <div v-if="close" class="hover:cursor-pointer" @click="$emit('close', false)">
+              <div v-if="close" class="hover:tail-cursor-pointer" @click="$emit('close', false)">
                 <img
-                  class="hidden md:block"
+                  class="tail-hidden md:tail-block"
                   src="~/assets/img/cross-small.png"
                   alt="cancel"
                 >

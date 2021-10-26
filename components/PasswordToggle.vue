@@ -1,19 +1,19 @@
 <template>
   <button
     type="button"
-    class="focus:outline-none"
+    class="focus:tail-outline-none"
     @click="toggle()"
   >
     <img
       v-if="value"
-      class="h-4"
+      class="tail-h-4"
       src="~/assets/img/eye-off-outline.svg"
       alt=""
       srcset=""
     />
     <img
       v-else
-      class="h-4"
+      class="tail-h-4"
       src="~/assets/img/eye-outline.svg"
       alt=""
       srcset=""

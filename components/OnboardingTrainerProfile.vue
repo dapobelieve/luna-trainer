@@ -1,27 +1,27 @@
 <template>
   <div>
-    <h5 class="text-lg font-bold">
+    <h5 class="tail-text-lg tail-font-bold">
       Tell us a bit about the type of Trainer you are
     </h5>
-    <form class="flex flex-col gap-6 mt-6 lg:mt-10">
-      <div class="flex flex-col gap-1.5">
+    <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="accreditations">Do you have any accreditations? e.g APDT</label>
         <settings-tag-input v-model="accreditations" :block="false" />
       </div>
-      <div class="flex flex-col gap-1.5">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label
           class="required"
         >What training or behavioural areas do you specialise in? e.g Puppies, Separation Anxiety</label>
         <settings-tag-input v-model="specialization" :block="false" />
       </div>
-      <div class="flex flex-col gap-1.5">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label
           for="reinforcement"
         >Do you use positive reinforcement, force free, trust based methods?</label>
-        <div class="flex flex-row gap-2">
+        <div class="tail-flex tail-flex-row tail-gap-2">
           <label
-            class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : reinforcement === 'yes' }"
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
+            :class="{ 'tail-bg-blue-50' : reinforcement === 'yes' }"
           >
             <input
               v-model="reinforcement"
@@ -29,15 +29,15 @@
               name="reinforcement"
               :checked="reinforcement"
               value="yes"
-              class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
+              class="tail-h-5 tail-w-5 tail-cursor-pointer tail-text-blue-500 tail-border-gray-200 focus:tail-ring-blue-500"
               aria-labelledby="reinforcement-0-label"
               aria-describedby="reinforcement-0-description"
             />
-            <span id="reinforcement-0-label" class="block font-medium ml-2">Yes</span>
+            <span id="reinforcement-0-label" class="tail-block tail-font-medium tail-ml-2">Yes</span>
           </label>
           <label
-            class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : reinforcement === 'no' }"
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
+            :class="{ 'tail-bg-blue-50' : reinforcement === 'no' }"
           >
             <input
               v-model="reinforcement"
@@ -45,11 +45,11 @@
               type="radio"
               name="reinforcement"
               value="no"
-              class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
+              class="tail-h-5 tail-w-5 tail-cursor-pointer tail-text-blue-500 tail-border-gray-200 focus:tail-ring-blue-500"
               aria-labelledby="reinforcement-0-label"
               aria-describedby="reinforcement-0-description"
             />
-            <span id="reinforcement-0-label" class="block font-medium ml-2">No</span>
+            <span id="reinforcement-0-label" class="tail-block tail-font-medium tail-ml-2">No</span>
           </label>
         </div>
       </div>

@@ -1,33 +1,33 @@
 <template>
   <async-view loader-id="logout">
     <div
-      class="flex flex-col lg:flex-row justify-center mx-auto lg:justify-start max-w-xl lg:max-w-full px-4 lg:px-0 min-h-screen"
+      class="tail-flex tail-flex-col lg:tail-flex-row tail-justify-center tail-mx-auto lg:tail-justify-start tail-max-w-xl lg:tail-max-w-full tail-px-4 lg:tail-px-0 tail-min-h-screen"
     >
       <div
-        class="flex flex-col bg-none lg:bg-white lg:h-screen lg:max-w-[26rem] 2xl:max-w-md w-full lg:p-10 gap-20 lg:border-r lg:sticky top-0"
+        class="tail-flex tail-flex-col tail-bg-none lg:tail-bg-white lg:tail-h-screen lg:tail-max-w-[26rem] 2xl:tail-max-w-md tail-w-full lg:tail-p-10 tail-gap-20 lg:tail-border-r lg:tail-sticky tail-top-0"
       >
         <circle-step-navigation
-          class="flex items-center h-16 lg:h-auto"
+          class="tail-flex tail-items-center tail-h-16 lg:tail-h-auto"
           :step-count="step"
           :disabled="[profile, trainerProfile, addedServices, firstClient]"
           @stepper="move($event)"
         />
 
-        <div class="hidden lg:block flex-grow">
+        <div class="tail-hidden lg:tail-block tail-flex-grow">
           <template v-if="'type' in pageIntro[step]">
-            <h1 class="text-3xl">
+            <h1 class="tail-text-3xl">
               {{ pageIntro[step].title }}
             </h1>
             <p
-              class="xl:text-lg mt-10 text-gray-500"
+              class="xl:tail-text-lg tail-mt-10 tail-text-gray-500"
               v-html="pageIntro[step].subTitle"
             ></p>
           </template>
           <template v-else>
-            <h1 class="text-3xl">
+            <h1 class="tail-text-3xl">
               {{ pageIntro[step].title }}
             </h1>
-            <p class="xl:text-lg mt-10 text-gray-500">
+            <p class="xl:tail-text-lg tail-mt-10 tail-text-gray-500">
               {{ pageIntro[step].subTitle }}
             </p>
           </template>
@@ -36,15 +36,15 @@
       </div>
 
       <div
-        class="lg:flex flex-col xl:flex-row flex-grow mt-4 lg:mt-0"
+        class="lg:tail-flex tail-flex-col xl:tail-flex-row tail-flex-grow tail-mt-4 lg:tail-mt-0"
       >
         <div
-          class="flex flex-col items-center lg:p-10 flex-grow lg:overflow-y-auto"
+          class="tail-flex tail-flex-col tail-items-center lg:tail-p-10 tail-flex-grow lg:tail-overflow-y-auto"
         >
           <div
-            class="flex flex-col gap-6 lg:max-w-lg 2xl:max-w-xl w-full h-full"
+            class="tail-flex tail-flex-col tail-gap-6 lg:tail-max-w-lg 2xl:tail-max-w-xl tail-w-full tail-h-full"
           >
-            <div class="flex-grow">
+            <div class="tail-flex-grow">
               <div>
                 <template v-if="step === 0">
                   <onboarding-profile @validity="profile.isDisabled = $event" />
@@ -67,7 +67,7 @@
               </div>
               <!-- Service items for mobile screen -->
               <template v-if="step === 2">
-                <div class="xl:hidden py-6">
+                <div class="xl:tail-hidden tail-py-6">
                   <onboarding-service-cards
                     @editservice="selectedServiceProps = $event"
                   />
@@ -75,11 +75,11 @@
               </template>
             </div>
             <div
-              class="flex items-center justify-end gap-2"
+              class="tail-flex tail-items-center tail-justify-end tail-gap-2"
             >
               <button
-                class="text-blue-500 mr-auto"
-                :class="{'hidden' : step !== 3 }"
+                class="tail-text-blue-500 tail-mr-auto"
+                :class="{'tail-hidden' : step !== 3 }"
                 @click.prevent="saveProfile"
               >
                 Skip
@@ -124,16 +124,16 @@
         </div>
         <!-- Service items for screen 1280 and above -->
         <div
-          class="hidden xl:block w-full lg:max-w-sm 2xl:max-w-xl"
+          class="tail-hidden xl:tail-block tail-w-full lg:tail-max-w-sm 2xl:tail-max-w-xl"
         >
           <template v-if="step === 2">
             <div
-              class="h-screen border-l overflow-y-auto xl:p-10"
+              class="tail-h-screen tail-border-l tail-overflow-y-auto xl:tail-p-10"
             >
               <onboarding-service-cards
                 @editservice="selectedServiceProps = $event"
               />
-              <div class="h-20"></div>
+              <div class="tail-h-20"></div>
             </div>
           </template>
         </div>
@@ -189,9 +189,9 @@ export default {
           title: 'Your services',
           type: 'html',
           subTitle:
-            '<p class="mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
-            '<p class="mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
-            'For example:<br/><ul class="list-disc list-inside mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
+            '<p class="tail-mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
+            '<p class="tail-mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
+            'For example:<br/><ul class="tail-list-disc tail-list-inside tail-mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
             "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         },
         {
@@ -199,9 +199,9 @@ export default {
           title: 'Add your first client',
           type: 'html',
           subTitle:
-            '<p class="mb-6">To make things really simple for you, if you add a client at this stage, a template profile will be created in your Clients section in the platform and it’s super easy to navigate. </p>' +
-            '<p class="mb-6">Add your client’s name, email address, dog’s breed and dog’s name to get going. </p>' +
-            '<p class="mb-6">A client invitation will not be sent just yet until you tell us when you’d like to send it. You can edit this too later. </p>' +
+            '<p class="tail-mb-6">To make things really simple for you, if you add a client at this stage, a template profile will be created in your Clients section in the platform and it’s super easy to navigate. </p>' +
+            '<p class="tail-mb-6">Add your client’s name, email address, dog’s breed and dog’s name to get going. </p>' +
+            '<p class="tail-mb-6">A client invitation will not be sent just yet until you tell us when you’d like to send it. You can edit this too later. </p>' +
             '<p>If you’d just like to skip this section and head on into the platform then feel free to do so too!</p>'
         },
         {
@@ -209,7 +209,7 @@ export default {
           title: 'Stripe',
           type: 'html',
           subTitle:
-            '<p class="mb-6">If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier. </p>' +
+            '<p class="tail-mb-6">If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier. </p>' +
             '<p>But, we also appreciate you’re new here so if you want to skip this section and head on into the rest of the onboarding process, you can do so and come back to setting up Stripe later! ✌️</p>'
         }
       ]

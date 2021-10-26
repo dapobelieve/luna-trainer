@@ -1,107 +1,107 @@
 <template>
-  <div class="py-5 rounded-lg" style="background-color: #f0f5fa;">
-    <div class="bg-white rounded-md p-8">
-      <div class="pb-4 grid grid-cols-2 gap-8">
+  <div class="tail-py-5 tail-rounded-lg" style="background-color: #f0f5fa;">
+    <div class="tail-bg-white tail-rounded-md tail-p-8">
+      <div class="tail-pb-4 tail-grid tail-grid-cols-2 tail-gap-8">
         <div>
-          <h1 class="text-xl font-semibold">
+          <h1 class="tail-text-xl tail-font-semibold">
             {{ $auth.user.businessName }}
           </h1>
-          <span class="text-gray-500 text-xs">{{ client.phoneNumber }}</span>
+          <span class="tail-text-gray-500 tail-text-xs">{{ client.phoneNumber }}</span>
         </div>
-        <div class="text-right">
-          <h1 class="text-xl font-medium text-gray-500">
+        <div class="tail-text-right">
+          <h1 class="tail-text-xl tail-font-medium tail-text-gray-500">
             Invoice
           </h1>
-          <p class="text-gray-500 text-xs">
-            Invoice No.: <span class="ml-3">&lt; auto generated &gt;</span>
+          <p class="tail-text-gray-500 tail-text-xs">
+            Invoice No.: <span class="tail-ml-3">&lt; auto generated &gt;</span>
           </p>
-          <p class="text-gray-500 text-xs">
-            Date of Issue:<span class="ml-3">{{ new Date() | date }}</span>
+          <p class="tail-text-gray-500 tail-text-xs">
+            Date of Issue:<span class="tail-ml-3">{{ new Date() | date }}</span>
           </p>
-          <p v-if="invoice.dueDate" class="text-gray-500 text-xs">
-            Date Due:<span class="ml-3">{{ invoice.dueDate | date }}</span>
+          <p v-if="invoice.dueDate" class="tail-text-gray-500 tail-text-xs">
+            Date Due:<span class="tail-ml-3">{{ invoice.dueDate | date }}</span>
           </p>
         </div>
       </div>
       <div>
         <div class="">
           <div>
-            <p class="text-gray-500 text-sm">
-              Bill to: <span v-if="client && client.firstName" class="capitalize text-black">{{ `${ client.firstName} ${client && client.lastName}` }}</span>
+            <p class="tail-text-gray-500 tail-text-sm">
+              Bill to: <span v-if="client && client.firstName" class="tail-capitalize tail-text-black">{{ `${ client.firstName} ${client && client.lastName}` }}</span>
             </p>
-            <p class="text-gray-500 text-sm">
-              Email: <span v-if="client.email" class="text-black">{{ `${client.email}` }}</span>
+            <p class="tail-text-gray-500 tail-text-sm">
+              Email: <span v-if="client.email" class="tail-text-black">{{ `${client.email}` }}</span>
             </p>
           </div>
-          <div class="py-4">
+          <div class="tail-py-4">
             <client-only>
-              <span v-if="invoice.items.length" class="text-xl font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate || new Date() | date }}.</span>
-              <span v-else class="text-xl font-semibold">Please select a service.</span>
+              <span v-if="invoice.items.length" class="tail-text-xl tail-font-semibold">{{ subTotalInvoice | amount }} due {{ invoice.dueDate || new Date() | date }}.</span>
+              <span v-else class="tail-text-xl tail-font-semibold">Please select a service.</span>
             </client-only>
           </div>
           <div>
-            <table class="table-auto w-full">
+            <table class="tail-table-auto tail-w-full">
               <thead>
-                <tr class="text-left text-xs text-gray-400">
+                <tr class="tail-text-left tail-text-xs tail-text-gray-400">
                   <th>DESCRIPTION</th>
-                  <th class="text-right">
+                  <th class="tail-text-right">
                     QTY
                   </th>
-                  <th class="text-right">
+                  <th class="tail-text-right">
                     AMOUNT
                   </th>
                 </tr>
               </thead>
-              <tbody class="text-left text-xs text-gray-400">
+              <tbody class="tail-text-left tail-text-xs tail-text-gray-400">
                 <template v-if="invoice.items.length">
                   <tr
                     v-for="item in invoice.items"
                     :key="item._id"
-                    class="text-left text-xs text-gray-400"
+                    class="tail-text-left tail-text-xs tail-text-gray-400"
                   >
-                    <td class="font-medium py-2 text-black capitalize">
+                    <td class="tail-font-medium tail-py-2 tail-text-black tail-capitalize">
                       {{ item.description }}
                     </td>
-                    <td class="text-right py-2">
+                    <td class="tail-text-right tail-py-2">
                       {{ item.qty }}
                     </td>
                     <client-only>
-                      <td class="text-right font-medium py-2 text-black">
+                      <td class="tail-text-right tail-font-medium tail-py-2 tail-text-black">
                         {{ item.price | amount }}
                       </td>
                     </client-only>
                   </tr>
                 </template>
                 <tr v-else class="bg-emerald-200">
-                  <td colspan="4" class="font-medium py-2 text-center text-red-400">
+                  <td colspan="4" class="tail-font-medium tail-py-2 tail-text-center tail-text-red-400">
                     <em>No service selected</em>
                   </td>
                 </tr>
                 <tr>
                   <td colspan="4">
-                    <hr class="py-2">
+                    <hr class="tail-py-2">
                   </td>
                 </tr>
-                <tr class="text-sm mb-2">
+                <tr class="tail-text-sm tail-mb-2">
                   <td></td>
                   <td></td>
-                  <td class="text-right">
+                  <td class="tail-text-right">
                     Sub Total
                   </td>
                   <client-only>
-                    <td class="text-right text-black">
+                    <td class="tail-text-right tail-text-black">
                       {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
                     </td>
                   </client-only>
                 </tr>
-                <tr class="text-sm">
+                <tr class="tail-text-sm">
                   <td></td>
                   <td></td>
-                  <td class="text-right">
+                  <td class="tail-text-right">
                     Total
                   </td>
                   <client-only>
-                    <td class="text-right text-black">
+                    <td class="tail-text-right tail-text-black">
                       {{ invoice.items.length ? subTotalInvoice : 0 | amount }}
                     </td>
                   </client-only>

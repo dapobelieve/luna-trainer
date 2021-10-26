@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div class="border rounded bg-white">
-      <div class="flex flex-wrap px-4">
-        <div class=" flex flex-wrap pb-3">
-          <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag flex items-center border rounded p-2 my-1">
+    <div class="tail-border tail-rounded tail-bg-white">
+      <div class="tail-flex tail-flex-wrap tail-px-4">
+        <div class=" tail-flex tail-flex-wrap tail-pb-3">
+          <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag tail-flex tail-items-center tail-border tail-rounded tail-p-2 tail-my-1">
             {{ tag }}
-            <span class="text-base font-bold px-2" @click="removeTag(index)">x</span>
+            <span class="tail-text-base tail-font-bold tail-px-2" @click="removeTag(index)">x</span>
           </div>
           <input
             type="text"
             placeholder="Enter a Tag"
-            class="tag-input__text capitalize"
+            class="tag-input__text tail-capitalize"
             @keydown.enter="addTag"
             @keydown.188="addTag"
             @keydown.delete="removeLastTag"

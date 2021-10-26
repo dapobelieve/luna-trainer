@@ -22,7 +22,7 @@
     },
       {
       "section": "Clients",
-      "classes":"mt-4"
+      "classes":"tail-mt-4"
     },
     {
       "icon": "ns-user",

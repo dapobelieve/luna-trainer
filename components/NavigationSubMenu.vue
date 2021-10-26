@@ -3,34 +3,34 @@
     v-if="value"
     :style="{ height: resizeHeight, top: resizeTop }"
     :class="[
-      'fixed w-full lg:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
+      'tail-fixed tail-w-full lg:tail-left-64 tail-left-0 tail-z-10 tail-bg-gray-50 tail-bg-opacity-95']"
   >
     <div
-      class="relative p-0 sm:p-3 h-full flex justify-center lg:justify-start"
+      class="tail-relative tail-p-0 sm:tail-p-3 tail-h-full tail-flex tail-justify-center lg:tail-justify-start"
     >
       <transition
-        enter="ease-out duration-300"
-        enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-        enter-to="opacity-100 translate-y-0 sm:scale-100"
-        leave="ease-in duration-200"
-        leave-from="opacity-100 translate-y-0 sm:scale-100"
-        leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+        enter="tail-ease-out tail-duration-300"
+        enter-from="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
+        enter-to="tail-opacity-100 tail-translate-y-0 sm:tail-scale-100"
+        leave="tail-ease-in tail-duration-200"
+        leave-from="tail-opacity-100 tail-translate-y-0 sm:tail-scale-100"
+        leave-to="tail-opacity-0 tail-translate-y-4 sm:tail-translate-y-0 sm:tail-scale-95"
       >
         <div
-          class="sm:border border-none bg-white rounded-none sm:rounded-xl overflow-y-auto shadow-xl sm:max-w-md lg:max-w-sm w-full h-full"
+          class="sm:tail-border tail-border-none tail-bg-white tail-rounded-none sm:tail-rounded-xl tail-overflow-y-auto tail-shadow-xl sm:tail-max-w-md lg:tail-max-w-sm tail-w-full tail-h-full"
         >
           <div
-            class="opacity-50 w-full h-full absolute left-0 top-0 -z-10"
+            class="tail-opacity-50 tail-w-full tail-h-full tail-absolute tail-left-0 tail-top-0 tail--z-10"
             @click="$emit('input', false)"
           ></div>
 
-          <div class="sticky top-0">
-            <div class="flex justify-between items-center bg-white p-4">
+          <div class="tail-sticky tail-top-0">
+            <div class="tail-flex tail-justify-between tail-items-center tail-bg-white tail-p-4">
               <slot name="title" />
               <div
-                class="hover:bg-blue-50 h-8 w-8 flex items-center justify-center rounded-full"
+                class="hover:tail-bg-blue-50 tail-h-8 tail-w-8 tail-flex tail-items-center tail-justify-center tail-rounded-full"
               >
-                <i class="ns-cross text-blue-500" role="button" @click="$emit('input', false)"></i>
+                <i class="ns-cross tail-text-blue-500" role="button" @click="$emit('input', false)"></i>
               </div>
             </div>
             <slot name="search" />

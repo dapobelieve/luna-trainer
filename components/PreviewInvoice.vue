@@ -1,15 +1,15 @@
 <template>
   <div>
     <div>
-      <h1 class="capitalize text-black font-medium text-lg">
+      <h1 class="tail-capitalize tail-text-black tail-font-medium tail-text-lg">
         preview
       </h1>
-      <small class="text-gray-500">
+      <small class="tail-text-gray-500">
         A short description about this section
       </small>
     </div>
     <section>
-      <ul class="tabs flex space-x-3">
+      <ul class="tabs tail-flex tail-space-x-3">
         <button id="defaultOpen" class="tablinks" @click.prevent="switchTabs($event, 'Email')">
           Email
         </button>

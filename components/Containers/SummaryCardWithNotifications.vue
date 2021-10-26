@@ -1,17 +1,17 @@
 <template>
   <div
-    class="rounded-xl border bg-white flex flex-col min-h-0 md:min-h-[20rem] h-full"
+    class="tail-rounded-xl tail-border tail-bg-white tail-flex tail-flex-col tail-min-h-0 md:tail-min-h-[20rem] tail-h-full"
   >
-    <div class="w-full h-full mb-auto">
+    <div class="tail-w-full tail-h-full tail-mb-auto">
       <!-- header -->
-      <div class="w-full flex items-center p-4">
-        <div class="mr-auto flex items-center space-x-4">
+      <div class="tail-w-full tail-flex tail-items-center tail-p-4">
+        <div class="tail-mr-auto tail-flex tail-items-center tail-space-x-4">
           <slot name="icon" />
-          <h4 class="capitalize text-md lg:text-lg font-medium">
+          <h4 class="tail-capitalize tail-text-md lg:tail-text-lg tail-font-medium">
             <slot name="title" />
           </h4>
         </div>
-        <div class="text-gray-500 text-xs lg:text-sm text-right">
+        <div class="tail-text-gray-500 tail-text-xs lg:tail-text-sm tail-text-right">
           <slot name="notifications" />
         </div>
       </div>
@@ -24,10 +24,10 @@
     </div>
 
     <!-- bottom button -->
-    <div v-if="displayViewAllButton" class="px-4 pb-2">
+    <div v-if="displayViewAllButton" class="tail-px-4 tail-pb-2">
       <button
         v-if="url === '#'"
-        class="text-blue-500 h-10 w-full hover:bg-blue-50 p-1 rounded-md"
+        class="tail-text-blue-500 tail-h-10 tail-w-full hover:tail-bg-blue-50 tail-p-1 tail-rounded-md"
       >
         <slot name="button">
           View all
@@ -35,7 +35,7 @@
       </button>
       <button
         v-else
-        class="text-blue-500 h-10 w-full hover:bg-blue-50 p-1 rounded-md"
+        class="tail-text-blue-500 tail-h-10 tail-w-full hover:tail-bg-blue-50 tail-p-1 tail-rounded-md"
         @click.prevent="showList"
       >
         <slot name="button">

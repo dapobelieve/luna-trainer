@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="m-3">
+    <div class="tail-m-3">
       <client-only>
         <v-date-picker v-model="date" mode="date" style="width: 100% !important" />
       </client-only>

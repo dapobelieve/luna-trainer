@@ -1,33 +1,33 @@
 <template>
   <div>
-    <h2 class="capitalize font-medium text-lg">
+    <h2 class="tail-capitalize tail-font-medium tail-text-lg">
       edit bank details
     </h2>
-    <div class="mt-5">
-      <p :class="[$route.name === 'Messages' ? 'text-red-500' : 'text-gray-400', 'text-sm']">
+    <div class="tail-mt-5">
+      <p :class="[$route.name === 'Messages' ? 'tail-text-red-500' : 'tail-text-gray-400', 'tail-text-sm']">
         This information is needed for the client to deposit to your account.
       </p>
       <form @submit.prevent="submit">
-        <div class="md:grid grid-cols-1 gap-4 mt-4">
+        <div class="md:tail-grid tail-grid-cols-1 tail-gap-4 tail-mt-4">
           <div class="">
             <label for="account-number" class="">Account Number</label>
-            <input v-model="details.accountNo" type="number" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <input v-model="details.accountNo" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="routing-number" class="">Routing Number</label>
-            <input v-model="details.accountRoutingNo" type="number" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <input v-model="details.accountRoutingNo" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="holdername" class="">Account Holder Name</label>
-            <input v-model="details.accountHolderName" type="text" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <input v-model="details.accountHolderName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="holdername" class="">Bank Name</label>
-            <input v-model="details.accountbankName" type="text" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <input v-model="details.accountbankName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
           </div>
           <div class="">
             <label for="holder-type" class="">Holder Type</label>
-            <select v-model="details.accountHolderType" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <select v-model="details.accountHolderType" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
               <option value=""></option>
               <option value="individual">
                 Individual
@@ -38,9 +38,9 @@
             </select>
           </div>
         </div>
-        <div class="flex justify-end py-4">
+        <div class="tail-flex tail-justify-end tail-py-4">
           <button style="width: fit-content" :disabled="isLoading" class="base-button">
-            <SingleLoader v-if="isLoading" class="mr-2" />
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ isLoading ? 'Saving...' : 'Save' }}
           </button>
         </div>
