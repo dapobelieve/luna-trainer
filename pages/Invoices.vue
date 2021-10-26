@@ -2,27 +2,27 @@
   <div>
     <PageHeader>
       <template v-slot:title>
-        <span class="font-normal">Invoices</span>
+        <span class="tail-font-normal">Invoices</span>
       </template>
       <template v-slot:buttons>
-        <div class="flex items-center">
+        <div class="tail-flex tail-items-center">
           <ClickOutside :do="() => showDrop = false">
-            <div class="relative">
-            <span @click="showDrop = !showDrop" class="font-medium flex items-center cursor-pointer text-primary-color mr-5">
+            <div class="tail-relative">
+            <span @click="showDrop = !showDrop" class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
               <span>{{ currentInvoice }}</span>
-              <i class="ns-caret-down ml-2 text-2xl"></i>
+              <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i>
             </span>
               <div
                 v-show="showDrop"
-                class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+                class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
               >
-                <div class="py-1" role="none">
+                <div class="tail-py-1" role="none">
                   <a
-                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
                     @click.prevent="$router.push({name: 'Invoices-sent'}); showDrop=false">Sent
                   </a>
                   <a
-                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
                     @click.prevent="$router.push({name: 'Invoices-drafts'}); showDrop=false">Drafts
                   </a>
                 </div>
@@ -32,15 +32,15 @@
           <NuxtLink
             :to="{ name: 'NewInvoice'}"
             exact-active-class="active"
-            class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
+            class="tail-inline-flex primary-color tail-items-center tail-justify-center tail-h-9 tail-w-9 tail-text-sm tail-font-medium tail-rounded-lg tail-shadow-sm hover:tail-bg-blue-500 focus:tail-outline-none "
           >
-            <i class="ns-plus text-white text-2xl"></i>
+            <i class="ns-plus tail-text-white tail-text-2xl"></i>
           </NuxtLink>
         </div>
       </template>
     </PageHeader>
-    <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
-      <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
+    <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-100 tail-flex tail-justify-center">
+      <div class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full">
         <NuxtChild />
       </div>
     </div>

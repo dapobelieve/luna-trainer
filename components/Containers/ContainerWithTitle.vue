@@ -1,7 +1,7 @@
 <template>
   <!-- this container has only a title and no border -->
   <div class="parent">
-    <div class="flex items-center justify-between">
+    <div class="tail-flex tail-items-center tail-justify-between">
       <slot name="headerbox" />
     </div>
     <slot name="content" />
@@ -16,6 +16,6 @@ export default {
 
 <style lang="scss" scoped>
 .parent {
-  @apply rounded-xl bg-white py-[1.375rem] px-4 grid gap-y-9 min-h-0 h-full;
+  @apply tail-rounded-xl tail-bg-white tail-py-[1.375rem] tail-px-4 tail-grid tail-gap-y-9 tail-min-h-0 tail-h-full;
 }
 </style>

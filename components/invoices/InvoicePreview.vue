@@ -1,11 +1,11 @@
 <template>
-  <div class="hidden lg:block lg:min-w-[448px] space-y-8">
-    <p class="capitalize text-lg font-medium">
+  <div class="tail-hidden lg:tail-block lg:tail-min-w-[448px] tail-space-y-8">
+    <p class="tail-capitalize tail-text-lg tail-font-medium">
       preview
     </p>
-    <section class="lg:w-[448px]">
+    <section class="lg:tail-w-[448px]">
       <ul
-        class="tabs flex space-x-8 mb-6 pb-4 pl-4 border-b"
+        class="tabs tail-flex tail-space-x-8 tail-mb-6 tail-pb-4 tail-pl-4 tail-border-b"
       >
         <button
           id="defaultOpen"
@@ -23,74 +23,74 @@
       <div id="Email" class="tabcontent">
         <containers-container-with-title class="">
           <template v-slot:headerbox>
-            <span class="text-xl capitalize">
+            <span class="tail-text-xl tail-capitalize">
               getwelp limited
             </span>
           </template>
           <template v-slot:content>
             <div>
-              <div class="grid grid-cols-2 pb-4">
+              <div class="tail-grid tail-grid-cols-2 tail-pb-4">
                 <div class="">
-                  <p class="text-gray-500 text-base">
+                  <p class="tail-text-gray-500 tail-text-base">
                     From
                   </p>
-                  <p class="text-gray-700 font-medium">
+                  <p class="tail-text-gray-700 tail-font-medium">
                     {{ $auth.user.businessName }}
                   </p>
                 </div>
                 <div>
-                  <p class="text-gray-500 text-base">
+                  <p class="tail-text-gray-500 tail-text-base">
                     To
                   </p>
                   <p
-                    class="text-gray-700 font-medium capitalize"
+                    class="tail-text-gray-700 tail-font-medium tail-capitalize"
                   >
                     {{ client ? client.firstName : "Client's name" }}
                   </p>
                 </div>
               </div>
               <div
-                class="rounded-xl bg-gray-100 border p-3"
+                class="tail-rounded-xl tail-bg-gray-100 tail-border tail-p-3"
               >
-                <p class="pb-1 text-gray-500 text-base">
+                <p class="tail-pb-1 tail-text-gray-500 tail-text-base">
                   Amount
                 </p>
-                <p class="text-3xl text-gray-700 pb-2">
+                <p class="tail-text-3xl tail-text-gray-700 tail-pb-2">
                   {{ getTotal | amount }}
                 </p>
-                <p class="text-sm text-gray-700">
+                <p class="tail-text-sm tail-text-gray-700">
                   Due on {{ dueDate | date }}
                 </p>
               </div>
             </div>
             <div>
-              <div v-if="services.length" class="space-y-5">
+              <div v-if="services.length" class="tail-space-y-5">
                 <div
                   v-for="service in services"
                   :key="service._id"
-                  class="flex justify-between items-center last:border-b last:pb-5"
+                  class="tail-flex tail-justify-between tail-items-center last:tail-border-b last:tail-pb-5"
                 >
                   <div>
-                    <p class="text-gray-700 font-medium capitalize">
+                    <p class="tail-text-gray-700 tail-font-medium tail-capitalize">
                       {{ service.description }}
                     </p>
-                    <p class="text-gray-500 text-sm">
+                    <p class="tail-text-gray-500 tail-text-sm">
                       Qty 1
                     </p>
                   </div>
-                  <span class="text-gray-700 font-medium">{{
+                  <span class="tail-text-gray-700 tail-font-medium">{{
                     service.pricing.amount | amount
                   }}</span>
                 </div>
               </div>
-              <div v-else class="text-center">
+              <div v-else class="tail-text-center">
                 <em>Please select a service</em>
               </div>
-              <div class="flex justify-between py-3">
-                <p class="text-gray-700 text-xl">
+              <div class="tail-flex tail-justify-between tail-py-3">
+                <p class="tail-text-gray-700 tail-text-xl">
                   Total
                 </p>
-                <p class="text-lg font-bold text-gray-700">
+                <p class="tail-text-lg tail-font-bold tail-text-gray-700">
                   {{ getTotal | amount }}
                 </p>
               </div>
@@ -104,64 +104,64 @@
         <containers-container-with-title class="">
           <template v-slot:headerbox>
             <div>
-              <h2 class="text-xl capitalize">
+              <h2 class="tail-text-xl tail-capitalize">
                 getwelp limited
               </h2>
-              <span class="text-sm">
+              <span class="tail-text-sm">
                 Tel: +44 000 000 0000
               </span>
             </div>
           </template>
           <template v-slot:content>
             <div>
-              <div class="pb-4 space-y-1">
-                <p class="text-gray-700 text-base capitalize">
+              <div class="tail-pb-4 tail-space-y-1">
+                <p class="tail-text-gray-700 tail-text-base tail-capitalize">
                   Bill to
                 </p>
-                <p class="text-gray-700 text-base">
+                <p class="tail-text-gray-700 tail-text-base">
                   {{ client ? client.firstName : 'N/A' }}
                 </p>
-                <p class="text-gray-700 text-base">
+                <p class="tail-text-gray-700 tail-text-base">
                   {{ client ? client.email : '' }}
                 </p>
               </div>
-              <div class="grid grid-cols-2 pb-4">
+              <div class="tail-grid tail-grid-cols-2 tail-pb-4">
                 <div class="">
-                  <p class="text-gray-500 text-sm">
+                  <p class="tail-text-gray-500 tail-text-sm">
                     Date of issue:
                   </p>
-                  <p class="text-gray-500 text-sm">
+                  <p class="tail-text-gray-500 tail-text-sm">
                     {{ dueDate | date }}
                   </p>
                 </div>
                 <div>
-                  <p class="text-gray-500 text-sm">
+                  <p class="tail-text-gray-500 tail-text-sm">
                     Due Date
                   </p>
-                  <p class="text-gray-500 text-sm">
+                  <p class="tail-text-gray-500 tail-text-sm">
                     {{ dueDate | date }}
                   </p>
                 </div>
               </div>
             </div>
             <div>
-              <div class="space-y-5">
-                <div class="grid grid-cols-4">
-                  <p class="text-gray-500 uppercase text-xs">
+              <div class="tail-space-y-5">
+                <div class="tail-grid tail-grid-cols-4">
+                  <p class="tail-text-gray-500 tail-uppercase tail-text-xs">
                     description
                   </p>
                   <p
-                    class="text-gray-500 uppercase text-xs justify-self-end"
+                    class="tail-text-gray-500 tail-uppercase tail-text-xs tail-justify-self-end"
                   >
                     qty
                   </p>
                   <p
-                    class="text-gray-500 uppercase text-xs justify-self-end"
+                    class="tail-text-gray-500 tail-uppercase tail-text-xs tail-justify-self-end"
                   >
                     unit price
                   </p>
                   <p
-                    class="text-gray-500 uppercase text-xs justify-self-end"
+                    class="tail-text-gray-500 tail-uppercase tail-text-xs tail-justify-self-end"
                   >
                     amount
                   </p>
@@ -170,39 +170,39 @@
                   <div
                     v-for="service in services"
                     :key="service._id"
-                    class="grid grid-cols-4 last:border-b last:pb-5"
+                    class="tail-grid tail-grid-cols-4 last:tail-border-b last:tail-pb-5"
                   >
-                    <p class="text-gray-500 text-sm capitalize">
+                    <p class="tail-text-gray-500 tail-text-sm tail-capitalize">
                       {{ service.description }}
                     </p>
                     <p
-                      class="text-gray-500 text-sm justify-self-end"
+                      class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
                     >
                       1
                     </p>
                     <p
-                      class="text-gray-500 text-sm justify-self-end"
+                      class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
                     >
                       {{ service.pricing.amount | amount }}
                     </p>
                     <p
-                      class="text-gray-500 text-sm justify-self-end"
+                      class="tail-text-gray-500 tail-text-sm tail-justify-self-end"
                     >
                       {{ service.pricing.amount | amount }}
                     </p>
                   </div>
                 </template>
-                <div v-else class="text-center">
+                <div v-else class="tail-text-center">
                   <em>
                     Please select a service
                   </em>
                 </div>
               </div>
-              <div class="flex justify-between py-3">
-                <p class="text-gray-500 text-xl">
+              <div class="tail-flex tail-justify-between tail-py-3">
+                <p class="tail-text-gray-500 tail-text-xl">
                   Total
                 </p>
-                <p class="text-lg font-bold text-gray-700">
+                <p class="tail-text-lg tail-font-bold tail-text-gray-700">
                   {{ getTotal | amount }}
                 </p>
               </div>
@@ -264,7 +264,7 @@ export default {
 
 <style lang="scss" scoped>
 .tablinks {
-  @apply text-base font-normal text-gray-400;
+  @apply tail-text-base tail-font-normal tail-text-gray-400;
 }
 .tabs {
   color: rgb(128, 123, 123);
@@ -276,10 +276,10 @@ export default {
 button {
   position: relative;
   &.active {
-    @apply text-gray-700 font-normal;
+    @apply tail-text-gray-700 tail-font-normal;
     &::after {
       content: "";
-      @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-4;
+      @apply tail-bg-blue-500 tail-h-1 tail-w-full tail-rounded-sm tail-shadow-md tail-absolute tail--bottom-4;
     }
   }
 }

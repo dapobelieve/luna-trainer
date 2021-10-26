@@ -22,7 +22,7 @@
     },
     {
       "section": "Schedule",
-      "classes": "mt-2",
+      "classes": "tail-mt-2",
       "dev": true
     },
     {
@@ -32,7 +32,7 @@
     },
     {
       "section": "Clients",
-      "classes": "mt-2"
+      "classes": "tail-mt-2"
     },
     {
       "icon": "ns-user",
@@ -41,7 +41,7 @@
     },
      {
       "section": "Courses",
-      "classes": "mt-2"
+      "classes": "tail-mt-2"
     },
     {
       "icon": "ns-users",

@@ -1,109 +1,109 @@
 <template>
-  <div class="lg:hidden h-screen w-screen block index border-r shadow-md bg-white">
+  <div class="lg:tail-hidden tail-h-screen tail-w-screen tail-block index tail-border-r tail-shadow-md tail-bg-white">
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
-    <nav aria-label="Sidebar" class="sticky top-0 divide-y divide-gray-300">
-      <div class="relative pt-8">
-        <div class="px-3 py-0.5 mt-3 mb-4">
-          <label for="search" class="sr-only">Search</label>
-          <div class="mt-1 relative rounded-md border border-gray-200">
-            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" aria-hidden="true">
-              <i class="ns-search mr-3 text-gray-400 flex-shrink-0 text-lg" />
+    <nav aria-label="Sidebar" class="tail-sticky tail-top-0 tail-divide-y tail-divide-gray-300">
+      <div class="tail-relative tail-pt-8">
+        <div class="tail-px-3 tail-py-0.5 tail-mt-3 tail-mb-4">
+          <label for="search" class="tail-sr-only">Search</label>
+          <div class="tail-mt-1 tail-relative tail-rounded-md tail-border tail-border-gray-200">
+            <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
+              <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
             </div>
-            <input type="text" name="search" class="bg-gray-100 py-0.5 focus:border-gray-700 focus:outline-none block w-full pl-9 sm:text-sm border-gray-300 rounded-md" placeholder="Search">
+            <input type="text" name="search" class="tail-bg-gray-100 tail-py-0.5 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300 tail-rounded-md" placeholder="Search">
           </div>
         </div>
-        <div class="space-y-1">
+        <div class="tail-space-y-1">
           <div v-for="menu in menus.menu" :key="menu.index" class="navItems" @click.prevent="hideSidebar">
             <NuxtLink
               v-if="menu.path && !['signout', 'Notifications', 'Messages'].includes(menu.path)"
               :to="{ name: menu.path, params:menu.params }"
               exact-active-class="active"
-              class="capitalize text-gray-500 group flex items-center pr-0 py-0.5 font-medium hover:bg-gray-50"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-font-medium hover:tail-bg-gray-50"
             >
-              <div class="flex">
-                <i :class="[menu.icon ? menu.icon : '']" class="text-gray-500 ml-3 mr-4 flex-shrink-0 text-lg" />
-                <span class="truncate text-sm font-normal">
+              <div class="tail-flex">
+                <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
+                <span class="tail-truncate tail-text-sm tail-font-normal">
                   {{ menu.title }}
                 </span>
               </div>
-              <span v-if="menu.dev" class="inline-block rounded-full mx-3 bg-gray-500 text-indigo-50 text-xs px-2 float-right font-mono">Development</span>
+              <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
             </NuxtLink>
             <button
               v-else-if="menu.path === 'Notifications'"
-              class="capitalize text-gray-500 group flex items-center pr-0 py-0.5 text-sm font-medium hover:bg-gray-50 w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click.prevent.stop="toggleMenu(menu.path)"
             >
-              <i :class="[menu.icon ? menu.icon : '']" class="text-gray-500 ml-3 mr-4 flex-shrink-0 text-lg" />
-              <span class="truncate text-sm font-normal">Notifications</span>
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">Notifications</span>
             </button>
             <button
               v-else-if="menu.path === 'Messages'"
-              class="capitalize text-gray-500 group flex items-center pr-0 py-0.5 text-sm font-medium hover:bg-gray-50 w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click.prevent.stop="toggleMenu(menu.path)"
             >
-              <i :class="[menu.icon ? menu.icon : '']" class="text-gray-500 ml-3 mr-4 flex-shrink-0 text-lg" />
-              <div class="flex">
-                <span class="truncate text-sm font-normal">Messages</span>
+              <i :class="[menu.icon ? menu.icon : '']" class="tail-text-gray-500 tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg" />
+              <div class="tail-flex">
+                <span class="tail-truncate tail-text-sm tail-font-normal">Messages</span>
                 <b
                   v-if="unreadMessages.length"
-                  class="flex py-0.5 px-1.5 bg-red-500 rounded-full text-xs text-white ml-2"
+                  class="tail-flex tail-py-0.5 tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-text-xs tail-text-white tail-ml-2"
                 >{{ unreadMessages.length }}</b>
               </div>
             </button>
             <button
               v-else-if="menu.path === 'signout'"
-              class="capitalize text-gray-500 group flex items-center pr-0 py-0.5 text-sm font-medium hover:bg-gray-50 w-full"
+              class="tail-capitalize tail-text-gray-500 tail-group tail-flex tail-items-center tail-pr-0 tail-py-0.5 tail-text-sm tail-font-medium hover:tail-bg-gray-50 tail-w-full"
               @click="signOut"
             >
-              <i class="ns-power ml-3 mr-4 flex-shrink-0 text-lg text-red-600" />
-              <span class="truncate text-sm font-normal">Signout</span>
+              <i class="ns-power tail-ml-3 tail-mr-4 tail-flex-shrink-0 tail-text-lg tail-text-red-600" />
+              <span class="tail-truncate tail-text-sm tail-font-normal">Signout</span>
             </button>
-            <p v-if="menu.section" class="px-3 text-sm my-2 text-gray-500 uppercase tracking-wider">
+            <p v-if="menu.section" class="tail-px-3 tail-text-sm tail-my-2 tail-text-gray-500 uppercase tracking-wider">
               <span>{{ menu.section }}</span>
-              <span v-if="menu.dev" class="inline-block rounded-full mx-3 bg-gray-500 text-indigo-50 text-xs px-2 float-right font-mono">Development</span>
+              <span v-if="menu.dev" class="tail-inline-block tail-rounded-full tail-mx-3 tail-bg-gray-500 tail-text-indigo-50 tail-text-xs tail-px-2 tail-float-right tail-font-mono">Development</span>
             </p>
           </div>
         </div>
         <!-- flyout notifications -->
         <navigation-sub-menu v-model="showNotificationsMenu">
           <template v-slot:title>
-            <h2 class="font-semibold">
+            <h2 class="tail-font-semibold">
               Notifications
             </h2>
           </template>
           <template v-slot:body>
-            <div v-if="0" class="px-4 py-2 grid gap-6">
-              <div v-for="n in 20" :key="n.index" class="flex space-x-3">
+            <div v-if="0" class="tail-px-4 tail-py-2 tail-grid tail-gap-6">
+              <div v-for="n in 20" :key="n.index" class="tail-flex tail-space-x-3">
                 <div>
-                  <img src="https://picsum.photos/seed/picsum/200/300" class="rounded-full w-12 h-12" />
+                  <img src="https://picsum.photos/seed/picsum/200/300" class="tail-rounded-full tail-w-12 tail-h-12" />
                 </div>
                 <div>
-                  <div class="flex flex-col text-sm">
+                  <div class="tail-flex tail-flex-col tail-text-sm">
                     <span>
                       APBC Committee Meeting with Ali R
                     </span>
                     <span>7pm - 9pm . Remote</span>
                   </div>
-                  <div class="flex space-x-2 pt-2">
-                    <button class="base-button px-0 text-sm">
+                  <div class="tail-flex tail-space-x-2 tail-pt-2">
+                    <button class="base-button tail-px-0 tail-text-sm">
                       Accept
                     </button>
-                    <button class="outline-button px-0 text-sm">
+                    <button class="outline-button tail-px-0 tail-text-sm">
                       Re-schedule
                     </button>
                   </div>
                 </div>
               </div>
             </div>
-            <div v-else class="flex justify-center items-center pt-2">
-              <div class="text-center py-5">
-                <h2 class="font-bold">
+            <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
+              <div class="tail-text-center tail-py-5">
+                <h2 class="tail-font-bold">
                   No Notifications.
                 </h2>
-                <div class="pt-3 ">
-                  <p class="mx-2">
+                <div class="tail-pt-3 ">
+                  <p class="tail-mx-2">
                     We will notify you when something arrives
                   </p>
                 </div>
@@ -115,19 +115,19 @@
         <!-- flyout messages -->
         <navigation-sub-menu v-model="showMessagesMenu">
           <template v-slot:title>
-            <h2 class="font-semibold">
+            <h2 class="tail-font-semibold">
               Messages
             </h2>
           </template>
           <template v-slot:search>
-            <div class="flex px-5 py-2 bg-gray-100 items-center">
-              <i class="ns-search text-gray-400 text-2xl pr-2"></i>
-              <input type="text" class="w-full focus:outline-none bg-transparent" placeholder="Search name to start new chat">
+            <div class="tail-flex tail-px-5 tail-py-2 tail-bg-gray-100 tail-items-center">
+              <i class="ns-search tail-text-gray-400 tail-text-2xl tail-pr-2"></i>
+              <input type="text" class="tail-w-full focus:tail-outline-none tail-bg-transparent" placeholder="Search name to start new chat">
             </div>
           </template>
           <template v-slot:body>
-            <div v-if="unreadMessages.length" class="py-2 grid">
-              <button v-for="n in unreadMessages" :key="n.url" type="button" class="flex space-x-3 hover:bg-gray-100 px-4 py-2 cursor-pointer" @click="gotoMessage(n.members)">
+            <div v-if="unreadMessages.length" class="tail-py-2 tail-grid">
+              <button v-for="n in unreadMessages" :key="n.url" type="button" class="tail-flex tail-space-x-3 hover:tail-bg-gray-100 tail-px-4 tail-py-2 tail-cursor-pointer" @click="gotoMessage(n.members)">
                 <div>
                   <ClientAvatar
                     :client-info="{
@@ -136,25 +136,25 @@
                     }"
                   />
                 </div>
-                <div class="text-sm">
-                  <div class="capitalize font-semibold">
-                    <span class="capitalize font-semibold mr-2">
+                <div class="tail-text-sm">
+                  <div class="tail-capitalize tail-font-semibold">
+                    <span class="tail-capitalize tail-font-semibold tail-mr-2">
                       {{ n.lastMessage._sender.nickname }}
-                    </span> <span class="text-gray-400 text-xs normal-case">{{ formatDistance(new Date(n.lastMessage.createdAt), new Date(), { addSuffix: true }) }}.</span>
+                    </span> <span class="tail-text-gray-400 tail-text-xs tail-normal-case">{{ formatDistance(new Date(n.lastMessage.createdAt), new Date(), { addSuffix: true }) }}.</span>
                   </div>
-                  <div class="flex space-x-2 pt-2 text-gray-600">
+                  <div class="tail-flex tail-space-x-2 tail-pt-2 tail-text-gray-600">
                     {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}...` : n.lastMessage.message }}
                   </div>
                 </div>
               </button>
             </div>
-            <div v-else class="flex justify-center items-center pt-2">
-              <div class="text-center py-5">
-                <h2 class="font-bold">
+            <div v-else class="tail-flex tail-justify-center tail-items-center tail-pt-2">
+              <div class="tail-text-center tail-py-5">
+                <h2 class="tail-font-bold">
                   No New Messages.
                 </h2>
-                <div class="pt-3">
-                  <p class="mx-2">
+                <div class="tail-pt-3">
+                  <p class="tail-mx-2">
                     We will notify you when something arrives
                   </p>
                 </div>
@@ -173,10 +173,10 @@
           !acceptedClients.length ? 'You need to invite a client before you can create an invoices.' : 'You need to add at least one service before you can create an invoices.' }}
       </template>
       <template v-slot:actionButtons>
-        <button v-if="!acceptedClients.length" class="base-button normal-case" style="width: fit-content" @click="inviteClient = true">
+        <button v-if="!acceptedClients.length" class="base-button tail-normal-case" style="width: fit-content" @click="inviteClient = true">
           Invite a client
         </button>
-        <NuxtLink v-else to="/Settings#services" class="base-button normal-case" style="width: fit-content">
+        <NuxtLink v-else to="/Settings#services" class="base-button tail-normal-case" style="width: fit-content">
           Add a service
         </NuxtLink>
       </template>

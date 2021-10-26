@@ -1,14 +1,14 @@
 <template>
   <main>
     <article>
-      <div class="grid gap-4">
+      <div class="tail-grid tail-gap-4">
         <!-- dashboard intro -->
         <dashboard-intro-card />
 
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="grid gap-4">
+        <div class="tail-grid md:tail-grid-cols-2 tail-gap-4">
+          <div class="tail-grid tail-gap-4">
             <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" class="h-72" />
+            <dashboard-clients :accepted-clients="acceptedClients" class="tail-h-72" />
             <!-- new messages -->
             <dashboard-messages />
           </div>
@@ -38,7 +38,7 @@
       </template>
       <template v-slot:actionButtons>
         <button
-          class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
+          class="tail-bg-white tail-rounded-md tail-text-sm tail-font-medium tail-capitalize hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500 tail-text-blue-700"
           @click="retry"
         >
           retry

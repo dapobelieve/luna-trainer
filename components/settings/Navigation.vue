@@ -1,36 +1,36 @@
 <template>
   <div>
-    <div class="grid grid-cols-1 gap-4 text-base">
+    <div class="tail-grid tail-grid-cols-1 tail-gap-4 tail-text-base">
       <a
-        class="flex flex-col px-2 pb-2"
+        class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
         href="#profile"
         exact-active-class="active"
       >
-        <span class="text-sm">
+        <span class="tail-text-sm">
           Profile
         </span>
       </a>
       <a
         href="#services"
-        class="flex flex-col px-2 pb-2"
+        class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
       >
-        <span class="text-sm">
+        <span class="tail-text-sm">
           Services
         </span>
       </a>
       <a
         href="#security"
-        class="flex flex-col px-2 pb-2"
+        class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
       >
-        <span class="text-sm">
+        <span class="tail-text-sm">
           Security
         </span>
       </a>
       <a
         href="#connect"
-        class="flex flex-col px-2 pb-2"
+        class="tail-flex tail-flex-col tail-px-2 tail-pb-2"
       >
-        <span class="text-sm">
+        <span class="tail-text-sm">
           Connect
         </span>
       </a>
@@ -40,7 +40,7 @@
 
 <style lang="scss" scoped>
 a {
-  // @apply text-gray-500 no-underline;
+  // @apply tail-text-gray-500 tail-no-underline;
   text-decoration: none;
   color: gray;
 }

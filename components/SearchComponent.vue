@@ -1,12 +1,12 @@
 <template>
-  <div class="relative">
+  <div class="tail-relative">
     <div
       v-if="client"
       style="background: #eaecef; border-color: #ced4da !important"
-      class="border rounded-2 w-100 px-3 py-2 flex items-center"
+      class="tail-border tail-rounded-2 tail-w-100 tail-px-3 tail-py-2 tail-flex tail-items-center"
     >
       picture of client
-      <p class="mb-0 ml-2 mr-auto">
+      <p class="tail-mb-0 tail-ml-2 tail-mr-auto">
         {{ client.fullName }}
       </p>
       <small
@@ -17,7 +17,7 @@
     <input
       v-else
       :value="searchTerm"
-      class="form-control p-2 border border-gray-300 w-full rounded-md"
+      class="form-control tail-p-2 tail-border tail-border-gray-300 tail-w-full tail-rounded-md"
       placeholder="Search for a client"
       autocomplete="off"
       @focus="openPanel = true"
@@ -26,30 +26,30 @@
     />
     <div
       v-if="openPanel"
-      class="border shadow absolute w-full rounded-bottom bg-white"
+      class="tail-border shadow tail-absolute tail-w-full tail-rounded-bottom tail-bg-white"
       style="z-index: 1"
     >
-      <div class="w-full flex justify-center items-center">
+      <div class="tail-w-full tail-flex tail-justify-center tail-items-center">
         <em
           v-if="!searchTerm"
           style="cursor: not-allowed"
-          class="my-2 w-full text-center"
+          class="tail-my-2 tail-w-full tail-text-center"
         >Start typing to begin search</em>
-        <Spinner v-else class="my-2" :show="isListLoading" />
+        <Spinner v-else class="tail-my-2" :show="isListLoading" />
 
         <ul
           v-if="!isListLoading && suggestions"
-          class="list-unstyled w-100 bg-white my-0"
+          class="list-unstyled tail-w-100 tail-bg-white tail-my-0"
         >
           <template v-if="suggestions.length">
             <li v-for="suggestion in suggestions" :key="suggestion.index">
               <a
-                class="w-100 border-bottom px-3 py-2 flex items-center"
+                class="tail-w-100 tail-border-bottom tail-px-3 tail-py-2 tail-flex tail-items-center"
                 role="button"
                 @click.prevent="pinSelection(suggestion)"
               >
                 picture of person
-                <p class="mb-0">
+                <p class="tail-mb-0">
                   suggestions.errorMessage
                 </p>
               </a>
@@ -57,15 +57,15 @@
           </template>
           <li
             v-else-if="suggestions.errorMessage"
-            class="bg-white"
+            class="tail-bg-white"
             style="cursor: not-allowed"
           >
-            <p class="text-center mb-0 py-2">
+            <p class="tail-text-center mb-0 py-2">
               suggestions.errorMessage
             </p>
           </li>
-          <li v-else class="bg-white" style="cursor: not-allowed">
-            <p class="text-center mb-0 py-2">
+          <li v-else class="tail-bg-white" style="cursor: not-allowed">
+            <p class="tail-text-center tail-mb-0 py-2">
               Client Not Found
             </p>
           </li>

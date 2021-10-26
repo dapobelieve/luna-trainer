@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white">
-    <div class="flex justify-between items-center p-5">
-      <h2 class="font-medium">
+  <div class="tail-bg-white">
+    <div class="tail-flex tail-justify-between tail-items-center tail-p-5">
+      <h2 class="tail-font-medium">
         Create Invoice
       </h2>
       <i
@@ -10,11 +10,11 @@
         @click.prevent="backToMessage"
       />
     </div>
-    <div class="flex">
-      <div class="ml-56">
+    <div class="tail-flex">
+      <div class="tail-ml-56">
         <LeftInvoiceForm />
       </div>
-      <div class="fixed right-0 pb-0">
+      <div class="tail-fixed tail-right-0 tail-pb-0">
         <RightInvoicePDF />
       </div>
     </div>

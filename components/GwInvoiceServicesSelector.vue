@@ -11,15 +11,15 @@
       <template v-slot:open-indicator="{}">
         <span>
           <i
-            class="ns-caret-down font-bold text-xl cursor-pointer"
+            class="ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer"
           ></i>
         </span>
       </template>
       <template v-slot:list-footer>
-        <button type="button" class="py-2 outline-none" @click="addNewItem">
-          <div class="flex px-2  ml-1 items-center justify-center">
-            <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
-            <span class="text-primary-color text-base pl-2">Add New Service</span>
+        <button type="button" class="tail-py-2 tail-outline-none" @click="addNewItem">
+          <div class="tail-flex tail-px-2  tail-ml-1 tail-items-center tail-justify-center">
+            <i class="ns-plus tail-text-base tail-rounded-full tail-text-blue-500 tail-p-1" />
+            <span class="text-primary-color tail-text-base tail-pl-2">Add New Service</span>
           </div>
         </button>
       </template>
@@ -31,24 +31,24 @@
         </div>
       </template>
       <template v-slot:option="{ description, pricing }">
-        <div class="flex justify-between min-w-full items-center">
-          <div class="flex content-center py-1">
-            <div class="flex flex-col ml-1 text-gray-700">
-              <p class="capitalize">
+        <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
+          <div class="tail-flex tail-content-center tail-py-1">
+            <div class="tail-flex tail-flex-col tail-ml-1 tail-text-gray-700">
+              <p class="tail-capitalize">
                 {{ description }}
               </p>
-              <small class="text-gray-500"> {{ pricing.amount | amount }}</small>
+              <small class="tail-text-gray-500"> {{ pricing.amount | amount }}</small>
             </div>
           </div>
           <div class="check">
-            <i class="ns-check text-blue-500 text-lg"></i>
+            <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
           </div>
         </div>
       </template>
     </v-select>
     <modal name="add-service" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service
-        class="m-6"
+        class="tail-m-6"
         :selected-service-index="null"
         @close-modal="$modal.hide('add-service')"
       />
@@ -73,7 +73,7 @@ export default {
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
-        class: 'ns-caret-down font-bold text-xl cursor-pointer absolute right-0 p-3'
+        class: 'ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer tail-absolute tail-right-0 tail-p-3'
       }
     }
   },

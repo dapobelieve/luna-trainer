@@ -1,22 +1,22 @@
 <template>
-  <div class="bg-blue-50 w-full min-h-screen">
+  <div class="tail-bg-blue-50 tail-w-full tail-min-h-screen">
     <div
-      class="flex justify-between lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
+      class="tail-flex tail-justify-between lg:tail-grid tail-grid-cols-3 tail-bg-white tail-px-4 tail-py-3 tail-items-center tail-border-b tail-border-gray-200"
     >
-      <span class="text-2xl to-gray-700 font-normal">
+      <span class="tail-text-2xl tail-to-gray-700 tail-font-normal">
         {{ sharedPage.page }}
       </span>
-      <span class="text-xs text-gray-500 lg:justify-self-center">
+      <span class="tail-text-xs tail-text-gray-500 lg:tail-justify-self-center">
         Saving as draft...
       </span>
       <i
         role="button"
-        class="ns-cross text-blue-500 text-lg lg:justify-self-end"
+        class="ns-cross tail-text-blue-500 tail-text-lg lg:tail-justify-self-end"
         @click="$router.go(-1)"
       ></i>
     </div>
     <Nuxt
-      class="m-4 lg:m-0 lg:pt-12 flex justify-center"
+      class="tail-m-4 lg:tail-m-0 lg:tail-pt-12 tail-flex tail-justify-center"
     />
   </div>
 </template>

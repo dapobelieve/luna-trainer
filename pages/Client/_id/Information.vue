@@ -1,13 +1,13 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="py-4 px-8">
-      <div class="grid gap-6 text-sm">
-        <div class="flex justify-between items-center">
-          <h2 class="font-normal text-xl to-gray-700">
+    <div v-if="clientInfo" class="tail-py-4 tail-px-8">
+      <div class="tail-grid tail-gap-6 tail-text-sm">
+        <div class="tail-flex tail-justify-between tail-items-center">
+          <h2 class="tail-font-normal tail-text-xl tail-to-gray-700">
             Information
             <span
               v-if="clientInfo.status === 'invited'"
-              class="rounded-full text-xs bg-indigo-50 text-indigo-500 py-0.5 px-2 ml-2 uppercase"
+              class="tail-rounded-full tail-text-xs tail-bg-indigo-50 tail-text-indigo-500 tail-py-0.5 tail-px-2 tail-ml-2 tail-uppercase"
             >pending</span>
           </h2>
           <button-spinner
@@ -19,25 +19,25 @@
             Update profile
           </button-spinner>
         </div>
-        <h3 class="mb-6 text-gray-500 text-xs font-medium">
+        <h3 class="tail-mb-6 tail-text-gray-500 tail-text-xs tail-font-medium">
           DOG OWNER
         </h3>
         <!-- owner details -->
-        <div class="text-gray-700">
-          <div class="flex flex-col items-center mb-6">
+        <div class="tail-text-gray-700">
+          <div class="tail-flex tail-flex-col tail-items-center tail-mb-6">
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <p class="capitalize font-normal text-xl mt-2">
+            <p class="tail-capitalize tail-font-normal tail-text-xl tail-mt-2">
               {{ fullName }}
             </p>
           </div>
           <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
+            class="tail-grid tail-grid-cols-1 tail-gap-x-4 tail-gap-y-6 sm:tail-grid-cols-2"
           >
-            <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
-              <div class="ml-4">
+            <div class="sm:tail-col-span-1 tail-flex">
+              <i class="ns-envelope tail-text-2xl tail-text-gray-500"></i>
+              <div class="tail-ml-4">
                 <dt class="input-text-label">
                   Telephone
                 </dt>
@@ -53,14 +53,14 @@
               <dt class="input-text-label">
                 Email
               </dt>
-              <dd class="mt-1 truncate">
+              <dd class="tail-mt-1 tail-truncate">
                 {{ clientInfo && clientInfo.email }}
               </dd>
             </div>
 
-            <div class="sm:col-span-1 flex">
-              <i class="ns-location-alt text-2xl text-gray-500"></i>
-              <div class="ml-4">
+            <div class="sm:tail-col-span-1 tail-flex">
+              <i class="ns-location-alt tail-text-2xl tail-text-gray-500"></i>
+              <div class="tail-ml-4">
                 <dt class="input-text-label">
                   Location
                 </dt>
@@ -85,16 +85,16 @@
         <!-- dog details -->
         <div>
           <h3
-            class="mb-6 text-gray-500 text-xs font-medium mt-3"
+            class="tail-mb-6 tail-text-gray-500 tail-text-xs tail-font-medium tail-mt-3"
           >
             DOG DETAILS
           </h3>
           <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
+            class="tail-grid tail-grid-cols-1 tail-gap-x-4 tail-gap-y-6 sm:tail-grid-cols-2"
           >
-            <div class="sm:col-span-1 flex">
-              <i class="ns-time-add text-2xl text-gray-500"></i>
-              <div class="ml-4">
+            <div class="sm:tail-col-span-1 tail-flex">
+              <i class="ns-time-add tail-text-2xl tail-text-gray-500"></i>
+              <div class="tail-ml-4">
                 <dt class="input-text-label">
                   Dog name
                 </dt>
@@ -117,38 +117,38 @@
               />
             </div>
 
-            <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl invisible"></i>
-              <div class="ml-4">
+            <div class="sm:tail-col-span-1 tail-flex">
+              <i class="ns-envelope tail-text-2xl tail-invisible"></i>
+              <div class="tail-ml-4">
                 <dt class="input-text-label">
                   Age
                 </dt>
-                <div class="flex items-center">
+                <div class="tail-flex tail-items-center">
                   <input
                     v-model="clientInfo.pet[0].age"
                     type="text"
-                    class="input-text w-14 mr-2"
+                    class="input-text tail-w-14 tail-mr-2"
                   />
                   <span>weeks</span>
                 </div>
               </div>
             </div>
 
-            <div class="sm:col-span-2 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
-              <div class="ml-4">
+            <div class="sm:tail-col-span-2 tail-flex">
+              <i class="ns-envelope tail-text-2xl tail-text-gray-500"></i>
+              <div class="tail-ml-4">
                 <dt class="input-text-label">
                   Behavioural Problems
                 </dt>
-                <dd class="mt-1 truncate">
+                <dd class="tail-mt-1 tail-truncate">
                   Not Available
                 </dd>
               </div>
             </div>
 
-            <div class="sm:col-span-2 flex">
-              <i class="ns-notebook text-2xl text-gray-500"></i>
-              <div class="ml-4">
+            <div class="sm:tail-col-span-2 tail-flex">
+              <i class="ns-notebook tail-text-2xl tail-text-gray-500"></i>
+              <div class="tail-ml-4">
                 <dt class="input-text-label">
                   Note
                 </dt>

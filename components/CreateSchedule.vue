@@ -5,106 +5,106 @@
         v-model="title"
         type="text"
         placeholder="Enter a title"
-        class="w-full bg-gray-200 text-gray-500 focus:outline-none focus:bg-white focus:border-blue-400 p-2.5 block text-sm md:text-base mt-1 border border-gray-300 rounded-md"
+        class="tail-w-full tail-bg-gray-200 tail-text-gray-500 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
       />
     </div>
-    <div class="flex mt-3.5">
-      <div class=" mr-3">
-        <i class="ns-user text-gray-500 text-2xl"></i>
+    <div class="tail-flex tail-mt-3.5">
+      <div class=" tail-mr-3">
+        <i class="ns-user tail-text-gray-500 tail-text-2xl"></i>
       </div>
-      <div class="w-full">
-        <label for="name" class="block font-light">Dog Owner</label>
+      <div class="tail-w-full">
+        <label for="name" class="tail-block tail-font-light">Dog Owner</label>
         <input
           v-model="name"
           type="text"
-          class="w-full bg-white p-2.5 block text-sm md:text-base mt-1 border border-gray-300 rounded-md focus:outline-none focus:bg-white focus:border-blue-400"
+          class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
         />
       </div>
     </div>
-    <div class="flex mt-3.5">
-      <div class="text-2xl mr-3">
-        <i class="ns-calendar text-gray-500"></i>
+    <div class="tail-flex tail-mt-3.5">
+      <div class="tail-text-2xl tail-mr-3">
+        <i class="ns-calendar tail-text-gray-500"></i>
       </div>
-      <div class="w-full">
-        <label for="date" class="block font-light">Date</label>
+      <div class="tail-w-full">
+        <label for="date" class="tail-block tail-font-light">Date</label>
         <Datepicker v-model="date" :type="date" />
       </div>
     </div>
-    <div class="flex mt-3.5">
-      <div class="text-2xl mr-3">
-        <i class="ns-clock text-gray-500"></i>
+    <div class="tail-flex tail-mt-3.5">
+      <div class="tail-text-2xl tail-mr-3">
+        <i class="ns-clock tail-text-gray-500"></i>
       </div>
-      <div class="w-full">
-        <div class="w-full flex items-center justify-between">
-          <div class="mr-2 w-full">
+      <div class="tail-w-full">
+        <div class="tail-w-full tail-flex tail-items-center tail-justify-between">
+          <div class="tail-mr-2 tail-w-full">
             <label
               for="date"
-              class="block font-light"
+              class="tail-block tail-font-light"
             >Start time</label>
             <Timepicker v-model="time1" />
           </div>
-          <div class="w-full">
-            <label for="date" class="block font-light">End time</label>
+          <div class="tail-w-full">
+            <label for="date" class="tail-block tail-font-light">End time</label>
             <Timepicker v-model="time2" />
           </div>
         </div>
-        <span class="block text-gray-500 pt-1 text-sm">Duration : 0</span>
+        <span class="tail-block tail-text-gray-500 tail-pt-1 tail-text-sm">Duration : 0</span>
       </div>
     </div>
-    <div class="flex mt-3.5">
-      <div class="text-2xl mr-3">
-        <img src="~/assets/img/appointment.svg" class="w-5 h-5" alt="" srcset="">
+    <div class="tail-flex tail-mt-3.5">
+      <div class="tail-text-2xl tail-mr-3">
+        <img src="~/assets/img/appointment.svg" class="tail-w-5 tail-h-5" alt="" srcset="">
       </div>
-      <div class="w-full">
+      <div class="tail-w-full">
         <label
           for="appointment"
-          class="block font-light"
+          class="tail-block tail-font-light"
         >Type of Appointment</label>
         <input
           type="text"
-          class="w-full focus:outline-none focus:bg-white focus:border-blue-400 text-sm md:text-base bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+          class="tail-w-full focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-text-sm md:tail-text-base tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
         />
       </div>
     </div>
-    <div class="flex mt-3.5">
-      <div class="text-2xl mr-3">
-        <i class="ns-location-alt text-gray-500"></i>
+    <div class="tail-flex tail-mt-3.5">
+      <div class="tail-text-2xl tail-mr-3">
+        <i class="ns-location-alt tail-text-gray-500"></i>
       </div>
-      <div class="w-full">
+      <div class="tail-w-full">
         <label
           for="location"
-          class="block font-light"
+          class="tail-block tail-font-light"
         >Location</label>
         <input
           v-model="venue"
           type="text"
-          class="w-full bg-white focus:outline-none focus:bg-white text-sm md:text-base focus:border-blue-400 p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+          class="tail-w-full tail-bg-white focus:tail-outline-none focus:tail-bg-white tail-text-sm md:tail-text-base focus:tail-border-blue-400 tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
         />
       </div>
     </div>
-    <div class="flex mt-3.5">
-      <div class="text-2xl mr-3">
-        <i class="ns-notebook text-gray-500"></i>
+    <div class="tail-flex tail-mt-3.5">
+      <div class="tail-text-2xl tail-mr-3">
+        <i class="ns-notebook tail-text-gray-500"></i>
       </div>
-      <div class="w-full">
-        <label for="notes" class="block font-light">Notes</label>
+      <div class="tail-w-full">
+        <label for="notes" class="tail-block tail-font-light">Notes</label>
         <textarea
           v-model="text"
           name="notes"
           rows="4"
           cols="50"
-          class="w-full bg-white p-2.5 block text-sm md:text-base mt-1 focus:outline-none focus:bg-white focus:border-blue-400 border border-gray-300 rounded-md"
+          class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border tail-border-gray-300 tail-rounded-md"
           :maxlength="max"
         >
         </textarea>
-        <div class="text-right text-sm" v-text="(max - text.length)"></div>
+        <div class="tail-text-right tail-text-sm" v-text="(max - text.length)"></div>
       </div>
     </div>
-    <div class="flex justify-end items-center mt-3">
-      <button class="hidden md:flex items-center px-2.5 py-1 rounded-md bg-white border border-gray-400 m-1.5">
+    <div class="tail-flex tail-justify-end tail-items-center tail-mt-3">
+      <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1.5">
         Cancel
       </button>
-      <button class="hidden md:flex items-center px-2.5 py-1 rounded-md text-white bg-blue-500 border border-gray-400 m-1.5">
+      <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-text-white tail-bg-blue-500 tail-border tail-border-gray-400 tail-m-1.5">
         Save
       </button>
     </div>

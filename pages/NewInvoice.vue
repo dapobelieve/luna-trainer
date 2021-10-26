@@ -1,14 +1,14 @@
 <template>
-  <div class="flex flex-col lg:flex-row lg:space-x-10">
+  <div class="tail-flex tail-flex-col lg:tail-flex-row lg:tail-space-x-10">
     <!-- invoice builder -->
-    <containers-container-with-title class="lg:min-w-[448px]">
+    <containers-container-with-title class="lg:tail-min-w-[448px]">
       <template v-slot:headerbox>
-        <span class="text-xl capitalize">
+        <span class="tail-text-xl tail-capitalize">
           client
         </span>
         <button type="button" @click="$modal.show('inviteClientModal')">
           <img
-            class="h-4"
+            class="tail-h-4"
             src="~/assets/img/svgs/plus-icon.svg"
             alt=""
             srcset=""
@@ -24,33 +24,38 @@
           </label>
           <gw-customer-selector :clients="allClients" v-model="invoiceDetails.client">
             <template v-slot:dropdownOption="{optionObject}">
-              <div class="flex justify-between min-w-full items-center">
-                <div class="flex items-center content-center py-1">
+              <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
+                <div class="tail-flex tail-content-center tail-py-1">
                   <ClientAvatar :width="2.3" :height="2.3" :client-info="optionObject" />
-                  <p class="capitalize text-gray-700 ml-4"> {{ optionObject.firstName }} </p>
+                  <div class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
+                    <p class="tail-capitalize">
+                      {{ optionObject.firstName }}
+                    </p>
+                    <small class="tail-text-gray-500"> {{ optionObject.email }}</small>
+                  </div>
                 </div>
                 <div class="check">
-                  <i class="ns-check text-blue-500 text-lg"></i>
+                  <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
                 </div>
               </div>
             </template>
           </gw-customer-selector>
         </div>
-        <div class="flex items-center justify-between">
-          <p class="capitalize text-xl font-normal">
+        <div class="tail-flex tail-items-center tail-justify-between">
+          <p class="tail-capitalize tail-text-xl tail-font-normal">
             invoice service &amp; items
           </p>
           <button type="button" @click="$modal.show('add-service-modal')">
             <img
-              class="h-4"
+              class="tail-h-4"
               src="~/assets/img/svgs/plus-icon.svg"
               alt=""
               srcset=""
             />
           </button>
         </div>
-        <div class="space-y-6">
-          <div class="flex flex-col space-y-2">
+        <div class="tail-space-y-6">
+          <div class="tail-flex tail-flex-col tail-space-y-2">
             <label
               class="input-text-label"
             >
@@ -58,17 +63,17 @@
             </label>
             <gw-customer-selector multiple :clients="$auth.user.services" @change="invoiceDetails.services = $event">
               <template v-slot:dropdownOption="{optionObject}">
-                <div class="flex justify-between min-w-full items-center">
-                  <div class="flex content-center py-1">
-                    <div class="flex flex-col ml-1 text-gray-700">
-                      <p class="capitalize mb-2">
+                <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
+                  <div class="tail-flex tail-content-center tail-py-1">
+                    <div class="tail-flex tail-flex-col tail-ml-1 tail-text-gray-700">
+                      <p class="tail-capitalize">
                         {{ optionObject.description }}
                       </p>
-                      <small class="text-gray-700 text-sm"> {{ optionObject.pricing.amount | amount }}</small>
+                      <small class="tail-text-gray-500"> {{ optionObject.pricing.amount | amount }}</small>
                     </div>
                   </div>
                   <div class="check">
-                    <i class="ns-check text-blue-500 text-lg"></i>
+                    <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
                   </div>
                 </div>
               </template>
@@ -76,35 +81,35 @@
 
             <div
               v-if="invoiceDetails.services.length"
-              class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
+              class="tail-rounded-xl tail-border tail-bg-gray-50 tail-py-4 tail-px-3 tail-space-y-3"
             >
               <div
                 v-for="(service, index) in invoiceDetails.services"
                 :key="service._id"
-                class="flex justify-between items-center"
+                class="tail-flex tail-justify-between tail-items-center"
               >
                 <div
-                  class="max-w-[180px] md:max-w-[500px] lg:max-w-[300px]"
+                  class="tail-max-w-[180px] md:tail-max-w-[500px] lg:tail-max-w-[300px]"
                 >
-                  <p class="font-medium capitalize">
+                  <p class="tail-font-medium tail-capitalize">
                     {{ service.description }}
                   </p>
-                  <p class="text-xs truncate">
+                  <p class="tail-text-xs tail-truncate">
                     {{ service.subtitle }}
                   </p>
                 </div>
-                <div class="flex items-center space-x-2">
+                <div class="tail-flex tail-items-center tail-space-x-2">
                   <span> {{ service.pricing.amount | amount }} </span>
-                  <div class="relative">
+                  <div class="tail-relative">
                     <button type="button" @click="showDropdown">
                       <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
                     </button>
                     <!-- dropdown menu -->
                     <div
                       v-show="showDropDown"
-                      class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+                      class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
                     >
-                      <div class="py-2" role="none">
+                      <div class="tail-py-2" role="none">
                         <button
                           type="button"
                           class="dropdown-button"
@@ -126,8 +131,8 @@
             </div>
           </div>
           <div>
-            <input type="checkbox" class="p-2" />
-            <span class="font-light">Value Added Tax (VAT)</span>
+            <input type="checkbox" class="tail-p-2" />
+            <span class="tail-font-light">Value Added Tax (VAT)</span>
           </div>
           <div>
             <label
@@ -137,7 +142,7 @@
             <date-picker
               v-model="invoiceDetails.dueDate"
               style="width: 100% !important"
-              class="w-full"
+              class="tail-w-full"
               :disabled-date="date => date < new Date()"
               value-type="format"
               placeholder="Select a due date for this invoice"
@@ -145,11 +150,11 @@
           </div>
         </div>
         <div
-          class="flex justify-end space-x-6 lg:space-x-0"
+          class="tail-flex tail-justify-end tail-space-x-6 lg:tail-space-x-0"
         >
           <button
             type="button"
-            class="button-outline lg:hidden"
+            class="button-outline lg:tail-hidden"
             @click="$modal.show('preview-invoice')"
           >
             preview
@@ -183,7 +188,7 @@
     <!-- invite clietn modal -->
     <modal name="inviteClientModal" height="auto" :adaptive="true">
       <InviteNewClient
-        class="m-6"
+        class="tail-m-6"
         @close="$modal.hide('inviteClientModal')"
       />
     </modal>
@@ -191,7 +196,7 @@
     <!-- adding and editing services modal -->
     <modal name="add-service-modal" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service
-        class="m-6"
+        class="tail-m-6"
         :selected-service-index="selectedServiceProps"
         @clearSelectedServiceIndex="selectedServiceProps = $event"
         @close-modal="$modal.hide('add-service-modal')"
@@ -201,7 +206,7 @@
     <!-- previewing invoices -->
     <modal name="preview-invoice" height="100%" width="100%" :adaptive="true">
       <invoices-invoice-preview
-        class="m-6"
+        class="tail-m-6"
         :client="invoiceDetails.client"
         :services="invoiceDetails.services"
         :due-date="invoiceDetails.dueDate"
@@ -302,10 +307,10 @@ export default {
 
 <style lang="scss" scoped>
 .divider {
-  @apply hidden lg:block bg-gray-200 w-[1px];
+  @apply tail-hidden lg:tail-block tail-bg-gray-200 tail-w-[1px];
 }
 
 .dropdown-button {
-  @apply text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left;
+  @apply tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100 tail-w-full tail-text-left;
 }
 </style>

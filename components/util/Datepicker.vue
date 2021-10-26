@@ -3,7 +3,7 @@
     <date-picker
       v-model="model"
       :style="{ width: widthSize }"
-      class="w-full my-dp"
+      class="tail-w-full my-dp"
       type="date"
       :disabled-date="
         date => {

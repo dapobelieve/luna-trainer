@@ -5,8 +5,8 @@
         Clients
       </template>
       <template v-slot:buttons>
-        <button type="button" class="inline-flex primary-color items-center p-2 h-9 w-9 border border-gray-300 text-xs font-medium rounded shadow-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2" @click="inviteClient">
-          <i class="ns-plus text-white text-lg"></i>
+        <button type="button" class="tail-inline-flex primary-color tail-items-center tail-p-2 tail-h-9 tail-w-9 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-blue-600 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2" @click="inviteClient">
+          <i class="ns-plus tail-text-white tail-text-lg"></i>
         </button>
       </template>
     </PageHeader>

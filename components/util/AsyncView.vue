@@ -1,8 +1,8 @@
 <template>
-  <div class="w-full">
+  <div class="tail-w-full">
     <div
       v-if="isLoading"
-      class="mt-40 px-5 grid gap-5 justify-center text-center"
+      class="tail-mt-40 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center"
     >
       <SingleLoader width="50px" height="50px" />
     </div>

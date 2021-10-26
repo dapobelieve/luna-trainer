@@ -2,31 +2,31 @@
   <div>
     <PageHeader>
       <template v-slot:title>
-        <div class="flex items-center">
+        <div class="tail-flex tail-items-center">
           {{ displayMonth ? 'June' : 'April' }}
           <button
             type="button"
-            class="outline-none border-none m-1 inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? prev() : prevEvent()"
           >
-            <img class="h-6" src="~/assets/img/chevron-left.svg" alt="">
+            <img class="tail-h-6" src="~/assets/img/chevron-left.svg" alt="">
           </button>
           <button
             type="button"
-            class="outline-none border-none m-1 inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            class="tail-outline-none tail-border-none tail-m-1 tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
             @click.prevent="displayMonth ? next() : nextEvent()"
           >
-            <img class="h-6" src="~/assets/img/chevron-right.svg" alt="">
+            <img class="tail-h-6" src="~/assets/img/chevron-right.svg" alt="">
           </button>
         </div>
       </template>
       <template v-slot:buttons>
         <button
           type="button"
-          class="base-button inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+          class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
           @click="openCreateModal = true"
         >
-          <i class="ns-plus text-lg hover:text-white"></i>
+          <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
         </button>
         <div>
           <gw-select
@@ -37,12 +37,12 @@
         </div>
         <button
           type="button"
-          class=" inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+          class=" tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-sm tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
           @click.prevent="showSubMenu"
         >
-          <i class="ns-ellipsis  text-lg"></i>
+          <i class="ns-ellipsis  tail-text-lg"></i>
         </button>
-        <div v-show="meetSubMenu" class="mt-8">
+        <div v-show="meetSubMenu" class="tail-mt-8">
           <GwOptions
             :options="['Set Availability']"
             selected="availability"
@@ -58,7 +58,7 @@
       @closeBackDrop="openAvailabilityModal = $event"
     >
       <template v-slot:status>
-        <div class="px-2 capitalize text-xl leading-normal">
+        <div class="tail-px-2 tail-capitalize tail-text-xl tail-leading-normal">
           Set availability
         </div>
       </template>
@@ -79,7 +79,7 @@
 
     <div
       v-if="1 > 0"
-      class="m-5 sm:m-3 pb-14 lg:pb-10 h-full mt-2 md:mt-5"
+      class="tail-m-5 sm:tail-m-3 tail-pb-14 lg:tail-pb-10 tail-h-full tail-mt-2 md:tail-mt-5"
     >
       <template v-if="displayDay">
         <div v-for="data in group" :key="data.id">
@@ -98,21 +98,21 @@
     </div>
     <div
       v-else
-      class="mt-16 px-5 grid gap-5 justify-center text-center"
+      class="tail-mt-16 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center"
     >
-      <div class="w-full">
+      <div class="tail-w-full">
         <img
-          class="text-center inline-block"
+          class="tail-text-center tail-inline-block"
           src="~/assets/img/low-dog.png"
           alt=""
           srcset=""
         />
       </div>
-      <h5 class="font-bold text-base">
+      <h5 class="tail-font-bold tail-text-base">
         No scheduled sessions
       </h5>
       <p
-        class="px-5 text-sm mb-0 max-w-lg leading-6 mt-0 font-normal"
+        class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-lg tail-leading-6 tail-mt-0 tail-font-normal"
       >
         All your current, confirmed, and cancelled sessions will appear here.
         Schedule a session with your clients to begin
