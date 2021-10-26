@@ -1,15 +1,15 @@
 <template>
-  <div class="bg-white grid gap-4">
+  <div class="tail-bg-white tail-grid tail-gap-4">
     <div>
       <label
-        class="block font-medium text-gray-500 text-sm"
+        class="tail-block tail-font-medium tail-text-gray-500 tail-text-sm"
       >
         Client
       </label>
-      <div class="flex ">
-        <div class=" w-full">
-          <div class="flex">
-            <div class="w-full">
+      <div class="tail-flex ">
+        <div class=" tail-w-full">
+          <div class="tail-flex">
+            <div class="tail-w-full">
               <multiselect
                 v-model="$v.selectedClient.$model"
                 track-by="firstName"
@@ -23,7 +23,7 @@
                   slot="singleLabel"
                   slot-scope="props"
                 >
-                  <div class="option__desc flex items-center">
+                  <div class="option__desc tail-flex tail-items-center">
                     <ClientAvatar
                       :client-info="props.option"
                       :width="4"
@@ -31,15 +31,15 @@
                     />
                     <div>
                       <span
-                        class="option__title pl-2"
+                        class="option__title tail-pl-2"
                       >{{ props.option.firstName }}
                         {{ props.option.lastName }}</span>
                       |
                       <span
-                        class="option__title pl-2"
+                        class="option__title tail-pl-2"
                       >{{ props.option.location }}
                       </span>
-                      <div class="pl-2 break-words">
+                      <div class="tail-pl-2 tail-break-words">
                         {{ props.option.email }}
                       </div>
                     </div>
@@ -49,7 +49,7 @@
                   <div class="option__desc">
                     <span class="option__title">{{
                       props.option.firstName
-                    }}</span><span class="option__small pl-2">{{
+                    }}</span><span class="option__small tail-pl-2">{{
                       props.option.lastName
                     }}</span>
                   </div>
@@ -57,7 +57,7 @@
               </multiselect>
             </div>
           </div>
-          <p class="text-gray-500 text-xs italic">
+          <p class="tail-text-gray-500 tail-text-xs tail-italic">
             <template
               v-if="$v.selectedClient.$error && !$v.selectedClient.required"
             >
@@ -68,7 +68,7 @@
       </div>
     </div>
     <div>
-      <label class="block text-sm text-gray-500 font-medium">
+      <label class="block tail-text-sm tail-text-gray-500 font-medium">
         Session Description
       </label>
       <div>
@@ -88,10 +88,10 @@
           :max-height="600"
           :show-no-results="false"
           :hide-selected="true"
-          class="w-full"
+          class="tail-w-full"
         >
         </multiselect>
-        <p class="text-gray-500 text-xs">
+        <p class="tail-text-gray-500 tail-text-xs">
           <template
             v-if="$v.selectedService.$error && !$v.selectedService.required"
           >
@@ -101,11 +101,11 @@
       </div>
     </div>
     <div class="">
-      <label for="dueDate" class="block font-light">Due date</label>
+      <label for="dueDate" class="tail-block tail-font-light">Due date</label>
       <date-picker
         v-model="$v.selectedDate.$model"
         style="width: 100% !important"
-        class="w-full"
+        class="tail-w-full"
         :disabled-date="
           date => {
             if (date < new Date()) {
@@ -117,7 +117,7 @@
         value-type="format"
         placeholder="Select an appointment date"
       ></date-picker>
-      <p class="text-gray-500 text-xs italic">
+      <p class="tail-text-gray-500 tail-text-xs tail-italic">
         <template v-if="$v.selectedDate.$error && !$v.selectedDate.required">
           Please select a date.
         </template>
@@ -125,21 +125,21 @@
     </div>
     <div>
       <label
-        class="block text-sm font-medium text-gray-500"
+        class="tail-block tail-text-sm tail-font-medium tail-text-gray-500"
       >
         Total Invoice amount
       </label>
-      <div class="mt-1">
+      <div class="tail-mt-1">
         {{ selectedPrice | amount }}
       </div>
     </div>
-    <div class="flex justify-center">
+    <div class="tail-flex tail-justify-center">
       <button
         :disabled="isLoading"
         class="base-button"
         @click.prevent="createInvoice"
       >
-        <SingleLoader v-if="isLoading" class="mr-2" />
+        <SingleLoader v-if="isLoading" class="tail-mr-2" />
         {{ isLoading ? "Creating Invoice..." : "Create Invoice" }}
       </button>
     </div>

@@ -1,30 +1,30 @@
 <template>
   <div>
-    <div class="py-6">
-      <h3 class="text-2xl font-medium sec-color">
+    <div class="tail-py-6">
+      <h3 class="tail-text-2xl tail-font-medium sec-color">
         Connect
       </h3>
     </div>
-    <div class="pb-4 py-5 px-5 rounded-md bg-white">
-      <form autocomplete="off" class="grid gap-6">
+    <div class="tail-pb-4 tail-py-5 tail-px-5 tail-rounded-md tail-bg-white">
+      <form autocomplete="off" class="tail-grid tail-gap-6">
         <div><span>Integrations</span></div>
-        <div class="border w-full rounded flex flex-col md:flex-row justify-between p-4">
-          <div class="flex justify-between items-center mx-auto md:mx-0 mb-2">
+        <div class="tail-border tail-w-full tail-rounded tail-flex tail-flex-col md:tail-flex-row tail-justify-between tail-p-4">
+          <div class="tail-flex tail-justify-between tail-items-center tail-mx-auto md:tail-mx-0 tail-mb-2">
             <div>
-              <img class="h-8" src="~/assets/img/strip.png" alt="google logo">
+              <img class="tail-h-8" src="~/assets/img/strip.png" alt="google logo">
             </div>
           </div>
 
           <button
             v-if="!user.stripe || !user.stripe.connected"
             :disabled="isLoading"
-            class="flex border-2 border-gray-400 px-2 py-1 rounded-md"
+            class="tail-flex tail-border-2 tail-border-gray-400 tail-px-2 tail-py-1 tail-rounded-md"
             @click.prevent="stripeConnect"
           >
-            <SingleLoader v-if="isLoading" class="mr-2" />
+            <SingleLoader v-if="isLoading" class="tail-mr-2" />
             {{ isLoading ? 'Establishing Stripe Connection' : 'Connect with Stripe' }}
           </button>
-          <button v-else disabled class="border-2 border-gray-400 px-2 py-1 rounded-md" @click.prevent="stripeConnect">
+          <button v-else disabled class="tail-border-2 tail-border-gray-400 tail-px-2 tail-py-1 tail-rounded-md" @click.prevent="stripeConnect">
             Stripe Already Connected
           </button>
         </div>

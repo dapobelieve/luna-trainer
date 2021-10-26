@@ -1,63 +1,63 @@
 <template>
   <div
     v-if="isChannelLoading"
-    class="h-full grid place-content-center"
+    class="tail-h-full tail-grid tail-place-content-center"
   >
-    <div class="flex flex-col items-center">
+    <div class="tail-flex tail-flex-col tail-items-center">
       <SingleLoader />
-      <p class="text-center">
+      <p class="tail-text-center">
         Starting Chat...
       </p>
     </div>
   </div>
   <div
     v-else-if="!clientIsReady"
-    class="h-full grid place-content-center"
+    class="tail-h-full tail-grid tail-place-content-center"
   >
-    <div class="flex items-center">
-      <i class="ns-lock text-lg mr-1"></i>
-      <span class="mr-2">You can only message clients who have accepted your invite.</span>
+    <div class="tail-flex tail-items-center">
+      <i class="ns-lock tail-text-lg tail-mr-1"></i>
+      <span class="tail-mr-2">You can only message clients who have accepted your invite.</span>
     </div>
   </div>
   <div
     v-else-if="errorCreatingChannel"
-    class="h-full grid place-content-center"
+    class="tail-h-full tail-grid tail-place-content-center"
   >
-    <div class="flex flex-col items-center">
-      <p class="text-center">
+    <div class="tail-flex tail-flex-col tail-items-center">
+      <p class="tail-text-center">
         An error occured. Please contact support.
       </p>
     </div>
   </div>
   <div
     v-else-if="!isUploading"
-    class="flex flex-col justify-between h-full"
+    class="tail-flex tail-flex-col tail-justify-between tail-h-full"
   >
-    <ul id="chatBody" class="h-full w-full">
+    <ul id="chatBody" class="tail-h-full tail-w-full">
       <template v-if="messageHistory.length">
         <div v-for="msg in messageHistory" :key="msg.messageId">
           <li
             v-if="msg._sender.userId === sender"
-            class="me flex justify-end mb-3"
+            class="me tail-flex tail-justify-end tail-mb-3"
           >
             <span
               v-if="msg.messageType === 'file'"
-              class="msg overflow-hidden border-4"
+              class="msg tail-overflow-hidden tail-border-4"
               style="border-color: rgba(86, 204, 242, 1);"
             >
               <img
-                class="bg-white"
+                class="tail-bg-white"
                 :src="msg.imaging || msg.url"
                 style="max-width: 250px"
               />
             </span>
-            <div v-else class="msg p-2 max-w-lg break-all">
+            <div v-else class="msg tail-p-2 tail-max-w-lg tail-break-all">
               {{ msg.message }}
             </div>
           </li>
-          <li v-else class="you flex items-end mb-3">
+          <li v-else class="you tail-flex tail-items-end tail-mb-3">
             <ClientAvatar
-              class="mr-2"
+              class="tail-mr-2"
               :client-info="{
                 firstName: 'Get',
                 lastName: 'Welp'
@@ -67,16 +67,16 @@
             />
             <span
               v-if="msg.messageType === 'file'"
-              class="msg overflow-hidden border-4"
+              class="msg tail-overflow-hidden tail-border-4"
               style="border-color: rgba(86, 204, 242, 1);"
             >
               <img
-                class="bg-white"
+                class="tail-bg-white"
                 :src="msg.url"
                 style="max-width: 250px"
               />
             </span>
-            <div v-else class="msg p-2 max-w-lg break-all">
+            <div v-else class="msg tail-p-2 tail-max-w-lg tail-break-all">
               {{ msg.message }}
             </div>
           </li>
@@ -84,12 +84,12 @@
       </template>
       <template v-else>
         <div
-          class="h-full grid place-content-center text-gray-500"
+          class="tail-h-full tail-grid tail-place-content-center tail-text-gray-500"
         >
-          <div class="flex items-center">
-            <span class="mr-2">Start a conversation</span>
+          <div class="tail-flex tail-items-center">
+            <span class="tail-mr-2">Start a conversation</span>
             <img
-              class="text-center inline-block"
+              class="tail-text-center tail-inline-block"
               src="~/assets/img/svgs/paw.svg"
               alt=""
               srcset=""
@@ -103,27 +103,27 @@
       <!-- loading notice -->
       <div
         v-if="uploadingFileToSb"
-        class="bg-black text-white px-4 py-2 z-50"
+        class="tail-bg-black tail-text-white tail-px-4 tail-py-2 tail-z-50"
         style="width: fit-content"
       >
         {{ fileToBeSent.name }} file is uploading...
       </div>
-      <form class="w-full" @submit.prevent="sendChat">
+      <form class="tail-w-full" @submit.prevent="sendChat">
         <div
-          class="border flex align-items-center bg-white rounded-b-lg shadow-sm px-6 py-3"
+          class="tail-border tail-flex align-items-center tail-bg-white tail-rounded-b-lg tail-shadow-sm tail-px-6 tail-py-3"
         >
           <input
             v-model="message"
             type="text"
-            class="w-full focus:outline-none"
+            class="tail-w-full focus:tail-outline-none"
             placeholder="Type a message"
           />
-          <div class="relative">
+          <div class="tail-relative">
             <transition name="fadeIn">
               <img
                 v-if="showUpload"
                 role="button"
-                class="text-2xl text-center inline-block p-1 absolute z-50 -top-14 right-2 rounded-full"
+                class="tail-text-2xl tail-text-center tail-inline-block tail-p-1 tail-absolute tail-z-50 tail--top-14 tail-right-2 tail-rounded-full"
                 src="~/assets/img/svgs/image.svg"
                 style="background: rgba(59, 130, 246, 1)"
                 @click="uploadPhoto"
@@ -134,19 +134,19 @@
               type="file"
               name="image"
               accept="image/*"
-              class="hidden"
+              class="tail-hidden"
               @change="onChange"
             />
             <button
-              class="mr-3"
+              class="tail-mr-3"
               type="button"
               @click="showUpload = !showUpload"
             >
-              <i class="ns-upload text-2xl text-gray-500"></i>
+              <i class="ns-upload tail-text-2xl tail-text-gray-500"></i>
             </button>
           </div>
           <button class="" type="submit">
-            <i class="ns-paper-plane text-2xl text-gray-500"></i>
+            <i class="ns-paper-plane tail-text-2xl tail-text-gray-500"></i>
           </button>
         </div>
       </form>
@@ -154,54 +154,54 @@
   </div>
   <div
     v-else
-    class="flex flex-col justify-between bg-gray-50 overflow-hidden"
+    class="tail-flex tail-flex-col tail-justify-between tail-bg-gray-50 tail-overflow-hidden"
   >
-    <div class="h-full relative">
+    <div class="tail-h-full tail-relative">
       <div
-        class="bg-green-200 px-5 py-3 flex items-center justify-between"
+        class="tail-bg-green-200 tail-px-5 tail-py-3 tail-flex tail-items-center tail-justify-between"
       >
-        <span class="capitalize font-semibold">
+        <span class="tail-capitalize tail-font-semibold">
           preview
         </span>
         <button type="button" @click="removeImage">
-          <i class="ns-cross text-sm text-black"></i>
+          <i class="ns-cross tail-text-sm tail-text-black"></i>
         </button>
       </div>
       <button
         type="button"
-        class="absolute -bottom-4 right-5"
+        class="tail-absolute tail--bottom-4 tail-right-5"
         @click="sendFile"
       >
         <i
-          class="ns-envelope text-xl text-black bg-green-400 p-4 rounded-full"
+          class="ns-envelope tail-text-xl tail-text-black tail-bg-green-400 tail-p-4 tail-rounded-full"
         ></i>
       </button>
       <div
-        class=" grid place-content-center"
+        class=" tail-grid tail-place-content-center"
         style="height: calc(100vh - 271px)"
       >
         <img
           :src="fileImage"
-          class="inline-block"
+          class="tail-inline-block"
           style="max-width: 450px;"
         />
       </div>
     </div>
     <div
-      class="h-32 grid place-items-center py-0"
+      class="tail-h-32 tail-grid tail-place-items-center tail-py-0"
       style="background: rgba(230, 246, 255, 1)"
     >
-      <div class="border-4 relative" style="border-color: rgba(59, 130, 246, 1)">
+      <div class="tail-border-4 tail-relative" style="border-color: rgba(59, 130, 246, 1)">
         <button
           type="button"
-          class="px-1.5 bg-red-500 rounded-full absolute -right-3 -top-3"
+          class="tail-px-1.5 tail-bg-red-500 tail-rounded-full tail-absolute tail--right-3 tail--top-3"
           @click="removeImage"
         >
-          <i class="ns-cross text-xs text-white"></i>
+          <i class="ns-cross tail-text-xs tail-text-white"></i>
         </button>
         <img
           :src="fileImage"
-          class="inline-block object-contain h-20"
+          class="tail-inline-block tail-object-contain tail-h-20"
         />
       </div>
     </div>
@@ -482,7 +482,7 @@ export default {
     .msg {
       border-radius: 8px 8px 1px 8px;
       color: #fff;
-      @apply bg-blue-500
+      @apply tail-bg-blue-500
     }
   }
   .you {

@@ -1,28 +1,28 @@
 <template>
-  <div class="block border border-gray-200 rounded-xl p-4 bg-white shadow-2xl">
-    <div class="grid gap-1">
+  <div class="tail-block tail-border tail-border-gray-200 tail-rounded-xl tail-p-4 tail-bg-white tail-shadow-2xl">
+    <div class="tail-grid tail-gap-1">
       <img
-        class="rounded-full h-14 mx-auto"
+        class="tail-rounded-full tail-h-14 tail-mx-auto"
         src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
       >
-      <p class="text-sm text-center capitalize truncate px-4">
+      <p class="tail-text-sm tail-text-center tail-capitalize tail-truncate tail-px-4">
         {{ $store.state.authorize.getWelpUser.firstName }} {{ $store.state.authorize.getWelpUser.lastName }}
       </p>
-      <p class="text-sm text-gray-400 capitalize text-center">
+      <p class="tail-text-sm tail-text-gray-400 tail-capitalize tail-text-center">
         {{ $store.state.authorize.getWelpUser.location }}
       </p>
     </div>
-    <div class="block grid gap-4 place-items-start pt-4">
+    <div class="tail-block tail-grid tail-gap-4 tail-place-items-start tail-pt-4">
       <Nuxt-link
         :to="{ name: 'Settings' }"
       >
-        <div class="flex">
-          <i class="ns-settings" /><span class="text-base font-light px-2">Settings</span>
+        <div class="tail-flex">
+          <i class="ns-settings" /><span class="tail-text-base tail-font-light tail-px-2">Settings</span>
         </div>
       </Nuxt-link>
-      <button class="flex text-red-600" @click="signOut">
+      <button class="tail-flex tail-text-red-600" @click="signOut">
         <i class="ns-power" />
-        <span class="text-base font-light px-2">Signout</span>
+        <span class="tail-text-base tail-font-light tail-px-2">Signout</span>
       </button>
     </div>
   </div>

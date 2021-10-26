@@ -1,17 +1,17 @@
 <template>
-  <div class="border bg-gray-50 rounded-lg">
+  <div class="tail-border tail-bg-gray-50 tail-rounded-lg">
     <slot name="content" :pageNumber="pageNumber" />
-    <div v-if="totalItems" class="w-max flex ml-auto">
-      <div class="mx-8 my-4 space-x-4">
-        <button :disabled="pageNumber <= 1" :class="[pageNumber <= 1 ? 'disabled' : 'cursor-auto', 'capitalize text-blue-500 font-normal']" @click="changePageNumber(pageNumber - 1)">
+    <div v-if="totalItems" class="tail-w-max flex tail-ml-auto">
+      <div class="tail-mx-8 tail-my-4 tail-space-x-4">
+        <button :disabled="pageNumber <= 1" :class="[pageNumber <= 1 ? 'disabled' : 'cursor-auto', 'tail-capitalize tail-text-blue-500 tail-font-normal']" @click="changePageNumber(pageNumber - 1)">
           previous
         </button>
         <span v-for="(item, index) in new Array(numberOfPages)" :key="index" class="">
-          <button class="font-normal text-blue-500" @click="changePageNumber(index + 1)">
+          <button class="tail-font-normal tail-text-blue-500" @click="changePageNumber(index + 1)">
             {{ index + 1 }}
           </button>
         </span>
-        <button :disabled="pageNumber >= numberOfPages" :class="[pageNumber >= numberOfPages ? 'disabled' : 'cursor-auto', 'capitalize text-blue-500 font-normal']" @click="changePageNumber(pageNumber + 1)">
+        <button :disabled="pageNumber >= numberOfPages" :class="[pageNumber >= numberOfPages ? 'disabled' : 'cursor-auto', 'tail-capitalize tail-text-blue-500 tail-font-normal']" @click="changePageNumber(pageNumber + 1)">
           next
         </button>
       </div>

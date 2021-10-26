@@ -1,45 +1,45 @@
 <template>
   <async-view>
-    <div v-if="filteredInvoice.length" class="mb-3">
-      <div class="p-6 bg-white rounded-lg shadow-lg">
-        <div class="flex flex-col">
-          <div class="-my-2 overflow-x-auto md:overflow-hidden sm:-mx-6 lg:-mx-8">
-            <div class="py-2 align-middle inline-block w-screen md:w-full min-w-full sm:px-3 lg:px-4">
-              <div class="border-b border-gray-200 sm:rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200">
+    <div v-if="filteredInvoice.length" class="tail-mb-3">
+      <div class="tail-p-6 tail-bg-white tail-rounded-lg tail-shadow-lg">
+        <div class="tail-flex tail-flex-col">
+          <div class="tail--my-2 tail-overflow-x-auto md:tail-overflow-hidden sm:tail-tail--mx-6 lg:tail--mx-8">
+            <div class="tail-py-2 tail-align-middle tail-inline-block tail-w-screen md:tail-w-full tail-min-w-full sm:tail-px-3 lg:tail-px-4">
+              <div class="tail-border-b tail-border-gray-200 sm:tail-rounded-lg">
+                <table class="tail-min-w-full tail-divide-y tail-divide-gray-200">
                   <thead>
                     <tr>
-                      <th scope="col" class="px-1 py-3">
-                        <span class="sr-only"></span>
+                      <th scope="col" class="tail-px-1 tail-py-3">
+                        <span class="tail-sr-only"></span>
                       </th>
 
                       <th
                         scope="col"
-                        class="pr-12 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="tail-pr-12 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                       >
                         Name
                       </th>
                       <th
                         scope="col"
-                        class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                       >
                         Invoice No.
                       </th>
                       <th
                         scope="col"
-                        class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                       >
                         Created
                       </th>
                       <th
                         scope="col"
-                        class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium tail-text-gray-500 tail-uppercase tail-tracking-wider"
                       >
                         Amount
                       </th>
                       <th
                         scope="col"
-                        class="px-3 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                        class="tail-px-3 tail-py-3 tail-text-left tail-text-xs tail-font-medium text-gray-500 tail-uppercase tail-tracking-wider"
                       >
                         Status
                       </th>
@@ -49,24 +49,24 @@
                     <tr
                       v-for="invoice in filteredInvoice"
                       :key="invoice.index"
-                      class="cursor-pointer bg-white rounded-lg overflow-hidden border-8 border-transparent"
+                      class="tail-cursor-pointer tail-bg-white tail-rounded-lg tail-overflow-hidden tail-border-8 tail-border-transparent"
                       @click.prevent="openDetails(invoice)"
                     >
                       <td
                         v-if="invoice && invoice.status === 'draft'"
-                        class="px-1 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        class="tail-px-1 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
                       >
                         <input id="invoice._id" type="checkbox" @click="$event.stopPropagation()" @change="toggle(invoice._id)" />
                       </td>
-                      <td v-else scope="col" class="px-6 py-3">
-                        <span class="sr-only">Action</span>
+                      <td v-else scope="col" class="tail-px-6 tail-py-3">
+                        <span class="tail-sr-only">Action</span>
                       </td>
 
                       <td
-                        class="pr-12 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
+                        class="tail-pr-12 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-font-medium tail-text-gray-900"
                       >
                         <div
-                          class="flex flex-row items-center gap-3"
+                          class="tail-flex tail-flex-row tail-items-center tail-gap-3"
                         >
                           <ClientAvatar
                             :client-info="invoice && invoice.customerId ? invoice.customerId : {
@@ -81,25 +81,25 @@
                         </div>
                       </td>
                       <td
-                        class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
+                        class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                       >
                         {{ invoice.invoiceNo }}
                       </td>
                       <td
-                        class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
+                        class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                       >
                         {{ new Date(invoice.dueDate).toDateString() }}
                       </td>
                       <td
-                        class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
+                        class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                       >
                         {{ invoice.total | amount }}
                       </td>
                       <td
-                        class="px-3 py-4 whitespace-nowrap text-sm text-gray-500"
+                        class="tail-px-3 tail-py-4 tail-whitespace-nowrap tail-text-sm tail-text-gray-500"
                       >
                         <span
-                          class="px-2 bg-gray-200 inline-flex text-xs leading-5 font-semibold rounded-full text-gray-800 capitalize"
+                          class="tail-px-2 tail-bg-gray-200 tail-inline-flex tail-text-xs tail-leading-5 tail-font-semibold tail-rounded-full tail-text-gray-800 tail-capitalize"
                         >
                           {{ invoice.status }}
                         </span>
@@ -115,24 +115,24 @@
     </div>
     <div
       v-else
-      class="mt-16 px-5 grid gap-5 justify-center text-center"
+      class="tail-mt-16 tail-px-5 tail-grid tail-gap-5 tail-justify-center tail-text-center"
     >
-      <div class="w-full">
+      <div class="tail-w-full">
         <img
-          class="text-center inline-block"
+          class="tail-text-center tail-inline-block"
           src="~/assets/img/low-dog.png"
           alt=""
           srcset=""
         />
       </div>
-      <h5 class="font-bold">
+      <h5 class="tail-font-bold">
         No {{ status === "All" ? "" : status.toLowerCase() }} invoices yet
       </h5>
-      <p class="px-5 text-sm mb-0 max-w-xs">
+      <p class="tail-px-5 tail-text-sm tail-mb-0 tail-max-w-xs">
         All your {{ status === "All" ? "" : status.toLowerCase() }} invoice will
         appear here.
       </p>
-      <div v-if="status === 'All'" class="w-max mx-auto">
+      <div v-if="status === 'All'" class="tail-w-max tail-mx-auto">
         <button class="base-button" type="button" @click="$router.push({ name: 'CreateInvoice'})">
           Create an invoice
         </button>
@@ -145,7 +145,7 @@
       @closeBackDrop="resetModal($event)"
     >
       <template v-slot:status>
-        <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
+        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           {{ currentInvoice.status }}
         </div>
       </template>
@@ -158,7 +158,7 @@
       @closeBackDrop="openInvoice = $event"
     >
       <template v-slot:status>
-        <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
+        <div class="tail-bg-gray-100 tail-text-gray-500 tail-px-2 tail-rounded-3xl">
           Create New Invoice
         </div>
       </template>

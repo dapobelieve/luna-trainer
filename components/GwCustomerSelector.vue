@@ -4,15 +4,15 @@
       <template v-slot:open-indicator="{ dropdowIndicatorattributes }">
         <span v-bind="dropdowIndicatorattributes">
           <i
-            class="ns-caret-down font-bold pt-1 text-xl cursor-pointer"
+            class="ns-caret-down tail-font-bold tail-pt-1 tail-text-xl tail-cursor-pointer"
           ></i>
         </span>
       </template>
       <template v-slot:list-footer>
-        <button type="button" class="py-2 outline-none" @click="addNewItem">
-          <div class="flex px-2 ml-1 items-center justify-center">
-            <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
-            <span class="text-primary-color text-base pl-2">Add New Client</span>
+        <button type="button" class="tail-py-2 tail-outline-none" @click="addNewItem">
+          <div class="tail-flex tail-px-2  tail-ml-1 tail-items-center tail-justify-center">
+            <i class="ns-plus tail-text-base tail-rounded-full tail-text-blue-500 tail-p-1" />
+            <span class="text-primary-color tail-text-base tail-pl-2">Add New Client</span>
           </div>
         </button>
       </template>
@@ -29,7 +29,7 @@
       </template>
     </v-select>
     <modal name="addNewClientModal" height="auto" :adaptive="true">
-      <InviteNewClient :client="clientInfo" class="m-6" @close="$modal.hide('addNewClientModal')" />
+      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('addNewClientModal')" />
     </modal>
   </div>
 </template>
@@ -55,7 +55,7 @@ export default {
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
-        class: 'ns-caret-down font-bold text-xl cursor-pointer absolute right-0 p-3'
+        class: 'ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer tail-absolute tail-right-0 tail-p-3'
       }
     }
   },
@@ -74,16 +74,16 @@ export default {
 </script>
 <style scoped lang="scss">
 ::v-deep .v-select {
-  @apply border-[#0EA5E9]
+  @apply tail-border-[#0EA5E9]
 }
 
 ::v-deep {
   .vs__dropdown-toggle {
-    @apply border-0
+    @apply tail-border-0
   }
 }
 ::v-deep .vs__dropdown-menu {
-  @apply mt-[8px] border rounded-[6px] pt-0
+  @apply tail-mt-[8px] tail-border tail-rounded-[6px] tail-pt-0
 }
 
 ::v-deep .vs__clear {

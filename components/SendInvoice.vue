@@ -1,22 +1,22 @@
 <template>
-  <div class="grid gap-4">
+  <div class="tail-grid tail-gap-4">
     <div>
-      <span class="block text-sm">
+      <span class="tail-block tail-text-sm">
         Send invoice for {{ sendDetails.total | amount }} to {{ sendDetails.customerId.email }}?
       </span>
-      <small class="text-gray-500">
+      <small class="tail-text-gray-500">
         Invoices can’t be edited after they’re sent.
       </small>
     </div>
     <div>
-      <label class="text-sm">
+      <label class="tail-text-sm">
         Include on this email
       </label>
-      <input v-model="email" class="py-1 px-2 border border-gray-300 rounded-md w-full">
+      <input v-model="email" class="tail-py-1 tail-px-2 tail-border tail-border-gray-300 tail-rounded-md tail-w-full">
     </div>
-    <div class="flex justify-end">
+    <div class="tail-flex tail-justify-end">
       <button :disabled="isLoading" class="base-button" @click.prevent="sendInvoice">
-        <SingleLoader v-if="isLoading" class="mr-2" />
+        <SingleLoader v-if="isLoading" class="tail-mr-2" />
         {{ isLoading ? 'Sending Invoice...' : 'Send Invoice' }}
       </button>
     </div>

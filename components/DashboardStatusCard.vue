@@ -1,78 +1,78 @@
 <template>
-  <div class="w-full grid bg-gray-50">
-    <p class="px-4 pt-4">
+  <div class="tail-w-full tail-grid tail-bg-gray-50">
+    <p class="tail-px-4 tail-pt-4">
       Get the best out of GetWelp by connecting your calendars and Zoom, Stripe,
       and onboard your clients!
     </p>
     <ul
-      class="flex list-none m-0 space-x-3 overflow-x-auto p-4 snap-scroll-x"
+      class="tail-flex tail-list-none tail-m-0 tail-space-x-3 tail-overflow-x-auto tail-p-4 snap-scroll-x"
     >
-      <!-- <li class="hover:bg-gray-100 p-1 pr-3 rounded-md">
-        <div class="flex items-center space-x-2">
+      <!-- <li class="hover:tail-bg-gray-100 tail-p-1 tail-pr-3 tail-rounded-md">
+        <div class="tail-flex tail-items-center tail-space-x-2">
           <p
             :class="[
-              'bg-red-50 rounded-full text-xs p-2 flex'
+              'tail-bg-red-50 tail-rounded-full tail-text-xs tail-p-2 tail-flex'
             ]"
           >
-            <i class="ns-exclamation text-red-500 text-lg" />
+            <i class="ns-exclamation tail-text-red-500 tail-text-lg" />
           </p>
-          <p class="text-gray-700 text-base font-medium whitespace-nowrap">
-            Calendar(s) <span class="underline">Sync</span>
+          <p class="tail-text-gray-700 tail-text-base tail-font-medium tail-whitespace-nowrap">
+            Calendar(s) <span class="tail-underline">Sync</span>
           </p>
         </div>
       </li>-->
-      <li class="hover:bg-gray-100 p-1 pr-3 rounded-md">
+      <li class="hover:tail-bg-gray-100 tail-p-1 tail-pr-3 tail-rounded-md">
         <div
           v-if="isStripeConnected && isStripeReady"
-          class="flex items-center space-x-2"
+          class="tail-flex tail-items-center tail-space-x-2"
         >
           <p
             :class="[
-              'bg-green-50 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
+              'tail-bg-green-50 tail-rounded-full tail-p-2 tail-h-8 tail-w-8 tail-flex tail-shadow-sm tail-flex-shrink'
             ]"
           >
-            <i class="ns-check text-lg text-green-500"></i>
+            <i class="ns-check tail-text-lg tail-text-green-500"></i>
           </p>
-          <p class="font-medium whitespace-nowrap">
+          <p class="tail-font-medium tail-whitespace-nowrap">
             Stripe ready !
           </p>
         </div>
-        <div v-else-if="isStripeConnected" class="flex items-center space-x-2">
+        <div v-else-if="isStripeConnected" class="tail-flex tail-items-center tail-space-x-2">
           <button
             :class="[
-              'bg-indigo-500 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
+              'tail-bg-indigo-500 tail-rounded-full tail-p-2 tail-h-8 tail-w-8 tail-flex tail-shadow-sm tail-flex-shrink'
             ]"
           >
             <i class="ns-refresh"></i>
           </button>
-          <p class="font-medium whitespace-nowrap">
+          <p class="tail-font-medium tail-whitespace-nowrap">
             Stripe account in review
           </p>
           <button
             v-tooltip="{
               content: `${stripeErrors
                 .map(error => {
-                  return `<div class='pb-3'>
-                    <div class='bg-gray-200'>
-                      <h3 class='font-medium p-2 text-left capitalize whitespace-nowrap'>${error.code
+                  return `<div class='tail-pb-3'>
+                    <div class='tail-bg-gray-200'>
+                      <h3 class='tail-font-medium tail-p-2 tail-text-left tail-capitalize tail-whitespace-nowrap'>${error.code
                     .split('_')
                   .join(' ')}</h3>
                     </div>
-                <p class='p-3'>${error.reason}</p>
+                <p class='tail-p-3'>${error.reason}</p>
                   </div>`;
                 })
                 .join('')}`,
               placement: 'right',
               classes: ['info']
             }"
-            class="p-1.5 flex"
+            class="tail-p-1.5 tail-flex"
           >
-            <i class="ns-info text-lg"></i>
+            <i class="ns-info tail-text-lg"></i>
           </button>
         </div>
         <div
           v-else
-          class="flex items-center space-x-2 cursor-pointer"
+          class="tail-flex tail-items-center tail-space-x-2 tail-cursor-pointer"
           :disabled="isLoading"
           @click.prevent="stripeConnect"
         >
@@ -80,42 +80,42 @@
           <p
             v-else
             :class="[
-              'bg-yellow-50 rounded-full p-2 h-8 w-8 flex shadow-sm'
+              'tail-bg-yellow-50 tail-rounded-full tail-p-2 tail-h-8 tail-w-8 tail-flex tail-shadow-sm'
             ]"
           >
-            <i class="ns-time-forward text-yellow-500 text-lg" />
+            <i class="ns-time-forward tail-text-yellow-500 tail-text-lg" />
           </p>
-          <p class="font-medium whitespace-nowrap">
+          <p class="tail-font-medium tail-whitespace-nowrap">
             {{
               isLoading ? "Establishing Stripe Connection" : "Stripe pending"
             }}
           </p>
         </div>
       </li>
-      <li class="hover:bg-gray-100 p-1 pr-3 rounded-md">
-        <div class="flex items-center space-x-2">
+      <li class="hover:tail-bg-gray-100 tail-p-1 tail-pr-3 tail-rounded-md">
+        <div class="tail-flex tail-items-center tail-space-x-2">
           <SingleLoader v-if="$store.state.client.isLoading" />
           <template v-else>
             <p
-              class="bg-green-50 rounded-full p-2 h-8 w-8 flex shadow-sm"
+              class="tail-bg-green-50 tail-rounded-full tail-p-2 tail-h-8 tail-w-8 tail-flex tail-shadow-sm"
             >
               <i
                 :class="[
                   allClients.length ? 'ns-check' : 'ns-users',
-                  'text-green-500 text-lg'
+                  'tail-text-green-500 tail-text-lg'
                 ]"
               />
             </p>
           </template>
           <p
             v-if="allClients.length"
-            class="font-medium whitespace-nowrap"
+            class="tail-font-medium tail-whitespace-nowrap"
           >
             Added your first client
           </p>
           <button
             v-else
-            class="font-medium whitespace-nowrap"
+            class="tail-font-medium tail-whitespace-nowrap"
             @click="addClient = true"
           >
             Add your first client

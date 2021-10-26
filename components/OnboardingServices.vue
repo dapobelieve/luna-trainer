@@ -1,27 +1,27 @@
 <template>
   <div>
-    <h5 class="text-lg font-bold">
+    <h5 class="tail-text-lg tail-font-bold">
       Add Your services
     </h5>
-    <form class="flex flex-col gap-6 mt-6 lg:mt-10">
-      <div class="flex flex-col gap-1.5">
+    <form class="tail-flex tail-flex-col tail-gap-6 tail-mt-6 lg:tail-mt-10">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="service" class="required">Service Title</label>
         <input
           id="service"
           v-model="services.description"
           placeholder="Separation Anxiety (Replace this description)"
-          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
         />
       </div>
-      <div class="flex flex-col gap-1.5">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="reinforcement" class="required">Type of appointment (you can tick both options)</label>
         <div
-          class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2"
+          class="tail-flex tail-flex-col sm:tail-flex-row tail-space-y-2 sm:tail-space-y-0 sm:tail-space-x-2"
         >
           <label
-            class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
             :class="{
-              'bg-blue-50': services.appointmentTypes.includes('remote')
+              'tail-bg-blue-50': services.appointmentTypes.includes('remote')
             }"
           >
             <input
@@ -31,14 +31,14 @@
               name="remote"
               type="checkbox"
               value="remote"
-              class="h-5 w-5 rounded"
+              class="tail-h-5 tail-w-5 tail-rounded"
             />
-            <span id="reinforcement-0-label" class="ml-2 font-medium">Remote</span>
+            <span id="reinforcement-0-label" class="tail-ml-2 tail-font-medium">Remote</span>
           </label>
           <label
-            class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
+            class="tail-rounded-md tail-relative tail-border tail-p-3 tail-cursor-pointer focus:tail-outline-none tail-w-full tail-bg-white hover:tail-bg-blue-50 tail-transition-all tail-flex tail-items-center tail-shadow-sm"
             :class="{
-              'bg-blue-50': services.appointmentTypes.includes(
+              'tail-bg-blue-50': services.appointmentTypes.includes(
                 'in-person'
               )
             }"
@@ -50,32 +50,32 @@
               name="remote"
               type="checkbox"
               value="in-person"
-              class="h-5 w-5"
+              class="tail-h-5 tail-w-5"
             />
-            <span id="reinforcement-0-label" class="ml-2 font-medium">In-person (1-2-1)</span>
+            <span id="reinforcement-0-label" class="tail-ml-2 tail-font-medium">In-person (1-2-1)</span>
           </label>
         </div>
       </div>
-      <div class="flex flex-col gap-1.5">
+      <div class="tail-flex tail-flex-col tail-gap-1.5">
         <label for="currency" class="required">Price</label>
-        <div class="relative flex">
+        <div class="tail-relative tail-flex">
           <div
-            class="inset-y-0 left-0 pl-3 flex items-center pointer-events-none bg-white h-10 border shadow-sm rounded-l-md border-r-0"
+            class="tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none tail-bg-white tail-h-10 tail-border tail-shadow-sm tail-rounded-l-md tail-border-r-0"
           >
-            <span class="text-gray-500">{{ $store.state.profile.trainnerRegData.personalProfile.currency }}</span>
+            <span class="tail-text-gray-500">{{ $store.state.profile.trainnerRegData.personalProfile.currency }}</span>
           </div>
           <input
             id="currency"
             v-model.number="services.pricing.amount"
             type="number"
-            class="bg-white h-10 flex justify-center py-2 px-4 w-full border shadow-sm rounded-r-md focus:outline-none focus:bg-white focus:border-blue-500 focus:border border-l-0"
+            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-4 tail-w-full tail-border tail-shadow-sm tail-rounded-r-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 focus:tail-border tail-border-l-0"
           />
         </div>
       </div>
-      <div class="sm:col-span-2 flex justify-end gap-2">
+      <div class="sm:tail-col-span-2 tail-flex tail-justify-end tail-gap-2">
         <p
           v-if="servicesFromStore.length === 5 && !editing"
-          class="text-gray-500 font-medium"
+          class="tail-text-gray-500 tail-font-medium"
         >
           You have enough services for now
         </p>

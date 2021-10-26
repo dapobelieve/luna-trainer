@@ -1,39 +1,39 @@
 <template>
   <div>
-    <div class="py-6">
-      <h3 class="text-2xl font-medium sec-color">
+    <div class="tail-py-6">
+      <h3 class="tail-text-2xl tail-font-medium sec-color">
         Security
       </h3>
     </div>
-    <div class="pb-4 py-5 px-5 rounded-md bg-white">
-      <form autocomplete="off" class="grid gap-6" @submit.prevent="submit">
+    <div class="tail-pb-4 tail-py-5 tail-px-5 tail-rounded-md tail-bg-white">
+      <form autocomplete="off" class="tail-grid tail-gap-6" @submit.prevent="submit">
         <div>
-          <div class="flex justify-between items-center">
+          <div class="tail-flex tail-justify-between tail-items-center">
             <label for="password2">Old Password</label>
             <password-toggle v-model="showOldPassword" />
           </div>
           <input
             v-model="password.oldPassword"
             :type="!showOldPassword ? 'password' : 'text'"
-            class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           >
           <small
             v-if="$v.$anyDirty && !$v.password.oldPassword.required"
-            class="text-gray-500"
+            class="tail-text-gray-500"
           >Old password is required</small>
         </div>
         <div>
-          <div class="flex justify-between items-center">
+          <div class="tail-flex tail-justify-between tail-items-center">
             <label for="password2">New Password</label>
             <password-toggle v-model="showNewPassword" />
           </div>
           <input
             v-model="$v.password.newPassword.$model"
             :type="!showNewPassword ? 'password' : 'text'"
-            class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
           >
         </div>
-        <div class="flex justify-end">
+        <div class="tail-flex tail-justify-end">
           <button-spinner type="submit" :loading="loading" :disabled="$v.$invalid" style="width:fit-content">
             Save Password
           </button-spinner>

@@ -1,7 +1,7 @@
 <template>
-  <div class="bg-white sm:flex z-30 sm:items-center sm:justify-between px-5 py-3 sticky top-0 shadow-md">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      <div class="flex items-center">
+  <div class="tail-bg-white sm:tail-flex tail-z-30 sm:tail-items-center sm:tail-justify-between tail-px-5 tail-py-3 tail-sticky tail-top-0 tail-shadow-md">
+    <h3 class="tail-text-lg leading-6 tail-font-medium tail-text-gray-900">
+      <div class="tail-flex tail-items-center">
         <slot name="back-button" />
         <slot name="avatar" />
         <slot name="title">
@@ -9,7 +9,7 @@
         </slot>
       </div>
     </h3>
-    <div class="mt-3 flex sm:mt-0 sm:ml-4 space-x-2">
+    <div class="tail-mt-3 tail-flex sm:tail-mt-0 sm:tail-ml-4 tail-space-x-2">
       <slot name="buttons"></slot>
     </div>
   </div>
