@@ -26,18 +26,10 @@ metadata:
 spec:
   tls:
     - hosts:
-      - app.getwelp.co.uk
       - app.getwelp.com
       secretName: app-getwelp-com-tls-2
   rules:
   - host: app.getwelp.com
-    http:
-      paths:
-      - backend:
-          serviceName: APPNAME
-          servicePort: 80
-        path: /
-  - host: app.getwelp.co.uk
     http:
       paths:
       - backend:
