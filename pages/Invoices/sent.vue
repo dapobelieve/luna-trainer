@@ -95,8 +95,8 @@
           <p class="tail-text-sm tail-text-gray-500 tail-mb-4">
             We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
           </p>
-          <button class="primary-color tail-rounded-lg tail-px-4 tail-py-2">
-            <i class="ns-plus tail-text-white tail-text-2xl tail-text-lg"></i>
+          <button class="primary-color tail-rounded-lg tail-px-4 tail-py-2" type="button" @click="$router.push({ name: 'NewInvoice' })">
+            <i class="ns-plus tail-text-white"></i>
             <span class="tail-text-font-medium tail-text-white tail-text-base tail-ml-2">Create your first invoice</span>
           </button>
         </div>

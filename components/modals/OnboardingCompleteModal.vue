@@ -1,5 +1,5 @@
 <template>
-  <modal name="done" height="auto" :adaptive="true" maxWidth="450">
+  <modal name="done" height="auto" :adaptive="true" :max-width="450">
     <div class="tail-m-8">
       <div class="tail-flex tailtail-justify-start tail-flex-col tail-mt-1 tail-mb-2">
         <img
