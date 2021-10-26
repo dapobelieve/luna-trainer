@@ -6,26 +6,26 @@
           Settings
         </template>
       </PageHeader>
-      <div class="tail-py-5">
-        <div class="tail-flex tail-justify-between tail-px-10">
-          <div class="tail-relative tail-hidden lg:tail-block">
-            <div class="tail-sticky tail-top-6 tail-pt-10">
+      <div class="py-5">
+        <div class="flex justify-between px-10">
+          <div class="relative hidden lg:block">
+            <div class="sticky top-6 pt-10">
               <SettingsNavigation />
             </div>
           </div>
 
-          <div class="tail-w-full lg:tail-w-4/5">
+          <div class="w-full lg:w-4/5">
             <div>
               <div>
-                <h3 class="tail-text-2xl tail-font-medium sec-color">
+                <h3 class="text-2xl font-medium sec-color">
                   Profile
                 </h3>
                 <small
-                  class="tail-text-gray-500 tail-text-xs"
+                  class="text-gray-500 text-xs"
                 >Your personal information will be public to your clients,
                   kindly ensure it is as accurate as possible</small>
               </div>
-              <div class="tail-pt-4 tail-my-3 lg:tail-max-w-xl tail-rounded-md">
+              <div class="pt-4 my-3 lg:max-w-xl rounded-md">
                 <ProfileForm id="profile" />
                 <SettingsServices id="services" :services="user.services" />
                 <SettingsSecurity v-if="$auth.user.authProvider === 'local'" id="security" v-model="user" />

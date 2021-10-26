@@ -2,151 +2,151 @@
   <div>
     <div>Create a course and add your client as they signup.</div>
     <div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <i class="ns-user tail-text-gray-500 tail-text-2xl"></i>
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <i class="ns-user text-gray-500 text-2xl"></i>
         </div>
-        <div class="tail-w-full">
-          <label for="name" class="tail-block tail-font-light">Name</label>
+        <div class="w-full">
+          <label for="name" class="block font-light">Name</label>
           <input
             v-model="name"
             type="text"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+            class="w-full bg-white p-2.5 block text-sm md:text-base mt-1 border border-gray-300 rounded-md focus:outline-none focus:bg-white focus:border-blue-400"
           />
         </div>
       </div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <img class="tail-h-6" src="~/assets/img/svgs/description.svg" alt="">
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <img class="h-6" src="~/assets/img/svgs/description.svg" alt="">
         </div>
-        <div class="tail-w-full">
+        <div class="w-full">
           <label
             for="name"
-            class="tail-block tail-font-light"
+            class="block font-light"
           >Description</label>
           <textarea
             v-model="text"
             name="notes"
             rows="4"
             cols="50"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-pb-0 tail-block tail-text-sm md:tail-text-base tail-mt-1 focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400 tail-border tail-border-gray-300 tail-rounded-md"
+            class="w-full bg-white p-2.5 pb-0 block text-sm md:text-base mt-1 focus:outline-none focus:bg-white focus:border-blue-400 border border-gray-300 rounded-md"
             :maxlength="max"
           >
           </textarea>
           <div
-            class="tail-text-right tail-text-sm"
+            class="text-right text-sm"
             v-text="max - text.length"
           ></div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <img class="tail-h-6" src="~/assets/img/svgs/requirement.svg" alt="">
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <img class="h-6" src="~/assets/img/svgs/requirement.svg" alt="">
         </div>
-        <div class="tail-w-full">
+        <div class="w-full">
           <label
             for="name"
-            class="tail-block tail-font-light"
+            class="block font-light"
           >Requirements</label>
           <TagInput v-model="name" />
-          <div class="tail-text-left tail-text-xs">
+          <div class="text-left text-xs">
             Separate with a comma
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <i class="ns-location-alt tail-text-gray-500 tail-text-2xl"></i>
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <i class="ns-location-alt text-gray-500 text-2xl"></i>
         </div>
-        <div class="tail-w-full">
+        <div class="w-full">
           <div>
             <div
-              class="tail-flex tail-items-center tail-w-full tail-bg-white tail-p-2.5 tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+              class="flex items-center w-full bg-white p-2.5 text-sm md:text-base mt-1 border border-gray-300 rounded-md focus:outline-none focus:bg-white focus:border-blue-400"
             >
               <input
                 v-model="checked"
                 type="checkbox"
-                class="tail-h-5 tail-w-5"
+                class="h-5 w-5"
                 @change="changeLocation($event)"
               />
-              <div class="tail-ml-1.5 tail-w-full">
-                <div class="inputwrapper tail-text-xs tail-mt-1" data-required="Remote">
+              <div class="ml-1.5 w-full">
+                <div class="inputwrapper text-xs mt-1" data-required="Remote">
                   <input
                     type="text"
-                    class="tail-w-full tail-placeholder-gray-400 tail-bg-white tail-mt-1.5 tail-p-2.5 tail-block tail-text-sm focus:tail-outline-none focus:tail-bg-white"
+                    class="w-full placeholder-gray-400 bg-white mt-1.5 p-2.5 block text-sm focus:outline-none focus:bg-white"
                     placeholder="Brief description about choosing remote"
                   />
                 </div>
               </div>
             </div>
           </div>
-          <div class="tail-w-full tail-mt-3.5">
-            <label for="name" class="tail-block tail-font-light">{{
+          <div class="w-full mt-3.5">
+            <label for="name" class="block font-light">{{
               locationDetails
             }}</label>
             <input
               v-model="location"
               type="text"
-              class="tail-w-full tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+              class="w-full bg-white p-2.5 block text-sm md:text-base mt-1 border border-gray-300 rounded-md focus:outline-none focus:bg-white focus:border-blue-400"
             />
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <i class="ns-users tail-text-gray-500 tail-text-2xl"></i>
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <i class="ns-users text-gray-500 text-2xl"></i>
         </div>
-        <div class="tail-w-full">
+        <div class="w-full">
           <label
             for="name"
-            class="tail-block tail-font-light"
+            class="block font-light"
           >Max Capacity</label>
-          <div class="tail-flex tail-items-center">
+          <div class="flex items-center">
             <input
               v-model="capacity"
               type="text"
-              class="tail-w-3/6 tail-bg-white tail-p-2.5 tail-block tail-text-sm md:tail-text-base tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-400"
+              class="w-3/6 bg-white p-2.5 block text-sm md:text-base mt-1 border border-gray-300 rounded-md focus:outline-none focus:bg-white focus:border-blue-400"
             />
-            <div class="tail-flex tail-items-center">
-              <input type="checkbox" class="tail-ml-2" />
-              <p class="tail-text-xs tail-ml-1">
+            <div class="flex items-center">
+              <input type="checkbox" class="ml-2" />
+              <p class="text-xs ml-1">
                 Unlimited
               </p>
             </div>
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <i class="ns-label tail-text-gray-500 tail-text-2xl"></i>
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <i class="ns-label text-gray-500 text-2xl"></i>
         </div>
-        <div class="tail-w-full">
-          <label for="name" class="tail-block tail-font-light">Price</label>
-          <div class="tail-flex tail-w-full">
+        <div class="w-full">
+          <label for="name" class="block font-light">Price</label>
+          <div class="flex w-full">
             <span
-              class="tail-w-11 tail-h-11 tail-border-r-0 tail-mt-1 tail-text-xl tail-bg-gray-300 tail-text-center tail-rounded-l tail-flex tail-justify-center tail-items-center"
+              class="w-11 h-11 border-r-0 mt-1 text-xl bg-gray-300 text-center rounded-l flex justify-center items-center"
             >£</span>
             <input
               type="number"
-              class="tail-w-3/6 tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r focus:tail-bg-white focus:tail-border-blue-400"
+              class="w-3/6 bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 border-l-0 rounded-r focus:bg-white focus:border-blue-400"
             />
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-mt-5">
-        <div class=" tail-mr-3">
-          <i class="ns-calendar tail-text-gray-500 tail-text-2xl"></i>
+      <div class="flex mt-5">
+        <div class=" mr-3">
+          <i class="ns-calendar text-gray-500 text-2xl"></i>
         </div>
-        <div class="tail-w-full">
+        <div class="w-full">
           <label
             for="name"
-            class="tail-block tail-font-light"
+            class="block font-light"
           >Class Schedule</label>
           <div
-            class="tail-flex tail-flex-col tail--ml-4 tail-w-full"
+            class="flex flex-col -ml-4 w-full"
           >
-            <div v-for="(schedule, index) in schedules" :key="index" class="tail-flex tail-ml-0 tail-m-2 tail-items-center tail-justify-around">
-              <div class="tail-text-gray-400 tail-text-sm tail-mr-1">
+            <div v-for="(schedule, index) in schedules" :key="index" class="flex ml-0 m-2 items-center justify-around">
+              <div class="text-gray-400 text-sm mr-1">
                 Class {{ index + 1 }} of {{ schedules.length }}
               </div>
               <date-picker
@@ -160,27 +160,27 @@
               ></date-picker>
 
               <span
-                class="tail-text-blue-400 tail-text-2xl tail-cursor-pointer tail-m-1"
+                class="text-blue-400 text-2xl cursor-pointer m-1"
                 @click="add(index)"
               >+</span>
               <span
                 v-show="schedules.length > 1"
-                class="tail-text-blue-400 tail-text-2xl tail-cursor-pointer tail-m-1"
+                class="text-blue-400 text-2xl cursor-pointer m-1"
                 @click="remove(index)"
               >-</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="tail-flex tail-justify-end tail-items-center tail-mt-4">
-        <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1">
+      <div class="flex justify-end items-center mt-4">
+        <button class="hidden md:flex items-center px-2.5 py-1 rounded-md bg-white border border-gray-400 m-1">
           Cancel
         </button>
-        <button class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-py-1 tail-rounded-md tail-bg-white tail-border tail-border-gray-400 tail-m-1">
+        <button class="hidden md:flex items-center px-2.5 py-1 rounded-md bg-white border border-gray-400 m-1">
           Save Draft
         </button>
         <button
-          class="tail-hidden md:tail-flex tail-items-center tail-px-2.5 tail-m-1 tail-py-1 tail-rounded-md tail-bg-blue-500 tail-border tail-text-white tail-border-gray-400"
+          class="hidden md:flex items-center px-2.5 m-1 py-1 rounded-md bg-blue-500 border text-white border-gray-400"
         >
           Save &#38; Publish
         </button>

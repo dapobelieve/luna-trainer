@@ -1,42 +1,42 @@
 <template>
-  <nav class="tail-flex tail-overflow-y-auto tail-text-sm">
-    <div class="tail-flex-grow tail-flex">
-      <div class="tail-flex-1 tail-space-y-4">
+  <nav class="flex overflow-y-auto text-sm">
+    <div class="flex-grow flex">
+      <div class="flex-1 space-y-4">
         <!-- navigation -->
         <client-card-navigation />
 
         <!-- invoices -->
-        <div class="tail-hidden lg:tail-block">
+        <div class="hidden lg:block">
           <containers-summary-card-with-notifications
             :display-view-all-button="Boolean(paidInvoices.length)"
             url="Invoices"
           >
             <template v-slot:icon>
               <i
-                class="ns-receipt tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-gray-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
+                class="ns-receipt bg-indigo-50 p-1 rounded-full text-gray-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
               ></i>
             </template>
             <template v-slot:title>
-              <span class="tail-text-base">
+              <span class="text-base">
                 payments
               </span>
             </template>
             <template v-slot:content>
               <div
                 v-if="$store.state.invoice.isLoading"
-                class="tail-flex tail-place-content-center tail-mt-16"
+                class="flex place-content-center mt-16"
               >
                 <SingleLoader />
               </div>
               <template v-else>
-                <ul v-if="paidInvoices.length" role="list" class="tail-relative tail-z-0 tail-px-1">
+                <ul v-if="paidInvoices.length" role="list" class="relative z-0 px-1">
                   <li v-for="invoice in paidInvoices" :key="invoice.index">
                     <containers-summary-information-with-avatar>
                       <template v-slot:avatar>
                         <ClientAvatar :client-info="invoice.customerId" />
                       </template>
                       <template v-slot:content>
-                        <span class="tail-font-medium">{{ invoice.customerId.firstName }}
+                        <span class="font-medium">{{ invoice.customerId.firstName }}
                           {{ invoice.customerId.lastName }}</span> has paid you.
                       </template>
                       <template v-slot:date>
@@ -47,7 +47,7 @@
                 </ul>
                 <div
                   v-else
-                  class="tail-text-center tail-pt-8 tail-pb-12 tail-px-4 tail-text-gray-500 tail-text-sm"
+                  class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
                 >
                   Newly paid invoices will be displayed here.
                 </div>

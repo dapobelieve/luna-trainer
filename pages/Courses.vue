@@ -2,7 +2,7 @@
   <div>
     <PageHeader>
       <template v-slot:title>
-        <div class="tail-flex tail-items-center">
+        <div class="flex items-center">
           Courses
         </div>
       </template>
@@ -18,10 +18,10 @@
         </div>
         <button
           type="button"
-          class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          class="base-button inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
           @click="openCourseModal = true"
         >
-          <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
+          <i class="ns-plus text-lg hover:text-white"></i>
         </button>
       </template>
     </PageHeader>
@@ -37,7 +37,7 @@
       @closeBackDrop="openCourseModal = $event"
     >
       <template v-slot:status>
-        <div class="tail-px-2 tail-text-xl">
+        <div class="px-2 text-xl">
           New Course
         </div>
       </template>

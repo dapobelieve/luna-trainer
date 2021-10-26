@@ -1,27 +1,27 @@
 <template>
-  <div class="calendar tail-relative">
+  <div class="calendar relative">
     <div id="overlay"></div>
     <v-date-picker
       v-model="date"
       title-position="left"
       is-expanded
-      class="tail-text-black"
-      title="tail-text-white"
+      class="text-black"
+      title="text-white"
     />
-    <div class="tail-hidden tail-text-center tail-mt-16 tail-px-5">
-      <div class="tail-w-full tail-my-5">
-        <img class="tail-text-center tail-inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
+    <div class="hidden text-center mt-16 px-5">
+      <div class="w-full my-5">
+        <img class="text-center inline-block" src="~/assets/img/low-dog.png" alt="" srcset="" />
       </div>
-      <h5 class="tail-font-bold">
+      <h5 class="font-bold">
         No scheduled sessions
       </h5>
-      <p class="tail-px-5 tail-text-sm tail-mb-0">
+      <p class="px-5 text-sm mb-0">
         You can scheedule all of your client sessions by connecting your
         calendars.
       </p>
       <button
         style="background: rgba(86, 204, 242, 1);"
-        class="tail-capitalize tail-py-2 tail-px-4 tail-font-semibold tail-rounded-md tail-shadow-md tail-text-white hover:tail-bg-green-700 tail-mt-4"
+        class="capitalize py-2 px-4 font-semibold rounded-md shadow-md text-white hover:bg-green-700 mt-4"
       >
         connect calendar
       </button>

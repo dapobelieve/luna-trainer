@@ -1,11 +1,11 @@
 <template>
-  <span v-if="!isImgAvailable" class="tail-inline-flex tail-items-center tail-justify-center tail-h-10 tail-w-10 tail-rounded-full tail-bg-indigo-50" :style="altStyling">
-    <span class="tail-text-sm tail-font-medium tail-leading-none tail-text-indigo-500">{{ displayInitials }}</span>
+  <span v-if="!isImgAvailable" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-50" :style="altStyling">
+    <span class="text-sm font-medium leading-none text-indigo-500">{{ displayInitials }}</span>
   </span>
   <img
     v-else
     :src="clientInfo.imgURL"
-    class="tail-object-cover tail-rounded-full tail-h-10 tail-w-10"
+    class="object-cover rounded-full h-10 w-10"
     :style="altStyling"
     alt="client profile image"
   />

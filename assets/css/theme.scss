@@ -12,7 +12,7 @@
 }
 
 .primary-color {
-  @apply tail-bg-blue-500;
+  @apply bg-blue-500;
 }
 
 
@@ -28,7 +28,7 @@
 
 .base-button {
   &:hover {
-    @apply tail-bg-blue-600
+    @apply bg-blue-600
   }
   &:focus {
     outline: none;
@@ -60,26 +60,26 @@
 }
 
 .add-icon-color {
-  @apply tail-bg-blue-500 tail-text-white;
+  @apply bg-blue-500 text-white;
 }
 
 .text-primary-color {
-  @apply tail-text-blue-500;
+  @apply text-blue-500;
 }
 
 .multiselect__spinner:after,
 .multiselect__spinner:before {
-    @apply tail-bg-blue-500 
+    @apply bg-blue-500 
 }
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-   @apply tail-bg-blue-500 
+   @apply bg-blue-500 
 }
 
 .multiselect__tag,
 .multiselect__option--highlight,
 .multiselect__option--highlight:after{
-  @apply tail-bg-blue-500 
+  @apply bg-blue-500 
 }
 
 .vue-tel-input{
@@ -99,13 +99,13 @@
 .v-select{
   border-radius: 5px;
   border-width: 1px;
-  @apply tail-border-blue-600
+  @apply border-blue-600
 }
 .v-select .vs__search::placeholder,
 .v-select .vs__dropdown-toggle,
 .v-select .vs__dropdown-menu {
   background: white;
-  @apply tail-text-gray-500;
+  @apply text-gray-500;
 }
 .v-select .vs__dropdown-menu {
   padding-top:10px;
@@ -128,7 +128,7 @@
   background: #F0F9FF;
 }
 .v-select .vs__dropdown-option{
-  @apply tail-text-gray-500;
+  @apply text-gray-500;
 }
 .v-select .vs__selected{
   background: #3b82f6;;

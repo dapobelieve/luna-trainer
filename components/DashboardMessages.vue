@@ -2,7 +2,7 @@
   <containers-summary-card-with-notifications :display-view-all-button="false">
     <template v-slot:icon>
       <i
-        class="ns-comment-alt tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
+        class="ns-comment-alt bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
       ></i>
     </template>
     <template v-slot:title>
@@ -17,7 +17,7 @@
       <ul
         v-if="unreadMessages.length"
         role="list"
-        class="tail-relative tail-z-0 tail-px-1"
+        class="relative z-0 px-1"
       >
         <li v-for="msg in unreadMessages" :key="msg.url">
           <containers-summary-information-with-avatar
@@ -32,7 +32,7 @@
               />
             </template>
             <template v-slot:content>
-              <span class="tail-font-medium tail-capitalize">{{
+              <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
               <p>
@@ -57,7 +57,7 @@
       </ul>
       <div
         v-else
-        class="tail-text-center tail-pt-8 tail-pb-12 tail-px-4 tail-text-gray-500 tail-text-sm"
+        class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
       >
         New messages will appear here.
       </div>
