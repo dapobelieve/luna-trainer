@@ -1,14 +1,14 @@
 <template>
-  <div class="tail-w-12/12">
-    <div class="tail-border tail-rounded tail-grid tail-gap-4 tail-p-4 tail-mb-4">
+  <div class="w-12/12">
+    <div class="border rounded grid gap-4 p-4 mb-4">
       <div>
-        <div class="tail-flex tail-justify-between tail-items-center">
-          <h1 class="tail-font-medium">
+        <div class="flex justify-between items-center">
+          <h1 class="font-medium">
             Customer
           </h1>
-          <a href="Clients" class="tail-block" @click.prevent="openInviteModal=true">
-            <div class="tail-rounded-full tail-mt-2 tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
-              <i class="ns-plus tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color" />
+          <a href="Clients" class="block" @click.prevent="openInviteModal=true">
+            <div class="rounded-full mt-2 px-2 py-1 text-sm flex items-center">
+              <i class="ns-plus rounded-full text-sm text-white p-1 primary-color" />
             </div>
           </a>
         </div>
@@ -16,18 +16,18 @@
       <div>
         <gw-customer-selector :clients="allClients" v-model="invoice.client">
           <template v-slot:dropdownOption="{optionObject}">
-            <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
-              <div class="tail-flex tail-content-center tail-py-1">
+            <div class="flex justify-between min-w-full items-center">
+              <div class="flex content-center py-1">
                 <ClientAvatar :width="2.3" :height="2.3" :client-info="optionObject" />
-                <div class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
-                  <p class="tail-capitalize">
+                <div class="flex flex-col ml-2 text-gray-700">
+                  <p class="capitalize">
                     {{ optionObject.firstName }}
                   </p>
-                  <small class="tail-text-gray-500"> {{ optionObject.email }}</small>
+                  <small class="text-gray-500"> {{ optionObject.email }}</small>
                 </div>
               </div>
               <div class="check">
-                <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
+                <i class="ns-check text-blue-500 text-lg"></i>
               </div>
             </div>
           </template>
@@ -36,34 +36,34 @@
       </div>
     </div>
 
-    <div class="tail-border tail-rounded tail-gap-4 tail-p-4">
+    <div class="border rounded gap-4 p-4">
       <div>
-        <div class="tail-flex tail-justify-between tail-items-center">
-          <h1 class="tail-font-medium tail-mb-2">
+        <div class="flex justify-between items-center">
+          <h1 class="font-medium mb-2">
             Services
           </h1>
-          <a href="/Settings#services" class="tail-block" alt="Add new service">
-            <div class="tail-rounded-full tail-px-2 tail-py-1 tail-text-sm tail-flex tail-items-center">
-              <i class="ns-plus tail-rounded-full tail-text-sm tail-text-white tail-p-1 primary-color" />
+          <a href="/Settings#services" class="block" alt="Add new service">
+            <div class="rounded-full px-2 py-1 text-sm flex items-center">
+              <i class="ns-plus rounded-full text-sm text-white p-1 primary-color" />
             </div>
           </a>
         </div>
         <template v-if="$auth.user.services">
-          <gw-invoice-services-selector class="tail-mt-4" :services="$auth.user.services"  v-model="invoice.items" />
+          <gw-invoice-services-selector class="mt-4" :services="$auth.user.services"  v-model="invoice.items" />
           <p>{{invoice.items}}</p>
         </template>
       </div>
-      <hr class="tail-pt-5" />
-      <div class="tail-py-4">
-        <input type="checkbox" class="tail-p-2" />
-        <span class="tail-font-light">Value Added Tax (VAT)</span>
+      <hr class="pt-5" />
+      <div class="py-4">
+        <input type="checkbox" class="p-2" />
+        <span class="font-light">Value Added Tax (VAT)</span>
       </div>
       <div>
-        <label for="dueDate" class="tail-block tail-font-light">Due date</label>
+        <label for="dueDate" class="block font-light">Due date</label>
         <date-picker
           v-model="invoice.dueDate"
           style="width: 100% !important"
-          class="tail-w-full"
+          class="w-full"
           :disabled-date="(date) => date < new Date()"
           value-type="format"
           placeholder="Select an appointment date"

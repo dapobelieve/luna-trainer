@@ -1,24 +1,24 @@
 <template>
-  <div class="tail-rounded-lg tail-w-full hover:tail-bg-blue-50 bg-bad-red tail-flex tail-items-center tail-justify-between tail-py-5 tail-px-4">
-    <div class="tail-flex tail-items-center">
+  <div class="rounded-lg w-full hover:bg-blue-50 bg-bad-red flex items-center justify-between py-5 px-4">
+    <div class="flex items-center">
       <div>
         <ClientAvatar :clientInfo="invoice.ownerId" />
       </div>
-      <div class="tail-ml-4 ">
-        <h6 class="tail-text-base tail-text-gray-700 tail-text-capitalize">{{invoice.ownerId.firstName}} {{invoice.ownerId.lastName}}</h6>
-        <span class="tail-text-sm tail-text-gray-500">{{invoice.ownerId.email}}</span>
+      <div class="ml-4 ">
+        <h6 class="text-base text-gray-700 text-capitalize">{{invoice.ownerId.firstName}} {{invoice.ownerId.lastName}}</h6>
+        <span class="text-sm text-gray-500">{{invoice.ownerId.email}}</span>
       </div>
     </div>
     <ClickOutside :do="() => { showDropDown = false }">
-      <div class="tail-relative">
-      <span @click="showDropDown = !showDropDown" class="ns-menu-dots tail-cursor-pointer tail-font-medium tail-text-2xl text-primary-color"></span>
+      <div class="relative">
+      <span @click="showDropDown = !showDropDown" class="ns-menu-dots cursor-pointer font-medium text-2xl text-primary-color"></span>
         <div
           v-show="showDropDown"
-          class="tail-absolute tail-top-[13px] tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
+          class="absolute top-[13px] absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
         >
-          <div class="tail-py-1" role="none">
+          <div class="py-1" role="none">
             <a
-              class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+              class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
               @click.prevent="$router.push({
               name: 'edit-invoice-id',
               params: {
@@ -27,7 +27,7 @@
               });showDropDown=false">Edit
             </a>
             <a
-              class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+              class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
               @click.prevent="showDropDown=false">Delete
             </a>
           </div>

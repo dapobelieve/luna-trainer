@@ -1,68 +1,68 @@
 <template>
-  <div class="tail-grid">
-    <div class="tail-py-0">
-      <div class="tail-flex tail-justify-between tail-items-center tail-mb-2">
-        <h2 class="tail-text-2xl tail-font-normal tail-text-gray-700 tail-mb-1">
+  <div class="grid m-6">
+    <div class="py-0">
+      <div class="flex justify-between items-center mb-2">
+        <h2 class="text-2xl font-normal text-gray-700 mb-1">
           Invite New Client
         </h2>
         <button
           type="button"
-          class="focus:tail-outline-none tail-outline-none tail-border-0"
+          class="focus:outline-none outline-none border-0"
           @click="$emit('close', false)"
         >
           <img
-            class="tail-p-1 tail-rounded-full"
+            class="p-1 rounded-full"
             src="~/assets/img/svgs/cancel.svg"
             alt="cancel"
           />
         </button>
       </div>
-      <p class="tail-text-gray-500 tail-text-base">
+      <p class="text-gray-500 text-base">
         Let us know your client’s name and email address so we can invite them to GetWelp!
       </p>
-      <div class="tail-overflow-y-scroll">
+      <div class="overflow-y-scroll">
         <form
           autocomplete="off"
-          class="tail-grid tail-gap-6 tail-mt-5 text-gray-700"
+          class="grid gap-6 mt-5 text-gray-700"
           @submit.prevent="save"
         >
-          <div class="tail-flex tail-justify-between tail-gap-6">
-            <div class="tail-flex tail-gap-5 tail-w-full">
-              <div class="tail-w-full">
+          <div class="flex justify-between gap-6">
+            <div class="flex gap-5 w-full">
+              <div class="w-full">
                 <label
                   for="first_name"
                   class="block text-sm font-medium text-gray-700 required"
-                  :class="{'tail-text-red-500' : $v.clientInfo.firstName.$error}"
+                  :class="{'text-red-500' : $v.clientInfo.firstName.$error}"
                 >First name</label>
                 <input
                   id="first_name"
                   v-model.trim="$v.clientInfo.firstName.$model"
                   type="text"
-                  class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                  :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.firstName.$error}"
+                  class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md focus:shadow-md focus:outline-none focus:bg-white focus:border-blue-500"
+                  :class="{'shadow-md border-red-500' : $v.clientInfo.firstName.$error}"
                 />
               </div>
             </div>
           </div>
-          <div class="tail-flex tail-gap-5">
-            <div class="tail-w-full">
-              <label for="email" class="required" :class="{'tail-text-red-500' : $v.clientInfo.email.$error}">Email Address</label>
+          <div class="flex gap-5">
+            <div class="w-full">
+              <label for="email" class="required" :class="{'text-red-500' : $v.clientInfo.email.$error}">Email Address</label>
               <input
                 id="email"
                 v-model.trim="$v.clientInfo.email.$model"
                 type="email"
-                class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md focus:tail-shadow-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-                :class="{'tail-shadow-md tail-border-red-500' : $v.clientInfo.email.$error}"
+                class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md focus:shadow-md focus:outline-none focus:bg-white focus:border-blue-500"
+                :class="{'shadow-md border-red-500' : $v.clientInfo.email.$error}"
               />
-              <div v-if="$v.clientInfo.email.$error" class="tail-mt-0.5">
+              <div v-if="$v.clientInfo.email.$error" class="mt-0.5">
                 <small
                   v-if="!$v.clientInfo.email.email"
-                  class="error tail-text-red-500"
+                  class="error text-red-500"
                 >Please enter a valid email address.</small>
               </div>
             </div>
           </div>
-          <div class="tail-flex tail-justify-end tail-gap-5">
+          <div class="flex justify-end gap-5">
             <button-spinner
               style="width:fit-content"
               :disabled="$v.$invalid"
@@ -160,6 +160,6 @@ input:focus {
 }
   .required:after {
     content:" *";
-    @apply tail-text-red-500 tail-text-sm;
+    @apply text-red-500 text-sm;
   }
 </style>

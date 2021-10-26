@@ -7,11 +7,11 @@
   
   body {
     font-family: 'DM Sans', sans-serif;
-    @apply tail-antialiased tail-text-gray-700 tail-bg-gray-50 tail-transition-all;
+    @apply antialiased text-gray-700 bg-gray-50 transition-all;
   }
 
   ::selection {
-   @apply tail-bg-blue-500
+   @apply bg-blue-500
   }
 
   /* base h1 to h6 styles */
@@ -21,7 +21,7 @@
   h4,
   h5,
   h6 {
-    @apply tail-block;
+    @apply block;
   }
   h1 {
   }
@@ -39,11 +39,11 @@
   /* base button styles */
   /* colors */
   .gw-pry-text-color {
-    @apply tail-bg-blue-500
+    @apply bg-blue-500
   }
 
   .gw-pry-bg-color {
-    @apply tail-bg-blue-500
+    @apply bg-blue-500
   }
 
   .gw-pry-hover-bg-color:hover {
@@ -65,7 +65,7 @@
   .required {
     &:after {
       content: " *";
-      @apply tail-text-red-500 tail-text-sm;
+      @apply text-red-500 text-sm;
     }
   }
 
@@ -82,53 +82,53 @@
   }
 
   .input-text-label {
-    @apply tail-text-gray-700 tail-font-medium tail-text-base tail-mb-1;
+    @apply text-gray-700 font-medium text-base mb-1;
   }
 
   .input-text {
-    @apply tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500;
+    @apply bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500;
   }
 }
 
 
   @layer components {
     .contain-default-pages {
-      @apply tail-mx-3 sm:tail-mx-5 2xl:tail-mx-auto tail-mt-5 md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full;
+      @apply mx-3 sm:mx-5 2xl:mx-auto mt-5 md:max-w-4xl 2xl:max-w-7xl lg:max-w-full;
     }
     .base-button {
 
-      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm tail-text-base tail-font-medium tail-text-white disabled:tail-bg-blue-300 disabled:tail-cursor-not-allowed disabled:hover:tail-bg-none tail-bg-blue-500 hover:tail-bg-blue-600;
+      @apply inline-flex capitalize items-center justify-center px-4 py-1 h-10 border rounded-md shadow-sm text-base font-medium text-white disabled:bg-blue-300 disabled:cursor-not-allowed disabled:hover:bg-none bg-blue-500 hover:bg-blue-600;
 
     }
     
     .outline-button {
-      @apply tail-inline-flex tail-capitalize tail-items-center tail-justify-center tail-px-4 tail-py-1 tail-h-10 tail-border tail-rounded-md tail-shadow-sm  tail-text-blue-500 tail-border-blue-500 tail-bg-white hover:tail-bg-blue-50;
+      @apply inline-flex capitalize items-center justify-center px-4 py-1 h-10 border rounded-md shadow-sm  text-blue-500 border-blue-500 bg-white hover:bg-blue-50;
     }
 
     button {
 
-      @apply focus:tail-outline-none tail-font-medium tail-capitalize tail-inline-flex tail-items-center tail-justify-center tail-transition-all;
+      @apply focus:outline-none font-medium capitalize inline-flex items-center justify-center transition-all;
 
       &.button-fill {
-        @apply tail-shadow-sm tail-text-white tail-bg-blue-500 tail-border-blue-500  hover:tail-bg-blue-600 hover:tail-border-blue-600 tail-px-4 tail-py-1 tail-h-10 tail-rounded-md disabled:tail-bg-blue-300 disabled:tail-cursor-not-allowed disabled:hover:tail-bg-none;
+        @apply shadow-sm text-white bg-blue-500 border-blue-500  hover:bg-blue-600 hover:border-blue-600 px-4 py-1 h-10 rounded-md disabled:bg-blue-300 disabled:cursor-not-allowed disabled:hover:bg-none;
       }
 
       &.button-outline {
-        @apply tail-text-blue-500 tail-bg-transparent hover:tail-bg-blue-50 hover:tail-border-blue-500 tail-border tail-px-4 tail-py-1 tail-h-10 tail-rounded-md;
+        @apply text-blue-500 bg-transparent hover:bg-blue-50 hover:border-blue-500 border px-4 py-1 h-10 rounded-md;
       }
 
       &.button-text {
-        @apply tail-text-blue-500 tail-bg-transparent hover:tail-bg-blue-50 hover:tail-border-blue-50 tail-px-4 tail-py-1 tail-h-10 tail-rounded-md;
+        @apply text-blue-500 bg-transparent hover:bg-blue-50 hover:border-blue-50 px-4 py-1 h-10 rounded-md;
       }
     }
 
     input {
-      @apply tail-placeholder-gray-400;
+      @apply placeholder-gray-400;
     }
 
     /* form input styles */
     /* .form-input {
-      @apply tail-block tail-w-full tail-pr-10 tail-border-red-300 tail-text-red-900 tail-placeholder-red-300 focus:tail-outline-none focus:tail-ring-red-500 focus:tail-border-red-500 sm:tail-text-sm tail-rounded-md;
+      @apply block w-full pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md;
     } */
 
   }
