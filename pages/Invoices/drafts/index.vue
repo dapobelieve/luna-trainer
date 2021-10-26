@@ -2,7 +2,7 @@
   <div >
     <GwPagination class="tail-border tail-bg-white tail-p-1 tail-rounded-lg" v-if="drafts" :totalItems="drafts.length">
       <template v-slot:content>
-        <InvoiceClientCard v-for="draft in drafts" :key="draft._id" :client="draft">
+        <InvoiceClientCard v-for="draft in drafts" :key="draft._id" :invoice="draft">
         </InvoiceClientCard>
       </template>
     </GwPagination>

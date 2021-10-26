@@ -4,7 +4,7 @@
       class="tail-flex tail-justify-between lg:tail-grid tail-grid-cols-3 tail-bg-white tail-px-4 tail-py-3 tail-items-center tail-border-b tail-border-gray-200"
     >
       <span class="tail-text-2xl tail-to-gray-700 tail-font-normal">
-        Create Invoice
+        {{ sharedPage.page }}
       </span>
       <span class="tail-text-xs tail-text-gray-500 lg:tail-justify-self-center">
         Saving as draft...
@@ -22,7 +22,19 @@
 </template>
 <script>
 export default {
-  name: 'Invoice'
+  name: 'Invoice',
+  provide () {
+    return {
+      sharedPage: this.sharedPage
+    }
+  },
+  data () {
+    return {
+      sharedPage: {
+        page: 'Create Invoice'
+      }
+    }
+  }
 }
 </script>
 <style lang="scss"></style>

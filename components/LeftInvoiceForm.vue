@@ -14,8 +14,25 @@
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="allClients" v-model="invoice.client" />
-        <p>{{invoice.client}}</p>
+        <gw-customer-selector :clients="allClients" v-model="invoice.client">
+          <template v-slot:dropdownOption="{optionObject}">
+            <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
+              <div class="tail-flex tail-content-center tail-py-1">
+                <ClientAvatar :width="2.3" :height="2.3" :client-info="optionObject" />
+                <div class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
+                  <p class="tail-capitalize">
+                    {{ optionObject.firstName }}
+                  </p>
+                  <small class="tail-text-gray-500"> {{ optionObject.email }}</small>
+                </div>
+              </div>
+              <div class="check">
+                <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
+              </div>
+            </div>
+          </template>
+        </gw-customer-selector>
+<!--        <p>{{invoice.client}}</p>-->
       </div>
     </div>
 
