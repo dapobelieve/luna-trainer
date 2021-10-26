@@ -5,7 +5,7 @@
   >
     <template v-slot:icon>
       <i
-        class="ns-receipt tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
+        class="ns-receipt bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
       ></i>
     </template>
     <template v-slot:title>
@@ -19,19 +19,19 @@
     <template v-slot:content>
       <div
         v-if="$store.state.invoice.isLoading"
-        class="tail-flex tail-place-content-center tail-mt-16"
+        class="flex place-content-center mt-16"
       >
         <SingleLoader />
       </div>
       <template v-else>
-        <ul v-if="paidInvoices.length" role="list" class="tail-relative tail-z-0 tail-px-1">
+        <ul v-if="paidInvoices.length" role="list" class="relative z-0 px-1">
           <li v-for="invoice in paidInvoices" :key="invoice.index">
             <containers-summary-information-with-avatar>
               <template v-slot:avatar>
                 <ClientAvatar :client-info="invoice.customerId" />
               </template>
               <template v-slot:content>
-                <span class="tail-font-medium">{{ invoice.customerId.firstName }}
+                <span class="font-medium">{{ invoice.customerId.firstName }}
                   {{ invoice.customerId.lastName }}</span> has paid you.
               </template>
               <template v-slot:date>
@@ -42,7 +42,7 @@
         </ul>
         <div
           v-else
-          class="tail-text-center tail-pt-8 tail-pb-12 tail-px-4 tail-text-gray-500 tail-text-sm"
+          class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
         >
           Newly paid invoices will be displayed here.
         </div>

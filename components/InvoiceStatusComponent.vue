@@ -1,5 +1,5 @@
 <template>
-  <div class="tail-inline-flex tail-px-2 tail-rounded-3xl tail-text-sm" :class="[`tail-${computedStatus.text}`, `tail-${computedStatus.bg}`]">
+  <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.text}`, `${computedStatus.bg}`]">
     {{ `${status.charAt(0).toUpperCase()}${status.substring(1)}` }}
   </div>
 </template>

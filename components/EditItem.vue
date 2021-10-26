@@ -1,27 +1,27 @@
 <template>
   <form @submit.prevent="setEditedItem">
-    <div class="tail-pb-3">
+    <div class="pb-3">
       <label for="item">Description</label>
-      <input v-model="item.description" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md" disabled="disabled">
+      <input v-model="item.description" type="text" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md" disabled="disabled">
     </div>
-    <div class="tail-grid tail-grid-cols-2 tail-gap-4 tail-py-3">
+    <div class="grid grid-cols-2 gap-4 py-3">
       <div>
         <label for="item">Quantity</label>
-        <input v-model="item.qty" type="number" min="1" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+        <input v-model="item.qty" type="number" min="1" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
       </div>
       <div>
         <label for="item">Price</label>
-        <div class="tail-flex">
-          <span class="tail-w-11 tail-h-11 tail-border-r-0 tail-mt-1 tail-text-xl tail-bg-gray-300 tail-text-center tail-rounded-l tail-flex tail-justify-center tail-items-center">£</span>
-          <input v-model="item.price" type="number" min="1" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-border-l-0 tail-rounded-r">
+        <div class="flex">
+          <span class="w-11 h-11 border-r-0 mt-1 text-xl bg-gray-300 text-center rounded-l flex justify-center items-center">£</span>
+          <input v-model="item.price" type="number" min="1" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 border-l-0 rounded-r">
         </div>
       </div>
     </div>
-    <div class="tail-flex tail-justify-end tail-gap-5">
+    <div class="flex justify-end gap-5">
       <button
         type="button"
         style="width: fit-content"
-        class="base-button tail-bg-white tail-text-black tail-border tail-border-gray-300 tail-px-3 tail-rounded"
+        class="base-button bg-white text-black border border-gray-300 px-3 rounded"
         @click.prevent="$emit('close', false)"
       >
         cancel
@@ -29,7 +29,7 @@
       <button
         style="width: fit-content"
         type="submit"
-        class="base-button tail-px-3 primary-color tail-rounded tail-text-white"
+        class="base-button px-3 primary-color rounded text-white"
       >
         save
       </button>

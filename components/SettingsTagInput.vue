@@ -1,17 +1,17 @@
 <template>
   <div
-    class="tail-bg-white tail-h-auto tail-py-2 tail-px-3 tail-w-full tail-border tail-shadow-sm tail-rounded-md tail-flex tail-flex-wrap tail-gap-1"
+    class="bg-white h-auto py-2 px-3 w-full border shadow-sm rounded-md flex flex-wrap gap-1"
   >
     <div
       v-for="tag in value"
       :key="tag.index"
-      class="tail-bg-whites tail-inline-flex tail-items-center tail-border tail-rounded-full tail-h-8 tail-w-auto tail-pl-2 tail-pr-1 tail-font-medium"
+      class="bg-whites inline-flex items-center border rounded-full h-8 w-auto pl-2 pr-1 font-medium"
     >
-      <span class="tail-text-sm tail-capitalize">{{ tag }}</span>
+      <span class="text-sm capitalize">{{ tag }}</span>
       <button
         title="Delete item"
         type="button"
-        class="tail-text-blue-500 tail-text-xs tail-h-5 tail-w-5 tail-flex tail-justify-center tail-items-center tail-ml-1 hover:tail-bg-blue-50 tail-rounded-full"
+        class="text-blue-500 text-xs h-5 w-5 flex justify-center items-center ml-1 hover:bg-blue-50 rounded-full"
         @click="removeItem(tag)"
       >
         <i class="ns-cross"></i>
@@ -20,7 +20,7 @@
     <input
       v-model.trim="input"
       :tabindex="tabindex"
-      class="tail-border-0 tail-bg-transparent tail-w-full tail-text-sm tail-h-6"
+      class="border-0 bg-transparent w-full text-sm h-6"
       placeholder="Type here and press enter or tab"
       @keydown.enter.prevent="addItem($event)"
       @keydown.tab.prevent="addItem($event)"

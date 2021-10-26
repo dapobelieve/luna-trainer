@@ -1,57 +1,57 @@
 <template>
-  <div class="tail-w-full">
+  <div class="w-full">
     <div
-      class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
+      class="bg-white rounded-xl border p-4 md:p-6 flex flex-col gap-4 md:gap-6"
     >
-      <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+      <h1 class="text-xl font-bold mt-0 md:mt-2">
         Sign up with email
       </h1>
-      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="signUp">
-        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-3">
-          <label for="email" class="required" :class="{'tail-text-red-500' : $v.userInfo.email.$error}">Email address</label>
+      <form class="flex flex-col gap-4" @submit.prevent="signUp">
+        <div class="flex flex-col gap-1.5 relative mb-3">
+          <label for="email" class="required" :class="{'text-red-500' : $v.userInfo.email.$error}">Email address</label>
 
           <input
             v-model="$v.userInfo.email.$model"
             autocomplete="off"
             tabindex="1"
             type="email"
-            class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500"
-            :class="{'tail-border-red-500' : $v.userInfo.email.$error}"
+            class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+            :class="{'border-red-500' : $v.userInfo.email.$error}"
           />
-          <div v-if="$v.userInfo.email.$error" class="tail-absolute tail--bottom-5">
+          <div v-if="$v.userInfo.email.$error" class="absolute -bottom-5">
             <small
               v-if="!$v.userInfo.email.email"
-              class="error tail-text-red-500"
+              class="error text-red-500"
             >Please enter a valid email address.</small>
           </div>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-3">
-          <label for="password" class="required" :class="{'tail-text-red-500' : $v.userInfo.password.$error}">Password</label>
-          <div class="tail-flex tail-justify-between tail-items-center tail-relative">
+        <div class="flex flex-col gap-1.5 relative mb-3">
+          <label for="password" class="required" :class="{'text-red-500' : $v.userInfo.password.$error}">Password</label>
+          <div class="flex justify-between items-center relative">
             <input
               v-model.trim="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
               tabindex="2"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
-              :class="{'tail-shadow-md tail-border-red-500' : $v.userInfo.password.$error}"
+              class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500 pr-8"
+              :class="{'shadow-md border-red-500' : $v.userInfo.password.$error}"
             />
-            <password-toggle v-model="showPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            <password-toggle v-model="showPassword" class="absolute right-0 p-3" />
           </div>
-          <div v-if="$v.userInfo.password.$error" class="tail-absolute tail--bottom-5">
-            <small v-if="!$v.userInfo.password.minLength" class="error tail-text-red-500">
+          <div v-if="$v.userInfo.password.$error" class="absolute -bottom-5">
+            <small v-if="!$v.userInfo.password.minLength" class="error text-red-500">
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
           </div>
         </div>
-        <div class="tail-flex tail-justify-end">
+        <div class="flex justify-end">
           <button
-            :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
+            :class="{ 'opacity-50 cursor-not-allowed': $v.$invalid }"
             type="submit"
             :disabled="isLoading"
             class="button-fill"
           >
-            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            <SingleLoader v-if="isLoading" class="mr-2" />
             {{ signUpText }}
           </button>
         </div>
@@ -59,12 +59,12 @@
     </div>
 
     <div
-      class="tail-text-center tail-mt-4 tail-bg-white tail-rounded-xl tail-border tail-h-auto md:tail-h-20 tail-flex tail-items-center tail-justify-center tail-px-4 tail-py-6"
+      class="text-center mt-4 bg-white rounded-xl border h-auto md:h-20 flex items-center justify-center px-4 py-6"
     >
       Already have an account?
       <NuxtLink
         :to="{ name: 'Auth-SignIn' }"
-        class="tail-text-blue-500 tail-font-medium tail-no-underline tail-ml-1 hover:tail-underline"
+        class="text-blue-500 font-medium no-underline ml-1 hover:underline"
       >
         Sign in
       </NuxtLink>
@@ -202,10 +202,10 @@ export default {
   }
 }
 .error {
-  @apply tail-border-red-500;
+  @apply border-red-500;
 }
 .required:after {
   content: " *";
-  @apply tail-text-red-500 tail-text-sm;
+  @apply text-red-500 text-sm;
 }
 </style>
