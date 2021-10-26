@@ -1,21 +1,21 @@
 <template>
   <client-only>
-    <div class="tail-h-screen bg-gray-50 tail-flex tail-overflow-hidden">
-      <div class="tail-flex-1 tail-flex tail-flex-col tail-overflow-hidden">
+    <div class="h-screen bg-gray-50 flex overflow-hidden">
+      <div class="flex-1 flex flex-col overflow-hidden">
         <!-- Main content -->
-        <div class="lg:tail-flex-1 lg:tail-flex tail-items-stretch tail-overflow-hidden">
-          <main class="lg:tail-flex-1 lg:tail-flex tail-flex-row-reverse tail-overflow-y-auto">
-            <div class="tail-pt-8 lg:tail-pt-0 xl:tail-w-8/12 tail-w-full tail-px-4 sm:tail-px-6 lg:tail-px-8">
-              <form autocomplete="off" class="tail-grid tail-gap-6 md:tail-m-8">
+        <div class="lg:flex-1 lg:flex items-stretch overflow-hidden">
+          <main class="lg:flex-1 lg:flex flex-row-reverse overflow-y-auto">
+            <div class="pt-8 lg:pt-0 xl:w-8/12 w-full px-4 sm:px-6 lg:px-8">
+              <form autocomplete="off" class="grid gap-6 md:m-8">
                 <LeftInvoiceForm v-model="invoice" />
-                <button-spinner :disabled="isLoading || isEmpty" :loading="isLoading" class="tail-mt-4" @click.prevent="createInvoice">
+                <button-spinner :disabled="isLoading || isEmpty" :loading="isLoading" class="mt-4" @click.prevent="createInvoice">
                   Save Invoice
                 </button-spinner>
               </form>
             </div>
           </main>
-          <aside style="background-color: #f0f5fa;" class="tail-hidden lg:tail-w-6/12 sm:tail-w tail-p-8 tail-pr-0 lg:tail-pt-0 tail-overflow-y-auto lg:tail-block">
-            <div class="tail-px-10 tail-py-8 tail-grid lg:tail-w-9/12 tail-gap-4 tail-rounded-lg">
+          <aside style="background-color: #f0f5fa;" class="hidden lg:w-6/12 sm:w p-8 pr-0 lg:pt-0 overflow-y-auto lg:block">
+            <div class="px-10 py-8 grid lg:w-9/12 gap-4 rounded-lg">
               <PreviewInvoice :invoice="invoice" />
             </div>
           </aside>

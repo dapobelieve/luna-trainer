@@ -1,30 +1,30 @@
 <template>
   <div>
-    <div class="tail-py-6">
-      <h3 class="tail-text-2xl tail-font-medium sec-color">
+    <div class="py-6">
+      <h3 class="text-2xl font-medium sec-color">
         Bank Details
       </h3>
     </div>
-    <div class="tail-pb-4 tail-py-5 tail-px-5 tail-rounded-md tail-bg-white">
-      <div class="tail-py-3">
+    <div class="pb-4 py-5 px-5 rounded-md bg-white">
+      <div class="py-3">
         <h3>Please enter your account details</h3>
         <form @click.prevent="onSubmit">
-          <div class="md:tail-grid tail-grid-cols-2 tail-gap-4">
-            <div class="tail-py-3">
+          <div class="md:grid grid-cols-2 gap-4">
+            <div class="py-3">
               <label for="account-number" class="">Account number</label>
-              <input v-model="details.accountNumber" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              <input v-model="details.accountNumber" type="number" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
             </div>
-            <div class="tail-py-3">
+            <div class="py-3">
               <label for="routing-number" class="">Routing number</label>
-              <input v-model="details.routingNumber" type="number" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              <input v-model="details.routingNumber" type="number" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
             </div>
-            <div class="tail-py-3">
+            <div class="py-3">
               <label for="holdername" class="">Holdername</label>
-              <input v-model="details.holderName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              <input v-model="details.holderName" type="text" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
             </div>
-            <div class="tail-py-3">
+            <div class="py-3">
               <label for="holder-type" class="">Holder type</label>
-              <select v-model="details.holderType" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+              <select v-model="details.holderType" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
                 <option value=""></option>
                 <option value="individual">
                   Individual
@@ -35,7 +35,7 @@
               </select>
             </div>
           </div>
-          <div class="tail-flex tail-justify-end">
+          <div class="flex justify-end">
             <button
               style="width: fit-content"
               type="button"

@@ -1,9 +1,9 @@
 <template>
   <ul
     role="list"
-    class="tail-relative tail-z-0 tail-rounded-tr-lg tail-rounded-tl-lg lg:tail-rounded-lg lg:tail-border tail-bg-white tail-p-1 tail-flex lg:tail-grid"
+    class="relative z-0 rounded-tr-lg rounded-tl-lg lg:rounded-lg lg:border bg-white p-1 flex lg:grid"
   >
-    <li v-for="menu in menuItems" :key="menu.index" class="tail-w-full">
+    <li v-for="menu in menuItems" :key="menu.index" class="w-full">
       <containers-summary-information-with-avatar
         :url="`Client-id-${menu.pathName}`"
         :parameter="{ id: $route.params.id }"
@@ -11,18 +11,18 @@
       >
         <template v-slot:avatar="{ matchedRoute }">
           <i
-            :class="[matchedRoute ? 'tail-text-blue-500' : 'tail-text-gray-500', `${menu.icon}` ]"
-            class="tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
+            :class="[matchedRoute ? 'text-blue-500' : 'text-gray-500', `${menu.icon}` ]"
+            class="bg-indigo-50 p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
           ></i>
         </template>
         <template v-slot:content>
-          <span class="tail-capitalize">{{
+          <span class="capitalize">{{
             menu.pathName
           }}</span>
         </template>
         <template v-slot:button="{ matchedRoute }">
-          <div class="lg:tail-hidden">
-            <svg v-if="matchedRoute" xmlns="http://www.w3.org/2000/svg" class="ionicon tail-h-5 tail-text-blue-500" viewBox="0 0 512 512"><title>Chevron Down</title><path
+          <div class="lg:hidden">
+            <svg v-if="matchedRoute" xmlns="http://www.w3.org/2000/svg" class="ionicon h-5 text-blue-500" viewBox="0 0 512 512"><title>Chevron Down</title><path
               fill="none"
               stroke="currentColor"
               stroke-linecap="round"
@@ -30,7 +30,7 @@
               stroke-width="48"
               d="M112 184l144 144 144-144"
             /></svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" class="ionicon tail-h-5" viewBox="0 0 512 512"><title>Chevron Forward</title><path
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="ionicon h-5" viewBox="0 0 512 512"><title>Chevron Forward</title><path
               fill="none"
               stroke="#808080"
               stroke-linecap="round"
@@ -39,8 +39,8 @@
               d="M184 112l144 144-144 144"
             /></svg>
           </div>
-          <div class="tail-hidden lg:tail-block">
-            <svg v-if="matchedRoute" xmlns="http://www.w3.org/2000/svg" class="ionicon tail-h-5" viewBox="0 0 512 512"><title>Chevron Forward</title><path
+          <div class="hidden lg:block">
+            <svg v-if="matchedRoute" xmlns="http://www.w3.org/2000/svg" class="ionicon h-5" viewBox="0 0 512 512"><title>Chevron Forward</title><path
               fill="none"
               stroke="#3B82F6"
               stroke-linecap="round"
@@ -48,7 +48,7 @@
               stroke-width="48"
               d="M184 112l144 144-144 144"
             /></svg>
-            <svg v-else xmlns="http://www.w3.org/2000/svg" class="ionicon tail-h-5" viewBox="0 0 512 512"><title>Chevron Forward</title><path
+            <svg v-else xmlns="http://www.w3.org/2000/svg" class="ionicon h-5" viewBox="0 0 512 512"><title>Chevron Forward</title><path
               fill="none"
               stroke="#808080"
               stroke-linecap="round"

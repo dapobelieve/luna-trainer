@@ -1,14 +1,14 @@
 <template>
-  <div class="tail-flex tail-flex-col tail-space-y-5 tail-rounded-lg tail-px-4 tail-py-3 tail-bg-white">
-    <div class="tail-flex tail-items-center">
+  <div class="flex flex-col space-y-5 rounded-lg px-4 py-3 bg-white">
+    <div class="flex items-center">
       <span
-        :class="[ data.title === 'payments' ? 'tail-bg-gray-100' : 'tail-bg-yellow-200', 'tail-items-center', 'tail-flex', 'tail-rounded-full', 'tail-p-2']"
+        :class="[ data.title === 'payments' ? 'bg-gray-100' : 'bg-yellow-200', 'items-center', 'flex', 'rounded-full', 'p-2']"
       >
         <i
-          :class="[ data.title === 'payments' ? 'tail-text-green-400' : 'tail-text-yellow-500', `ns-${data.icon}`, 'tail-text-lg']"
+          :class="[ data.title === 'payments' ? 'text-green-400' : 'text-yellow-500', `ns-${data.icon}`, 'text-lg']"
         ></i>
       </span>
-      <span class="tail-pl-3 tail-font-semibold tail-capitalize">{{ data.title }} in {{ getMonth }}</span>
+      <span class="pl-3 font-semibold capitalize">{{ data.title }} in {{ getMonth }}</span>
     </div>
     <slot />
   </div>
