@@ -1,6 +1,5 @@
 <template>
   <div class="tail-flex tail-flex-col lg:tail-flex-row lg:tail-space-x-10">
-    <!-- invoice builder -->
     <containers-container-with-title class="lg:tail-min-w-[448px]">
       <template v-slot:headerbox>
         <span class="tail-text-xl tail-capitalize">
@@ -223,6 +222,7 @@ export default {
   name: 'NewInvoice',
   components: { DatePicker },
   layout: 'invoice',
+  inject: ['sharedPage'],
   data () {
     return {
       invoiceDetails: {
@@ -301,6 +301,9 @@ export default {
           this.isLoading = false
         })
     }
+  },
+  mounted () {
+    this.sharedPage.page = 'Edit Invoice'
   }
 }
 </script>

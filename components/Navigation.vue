@@ -1,6 +1,6 @@
 <template>
   <div
-    class="tail-block lg:tail-flex lg:tail-h-screen tail-z-40 lg:tail-w-64 tail-fixed lg:tail-border-r lg:tail-shadow-sm tail-bg-white lg:tail-sticky lg:tail-top-0 tail-left-0 lg:tail-rounded-none tail-text-gray-500 tail-flex-shrink-0 tail-top-14 tail-border tail-rounded-xl tail-shadow-xl tail-h-full tail-w-full md:tail-w-1/2"
+    class="tail-block lg:tail-block lg:tail-flex lg:tail-h-screen tail-z-40 lg:tail-w-64 tail-fixed lg:tail-border-r lg:tail-shadow-sm tail-bg-white lg:tail-sticky lg:tail-top-0 tail-left-0 lg:tail-rounded-none tail-text-gray-500 tail-flex-shrink-0 tail-top-14 tail-border tail-rounded-xl tail-shadow-xl tail-h-full tail-w-full md:tail-w-1/2"
   >
     <!-- Sidebar Search -->
 

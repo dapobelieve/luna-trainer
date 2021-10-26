@@ -1,90 +1,90 @@
 <template>
   <div>
     <template v-if="invoices && invoices.length">
-      <div class="tail-flex tail-mt-6 tail-px-3 tail-mb-5">
+      <div class="tail-flex tail-mt-1 tail-px-3 tail-mb-5">
         <div class="actions">
           <span class="tail-cursor-pointer tail-mr-4 tail-inline-flex tail-items-center tail-text-sm tail-font-medium text-primary-color tail-text-base" to="/">
             <i class="ns-archive tail-mr-1"></i>
             <span>Archive</span>
           </span>
-          <template>
-            <span v-if="!exporting" class="tail-cursor-pointer tail-inline-flex tail-items-center tail-text-sm tail-font-medium text-primary-color tail-text-base" to="/" @click="exportInvoice()">
-              <i class="ns-download tail-mr-1"></i>
-              <span>Export</span>
-            </span>
-            <span v-else class="tail-cursor-pointer tail-inline-flex tail-items-center tail-text-sm tail-font-medium tail-text-gray-400 tail-text-base" to="/">
-              <i class="ns-download tail-mr-1"></i>
-              <span>Exporting...</span>
-            </span>
-          </template>
+          <span v-if="!exporting" class="tail-cursor-pointer tail-inline-flex tail-items-center tail-text-sm tail-font-medium text-primary-color tail-text-base" to="/" @click="exportInvoice()">
+            <i class="ns-download tail-mr-1"></i>
+            <span>Export</span>
+          </span>
+          <span v-else class="tail-cursor-pointer tail-inline-flex tail-items-center tail-text-sm tail-font-medium tail-text-gray-400 tail-text-base" to="/">
+            <i class="ns-download tail-mr-1"></i>
+            <span>Exporting...</span>
+          </span>
         </div>
       </div>
-      <div class="tail-px-3">
-        <table class="tail-table-auto tail-bg-white tail-w-full tail-text-xs tail-rounded-md">
-          <thead class="">
-            <tr class="tail-uppercase tail-tracking-wider tail-text-gray-500">
-              <th class="tail-w-12  tail-py-4 tail-font-medium tail-pl-1">
-                <div>
-                  <input v-model="selectAll" class="tail-cursor-pointer tail-h-5 tail-w-5 tail-border-grey-500" type="checkbox">
-                </div>
-              </th>
-              <th class="tail-py-4 tail-font-medium tail-text-left tail-px-6 tail-w-3/6">
-                Name
-              </th>
-              <th class="tail-py-4 tail-font-medium tail-px-6">
-                INVOICE#
-              </th>
-              <th class="tail-py-4 tail-font-medium tail-px-6">
-                CREATED
-              </th>
-              <th class="tail-py-4 tail-font-medium tail-px-6">
-                AMOUNT
-              </th>
-              <th class="tail-py-4 tail-font-medium tail-px-6">
-                STATUS
-              </th>
-            </tr>
-          </thead>
-          <tbody class="tail-px-8">
-            <tr v-for="(data) in invoices" :key="data._id" class="tail-text-center tail-text-gray-500 hover:tail-bg-blue-50 hover:tail-cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'tail-bg-blue-50' : '']">
-              <td class="tail-w-12  tail-py-4 tail-font-medium tail-pl-1">
-                <div>
-                  <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data.customerId._id" />
-                </div>
-              </td>
-              <td class="tail-py-4 tail-text-left tail-px-6 tail-w-3/6">
-                <div class="tail-flex tail-items-center">
-                  <ClientAvatar :client-info="data.customerId" />
-                  <div class="tail-ml-4">
-                    <h6 class="tail-text-base tail-text-gray-700 tail-text-capitalize">
-                      {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
-                    </h6>
-                    <span class="tail-text-sm tail-text-gray-500">{{ data.customerId.email }}</span>
+      <GwPagination v-if="invoices" :totalItems="invoices.length">
+        <template v-slot:content>
+          <div class="tail-overflow-scroll lg:tail-overflow-hidden">
+            <table class="tail-table-auto table tail-bg-white tail-w-full tail-text-xs tail-rounded-md">
+              <thead class="">
+              <tr class="tail-uppercase tail-tracking-wider tail-text-gray-500">
+                <th class="tail-w-12 tail-py-4 tail-font-medium tail-pl-1">
+                  <div class="tail-pl-3">
+                    <input v-model="selectAll" class="tail-cursor-pointer tail-h-5 tail-w-5 tail-border-grey-500" type="checkbox">
                   </div>
-                </div>
-              </td>
-              <td class="tail-py-4  tail-px-6">
-                <div class="tail-text-base tail-text-gray-700">
-                  {{ data.invoiceNo }}
-                </div>
-              </td>
-              <td class="tail-py-4  tail-px-6">
-                <div class="tail-text-base tail-text-gray-700">
-                  {{ data.createdAt | date }}
-                </div>
-              </td>
-              <td class="tail-py-4  tail-px-6">
-                <div class="tail-text-base tail-text-gray-700">
-                  {{ "\uFFE1" }}{{ data.total }}
-                </div>
-              </td>
-              <td class="tail-py-4 tail-px-6">
-                <InvoiceStatusComponent status="paid" />
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </th>
+                <th class="tail-py-4 tail-font-medium tail-text-left tail-px-6 tail-w-3/6">
+                  Name
+                </th>
+                <th class="tail-py-4 tail-font-medium tail-px-6">
+                  INVOICE#
+                </th>
+                <th class="tail-py-4 tail-font-medium tail-px-6">
+                  CREATED
+                </th>
+                <th class="tail-py-4 tail-font-medium tail-px-6">
+                  AMOUNT
+                </th>
+                <th class="tail-py-4 tail-font-medium tail-px-6">
+                  STATUS
+                </th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr v-for="(data) in invoices" :key="data._id" class="tail-text-center tail-relative tail-text-gray-500 hover-row hover:tail-cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
+                <td class="tail-w-12 tail-py-4 tail-font-medium tail-pl-3">
+                  <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data.customerId._id" />
+                </td>
+                <td class="tail-py-4 tail-text-left tail-px-6 tail-w-3/6">
+                  <div class="tail-flex tail-items-center">
+                    <ClientAvatar :client-info="data.customerId" />
+                    <div class="tail-ml-4">
+                      <h6 class="tail-text-base tail-text-gray-700 tail-text-capitalize">
+                        {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
+                      </h6>
+                      <span class="tail-text-sm tail-text-gray-500">{{ data.customerId.email }}</span>
+                    </div>
+                  </div>
+                </td>
+                <td class="tail-py-4  tail-px-6">
+                  <div class="tail-text-base tail-text-gray-700">
+                    {{ data.invoiceNo }}
+                  </div>
+                </td>
+                <td class="tail-py-4  tail-px-6">
+                  <div class="tail-text-xs md:tail-text-base tail-text-gray-700">
+                    {{ data.createdAt | date }}
+                  </div>
+                </td>
+                <td class="tail-py-4 tail-px-6">
+                  <div class="tail-text-sm md:tail-text-base tail-text-gray-700">
+                    {{ "\uFFE1" }}{{ data.total }}
+                  </div>
+                </td>
+                <td class="tail-py-4 tail-px-6">
+                  <InvoiceStatusComponent status="paid" />
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </template>
+      </GwPagination>
     </template>
     <template v-else>
       <div class="tail-flex tail-justify-around">
@@ -108,6 +108,7 @@
 <script>
 import InvoiceStatusComponent from '~/components/InvoiceStatusComponent'
 export default {
+  name: 'SentInvoice',
   components: { InvoiceStatusComponent },
   async asyncData (ctx) {
     const res = await ctx.store.dispatch('invoice/getInvoices', { status: 'sent' })
@@ -162,7 +163,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input[type=checkbox] {
-  background: red;
+input[type='checkbox'] {
+  background: red !important;
+  padding: 10rem;
+}
+
+.table{
+  tbody {
+    .active {
+      @apply tail-relative tail-z-[2];
+      &:after {
+        content: "";
+        @apply tail-w-[99%] tail-h-[95%] tail-bg-blue-50 tail-rounded-lg tail-absolute tail-top-0 tail-left-0 tail-ml-[6px];
+      }
+    }
+    tr {
+      td {
+        @apply tail-relative tail-z-[2];
+      }
+      &:hover {
+        &:after {
+          content: "";
+          @apply tail-w-[99%] tail-h-[95%] tail-bg-blue-50 tail-rounded-lg tail-absolute tail-top-0 tail-left-0 tail-ml-[6px];
+        }
+      }
+    }
+  }
 }
 </style>

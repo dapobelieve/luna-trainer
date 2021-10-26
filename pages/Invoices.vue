@@ -6,9 +6,29 @@
       </template>
       <template v-slot:buttons>
         <div class="tail-flex tail-items-center">
-          <span class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
-            <span>Sent</span>
-            <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
+          <ClickOutside :do="() => showDrop = false">
+            <div class="tail-relative">
+            <span @click="showDrop = !showDrop" class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
+              <span>{{ currentInvoice }}</span>
+              <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i>
+            </span>
+              <div
+                v-show="showDrop"
+                class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
+              >
+                <div class="tail-py-1" role="none">
+                  <a
+                    class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                    @click.prevent="$router.push({name: 'Invoices-sent'}); showDrop=false">Sent
+                  </a>
+                  <a
+                    class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                    @click.prevent="$router.push({name: 'Invoices-drafts'}); showDrop=false">Drafts
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ClickOutside>
           <NuxtLink
             :to="{ name: 'NewInvoice'}"
             exact-active-class="active"
@@ -19,7 +39,11 @@
         </div>
       </template>
     </PageHeader>
-    <NuxtChild />
+    <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-100 tail-flex tail-justify-center">
+      <div class="tail-max-w-xl md:tail-max-w-4xl 2xl:tail-max-w-7xl lg:tail-max-w-full tail-w-full">
+        <NuxtChild />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,6 +53,7 @@ export default {
   name: 'Invoices',
   data () {
     return {
+      showDrop: false,
       img: 'https://res.cloudinary.com/rohing/image/upload/v1585572497/harley-davidson-1HZcJjdtc9g-unsplash_vwslej.jpg',
       active: true,
       openModal: false,
@@ -45,6 +70,9 @@ export default {
     }
   },
   computed: {
+    currentInvoice () {
+      return `${this.$route.name.split('-')[1].charAt(0).toUpperCase()}${this.$route.name.split('-')[1].slice(1)}`
+    },
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
       size: 'invoice/invoiceCount'

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-select v-model="selected" class="v-select" :options="clients" label="firstName">
+    <v-select :multiple="multiple" v-model="selected" class="v-select" :options="clients" label="firstName">
       <template v-slot:open-indicator="{ dropdowIndicatorattributes }">
         <span v-bind="dropdowIndicatorattributes">
           <i
@@ -16,21 +16,16 @@
           </div>
         </button>
       </template>
-      <template v-slot:option="{ firstName, email, lastName, imgUrl }">
-        <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
-          <div class="tail-flex tail-content-center tail-py-1">
-            <ClientAvatar :width="2.3" :height="2.3" :client-info="{ firstName, email, lastName, imgUrl }" />
-            <div class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
-              <p class="tail-capitalize">
-                {{ firstName }}
-              </p>
-              <small class="tail-text-gray-500"> {{ email }}</small>
-            </div>
-          </div>
-          <div class="check">
-            <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
+      <template v-if="multiple" v-slot:selected-option-container="{option}">
+        <!-- Take this outside -->
+        <div style="display: flex; align-items: baseline">
+          <div class="vs__selected">
+            {{ option.description }}
           </div>
         </div>
+      </template>
+      <template v-slot:option="option">
+        <slot name="dropdownOption" :optionObject="option"></slot>
       </template>
     </v-select>
     <modal name="addNewClientModal" height="auto" :adaptive="true">
@@ -46,6 +41,10 @@ export default {
     event: 'change'
   },
   props: {
+    multiple: {
+      type: Boolean,
+      default: false
+    },
     clients: Array,
     value: Object
   },
@@ -73,3 +72,21 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+::v-deep .v-select {
+  @apply tail-border-[#0EA5E9]
+}
+
+::v-deep {
+  .vs__dropdown-toggle {
+    @apply tail-border-0
+  }
+}
+::v-deep .vs__dropdown-menu {
+  @apply tail-mt-[8px] tail-border tail-rounded-[6px] tail-pt-0
+}
+
+::v-deep .vs__clear {
+  display: none;
+}
+</style>
