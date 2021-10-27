@@ -17,69 +17,69 @@
           </span>
         </div>
       </div>
-      <GwPagination v-if="invoices" :totalItems="invoices.length">
+      <GwPagination v-if="invoices" :total-items="invoices.length">
         <template v-slot:content>
           <div class="overflow-scroll lg:overflow-hidden">
             <table class="table-auto table bg-white w-full text-xs rounded-md">
               <thead class="">
-              <tr class="uppercase tracking-wider text-gray-500">
-                <th class="w-12 py-4 font-medium pl-1">
-                  <div class="pl-3">
-                    <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
-                  </div>
-                </th>
-                <th class="py-4 font-medium text-left px-6 w-3/6">
-                  Name
-                </th>
-                <th class="py-4 font-medium px-6">
-                  INVOICE#
-                </th>
-                <th class="py-4 font-medium px-6">
-                  CREATED
-                </th>
-                <th class="py-4 font-medium px-6">
-                  AMOUNT
-                </th>
-                <th class="py-4 font-medium px-6">
-                  STATUS
-                </th>
-              </tr>
+                <tr class="uppercase tracking-wider text-gray-500">
+                  <th class="w-12 py-4 font-medium pl-1">
+                    <div class="pl-3">
+                      <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
+                    </div>
+                  </th>
+                  <th class="py-4 font-medium text-left px-6 w-3/6">
+                    Name
+                  </th>
+                  <th class="py-4 font-medium px-6">
+                    INVOICE#
+                  </th>
+                  <th class="py-4 font-medium px-6">
+                    CREATED
+                  </th>
+                  <th class="py-4 font-medium px-6">
+                    AMOUNT
+                  </th>
+                  <th class="py-4 font-medium px-6">
+                    STATUS
+                  </th>
+                </tr>
               </thead>
               <tbody>
-              <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
-                <td class="w-12 py-4 font-medium pl-3">
-                  <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data.customerId._id" />
-                </td>
-                <td class="py-4 text-left px-6 w-3/6">
-                  <div class="flex items-center">
-                    <ClientAvatar :client-info="data.customerId" />
-                    <div class="ml-4">
-                      <h6 class="text-base text-gray-700 text-capitalize">
-                        {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
-                      </h6>
-                      <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
+                <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']" @click.prevent="displaySentInvoicePage(data._id)">
+                  <td class="w-12 py-4 font-medium pl-3">
+                    <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data.customerId._id" />
+                  </td>
+                  <td class="py-4 text-left px-6 w-3/6">
+                    <div class="flex items-center">
+                      <ClientAvatar :client-info="data.customerId" />
+                      <div class="ml-4">
+                        <h6 class="text-base text-gray-700 text-capitalize">
+                          {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
+                        </h6>
+                        <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
+                      </div>
                     </div>
-                  </div>
-                </td>
-                <td class="py-4  px-6">
-                  <div class="text-base text-gray-700">
-                    {{ data.invoiceNo }}
-                  </div>
-                </td>
-                <td class="py-4  px-6">
-                  <div class="text-xs md:text-base text-gray-700">
-                    {{ data.createdAt | date }}
-                  </div>
-                </td>
-                <td class="py-4 px-6">
-                  <div class="text-sm md:text-base text-gray-700">
-                    {{ "\uFFE1" }}{{ data.total }}
-                  </div>
-                </td>
-                <td class="py-4 px-6">
-                  <InvoiceStatusComponent status="paid" />
-                </td>
-              </tr>
+                  </td>
+                  <td class="py-4  px-6">
+                    <div class="text-base text-gray-700">
+                      {{ data.invoiceNo }}
+                    </div>
+                  </td>
+                  <td class="py-4  px-6">
+                    <div class="text-xs md:text-base text-gray-700">
+                      {{ data.createdAt | date }}
+                    </div>
+                  </td>
+                  <td class="py-4 px-6">
+                    <div class="text-sm md:text-base text-gray-700">
+                      {{ "\uFFE1" }}{{ data.total }}
+                    </div>
+                  </td>
+                  <td class="py-4 px-6">
+                    <InvoiceStatusComponent status="paid" />
+                  </td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -157,6 +157,9 @@ export default {
       } finally {
         this.exporting = false
       }
+    },
+    displaySentInvoicePage (id) {
+      this.$router.push(`/Invoices/${id}`)
     }
   }
 }
