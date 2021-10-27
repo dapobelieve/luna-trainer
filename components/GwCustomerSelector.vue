@@ -1,40 +1,35 @@
 <template>
   <div>
-    <v-select v-model="selected" class="v-select" :options="clients" label="firstName">
+    <v-select :multiple="multiple" v-model="selected" class="v-select" :options="clients" label="firstName">
       <template v-slot:open-indicator="{ dropdowIndicatorattributes }">
         <span v-bind="dropdowIndicatorattributes">
           <i
-            class="ns-caret-down tail-font-bold tail-pt-1 tail-text-xl tail-cursor-pointer"
+            class="ns-caret-down font-bold pt-1 text-xl cursor-pointer"
           ></i>
         </span>
       </template>
       <template v-slot:list-footer>
-        <button type="button" class="tail-py-2 tail-outline-none" @click="addNewItem">
-          <div class="tail-flex tail-px-2  tail-ml-1 tail-items-center tail-justify-center">
-            <i class="ns-plus tail-text-base tail-rounded-full tail-text-blue-500 tail-p-1" />
-            <span class="text-primary-color tail-text-base tail-pl-2">Add New Client</span>
+        <button type="button" class="py-2 outline-none" @click="addNewItem">
+          <div class="flex px-2 ml-1 items-center justify-center">
+            <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
+            <span class="text-primary-color text-base pl-2">Add New Client</span>
           </div>
         </button>
       </template>
-      <template v-slot:option="{ firstName, email, lastName, imgUrl }">
-        <div class="tail-flex tail-justify-between tail-min-w-full tail-items-center">
-          <div class="tail-flex tail-content-center tail-py-1">
-            <ClientAvatar :width="2.3" :height="2.3" :client-info="{ firstName, email, lastName, imgUrl }" />
-            <div class="tail-flex tail-flex-col tail-ml-2 tail-text-gray-700">
-              <p class="tail-capitalize">
-                {{ firstName }}
-              </p>
-              <small class="tail-text-gray-500"> {{ email }}</small>
-            </div>
-          </div>
-          <div class="check">
-            <i class="ns-check tail-text-blue-500 tail-text-lg"></i>
+      <template v-if="multiple" v-slot:selected-option-container="{option}">
+        <!-- Take this outside -->
+        <div style="display: flex; align-items: baseline">
+          <div class="vs__selected">
+            {{ option.description }}
           </div>
         </div>
       </template>
+      <template v-slot:option="option">
+        <slot name="dropdownOption" :optionObject="option"></slot>
+      </template>
     </v-select>
     <modal name="addNewClientModal" height="auto" :adaptive="true">
-      <InviteNewClient :client="clientInfo" class="tail-m-6" @close="$modal.hide('addNewClientModal')" />
+      <InviteNewClient :client="clientInfo" class="m-6" @close="$modal.hide('addNewClientModal')" />
     </modal>
   </div>
 </template>
@@ -46,6 +41,10 @@ export default {
     event: 'change'
   },
   props: {
+    multiple: {
+      type: Boolean,
+      default: false
+    },
     clients: Array,
     value: Object
   },
@@ -56,7 +55,7 @@ export default {
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
-        class: 'ns-caret-down tail-font-bold tail-text-xl tail-cursor-pointer tail-absolute tail-right-0 tail-p-3'
+        class: 'ns-caret-down font-bold text-xl cursor-pointer absolute right-0 p-3'
       }
     }
   },
@@ -73,3 +72,21 @@ export default {
   }
 }
 </script>
+<style scoped lang="scss">
+::v-deep .v-select {
+  @apply border-[#0EA5E9]
+}
+
+::v-deep {
+  .vs__dropdown-toggle {
+    @apply border-0
+  }
+}
+::v-deep .vs__dropdown-menu {
+  @apply mt-[8px] border rounded-[6px] pt-0
+}
+
+::v-deep .vs__clear {
+  display: none;
+}
+</style>

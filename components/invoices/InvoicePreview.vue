@@ -1,0 +1,290 @@
+<template>
+  <div class="hidden lg:block lg:min-w-[448px] space-y-8">
+    <p class="capitalize text-lg font-medium">
+      preview
+    </p>
+    <section class="lg:w-[448px]">
+      <ul
+        class="tabs flex space-x-8 mb-6 pb-4 pl-4 border-b"
+      >
+        <button
+          id="defaultOpen"
+          class="tablinks"
+          @click.prevent="switchTabs($event, 'Email')"
+        >
+          Email
+        </button>
+        <button class="tablinks" @click.prevent="switchTabs($event, 'PDF')">
+          Invoice PDF
+        </button>
+      </ul>
+      <!-- Tab contents -->
+      <!-- email section -->
+      <div id="Email" class="tabcontent">
+        <containers-container-with-title class="">
+          <template v-slot:headerbox>
+            <span class="text-xl capitalize">
+              getwelp limited
+            </span>
+          </template>
+          <template v-slot:content>
+            <div>
+              <div class="grid grid-cols-2 pb-4">
+                <div class="">
+                  <p class="text-gray-500 text-base">
+                    From
+                  </p>
+                  <p class="text-gray-700 font-medium">
+                    {{ $auth.user.businessName }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-base">
+                    To
+                  </p>
+                  <p
+                    class="text-gray-700 font-medium capitalize"
+                  >
+                    {{ client ? client.firstName : "Client's name" }}
+                  </p>
+                </div>
+              </div>
+              <div
+                class="rounded-xl bg-gray-100 border p-3"
+              >
+                <p class="pb-1 text-gray-500 text-base">
+                  Amount
+                </p>
+                <p class="text-3xl text-gray-700 pb-2">
+                  {{ getTotal | amount }}
+                </p>
+                <p class="text-sm text-gray-700">
+                  Due on {{ dueDate | date }}
+                </p>
+              </div>
+            </div>
+            <div>
+              <div v-if="services.length" class="space-y-5">
+                <div
+                  v-for="service in services"
+                  :key="service._id"
+                  class="flex justify-between items-center last:border-b last:pb-5"
+                >
+                  <div>
+                    <p class="text-gray-700 font-medium capitalize">
+                      {{ service.description }}
+                    </p>
+                    <p class="text-gray-500 text-sm">
+                      Qty 1
+                    </p>
+                  </div>
+                  <span class="text-gray-700 font-medium">{{
+                    service.pricing.amount | amount
+                  }}</span>
+                </div>
+              </div>
+              <div v-else class="text-center">
+                <em>Please select a service</em>
+              </div>
+              <div class="flex justify-between py-3">
+                <p class="text-gray-700 text-xl">
+                  Total
+                </p>
+                <p class="text-lg font-bold text-gray-700">
+                  {{ getTotal | amount }}
+                </p>
+              </div>
+            </div>
+          </template>
+        </containers-container-with-title>
+      </div>
+
+      <!-- pdf section -->
+      <div id="PDF" class="tabcontent">
+        <containers-container-with-title class="">
+          <template v-slot:headerbox>
+            <div>
+              <h2 class="text-xl capitalize">
+                getwelp limited
+              </h2>
+              <span class="text-sm">
+                Tel: +44 000 000 0000
+              </span>
+            </div>
+          </template>
+          <template v-slot:content>
+            <div>
+              <div class="pb-4 space-y-1">
+                <p class="text-gray-700 text-base capitalize">
+                  Bill to
+                </p>
+                <p class="text-gray-700 text-base">
+                  {{ client ? client.firstName : 'N/A' }}
+                </p>
+                <p class="text-gray-700 text-base">
+                  {{ client ? client.email : '' }}
+                </p>
+              </div>
+              <div class="grid grid-cols-2 pb-4">
+                <div class="">
+                  <p class="text-gray-500 text-sm">
+                    Date of issue:
+                  </p>
+                  <p class="text-gray-500 text-sm">
+                    {{ dueDate | date }}
+                  </p>
+                </div>
+                <div>
+                  <p class="text-gray-500 text-sm">
+                    Due Date
+                  </p>
+                  <p class="text-gray-500 text-sm">
+                    {{ dueDate | date }}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="space-y-5">
+                <div class="grid grid-cols-4">
+                  <p class="text-gray-500 uppercase text-xs">
+                    description
+                  </p>
+                  <p
+                    class="text-gray-500 uppercase text-xs justify-self-end"
+                  >
+                    qty
+                  </p>
+                  <p
+                    class="text-gray-500 uppercase text-xs justify-self-end"
+                  >
+                    unit price
+                  </p>
+                  <p
+                    class="text-gray-500 uppercase text-xs justify-self-end"
+                  >
+                    amount
+                  </p>
+                </div>
+                <template v-if="services.length">
+                  <div
+                    v-for="service in services"
+                    :key="service._id"
+                    class="grid grid-cols-4 last:border-b last:pb-5"
+                  >
+                    <p class="text-gray-500 text-sm capitalize">
+                      {{ service.description }}
+                    </p>
+                    <p
+                      class="text-gray-500 text-sm justify-self-end"
+                    >
+                      1
+                    </p>
+                    <p
+                      class="text-gray-500 text-sm justify-self-end"
+                    >
+                      {{ service.pricing.amount | amount }}
+                    </p>
+                    <p
+                      class="text-gray-500 text-sm justify-self-end"
+                    >
+                      {{ service.pricing.amount | amount }}
+                    </p>
+                  </div>
+                </template>
+                <div v-else class="text-center">
+                  <em>
+                    Please select a service
+                  </em>
+                </div>
+              </div>
+              <div class="flex justify-between py-3">
+                <p class="text-gray-500 text-xl">
+                  Total
+                </p>
+                <p class="text-lg font-bold text-gray-700">
+                  {{ getTotal | amount }}
+                </p>
+              </div>
+            </div>
+          </template>
+        </containers-container-with-title>
+      </div>
+    </section>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'InvoicePreview',
+  props: {
+    services: Array,
+    dueDate: [Date, String],
+    client: Object
+  },
+  computed: {
+    getTotal () {
+      if (this.services.length) {
+        return this.services.reduce(
+          (accumulator, current) => accumulator + current.pricing.amount, 0
+        )
+      }
+      return 0
+    }
+  },
+  mounted () {
+    document.getElementById('defaultOpen').click()
+  },
+  methods: {
+    switchTabs (evt, cityName) {
+      // Declare all variables
+      let i, tabcontent, tablinks
+
+      // Get all elements with class="tabcontent" and hide them
+      // eslint-disable-next-line prefer-const
+      tabcontent = document.getElementsByClassName('tabcontent')
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = 'none'
+      }
+
+      // Get all elements with class="tablinks" and remove the class "active"
+      // eslint-disable-next-line prefer-const
+      tablinks = document.getElementsByClassName('tablinks')
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(' active', '')
+      }
+
+      // Show the current tab, and add an "active" class to the button that opened the tab
+      document.getElementById(cityName).style.display = 'block'
+      evt.currentTarget.className += ' active'
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.tablinks {
+  @apply text-base font-normal text-gray-400;
+}
+.tabs {
+  color: rgb(128, 123, 123);
+}
+.tabs button {
+  transition: 0.3s;
+}
+
+button {
+  position: relative;
+  &.active {
+    @apply text-gray-700 font-normal;
+    &::after {
+      content: "";
+      @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-4;
+    }
+  }
+}
+
+.tabcontent {
+  display: none;
+}
+</style>

@@ -1,10 +1,10 @@
 <template>
   <async-view loader-id="logout">
-    <modal name="stripe-modal" height="auto" :adaptive="true" maxWidth="450">
-      <onboarding-stripe class="tail-m-6" @closeModal="skipStripeProcess" />
+    <modal name="stripe-modal" height="auto" :adaptive="true" :max-width="450">
+      <onboarding-stripe class="m-6" @closeModal="skipStripeProcess" />
     </modal>
     <GwHeader />
-    <div class="tail-flex">
+    <div class="flex">
       <invite-new-client-modal />
       <Navigation :class="open ? 'tail-block' : 'tail-hidden'" />
       <div class="tail-w-full tail-p-4 tail-pb-24 tail-bg-gray-100 tail-flex tail-justify-center">
@@ -13,6 +13,7 @@
         >
           <div class="tail-text-right tail-mb-4">
             <span class="tail-font-medium">{{ new Date().toDateString() }}</span>
+
           </div>
           <Nuxt />
         </div>

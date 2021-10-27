@@ -2,31 +2,31 @@
   <nav aria-label="Progress">
     <ol
       role="list"
-      class="tail-flex tail-items-center tail-justify-between tail-w-full tail-relative tail-z-10 tail-transition-all"
+      class="flex items-center justify-between w-full relative z-10 transition-all"
     >
-      <li v-for="(count, index) in numberOfSteps" :key="index" class="tail-relative tail-w-full last:tail-w-5">
+      <li v-for="(count, index) in numberOfSteps" :key="index" class="relative w-full last:w-5">
         <div
-          class="tail-absolute tail-inset-0 tail-flex tail-items-center tail--z-10"
+          class="absolute inset-0 flex items-center -z-10"
           aria-hidden="true"
         >
           <div
-            class="tail-h-px tail-w-full"
+            class="h-px w-full"
             :class="[
-              stepCount > index ? 'tail-bg-blue-500' : 'tail-bg-gray-200'
+              stepCount > index ? 'bg-blue-500' : 'bg-gray-200'
             ]"
           ></div>
         </div>
         <button
-          class="tail-relative tail-w-5 tail-h-5 tail-flex tail-items-center tail-justify-center tail-bg-white tail-border tail-rounded-full"
+          class="relative w-5 h-5 flex items-center justify-center bg-white border rounded-full"
           :class="[
-            index > stepCount ? 'tail-border-gray-200' : 'tail-border-blue-500'
+            index > stepCount ? 'border-gray-200' : 'border-blue-500'
           ]"
           aria-current="step"
           @click.prevent="moveToStep(index)"
         >
           <svg
             v-if="stepCount > index"
-            class="tail-w-5 tail-h-5 tail-text-blue-500"
+            class="w-5 h-5 text-blue-500"
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 20 20"
             fill="currentColor"
@@ -40,15 +40,15 @@
           </svg>
           <span
             v-else-if="stepCount === index"
-            class="tail-h-5 tail-w-5 tail-bg-blue-500 tail-rounded-full tail-shadow-md"
+            class="h-5 w-5 bg-blue-500 rounded-full shadow-md"
             aria-hidden="true"
           ></span>
           <span
             v-else
-            class="tail-h-5 tail-w-5 tail-bg-gray-200 tail-rounded-full tail-group-hover:tail-bg-gray-200"
+            class="h-5 w-5 bg-gray-200 rounded-full group-hover:bg-gray-200"
             aria-hidden="true"
           ></span>
-          <span class="tail-sr-only">Step {{ index }}</span>
+          <span class="sr-only">Step {{ index }}</span>
         </button>
       </li>
     </ol>

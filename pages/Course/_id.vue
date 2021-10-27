@@ -2,17 +2,17 @@
   <div>
     <PageHeader>
       <template v-slot:title>
-        <div class="tail-flex tail-items-center">
+        <div class="flex items-center">
           <button @click="$router.go(-1)">
-            <img src="~/assets/img/chevron-left.svg" alt="" class="tail-h-6" />
+            <img src="~/assets/img/chevron-left.svg" alt="" class="h-6" />
           </button>
           <p
             v-if="classCard"
-            class="tail-text-gray-500  tail-text-xl tail-font-semibold"
+            class="text-gray-500  text-xl font-semibold"
           >
             Courses
           </p>
-          <p v-else class="tail-text-gray-500  tail-text-xl tail-font-semibold">
+          <p v-else class="text-gray-500  text-xl font-semibold">
             Puppies: 26th August
           </p>
         </div>
@@ -21,16 +21,16 @@
         <button
           v-if="classCard"
           type="button"
-          class="base-button tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+          class="base-button inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
           @click="newCourse = true"
         >
-          <i class="ns-plus tail-text-lg hover:tail-text-white"></i>
+          <i class="ns-plus text-lg hover:text-white"></i>
         </button>
         <div>
           <button
-            class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+            class=" inline-flex items-center px-4 md:px-2 py-1 mt-2  border-0 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
           >
-            <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
+            <i class="ns-ellipsis font-bold  text-lg"></i>
           </button>
         </div>
       </template>
@@ -60,7 +60,7 @@
     </div>
     <GwModal :is-open="openAddParticipant" @close="openAddParticipant = $event" @closeBackDrop="openAddParticipant = $event">
       <template v-slot:status>
-        <div class="tail-px-2 tail-text-2xl tail-font-bold">
+        <div class="px-2 text-2xl font-bold">
           Add Participant
         </div>
       </template>
@@ -76,7 +76,7 @@
     >
       <CancelAlert @close="openDeleteModal = $event">
         <template v-slot:text>
-          <div class="tail-text-base tail-font-medium tail-text-left">
+          <div class="text-base font-medium text-left">
             Are you sure you want to delete the course Puppies? A notification
             will be sent to all participants
           </div>

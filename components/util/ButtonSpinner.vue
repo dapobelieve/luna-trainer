@@ -1,13 +1,13 @@
 <template>
   <button
     :disabled="loading || disabled"
-    class="base-button"
-    :class="[disabled?['tail-bg-gray-500', 'tail-cursor-not-allowed']: [] ]"
+    class="button-fill"
+    :class="[disabled?['bg-gray-500', 'cursor-not-allowed']: [] ]"
     type="submit"
     v-bind="$attrs"
     v-on="$listeners"
   >
-    <SingleLoader v-if="loading" class="tail-mr-2" />
+    <SingleLoader v-if="loading" class="mr-2" />
     <slot v-if="!loading" />
   </button>
 </template>

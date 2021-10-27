@@ -2,24 +2,48 @@
   <div>
     <PageHeader>
       <template v-slot:title>
-        <span class="tail-font-normal">Invoices</span>
+        <span class="font-normal">Invoices</span>
       </template>
       <template v-slot:buttons>
-        <div class="tail-flex tail-items-center">
-          <span class="tail-font-medium tail-flex tail-items-center tail-cursor-pointer text-primary-color tail-mr-5">
-            <span>Sent</span>
-            <i class="ns-caret-down tail-ml-2 tail-text-2xl"></i></span>
+        <div class="flex items-center">
+          <ClickOutside :do="() => showDrop = false">
+            <div class="relative">
+            <span @click="showDrop = !showDrop" class="font-medium flex items-center cursor-pointer text-primary-color mr-5">
+              <span>{{ currentInvoice }}</span>
+              <i class="ns-caret-down ml-2 text-2xl"></i>
+            </span>
+              <div
+                v-show="showDrop"
+                class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+              >
+                <div class="py-1" role="none">
+                  <a
+                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    @click.prevent="$router.push({name: 'Invoices-sent'}); showDrop=false">Sent
+                  </a>
+                  <a
+                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                    @click.prevent="$router.push({name: 'Invoices-drafts'}); showDrop=false">Drafts
+                  </a>
+                </div>
+              </div>
+            </div>
+          </ClickOutside>
           <NuxtLink
-            :to="{ name: 'CreateInvoice'}"
+            :to="{ name: 'NewInvoice'}"
             exact-active-class="active"
-            class="tail-inline-flex focus:tail-outline-none primary-color tail-items-center tail-justify-center tail-h-9 tail-w-9 tail-text-sm tail-font-medium tail-rounded-lg tail-shadow-sm hover:tail-bg-blue-500 focus:tail-outline-none "
+            class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
-            <i class="ns-plus tail-text-white tail-text-2xl tail-text-lg"></i>
+            <i class="ns-plus text-white text-2xl"></i>
           </NuxtLink>
         </div>
       </template>
     </PageHeader>
-    <NuxtChild />
+    <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
+      <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
+        <NuxtChild />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,6 +53,7 @@ export default {
   name: 'Invoices',
   data () {
     return {
+      showDrop: false,
       img: 'https://res.cloudinary.com/rohing/image/upload/v1585572497/harley-davidson-1HZcJjdtc9g-unsplash_vwslej.jpg',
       active: true,
       openModal: false,
@@ -45,6 +70,9 @@ export default {
     }
   },
   computed: {
+    currentInvoice () {
+      return `${this.$route.name.split('-')[1].charAt(0).toUpperCase()}${this.$route.name.split('-')[1].slice(1)}`
+    },
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
       size: 'invoice/invoiceCount'

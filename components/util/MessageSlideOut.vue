@@ -1,38 +1,38 @@
 <template>
   <div>
-    <div v-show="visible" class="tail-fixed tail-inset-0 tail-overflow-hidden tail-z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-      <div class="tail-absolute tail-inset-0 tail-overflow-hidden">
+    <div v-show="visible" class="fixed inset-0 overflow-hidden z-10" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+      <div class="absolute inset-0 overflow-hidden">
         <transition
-          enter-active-class="tail-ease-in-out tail-duration-500"
-          enter-from-class="tail-opacity-0"
-          enter-to-class="tail-opacity-100"
-          leave-active-class="tail-ease-in tail-duration-500"
-          leave-from-class="tail-opacity-100"
-          leave-to-class="tail-opacity-0"
+          enter-active-class="ease-in-out duration-500"
+          enter-from-class="opacity-0"
+          enter-to-class="opacity-100"
+          leave-active-class="ease-in duration-500"
+          leave-from-class="opacity-100"
+          leave-to-class="opacity-0"
         >
-          <div v-show="visible" class="tail-absolute tail-inset-0 tail-bg-gray-500 tail-bg-opacity-50 tail-transition-opacity" aria-hidden="true" @click="close"></div>
+          <div v-show="visible" class="absolute inset-0 bg-gray-500 bg-opacity-50 transition-opacity" aria-hidden="true" @click="close"></div>
         </transition>
-        <div class="tail-fixed tail-inset-0 tail-max-w-full tail-flex">
+        <div class="fixed inset-0 max-w-full flex">
           <transition
-            enter-active-class="tail-transform tail-transition tail-ease-in-out tail-duration-500 sm:tail-duration-700"
-            enter-from-class="tail-translate-x-full"
-            enter-to-class="tail-translate-x-0"
-            leave-active-class="tail-transform tail-transition tail-ease-in-out tail-duration-500 sm:tail-duration-700"
-            leave-from-class="tail-translate-x-0"
-            leave-to-class="tail-translate-x-full"
+            enter-active-class="transform transition ease-in-out duration-500 sm:duration-700"
+            enter-from-class="translate-x-full"
+            enter-to-class="translate-x-0"
+            leave-active-class="transform transition ease-in-out duration-500 sm:duration-700"
+            leave-from-class="translate-x-0"
+            leave-to-class="translate-x-full"
           >
-            <div v-show="visible" class="tail-w-screen tail-overflow-hidden tail-rounded tail-max-w-xs tail-pl-28" :class="[visible ? '': '', ]">
-              <div class="tail-h-full tail-flex tail-flex-col tail-py-6 tail-bg-white tail-shadow-xl">
-                <div class="tail-px-4 sm:tail-px-4">
-                  <div class="tail-flex tail-items-start tail-justify-between">
-                    <h2 class="tail-text--lg tail-font-medium tail-text-gray-900">
+            <div v-show="visible" class="w-screen overflow-hidden rounded max-w-xs pl-28" :class="[visible ? '': '', ]">
+              <div class="h-full flex flex-col py-6 bg-white shadow-xl">
+                <div class="px-4 sm:px-4">
+                  <div class="flex items-start justify-between">
+                    <h2 class="text--lg font-medium text-gray-900">
                       Messages
                     </h2>
-                    <div class="tail-ml-3 tail-h-7 tail-flex tail-items-center">
-                      <button class="tail-bg-white rounded-md tail-text-gray-400 hover:tail-text-gray-500 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2 focus:tail-ring-indigo-500" @click="close">
-                        <span class="tail-sr-only">Close panel</span>
+                    <div class="ml-3 h-7 flex items-center">
+                      <button class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="close">
+                        <span class="sr-only">Close panel</span>
                         <svg
-                          class="tail-h-6 tail-w-6"
+                          class="h-6 w-6"
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
@@ -45,36 +45,36 @@
                     </div>
                   </div>
                 </div>
-                <div class="tail-mt-2 tail-relative tail-flex-1 tail-px-0 sm:tail-px-0">
+                <div class="mt-2 relative flex-1 px-0 sm:px-0">
                   <!-- Replace with your content -->
-                  <div class="tail-absolute tail-inset-0 tail-px-4 sm:tail-px-0">
-                    <div class="tail-h-full" aria-hidden="true">
-                      <div class="tail-mt-1 tail-relative tail-rounded tail-border tail-border-gray-200">
-                        <div class="tail-absolute tail-inset-y-0 tail-left-0 tail-pl-3 tail-flex tail-items-center tail-pointer-events-none" aria-hidden="true">
-                          <i class="ns-search tail-mr-3 tail-text-gray-400 tail-flex-shrink-0 tail-text-lg" />
+                  <div class="absolute inset-0 px-4 sm:px-0">
+                    <div class="h-full" aria-hidden="true">
+                      <div class="mt-1 relative rounded border border-gray-200">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none" aria-hidden="true">
+                          <i class="ns-search mr-3 text-gray-400 flex-shrink-0 text-lg" />
                         </div>
-                        <input type="text" name="search" class="tail-bg-gray-100 tail-py-1 focus:tail-border-gray-700 focus:tail-outline-none tail-block tail-w-full tail-pl-9 sm:tail-text-sm tail-border-gray-300" placeholder="Search">
+                        <input type="text" name="search" class="bg-gray-100 py-1 focus:border-gray-700 focus:outline-none block w-full pl-9 sm:text-sm border-gray-300" placeholder="Search">
                       </div>
                       <div>
                         <ul v-if="0">
                           <li
-                            class="tail-w-full"
+                            class="w-full"
                           >
-                            <div class="tail-relative tail-px-4 tail-py-2 tail-flex tail-items-center tail-space-x-3 hover:tail-bg-gray-50 focus-within:tail-ring-2 focus-within:tail-ring-inset focus-within:tail-ring-pink-500">
-                              <div class="tail-flex-shrink-0">
-                                <img class="tail-h-10 tail-w-10 tail-rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                            <div class="relative px-4 py-2 flex items-center space-x-3 hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-pink-500">
+                              <div class="flex-shrink-0">
+                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
                               </div>
-                              <div class="tail-flex-1 tail-min-w-0 tail-mr-auto">
-                                <a href="#" class="focus:tail-outline-none">
+                              <div class="flex-1 min-w-0 mr-auto">
+                                <a href="#" class="focus:outline-none">
                                   <!-- Extend touch target to entire panel -->
-                                  <span class="tail-absolute tail-inset-0" aria-hidden="true"></span>
-                                  <p class="tail-text-xs tail-font-medium tail-text-gray-900">
+                                  <span class="absolute inset-0" aria-hidden="true"></span>
+                                  <p class="text-xs font-medium text-gray-900">
                                     Derek Palmer
-                                    <span class="tail-ml-2 tail-text-gray-400">
+                                    <span class="ml-2 text-gray-400">
                                       today
                                     </span>
                                   </p>
-                                  <p class="tail-text-sm tail-text-gray-500">
+                                  <p class="text-sm text-gray-500">
                                     hi there
                                   </p>
                                 </a>
@@ -82,16 +82,16 @@
                             </div>
                           </li>
                         </ul>
-                        <div v-else class="tail-flex tail-flex-col tail-items-center">
-                          <div class="tail-w-full tail-mt-5 tail-text-center">
+                        <div v-else class="flex flex-col items-center">
+                          <div class="w-full mt-5 text-center">
                             <img
                               width="60"
-                              class="tail-mb-3 tail-mx-auto"
+                              class="mb-3 mx-auto"
                               src="~/assets/img/messages.svg"
                               alt="no messages"
                             />
                             <h6 style="color: #12263f" class="">
-                              <span class="tail-font-medium tail-text-sm"> No unread messages </span>
+                              <span class="font-medium text-sm"> No unread messages </span>
                             </h6>
                           </div>
                         </div>

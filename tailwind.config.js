@@ -1,5 +1,4 @@
 module.exports = {
-  prefix: 'tail-',
   mode: 'jit',
   purge: [
     './components/**/*.{vue,js}',

@@ -2,7 +2,7 @@
   <label>
     <input
       :id="id"
-      class="tail-cursor-pointer tail-h-5 tail-w-5 tail-border-grey-500"
+      class="cursor-pointer h-5 w-5 border-grey-500"
       :value="value"
       :checked="items.includes(value)"
       type="checkbox"

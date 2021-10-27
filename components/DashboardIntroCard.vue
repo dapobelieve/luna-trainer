@@ -1,11 +1,11 @@
 <template>
-  <div class="tail-rounded-xl tail-border tail-bg-white tail-shadow-sm tail-overflow-hidden">
-    <div class="tail-font-normal tail-p-4 tail-pt-5 tail-flex tail-flex-col tail-space-y-2">
-      <h1 class="tail-capitalize tail-text-3xl">
+  <div class="rounded-xl border bg-white shadow-sm overflow-hidden">
+    <div class="font-normal p-4 pt-5 flex flex-col space-y-2">
+      <h1 class="capitalize text-3xl">
         hey {{ $auth.user.firstName }}!
       </h1>
       <p
-        class="tail-text-gray-500"
+        class="text-gray-500"
       >
         Welcome back! If you need the GetWelp Team’s help with anything, just pop us a message in the live chat below!
       </p>

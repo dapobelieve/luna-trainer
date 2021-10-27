@@ -8,15 +8,15 @@
           </button>
         </template>
         <template v-slot:title>
-          <span class="tail-capitalize tail-ml-5 tail-font-medium tail-text-lg">
+          <span class="capitalize ml-5 font-medium text-lg">
             {{ firstName }} {{ lastName }}
           </span>
         </template>
         <template v-slot:buttons>
-          <div class="tail-relative">
+          <div class="relative">
             <button
               type="button"
-              class="tail-bg-white tail-inline-flex tail-items-center tail-px-2 tail-py-1 tail-border-none tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+              class="bg-white inline-flex items-center px-2 py-1 border-none text-xs font-medium rounded shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
               @click="showDropdown"
             >
               <img src="~/assets/img/svgs/ellipsis.svg" alt="" srcset="" />
@@ -24,18 +24,18 @@
             <!-- dropdown menu -->
             <div
               v-show="showDropDown"
-              class="tail-origin-top-right tail-absolute tail-right-0 tail-mt-2 tail-w-44 tail-rounded-lg tail-shadow-lg tail-bg-white tail-ring-1 tail-ring-black tail-ring-opacity-5 focus:tail-outline-none tail-z-40"
+              class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
             >
-              <div class="tail-py-2" role="none">
+              <div class="py-2" role="none">
                 <nuxt-link
-                  :to="{ name: 'CreateInvoice' }"
-                  class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                  :to="{ name: 'NewInvoice', params: { pushedClient: clientInfo } }"
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
                 >
                   Create Invoice
                 </nuxt-link>
                 <a
                   href="#"
-                  class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
                 >Archive</a>
               </div>
             </div>
@@ -45,14 +45,14 @@
     </transition>
     <!-- start here -->
     <div
-      class="tail-max-w-3xl tail-mx-auto sm:tail-px-6 lg:tail-max-w-7xl lg:tail-px-8 lg:tail-grid lg:tail-grid-cols-12 lg:tail-gap-8 tail-mt-5"
+      class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 mt-5"
     >
       <!-- left menu -->
       <aside
-        class="tail-col-span-4 tail-rounded-lg"
+        class="col-span-4 rounded-lg"
       >
-        <div class="tail-sticky tail-top-[4.8rem]">
-          <div class="tail-w-full">
+        <div class="sticky top-[4.8rem]">
+          <div class="w-full">
             <!-- Sidebar contents-->
             <client-sidbar-content />
           </div>
@@ -60,7 +60,7 @@
       </aside>
 
       <!-- main content -->
-      <main class="tail-col-span-8 tail-bg-white lg:tail-border lg:tail-rounded-lg tail-overflow-y-auto" style="height: calc(100vh - 95px)">
+      <main class="col-span-8 bg-white lg:border lg:rounded-lg overflow-y-auto" style="height: calc(100vh - 95px)">
         <nuxt-child />
       </main>
     </div>

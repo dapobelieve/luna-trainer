@@ -5,7 +5,7 @@
   >
     <template v-slot:icon>
       <i
-        class="ns-users tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
+        class="ns-users bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
       ></i>
     </template>
     <template v-slot:title>Clients</template>
@@ -17,19 +17,19 @@
     <template v-slot:content>
       <div
         v-if="$store.state.client.isLoading"
-        class="tail-flex tail-place-content-center tail-mt-16"
+        class="flex place-content-center mt-16"
       >
         <SingleLoader />
       </div>
       <template v-else>
-        <ul v-if="acceptedClients.length" role="list" class="tail-relative tail-z-0 tail-px-1">
+        <ul v-if="acceptedClients.length" role="list" class="relative z-0 px-1">
           <li v-for="client in acceptedClients" :key="client.index">
             <containers-summary-information-with-avatar :show-chevron-right="false">
               <template v-slot:avatar>
                 <ClientAvatar :client-info="client" />
               </template>
               <template v-slot:content>
-                <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span> has accepted your invitation.
+                <span class="font-medium capitalize">{{ client.firstName }}</span> has accepted your invitation.
               </template>
               <template v-slot:date>{{ client.updatedAt | howLongAgo }}</template>
             </containers-summary-information-with-avatar>

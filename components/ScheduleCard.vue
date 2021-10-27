@@ -1,34 +1,34 @@
 <template>
   <div>
     <div>
-      <div class="tail-w-full tail-mb-2">
+      <div class="w-full mb-2">
         <div
           :class="[
             data.session === true
-              ? 'tail-border-green-400'
-              : 'tail-border-yellow-400'
+              ? 'border-green-400'
+              : 'border-yellow-400'
           ]"
-          class="tail-rounded-md tail-bg-white tail-border-l-4 tail-cursor-pointer tail-flex tail-justify-between tail-items-center tail-flex-col md:tail-flex-row tail-text-gray-700 tail-p-2 md:tail-p-4 tail-w-full"
+          class="rounded-md bg-white border-l-4 cursor-pointer flex justify-between items-center flex-col md:flex-row text-gray-700 p-2 md:p-4 w-full"
         >
-          <div class="tail-flex " @click="openModal = true">
+          <div class="flex " @click="openModal = true">
             <ClientAvatar
               :client-info="{
                 firstName: 'Get',
                 lastName: 'Welp'
               }"
             />
-            <div class="tail-pl-2">
-              <p class="tail-font-bold">
+            <div class="pl-2">
+              <p class="font-bold">
                 {{ data.meeting }} with {{ data.trainer_firstname }}.
               </p>
               <div>
                 <span
                   style="padding-top: 0.1em; padding-bottom: 0.1rem"
-                  class="tail-text-xs tail-px-3 tail-bg-gray-200 tail-text-gray-800 tail-rounded-full"
+                  class="text-xs px-3 bg-gray-200 text-gray-800 rounded-full"
                 >
                   {{ data.time }}</span>
                 <span
-                  class="tail-text-xs md:tail-text-sm"
+                  class="text-xs md:text-sm"
                 >- {{ data.venue }}</span>
               </div>
             </div>
@@ -36,7 +36,7 @@
           <div>
             <div v-if="data.join">
               <button
-                class="base-button tail-inline-flex tail-items-center tail-my-2 tail-text-white tail-px-6 md:tail-px-2 tail-py-1 tail-border tail-border-gray-300 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+                class="base-button inline-flex items-center my-2 text-white px-6 md:px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
                 @click="openModal = true"
               >
                 {{ data.join }}
@@ -44,18 +44,18 @@
             </div>
             <div v-if="data.actions">
               <button
-                class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+                class=" inline-flex items-center px-4 md:px-2 py-1 mt-2  border-0 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
                 @click.prevent="showSubMenu"
               >
-                <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
+                <i class="ns-ellipsis font-bold  text-lg"></i>
               </button>
             </div>
             <div v-if="data.cancelled">
               <button
-                class=" tail-inline-flex tail-items-center tail-px-4 md:tail-px-2 tail-py-1 tail-mt-2  tail-border-0 tail-text-xs tail-font-medium tail-rounded tail-shadow-sm tail-text-black hover:tail-bg-gray-100 focus:tail-outline-none focus:tail-ring-2 focus:tail-ring-offset-2"
+                class=" inline-flex items-center px-4 md:px-2 py-1 mt-2  border-0 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
                 @click.prevent="showSubMenu"
               >
-                <i class="ns-ellipsis tail-font-bold  tail-text-lg"></i>
+                <i class="ns-ellipsis font-bold  text-lg"></i>
               </button>
             </div>
           </div>
@@ -89,10 +89,10 @@
             <div
               :class="[
                 data.status === 'cancelled'
-                  ? 'tail-text-red-500'
-                  : 'tail-text-gray-500'
+                  ? 'text-red-500'
+                  : 'text-gray-500'
               ]"
-              class="tail-bg-gray-100  tail-px-2 tail-rounded-3xl"
+              class="bg-gray-100  px-2 rounded-3xl"
             >
               {{ data.status }}
             </div>
@@ -107,7 +107,7 @@
         >
           <CancelAlert @close="openDeleteModal = $event">
             <template v-slot:text>
-              <div class="tail-text-base tail-font-medium tail-text-left">
+              <div class="text-base font-medium text-left">
                 Are you sure you want to cancel the appointment?
               </div>
             </template>

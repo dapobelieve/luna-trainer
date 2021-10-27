@@ -1,56 +1,56 @@
 <template>
-  <div class="tail-grid tail-gap-4 tail-bg-white tail-px-5 tail-py-10 tail-rounded-md">
+  <div class="grid gap-4 bg-white px-5 py-10 rounded-md">
     <div>
-      <form autocomplete="off" class="tail-grid tail-gap-6">
+      <form autocomplete="off" class="grid gap-6">
         <div>
           <label for="location" class="form-label">Profile Image</label>
-          <div style="cursor: pointer" class="border-dashed tail-flex tail-items-center tail-rounded tail-p-3" @click="()=>$refs.fileInput.click()">
+          <div style="cursor: pointer" class="border-dashed flex items-center rounded p-3" @click="()=>$refs.fileInput.click()">
             <input
               ref="fileInput"
               type="file"
               name="image"
-              class="tail-hidden"
+              class="hidden"
               accept="image/*"
               @change="onChange"
             />
-            <div class="tail-h-20 tail-w-20">
+            <div class="h-20 w-20">
               <img
                 v-if="!profileImageUrl"
                 style="object-fit: cover"
-                :class="[ 'tail-p-2', 'tail-rounded-full', 'tail-w-full','tail-h-full', 'tail-border', 'tail-bg-gray-200']"
+                :class="[ 'p-2', 'rounded-full', 'w-full','h-full', 'border', 'bg-gray-200']"
                 src="~/assets/img/avatar-placeholder.gif"
               >
               <img
                 v-else
-                :class="[ 'tail-p-0', 'tail-rounded-full', 'tail-w-full','tail-h-full', 'tail-border', 'tail-bg-gray-200']"
+                :class="[ 'p-0', 'rounded-full', 'w-full','h-full', 'border', 'bg-gray-200']"
                 style="object-fit: cover"
                 :src="profileImageUrl"
               >
             </div>
-            <div class="tail-ml-4">
+            <div class="ml-4">
               <template v-if="!profileImageUrl">
-                <small class="tail-block"> Drop images here or <u>browse</u> </small>
-                <small class="tail-text-gray-400">Image format: jpeg, png or gif</small>
+                <small class="block"> Drop images here or <u>browse</u> </small>
+                <small class="text-gray-400">Image format: jpeg, png or gif</small>
               </template>
               <template v-else>
-                <small class="tail-block"> <u>Upload a different image?</u> </small>
+                <small class="block"> <u>Upload a different image?</u> </small>
               </template>
             </div>
           </div>
         </div>
-        <div class="tail-flex tail-justify-between tail-flex-col lg:tail-flex-row tail-gap-6">
-          <div class="tail-w-full">
+        <div class="flex justify-between flex-col lg:flex-row gap-6">
+          <div class="w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-            <input v-model="profile.firstName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="profile.firstName" type="text" class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
           </div>
-          <div class="tail-w-full">
+          <div class="w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-            <input v-model="profile.lastName" type="text" class="tail-bg-white tail-w-full tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+            <input v-model="profile.lastName" type="text" class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
           </div>
         </div>
         <div>
           <label for="email">Email address</label>
-          <input v-model="profile.email" disabled type="email" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md tail-bg-gray-200">
+          <input v-model="profile.email" disabled type="email" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md bg-gray-200">
         </div>
         <div>
           <label for="location">Location</label>
@@ -58,7 +58,7 @@
             <select
               v-model="profile.location"
               autocomplete="country"
-              class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+              class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
               <option v-for="country in countries" :key="country.numericCode">
                 {{ country.name }}
@@ -72,7 +72,7 @@
             <select
               id="timezone"
               v-model="profile.timezone"
-              class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+              class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
               <option v-for="time in timezones" :key="time.index">
                 {{ time.text }}
@@ -86,7 +86,7 @@
             <select
               id="dateformat"
               v-model="profile.dateFormat"
-              class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+              class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
               <option value="DD/MM/YY">
                 DD/MM/YY
@@ -103,7 +103,7 @@
             id="currency"
             v-model="profile.currency"
             autocomplete="currency"
-            class="tail-bg-white tail-shadow-sm tail-block tail-w-full sm:tail-text-sm tail-border-gray-300 tail-rounded-md tail-border tail-py-2 tail-px-2"
+            class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
           >
             <option value="AUD">
               AUD
@@ -121,18 +121,18 @@
         </div>
         <div>
           <label for="business-name">Business Name</label>
-          <input v-model="profile.businessName" type="text" class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md">
+          <input v-model="profile.businessName" type="text" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
         </div>
         <div>
           <label for="url">Website URL</label>
           <input
             v-model="profile.websiteUrl"
             type="website"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
             @input="change($event)"
             @change="change($event)"
           >
-          <small v-if="isValid" class="tail-text-red-700">url is invalid</small>
+          <small v-if="isValid" class="text-red-700">url is invalid</small>
         </div>
         <div>
           <label for="experience">Years of experience</label>
@@ -140,7 +140,7 @@
             id="experience"
             v-model="profile.experience"
             type="text"
-            class="tail-w-full tail-bg-white tail-p-2.5 tail-block sm:tail-text-sm tail-mt-1 tail-border tail-border-gray-300 tail-rounded-md"
+            class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
           >
             >
             <option
@@ -161,7 +161,7 @@
           <label for="Specialization">Accreditations</label>
           <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
         </div>
-        <div class="tail-flex tail-justify-end">
+        <div class="flex justify-end">
           <button-spinner :loading="loading" type="button" style="width:fit-content" @click="submit">
             Update profile
           </button-spinner>

@@ -1,81 +1,81 @@
 <template>
-  <div class="tail-w-full">
+  <div class="w-full">
     <div
-      class="tail-bg-white tail-rounded-xl tail-border tail-p-4 md:tail-p-6 tail-flex tail-flex-col tail-gap-4 md:tail-gap-6"
+      class="bg-white rounded-xl border p-4 md:p-6 flex flex-col gap-4 md:gap-6"
     >
       <div>
-        <h1 class="tail-text-xl tail-font-bold tail-mt-0 md:tail-mt-2">
+        <h1 class="text-xl font-bold mt-0 md:mt-2">
           Create New Password
         </h1>
-        <p class="tail-text-gray-500 tail-mt-2 tail-text-sm">
+        <p class="text-gray-500 mt-2 text-sm">
           Your new password must be different from previously used
           passwords.
         </p>
       </div>
-      <form class="tail-flex tail-flex-col tail-gap-4" @submit.prevent="reset">
-        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-3">
+      <form class="flex flex-col gap-4" @submit.prevent="reset">
+        <div class="flex flex-col gap-1.5 relative mb-3">
           <label
             for="password"
             class="required"
-            :class="{'tail-text-red-500' : $v.userInfo.oldPassword.$error}"
+            :class="{'text-red-500' : $v.userInfo.oldPassword.$error}"
           >Old Password</label>
           <div
             class="
-            tail-flex
-            tail-justify-between
-            tail-items-center
-            tail-relative"
+            flex
+            justify-between
+            items-center
+            relative"
           >
             <input
               v-model.trim="$v.userInfo.oldPassword.$model"
               tabindex="1"
               :disabled="isLoading"
               :type="showPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500 pr-8"
 
-              :class="{'tail-border-red-500' : $v.userInfo.oldPassword.$error}"
+              :class="{'border-red-500' : $v.userInfo.oldPassword.$error}"
             />
-            <password-toggle v-model="showOldPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            <password-toggle v-model="showOldPassword" class="absolute right-0 p-3" />
           </div>
-          <div v-if="$v.userInfo.oldPassword.$error" class="tail-absolute tail--bottom-5">
-            <small v-if="!$v.userInfo.oldPassword.minLength" class="error tail-text-red-500">
+          <div v-if="$v.userInfo.oldPassword.$error" class="absolute -bottom-5">
+            <small v-if="!$v.userInfo.oldPassword.minLength" class="error text-red-500">
               Password must have at least
               {{ $v.userInfo.oldPassword.$params.minLength.min }} characters.
             </small>
           </div>
         </div>
-        <div class="tail-flex tail-flex-col tail-gap-1.5 tail-relative tail-mb-3">
-          <div class="tail-flex tail-justify-between tail-items-center">
-            <label for="password" class="required" :class="{'tail-text-red-500' : $v.userInfo.newPassword.$error}">New Password</label>
+        <div class="flex flex-col gap-1.5 relative mb-3">
+          <div class="flex justify-between items-center">
+            <label for="password" class="required" :class="{'text-red-500' : $v.userInfo.newPassword.$error}">New Password</label>
           </div>
-          <div class="tail-flex tail-justify-between tail-items-center tail-relative">
+          <div class="flex justify-between items-center relative">
             <input
               v-model.trim="$v.userInfo.newPassword.$model"
               tabindex="2"
               :disabled="isLoading"
               :type="showNewPassword ? 'text':'password'"
-              class="tail-bg-white tail-h-10 tail-flex tail-justify-center tail-py-2 tail-px-3 tail-mb-2 tail-w-full tail-border tail-shadow-sm tail-rounded-md focus:tail-outline-none focus:tail-bg-white focus:tail-border-blue-500 tail-pr-8"
+              class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500 pr-8"
 
-              :class="{'tail-border-red-500' : $v.userInfo.newPassword.$error}"
+              :class="{'border-red-500' : $v.userInfo.newPassword.$error}"
             />
-            <password-toggle v-model="showNewPassword" class="tail-absolute tail-right-0 tail-p-3" />
+            <password-toggle v-model="showNewPassword" class="absolute right-0 p-3" />
           </div>
-          <div v-if="$v.userInfo.newPassword.$error" class="tail-absolute tail--bottom-5">
-            <small v-if="!$v.userInfo.newPassword.minLength" class="error tail-text-red-500">
+          <div v-if="$v.userInfo.newPassword.$error" class="absolute -bottom-5">
+            <small v-if="!$v.userInfo.newPassword.minLength" class="error text-red-500">
               Password must have at least
               {{ $v.userInfo.newPassword.$params.minLength.min }} characters.
             </small>
           </div>
         </div>
 
-        <div class="tail-flex tail-justify-end tail-py-1">
+        <div class="flex justify-end py-1">
           <button
-            :class="{ 'tail-opacity-50 tail-cursor-not-allowed': $v.$invalid }"
+            :class="{ 'opacity-50 cursor-not-allowed': $v.$invalid }"
             type="submit"
             :disabled="isLoading"
             class="button-fill"
           >
-            <SingleLoader v-if="isLoading" class="tail-mr-2" />
+            <SingleLoader v-if="isLoading" class="mr-2" />
             {{ isLoading ? 'Resetting...' : 'Save' }}
           </button>
         </div>
@@ -148,6 +148,6 @@ export default {
 <style scoped>
 .required:after {
   content: " *";
-  @apply tail-text-red-500 tail-text-sm;
+  @apply text-red-500 text-sm;
 }
 </style>
