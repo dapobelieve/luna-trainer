@@ -12,6 +12,10 @@ module.exports = {
     extend: {
       zIndex: {
         '-10': '-10'
+      },
+      maxWidth: {
+        '8xl': '96rem',
+        '9xl': '120rem'
       }
     }
   },
