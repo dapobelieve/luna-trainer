@@ -6,6 +6,7 @@
       :value="value"
       :checked="items.includes(value)"
       type="checkbox"
+      @click="$event.stopPropagation()"
       @change="check"
     >
     <slot></slot>
