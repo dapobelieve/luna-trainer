@@ -8,12 +8,10 @@
         class="ns-users tail-bg-indigo-50 tail-p-1 tail-rounded-full tail-text-indigo-500 tail-text-2xl tail-h-12 tail-w-12 tail-flex tail-items-center tail-justify-center tail-flex-shrink-0"
       ></i>
     </template>
-    <template v-slot:title>
-      recently accepted clients
-    </template>
+    <template v-slot:title>Clients</template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
-        acceptedClients.length > 1 ? "s" : ""
+      acceptedClients.length > 1 ? "s" : ""
       }}
     </template>
     <template v-slot:content>
@@ -33,18 +31,14 @@
               <template v-slot:content>
                 <span class="tail-font-medium tail-capitalize">{{ client.firstName }}</span> has accepted your invitation.
               </template>
-              <template v-slot:date>
-                {{ client.updatedAt | howLongAgo }}
-              </template>
+              <template v-slot:date>{{ client.updatedAt | howLongAgo }}</template>
             </containers-summary-information-with-avatar>
           </li>
         </ul>
         <div
           v-else
           class="tail-text-center tail-pt-8 tail-pb-12 tail-px-4 tail-text-gray-500 tail-text-sm"
-        >
-          Newly accepted client requests will be displayed here.
-        </div>
+        >Newly accepted client requests will be displayed here.</div>
       </template>
     </template>
   </containers-summary-card-with-notifications>
