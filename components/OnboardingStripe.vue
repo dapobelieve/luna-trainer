@@ -8,7 +8,7 @@
           S
         </h3>
       </div>
-      <div class="text-center font-normal text-base leading-8 tracking-wide">
+      <div class="text-center font-normal text-base tracking-wide">
         <p>
           If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier.
         </p>  <br>
