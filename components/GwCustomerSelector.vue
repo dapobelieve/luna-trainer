@@ -1,6 +1,13 @@
 <template>
   <div>
-    <v-select :multiple="multiple" v-model="selected" class="v-select" :options="clients" label="firstName">
+    <v-select
+      v-model="selected"
+      :disabled="disabled"
+      :multiple="multiple"
+      class="v-select"
+      :options="clients"
+      label="firstName"
+    >
       <template v-slot:open-indicator="{ dropdowIndicatorattributes }">
         <span v-bind="dropdowIndicatorattributes">
           <i
@@ -45,8 +52,12 @@ export default {
       type: Boolean,
       default: false
     },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
     clients: Array,
-    value: Object
+    value: [Object, Array]
   },
   data () {
     return {
@@ -64,6 +75,9 @@ export default {
       this.$emit('change', newValue)
     }
   },
+  mounted () {
+    document.getElementById('defaultOpen').click()
+  },
   methods: {
     addNewItem (value) {
       this.clientInfo = { email: '', firstName: value }
@@ -74,7 +88,7 @@ export default {
 </script>
 <style scoped lang="scss">
 ::v-deep .v-select {
-  @apply border-[#0EA5E9]
+  border: 1px solid #0EA5E9 !important;
 }
 
 ::v-deep {

@@ -3,7 +3,7 @@
     <template v-if="invoices && invoices.length">
       <div class="flex mt-1 px-3 mb-5">
         <div class="actions">
-          <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/">
+          <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
             <i class="ns-archive mr-1"></i>
             <span>Archive</span>
           </span>
@@ -46,9 +46,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']" @click.prevent="displaySentInvoicePage(data._id)">
+                <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
                   <td class="w-12 py-4 font-medium pl-3">
-                    <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data.customerId._id" />
+                    <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
                   <td class="py-4 text-left px-6 w-3/6">
                     <div class="flex items-center">
@@ -111,7 +111,7 @@ export default {
   name: 'SentInvoice',
   components: { InvoiceStatusComponent },
   async asyncData (ctx) {
-    const res = await ctx.store.dispatch('invoice/getInvoices', { status: 'sent' })
+    const res = await ctx.store.dispatch('invoice/getInvoices', { status: 'pending', workflowStatus: 'sent' })
     return { invoices: res }
   },
   data () {
@@ -124,11 +124,11 @@ export default {
   },
   watch: {
     checkedItems (newVal) {
-      if (newVal.length !== this.invoices.length) { this.selectAll = false }
+      if (newVal.length !== this.invoices.length) { this.selectAll = false } else if (newVal.length === this.invoices.length) { this.selectAll = true }
     },
     selectAll (newVal) {
       if (newVal) {
-        this.checkedItems = [...this.invoices.map(invoice => invoice.customerId._id)]
+        this.checkedItems = [...this.invoices.map(invoice => invoice._id)]
       } else if (!newVal && this.checkedItems.length === this.invoices.length) {
         this.checkedItems = []
         this.selectAll = false
@@ -144,6 +144,18 @@ export default {
       link.setAttribute('download', 'Sent_Invoices.csv')
       document.body.appendChild(link)
       link.click()
+    },
+    async archive () {
+      try {
+        if (this.checkedItems.length) {
+          await this.$store.dispatch('invoice/archive', [...this.checkedItems])
+          this.$toasted.success('Records archived')
+        } else {
+          this.$toasted.error('No record selected')
+        }
+      } catch (e) {
+        console.log(e)
+      }
     },
     async exportInvoice () {
       try {
