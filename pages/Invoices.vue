@@ -11,6 +11,7 @@
           <button
             type="button"
             class="bg-white inline-flex items-center text-blue-500 px-2  py-1  border-none  text-base  font-medium  rounded  shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            @click="printInvoice"
           >
             <i class="ns-print text-blue-500 text-xl pr-1.5"></i>
             Print
@@ -144,6 +145,9 @@ export default {
     },
     filterInvoice (link) {
       this.filter = link
+    },
+    printInvoice () {
+      window.print()
     },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {

@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'AppInput',
+  name: 'GwInputField',
   props: {
     value: {
       type: [String, Number],

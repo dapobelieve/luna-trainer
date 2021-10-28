@@ -56,7 +56,7 @@
                 >
                   {{ clientInfo.phoneNumber || "N/A" }}
                 </dd>
-                <AppInput
+                <GwInputField
                   v-show="showField('phone')"
                   v-model="clientInfo.phoneNumber"
                   class-name="input"
@@ -83,23 +83,29 @@
               <i class="ns-location-alt text-2xl text-gray-500"></i>
               <div class="ml-4">
                 <dt class="input-text-label">
-                  Address
+                  Location
                 </dt>
                 <dd
                   v-show="!showField('address')"
                   class="field-value"
                   @click="focusField('address')"
                 >
-                  {{ clientInfo.locationAddress || "N/A" }}
+                  {{ clientInfo.location || "N/A" }}
                 </dd>
-                <AppInput
+                <select
                   v-show="showField('address')"
-                  v-model="clientInfo.locationAddress"
-                  class-name="input"
-                  type="text"
+                  v-model="clientInfo.location"
+                  autocomplete="country"
                   @focus="focusField('address')"
                   @blur="blurField"
-                />
+                >
+                  <option
+                    v-for="country in countries"
+                    :key="country.numericCode"
+                  >
+                    {{ country.name }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="sm:col-span-1 flex">
@@ -112,11 +118,11 @@
                   class="field-value"
                   @click="focusField('city')"
                 >
-                  {{ clientInfo.locationCity || "N/A" }}
+                  {{ clientInfo.city || "N/A" }}
                 </dd>
-                <AppInput
+                <GwInputField
                   v-show="showField('city')"
-                  v-model="clientInfo.locationCity"
+                  v-model="clientInfo.city"
                   class-name="input"
                   type="text"
                   @focus="focusField('city')"
@@ -134,11 +140,11 @@
                   class="field-value"
                   @click="focusField('zip')"
                 >
-                  {{ clientInfo.locationZip || "N/A" }}
+                  {{ clientInfo.zip || "N/A" }}
                 </dd>
-                <AppInput
+                <GwInputField
                   v-show="showField('zip')"
-                  v-model="clientInfo.locationZip"
+                  v-model="clientInfo.zip"
                   class-name="input"
                   type="text"
                   @focus="focusField('zip')"
@@ -167,7 +173,7 @@
                 >
                   {{ clientInfo.pet[0].name || "N/A" }}
                 </dd>
-                <AppInput
+                <GwInputField
                   v-show="showField('name')"
                   v-model="clientInfo.pet[0].name"
                   class-name="input"
@@ -189,7 +195,7 @@
               >
                 {{ clientInfo.pet[0].breed || "N/A" }}
               </dd>
-              <AppInput
+              <GwInputField
                 v-show="showField('breed')"
                 v-model="clientInfo.pet[0].breed"
                 class-name="input"
@@ -212,7 +218,7 @@
                 >
                   {{ clientInfo.pet[0].age || "N/A" }} weeks
                 </dd>
-                <AppInput
+                <GwInputField
                   v-show="showField('age')"
                   v-model="clientInfo.pet[0].age"
                   class-name="input"
@@ -298,7 +304,6 @@ export default {
   mounted () {
     this.getClientProfile(this.id)
       .then((response) => {
-        console.log(response)
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
@@ -321,16 +326,20 @@ export default {
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
-          locationAddress: this.clientInfo.locationAddress,
-          locationZip: this.clientInfo.locationZip,
-          locationCity: this.clientInfo.locationCity,
+          location: this.clientInfo.location,
+          zip: this.clientInfo.zip,
+          city: this.clientInfo.city,
           phoneNumber: this.clientInfo.phoneNumber,
-          petName: this.clientInfo.pet[0].name,
-          petAge: this.clientInfo.pet[0].age,
-          petBreed: this.clientInfo.pet[0].breed
+          pet: [{
+            name: this.clientInfo.pet[0].name,
+            age: this.clientInfo.pet[0].age,
+            breed: this.clientInfo.pet[0].breed
+          }],
+          notes: this.clientInfo.notes
         }
       })
         .then((response) => {
+          this.showButtons = false
           if (response.status === 'success') {
             this.clientInfo = response.data
             this.isLoading = false
@@ -338,6 +347,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.showButtons = false
           this.isLoading = false
           if (err.response) {
             this.$toast.error(
