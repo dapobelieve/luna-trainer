@@ -1,3 +1,5 @@
+const queryString = require('querystring')
+
 export const state = () => ({
   invoices: [],
   invoiceCount: 0,
@@ -43,9 +45,15 @@ export const actions = {
       })
   },
   updateInvoice ({ commit }, payload) {
+    const { items } = payload
+    payload.items = items.reduce((acc, item) => {
+      acc.push({ serviceId: item._id, price: item.pricing.amount })
+      return acc
+    }, [])
+
     return this.$axios
-      .$put(`${process.env.BASEURL_HOST}/invoice/${payload.invoiceId}`, {
-        items: [{ price: payload.modifiedAmount }]
+      .$put(`${process.env.BASEURL_HOST}/invoice/${payload._id}`, {
+        items: [...payload.items]
       })
       .then((response) => {
         return response
@@ -68,19 +76,28 @@ export const actions = {
         return response
       })
   },
+  async archive ({ commit }, payload) {
+    return this.$axios.$patch(`${process.env.BASEURL_HOST}/invoice/archive`, {
+      invoices: [...payload]
+    })
+  },
   async export ({ commit }) {
     const res = await this.$axios.get(`${process.env.BASEURL_HOST}/invoice/export`)
     console.log(res)
   },
   async getInvoices ({ commit, dispatch }, payload) {
-    const stat =
-      payload !== undefined && 'status' in payload ? payload.status : ''
-    const currPage =
-      payload !== undefined && 'page' in payload ? payload.page : 1
+    const q = {
+      status: '',
+      workflowStatus: '',
+      limit: 10,
+      page: 1
+    }
+    const newQueryObj = queryString.stringify({ ...q, ...payload })
+
     dispatch('loader/startProcess', null, { root: true })
     try {
-      const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice${stat ? `?status=${stat}&` : '?'}limit=10&page=${currPage}`)
-      commit('SET_ALL_INVOICES', response)
+      const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice?${newQueryObj}`)
+      // commit('SET_ALL_INVOICES', response)
       return response.data
     } catch (e) {
       return e
@@ -88,12 +105,8 @@ export const actions = {
       dispatch('loader/endProcess', '', { root: true })
     }
   },
-  getSingleInvoice ({ commit }, invoiceId) {
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
-      .then((response) => {
-        return response
-      })
+  async getSingleInvoice ({ commit }, invoiceId) {
+    return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
   },
   stripeConnect ({ commit }) {
     return this.$axios

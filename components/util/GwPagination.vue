@@ -1,5 +1,5 @@
 <template>
-  <div class="border bg-gray-50 rounded-lg">
+  <div class="border rounded-lg">
     <slot name="content" :pageNumber="pageNumber" />
     <div v-if="totalItems" class="w-max flex ml-auto">
       <div class="mx-8 my-4 space-x-4">

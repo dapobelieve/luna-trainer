@@ -14,7 +14,7 @@
         </div>
       </div>
       <div>
-        <gw-customer-selector :clients="allClients" v-model="invoice.client">
+        <gw-customer-selector v-model="invoice.client" :clients="allClients">
           <template v-slot:dropdownOption="{optionObject}">
             <div class="flex justify-between min-w-full items-center">
               <div class="flex content-center py-1">
@@ -32,7 +32,7 @@
             </div>
           </template>
         </gw-customer-selector>
-<!--        <p>{{invoice.client}}</p>-->
+        <!--        <p>{{invoice.client}}</p>-->
       </div>
     </div>
 
@@ -49,8 +49,8 @@
           </a>
         </div>
         <template v-if="$auth.user.services">
-          <gw-invoice-services-selector class="mt-4" :services="$auth.user.services"  v-model="invoice.items" />
-          <p>{{invoice.items}}</p>
+          <gw-invoice-services-selector v-model="invoice.items" class="mt-4" :services="$auth.user.services" />
+          <p>{{ invoice.items }}</p>
         </template>
       </div>
       <hr class="pt-5" />
