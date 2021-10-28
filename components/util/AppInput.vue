@@ -1,0 +1,101 @@
+<template>
+  <div class="gw-text-input">
+    <label v-if="label" :for="idName">
+      {{ label }}
+    </label>
+    <input
+      :id="idName"
+      :type="computedType"
+      :class="className"
+      :required="required"
+      :disabled="disabled"
+      :placeholder="placeholder"
+      :value="value"
+      :autocomplete="autocomplete"
+      :inputmode="inputmode"
+      :step="step"
+      :min="min"
+      @input="onInput"
+      @focus="$emit('focus')"
+      @change="$emit('change')"
+      @keyup="$emit('keyup')"
+    >
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'GWTextInput',
+  props: {
+    value: {
+      type: [String, Number],
+      default: ''
+    },
+    type: {
+      type: String,
+      default: 'text'
+    },
+    placeholder: {
+      type: String,
+      default: ''
+    },
+    required: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    invalid: {
+      type: Boolean,
+      default: false
+    },
+    label: {
+      type: String,
+      default: ''
+    },
+    inverted: {
+      type: Boolean,
+      default: false
+    },
+    className: {
+      type: String,
+      default: ''
+    },
+    idName: {
+      type: String,
+      default: ''
+    },
+    autocomplete: {
+      type: String,
+      default: 'on'
+    },
+    inputmode: {
+      type: String,
+      default: null
+    },
+    step: {
+      type: String,
+      default: null
+    },
+    min: {
+      type: String,
+      default: null
+    },
+    appendText: {
+      type: String,
+      default: null
+    }
+  },
+  methods: {
+    onInput (event) {
+      this.$emit('input', event.target.value)
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+
+</style>
