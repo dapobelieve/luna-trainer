@@ -4,9 +4,7 @@
       <div class="flex items-center">
         <slot name="back-button" />
         <slot name="avatar" />
-        <slot name="title">
-          Replace Heading
-        </slot>
+        <slot name="title" />
       </div>
     </h3>
     <div class="mt-3 flex sm:mt-0 sm:ml-4 space-x-2">

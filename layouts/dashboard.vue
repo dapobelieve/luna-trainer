@@ -1,6 +1,6 @@
 <template>
   <async-view loader-id="logout">
-    <modal name="stripe-modal" height="auto" :adaptive="true" :max-width="450">
+    <modal name="stripe-modal" height="auto" :adaptive="true" :max-width="500">
       <onboarding-stripe class="m-6" @closeModal="skipStripeProcess" />
     </modal>
     <GwHeader />

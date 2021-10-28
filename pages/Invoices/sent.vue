@@ -169,6 +169,9 @@ export default {
       } finally {
         this.exporting = false
       }
+    },
+    displaySentInvoicePage (id) {
+      this.$router.push(`/Invoices/${id}`)
     }
   }
 }

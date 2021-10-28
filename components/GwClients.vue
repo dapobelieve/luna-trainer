@@ -48,7 +48,7 @@
       <p class="px-5 text-sm mb-0 max-w-xs">
         All your client list will appear here. Send an invite to a potential client to get started
       </p>
-      <div class="w-max mx-auto">
+      <div class="w-max mx-auto mb-4">
         <button
           class="base-button"
           type="button"
