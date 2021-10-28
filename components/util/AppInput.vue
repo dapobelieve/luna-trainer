@@ -5,7 +5,7 @@
     </label>
     <input
       :id="idName"
-      :type="computedType"
+      :type="type"
       :class="className"
       :required="required"
       :disabled="disabled"
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'GWTextInput',
+  name: 'AppInput',
   props: {
     value: {
       type: [String, Number],
@@ -97,5 +97,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+input {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+input:focus {
+  outline: none;
+}
 </style>

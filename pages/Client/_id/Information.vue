@@ -6,15 +6,16 @@
           <h2 class="font-normal text-xl to-gray-700">
             Information
           </h2>
-          <div>
-            <button-spinner
-              :loading="isLoading"
+          <div class="flex">
+            <button
+              :disabled="cancelLoading "
               type="button"
-              style="width:fit-content"
-              @click="updateProfile"
+              class="bg-white outline-none mr-2 hover:border hover:border-gray-400 w-100 flex items-center justify-center py-1 h-10 rounded-md w-full px-4 hover:bg-gray-50"
+              @click="cancelEditField"
             >
               Cancel
-            </button-spinner>
+              <SingleLoader v-if="isLoading" class="mr-2" />
+            </button>
             <button-spinner
               :loading="isLoading"
               type="button"
@@ -34,116 +35,168 @@
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <p class="capitalize font-normal text-xl mt-2">
+            <p class="capitalize font-normal text-xl mt-3">
               {{ fullName }}
             </p>
-            <small class="text-xs text-gray-400 mt-2">click on text to edit</small>
+            <small
+              class="text-sm text-gray-400 mt-3"
+            >Double click on text to edit</small>
           </div>
-          <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
-          >
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
+              <i class="ns-phone text-2xl text-gray-500"></i>
               <div class="ml-4">
                 <dt class="input-text-label">
                   Telephone
                 </dt>
-                <dd v-show="!showField('phone')" class="field-value" @click="focusField('phone')">
-                  {{ clientInfo.phoneNumber || 'N/A' }}
+                <dd
+                  v-show="!showField('phone')"
+                  class="field-value"
+                  @click="focusField('phone')"
+                >
+                  {{ clientInfo.phoneNumber || "N/A" }}
                 </dd>
-                <input
+                <AppInput
                   v-show="showField('phone')"
                   v-model="clientInfo.phoneNumber"
-                  type="text"
-                  class="input-text"
+                  class-name="input"
+                  type="number"
                   @focus="focusField('phone')"
                   @blur="blurField"
-                >
+                />
               </div>
             </div>
 
-            <div class="sm:col-span-1">
-              <dt class="input-text-label">
-                Email
-              </dt>
-              <dd class="mt-1 truncate">
-                {{ clientInfo && clientInfo.email }}
-              </dd>
+            <div class="sm:col-span-1 flex">
+              <i class="ns-envelope text-2xl text-gray-500"></i>
+              <div class="ml-4">
+                <dt class="input-text-label">
+                  Email Address
+                </dt>
+                <dd class="mt-1 truncate">
+                  {{ clientInfo && clientInfo.email }}
+                </dd>
+              </div>
             </div>
 
             <div class="sm:col-span-1 flex">
               <i class="ns-location-alt text-2xl text-gray-500"></i>
               <div class="ml-4">
                 <dt class="input-text-label">
-                  Location
+                  Address
                 </dt>
-                <dd v-show="!showField('location')" class="field-value" @click="focusField('location')">
-                  {{ clientInfo.location || 'N/A' }}
-                </dd>
-                <select
-                  v-show="showField('location')"
-                  v-model="clientInfo.location"
-                  autocomplete="country"
-                  class="input-text"
-                  @focus="focusField('location')"
-                  @blur="blurField"
+                <dd
+                  v-show="!showField('address')"
+                  class="field-value"
+                  @click="focusField('address')"
                 >
-                  <option
-                    v-for="country in countries"
-                    :key="country.numericCode"
-                  >
-                    {{ country.name }}
-                  </option>
-                </select>
+                  {{ clientInfo.locationAddress || "N/A" }}
+                </dd>
+                <AppInput
+                  v-show="showField('address')"
+                  v-model="clientInfo.locationAddress"
+                  class-name="input"
+                  type="text"
+                  @focus="focusField('address')"
+                  @blur="blurField"
+                />
+              </div>
+            </div>
+            <div class="sm:col-span-1 flex">
+              <div class="ml-10">
+                <dt class="input-text-label">
+                  City
+                </dt>
+                <dd
+                  v-show="!showField('city')"
+                  class="field-value"
+                  @click="focusField('city')"
+                >
+                  {{ clientInfo.locationCity || "N/A" }}
+                </dd>
+                <AppInput
+                  v-show="showField('city')"
+                  v-model="clientInfo.locationCity"
+                  class-name="input"
+                  type="text"
+                  @focus="focusField('city')"
+                  @blur="blurField"
+                />
+              </div>
+            </div>
+            <div class="sm:col-span-1 flex">
+              <div class="ml-9">
+                <dt class="input-text-label">
+                  Post code
+                </dt>
+                <dd
+                  v-show="!showField('zip')"
+                  class="field-value"
+                  @click="focusField('zip')"
+                >
+                  {{ clientInfo.locationZip || "N/A" }}
+                </dd>
+                <AppInput
+                  v-show="showField('zip')"
+                  v-model="clientInfo.locationZip"
+                  class-name="input"
+                  type="text"
+                  @focus="focusField('zip')"
+                  @blur="blurField"
+                />
               </div>
             </div>
           </dl>
         </div>
         <!-- dog details -->
         <div>
-          <h3
-            class="mb-6 text-gray-500 text-xs font-medium mt-3"
-          >
+          <h3 class="mb-6 text-gray-500 text-xs font-medium mt-3">
             DOG DETAILS
           </h3>
-          <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
-          >
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div class="sm:col-span-1 flex">
               <i class="ns-time-add text-2xl text-gray-500"></i>
               <div class="ml-4">
                 <dt class="input-text-label">
                   Dog name
                 </dt>
-                <dd v-show="!showField('name')" class="field-value" @click="focusField('name')">
-                  {{ clientInfo.pet[0].name || 'N/A' }}
+                <dd
+                  v-show="!showField('name')"
+                  class="field-value"
+                  @click="focusField('name')"
+                >
+                  {{ clientInfo.pet[0].name || "N/A" }}
                 </dd>
-                <input
+                <AppInput
                   v-show="showField('name')"
                   v-model="clientInfo.pet[0].name"
+                  class-name="input"
                   type="text"
-                  class="input-text"
                   @focus="focusField('name')"
                   @blur="blurField"
-                >
+                />
               </div>
             </div>
 
-            <div class="sm:col-span-1">
+            <div class="sm:col-span-1 ml-10">
               <dt class="input-text-label">
                 Breed
               </dt>
-              <dd v-show="!showField('breed')" class="field-value" @click="focusField('breed')">
-                {{ clientInfo.pet[0].breed || 'N/A' }}
+              <dd
+                v-show="!showField('breed')"
+                class="field-value"
+                @click="focusField('breed')"
+              >
+                {{ clientInfo.pet[0].breed || "N/A" }}
               </dd>
-              <input
+              <AppInput
                 v-show="showField('breed')"
                 v-model="clientInfo.pet[0].breed"
+                class-name="input"
                 type="text"
-                class="input-text"
                 @focus="focusField('breed')"
                 @blur="blurField"
-              >
+              />
             </div>
 
             <div class="sm:col-span-1 flex">
@@ -152,17 +205,21 @@
                 <dt class="input-text-label">
                   Age
                 </dt>
-                <dd v-show="!showField('age')" class="field-value" @click="focusField('age')">
-                  {{ clientInfo.pet[0].age || 'N/A' }} weeks
+                <dd
+                  v-show="!showField('age')"
+                  class="field-value"
+                  @click="focusField('age')"
+                >
+                  {{ clientInfo.pet[0].age || "N/A" }} weeks
                 </dd>
-                <input
+                <AppInput
                   v-show="showField('age')"
                   v-model="clientInfo.pet[0].age"
+                  class-name="input"
                   type="number"
-                  class="input-text"
                   @focus="focusField('age')"
                   @blur="blurField"
-                >
+                />
               </div>
             </div>
 
@@ -184,14 +241,17 @@
                 <dt class="input-text-label">
                   Note
                 </dt>
-                <dd v-show="!showField('notes')" class="field-value" @click="focusField('notes')">
-                  {{ clientInfo.notes || 'N/A' }} weeks
+                <dd
+                  v-show="!showField('notes')"
+                  class="field-value"
+                  @click="focusField('notes')"
+                >
+                  {{ clientInfo.notes || "N/A" }}
                 </dd>
                 <textarea
                   v-show="showField('notes')"
                   v-model="clientInfo.notes"
                   type="number"
-                  class="input-text"
                   @focus="focusField('notes')"
                   @blur="blurField"
                 ></textarea>
@@ -213,10 +273,12 @@ export default {
     return {
       hasAnyInputChanged: false,
       isLoading: false,
+      cancelLoading: false,
       clientInfo: null,
       countries,
       id: this.$route.params.id,
-      editField: ''
+      editField: '',
+      tempClientInfo: {}
     }
   },
   computed: {
@@ -224,7 +286,9 @@ export default {
       return this.clientInfo ? this.clientInfo.firstName : ''
     },
     lastName () {
-      return this.clientInfo && this.clientInfo.lastName !== undefined ? this.clientInfo.lastName : ''
+      return this.clientInfo && this.clientInfo.lastName !== undefined
+        ? this.clientInfo.lastName
+        : ''
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
@@ -233,11 +297,16 @@ export default {
   mounted () {
     this.getClientProfile(this.id)
       .then((response) => {
+        console.log(response)
         if (!response.pet.length) {
-          this.clientInfo = { ...response, pet: [{ name: '', age: '', breed: '' }] }
+          this.clientInfo = {
+            ...response,
+            pet: [{ name: '', age: '', breed: '' }]
+          }
         } else {
           this.clientInfo = response
         }
+        this.tempClientInfo = { ...this.clientInfo }
       })
       .catch(err => console.log('error fetching client', err))
   },
@@ -251,7 +320,9 @@ export default {
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
-          location: this.clientInfo.location,
+          locationAddress: this.clientInfo.locationAddress,
+          locationZip: this.clientInfo.locationZip,
+          locationCity: this.clientInfo.locationCity,
           phoneNumber: this.clientInfo.phoneNumber,
           petName: this.clientInfo.pet[0].name,
           petAge: this.clientInfo.pet[0].age,
@@ -276,6 +347,10 @@ export default {
           }
         })
     },
+    cancelEditField () {
+      this.cancelLoading = false
+      this.clientInfo = this.tempClientInfo
+    },
     focusField (name) {
       this.editField = name
     },
@@ -283,10 +358,27 @@ export default {
       this.editField = ''
     },
     showField (name) {
-      return (this.clientInfo[name] === '' || this.editField === name)
+      return this.clientInfo[name] === '' || this.editField === name
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+textarea,
+select {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+textarea {
+  overflow: hidden;
+}
+textarea:focus,
+select:focus {
+  outline: none;
+}
+</style>

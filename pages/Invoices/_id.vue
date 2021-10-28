@@ -150,6 +150,7 @@ export default {
       .then((response) => {
         this.isLoading = false
         this.client = response.data
+        console.log(this.client)
       })
       .catch((err) => {
         console.log(err)

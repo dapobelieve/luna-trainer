@@ -46,7 +46,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
+                <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']" @click="displaySentInvoicePage(data._id)">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
