@@ -6,7 +6,7 @@
           <h2 class="font-normal text-xl to-gray-700">
             Information
           </h2>
-          <div class="flex">
+          <div v-if="showButtons" class="flex">
             <button
               :disabled="cancelLoading "
               type="button"
@@ -14,7 +14,7 @@
               @click="cancelEditField"
             >
               Cancel
-              <SingleLoader v-if="isLoading" class="mr-2" />
+              <SingleLoader v-if="cancelLoading" class="mr-2" />
             </button>
             <button-spinner
               :loading="isLoading"
@@ -278,7 +278,8 @@ export default {
       countries,
       id: this.$route.params.id,
       editField: '',
-      tempClientInfo: {}
+      tempClientInfo: {},
+      showButtons: false
     }
   },
   computed: {
@@ -350,9 +351,11 @@ export default {
     cancelEditField () {
       this.cancelLoading = false
       this.clientInfo = this.tempClientInfo
+      this.showButtons = false
     },
     focusField (name) {
       this.editField = name
+      this.showButtons = true
     },
     blurField () {
       this.editField = ''
