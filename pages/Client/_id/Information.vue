@@ -49,20 +49,11 @@
                 <dt class="input-text-label">
                   Telephone
                 </dt>
-                <dd
-                  v-show="!showField('phone')"
-                  class="field-value"
-                  @click="focusField('phone')"
-                >
-                  {{ clientInfo.phoneNumber || "N/A" }}
-                </dd>
                 <GwInputField
-                  v-show="showField('phone')"
                   v-model="clientInfo.phoneNumber"
-                  class-name="input"
-                  type="number"
-                  @focus="focusField('phone')"
-                  @blur="blurField"
+                  placeholder="click here"
+                  type="tel"
+                  @input="focusField"
                 />
               </div>
             </div>
@@ -85,20 +76,14 @@
                 <dt class="input-text-label">
                   Location
                 </dt>
-                <dd
-                  v-show="!showField('address')"
-                  class="field-value"
-                  @click="focusField('address')"
-                >
-                  {{ clientInfo.location || "N/A" }}
-                </dd>
                 <select
-                  v-show="showField('address')"
                   v-model="clientInfo.location"
                   autocomplete="country"
-                  @focus="focusField('address')"
-                  @blur="blurField"
+                  @input="focusField"
                 >
+                  <option value="" disabled selected hidden>
+                    click here
+                  </option>
                   <option
                     v-for="country in countries"
                     :key="country.numericCode"
@@ -113,20 +98,11 @@
                 <dt class="input-text-label">
                   City
                 </dt>
-                <dd
-                  v-show="!showField('city')"
-                  class="field-value"
-                  @click="focusField('city')"
-                >
-                  {{ clientInfo.city || "N/A" }}
-                </dd>
                 <GwInputField
-                  v-show="showField('city')"
                   v-model="clientInfo.city"
-                  class-name="input"
+                  placeholder="click here"
                   type="text"
-                  @focus="focusField('city')"
-                  @blur="blurField"
+                  @input="focusField"
                 />
               </div>
             </div>
@@ -135,20 +111,11 @@
                 <dt class="input-text-label">
                   Post code
                 </dt>
-                <dd
-                  v-show="!showField('zip')"
-                  class="field-value"
-                  @click="focusField('zip')"
-                >
-                  {{ clientInfo.zip || "N/A" }}
-                </dd>
                 <GwInputField
-                  v-show="showField('zip')"
                   v-model="clientInfo.zip"
-                  class-name="input"
+                  placeholder="click here"
                   type="text"
-                  @focus="focusField('zip')"
-                  @blur="blurField"
+                  @input="focusField"
                 />
               </div>
             </div>
@@ -166,20 +133,12 @@
                 <dt class="input-text-label">
                   Dog name
                 </dt>
-                <dd
-                  v-show="!showField('name')"
-                  class="field-value"
-                  @click="focusField('name')"
-                >
-                  {{ clientInfo.pet[0].name || "N/A" }}
-                </dd>
                 <GwInputField
-                  v-show="showField('name')"
                   v-model="clientInfo.pet[0].name"
-                  class-name="input"
+
+                  placeholder="click here"
                   type="text"
-                  @focus="focusField('name')"
-                  @blur="blurField"
+                  @input="focusField"
                 />
               </div>
             </div>
@@ -188,20 +147,11 @@
               <dt class="input-text-label">
                 Breed
               </dt>
-              <dd
-                v-show="!showField('breed')"
-                class="field-value"
-                @click="focusField('breed')"
-              >
-                {{ clientInfo.pet[0].breed || "N/A" }}
-              </dd>
               <GwInputField
-                v-show="showField('breed')"
                 v-model="clientInfo.pet[0].breed"
-                class-name="input"
+                placeholder="click here"
                 type="text"
-                @focus="focusField('breed')"
-                @blur="blurField"
+                @input="focusField"
               />
             </div>
 
@@ -211,20 +161,11 @@
                 <dt class="input-text-label">
                   Age
                 </dt>
-                <dd
-                  v-show="!showField('age')"
-                  class="field-value"
-                  @click="focusField('age')"
-                >
-                  {{ clientInfo.pet[0].age || "N/A" }} weeks
-                </dd>
                 <GwInputField
-                  v-show="showField('age')"
                   v-model="clientInfo.pet[0].age"
-                  class-name="input"
-                  type="number"
-                  @focus="focusField('age')"
-                  @blur="blurField"
+                  placeholder="click here"
+                  type="text"
+                  @input="focusField"
                 />
               </div>
             </div>
@@ -247,19 +188,11 @@
                 <dt class="input-text-label">
                   Note
                 </dt>
-                <dd
-                  v-show="!showField('notes')"
-                  class="field-value"
-                  @click="focusField('notes')"
-                >
-                  {{ clientInfo.notes || "N/A" }}
-                </dd>
                 <textarea
-                  v-show="showField('notes')"
                   v-model="clientInfo.notes"
-                  type="number"
-                  @focus="focusField('notes')"
-                  @blur="blurField"
+                  placeholder="click here"
+                  type="text"
+                  @input="focusField"
                 ></textarea>
               </div>
             </div>
@@ -363,8 +296,7 @@ export default {
       this.clientInfo = this.tempClientInfo
       this.showButtons = false
     },
-    focusField (name) {
-      this.editField = name
+    focusField () {
       this.showButtons = true
     },
     blurField () {
@@ -386,6 +318,7 @@ select {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  appearance: none;
 }
 textarea {
   overflow: hidden;
