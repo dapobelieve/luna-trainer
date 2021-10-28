@@ -22,12 +22,14 @@
           >
             Choose
           </label>
-          <gw-customer-selector :clients="allClients" v-model="invoiceDetails.client">
+          <gw-customer-selector v-model="invoiceDetails.client" :clients="allClients">
             <template v-slot:dropdownOption="{optionObject}">
               <div class="flex justify-between min-w-full items-center">
                 <div class="flex items-center content-center py-1">
                   <ClientAvatar :width="2.3" :height="2.3" :client-info="optionObject" />
-                  <p class="capitalize text-gray-700 ml-4"> {{ optionObject.firstName }} </p>
+                  <p class="capitalize text-gray-700 ml-4">
+                    {{ optionObject.firstName }}
+                  </p>
                 </div>
                 <div class="check">
                   <i class="ns-check text-blue-500 text-lg"></i>

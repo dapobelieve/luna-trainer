@@ -8,10 +8,10 @@
         <div class="flex items-center">
           <ClickOutside :do="() => showDrop = false">
             <div class="relative">
-            <span @click="showDrop = !showDrop" class="font-medium flex items-center cursor-pointer text-primary-color mr-5">
-              <span>{{ currentInvoice }}</span>
-              <i class="ns-caret-down ml-2 text-2xl"></i>
-            </span>
+              <span class="font-medium flex items-center cursor-pointer text-primary-color mr-5" @click="showDrop = !showDrop">
+                <span>{{ currentInvoice }}</span>
+                <i class="ns-caret-down ml-2 text-2xl"></i>
+              </span>
               <div
                 v-show="showDrop"
                 class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
@@ -19,11 +19,13 @@
                 <div class="py-1" role="none">
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'Invoices-sent'}); showDrop=false">Sent
+                    @click.prevent="$router.push({name: 'Invoices-sent'}); showDrop=false"
+                  >Sent
                   </a>
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'Invoices-drafts'}); showDrop=false">Drafts
+                    @click.prevent="$router.push({name: 'Invoices-drafts'}); showDrop=false"
+                  >Drafts
                   </a>
                 </div>
               </div>
