@@ -5,22 +5,29 @@
         <div class="flex justify-between items-center">
           <h2 class="font-normal text-xl to-gray-700">
             Information
-            <span
-              v-if="clientInfo.status === 'invited'"
-              class="rounded-full text-xs bg-indigo-50 text-indigo-500 py-0.5 px-2 ml-2 uppercase"
-            >pending</span>
           </h2>
-          <button-spinner
-            :loading="isLoading"
-            type="button"
-            style="width:fit-content"
-            @click="updateProfile"
-          >
-            Update profile
-          </button-spinner>
+          <div v-if="showButtons" class="flex">
+            <button
+              :disabled="cancelLoading "
+              type="button"
+              class="bg-white outline-none mr-2 hover:border hover:border-gray-400 w-100 flex items-center justify-center py-1 h-10 rounded-md w-full px-4 hover:bg-gray-50"
+              @click="cancelEditField"
+            >
+              Cancel
+              <SingleLoader v-if="cancelLoading" class="mr-2" />
+            </button>
+            <button-spinner
+              :loading="isLoading"
+              type="button"
+              style="width:fit-content"
+              @click="updateProfile"
+            >
+              Save
+            </button-spinner>
+          </div>
         </div>
         <h3 class="mb-6 text-gray-500 text-xs font-medium">
-          DOG OWNER
+          OWNER
         </h3>
         <!-- owner details -->
         <div class="text-gray-700">
@@ -28,34 +35,37 @@
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <p class="capitalize font-normal text-xl mt-2">
+            <p class="capitalize font-normal text-xl mt-3">
               {{ fullName }}
             </p>
+            <small
+              class="text-sm text-gray-400 mt-3"
+            >Double click on text to edit</small>
           </div>
-          <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
-          >
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
+              <i class="ns-phone text-2xl text-gray-500"></i>
               <div class="ml-4">
-                <dt class="input-text-label">
-                  Telephone
-                </dt>
-                <input
+                <GwInputField
                   v-model="clientInfo.phoneNumber"
-                  type="number"
-                  class="input-text"
+                  placeholder="click here"
+                  type="tel"
+                  label="Telephone"
+                  @input="focusField"
                 />
               </div>
             </div>
 
-            <div class="sm:col-span-1">
-              <dt class="input-text-label">
-                Email
-              </dt>
-              <dd class="mt-1 truncate">
-                {{ clientInfo && clientInfo.email }}
-              </dd>
+            <div class="sm:col-span-1 flex">
+              <i class="ns-envelope text-2xl text-gray-500"></i>
+              <div class="ml-4">
+                <dt class="input-text-label">
+                  Email Address
+                </dt>
+                <dd class="mt-1 truncate">
+                  {{ clientInfo && clientInfo.email }}
+                </dd>
+              </div>
             </div>
 
             <div class="sm:col-span-1 flex">
@@ -64,73 +74,86 @@
                 <dt class="input-text-label">
                   Location
                 </dt>
-                <dd class="">
-                  <select
-                    v-model="clientInfo.location"
-                    autocomplete="country"
-                    class="input-text"
+                <select
+                  v-model="clientInfo.location"
+                  autocomplete="country"
+                  @input="focusField"
+                >
+                  <option value="" disabled selected hidden>
+                    click here
+                  </option>
+                  <option
+                    v-for="country in countries"
+                    :key="country.numericCode"
                   >
-                    <option
-                      v-for="country in countries"
-                      :key="country.numericCode"
-                    >
-                      {{ country.name }}
-                    </option>
-                  </select>
-                </dd>
+                    {{ country.name }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="sm:col-span-1 flex">
+              <div class="ml-10">
+                <GwInputField
+                  v-model="clientInfo.city"
+                  placeholder="click here"
+                  type="text"
+                  label="City"
+                  @input="focusField"
+                />
+              </div>
+            </div>
+            <div class="sm:col-span-1 flex">
+              <div class="ml-10">
+                <GwInputField
+                  v-model="clientInfo.zip"
+                  placeholder="click here"
+                  type="text"
+                  label="Post Code"
+                  @input="focusField"
+                />
               </div>
             </div>
           </dl>
         </div>
         <!-- dog details -->
         <div>
-          <h3
-            class="mb-6 text-gray-500 text-xs font-medium mt-3"
-          >
+          <h3 class="mb-6 text-gray-500 text-xs font-medium mt-3">
             DOG DETAILS
           </h3>
-          <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
-          >
+          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
             <div class="sm:col-span-1 flex">
               <i class="ns-time-add text-2xl text-gray-500"></i>
               <div class="ml-4">
-                <dt class="input-text-label">
-                  Dog name
-                </dt>
-                <input
+                <GwInputField
                   v-model="clientInfo.pet[0].name"
+                  label="Dog name"
+                  placeholder="click here"
                   type="text"
-                  class="input-text"
+                  @input="focusField"
                 />
               </div>
             </div>
 
-            <div class="sm:col-span-1">
-              <dt class="input-text-label">
-                Breed
-              </dt>
-              <input
+            <div class="sm:col-span-1 ml-10">
+              <GwInputField
                 v-model="clientInfo.pet[0].breed"
+                placeholder="click here"
+                label="Breed"
                 type="text"
-                class="input-text"
+                @input="focusField"
               />
             </div>
 
             <div class="sm:col-span-1 flex">
               <i class="ns-envelope text-2xl invisible"></i>
               <div class="ml-4">
-                <dt class="input-text-label">
-                  Age
-                </dt>
-                <div class="flex items-center">
-                  <input
-                    v-model="clientInfo.pet[0].age"
-                    type="text"
-                    class="input-text w-14 mr-2"
-                  />
-                  <span>weeks</span>
-                </div>
+                <GwInputField
+                  v-model="clientInfo.pet[0].age"
+                  placeholder="click here"
+                  type="text"
+                  label="Age"
+                  @input="focusField"
+                />
               </div>
             </div>
 
@@ -152,11 +175,12 @@
                 <dt class="input-text-label">
                   Note
                 </dt>
-                <input
+                <textarea
                   v-model="clientInfo.notes"
+                  placeholder="click here"
                   type="text"
-                  class="input-text"
-                />
+                  @input="focusField"
+                ></textarea>
               </div>
             </div>
           </dl>
@@ -175,9 +199,13 @@ export default {
     return {
       hasAnyInputChanged: false,
       isLoading: false,
+      cancelLoading: false,
       clientInfo: null,
       countries,
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      editField: '',
+      tempClientInfo: {},
+      showButtons: false
     }
   },
   computed: {
@@ -185,7 +213,9 @@ export default {
       return this.clientInfo ? this.clientInfo.firstName : ''
     },
     lastName () {
-      return this.clientInfo && this.clientInfo.lastName !== undefined ? this.clientInfo.lastName : ''
+      return this.clientInfo && this.clientInfo.lastName !== undefined
+        ? this.clientInfo.lastName
+        : ''
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
@@ -195,10 +225,14 @@ export default {
     this.getClientProfile(this.id)
       .then((response) => {
         if (!response.pet.length) {
-          this.clientInfo = { ...response, pet: [{ name: '', age: '', breed: '' }] }
+          this.clientInfo = {
+            ...response,
+            pet: [{ name: '', age: '', breed: '' }]
+          }
         } else {
           this.clientInfo = response
         }
+        this.tempClientInfo = { ...this.clientInfo }
       })
       .catch(err => console.log('error fetching client', err))
   },
@@ -213,13 +247,19 @@ export default {
         id: this.clientInfo._id,
         info: {
           location: this.clientInfo.location,
+          zip: this.clientInfo.zip,
+          city: this.clientInfo.city,
           phoneNumber: this.clientInfo.phoneNumber,
-          petName: this.clientInfo.pet[0].name,
-          petAge: this.clientInfo.pet[0].age,
-          petBreed: this.clientInfo.pet[0].breed
+          pet: [{
+            name: this.clientInfo.pet[0].name,
+            age: this.clientInfo.pet[0].age,
+            breed: this.clientInfo.pet[0].breed
+          }],
+          notes: this.clientInfo.notes
         }
       })
         .then((response) => {
+          this.showButtons = false
           if (response.status === 'success') {
             this.clientInfo = response.data
             this.isLoading = false
@@ -227,6 +267,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.showButtons = false
           this.isLoading = false
           if (err.response) {
             this.$toast.error(
@@ -236,9 +277,35 @@ export default {
             )
           }
         })
+    },
+    cancelEditField () {
+      this.cancelLoading = false
+      this.clientInfo = this.tempClientInfo
+      this.showButtons = false
+    },
+    focusField () {
+      this.showButtons = true
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+textarea,
+select {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  appearance: none;
+}
+textarea {
+  overflow: hidden;
+}
+textarea:focus,
+select:focus {
+  outline: none;
+}
+</style>
