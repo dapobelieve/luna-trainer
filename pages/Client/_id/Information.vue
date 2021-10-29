@@ -46,13 +46,11 @@
             <div class="sm:col-span-1 flex">
               <i class="ns-phone text-2xl text-gray-500"></i>
               <div class="ml-4">
-                <dt class="input-text-label">
-                  Telephone
-                </dt>
                 <GwInputField
                   v-model="clientInfo.phoneNumber"
                   placeholder="click here"
                   type="tel"
+                  label="Telephone"
                   @input="focusField"
                 />
               </div>
@@ -95,26 +93,22 @@
             </div>
             <div class="sm:col-span-1 flex">
               <div class="ml-10">
-                <dt class="input-text-label">
-                  City
-                </dt>
                 <GwInputField
                   v-model="clientInfo.city"
                   placeholder="click here"
                   type="text"
+                  label="City"
                   @input="focusField"
                 />
               </div>
             </div>
             <div class="sm:col-span-1 flex">
-              <div class="ml-9">
-                <dt class="input-text-label">
-                  Post code
-                </dt>
+              <div class="ml-10">
                 <GwInputField
                   v-model="clientInfo.zip"
                   placeholder="click here"
                   type="text"
+                  label="Post Code"
                   @input="focusField"
                 />
               </div>
@@ -130,12 +124,9 @@
             <div class="sm:col-span-1 flex">
               <i class="ns-time-add text-2xl text-gray-500"></i>
               <div class="ml-4">
-                <dt class="input-text-label">
-                  Dog name
-                </dt>
                 <GwInputField
                   v-model="clientInfo.pet[0].name"
-
+                  label="Dog name"
                   placeholder="click here"
                   type="text"
                   @input="focusField"
@@ -144,12 +135,10 @@
             </div>
 
             <div class="sm:col-span-1 ml-10">
-              <dt class="input-text-label">
-                Breed
-              </dt>
               <GwInputField
                 v-model="clientInfo.pet[0].breed"
                 placeholder="click here"
+                label="Breed"
                 type="text"
                 @input="focusField"
               />
@@ -158,13 +147,11 @@
             <div class="sm:col-span-1 flex">
               <i class="ns-envelope text-2xl invisible"></i>
               <div class="ml-4">
-                <dt class="input-text-label">
-                  Age
-                </dt>
                 <GwInputField
                   v-model="clientInfo.pet[0].age"
                   placeholder="click here"
                   type="text"
+                  label="Age"
                   @input="focusField"
                 />
               </div>
@@ -298,12 +285,6 @@ export default {
     },
     focusField () {
       this.showButtons = true
-    },
-    blurField () {
-      this.editField = ''
-    },
-    showField (name) {
-      return this.clientInfo[name] === '' || this.editField === name
     }
   }
 }

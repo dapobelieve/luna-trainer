@@ -1,6 +1,6 @@
 <template>
   <div class="gw-text-input">
-    <label v-if="label" :for="idName">
+    <label v-if="label" :for="idName" class="input-text-label block">
       {{ label }}
     </label>
     <input
