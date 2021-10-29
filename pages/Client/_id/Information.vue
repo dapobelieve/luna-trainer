@@ -298,12 +298,6 @@ export default {
     },
     focusField () {
       this.showButtons = true
-    },
-    blurField () {
-      this.editField = ''
-    },
-    showField (name) {
-      return this.clientInfo[name] === '' || this.editField === name
     }
   }
 }
