@@ -2,19 +2,24 @@
   <div>
     <template v-if="invoices && invoices.length">
       <div class="flex mt-1 px-3 mb-5">
-        <div class="actions">
-          <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
+        <div class="actions flex justify-between items-center w-full">
+          <div>
+            <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
             <i class="ns-archive mr-1"></i>
             <span>Archive</span>
           </span>
-          <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
+            <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
             <i class="ns-download mr-1"></i>
             <span>Export</span>
           </span>
-          <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
+            <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
             <i class="ns-download mr-1"></i>
             <span>Exporting...</span>
           </span>
+          </div>
+          <div>
+            <SearchDropdown />
+          </div>
         </div>
       </div>
       <GwPagination v-if="invoices" :total-items="invoices.length">
@@ -107,12 +112,14 @@
 
 <script>
 import InvoiceStatusComponent from '~/components/InvoiceStatusComponent'
+import SearchDropdown from "~/components/invoices/SearchDropdown";
 export default {
   name: 'SentInvoice',
-  components: { InvoiceStatusComponent },
-  async asyncData (ctx) {
-    const res = await ctx.store.dispatch('invoice/getInvoices', { status: 'pending', workflowStatus: 'sent' })
-    return { invoices: res }
+  components: {SearchDropdown, InvoiceStatusComponent },
+  async mounted (ctx) {
+    const res = await this.$store.dispatch('invoice/getInvoices', { status: 'pending', workflowStatus: 'sent' })
+    this.invoices = res
+    // return { invoices: res }
   },
   data () {
     return {

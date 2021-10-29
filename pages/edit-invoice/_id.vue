@@ -5,20 +5,14 @@
         <span class="text-xl capitalize">
           client
         </span>
-        <button type="button" @click="$modal.show('inviteClientModal')">
-          <img
-            class="h-4"
-            src="~/assets/img/svgs/plus-icon.svg"
-            alt=""
-            srcset=""
-          />
+        <!-- Not needed-->
+        <button disabled type="button" @click="$modal.show('inviteClientModal')">
+          <img class="h-4" src="~/assets/img/svgs/plus-icon.svg" alt="" srcset="" />
         </button>
       </template>
       <template v-slot:content>
         <div>
-          <label
-            class="input-text-label"
-          >
+          <label class="input-text-label">
             Choose
           </label>
           <gw-customer-selector v-model="invoiceDetails.customerId" disabled :clients="allClients">
@@ -41,7 +35,7 @@
           <p class="capitalize text-xl font-normal">
             invoice service &amp; items
           </p>
-          <button type="button" @click="$modal.show('add-service-modal')">
+          <button type="button" @click="serviceObject=null; $modal.show('add-service-modal')">
             <img
               class="h-4"
               src="~/assets/img/svgs/plus-icon.svg"
@@ -78,6 +72,14 @@
                   </div>
                 </div>
               </template>
+              <template v-slot:footer>
+                <button type="button" class="py-2 outline-none" @click="$modal.show('add-service-modal')">
+                  <div class="flex px-2 ml-1 items-center justify-center">
+                    <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
+                    <span class="text-primary-color text-base pl-2">Add New Item</span>
+                  </div>
+                </button>
+              </template>
             </gw-customer-selector>
 
             <div
@@ -99,35 +101,8 @@
                     {{ service.subtitle }}
                   </p>
                 </div>
-                <div class="flex items-center space-x-2">
-                  <span> {{ service.pricing.amount | amount }} </span>
-                  <div class="relative">
-                    <button type="button" @click="showDropdown">
-                      <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
-                    </button>
-                    <!-- dropdown menu -->
-                    <div
-                      v-show="showDropDown"
-                      class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
-                    >
-                      <div class="py-2" role="none">
-                        <button
-                          type="button"
-                          class="dropdown-button"
-                          @click="editServiceItem(index)"
-                        >
-                          Edit
-                        </button>
-                        <button
-                          type="button"
-                          class="dropdown-button"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ServiceDisplay :service="service" @edit-service="editServiceItem($event)">
+                </ServiceDisplay>
               </div>
             </div>
           </div>
@@ -395,18 +370,20 @@
 
     <!-- modals -->
     <!-- invite clietn modal -->
-    <modal name="inviteClientModal" height="auto" :adaptive="true">
-      <InviteNewClient
-        class="m-6"
-        @close="$modal.hide('inviteClientModal')"
-      />
-    </modal>
+    <!--    <modal name="inviteClientModal" height="auto" :adaptive="true">-->
+    <!--      <InviteNewClient-->
+    <!--        class="m-6"-->
+    <!--        @close="$modal.hide('inviteClientModal')"-->
+    <!--      />-->
+    <!--    </modal>-->
 
     <!-- adding and editing services modal -->
     <modal name="add-service-modal" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service
         class="m-6"
+        :service-object="serviceObject"
         :selected-service-index="selectedServiceProps"
+        @edited="updateInvoice(false); fetchInvoice()"
         @clearSelectedServiceIndex="selectedServiceProps = $event"
         @close-modal="$modal.hide('add-service-modal')"
       />
@@ -429,9 +406,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
+import ServiceDisplay from '~/components/invoices/ServiceDisplay'
 export default {
   name: 'EditInvoice',
-  components: { DatePicker },
+  components: { ServiceDisplay, DatePicker },
   inject: ['sharedPage'],
   layout: 'invoice',
   data () {
@@ -439,13 +417,23 @@ export default {
       invoiceDetails: null,
       isLoading: false,
       showDropDown: false,
-      selectedServiceProps: null
+      selectedServiceProps: null,
+      serviceObject: null
     }
   },
   computed: {
     ...mapGetters({
       allClients: 'client/getAllClients'
     }),
+    selectedServices: {
+      get () {
+        return this.invoiceDetails.items
+      },
+      set (newVal) {
+        this.invoiceDetails.items = [...newVal]
+        console.log(newVal)
+      }
+    },
     client () {
       return this.invoiceDetails.customerId
     },
@@ -464,20 +452,25 @@ export default {
   },
   async mounted () {
     this.sharedPage.page = 'Edit Invoice'
-    try {
-      const { data } = await this.$store.dispatch('invoice/getSingleInvoice', this.$route.params.id)
-      this.invoiceDetails = data
-
-      if (this.invoiceDetails) {
-        this.invoiceDetails.items = this.invoiceDetails.items.map((item) => {
-          return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]
-        })
-      }
-    } catch (e) {
-      console.log(e)
-    }
+    await this.fetchInvoice()
   },
   methods: {
+    async fetchInvoice () {
+      console.log('Fetching...')
+      try {
+        const { data } = await this.$store.dispatch('invoice/getSingleInvoice', this.$route.params.id)
+        this.invoiceDetails = { ...data }
+        // this.$set(this.invoiceDetails, this.invoiceDetails, data)
+
+        if (this.invoiceDetails) {
+          this.invoiceDetails.items = this.invoiceDetails.items.map((item) => {
+            return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]
+          })
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
     switchTabs (evt, cityName) {
       // Declare all variables
       let i, tabcontent, tablinks
@@ -500,18 +493,17 @@ export default {
       document.getElementById(cityName).style.display = 'block'
       evt.currentTarget.className += ' active'
     },
-    showDropdown () {
-      this.showDropDown = !this.showDropDown
-    },
-    editServiceItem (id) {
-      this.selectedServiceProps = id
+    editServiceItem (service) {
+      this.serviceObject = { ...service }
       this.$modal.show('add-service-modal')
     },
-    async updateInvoice () {
+    async updateInvoice (redirect = true) {
       try {
         await this.$store.dispatch('invoice/updateInvoice', { ...this.invoiceDetails })
         this.$toast.success('Invoice updated', { position: 'top-right' })
-        this.$router.push({ name: 'Invoices-drafts' })
+        if(redirect) {
+          this.$router.push({ name: 'Invoices-drafts' })
+        }
       } catch (e) {
         //
       }
