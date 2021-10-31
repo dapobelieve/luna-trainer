@@ -173,4 +173,12 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+@media print {
+  .page-header,
+  .navigation,
+  .gw-header{
+    display: none !important;
+  }
+}
+</style>

@@ -1,19 +1,21 @@
 <template>
   <ClickOutside :do="() => { show = false}">
     <div class="relative">
-      <slot v-bind:toggleMenu="toggle" name="field"></slot>
+      <slot :toggleMenu="toggle" name="field"></slot>
       <div v-if="show" class="absolute right-0 bg-white my-1.5 w-44 border shadow z-40 rounded">
         <div class="p-1">
           <input ref="search" v-model="search" class="mb-4 px-1 py-0.5 text-sm focus:outline-none focus:border-blue-100 h-7 rounded-sm border shadow-sm w-full " />
         </div>
         <div>
           <ul v-if="filteredRecords" class="">
-            <li @click="select(option)" v-for="option in filteredRecords" class="">
-              <slot v-bind:option="option" name="option"></slot>
+            <li v-for="(option, index) in filteredRecords" :key="index" class="" @click="select(option)">
+              <slot :option="option" name="option"></slot>
             </li>
           </ul>
         </div>
-        <div v-if="filteredRecords.length === 0" class="text-sm text-center">No Results</div>
+        <div v-if="filteredRecords.length === 0" class="text-sm text-center">
+          No Results
+        </div>
       </div>
     </div>
   </ClickOutside>
@@ -25,7 +27,7 @@ export default {
       type: Array
     }
   },
-  data() {
+  data () {
     return {
       value: null,
       search: '',
@@ -33,41 +35,41 @@ export default {
     }
   },
   computed: {
-    filteredRecords() {
-      if(this.options && this.options.length > 0) {
-        let records = this.options;
+    filteredRecords () {
+      // if (this.options && this.options.length > 0) {
+      let records = this.options
 
-        records = records.filter((row) => {
-          return Object.keys(row).some((key) => {
-            return String(row[key]).toLowerCase().indexOf(this.search.toLowerCase()) > -1
-          })
+      records = records.filter((row) => {
+        return Object.keys(row).some((key) => {
+          return String(row[key]).toLowerCase().includes(this.search.toLowerCase())
         })
-        
-        records = [...new Set(records.map((o) => JSON.stringify(o)))].map((string) => JSON.parse(string))
-        return records
-      }
+      })
+
+      records = [...new Set(records.map(o => JSON.stringify(o)))].map(string => JSON.parse(string))
+      return records
+      // }
     }
   },
   methods: {
-    select(option) {
-      this.value = option;
+    select (option) {
+      this.value = option
       this.$emit('selected', option)
       this.close()
     },
-    toggle() {
+    toggle () {
       this.show = !this.show
-      if(this.show) {
+      if (this.show) {
         this.$nextTick(() => {
           this.$refs.search.focus()
         })
       }
     },
-    open() {
-      this.show=true
+    open () {
+      this.show = true
     },
-    close() {
-      this.search = ""
-      this.show=false
+    close () {
+      this.search = ''
+      this.show = false
     }
   }
 }

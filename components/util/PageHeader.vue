@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white sm:flex z-30 sm:items-center sm:justify-between px-5 py-3 sticky top-0 shadow-md">
+  <div class="bg-white sm:flex z-30 sm:items-center sm:justify-between px-5 py-3 sticky top-0 shadow-md page-header">
     <h3 class="text-lg leading-6 font-medium text-gray-900">
       <div class="flex items-center">
         <slot name="back-button" />

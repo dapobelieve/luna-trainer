@@ -9,18 +9,18 @@
               <span>Archive</span>
             </span>
             <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
-            <i class="ns-download mr-1"></i>
-            <span>Export</span>
-          </span>
+              <i class="ns-download mr-1"></i>
+              <span>Export</span>
+            </span>
             <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
-            <i class="ns-download mr-1"></i>
-            <span>Exporting...</span>
-          </span>
+              <i class="ns-download mr-1"></i>
+              <span>Exporting...</span>
+            </span>
           </div>
           <div class="flex">
             <SearchDropdown :options="filteredRecords.map(invoice => invoice.customerId)" class="mr-10">
               <template v-slot:field="{toggleMenu}">
-                <div @click="toggleMenu" class="cursor-pointer mr-4 items-center inline-flex text-sm ">
+                <div class="cursor-pointer mr-4 items-center inline-flex text-sm " @click="toggleMenu">
                   <span class="text-gray-500">Name</span>
                   <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
                 </div>
@@ -38,7 +38,7 @@
             </SearchDropdown>
             <SearchDropdown :options="filteredRecords.map(invoice => invoice.status)" class="mr-10">
               <template v-slot:field="{toggleMenu}">
-                <div @click="toggleMenu" class="cursor-pointer mr-4 items-center inline-flex text-sm ">
+                <div class="cursor-pointer mr-4 items-center inline-flex text-sm " @click="toggleMenu">
                   <span class="text-gray-500">Status</span>
                   <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
                 </div>
@@ -47,7 +47,7 @@
                 <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
                   <div class="ml-4 py-2">
                     <span class="text-sm font-medium text-gray-700">
-                      {{ option.toUpperCase() }} 
+                      {{ option.toUpperCase() }}
                     </span>
                   </div>
                 </div>
@@ -58,7 +58,7 @@
       </div>
       <GwPagination v-if="filteredRecords" :total-items="filteredRecords.length">
         <template v-slot:content>
-          {{quickSearchQuery}}
+          {{ quickSearchQuery }}
           <div class="overflow-scroll lg:overflow-hidden">
             <table class="table-auto table bg-white w-full text-xs rounded-md">
               <thead class="">
@@ -86,7 +86,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']">
+                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'Invoices-id', params: {id: data._id}})">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -147,34 +147,29 @@
 
 <script>
 import InvoiceStatusComponent from '~/components/InvoiceStatusComponent'
-import SearchDropdown from "~/components/invoices/SearchDropdown";
+import SearchDropdown from '~/components/invoices/SearchDropdown'
 export default {
   name: 'SentInvoice',
-  components: {SearchDropdown, InvoiceStatusComponent },
-  async mounted (ctx) {
-    const res = await this.$store.dispatch('invoice/getInvoices', { status: 'pending', workflowStatus: 'sent' })
-    this.invoices = res
-    // return { invoices: res }
-  },
-  computed: {
-    filteredRecords() {
-      let records  = this.invoices
-      records = records.filter((row) => {
-        return Object.keys(row).some((key) => {
-          return String(row[key]).toLowerCase().indexOf(this.quickSearchQuery.toLowerCase()) > -1
-        })
-      })
-      
-      return records;
-    }
-  },
+  components: { SearchDropdown, InvoiceStatusComponent },
   data () {
     return {
       selectAll: false,
-      quickSearchQuery: "",
+      quickSearchQuery: '',
       exporting: false,
       checkedItems: [],
       invoices: null
+    }
+  },
+  computed: {
+    filteredRecords () {
+      let records = this.invoices
+      records = records.filter((row) => {
+        return Object.keys(row).some((key) => {
+          return String(row[key]).toLowerCase().includes(this.quickSearchQuery.toLowerCase())
+        })
+      })
+
+      return records
     }
   },
   watch: {
@@ -189,6 +184,11 @@ export default {
         this.selectAll = false
       }
     }
+  },
+  async mounted (ctx) {
+    const res = await this.$store.dispatch('invoice/getInvoices', { status: 'pending', workflowStatus: 'sent' })
+    this.invoices = res
+    // return { invoices: res }
   },
   methods: {
     downloadDocument (response) {
@@ -224,9 +224,6 @@ export default {
       } finally {
         this.exporting = false
       }
-    },
-    displaySentInvoicePage (id) {
-      this.$router.push(`/Invoices/${id}`)
     }
   }
 }

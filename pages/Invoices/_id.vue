@@ -1,7 +1,11 @@
 <template>
   <div>
     <PageLoader v-if="isLoading" />
-    <div v-else id="printInvoice" class="flex flex-col justify-center align-center mt-6 w-full md:w-4/5 lg:w-3/6 text-gray-700 mx-auto bg-white rounded-md">
+    <div
+      v-else
+      id="printInvoice"
+      class="flex body flex-col justify-center align-center mt-6 w-full md:w-4/5 lg:w-3/6 text-gray-700 mx-auto bg-white rounded-md"
+    >
       <div class="m-4">
         <div class="flex items-center justify-between px-3">
           <h3 class="text-xl md:text-2xl">
@@ -9,9 +13,7 @@
           </h3>
           <InvoiceStatusComponent status="paid" />
         </div>
-        <dl
-          class=" grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 mt-4"
-        >
+        <dl class=" grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 mt-4">
           <div class="sm:col-span-1 flex">
             <div class="ml-4">
               <dt class="text-base">
@@ -44,9 +46,11 @@
                   </template>
                   <div class="ml-4">
                     <h6 class=" text-base  text-gray-700  text-capitalize">
-                      {{ client && client.customerId.firstName }}  {{ client && client.customerId.lastName }}
+                      {{ client && client.customerId.firstName }}
+                      {{ client && client.customerId.lastName }}
                     </h6>
-                    <span class=" text-sm  text-gray-500"> {{ client && client.customerId.email }}</span>
+                    <span class=" text-sm  text-gray-500">
+                      {{ client && client.customerId.email }}</span>
                   </div>
                 </div>
               </dd>
@@ -91,15 +95,21 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in client && client.items" :key="item._id" class="text-center  text-gray-500">
-                <td class=" py-4  text-left text-base text-gray-700 pl-4 pr-6  w-2/5">
-                  {{ item.description || '' }}
+              <tr
+                v-for="item in client && client.items"
+                :key="item._id"
+                class="text-center  text-gray-500"
+              >
+                <td
+                  class=" py-4  text-left text-base text-gray-700 pl-4 pr-6  w-2/5"
+                >
+                  {{ item.description || "" }}
                 </td>
                 <td class=" py-4 text-base text-gray-700 px-6">
                   {{ item.qty }}
                 </td>
                 <td class=" py-4 text-base text-gray-700 px-6">
-                  {{ currency }}  {{ item.price }}
+                  {{ currency }} {{ item.price }}
                 </td>
                 <td class=" py-4 text-base text-gray-700 pl-6">
                   {{ currency }} {{ item.price * item.qty }}
@@ -164,6 +174,6 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
 
 </style>

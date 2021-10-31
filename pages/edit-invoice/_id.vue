@@ -87,7 +87,7 @@
               class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
             >
               <div
-                v-for="(service, index) in invoiceDetails.items"
+                v-for="(service) in invoiceDetails.items"
                 :key="service._id"
                 class="flex justify-between items-center"
               >
@@ -501,7 +501,7 @@ export default {
       try {
         await this.$store.dispatch('invoice/updateInvoice', { ...this.invoiceDetails })
         this.$toast.success('Invoice updated', { position: 'top-right' })
-        if(redirect) {
+        if (redirect) {
           this.$router.push({ name: 'Invoices-drafts' })
         }
       } catch (e) {

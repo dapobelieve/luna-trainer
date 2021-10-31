@@ -34,10 +34,10 @@
             <i class="ns-check text-lg text-green-500"></i>
           </p>
           <p class="font-medium whitespace-nowrap">
-            Stripe ready !
+            Stripe ready!
           </p>
         </div>
-        <div v-else-if="isStripeConnected" class="flex items-center space-x-2">
+        <div v-else-if="isStripeConnected && stripeErrors" class="flex items-center space-x-2">
           <button
             :class="[
               'bg-indigo-500 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
@@ -150,7 +150,8 @@ export default {
       return this.allClients && this.isStripeReady && this.isStripeConnected
     },
     stripeErrors () {
-      return this.$auth.user.stripe?.requirements.errors
+      const stripeOptions = this.$auth.user.stripe
+      return stripeOptions && stripeOptions.requirements && stripeOptions.requirements.errors
     }
   },
   methods: {
