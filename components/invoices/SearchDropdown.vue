@@ -1,34 +1,75 @@
 <template>
-  <ClickOutside :do="() => {}">
-    <div class="relative search-select w-[200px] bg-white shadow rounded px-1.5 py-1">
-      <button @click="show = !show" class="search-select-input w-full text-gray-600">
-      <span class="search-field  text-sm inline-flex items-center">
-        <span class="font-light">Name</span>
-        <i class="ns-caret-down"></i>
-      </span>
-        <span class="search-item border w-full border-blue-50 text-sm font-light ml-1 text-gray-200 pl-2 text-left">
-        Search term
-      </span>
-      </button>
-      <div v-if="show" class="absolute bg-white origin-bottom my-1.5 w-full border shadow z-40 rounded p-1">
-        <input class="mb-4 px-1 py-0.5 text-sm focus:outline-none focus:border-blue-500 h-8 rounded-sm border shadow-sm w-full " />
-        <ul class="">
-          <li v-for="x in 6" class="h-8 py-1 px-1.5 border">
-            <div>1</div>
-          </li>
-        </ul>
+  <ClickOutside :do="() => { show = false}">
+    <div class="relative">
+      <slot v-bind:toggleMenu="toggle" name="field"></slot>
+      <div v-if="show" class="absolute right-0 bg-white my-1.5 w-44 border shadow z-40 rounded">
+        <div class="p-1">
+          <input ref="search" v-model="search" class="mb-4 px-1 py-0.5 text-sm focus:outline-none focus:border-blue-100 h-7 rounded-sm border shadow-sm w-full " />
+        </div>
+        <div>
+          <ul v-if="filteredRecords" class="">
+            <li @click="select(option)" v-for="option in filteredRecords" class="">
+              <slot v-bind:option="option" name="option"></slot>
+            </li>
+          </ul>
+        </div>
+        <div v-if="filteredRecords.length === 0" class="text-sm text-center">No Results</div>
       </div>
     </div>
   </ClickOutside>
 </template>
-
 <script>
 export default {
-  data() {
-    return {
-      show: true
+  props: {
+    options: {
+      type: Array
     }
   },
+  data() {
+    return {
+      value: null,
+      search: '',
+      show: false
+    }
+  },
+  computed: {
+    filteredRecords() {
+      if(this.options && this.options.length > 0) {
+        let records = this.options;
+
+        records = records.filter((row) => {
+          return Object.keys(row).some((key) => {
+            return String(row[key]).toLowerCase().indexOf(this.search.toLowerCase()) > -1
+          })
+        })
+        
+        records = [...new Set(records.map((o) => JSON.stringify(o)))].map((string) => JSON.parse(string))
+        return records
+      }
+    }
+  },
+  methods: {
+    select(option) {
+      this.value = option;
+      this.$emit('selected', option)
+      this.close()
+    },
+    toggle() {
+      this.show = !this.show
+      if(this.show) {
+        this.$nextTick(() => {
+          this.$refs.search.focus()
+        })
+      }
+    },
+    open() {
+      this.show=true
+    },
+    close() {
+      this.search = ""
+      this.show=false
+    }
+  }
 }
 </script>
 

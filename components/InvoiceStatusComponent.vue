@@ -23,7 +23,7 @@ export default {
           text: 'text-red-500',
           bg: 'bg-red-50'
         },
-        outstanding: {
+        pending: {
           text: 'text-yellow-500',
           bg: 'bg-yellow-50'
         }

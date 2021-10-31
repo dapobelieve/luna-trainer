@@ -5,9 +5,9 @@
         <div class="actions flex justify-between items-center w-full">
           <div>
             <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
-            <i class="ns-archive mr-1"></i>
-            <span>Archive</span>
-          </span>
+              <i class="ns-archive mr-1"></i>
+              <span>Archive</span>
+            </span>
             <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
             <i class="ns-download mr-1"></i>
             <span>Export</span>
@@ -17,13 +17,48 @@
             <span>Exporting...</span>
           </span>
           </div>
-          <div>
-            <SearchDropdown />
+          <div class="flex">
+            <SearchDropdown :options="filteredRecords.map(invoice => invoice.customerId)" class="mr-10">
+              <template v-slot:field="{toggleMenu}">
+                <div @click="toggleMenu" class="cursor-pointer mr-4 items-center inline-flex text-sm ">
+                  <span class="text-gray-500">Name</span>
+                  <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
+                </div>
+              </template>
+              <template v-slot:option="{option}">
+                <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer  ">
+                  <ClientAvatar :height="1" :width="1" :client-info="option" />
+                  <div class="ml-4">
+                    <span class="text-xs text-gray-700">
+                      {{ option.firstName }}  {{ option.lastName }}
+                    </span>
+                  </div>
+                </div>
+              </template>
+            </SearchDropdown>
+            <SearchDropdown :options="filteredRecords.map(invoice => invoice.status)" class="mr-10">
+              <template v-slot:field="{toggleMenu}">
+                <div @click="toggleMenu" class="cursor-pointer mr-4 items-center inline-flex text-sm ">
+                  <span class="text-gray-500">Status</span>
+                  <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
+                </div>
+              </template>
+              <template v-slot:option="{option}">
+                <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
+                  <div class="ml-4 py-2">
+                    <span class="text-sm font-medium text-gray-700">
+                      {{ option.toUpperCase() }} 
+                    </span>
+                  </div>
+                </div>
+              </template>
+            </SearchDropdown>
           </div>
         </div>
       </div>
-      <GwPagination v-if="invoices" :total-items="invoices.length">
+      <GwPagination v-if="filteredRecords" :total-items="filteredRecords.length">
         <template v-slot:content>
+          {{quickSearchQuery}}
           <div class="overflow-scroll lg:overflow-hidden">
             <table class="table-auto table bg-white w-full text-xs rounded-md">
               <thead class="">
@@ -51,7 +86,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in invoices" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data.customerId._id) ? 'active' : '']">
+                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -82,7 +117,7 @@
                     </div>
                   </td>
                   <td class="py-4 px-6">
-                    <InvoiceStatusComponent status="paid" />
+                    <InvoiceStatusComponent :status="data.status" />
                   </td>
                 </tr>
               </tbody>
@@ -121,9 +156,22 @@ export default {
     this.invoices = res
     // return { invoices: res }
   },
+  computed: {
+    filteredRecords() {
+      let records  = this.invoices
+      records = records.filter((row) => {
+        return Object.keys(row).some((key) => {
+          return String(row[key]).toLowerCase().indexOf(this.quickSearchQuery.toLowerCase()) > -1
+        })
+      })
+      
+      return records;
+    }
+  },
   data () {
     return {
       selectAll: false,
+      quickSearchQuery: "",
       exporting: false,
       checkedItems: [],
       invoices: null
@@ -185,6 +233,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.client >>> span {
+  ::v-deep span {
+    font-size: 9px !important;
+  }
+}
 input[type='checkbox'] {
   background: red !important;
   padding: 10rem;
