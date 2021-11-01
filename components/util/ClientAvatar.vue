@@ -1,6 +1,6 @@
 <template>
   <span v-if="!isImgAvailable" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-50" :style="altStyling">
-    <span class="text-sm font-medium leading-none text-indigo-500">{{ displayInitials }}</span>
+    <span class="text-xs font-medium leading-none text-indigo-500">{{ displayInitials }}</span>
   </span>
   <img
     v-else

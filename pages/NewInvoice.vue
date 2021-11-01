@@ -36,6 +36,14 @@
                 </div>
               </div>
             </template>
+            <template v-slot:footer>
+              <button type="button" class="py-2 outline-none" @click="$modal.show('inviteClientModal')">
+                <div class="flex px-2 ml-1 items-center justify-center">
+                  <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
+                  <span class="text-primary-color text-base pl-2">Add New Client</span>
+                </div>
+              </button>
+            </template>
           </gw-customer-selector>
         </div>
         <div class="flex items-center justify-between">
@@ -74,14 +82,21 @@
                   </div>
                 </div>
               </template>
+              <template v-slot:footer>
+                <button type="button" class="py-2 outline-none" @click="$modal.show('add-service-modal')">
+                  <div class="flex px-2 ml-1 items-center justify-center">
+                    <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
+                    <span class="text-primary-color text-base pl-2">Add New Item</span>
+                  </div>
+                </button>
+              </template>
             </gw-customer-selector>
-
             <div
               v-if="invoiceDetails.services.length"
               class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
             >
               <div
-                v-for="(service, index) in invoiceDetails.services"
+                v-for="(service) in invoiceDetails.services"
                 :key="service._id"
                 class="flex justify-between items-center"
               >
@@ -110,7 +125,7 @@
                         <button
                           type="button"
                           class="dropdown-button"
-                          @click="editServiceItem(index)"
+                          @click="editServiceItem(service)"
                         >
                           Edit
                         </button>
@@ -194,6 +209,7 @@
     <modal name="add-service-modal" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service
         class="m-6"
+        :service-object="serviceObject"
         :selected-service-index="selectedServiceProps"
         @clearSelectedServiceIndex="selectedServiceProps = $event"
         @close-modal="$modal.hide('add-service-modal')"
@@ -229,6 +245,7 @@ export default {
       },
       isLoading: false,
       showDropDown: false,
+      serviceObject: null,
       selectedServiceProps: null
     }
   },
@@ -251,7 +268,7 @@ export default {
       this.showDropDown = !this.showDropDown
     },
     editServiceItem (id) {
-      this.selectedServiceProps = id
+      this.serviceObject = id
       this.$modal.show('add-service-modal')
     },
     createInvoice () {
