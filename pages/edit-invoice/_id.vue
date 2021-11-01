@@ -366,7 +366,7 @@
         </div>
       </section>
     </div>
-    
+
     <!-- adding and editing services modal -->
     <modal name="add-service-modal" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service

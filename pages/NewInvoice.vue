@@ -96,7 +96,7 @@
               class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
             >
               <div
-                v-for="(service, index) in invoiceDetails.services"
+                v-for="(service) in invoiceDetails.services"
                 :key="service._id"
                 class="flex justify-between items-center"
               >
