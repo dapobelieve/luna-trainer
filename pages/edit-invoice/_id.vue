@@ -5,7 +5,6 @@
         <span class="text-xl capitalize">
           client
         </span>
-        <!-- Not needed-->
         <button disabled type="button" @click="$modal.show('inviteClientModal')">
           <img class="h-4" src="~/assets/img/svgs/plus-icon.svg" alt="" srcset="" />
         </button>
@@ -367,16 +366,7 @@
         </div>
       </section>
     </div>
-
-    <!-- modals -->
-    <!-- invite clietn modal -->
-    <!--    <modal name="inviteClientModal" height="auto" :adaptive="true">-->
-    <!--      <InviteNewClient-->
-    <!--        class="m-6"-->
-    <!--        @close="$modal.hide('inviteClientModal')"-->
-    <!--      />-->
-    <!--    </modal>-->
-
+    
     <!-- adding and editing services modal -->
     <modal name="add-service-modal" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service
@@ -460,8 +450,6 @@ export default {
       try {
         const { data } = await this.$store.dispatch('invoice/getSingleInvoice', this.$route.params.id)
         this.invoiceDetails = { ...data }
-        // this.$set(this.invoiceDetails, this.invoiceDetails, data)
-
         if (this.invoiceDetails) {
           this.invoiceDetails.items = this.invoiceDetails.items.map((item) => {
             return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]

@@ -36,7 +36,6 @@ export default {
   },
   computed: {
     filteredRecords () {
-      // if (this.options && this.options.length > 0) {
       let records = this.options
 
       records = records.filter((row) => {
@@ -47,7 +46,6 @@ export default {
 
       records = [...new Set(records.map(o => JSON.stringify(o)))].map(string => JSON.parse(string))
       return records
-      // }
     }
   },
   methods: {
