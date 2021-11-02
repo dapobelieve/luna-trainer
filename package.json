@@ -27,6 +27,7 @@
     "core-js": "^3.9.1",
     "crypto-js": "^4.0.0",
     "date-fns": "^2.25.0",
+    "lodash.debounce": "^4.0.8",
     "lodash.isequal": "^4.5.0",
     "nuxt": "^2.15.3",
     "sendbird": "^3.0.154",
