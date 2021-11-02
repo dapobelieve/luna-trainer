@@ -186,7 +186,7 @@ export default {
     }
   },
   async mounted (ctx) {
-    const res = await this.$store.dispatch('invoice/getInvoices', { status: 'pending', workflowStatus: 'sent' })
+    const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
     this.invoices = res
     // return { invoices: res }
   },
