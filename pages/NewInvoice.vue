@@ -286,7 +286,7 @@ export default {
   },
   watch: {
     invoiceDetails: {
-      handler (newValue, oldValue) {
+      handler (newValue) {
         if (newValue.client !== null && this.invoiceId === null) {
           this.$nuxt.$emit('autosaving-invoice')
           return this.createNewInvoice(this.invoiceToBeSent).then((result) => {
