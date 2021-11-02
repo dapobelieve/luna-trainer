@@ -5,6 +5,7 @@
     </label>
     <input
       :id="idName"
+      :style="computeStyle"
       :type="type"
       :class="className"
       :required="required"
@@ -86,6 +87,17 @@ export default {
     appendText: {
       type: String,
       default: null
+    },
+    alignRight: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    computeStyle () {
+      return {
+        'text-align': this.alignRight ? 'right' : 'left'
+      }
     }
   },
   methods: {

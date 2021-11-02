@@ -2,11 +2,11 @@
   <async-view>
     <div v-if="clientInfo" class="py-4 px-8">
       <div class="grid gap-6 text-sm">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center relative">
           <h2 class="font-normal text-xl to-gray-700">
             Information
           </h2>
-          <div v-if="showButtons" class="flex">
+          <div v-if="showButtons" class="flex absolute right-0">
             <button
               :disabled="cancelLoading "
               type="button"
@@ -35,9 +35,22 @@
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <p class="capitalize font-normal text-xl mt-3">
-              {{ fullName }}
-            </p>
+            <div class="capitalize font-normal flex space-x-4 text-xl mt-3">
+              <GwInputField
+                v-model="clientInfo.firstName"
+                :align-right="true"
+                placeholder="click here"
+                type="text"
+                style="text-align: right !important"
+                @input="focusField"
+              />
+              <GwInputField
+                v-model="clientInfo.lastName"
+                placeholder="Add last name"
+                type="text"
+                @input="focusField"
+              />
+            </div>
             <small
               class="text-sm text-gray-400 mt-3"
             >Double click on text to edit</small>
@@ -246,6 +259,8 @@ export default {
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
+          firstName: this.clientInfo.firstName,
+          lastName: this.clientInfo.lastName,
           location: this.clientInfo.location,
           zip: this.clientInfo.zip,
           city: this.clientInfo.city,
