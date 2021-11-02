@@ -92,7 +92,9 @@ export default {
         this.isLoading = true
         await this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
           if (response.status === 'successful') {
-            this.$toast.success('Reset password sent to your email', { position: 'bottom-right' })
+            this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
+              this.$toast.success('Reset password sent to your email', { position: 'bottom-right' })
+            })
           }
         }).catch((err) => {
           if (err.response) {
