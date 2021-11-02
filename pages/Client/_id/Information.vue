@@ -46,7 +46,7 @@
               />
               <GwInputField
                 v-model="clientInfo.lastName"
-                placeholder="click here"
+                placeholder="Add last name"
                 type="text"
                 @input="focusField"
               />
