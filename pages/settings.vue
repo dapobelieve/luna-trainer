@@ -1,24 +1,30 @@
 <template>
-  <div>
-    <PageHeader >
+  <div class="bg-blue-50 h-full">
+    <PageHeader>
       <template v-slot:title>
         <span class="font-normal">Settings</span>
       </template>
     </PageHeader>
-    <div class="w-full p-4 flex justify-center">
-      <div class="max-w-xl md:max-w-4xl lg:max-w-full 2xl:max-w-7xl">
+    <div class="w-full p-4 lg:flex lg:justify-center">
+      <div class="max-w-full md:max-w-4xl lg:max-w-full 2xl:max-w-7xl">
         <div class="grid lg:grid-cols-3 gap-4">
-          <div class="hidden lg:block bg-white border border-gray-200 p-1 shadow-sm rounded-xl">
-            <div v-for="menu in settingsMenu" @click="$router.push({name: menu.route})" :class="[activeRoute.path.includes(menu.name) ? 'bg-blue-50' : '']" class="p-1 flex py-4 px-3 justify-between cursor-pointer items-center rounded-lg hover:bg-blue-50">
-              <div class="h-12 w-12 bg-gray-50 flex-shrink-0 flex items-center justify-center rounded-full">
-                <i :class="[menu.icon, activeRoute.path.includes(menu.name) ? 'text-blue-500' : 'text-gray-500' ]" class=" text-2xl"></i>
-              </div>
-              <div  class="md:w-4/5 w-60 text-gray-500">
-                <h6 class="text-base">{{ `${menu.name.charAt(0).toUpperCase()}${menu.name.substr(1)}` }}</h6>
-                <p class="text-xs">{{ menu.details }}</p>
-              </div>
-              <div>
-                <i class="ns-angle-right text-xl text-blue-500"></i>
+          <div class="hidden lg:block grid grid-rows-2">
+            <div class="bg-white border border-gray-200 p-1 shadow-sm rounded-xl">
+              <div v-for="(menu, index) in settingsMenu" :key="index" :class="[activeRoute.path.includes(menu.name) ? 'bg-blue-50' : '']" class="p-1 flex py-4 px-3 justify-between cursor-pointer items-center rounded-lg hover:bg-blue-50" @click="$router.push({name: menu.route})">
+                <div class="h-12 w-12 bg-gray-50 flex-shrink-0 flex items-center justify-center rounded-full">
+                  <i :class="[menu.icon, activeRoute.path.includes(menu.name) ? 'text-blue-500' : 'text-gray-500' ]" class=" text-2xl"></i>
+                </div>
+                <div class="md:w-4/5 w-60 text-gray-500">
+                  <h6 class="text-base">
+                    {{ `${menu.name.charAt(0).toUpperCase()}${menu.name.substr(1)}` }}
+                  </h6>
+                  <p class="text-xs">
+                    {{ menu.details }}
+                  </p>
+                </div>
+                <div>
+                  <i class="ns-angle-right text-xl text-blue-500"></i>
+                </div>
               </div>
             </div>
           </div>
@@ -33,7 +39,7 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       settingsMenu: [
         {
@@ -64,10 +70,10 @@ export default {
     }
   },
   computed: {
-    activeRoute() {
-      return this.$route;
+    activeRoute () {
+      return this.$route
     }
-  },
+  }
 }
 </script>
 
