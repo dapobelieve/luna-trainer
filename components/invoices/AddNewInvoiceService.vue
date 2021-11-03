@@ -15,8 +15,8 @@
         <label for="service" class="required">Title</label>
         <input
           id="service"
-          autofocus
           v-model="services.description"
+          autofocus
           placeholder="Separation Anxiety (Replace this description)"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
@@ -209,11 +209,11 @@ export default {
         })
           .then((response) => {
             this.isLoading = false
-            
+
             if (response.status === 'success') {
-              this.$emit('close-modal', {...this.services})
+              this.$emit('close-modal', { ...this.services })
               this.resetSelectedService()
-              this.$toast.success(  'Services updated', {
+              this.$toast.success('Services updated', {
                 position: 'top-right'
               })
             }

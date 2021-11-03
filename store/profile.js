@@ -158,8 +158,8 @@ export const actions = {
         return response
       })
   },
-  async getServices({commit}, payload) {
-    return this.$axios.$get(`${process.env.BASEURL_HOST}/profile/services`);
+  async getServices ({ commit }, payload) {
+    return await this.$axios.$get(`${process.env.BASEURL_HOST}/profile/services`)
   }
 }
 export const getters = {
