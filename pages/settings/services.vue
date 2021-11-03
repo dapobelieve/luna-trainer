@@ -31,7 +31,7 @@
         <h4 class="font-bold text-gray-700 mb-1">
           No Services here yet
         </h4>
-        <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$modal.show('add-service-modal')" >
+        <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$modal.show('service-modal')" >
           <i class="ns-plus text-white"></i>
           <span class="text-font-medium text-white text-base ml-2">Create your first service</span>
         </button>
