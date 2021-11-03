@@ -133,7 +133,7 @@
                 <div class="flex items-center space-x-2">
                   <span> {{ service.pricing.amount | amount }} </span>
                   <div class="relative">
-                    <button type="button" @click="showDropdown">
+                    <button type="button" @click="toggleShowDropdown">
                       <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
                     </button>
                     <!-- dropdown menu -->
@@ -296,7 +296,7 @@ export default {
             }
           })
         } else if (this.invoiceId) {
-          this.debounceWait()
+          this.debounceUpdateInvoice()
         }
       },
       immediate: true,
@@ -304,12 +304,11 @@ export default {
     }
   },
   created () {
-    this.debounceWait = _.debounce(this.updateInvoice, 5000)
+    this.debounceUpdateInvoice = _.debounce(this.updateInvoice, 5000)
   },
   methods: {
     ...mapActions('invoice', {
-      createNewInvoice: 'createInvoice',
-      currentInvoice: 'getSingleInvoice'
+      createNewInvoice: 'createInvoice'
     }),
     updateInvoice () {
       // autosave
@@ -323,7 +322,7 @@ export default {
         console.error(error)
       }
     },
-    showDropdown () {
+    toggleShowDropdown () {
       this.showDropDown = !this.showDropDown
     },
     editServiceItem (id) {
