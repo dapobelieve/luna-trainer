@@ -87,9 +87,7 @@ export const mutations = {
     const gwuser = checkEmptiness ? {} : user
     this.$auth.setUser(gwuser)
     localStorage.setItem('getWelpUser', JSON.stringify(gwuser))
-    console.log(user.services)
     Vue.set(state, 'getWelpUser', user)
-    // state.getWelpUser = gwuser
   }
 }
 
@@ -132,7 +130,6 @@ export const actions = {
     return this.$axios
       .$put(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
-        console.log(response.data)
         commit('SET_GETWELP_USER', response.data)
         return response
       })
@@ -160,6 +157,9 @@ export const actions = {
         commit('SET_GETWELP_USER', response.data)
         return response
       })
+  },
+  async getServices({commit}, payload) {
+    return this.$axios.$get(`${process.env.BASEURL_HOST}/profile/services`);
   }
 }
 export const getters = {

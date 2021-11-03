@@ -1,6 +1,6 @@
 <template>
   <div
-    class="navigation block lg:block lg:flex lg:h-screen z-40 lg:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
+    class="navigation hidden lg:block lg:flex lg:h-screen z-40 lg:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
     <!-- Sidebar Search -->
 
@@ -41,6 +41,7 @@
                 "
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
+                :class="[$route.path.includes(menu.title) ? 'active': '']"
                 class="flex items-center relative navItems"
               >
                 <div
