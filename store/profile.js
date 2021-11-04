@@ -166,8 +166,6 @@ export const getters = {
   getUser: state => state.getWelpUser,
   isStripeConnected: state =>
     state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
-  stripeConnectionPending: state =>
-    state.getWelpUser.stripe && !state.getWelpUser.stripe.connected,
   isStripeReady: state =>
     state.getWelpUser.stripe &&
            state.getWelpUser.stripe.capabilities &&

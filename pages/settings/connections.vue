@@ -46,7 +46,7 @@
     <p class="section-info">
       INTEGRATIONS
     </p>
-    <div v-if="isStripeConnected && stripeUnderReview" class="flex">
+    <!-- <div v-if="isStripeConnected" class="flex">
       <div class="mr-auto">
         <p class="label">
           Connected to Stripe
@@ -55,8 +55,8 @@
           Your stripe account is currently being reviewed.
         </p>
       </div>
-    </div>
-    <div v-else-if="!isStripeConnected" class="flex">
+    </div> -->
+    <div v-if="!isStripeConnected" class="flex">
       <div class="mr-auto">
         <p class="label">
           Connect to Stripe
@@ -111,18 +111,16 @@ export default {
   },
   computed: {
     ...mapGetters('profile', {
-      isStripeConnected: 'isStripeConnected',
-      stripeConnectionPending: 'stripeConnectionPending'
-    }),
-    stripeUnderReview () {
-      const stripeOptions = this.$auth.user.stripe
-      return stripeOptions && Boolean(stripeOptions.capabilities)
-    }
+      isStripeConnected: 'isStripeConnected'
+    })
   },
   methods: {
     ...mapActions('invoice', {
       stripeConnect: 'stripeConnect',
       disconnectStripe: 'disconnectStripe'
+    }),
+    ...mapActions({
+      fetchUserProfile: 'profile/getUserProfile'
     }),
     connect () {
       this.isLoading = true
@@ -139,6 +137,7 @@ export default {
       try {
         const disconnectStripe = await this.disconnectStripe()
         if (disconnectStripe === 'OK') {
+          await this.fetchUserProfile()
           this.isLoading = false
           this.$toast.success('Stripe Diconnect Successful')
         }
