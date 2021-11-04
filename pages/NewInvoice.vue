@@ -317,10 +317,11 @@ export default {
         this.isLoading = true
         const sending = await this.sendInvoice(this.invoiceId)
         if (sending.status === 'success') {
+          this.fetchInvoices()
           this.$toast.success('Invoice sending successful', {
             position: 'top-right'
           })
-          this.fetchInvoices()
+          this.$router.push({ name: 'Invoices' })
         }
       } catch (error) {
         this.isLoading = false
