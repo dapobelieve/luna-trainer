@@ -170,7 +170,6 @@ export default {
 .btn-gray {
   @apply flex justify-center items-center py-2 px-4 rounded-md normal-case;
   border: 1px solid #e2e8f0;
-
   p {
     @apply font-medium text-base text-gray-700;
   }

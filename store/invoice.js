@@ -76,8 +76,8 @@ export const actions = {
         return response
       })
   },
-  archive ({ commit }, payload) {
-    return this.$axios.$patch(`${process.env.BASEURL_HOST}/invoice/archive`, {
+  async archive ({ commit }, payload) {
+    return await this.$axios.$patch(`${process.env.BASEURL_HOST}/invoice/archive`, {
       invoices: [...payload]
     })
   },

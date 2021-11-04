@@ -2,7 +2,9 @@
   <div>
     <div class="flex justify-between items-center">
       <h5 class="text-2xl text-gray-700">
-        {{ editing ? 'Editing a service' : 'Add new item' }}
+        <slot name="title">
+          {{ editing ? 'Editing a service' : 'Add new item' }}
+        </slot>
       </h5>
       <button type="button" @click="$emit('close-modal')">
         <i class="ns-cross text-lg text-blue-500"></i>
@@ -14,6 +16,7 @@
         <input
           id="service"
           v-model="services.description"
+          autofocus
           placeholder="Separation Anxiety (Replace this description)"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
@@ -206,7 +209,9 @@ export default {
         })
           .then((response) => {
             this.isLoading = false
+
             if (response.status === 'success') {
+              this.$emit('close-modal', { ...this.services })
               this.resetSelectedService()
               this.$toast.success('Services updated', {
                 position: 'top-right'
