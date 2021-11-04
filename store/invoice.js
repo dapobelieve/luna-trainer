@@ -23,7 +23,7 @@ export const actions = {
     const currPage =
       payload !== undefined && 'page' in payload ? payload.page : 1
     const limit =
-        payload !== undefined && 'limit' in payload ? payload.limit : 10
+      payload !== undefined && 'limit' in payload ? payload.limit : 10
     commit('IS_LOADING', true)
     return this.$axios
       .$get(
@@ -82,7 +82,9 @@ export const actions = {
     })
   },
   async export ({ commit }) {
-    const res = await this.$axios.get(`${process.env.BASEURL_HOST}/invoice/export`)
+    const res = await this.$axios.get(
+      `${process.env.BASEURL_HOST}/invoice/export`
+    )
     console.log(res)
   },
   async getInvoices ({ commit, dispatch }, payload) {
@@ -96,7 +98,9 @@ export const actions = {
 
     dispatch('loader/startProcess', null, { root: true })
     try {
-      const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice?${newQueryObj}`)
+      const response = await this.$axios.$get(
+        `${process.env.BASEURL_HOST}/invoice?${newQueryObj}`
+      )
       // commit('SET_ALL_INVOICES', response)
       return response.data
     } catch (e) {
@@ -106,7 +110,9 @@ export const actions = {
     }
   },
   async getSingleInvoice ({ commit }, invoiceId) {
-    return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
+    return await this.$axios.$get(
+      `${process.env.BASEURL_HOST}/invoice/${invoiceId}`
+    )
   },
   stripeConnect ({ commit }) {
     return this.$axios
@@ -116,6 +122,11 @@ export const actions = {
       .then(({ url }) => {
         return url
       })
+  },
+  disconnectStripe ({ commit }) {
+    return this.$axios
+      .$delete(`${process.env.PAYMENT_HOST_URL}/stripe/disconnect`)
+      .then(response => response)
   }
 }
 
