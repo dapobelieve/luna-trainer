@@ -166,10 +166,13 @@ export const getters = {
   getUser: state => state.getWelpUser,
   isStripeConnected: state =>
     state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
+  stripeConnectionPending: state =>
+    state.getWelpUser.stripe && !state.getWelpUser.stripe.connected,
   isStripeReady: state =>
     state.getWelpUser.stripe &&
-    state.getWelpUser.stripe.capabilities &&
-    state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
-    state.getWelpUser.stripe.capabilities.transfers === 'active' &&
-    state.getWelpUser.stripe.capabilities.bacs_debit_payments === 'active'
+           state.getWelpUser.stripe.capabilities &&
+           state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
+           state.getWelpUser.stripe.capabilities.transfers === 'active' &&
+           state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
+             'active'
 }
