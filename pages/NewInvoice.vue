@@ -188,7 +188,7 @@
             :disabled="!allowCreating"
             type="button"
             style="width:fit-content"
-            @click="createInvoice"
+            @click="send"
           >
             send invoice
           </button-spinner>
@@ -304,12 +304,42 @@ export default {
     }
   },
   created () {
-    this.debounceUpdateInvoice = _.debounce(this.updateInvoice, 5000)
+    this.debounceUpdateInvoice = _.debounce(this.updateInvoice, 3000)
   },
   methods: {
     ...mapActions('invoice', {
-      createNewInvoice: 'createInvoice'
+      createNewInvoice: 'createInvoice',
+      sendInvoice: 'sendInvoice',
+      fetchInvoices: 'getInvoices'
     }),
+    async send () {
+      try {
+        this.isLoading = true
+        const sending = await this.sendInvoice(this.invoiceId)
+        if (sending.status === 'success') {
+          this.$toast.success('Invoice sending successful', {
+            position: 'top-right'
+          })
+          this.fetchInvoices()
+        }
+      } catch (error) {
+        this.isLoading = false
+        if (error.response) {
+          this.$toast.error(
+            `Something went wrong: ${error.response.data.message}`,
+            { position: 'bottom-right' }
+          )
+        } else if (error.request) {
+          this.$toast.error('Something went wrong. Try again', {
+            position: 'bottom-right'
+          })
+        } else {
+          this.$toast.error(`Something went wrong: ${error.message}`, {
+            position: 'bottom-right'
+          })
+        }
+      }
+    },
     updateInvoice () {
       // autosave
       try {
@@ -328,37 +358,6 @@ export default {
     editServiceItem (id) {
       this.serviceObject = id
       this.$modal.show('add-service-modal')
-    },
-    createInvoice () {
-      this.isLoading = true
-      this.createNewInvoice(this.invoiceToBeSent)
-        .then((result) => {
-          if (result.status === 'success') {
-            this.$router.push({ name: 'Invoices-sent' })
-            this.$toast.success('Invoice created successfully', {
-              position: 'top-right'
-            })
-          }
-        })
-        .catch((err) => {
-          if (err.response) {
-            this.$toast.error(
-              `Something went wrong: ${err.response.data.message}`,
-              { position: 'bottom-right' }
-            )
-          } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', {
-              position: 'bottom-right'
-            })
-          } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, {
-              position: 'bottom-right'
-            })
-          }
-        })
-        .finally(() => {
-          this.isLoading = false
-        })
     }
   }
 }
