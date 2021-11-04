@@ -151,60 +151,35 @@ export default {
 
 <style lang="scss" scoped>
 .parent-container {
-  display: grid;
-  row-gap: 32px;
-  padding: 16px;
-  border-radius: 12px;
+  @apply p-4 rounded-xl grid gap-y-8;
   border: 1px solid #e2e8f0;
 }
 
 .label {
-  @apply text-gray-700;
-  font-weight: 500;
-  font-size: 18px;
-  line-height: 28px;
+  @apply text-gray-700 font-medium text-lg;
 }
 
 .description {
-  @apply text-gray-500;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 20px;
+  @apply text-gray-500 font-normal text-sm;
 }
 
 .section-info {
-  @apply text-gray-500;
-  font-weight: 500;
-  font-size: 12px;
-  line-height: 16px;
+  @apply text-gray-500 font-medium text-xs;
 }
 
 .btn-gray {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 8px 16px;
-  border-radius: 6px;
+  @apply flex justify-center items-center py-2 px-4 rounded-md normal-case;
   border: 1px solid #e2e8f0;
-  text-transform: none;
 
   p {
-    font-size: 16px;
-    font-weight: 500;
-    line-height: 24px;
-    @apply text-gray-700;
+    @apply font-medium text-base text-gray-700;
   }
 }
 
 .btn-flat {
-  // padding: ;
-  display: flex;
-  justify-content: center;
+  @apply flex justify-center;
   p {
-    @apply text-blue-500;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 20px;
+    @apply text-blue-500 font-medium text-sm;
   }
 }
 </style>
