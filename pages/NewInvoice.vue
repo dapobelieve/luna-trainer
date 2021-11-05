@@ -274,7 +274,8 @@ export default {
           return {
             serviceId: service._id,
             qty: 1,
-            price: service.pricing.amount
+            price: service.pricing.amount,
+            description: service.description
           }
         }),
         customerId: this.invoiceDetails.client._id,
@@ -324,8 +325,8 @@ export default {
         }
       } catch (error) {
         this.isLoading = false
-
         if (error.response) {
+          if (error.response) {
           this.$toast.error(
             `Something went wrong: ${error.response.data.message}`,
             { position: 'bottom-right' }

@@ -19,13 +19,13 @@
         </p>
       </div>
       <div>
-        <button class="btn-gray">
+        <button disabled class="btn-gray cursor-not-allowed">
           Connect to Google
         </button>
       </div>
     </div>
 
-    <div class="flex items-center">
+    <!-- <div class="flex items-center">
       <div class="mr-auto">
         <p class="label">
           Connected to Google
@@ -41,21 +41,11 @@
           </p>
         </button>
       </div>
-    </div>
+    </div> -->
 
     <p class="section-info">
       INTEGRATIONS
     </p>
-    <!-- <div v-if="isStripeConnected" class="flex">
-      <div class="mr-auto">
-        <p class="label">
-          Connected to Stripe
-        </p>
-        <p class="description">
-          Your stripe account is currently being reviewed.
-        </p>
-      </div>
-    </div> -->
     <div v-if="!isStripeConnected" class="flex">
       <div class="mr-auto">
         <p class="label">
