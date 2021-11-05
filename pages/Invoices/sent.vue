@@ -128,9 +128,9 @@
     </template>
     <template v-else>
       <div class="flex justify-around">
-        <div class="mt-5 text-center" style="margin-top: 12rem">
+        <div class="mt-5 text-center">
           <h4 class="font-bold text-gray-700 mb-1">
-            No clients yet
+            No Invoices yet
           </h4>
           <p class="text-sm text-gray-500 mb-4">
             We want to make your world easier by connecting and <br> managing your invoicing and payments systems.

@@ -7,7 +7,7 @@
     </GwPagination>
     <template v-else>
       <div class="flex justify-around">
-        <div class="mt-5 text-center" style="margin-top: 12rem">
+        <div class="mt-5 text-center">
           <h4 class="font-bold text-gray-700 mb-1">
             No Invoices here yet
           </h4>
