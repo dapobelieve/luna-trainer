@@ -274,7 +274,8 @@ export default {
           return {
             serviceId: service._id,
             qty: 1,
-            price: service.pricing.amount
+            price: service.pricing.amount,
+            description: service.description
           }
         }),
         customerId: this.invoiceDetails.client._id,

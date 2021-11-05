@@ -105,8 +105,15 @@ export const actions = {
       dispatch('loader/endProcess', '', { root: true })
     }
   },
-  async getSingleInvoice ({ commit }, invoiceId) {
-    return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
+  async getSingleInvoice ({ commit, dispatch }, invoiceId) {
+    try {
+      dispatch('loader/startProcess', null, { root: true })
+      return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
+    } catch (error) {
+      return error
+    } finally {
+      dispatch('loader/endProcess', '', { root: true })
+    }
   },
   stripeConnect ({ commit }) {
     return this.$axios

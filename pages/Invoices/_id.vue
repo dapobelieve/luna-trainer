@@ -1,169 +1,159 @@
 <template>
-  <div>
-    <PageLoader v-if="isLoading" />
-    <div
-      v-else
-      id="printInvoice"
-      class="flex body flex-col justify-center align-center mt-6 w-full md:w-4/5 lg:w-3/6 text-gray-700 mx-auto bg-white rounded-md"
-    >
-      <div class="m-4">
-        <div class="flex items-center justify-between px-3">
-          <h3 class="text-xl md:text-2xl">
-            Getwelp Limited
-          </h3>
-          <InvoiceStatusComponent status="paid" />
+  <async-view>
+    <div class="parent-container">
+      <div class="flex items-center header">
+        <p class="font-normal text-2xl text-gray-700 mr-auto">
+          Getwelp Limited
+        </p>
+        <span class="inline-flex items-center px-3 py-0.5 rounded-full capitalize text-sm font-normal bg-blue-50 text-blue-500">
+          {{ client && client.workflowStatus }}
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-x-4 invoice-label">
+        <div>
+          <p class="label">
+            Tel:
+          </p>
+          <p class="info">
+            {{ client && client.ownerId.phoneNumber ? client.ownerId.phoneNumber : 'N/A' }}
+          </p>
         </div>
-        <dl class=" grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2 mt-4">
-          <div class="sm:col-span-1 flex">
-            <div class="ml-4">
-              <dt class="text-base">
-                Tel:
-              </dt>
-              <dd class="mt-1 truncate">
-                {{ client && client.customerId.phoneNumber }}
-              </dd>
-            </div>
-          </div>
-
-          <div class="sm:col-span-1">
-            <dt class="text-base">
-              Invoice no.
-            </dt>
-            <dd class="mt-1 truncate">
-              {{ client && client.invoiceNo }}
-            </dd>
-          </div>
-
-          <div class="sm:col-span-2  flex">
-            <div class="ml-4">
-              <dt class="text-base">
-                Bill to
-              </dt>
-              <dd class="">
-                <div class="flex  items-center">
-                  <template v-if="client">
-                    <ClientAvatar :client-info="client.customerId" />
-                  </template>
-                  <div class="ml-4">
-                    <h6 class=" text-base  text-gray-700  text-capitalize">
-                      {{ client && client.customerId.firstName }}
-                      {{ client && client.customerId.lastName }}
-                    </h6>
-                    <span class=" text-sm  text-gray-500">
-                      {{ client && client.customerId.email }}</span>
-                  </div>
-                </div>
-              </dd>
-            </div>
-          </div>
-          <div class="sm:col-span-1  flex">
-            <div class="ml-4">
-              <dt class="text-base">
-                Date of Issue:
-              </dt>
-              <dd class="mt-1 truncate">
-                {{ client && client.updatedAt | date }}
-              </dd>
-            </div>
-          </div>
-
-          <div class="sm:col-span-1">
-            <dt class="text-base">
-              Date Due:
-            </dt>
-            <dd class="mt-1 truncate">
-              {{ client && client.dueDate | date }}
-            </dd>
-          </div>
-        </dl>
-        <div class="mt-6">
-          <table class="table-auto bg-white w-full text-xs rounded-md">
-            <thead class="">
-              <tr class="uppercase tracking-wider text-gray-500">
-                <th class="py-4 font-medium text-xs text-left pr-6 pl-4 w-2/6">
-                  Description
-                </th>
-                <th class="py-4 font-medium text-xs px-6">
-                  QTY
-                </th>
-                <th class="py-4 font-medium text-xs px-6">
-                  UNIT PRICE
-                </th>
-                <th class="py-4 font-medium text-xs pl-6">
-                  AMOUNT
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="item in client && client.items"
-                :key="item._id"
-                class="text-center  text-gray-500"
-              >
-                <td
-                  class=" py-4  text-left text-base text-gray-700 pl-4 pr-6  w-2/5"
-                >
-                  {{ item.description || "" }}
-                </td>
-                <td class=" py-4 text-base text-gray-700 px-6">
-                  {{ item.qty }}
-                </td>
-                <td class=" py-4 text-base text-gray-700 px-6">
-                  {{ currency }} {{ item.price }}
-                </td>
-                <td class=" py-4 text-base text-gray-700 pl-6">
-                  {{ currency }} {{ item.price * item.qty }}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class=" border-b  my-2 mx-3" />
-          <div class="flex items-center justify-between px-3">
-            <p class="text-sm my-3">
-              SubTotal
+        <div>
+          <p class="label">
+            Invoice no.
+          </p>
+          <p class="info">
+            039211224
+          </p>
+        </div>
+      </div>
+      <div class="contact-details">
+        <p class="text-gray-500 text-base font-normal pb-1">
+          Bill to
+        </p>
+        <div class="flex items-center">
+          <template v-if="client">
+            <ClientAvatar
+              :client-info="client && client.customerId"
+            />
+          </template>
+          <div class="ml-3 font-normal">
+            <p class="capitalize text-gray-700 text-base">
+              {{ client && client.customerId.firstName }} {{ client && client.customerId.lastName }}
             </p>
-            <p>{{ currency }} {{ client && client.total }}</p>
-          </div>
-          <div class="flex items-center justify-between px-3">
-            <h4 class="text-lg my-3">
-              Total
-            </h4>
-            <h4 class="text-lg my-3">
-              {{ currency }} {{ client && client.total }}
-            </h4>
+            <p class="text-sm text-gray-500">
+              {{ client && client.customerId.email }}
+            </p>
           </div>
         </div>
       </div>
+
+      <div class="grid grid-cols-2 gap-x-4 dates">
+        <div>
+          <p class="text-gray-500 text-base font-normal">
+            Date of Issue:
+          </p>
+          <p class="text-gray-700 text-base font-normal">
+            {{ client && client.createdAt | date }}
+          </p>
+        </div>
+        <div>
+          <p class="text-gray-500 text-base font-normal">
+            Date Due:
+          </p>
+          <p class="text-gray-700 text-base font-normal">
+            {{ client && client.dueDate | date }}
+          </p>
+        </div>
+      </div>
+
+      <div class="items-box">
+        <div class="grid grid-cols-6 gap-x-4">
+          <div class="table-head col-span-3">
+            DESCRIPTION
+          </div>
+          <div class="table-head">
+            QTY
+          </div>
+          <div class="table-head">
+            UNIT PRICE
+          </div>
+          <div class="table-head">
+            AMOUNT
+          </div>
+        </div>
+        <div v-if="client && client.items.length" class="mt-2">
+          <div v-for="items in client && client.items" :key="items" class="grid grid-cols-6 gap-x-4 gap-y-4">
+            <div class="table-items col-span-3 truncate">
+              {{ items.description }}
+            </div>
+            <div class="table-items">
+              {{ items.qty }}
+            </div>
+            <div class="table-items">
+              {{ items.price | amount }}
+            </div>
+            <div class="table-items">
+              {{ items.price * items.qty | amount }}
+            </div>
+          </div>
+        </div>
+        <p v-else class="text-center mt-2">
+          <em>
+            No items selected
+          </em>
+        </p>
+      </div>
+
+      <div class="flex sub-total text-base font-medium">
+        <p class="mr-auto text-gray-500">
+          Sub total
+        </p>
+        <p class="text-gray-700">
+          {{ totalServiceAmount | amount }}
+        </p>
+      </div>
+      <div class="flex total text-xl">
+        <p class="mr-auto font-normal text-gray-500">
+          Total
+        </p>
+        <p class="font-bold text-gray-700">
+          {{ totalServiceAmount | amount }}
+        </p>
+      </div>
     </div>
-  </div>
+  </async-view>
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   asyncData ({ params }) {
     return { id: params.id }
   },
   data () {
     return {
-      client: null,
-      isLoading: true
+      client: null
     }
   },
   computed: {
-    ...mapState({
-      currency: state => state.profile.trainnerRegData.personalProfile.currency
-    })
+    totalServiceAmount () {
+      if (this.client && this.client.items.length) {
+        return JSON.parse(JSON.stringify(this.client.items)).reduce((acc, item) => {
+          const total = item.price += acc
+          return total
+        }, 0)
+      }
+      return 0
+    }
   },
   mounted () {
     this.getSingleInvoice(this.id)
       .then((response) => {
-        this.isLoading = false
         this.client = response.data
       })
       .catch((err) => {
         console.log(err)
-        this.isLoading = false
       })
   },
   methods: {
@@ -175,5 +165,54 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.parent-container {
+  @apply bg-white p-4 mx-auto my-9 rounded-xl;
+  border: 1px solid #e2e8f0;
+  max-width: 512px;
+}
 
+.header {
+  @apply pb-6;
+}
+
+.invoice-label {
+  @apply font-normal text-base pb-8;
+  color: #64748b;
+  .info {
+    @apply text-gray-700;
+  }
+}
+
+.contact-details {
+  @apply pb-4;
+}
+
+.dates {
+  @apply pb-11;
+}
+
+.items-box {
+  @apply pb-3 mb-3;
+  border-bottom: 1px solid #e2e8f0;
+  .table-head {
+    @apply font-medium text-xs text-gray-500 text-right;
+    &:first-child {
+    @apply text-left;
+  }
+  }
+  .table-items {
+    @apply text-gray-700 font-normal text-base text-right;
+    &:first-child {
+    @apply text-left;
+  }
+  }
+}
+
+.sub-total {
+  @apply pb-6;
+}
+
+.total {
+  @apply pb-3;
+}
 </style>
