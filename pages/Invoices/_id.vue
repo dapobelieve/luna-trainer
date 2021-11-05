@@ -139,7 +139,7 @@ export default {
   computed: {
     totalServiceAmount () {
       if (this.client && this.client.items.length) {
-        return JSON.parse(JSON.stringify(this.client.items)).reduce((acc, item) => {
+        return this.client.items.reduce((acc, item) => {
           const total = item.price += acc
           return total
         }, 0)
