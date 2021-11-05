@@ -1,9 +1,9 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="py-4 px-8">
-      <div class="grid gap-6 text-sm">
-        <div class="flex justify-between items-center">
-          <h2 class="font-normal text-xl to-gray-700">
+    <div v-if="clientInfo">
+      <div class="grid bg-white border rounded-xl w-full">
+        <div class="flex justify-between items-center p-4 pb-2">
+          <h2 class="text-xl">
             Information
             <span
               v-if="clientInfo.status === 'invited'"
@@ -14,149 +14,99 @@
             :loading="isLoading"
             type="button"
             style="width:fit-content"
+            class="button-sm"
             @click="updateProfile"
-          >
-            Update profile
-          </button-spinner>
+          >Update profile</button-spinner>
         </div>
-        <h3 class="mb-6 text-gray-500 text-xs font-medium">
-          DOG OWNER
-        </h3>
         <!-- owner details -->
-        <div class="text-gray-700">
-          <div class="flex flex-col items-center mb-6">
+        <div class="flex flex-col space-y-6 p-4">
+          <p class="uppercase tracking-wider font-medium text-xs text-gray-500">Owner</p>
+          <div class="flex flex-col items-center">
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <p class="capitalize font-normal text-xl mt-2">
-              {{ fullName }}
-            </p>
+            <p class="capitalize font-normal text-xl mt-2">{{ fullName }}</p>
           </div>
-          <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
-          >
-            <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Telephone
-                </dt>
-                <input
-                  v-model="clientInfo.phoneNumber"
-                  type="number"
-                  class="input-text"
-                />
+          <p class="text-xs text-gray-400 text-center">Double click on text to edit</p>
+          <dl class="flex flex-col space-y-6">
+            <div class="flex space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-envelope"
+              ></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <dt class="input-text-label">Telephone</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.phoneNumber }}</dd>
+                </div>
+                <div class="place-self-auto">
+                  <dt class="input-text-label">Email</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.email }}</dd>
+                </div>
               </div>
             </div>
 
-            <div class="sm:col-span-1">
-              <dt class="input-text-label">
-                Email
-              </dt>
-              <dd class="mt-1 truncate">
-                {{ clientInfo && clientInfo.email }}
-              </dd>
-            </div>
-
-            <div class="sm:col-span-1 flex">
-              <i class="ns-location-alt text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Location
-                </dt>
-                <dd class="">
-                  <select
-                    v-model="clientInfo.location"
-                    autocomplete="country"
-                    class="input-text"
-                  >
-                    <option
-                      v-for="country in countries"
-                      :key="country.numericCode"
-                    >
-                      {{ country.name }}
-                    </option>
-                  </select>
-                </dd>
+            <div class="flex space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-location-alt"
+              ></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <dt class="input-text-label">Location</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.location }}</dd>
+                </div>
+                <div>
+                  <dt class="input-text-label">City</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.city }}</dd>
+                </div>
               </div>
             </div>
           </dl>
         </div>
         <!-- dog details -->
-        <div>
-          <h3
-            class="mb-6 text-gray-500 text-xs font-medium mt-3"
-          >
-            DOG DETAILS
-          </h3>
-          <dl
-            class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2"
-          >
-            <div class="sm:col-span-1 flex">
-              <i class="ns-time-add text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Dog name
-                </dt>
-                <input
-                  v-model="clientInfo.pet[0].name"
-                  type="text"
-                  class="input-text"
-                />
+        <div class="flex flex-col space-y-6 p-4">
+          <p class="uppercase tracking-wider font-medium text-xs text-gray-500">DOG DETAILS</p>
+          <p class="text-xs text-gray-400 text-center">Double click on text to edit</p>
+          <dl class="flex flex-col space-y-6">
+            <div class="flex space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-time-add"
+              ></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <dt class="input-text-label">Dog name</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.pet[0].name }}</dd>
+                </div>
+                <div>
+                  <dt class="input-text-label">Breed</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.pet[0].breed }}</dd>
+                </div>
+                <div>
+                  <dt class="input-text-label">Age</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.pet[0].age }}</dd>
+                </div>
               </div>
             </div>
-
-            <div class="sm:col-span-1">
-              <dt class="input-text-label">
-                Breed
-              </dt>
-              <input
-                v-model="clientInfo.pet[0].breed"
-                type="text"
-                class="input-text"
-              />
-            </div>
-
-            <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl invisible"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Age
-                </dt>
-                <div class="flex items-center">
-                  <input
-                    v-model="clientInfo.pet[0].age"
-                    type="text"
-                    class="input-text w-14 mr-2"
-                  />
-                  <span>weeks</span>
+            <div class="flex flex-grow space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-time-add"
+              ></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <dt class="input-text-label">Behavioural Problems</dt>
+                  <dd class="mt-1 text-gray-400">Not Available</dd>
                 </div>
               </div>
             </div>
 
-            <div class="sm:col-span-2 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Behavioural Problems
-                </dt>
-                <dd class="mt-1 truncate">
-                  Not Available
-                </dd>
-              </div>
-            </div>
-
-            <div class="sm:col-span-2 flex">
-              <i class="ns-notebook text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Note
-                </dt>
-                <input
-                  v-model="clientInfo.notes"
-                  type="text"
-                  class="input-text"
-                />
+            <div class="flex flex-grow space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-time-add"
+              ></i>
+              <div class="grid gap-6 flex-grow flex-wrap w-full">
+                <div>
+                  <dt class="input-text-label">Note</dt>
+                  <dd class="mt-1 truncate">{{ clientInfo && clientInfo.notes }}</dd>
+                </div>
               </div>
             </div>
           </dl>

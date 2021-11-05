@@ -1,42 +1,31 @@
 <template>
-  <div>
+  <div class="flex flex-col">
     <transition name="fadeIn">
       <PageHeader v-if="clientInfo">
         <template v-slot:back-button>
-          <button type="button" @click="$router.push({ name: 'Clients' })">
-            <img src="~/assets/img/svgs/chevron-back.svg" alt="" srcset="" />
+          <button type="button" class="button-text w-10" @click="$router.push({ name: 'Clients' })">
+            <img src="~/assets/img/svgs/chevron-back.svg" alt srcset />
           </button>
         </template>
         <template v-slot:title>
-          <span class="capitalize ml-5 font-medium text-lg">
-            {{ firstName }} {{ lastName }}
-          </span>
+          <span class="capitalize ml-5 font-medium text-lg">{{ firstName }} {{ lastName }}</span>
         </template>
         <template v-slot:buttons>
           <div class="relative">
-            <button
-              type="button"
-              class="bg-white inline-flex items-center px-2 py-1 border-none text-xs font-medium rounded shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-              @click="showDropdown"
-            >
-              <img src="~/assets/img/svgs/ellipsis.svg" alt="" srcset="" />
+            <button type="button" class="button-text w-10" @click="showDropdown">
+              <img src="~/assets/img/svgs/ellipsis.svg" alt srcset />
             </button>
             <!-- dropdown menu -->
             <div
               v-show="showDropDown"
-              class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+              class="origin-top-right absolute right-0 mt-2 p-1 min-w-[6rem] w-48 rounded-xl border shadow-lg bg-white z-40"
             >
-              <div class="py-2" role="none">
+              <div role="none">
                 <nuxt-link
                   :to="{ name: 'NewInvoice', params: { pushedClient: clientInfo } }"
-                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                >
-                  Create Invoice
-                </nuxt-link>
-                <a
-                  href="#"
-                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                >Archive</a>
+                  class="block p-3 hover:bg-gray-100 rounded-md"
+                >Create Invoice</nuxt-link>
+                <a href="#" class="block p-3 hover:bg-gray-100 rounded-md">Archive</a>
               </div>
             </div>
           </div>
@@ -44,25 +33,35 @@
       </PageHeader>
     </transition>
     <!-- start here -->
-    <div
-      class="max-w-3xl mx-auto sm:px-6 lg:max-w-7xl lg:px-8 lg:grid lg:grid-cols-12 lg:gap-8 mt-5"
-    >
-      <!-- left menu -->
-      <aside
-        class="col-span-4 rounded-lg"
+    <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
+      <div
+        class="flex lg:space-x-4 w-full max-w-2xl lg:max-w-full 2xl:max-w-7xl flex-col lg:flex-row"
       >
-        <div class="sticky top-[4.8rem]">
-          <div class="w-full">
-            <!-- Sidebar contents-->
-            <client-sidbar-content />
+        <!-- left menu -->
+        <aside
+          class="w-full lg:max-w-[18rem] xl:max-w-sm 2xl:max-w-md w-full flex-shrink-0 order-1 lg:order-first"
+        >
+          <div class="sticky md:top-[4.5rem]">
+            <div class="w-full">
+              <!-- Sidebar contents-->
+              <client-sidbar-content />
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
 
-      <!-- main content -->
-      <main class="col-span-8 bg-white lg:border lg:rounded-lg overflow-y-auto" style="height: calc(100vh - 95px)">
-        <nuxt-child />
-      </main>
+        <!-- main content -->
+        <main class="flex-grow">
+          <nuxt-child />
+        </main>
+
+        <div
+          class="bg-white p-2 shadow-sm sticky bottom-2 rounded-xl mt-4 border flex justify-end order-last flex lg:hidden"
+        >
+          <button class="button-fill w-full">
+            <i class="ns-comment-alt mr-2"></i> send message
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
