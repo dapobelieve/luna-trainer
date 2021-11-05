@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue-50 h-full">
+  <div class="bg-gray-100 h-full">
     <PageHeader>
       <template v-slot:title>
         <span class="font-normal">Settings</span>
@@ -8,7 +8,7 @@
     <div class="w-full p-4 lg:flex lg:justify-center">
       <div class="max-w-full md:max-w-4xl lg:max-w-full 2xl:max-w-7xl">
         <div class="grid lg:grid-cols-3 gap-4">
-          <div class="hidden lg:block grid grid-rows-2">
+          <div class="hidden lg:block grid">
             <div class="bg-white border border-gray-200 p-1 shadow-sm rounded-xl">
               <div v-for="(menu, index) in settingsMenu" :key="index" :class="[activeRoute.path.includes(menu.name) ? 'bg-blue-50' : '']" class="p-1 flex py-4 px-3 justify-between cursor-pointer items-center rounded-lg hover:bg-blue-50" @click="$router.push({name: menu.route})">
                 <div class="h-12 w-12 bg-gray-50 flex-shrink-0 flex items-center justify-center rounded-full">

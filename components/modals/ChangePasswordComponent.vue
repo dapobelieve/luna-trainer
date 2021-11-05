@@ -36,20 +36,9 @@
             New Password
           </template>
         </InputComponent>
-        <InputComponent
-          id="pass2"
-          v-model="form.newPassword2"
-          autofocus
-          placeholder=""
-          type="password"
-          class="mb-8"
-        >
-          <template v-slot:labelText>
-            Confirm new Password
-          </template>
-        </InputComponent>
         <div class="flex justify-end">
           <button-spinner
+            :disabled="!form.newPassword || !form.oldPassword"
             :loading="isLoading"
             type="button"
             style="width:fit-content"
@@ -71,8 +60,7 @@ export default {
     return {
       form: {
         oldPassword: null,
-        newPassword: null,
-        newPassword2: null
+        newPassword: null
       },
       isLoading: false
     }
