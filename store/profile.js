@@ -20,7 +20,7 @@ export const state = () => ({
     trainnerProfile: {
       accreditations: [],
       specialization: [],
-      reinforcement: 'no'
+      usePositiveReinforce: false
     },
     services: [],
     client: {
@@ -56,7 +56,7 @@ export const mutations = {
       trainnerProfile: {
         accreditations: [],
         specialization: [],
-        reinforcement: 'no'
+        usePositiveReinforce: false
       },
       services: [],
       client: {
