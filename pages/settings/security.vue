@@ -40,13 +40,13 @@
             </p>
           </div>
           <div>
-            <button class="text-primary-color font-medium text-sm" @click="$modal.show('change-email-modal')">
+            <button disabled class="text-gray-200 font-medium text-sm" @click="$modal.show('change-email-modal')">
               Change Email
             </button>
           </div>
         </div>
       </div>
-      <div>
+      <div v-if="!true">
         <div class="flex justify-between items-center">
           <div>
             <h6 class="text-grey-700 font-medium text-lg mb-1">

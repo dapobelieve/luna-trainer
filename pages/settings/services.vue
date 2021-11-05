@@ -35,13 +35,13 @@
           </div>
         </div>
       </template>
-      <div v-else class="mt-5 text-center">
+      <div v-else class="my-20 text-center h-100">
         <h4 class="font-bold text-gray-700 mb-1">
-          No Services here yet
+          You have no service
         </h4>
         <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$modal.show('service-modal')">
           <i class="ns-plus text-white"></i>
-          <span class="text-font-medium text-white text-base ml-2">Create your first service</span>
+          <span class="text-font-medium text-white text-base ml-2">Add service</span>
         </button>
       </div>
     </div>
@@ -75,6 +75,7 @@ export default {
       if (newObject) {
         this.services.unshift(newObject)
       }
+      this.selectedService = null
       this.$modal.hide('service-modal')
     },
     async removeService (service) {
