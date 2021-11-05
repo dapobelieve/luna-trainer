@@ -324,6 +324,7 @@ export default {
         }
       } catch (error) {
         this.isLoading = false
+
         if (error.response) {
           this.$toast.error(
             `Something went wrong: ${error.response.data.message}`,
