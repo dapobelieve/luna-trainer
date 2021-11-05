@@ -1,0 +1,215 @@
+<template>
+  <async-view>
+    <div class="parent-container">
+      <div class="flex items-center header">
+        <p class="font-normal text-2xl text-gray-700 mr-auto">
+          Getwelp Limited
+        </p>
+        <span class="inline-flex items-center px-3 py-0.5 rounded-full capitalize text-sm font-normal bg-blue-50 text-blue-500">
+          {{ client && client.workflowStatus }}
+        </span>
+      </div>
+      <div class="grid grid-cols-2 gap-x-4 invoice-label">
+        <div>
+          <p class="label">
+            Tel:
+          </p>
+          <p class="info">
+            {{ client && client.ownerId.phoneNumber ? client.ownerId.phoneNumber : 'N/A' }}
+          </p>
+        </div>
+        <div>
+          <p class="label">
+            Invoice no.
+          </p>
+          <p class="info">
+            039211224
+          </p>
+        </div>
+      </div>
+      <div class="contact-details">
+        <p class="text-gray-500 text-base font-normal pb-1">
+          Bill to
+        </p>
+        <div class="flex items-center">
+          <template v-if="client">
+            <ClientAvatar
+              :client-info="client && client.customerId"
+            />
+          </template>
+          <div class="ml-3 font-normal">
+            <p class="capitalize text-gray-700 text-base">
+              {{ client && client.customerId.firstName }} {{ client && client.customerId.lastName }}
+            </p>
+            <p class="text-sm text-gray-500">
+              {{ client && client.customerId.email }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-x-4 dates">
+        <div>
+          <p class="text-gray-500 text-base font-normal">
+            Date of Issue:
+          </p>
+          <p class="text-gray-700 text-base font-normal">
+            {{ client && client.createdAt | date }}
+          </p>
+        </div>
+        <div>
+          <p class="text-gray-500 text-base font-normal">
+            Date Due:
+          </p>
+          <p class="text-gray-700 text-base font-normal">
+            {{ client && client.dueDate | date }}
+          </p>
+        </div>
+      </div>
+
+      <div class="items-box">
+        <div class="grid grid-cols-6 gap-x-4">
+          <div class="table-head col-span-3">
+            DESCRIPTION
+          </div>
+          <div class="table-head">
+            QTY
+          </div>
+          <div class="table-head">
+            UNIT PRICE
+          </div>
+          <div class="table-head">
+            AMOUNT
+          </div>
+        </div>
+        <div v-if="client && client.items.length" class="mt-2">
+          <div v-for="items in client && client.items" :key="items" class="grid grid-cols-6 gap-x-4 gap-y-4">
+            <div class="table-items col-span-3 truncate">
+              {{ items.description }}
+            </div>
+            <div class="table-items">
+              {{ items.qty }}
+            </div>
+            <div class="table-items">
+              {{ items.price | amount }}
+            </div>
+            <div class="table-items">
+              {{ items.price * items.qty | amount }}
+            </div>
+          </div>
+        </div>
+        <p v-else class="text-center mt-2">
+          <em>
+            No items selected
+          </em>
+        </p>
+      </div>
+
+      <div class="flex sub-total text-base font-medium">
+        <p class="mr-auto text-gray-500">
+          Sub total
+        </p>
+        <p class="text-gray-700">
+          {{ totalServiceAmount | amount }}
+        </p>
+      </div>
+      <div class="flex total text-xl">
+        <p class="mr-auto font-normal text-gray-500">
+          Total
+        </p>
+        <p class="font-bold text-gray-700">
+          {{ totalServiceAmount | amount }}
+        </p>
+      </div>
+    </div>
+  </async-view>
+</template>
+
+<script>
+import { mapActions } from 'vuex'
+export default {
+  asyncData ({ params }) {
+    return { id: params.id }
+  },
+  data () {
+    return {
+      client: null
+    }
+  },
+  computed: {
+    totalServiceAmount () {
+      if (this.client && this.client.items.length) {
+        return this.client.items.reduce((acc, item) => item.price + acc, 0)
+      }
+      return 0
+    }
+  },
+  mounted () {
+    this.getSingleInvoice(this.id)
+      .then((response) => {
+        this.client = response.data
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  },
+  methods: {
+    ...mapActions({
+      getSingleInvoice: 'invoice/getSingleInvoice'
+    })
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.parent-container {
+  @apply bg-white p-4 mx-auto my-9 rounded-xl;
+  border: 1px solid #e2e8f0;
+  max-width: 512px;
+}
+
+.header {
+  @apply pb-6;
+}
+
+.invoice-label {
+  @apply font-normal text-base pb-8;
+  color: #64748b;
+  .info {
+    @apply text-gray-700;
+  }
+}
+
+.contact-details {
+  @apply pb-4;
+}
+
+.dates {
+  @apply pb-11;
+}
+
+.items-box {
+  @apply pb-3 mb-3;
+  border-bottom: 1px solid #e2e8f0;
+  .table-head {
+    @apply font-medium text-xs text-gray-500 text-right;
+    &:first-child {
+    @apply text-left;
+  }
+  }
+  .table-items {
+    @apply text-gray-700 font-normal text-base text-right;
+    &:first-child {
+    @apply text-left;
+  }
+  }
+}
+
+.sub-total {
+  @apply pb-6;
+}
+
+.total {
+  @apply pb-3;
+}
+</style>

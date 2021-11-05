@@ -21,7 +21,6 @@ export default {
 html,
 body {
     height: 100%;
-    background-image: linear-gradient(-105deg, #0052cc, #363795)
 }
 
 .spinner {

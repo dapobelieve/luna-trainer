@@ -39,14 +39,13 @@ export default {
     { src: '~plugins/persistedState.client.js' },
     { src: '~plugins/intercom.js', ssr: false },
     { src: '~/plugins/axios.js' },
+    { src: '~/plugins/errorHandler.js' },
     { src: '~/plugins/sendBird' },
     { src: '@/plugins/vClickOutside', ssr: false },
     { src: '~plugins/filters.js', ssr: false },
     { src: '~plugins/v-tooltip.js', ssr: false },
     { src: '~plugins/v-modal.js', ssr: true }
   ],
-
-  // Auto import components: https://go.nuxtjs.dev/config-components
   components: {
     dirs: ['~/components', '~/components/util']
   },
@@ -60,15 +59,11 @@ export default {
     ONBOARDING_STRIPE_RETURN: process.env.ONBOARDING_STRIPE_RETURN
   },
 
-  // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
-    // https://go.nuxtjs.dev/eslint
     '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],
-
-  // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth-next',
@@ -81,8 +76,6 @@ export default {
     duration: 4000,
     closeOnSwipe: true
   },
-
-  // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // baseURL: 'https://api.getwelp.com/accounts/v0'
   },

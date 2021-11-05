@@ -2,7 +2,9 @@
   <div>
     <div class="flex justify-between items-center">
       <h5 class="text-2xl text-gray-700">
-        {{ editing ? 'Editing a service' : 'Add new item' }}
+        <slot name="title">
+          {{ editing ? 'Editing a service' : 'Add new item' }}
+        </slot>
       </h5>
       <button type="button" @click="$emit('close-modal')">
         <i class="ns-cross text-lg text-blue-500"></i>
@@ -14,6 +16,7 @@
         <input
           id="service"
           v-model="services.description"
+          autofocus
           placeholder="Separation Anxiety (Replace this description)"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
@@ -97,6 +100,7 @@
           </button>
           <button-spinner
             :loading="isLoading"
+            :disabled="disableUpdate"
             type="button"
             style="width:fit-content"
             @click="saveEditedServiceItem"
@@ -121,10 +125,13 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
+import isEqual from 'lodash.isequal'
 export default {
   name: 'CreatingInvoiceNewService',
   props: {
-    selectedServiceIndex: [Number]
+    serviceObject: {
+      type: Object
+    }
   },
   data () {
     return {
@@ -153,22 +160,7 @@ export default {
       )
     },
     disableUpdate () {
-      if (this.disabled) {
-        return (
-          Object.values(this.services).toString() ===
-          Object.values(this.selectedService).toString()
-        )
-      }
-      return true
-    }
-  },
-  mounted () {
-    if (this.selectedServiceIndex !== null) {
-      this.editing = true
-      this.selectedService = this.servicesFromStore[this.selectedServiceIndex]
-      this.services.description = this.selectedService.description
-      this.services.appointmentTypes = this.selectedService.appointmentTypes
-      this.services.pricing.amount = this.selectedService.pricing.amount
+      return isEqual(this.services, this.serviceObject)
     }
   },
   validations: {
@@ -217,7 +209,9 @@ export default {
         })
           .then((response) => {
             this.isLoading = false
+
             if (response.status === 'success') {
+              this.$emit('close-modal', { ...this.services })
               this.resetSelectedService()
               this.$toast.success('Services updated', {
                 position: 'top-right'
@@ -231,32 +225,29 @@ export default {
       }
     },
     saveEditedServiceItem () {
-      if (
-        this.disableUpdate &&
-        this.services.pricing.amount === this.selectedService.pricing.amount
-      ) {
-        this.$toast.error('You have not made any change to the service', {
-          position: 'top-right'
+      this.isLoading = true
+      const allServices = [...this.servicesFromStore].map((service) => {
+        if (service._id === this.services._id) {
+          service = { ...this.services }
+        }
+        return service
+      })
+
+      return this.updateService({
+        services: [...allServices]
+      })
+        .then((response) => {
+          this.isLoading = false
+          if (response.status === 'success') {
+            this.cancelEdit()
+            this.$emit('edited')
+            this.$toast.success('Service Updated', { position: 'top-right' })
+          }
         })
-      } else {
-        this.isLoading = true
-        const allServices = [...this.servicesFromStore]
-        allServices.splice(this.selectedServiceIndex, 1)
-        return this.updateService({
-          services: [...allServices, this.services]
+        .catch()
+        .finally(() => {
+          this.isLoading = false
         })
-          .then((response) => {
-            this.isLoading = false
-            if (response.status === 'success') {
-              this.cancelEdit()
-              this.$toast.success('Service Updated', { position: 'top-right' })
-            }
-          })
-          .catch()
-          .finally(() => {
-            this.isLoading = false
-          })
-      }
     },
     cancelEdit () {
       this.$emit('close-modal')
@@ -269,6 +260,12 @@ export default {
       }
       this.selectedService = null
       this.$emit('clearSelectedServiceIndex', null)
+    }
+  },
+  mounted () {
+    if (this.serviceObject && Object.entries(this.serviceObject).length !== 0) {
+      this.services = JSON.parse(JSON.stringify(this.serviceObject))
+      this.editing = true
     }
   }
 }

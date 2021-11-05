@@ -6,7 +6,7 @@
       <span class="text-2xl to-gray-700 font-normal">
         {{ sharedPage.page }}
       </span>
-      <span class="text-xs text-gray-500 lg:justify-self-center">
+      <span :class="[showAutosavingText ? 'visible' : 'invisible', 'text-xs text-gray-500 lg:justify-self-center']">
         Saving as draft...
       </span>
       <i
@@ -30,11 +30,19 @@ export default {
   },
   data () {
     return {
+      showAutosavingText: false,
       sharedPage: {
         page: 'Create Invoice'
       }
     }
+  },
+  created () {
+    this.$nuxt.$on('autosaving-invoice', () => {
+      this.showAutosavingText = true
+      setTimeout(() => {
+        this.showAutosavingText = false
+      }, 3500)
+    })
   }
 }
 </script>
-<style lang="scss"></style>

@@ -5,10 +5,6 @@
         <div class="flex justify-between items-center p-4 pb-2">
           <h2 class="text-xl">
             Information
-            <span
-              v-if="clientInfo.status === 'invited'"
-              class="rounded-full text-xs bg-indigo-50 text-indigo-500 py-0.5 px-2 ml-2 uppercase"
-            >pending</span>
           </h2>
           <button-spinner
             :loading="isLoading"
@@ -97,7 +93,6 @@
                 </div>
               </div>
             </div>
-
             <div class="flex flex-grow space-x-4 xl:space-x-6">
               <i
                 class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-time-add"
@@ -125,9 +120,13 @@ export default {
     return {
       hasAnyInputChanged: false,
       isLoading: false,
+      cancelLoading: false,
       clientInfo: null,
       countries,
-      id: this.$route.params.id
+      id: this.$route.params.id,
+      editField: '',
+      tempClientInfo: {},
+      showButtons: false
     }
   },
   computed: {
@@ -135,7 +134,9 @@ export default {
       return this.clientInfo ? this.clientInfo.firstName : ''
     },
     lastName () {
-      return this.clientInfo && this.clientInfo.lastName !== undefined ? this.clientInfo.lastName : ''
+      return this.clientInfo && this.clientInfo.lastName !== undefined
+        ? this.clientInfo.lastName
+        : ''
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
@@ -145,10 +146,14 @@ export default {
     this.getClientProfile(this.id)
       .then((response) => {
         if (!response.pet.length) {
-          this.clientInfo = { ...response, pet: [{ name: '', age: '', breed: '' }] }
+          this.clientInfo = {
+            ...response,
+            pet: [{ name: '', age: '', breed: '' }]
+          }
         } else {
           this.clientInfo = response
         }
+        this.tempClientInfo = { ...this.clientInfo }
       })
       .catch(err => console.log('error fetching client', err))
   },
@@ -162,14 +167,22 @@ export default {
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
+          firstName: this.clientInfo.firstName,
+          lastName: this.clientInfo.lastName,
           location: this.clientInfo.location,
+          zip: this.clientInfo.zip,
+          city: this.clientInfo.city,
           phoneNumber: this.clientInfo.phoneNumber,
-          petName: this.clientInfo.pet[0].name,
-          petAge: this.clientInfo.pet[0].age,
-          petBreed: this.clientInfo.pet[0].breed
+          pet: [{
+            name: this.clientInfo.pet[0].name,
+            age: this.clientInfo.pet[0].age,
+            breed: this.clientInfo.pet[0].breed
+          }],
+          notes: this.clientInfo.notes
         }
       })
         .then((response) => {
+          this.showButtons = false
           if (response.status === 'success') {
             this.clientInfo = response.data
             this.isLoading = false
@@ -177,6 +190,7 @@ export default {
           }
         })
         .catch((err) => {
+          this.showButtons = false
           this.isLoading = false
           if (err.response) {
             this.$toast.error(
@@ -186,9 +200,35 @@ export default {
             )
           }
         })
+    },
+    cancelEditField () {
+      this.cancelLoading = false
+      this.clientInfo = this.tempClientInfo
+      this.showButtons = false
+    },
+    focusField () {
+      this.showButtons = true
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+textarea,
+select {
+  border: none;
+  background-image: none;
+  background-color: transparent;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  appearance: none;
+}
+textarea {
+  overflow: hidden;
+}
+textarea:focus,
+select:focus {
+  outline: none;
+}
+</style>

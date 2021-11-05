@@ -318,12 +318,11 @@ export default {
                     `Something went wrong: ${result.response.data.message}`,
                     { position: 'bottom-right' }
                   )
+                } else {
+                  this.$modal.show('done')
                 }
-                this.$modal.hide('stripe-modal')
-                this.$modal.show('done')
               })
             } else {
-              this.$modal.hide('stripe-modal')
               this.$modal.show('done')
             }
           }

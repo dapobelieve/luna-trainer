@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export const state = () => ({
   isStripeConnected: false,
   editingServiceCard: false,
@@ -18,7 +20,7 @@ export const state = () => ({
     trainnerProfile: {
       accreditations: [],
       specialization: [],
-      reinforcement: 'no'
+      usePositiveReinforce: false
     },
     services: [],
     client: {
@@ -54,7 +56,7 @@ export const mutations = {
       trainnerProfile: {
         accreditations: [],
         specialization: [],
-        reinforcement: 'no'
+        usePositiveReinforce: false
       },
       services: [],
       client: {
@@ -85,7 +87,7 @@ export const mutations = {
     const gwuser = checkEmptiness ? {} : user
     this.$auth.setUser(gwuser)
     localStorage.setItem('getWelpUser', JSON.stringify(gwuser))
-    state.getWelpUser = gwuser
+    Vue.set(state, 'getWelpUser', user)
   }
 }
 
@@ -155,6 +157,9 @@ export const actions = {
         commit('SET_GETWELP_USER', response.data)
         return response
       })
+  },
+  async getServices ({ commit }, payload) {
+    return await this.$axios.$get(`${process.env.BASEURL_HOST}/profile/services`)
   }
 }
 export const getters = {
@@ -163,8 +168,9 @@ export const getters = {
     state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
   isStripeReady: state =>
     state.getWelpUser.stripe &&
-    state.getWelpUser.stripe.capabilities &&
-    state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
-    state.getWelpUser.stripe.capabilities.transfers === 'active' &&
-    state.getWelpUser.stripe.capabilities.bacs_debit_payments === 'active'
+           state.getWelpUser.stripe.capabilities &&
+           state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
+           state.getWelpUser.stripe.capabilities.transfers === 'active' &&
+           state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
+             'active'
 }

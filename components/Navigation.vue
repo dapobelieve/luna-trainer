@@ -39,6 +39,7 @@
                 "
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
+                :class="[$route.path.includes(menu.title) ? 'active': '']"
                 class="flex items-center relative navItems"
               >
                 <div
