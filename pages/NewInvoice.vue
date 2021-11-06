@@ -197,7 +197,7 @@
         class="m-6"
         :service-object="serviceObject"
         :selected-service-index="selectedServiceProps"
-        @clearSelectedServiceIndex="selectedServiceProps = $event"
+        @clearSelectedServiceIndex="clearServiceObject($event)"
         @close-modal="$modal.hide('add-service-modal')"
       />
     </modal>
@@ -292,6 +292,10 @@ export default {
       sendInvoice: 'sendInvoice',
       fetchInvoices: 'getInvoices'
     }),
+    clearServiceObject (e) {
+      this.selectedServiceProps = e
+      this.serviceObject = null
+    },
     async send () {
       try {
         this.isLoading = true
