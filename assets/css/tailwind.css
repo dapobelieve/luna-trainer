@@ -82,7 +82,7 @@
   }
 
   .input-text-label {
-    @apply text-gray-700 font-medium text-base mb-1;
+    @apply text-gray-700 font-normal text-base mb-1;
   }
 
   .input-text {

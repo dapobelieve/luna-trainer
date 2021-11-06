@@ -2,7 +2,7 @@
   <ClickOutside :do="() => { showDropdown = false}">
     <div class="flex items-center space-x-2">
       <span> {{ service.pricing.amount | amount }} </span>
-      <div class="relative">
+      <div class="relative pt-2">
         <button type="button" @click="showDropdown = !showDropdown">
           <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
         </button>
