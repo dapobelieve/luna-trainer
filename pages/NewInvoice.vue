@@ -192,13 +192,13 @@
     </modal>
 
     <!-- adding and editing services modal -->
-    <modal name="add-service-modal" height="auto" :adaptive="true">
+    <modal name="add-service-modal" height="auto" :adaptive="true" :click-to-close="false">
       <invoices-add-new-invoice-service
         class="m-6"
         :service-object="serviceObject"
         :selected-service-index="selectedServiceProps"
         @clearSelectedServiceIndex="clearServiceObject($event)"
-        @close-modal="$modal.hide('add-service-modal')"
+        @close-modal="hideModal"
       />
     </modal>
 
@@ -292,6 +292,10 @@ export default {
       sendInvoice: 'sendInvoice',
       fetchInvoices: 'getInvoices'
     }),
+    hideModal () {
+      this.$modal.hide('add-service-modal')
+      this.serviceObject = null
+    },
     clearServiceObject (e) {
       this.selectedServiceProps = e
       this.serviceObject = null
