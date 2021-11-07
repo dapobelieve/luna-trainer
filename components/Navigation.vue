@@ -95,7 +95,9 @@
                 </button>
                 <p
                   class="text-gray-400 px-4 py-3 text-sm"
-                >We’re still developing this, so bear with us!</p>
+                >
+                  We’re still developing this, so bear with us!
+                </p>
               </div>
               <div v-else-if="menu.path === 'newCourse'" class="bg-gray-50 border rounded-lg mt-2">
                 <div class="p-4 flex justify-between items-center">
@@ -122,7 +124,9 @@
                 </button>
                 <p
                   class="text-gray-400 px-4 py-3 text-sm"
-                >We’re still developing this, so bear with us!</p>
+                >
+                  We’re still developing this, so bear with us!
+                </p>
               </div>
               <button
                 v-else-if="menu.path === 'Notifications'"
@@ -167,7 +171,9 @@
         <!-- flyout notifications -->
         <navigation-sub-menu v-model="showNotificationsMenu">
           <template v-slot:title>
-            <h5 class="text-xl text-gray-700">Notifications</h5>
+            <h5 class="text-xl text-gray-700">
+              Notifications
+            </h5>
           </template>
           <template v-slot:body>
             <div v-if="10" class="px-1 pb-20 lg:pb-1">
@@ -188,8 +194,12 @@
                     <span class="text-sm">7pm - 9pm . Remote</span>
                   </div>
                   <div class="flex gap-2 mt-3">
-                    <button class="button-fill">Accept</button>
-                    <button class="button-outline">Re-schedule</button>
+                    <button class="button-fill">
+                      Accept
+                    </button>
+                    <button class="button-outline">
+                      Re-schedule
+                    </button>
                   </div>
                 </div>
               </div>
@@ -197,8 +207,12 @@
 
             <div v-else class="text-center py-8 px-4 flex w-full justify-center">
               <div class="max-w-xs flex gap-3 flex-col">
-                <h5 class="font-bold text-lg text-gray-700">No Notifications.</h5>
-                <p class="text-sm">We will notify you when something arrives</p>
+                <h5 class="font-bold text-lg text-gray-700">
+                  No Notifications.
+                </h5>
+                <p class="text-sm">
+                  We will notify you when something arrives
+                </p>
               </div>
             </div>
           </template>
@@ -207,7 +221,9 @@
         <!-- flyout messages -->
         <navigation-sub-menu v-model="showMessagesMenu">
           <template v-slot:title>
-            <h5 class="text-xl text-gray-700">Messages</h5>
+            <h5 class="text-xl text-gray-700">
+              Messages
+            </h5>
           </template>
           <template v-slot:search>
             <div class="pb-2 px-4 bg-white">
@@ -242,25 +258,25 @@
                   <div class="capitalize font-semibold">
                     <span class="capitalize font-semibold mr-2">{{ n.lastMessage._sender.nickname }}</span>
                     <span class="text-gray-400 text-xs normal-case">
-                      {{
-                      formatDistance(
-                      new Date(n.lastMessage.createdAt),
-                      new Date(),
-                      { addSuffix: true }
-                      )
-                      }}.
+                      {{ n.lastMessage.createdAt | howLongAgo }}.
                     </span>
                   </div>
                   <div
                     class="flex space-x-2 pt-2 text-gray-700"
-                  >{{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}</div>
+                  >
+                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
+                  </div>
                 </div>
               </button>
             </div>
             <div v-else class="text-center py-8 px-4 flex w-full justify-center">
               <div class="max-w-xs flex gap-3 flex-col">
-                <h2 class="font-bold text-lg text-gray-700">No New Messages.</h2>
-                <p class="text-sm">We will notify you when something arrives</p>
+                <h2 class="font-bold text-lg text-gray-700">
+                  No New Messages.
+                </h2>
+                <p class="text-sm">
+                  We will notify you when something arrives
+                </p>
               </div>
             </div>
           </template>
@@ -290,23 +306,25 @@
       @closeBackDrop="openModal = $event"
     >
       <template v-slot:status>
-        <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">Create New Invoice</div>
+        <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
+          Create New Invoice
+        </div>
       </template>
       <CreateNewInvoice @close="openModal = $event" />
     </GwModal>
     <NotificationsModal :visible="showNotification" @close="showNotification = $event">
       <template v-slot:title>
         {{
-        !acceptedClients.length
-        ? "No Invited Clients"
-        : "Services Unavailable"
+          !acceptedClients.length
+            ? "No Invited Clients"
+            : "Services Unavailable"
         }}
       </template>
       <template v-slot:subtitle>
         {{
-        !acceptedClients.length
-        ? "You need to invite a client before you can create an invoice."
-        : "You need to add at least one service before you can create an invoice."
+          !acceptedClients.length
+            ? "You need to invite a client before you can create an invoice."
+            : "You need to add at least one service before you can create an invoice."
         }}
       </template>
       <template v-slot:actionButtons>
@@ -315,13 +333,17 @@
           class="base-button normal-case"
           style="width: fit-content"
           @click="inviteClient"
-        >Invite a client</button>
+        >
+          Invite a client
+        </button>
         <NuxtLink
           v-else
           to="/Settings#services"
           class="base-button normal-case"
           style="width: fit-content"
-        >Add a service</NuxtLink>
+        >
+          Add a service
+        </NuxtLink>
       </template>
     </NotificationsModal>
   </div>
@@ -329,14 +351,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { formatDistance } from 'date-fns'
 import menus from '~/navigation.json'
 
 export default {
   name: 'Navigation',
   data () {
     return {
-      formatDistance,
       menus,
       showNotification: false,
       openModal: false,
