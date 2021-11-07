@@ -97,7 +97,7 @@
                     class="mt-1"
                     @input="focusField"
                   >
-                    <option value="none" selected disabled>
+                    <option value="none" selected disabled hidden>
                       click here
                     </option>
                     <option
@@ -273,7 +273,6 @@ export default {
           }
         } else {
           this.clientInfo = response
-          console.log(this.clientInfo)
         }
         this.tempClientInfo = { ...this.clientInfo }
       })
@@ -321,6 +320,8 @@ export default {
               { position: 'bottom-right' }
             )
           }
+        }).finally(() => {
+          this.isLoading = false
         })
     },
     cancelEditField () {
