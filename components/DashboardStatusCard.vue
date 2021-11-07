@@ -43,7 +43,7 @@
               'bg-indigo-500 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
             ]"
           >
-            <i class="ns-refresh"></i>
+            <i class="ns-refresh text-white"></i>
           </button>
           <p class="font-medium whitespace-nowrap">
             Stripe account in review
@@ -62,7 +62,7 @@
                   </div>`;
                 })
                 .join('')}`,
-              placement: 'right',
+              placement: 'left',
               classes: ['info']
             }"
             class="p-1.5 flex"

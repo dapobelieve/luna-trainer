@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white border rounded-xl overflow-y-auto overscroll-contain sticky lg:top-[4.5rem]"
+    class="bg-white rounded-xl overflow-y-auto overscroll-contain sticky lg:top-[4.5rem]"
     style="height: calc(100vh - 5.5rem)"
   >
     <div v-if="isChannelLoading" class="h-full grid place-content-center">
@@ -102,11 +102,11 @@
                 @change="onChange"
               />
               <button class="mr-3" type="button" @click="showUpload = !showUpload">
-                <i class="ns-upload text-2xl text-gray-500"></i>
+                <i class="ns-upload text-2xl text-blue-500"></i>
               </button>
             </div>
             <button class type="submit">
-              <i class="ns-paper-plane text-2xl text-gray-500"></i>
+              <i class="ns-paper-plane text-2xl text-blue-500"></i>
             </button>
           </div>
         </form>

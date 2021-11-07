@@ -10,6 +10,7 @@
           <containers-summary-card-with-notifications
             :display-view-all-button="Boolean(paidInvoices.length)"
             url="Invoices"
+            :class="{'payment-tab__hidden': displayComponent}"
           >
             <template v-slot:icon>
               <i
@@ -36,14 +37,18 @@
                           {{ invoice.customerId.lastName }}
                         </span> has paid you.
                       </template>
-                      <template v-slot:date>{{ invoice.dueDate | date }}</template>
+                      <template v-slot:date>
+                        {{ invoice.dueDate | date }}
+                      </template>
                     </containers-summary-information-with-avatar>
                   </li>
                 </ul>
                 <div
                   v-else
                   class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-                >Newly paid invoices will be displayed here.</div>
+                >
+                  Newly paid invoices will be displayed here.
+                </div>
               </template>
             </template>
           </containers-summary-card-with-notifications>
@@ -55,8 +60,10 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Helpers from '~/mixins/helpers'
 export default {
   name: 'ClientSidebarContent',
+  mixins: [Helpers],
   data () {
     return {
       paidInvoices: []
@@ -74,4 +81,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ .payment-tab__hidden {
+    display: none;
+  }
+@media only screen and (min-width: 1024px) {
+ .payment-tab__hidden {
+    display: block;
+  }
+}
 </style>

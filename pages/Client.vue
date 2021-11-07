@@ -8,10 +8,10 @@
           </button>
         </template>
         <template v-slot:title>
-          <span class="capitalize ml-5 font-medium text-lg">{{ firstName }} {{ lastName }}</span>
+          <span class="hidden lg:block capitalize ml-5 font-medium text-lg">{{ firstName }} {{ lastName }}</span>
         </template>
         <template v-slot:buttons>
-          <div class="relative">
+          <div class="relative hidden lg:block ">
             <button type="button" class="button-text w-10" @click="showDropdown">
               <img src="~/assets/img/svgs/ellipsis.svg" alt srcset />
             </button>
@@ -24,7 +24,9 @@
                 <nuxt-link
                   :to="{ name: 'NewInvoice', params: { pushedClient: clientInfo } }"
                   class="block p-3 hover:bg-gray-100 rounded-md"
-                >Create Invoice</nuxt-link>
+                >
+                  Create Invoice
+                </nuxt-link>
                 <a href="#" class="block p-3 hover:bg-gray-100 rounded-md">Archive</a>
               </div>
             </div>
@@ -33,9 +35,9 @@
       </PageHeader>
     </transition>
     <!-- start here -->
-    <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
+    <div class="p-0 lg:p-4 md:w-full pb-0 lg:pb-24 bg-gray-100 flex justify-center">
       <div
-        class="flex lg:space-x-4 w-full max-w-2xl lg:max-w-full 2xl:max-w-7xl flex-col lg:flex-row"
+        class="flex lg:space-x-4 w-full max-w-full lg:max-w-full 2xl:max-w-7xl flex-col lg:flex-row"
       >
         <!-- left menu -->
         <aside
@@ -55,9 +57,13 @@
         </main>
 
         <div
+          v-if="displayComponent === false"
           class="bg-white p-2 shadow-sm sticky bottom-2 rounded-xl mt-4 border flex justify-end order-last flex lg:hidden"
         >
-          <button class="button-fill w-full">
+          <button
+            class="button-fill w-full"
+            @click="$router.push({name: 'Client-id-Messages', params: {id: $route.params.id }})"
+          >
             <i class="ns-comment-alt mr-2"></i> send message
           </button>
         </div>
@@ -68,8 +74,10 @@
 
 <script>
 import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
+import Helpers from '~/mixins/helpers'
 export default {
   name: 'Client',
+  mixins: [Helpers],
   data () {
     return {
       showDropDown: false,

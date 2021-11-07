@@ -5,6 +5,9 @@ export default {
     },
     isObjectValuesIterable (obj = this.checkObjValues) {
       return Object.values(obj).length && obj.constructor === Object
+    },
+    displayComponent () {
+      return this.$route.name === 'Client-id-Messages'
     }
   },
   methods: {
