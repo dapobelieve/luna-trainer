@@ -2,14 +2,21 @@
   <div
     :class="[matchedRoute ? 'active' : '' ,`relative py-4 flex items-center rounded-lg px-3 transition-all hover:${hoverColor}`]"
   >
-    <nuxt-link v-if="url !== '#' && Boolean(parameter)" :to="{ name: url, params: { ...parameter } }" class="mr-auto flex items-center space-x-4 w-full">
+    <nuxt-link
+      v-if="url !== '#' && Boolean(parameter)"
+      :to="{ name: url, params: { ...parameter } }"
+      class="flex items-center space-x-4 w-full"
+    >
       <div class="flex-shrink-0 h-12 w-12">
         <slot name="avatar" :matchedRoute="matchedRoute" />
       </div>
-      <div class="flex-1 min-w-0">
+      <div class="flex-grow min-w-0">
         <div class="focus:outline-none">
           <span class="absolute inset-0" aria-hidden="true"></span>
-          <p class="text-base text-gray-700" :class="[matchedRoute ? 'font-bold' : 'font-extralight']">
+          <p
+            class="text-base text-gray-700"
+            :class="[matchedRoute ? 'font-bold' : 'font-extralight']"
+          >
             <slot name="content" />
           </p>
         </div>
@@ -18,7 +25,11 @@
         <slot name="date" />
       </span>
     </nuxt-link>
-    <nuxt-link v-else-if="url !== '#'" :to="{ name: url }" class="mr-auto flex items-center space-x-4 w-full">
+    <nuxt-link
+      v-else-if="url !== '#'"
+      :to="{ name: url }"
+      class="mr-auto flex items-center space-x-4 w-full"
+    >
       <div class="flex-shrink-0 h-12 w-12">
         <slot name="avatar" />
       </div>
@@ -38,10 +49,10 @@
       <div class="flex-shrink-0 h-12 w-12">
         <slot name="avatar" />
       </div>
-      <div class="flex-1 min-w-0">
+      <div class="flex-grow min-w-0">
         <div class="focus:outline-none">
           <span class="absolute inset-0" aria-hidden="true"></span>
-          <p class="text-base font-normal text-gray-700">
+          <p>
             <slot name="content" />
           </p>
         </div>
@@ -50,13 +61,13 @@
         <slot name="date" />
       </span>
     </div>
-    <div v-if="showChevronRight" :class="[hoverOnRightButton ? 'hover:bg-gray-300' : '', 'absolute right-0 px-3 rounded-lg']">
+    <div
+      v-if="showChevronRight"
+      :class="[hoverOnRightButton ? 'hover:bg-blue-50' : '', 'rounded-md']"
+      class="relative"
+    >
       <slot name="button" :matchedRoute="matchedRoute">
-        <img
-          class="h-4 ml-4"
-          src="~/assets/img/svgs/chevron-right.svg"
-          alt="arrow-right"
-        />
+        <img class="h-4 ml-4" src="~/assets/img/svgs/chevron-right.svg" alt="arrow-right" />
       </slot>
     </div>
   </div>
@@ -102,4 +113,5 @@ export default {
 <style lang="scss" scoped>
 .active {
   @apply bg-blue-50 border-none outline-none;
-}</style>
+}
+</style>

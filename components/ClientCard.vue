@@ -7,41 +7,36 @@
       <ClientAvatar :client-info="client" />
     </template>
     <template v-slot:content>
-      <span class="font-medium capitalize">{{
+      <span class="font-medium capitalize">
+        {{
         client.firstName
-      }}</span>
+        }}
+      </span>
     </template>
     <template v-slot:button>
       <button
         v-if="client.status === 'invited'"
         type="button"
-        class="w-36 hidden md:flex items-center px-2.5 py-1 rounded-md bg-white border"
+        class="button-text button-sm"
         @click="resendInvite"
       >
         <i class="ns-refresh"></i>
-        <span
-          class="capitalize ml-1 text-gray-700 text-sm"
-        >resend invite</span>
+        <span class="capitalize ml-2">resend invite</span>
       </button>
-      <div v-else class="relative">
-        <button type="button" @click="showDropdown">
-          <i class="ns-ellipsis text-2xl text-blue-500 pb-3"></i>
+      <div v-else>
+        <button type="button" class="button-text button-sm w-8" @click="showDropdown">
+          <i class="ns-ellipsis text-lg"></i>
         </button>
         <div
           v-show="showDropDown"
-          class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+          class="origin-top-right absolute right-0 mt-2 p-1 min-w-[6rem] w-48 rounded-xl border shadow-lg bg-white z-40"
         >
-          <div class="py-2" role="none">
+          <div role="none">
             <nuxt-link
               :to="{ name: 'NewInvoice', params: { pushedClient: client } }"
-              class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-            >
-              Create Invoice
-            </nuxt-link>
-            <a
-              href="#"
-              class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-            >Archive</a>
+              class="block p-3 hover:bg-gray-100 rounded-md transition-all"
+            >Create Invoice</nuxt-link>
+            <a href="#" class="block p-3 hover:bg-gray-100 rounded-md transition-all">Archive</a>
           </div>
         </div>
       </div>

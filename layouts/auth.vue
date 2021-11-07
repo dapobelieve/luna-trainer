@@ -15,24 +15,16 @@
           <div class="mt-6 lg:mt-10">
             <h1
               class="text-2xl md:text-3xl lg:text-4xl"
-            >
-              We’re here to make dog trainers’ lives easier
-            </h1>
-            <div
-              class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6"
-            >
+            >We’re here to make dog trainers’ lives easier</h1>
+            <div class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6">
               <p
                 v-if="routeName === 'Auth-SignUp'"
                 class="text-gray-500"
-              >
-                You can sign in with your Google account below to sign up.
-              </p>
+              >You can sign in with your Google account below to sign up.</p>
               <p
                 v-else
                 class="text-gray-500"
-              >
-                You can sign in with your Google account below which will sync everything you need at once
-              </p>
+              >You can sign in with your Google account below which will sync everything you need at once</p>
             </div>
             <div class="mt-6">
               <button
@@ -49,7 +41,7 @@
           </div>
         </div>
         <div
-          class="h-16 w-16 flex-shrink-0 rounded-full flex items-center justify-center text-xs text-gray-500 bg-gray-50"
+          class="h-16 w-16 flex-shrink-0 rounded-full flex items-center justify-center text-xs text-gray-500 bg-gray-100"
         >
           <span class="tracking-widest">OR</span>
           <span
@@ -63,23 +55,17 @@
     </div>
     <modal name="my-modal" height="auto" :adaptive="true" :max-width="450" :click-to-close="false">
       <div class="text-left mx-6 mt-8 mb-4">
-        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">
-          Welcome to GetWelp!
-        </h2>
+        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">Welcome to GetWelp!</h2>
         <p
           class="text-base text-gray-700 mb-6 leading-relaxed"
-        >
-          So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
-        </p>
+        >So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!</p>
         <div class="flex justify-start py-4">
           <button
             style="width: fit-content"
             type="submit"
             class="button-fill"
             @click="displaySetUp"
-          >
-            Lets Get Started
-          </button>
+          >Lets Get Started</button>
         </div>
       </div>
     </modal>
