@@ -6,7 +6,7 @@
         <span class="text-xl capitalize">
           client
         </span>
-        <button type="button" @click="$modal.show('inviteClientModal')">
+        <button :disabled="mode==='edit'" type="button" @click="$modal.show('inviteClientModal')">
           <img
             class="h-4"
             src="~/assets/img/svgs/plus-icon.svg"
@@ -20,10 +20,7 @@
           <label class="input-text-label">
             Choose
           </label>
-          <gw-customer-selector
-            v-model="invoiceDetails.client"
-            :clients="allClients"
-          >
+          <gw-customer-selector v-model="invoiceDetails.client || invoiceDetails.customerId" :disabled="mode==='edit'" :clients="allClients">
             <template v-slot:dropdownOption="{ optionObject }">
               <div class="flex justify-between min-w-full items-center">
                 <div class="flex items-center content-center py-1">
@@ -76,9 +73,11 @@
               Choose
             </label>
             <gw-customer-selector
+              v-model="invoiceDetails.services"
+              :disabled="!invoiceDetails.customerId"
               multiple
               :clients="$auth.user.services"
-              @change="invoiceDetails.services = $event"
+              @change="handleSelection"
             >
               <template v-slot:dropdownOption="{ optionObject }">
                 <div class="flex justify-between min-w-full items-center">
@@ -106,15 +105,13 @@
                     <i
                       class="ns-plus text-base rounded-full text-blue-500 p-1"
                     />
-                    <span
-                      class="text-primary-color text-base pl-2"
-                    >Add New Item</span>
+                    <span class="text-primary-color text-base pl-2">Add New Item</span>
                   </div>
                 </button>
               </template>
             </gw-customer-selector>
             <div
-              v-if="invoiceDetails.services.length"
+              v-if="invoiceDetails.services"
               class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
             >
               <div
@@ -130,32 +127,8 @@
                     {{ service.subtitle }}
                   </p>
                 </div>
-                <div class="flex items-center space-x-2">
-                  <span> {{ service.pricing.amount | amount }} </span>
-                  <div class="relative">
-                    <button type="button" @click="toggleShowDropdown">
-                      <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
-                    </button>
-                    <!-- dropdown menu -->
-                    <div
-                      v-show="showDropDown"
-                      class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
-                    >
-                      <div class="py-2" role="none">
-                        <button
-                          type="button"
-                          class="dropdown-button"
-                          @click="editServiceItem(service)"
-                        >
-                          Edit
-                        </button>
-                        <button type="button" class="dropdown-button">
-                          Delete
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ServiceDisplay :service="service" @edit-service="editServiceItem($event)">
+                </ServiceDisplay>
               </div>
             </div>
           </div>
@@ -169,6 +142,7 @@
               v-model="invoiceDetails.dueDate"
               style="width: 100% !important"
               class="w-full"
+              :disabled="invoiceDetails.services && invoiceDetails.services.length === 0"
               :disabled-date="date => date < new Date()"
               value-type="format"
               placeholder="Select a due date for this invoice"
@@ -239,23 +213,51 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
-import _ from 'lodash'
+import isEmpty from 'lodash.isempty'
+import debounce from 'lodash.debounce'
+import ServiceDisplay from '~/components/invoices/ServiceDisplay'
 export default {
-  name: 'NewInvoice',
-  components: { DatePicker },
+  name: 'Invoice',
+  components: { ServiceDisplay, DatePicker },
   layout: 'invoice',
+  props: {
+    invoiceData: {
+      type: Object
+    },
+    mode: {
+      type: String,
+      default: 'create'
+    }
+  },
   data () {
     return {
       invoiceId: null,
       invoiceDetails: {
-        client: this.$route.params.pushedClient || null,
-        services: [],
-        dueDate: new Date()
+        services: []
       },
       isLoading: false,
       showDropDown: false,
       serviceObject: null,
       selectedServiceProps: null
+    }
+  },
+  watch: {
+    'invoiceDetails.services': {
+      handler (val) {
+        this.updateInvoice()
+      }
+    },
+    invoiceDetails: {
+      handler (newValue) {
+        if (this.invoiceId === null && this.invoiceDetails.customerId) {
+          this.$nuxt.$emit('autosaving-invoice')
+          this.createInvoice()
+        } else if (this.invoiceId) {
+          this.updateInvoice()
+        }
+      },
+      immediate: true,
+      deep: true
     }
   },
   computed: {
@@ -264,55 +266,42 @@ export default {
     }),
     allowCreating () {
       return (
-        !!this.invoiceDetails.client &&
-        Boolean(this.invoiceDetails.services.length)
+        !!this.invoiceDetails.customerId &&
+        Boolean(this.invoiceDetails.services && this.invoiceDetails.services.length)
       )
     },
     invoiceToBeSent () {
-      return {
-        items: this.invoiceDetails.services.map((service) => {
-          return {
-            serviceId: service._id,
-            qty: 1,
-            price: service.pricing.amount,
-            description: service.description
-          }
-        }),
-        customerId: this.invoiceDetails.client._id,
-        dueDate: this.invoiceDetails.dueDate,
-        dueDateEpoch: new Date(this.invoiceDetails.dueDate).getTime() / 1000,
-        client: this.invoiceDetails.client
+      if (this.invoiceDetails.services) {
+        return {
+          items: this.invoiceDetails.services.map((service) => {
+            return {
+              serviceId: service._id,
+              qty: 1,
+              price: service.pricing.amount,
+              description: service.description
+            }
+          }),
+          customerId: this.invoiceDetails.customerId ? this.invoiceDetails.customerId._id : null,
+          dueDate: this.invoiceDetails.dueDate || new Date(),
+          dueDateEpoch: new Date(this.invoiceDetails.dueDate).getTime() / 1000 || new Date().getTime() / 1000,
+          client: this.invoiceDetails.client
+        }
       }
     }
   },
-  watch: {
-    invoiceDetails: {
-      handler (newValue) {
-        if (newValue.client !== null && this.invoiceId === null) {
-          this.$nuxt.$emit('autosaving-invoice')
-          return this.createNewInvoice(this.invoiceToBeSent).then((result) => {
-            if (result.status === 'success') {
-              const invoiceId = result.data._id
-              this.invoiceId = invoiceId
-            }
-          })
-        } else if (this.invoiceId) {
-          this.debounceUpdateInvoice()
-        }
-      },
-      immediate: true,
-      deep: true
-    }
-  },
-  created () {
-    this.debounceUpdateInvoice = _.debounce(this.updateInvoice, 3000)
-  },
   methods: {
+    handleSelection (data) {
+      this.$set(this.invoiceDetails, 'services', data)
+    },
     ...mapActions('invoice', {
       createNewInvoice: 'createInvoice',
       sendInvoice: 'sendInvoice',
       fetchInvoices: 'getInvoices'
     }),
+    async createInvoice () {
+      const res = await this.createNewInvoice(this.invoiceToBeSent)
+      this.invoiceId = res.data._id
+    },
     async send () {
       try {
         this.isLoading = true
@@ -321,14 +310,14 @@ export default {
           this.$toast.success('Invoice sending successful', {
             position: 'top-right'
           })
-          this.$router.push({ name: 'Invoices-sent' })
+          this.$router.push({ name: 'invoices-sent' })
         }
       } catch (error) {
         this.isLoading = false
         const errorResponse = this.$errorHandler.setAndParse(error)
         this.$toast.error(
-            `Something went wrong: ${errorResponse.message}`,
-            { position: 'bottom-right' }
+          `Something went wrong: ${errorResponse.message}`,
+          { position: 'bottom-right' }
         )
         // if (error.response) {
         //   this.$toast.error(
@@ -346,24 +335,35 @@ export default {
         // }
       }
     },
-    updateInvoice () {
-      // autosave
+    updateInvoice: debounce(async function () {
       try {
         this.$nuxt.$emit('autosaving-invoice')
-        this.$axios.$put(
-          `${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`,
-          this.invoiceToBeSent
-        )
+        await this.$axios.$put(`${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
       } catch (error) {
         console.error(error)
       }
-    },
-    toggleShowDropdown () {
-      this.showDropDown = !this.showDropDown
-    },
+    }, 1000),
     editServiceItem (id) {
       this.serviceObject = id
       this.$modal.show('add-service-modal')
+    }
+  },
+  mounted () {
+    if (this.invoiceDetails.items && this.invoiceDetails.items.length) {
+      // this.$nextTick(() => {
+        const items = this.invoiceDetails.items.map((item) => {
+          return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]
+        })
+        this.$set(this.invoiceDetails, 'services', items)
+        // this.$forceUpdate()
+        // console.log(this.invoiceDetails.services)
+      // })
+    }
+  },
+  beforeMount () {
+    if (!isEmpty(this.invoiceData)) {
+      this.invoiceDetails = { ...this.invoiceData }
+      this.invoiceId = this.invoiceDetails._id
     }
   }
 }

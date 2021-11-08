@@ -10,7 +10,14 @@
         <div class="grid lg:grid-cols-3 gap-4">
           <div class="hidden lg:block grid">
             <div class="bg-white border border-gray-200 p-1 shadow-sm rounded-xl">
-              <div v-for="(menu, index) in settingsMenu" :key="index" :class="[activeRoute.path.includes(menu.name) ? 'bg-blue-50' : '']" class="p-1 flex py-4 px-3 justify-between cursor-pointer items-center rounded-lg hover:bg-blue-50" @click="$router.push({name: menu.route})">
+              <div
+                v-for="(menu, index) in settingsMenu"
+                v-if="!socialAuth && menu.name !== 'security'"
+                :key="index"
+                :class="[activeRoute.path.includes(menu.name) ? 'bg-blue-50' : '']"
+                class="p-1 flex py-4 px-3 justify-between cursor-pointer items-center rounded-lg hover:bg-blue-50"
+                @click="$router.push({name: menu.route})"
+              >
                 <div class="h-12 w-12 bg-gray-50 flex-shrink-0 flex items-center justify-center rounded-full">
                   <i :class="[menu.icon, activeRoute.path.includes(menu.name) ? 'text-blue-500' : 'text-gray-500' ]" class=" text-2xl"></i>
                 </div>
@@ -70,13 +77,12 @@ export default {
     }
   },
   computed: {
+    socialAuth () {
+      return this.$auth.user.authProvider !== 'local'
+    },
     activeRoute () {
       return this.$route
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>

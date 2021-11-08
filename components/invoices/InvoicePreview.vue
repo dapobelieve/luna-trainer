@@ -64,7 +64,7 @@
               </div>
             </div>
             <div>
-              <div v-if="services.length" class="space-y-5">
+              <div v-if="services && services.length" class="space-y-5">
                 <div
                   v-for="service in services"
                   :key="service._id"
@@ -166,7 +166,7 @@
                     amount
                   </p>
                 </div>
-                <template v-if="services.length">
+                <template v-if="services && services.length">
                   <div
                     v-for="service in services"
                     :key="service._id"
@@ -224,7 +224,7 @@ export default {
   },
   computed: {
     getTotal () {
-      if (this.services.length) {
+      if (this.services && this.services.length) {
         return this.services.reduce(
           (accumulator, current) => accumulator + current.pricing.amount, 0
         )

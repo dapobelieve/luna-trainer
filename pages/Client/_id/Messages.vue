@@ -270,7 +270,7 @@ export default {
               }
             })
           } catch (error) {
-            console.log('errrrr', error)
+            console.log(error)
           }
         }
       })
@@ -431,7 +431,6 @@ export default {
       reader.onload = (e) => {
         this.isUploading = true
         this.fileImage = e.target.result
-        console.log(this.fileImage)
       }
       reader.readAsDataURL(file)
     },

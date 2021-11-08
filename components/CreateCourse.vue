@@ -218,8 +218,6 @@ export default {
       } else {
         this.locationDetails = 'URL link'
       }
-      console.log(e)
-      console.log(this.locationDetails)
     },
     add (index) {
       this.schedules.push({ name: '' })

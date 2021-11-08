@@ -46,7 +46,6 @@ export default {
   },
   methods: {
     addItem ($event) {
-      console.log($event)
       if (this.input && !this.items.includes(this.input.toLowerCase())) {
         this.items.push(this.input)
         this.$emit('input', this.items)

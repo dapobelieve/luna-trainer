@@ -34,10 +34,11 @@ export const actions = {
   },
   async logOut ({ commit, dispatch }) {
     await this.$auth.logout()
+    // clear token oursaelves
     dispatch('loader/startProcess', 'logout', { root: true })
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
-    dispatch('profile/clearGetWelpUser', null, { root: true })
+    // dispatch('profile/clearGetWelpUser', null, { root: true })
     dispatch('sendBird/setCurrentViewingClient', {}, { root: true })
     commit('CLEAR_LOCAL_STORAGE')
     dispatch('loader/endProcess', 'logout', { root: true })

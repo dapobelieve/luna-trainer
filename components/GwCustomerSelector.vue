@@ -68,7 +68,7 @@ export default {
     }
   },
   mounted () {
-    document.getElementById('defaultOpen').click()
+    // document.getElementById('defaultOpen').click()
   }
 }
 </script>

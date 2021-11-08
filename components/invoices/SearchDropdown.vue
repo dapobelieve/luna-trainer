@@ -1,14 +1,35 @@
 <template>
   <ClickOutside :do="() => { show = false}">
-    <div class="relative">
-      <slot :toggleMenu="toggle" name="field"></slot>
-      <div v-if="show" class="absolute right-0 bg-white my-1.5 w-44 border shadow z-40 rounded">
-        <div class="p-1">
-          <input ref="search" v-model="search" class="mb-4 px-1 py-0.5 text-sm focus:outline-none focus:border-blue-100 h-7 rounded-sm border shadow-sm w-full " />
-        </div>
+    <div class="relative border bg-white rounded-lg shadow-sm">
+      <div class="pl-3 pr-1 py-0.5 h-8 justify-between flex items-center ">
+        <ClickOutside :do="() => { showDropDown=false }">
+          <div class="relative cursor-pointer mr-4 items-center inline-flex text-sm">
+            <div class="inline-flex items-center" @click="showDropDown = !showDropDown">
+              <span class="text-gray-500">{{ field }}</span>
+              <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
+            </div>
+            <div v-show="showDropDown" class="absolute top-[18px] absolute mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
+              <div class="py-1" role="none">
+                <a v-for="field in fields" class="text-gray-700 cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100" @click="selectField(field)">
+                  {{ field }}
+                </a>
+              </div>
+            </div>
+          </div>
+        </ClickOutside>
+        <input
+          ref="search"
+          v-model="search"
+          :disabled="!selectedField"
+          :placeholder="placeHolder"
+          class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full "
+          @focus="show = true"
+        />
+      </div>
+      <div v-if="show" class="absolute right-0 bg-white my-1.5 w-40 border shadow z-40 rounded">
         <div>
           <ul v-if="filteredRecords" class="">
-            <li v-for="(option, index) in filteredRecords" :key="index" class="" @click="select(option)">
+            <li v-for="(option, index) in filteredRecords" :key="index" @click="selectOption(option)">
               <slot :option="option" name="option"></slot>
             </li>
           </ul>
@@ -22,19 +43,34 @@
 </template>
 <script>
 export default {
+  model: {
+    prop: 'field',
+    event: 'select'
+  },
   props: {
+    field: {
+      type: String
+    },
+    fields: {
+      type: Array
+    },
     options: {
       type: Array
     }
   },
   data () {
     return {
+      showDropDown: false,
+      selectedField: null,
       value: null,
       search: '',
       show: false
     }
   },
   computed: {
+    placeHolder () {
+      return `Search for ${this.field}`
+    },
     filteredRecords () {
       let records = this.options
 
@@ -48,9 +84,15 @@ export default {
       return records
     }
   },
+  mounted () {
+    this.selectedField = this.fields[0]
+  },
   methods: {
-    select (option) {
-      this.value = option
+    selectField (field) {
+      this.$emit('select', field)
+    },
+    selectOption (option) {
+      // this.value = option
       this.$emit('selected', option)
       this.close()
     },
@@ -65,6 +107,7 @@ export default {
     open () {
       this.show = true
     },
+
     close () {
       this.search = ''
       this.show = false
