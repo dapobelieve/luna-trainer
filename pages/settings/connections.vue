@@ -88,7 +88,7 @@
     </div>
     <div class="bg-red-100 rounded-md p-4 border-left border-gray-100" v-if="stripeErrors.length > 0">
       <div v-for="(error,index) in stripeErrors" :key="index" >
-        <p class='text-left font-semibold capitalize whitespace-nowrap text-gray-500'>{{ error.code.split('_').join(' ') }}</p>
+        <p class='text-left font-semibold capitalize whitespace-nowrap text-gray-600'>{{ error.code.split('_').join(' ') }}</p>
         <small class='mb-3 block text-gray-500'>{{error.reason}}</small>
       </div>
     </div>
