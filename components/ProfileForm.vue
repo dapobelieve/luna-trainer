@@ -82,7 +82,9 @@
               autocomplete="country"
               class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
-              <option v-for="country in countries" :key="country.numericCode">{{ country.name }}</option>
+              <option v-for="country in countries" :key="country.numericCode">
+                {{ country.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -94,7 +96,9 @@
               v-model="profile.timezone"
               class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
-              <option v-for="time in timezones" :key="time.index">{{ time.text }}</option>
+              <option v-for="time in timezones" :key="time.index">
+                {{ time.text }}
+              </option>
             </select>
           </div>
         </div>
@@ -106,8 +110,12 @@
               v-model="profile.dateFormat"
               class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
-              <option value="DD/MM/YY">DD/MM/YY</option>
-              <option value="YY/MM/DD">YY/MM/DD</option>
+              <option value="DD/MM/YY">
+                DD/MM/YY
+              </option>
+              <option value="YY/MM/DD">
+                YY/MM/DD
+              </option>
             </select>
           </div>
         </div>
@@ -119,10 +127,18 @@
             autocomplete="currency"
             class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
           >
-            <option value="AUD">AUD</option>
-            <option value="CAD">CAD</option>
-            <option value="GBP">GBP (£)</option>
-            <option value="USD">USD</option>
+            <option value="AUD">
+              AUD
+            </option>
+            <option value="CAD">
+              CAD
+            </option>
+            <option value="GBP">
+              GBP (£)
+            </option>
+            <option value="USD">
+              USD
+            </option>
           </select>
         </div>
         <div>
@@ -158,7 +174,9 @@
               :key="val"
               :value="parseInt(val) + 1"
               :selected="val.id == '' "
-            >{{ parseInt(val) + 1 }}</option>
+            >
+              {{ parseInt(val) + 1 }}
+            </option>
           </select>
         </div>
         <div>
@@ -175,7 +193,9 @@
             type="button"
             style="width:fit-content"
             @click="submit"
-          >Update profile</button-spinner>
+          >
+            Update profile
+          </button-spinner>
         </div>
       </form>
     </div>

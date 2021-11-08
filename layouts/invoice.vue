@@ -22,7 +22,7 @@
 </template>
 <script>
 export default {
-  name: 'Invoice',
+  name: 'InvoiceLayout',
   provide () {
     return {
       sharedPage: this.sharedPage

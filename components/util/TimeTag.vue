@@ -44,7 +44,6 @@ export default {
   },
   methods: {
     AddField () {
-      console.log(this.field.last, this.field.first)
       const fieldClone = {
         ...this.field
       }

@@ -17,6 +17,16 @@ export const mutations = {
 }
 
 export const actions = {
+  async getFetchCustomerInvoice ({ commit }, payload) {
+    const q = {
+      status: '',
+      workflowStatus: 'sent',
+      limit: 10,
+      page: 1
+    }
+    const newQueryObj = queryString.stringify({ ...q, ...payload })
+    return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice?${newQueryObj}`)
+  },
   fetchInvoiceWithStatusAndLimit ({ commit }, payload) {
     const stat =
       payload !== undefined && 'status' in payload ? payload.status : ''
@@ -36,13 +46,10 @@ export const actions = {
         return response.data
       })
   },
-  createInvoice ({ commit, dispatch }, payload) {
-    return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/invoice`, payload)
-      .then((response) => {
-        dispatch('profile/getUserProfile', null, { root: true })
-        return response
-      })
+  async createInvoice ({ commit, dispatch }, payload) {
+    const res = await this.$axios.$post(`${process.env.BASEURL_HOST}/invoice`, payload)
+    dispatch('profile/getUserProfile', null, { root: true })
+    return res
   },
   updateInvoice ({ commit }, payload) {
     const { items } = payload

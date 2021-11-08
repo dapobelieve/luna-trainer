@@ -40,12 +40,12 @@
     {
       "icon": "ns-receipt",
       "title": "my invoices",
-      "path": "Invoices-sent"
+      "path": "invoices-sent"
     },
     {
       "icon": "ns-plus",
       "title": "new invoice",
-      "path": "NewInvoice"
+      "path": "invoice"
     },
     {
       "section": "Help"

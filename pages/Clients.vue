@@ -1,7 +1,9 @@
 <template>
   <div>
     <PageHeader v-if="$route.name !== 'Clients-id-Messages'">
-      <template v-slot:title>Clients</template>
+      <template v-slot:title>
+        Clients
+      </template>
       <template v-slot:buttons>
         <button type="button" class="button-fill w-10" @click="inviteClient">
           <i class="ns-plus text-xl"></i>

@@ -9,7 +9,7 @@
     <template v-slot:content>
       <span class="font-medium capitalize">
         {{
-        client.firstName
+          client.firstName
         }}
       </span>
     </template>
@@ -35,7 +35,9 @@
             <nuxt-link
               :to="{ name: 'NewInvoice', params: { pushedClient: client } }"
               class="block p-3 hover:bg-gray-100 rounded-md transition-all"
-            >Create Invoice</nuxt-link>
+            >
+              Create Invoice
+            </nuxt-link>
             <a href="#" class="block p-3 hover:bg-gray-100 rounded-md transition-all">Archive</a>
           </div>
         </div>

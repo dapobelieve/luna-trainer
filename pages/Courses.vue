@@ -290,7 +290,6 @@ export default {
   },
   methods: {
     filterCard () {
-      console.log('clicked')
     }
   }
 }

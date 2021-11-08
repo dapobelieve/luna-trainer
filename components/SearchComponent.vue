@@ -115,7 +115,6 @@ export default {
           this.suggestions = result
           this.isListLoading = false
         } catch (e) {
-          console.log(e)
           const networkError = {
             errorMessage: 'Something went wrong'
           }
