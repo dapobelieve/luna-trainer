@@ -27,14 +27,14 @@
           </div>
         </div>
         <div class="flex flex-col space-y-6 p-0 lg:p-4">
-          <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+          <p class="uppercase tracking-wider font-medium text-xs text-gray-500 mb-8">
             Owner
           </p>
-          <div class="flex flex-col items-center">
-            <div>
+          <div class="flex flex-col items-center relative pt-10">
+            <div class="absolute bottom-1/2">
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <div class="capitalize font-normal flex space-x-2 text-xl mt-3">
+            <div class="capitalize font-normal flex space-x-2 text-xl mt-6">
               <GwInputField
                 v-model="clientInfo.firstName"
                 placeholder="first name"
@@ -53,6 +53,7 @@
               />
             </div>
           </div>
+
           <p class="text-xs text-gray-400 text-center">
             Double click on text to edit
           </p>
@@ -97,7 +98,7 @@
                     class="mt-1"
                     @input="focusField"
                   >
-                    <option value="none" selected disabled hidden>
+                    <option :value="null" selected disabled>
                       click here
                     </option>
                     <option
