@@ -303,6 +303,12 @@ export default {
     async createInvoice () {
       const res = await this.createNewInvoice(this.invoiceToBeSent)
       this.invoiceId = res.data._id
+      this.$router.replace({
+        name: 'invoice-id',
+        params: {
+          id: res.data._id
+        }
+      })
     },
     async send () {
       try {
