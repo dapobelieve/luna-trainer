@@ -7,7 +7,7 @@
     </h2>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
-        <label for="firstName" :class="{'text-red-500' : $v.firstName.$error}">First name<span v-if="$v.firstName.$dirty" class="text-red-500">*</span></label>
+        <label for="firstName" :class="{'text-red-500' : $v.firstName.$error}">First name<span class="text-red-500">*</span></label>
         <div class>
           <input
             id="firstName"
@@ -18,7 +18,7 @@
         </div>
       </div>
       <div class="flex flex-col gap-1.5 relative mb-3">
-        <label for="email" :class="{'text-red-500' : $v.email.$error}">Email Address<span v-if="$v.firstName.$dirty" class="text-red-500">*</span></label>
+        <label for="email" :class="{'text-red-500' : $v.email.$error}">Email Address<span class="text-red-500">*</span></label>
         <div class>
           <input
             id="email"
