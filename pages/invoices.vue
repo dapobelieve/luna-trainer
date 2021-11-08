@@ -1,25 +1,6 @@
 <template>
   <div class="h-full">
-    <PageHeader v-if="$route.name === 'Invoices-id'">
-      <template v-slot:back-button>
-        <button type="button outline-none" @click="$router.go(-1)">
-          <img src="~/assets/img/svgs/chevron-back-blue.svg" alt="" srcset="" />
-        </button>
-      </template>
-      <template v-slot:buttons>
-        <div class=" relative">
-          <button
-            type="button"
-            class="bg-white inline-flex items-center text-blue-500 px-2  py-1  border-none  text-base  font-medium  rounded  shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            @click="printInvoice"
-          >
-            <i class="ns-print text-blue-500 text-xl pr-1.5"></i>
-            Print
-          </button>
-        </div>
-      </template>
-    </PageHeader>
-    <PageHeader v-else>
+    <PageHeader>
       <template v-slot:title>
         <span class="font-normal">Invoices</span>
       </template>
@@ -145,9 +126,6 @@ export default {
     },
     filterInvoice (link) {
       this.filter = link
-    },
-    printInvoice () {
-      window.print()
     },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {

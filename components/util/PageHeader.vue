@@ -7,7 +7,6 @@
         <slot name="back-button" />
         <slot name="avatar" />
         <slot name="title">
-          Replace Heading
         </slot>
       </div>
     </h3>

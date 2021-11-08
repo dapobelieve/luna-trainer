@@ -1,5 +1,24 @@
 <template>
   <async-view>
+    <PageHeader>
+      <template v-slot:back-button>
+        <button type="button outline-none" @click="$router.go(-1)">
+          <img src="~/assets/img/svgs/chevron-back-blue.svg" alt="" srcset="" />
+        </button>
+      </template>
+      <template v-slot:buttons>
+        <div class=" relative">
+          <button
+            type="button"
+            class="bg-white inline-flex items-center text-blue-500 px-2  py-1  border-none  text-base  font-medium  rounded  shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            @click="printInvoice"
+          >
+            <i class="ns-print text-blue-500 text-xl pr-1.5"></i>
+            Print
+          </button>
+        </div>
+      </template>
+    </PageHeader>
     <div class="parent-container">
       <div class="flex items-center header">
         <p class="font-normal text-2xl text-gray-700 mr-auto">
@@ -154,6 +173,9 @@ export default {
       })
   },
   methods: {
+    printInvoice () {
+      window.print()
+    },
     ...mapActions({
       getSingleInvoice: 'invoice/getSingleInvoice'
     })
