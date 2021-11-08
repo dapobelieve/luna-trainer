@@ -77,8 +77,12 @@ export default {
   },
   computed: {
     filteredMenu () {
-      return this.settingsMenu.filter((items) => {
-        return (!this.socialAuth && items.name !== 'security')
+      return this.settingsMenu.filter((item) => {
+        if (this.socialAuth && item.name !== 'security') {
+          return item
+        } else {
+          return item
+        }
       })
     },
     socialAuth () {
