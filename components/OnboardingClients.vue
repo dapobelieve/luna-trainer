@@ -11,7 +11,7 @@
         <div class>
           <input
             id="firstName"
-            v-model="firstName"
+            v-model="$v.firstName.$model"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
             :class="{'shadow-md border-red-500' : $v.firstName.$error}"
           />
@@ -22,7 +22,7 @@
         <div class>
           <input
             id="email"
-            v-model="email"
+            v-model="$v.email.$model"
             class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
             :class="{'shadow-md border-red-500' : $v.email.$error}"
           />

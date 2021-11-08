@@ -3,11 +3,9 @@
     v-if="value"
     :style="{ height: resizeHeight, top: resizeTop }"
     :class="[
-      'fixed w-full lg:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
+      'fixed w-full lg:left-56 xl:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
   >
-    <div
-      class="relative p-0 sm:p-3 h-full flex justify-center lg:justify-start"
-    >
+    <div class="relative p-0 sm:p-3 h-full flex justify-center lg:justify-start">
       <transition
         enter="ease-out duration-300"
         enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -27,9 +25,7 @@
           <div class="sticky top-0">
             <div class="flex justify-between items-center bg-white p-4">
               <slot name="title" />
-              <div
-                class="hover:bg-blue-50 h-8 w-8 flex items-center justify-center rounded-full"
-              >
+              <div class="hover:bg-blue-50 h-8 w-8 flex items-center justify-center rounded-full">
                 <i class="ns-cross text-blue-500" role="button" @click="$emit('input', false)"></i>
               </div>
             </div>

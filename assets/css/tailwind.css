@@ -7,7 +7,7 @@
   
   body {
     font-family: 'DM Sans', sans-serif;
-    @apply antialiased text-gray-700 bg-gray-50 transition-all;
+    @apply antialiased text-gray-700 bg-gray-100 transition-all;
   }
 
   ::selection {
@@ -82,7 +82,7 @@
   }
 
   .input-text-label {
-    @apply text-gray-700 font-medium text-base mb-1;
+    @apply text-gray-700 font-normal text-base mb-1;
   }
 
   .input-text {
@@ -93,7 +93,7 @@
 
   @layer components {
     .contain-default-pages {
-      @apply mx-3 sm:mx-5 2xl:mx-auto mt-5 md:max-w-4xl 2xl:max-w-7xl lg:max-w-full;
+      @apply max-w-2xl 2xl:max-w-7xl lg:max-w-full w-full;
     }
     .base-button {
 
@@ -107,19 +107,29 @@
 
     button {
 
-      @apply focus:outline-none font-medium capitalize inline-flex items-center justify-center transition-all;
+      @apply focus:outline-none font-medium capitalize inline-flex items-center justify-center transition-all whitespace-nowrap rounded-md;
 
       &.button-fill {
-        @apply shadow-sm text-white bg-blue-500 border-blue-500  hover:bg-blue-600 hover:border-blue-600 px-4 py-1 h-10 rounded-md disabled:bg-blue-300 disabled:cursor-not-allowed disabled:hover:bg-none;
+        @apply shadow-sm text-white bg-blue-500 border-blue-500  hover:bg-blue-600 hover:border-blue-600 px-4 py-1 h-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-none;
+        &.button-sm {
+          @apply  px-2 py-1 h-8 text-sm;
+        }
       }
 
       &.button-outline {
-        @apply text-blue-500 bg-transparent hover:bg-blue-50 hover:border-blue-500 border px-4 py-1 h-10 rounded-md;
+        @apply text-blue-500 bg-transparent hover:bg-blue-100 hover:border-blue-500 border px-4 py-1 h-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-none;;
+        &.button-sm {
+          @apply  px-2 py-1 h-8 text-sm;
+        }
       }
 
       &.button-text {
-        @apply text-blue-500 bg-transparent hover:bg-blue-50 hover:border-blue-50 px-4 py-1 h-10 rounded-md;
+        @apply text-blue-500 bg-transparent hover:bg-blue-100 hover:border-blue-50 px-4 py-1 h-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-none;;
       }
+      &.button-sm {
+        @apply  px-2 py-1 h-8 text-sm;
+      }
+
     }
 
     input {

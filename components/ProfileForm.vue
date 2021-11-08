@@ -4,7 +4,11 @@
       <form autocomplete="off" class="grid gap-6">
         <div>
           <label for="location" class="form-label">Profile Image</label>
-          <div style="cursor: pointer" class="border-dashed flex items-center rounded p-3" @click="()=>$refs.fileInput.click()">
+          <div
+            style="cursor: pointer"
+            class="border-dashed flex items-center rounded p-3"
+            @click="()=>$refs.fileInput.click()"
+          >
             <input
               ref="fileInput"
               type="file"
@@ -19,21 +23,26 @@
                 style="object-fit: cover"
                 :class="[ 'p-2', 'rounded-full', 'w-full','h-full', 'border', 'bg-gray-200']"
                 src="~/assets/img/avatar-placeholder.gif"
-              >
+              />
               <img
                 v-else
                 :class="[ 'p-0', 'rounded-full', 'w-full','h-full', 'border', 'bg-gray-200']"
                 style="object-fit: cover"
                 :src="profileImageUrl"
-              >
+              />
             </div>
             <div class="ml-4">
               <template v-if="!profileImageUrl">
-                <small class="block"> Drop images here or <u>browse</u> </small>
+                <small class="block">
+                  Drop images here or
+                  <u>browse</u>
+                </small>
                 <small class="text-gray-400">Image format: jpeg, png or gif</small>
               </template>
               <template v-else>
-                <small class="block"> <u>Upload a different image?</u> </small>
+                <small class="block">
+                  <u>Upload a different image?</u>
+                </small>
               </template>
             </div>
           </div>
@@ -41,20 +50,33 @@
         <div class="flex justify-between flex-col lg:flex-row gap-6">
           <div class="w-full">
             <label for="first_name" class="block text-sm font-medium text-gray-700">First name</label>
-            <input v-model="profile.firstName" type="text" class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <input
+              v-model="profile.firstName"
+              type="text"
+              class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+            />
           </div>
           <div class="w-full">
             <label for="last_name" class="block text-sm font-medium text-gray-700">Last name</label>
-            <input v-model="profile.lastName" type="text" class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+            <input
+              v-model="profile.lastName"
+              type="text"
+              class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+            />
           </div>
         </div>
         <div>
           <label for="email">Email address</label>
-          <input v-model="profile.email" disabled type="email" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md bg-gray-200">
+          <input
+            v-model="profile.email"
+            disabled
+            type="email"
+            class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md bg-gray-200"
+          />
         </div>
         <div>
           <label for="location">Location</label>
-          <div class="">
+          <div class>
             <select
               v-model="profile.location"
               autocomplete="country"
@@ -68,7 +90,7 @@
         </div>
         <div>
           <label for="location">Time zone</label>
-          <div class="">
+          <div class>
             <select
               id="timezone"
               v-model="profile.timezone"
@@ -82,7 +104,7 @@
         </div>
         <div>
           <label for="location">Date Format</label>
-          <div class="">
+          <div class>
             <select
               id="dateformat"
               v-model="profile.dateFormat"
@@ -121,7 +143,11 @@
         </div>
         <div>
           <label for="business-name">Business Name</label>
-          <input v-model="profile.businessName" type="text" class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md">
+          <input
+            v-model="profile.businessName"
+            type="text"
+            class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
+          />
         </div>
         <div>
           <label for="url">Website URL</label>
@@ -131,7 +157,7 @@
             class="w-full bg-white p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md"
             @input="change($event)"
             @change="change($event)"
-          >
+          />
           <small v-if="isValid" class="text-red-700">url is invalid</small>
         </div>
         <div>
@@ -162,7 +188,12 @@
           <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
         </div>
         <div class="flex justify-end">
-          <button-spinner :loading="loading" type="button" style="width:fit-content" @click="submit">
+          <button-spinner
+            :loading="loading"
+            type="button"
+            style="width:fit-content"
+            @click="submit"
+          >
             Update profile
           </button-spinner>
         </div>

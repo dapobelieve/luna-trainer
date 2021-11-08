@@ -1,12 +1,12 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="py-4 px-8">
-      <div class="grid gap-6 text-sm">
-        <div class="flex justify-between items-center relative">
-          <h2 class="font-normal text-xl to-gray-700">
+    <div v-if="clientInfo">
+      <div class="grid bg-white border rounded-xl w-full">
+        <div class="flex justify-between items-center py-4 lg:p-4 pb-2 relative">
+          <h2 class="text-xl">
             Information
           </h2>
-          <div v-if="showButtons" class="flex absolute right-0">
+          <div class="flex absolute right-3">
             <button
               :disabled="cancelLoading "
               type="button"
@@ -26,174 +26,203 @@
             </button-spinner>
           </div>
         </div>
-        <h3 class="mb-6 text-gray-500 text-xs font-medium">
-          OWNER
-        </h3>
-        <!-- owner details -->
-        <div class="text-gray-700">
-          <div class="flex flex-col items-center mb-6">
+        <div class="flex flex-col space-y-6 p-0 lg:p-4">
+          <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+            Owner
+          </p>
+          <div class="flex flex-col items-center">
             <div>
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <div class="capitalize font-normal flex space-x-4 text-xl mt-3">
+            <div class="capitalize font-normal flex space-x-2 text-xl mt-3">
               <GwInputField
                 v-model="clientInfo.firstName"
-                :align-right="true"
-                placeholder="click here"
+                placeholder="first name"
                 type="text"
-                style="text-align: right !important"
+                :align-right="true"
+                class="text-xl capitalize"
+                style="text-align: right !important; text-transform: capitalize !important;"
                 @input="focusField"
               />
               <GwInputField
                 v-model="clientInfo.lastName"
-                placeholder="Add last name"
+                placeholder="last name"
                 type="text"
+                class="text-xl capitalize"
                 @input="focusField"
               />
             </div>
-            <small
-              class="text-sm text-gray-400 mt-3"
-            >Double click on text to edit</small>
           </div>
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            <div class="sm:col-span-1 flex">
-              <i class="ns-phone text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <GwInputField
-                  v-model="clientInfo.phoneNumber"
-                  placeholder="click here"
-                  type="tel"
-                  label="Telephone"
-                  @input="focusField"
-                />
+          <p class="text-xs text-gray-400 text-center">
+            Double click on text to edit
+          </p>
+          <dl class="flex flex-col space-y-6 p-4">
+            <div class="flex space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-envelope"
+              ></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.phoneNumber"
+                    placeholder="click here"
+                    type="tel"
+                    label="Telephone"
+                    class="mt-1"
+                    @input="focusField"
+                  />
+                </div>
+                <div class="place-self-auto">
+                  <dt class="input-text-label">
+                    Email
+                  </dt>
+                  <dd class="mt-1 truncate">
+                    {{ clientInfo && clientInfo.email }}
+                  </dd>
+                </div>
               </div>
             </div>
-
-            <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Email Address
-                </dt>
-                <dd class="mt-1 truncate">
-                  {{ clientInfo && clientInfo.email }}
-                </dd>
-              </div>
-            </div>
-
-            <div class="sm:col-span-1 flex">
-              <i class="ns-location-alt text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Location
-                </dt>
-                <select
-                  v-model="clientInfo.location"
-                  autocomplete="country"
-                  @input="focusField"
-                >
-                  <option value="" disabled selected hidden>
-                    click here
-                  </option>
-                  <option
-                    v-for="country in countries"
-                    :key="country.numericCode"
+            <div class="flex space-x-4 xl:space-x-6">
+              <i
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-location-alt"
+              ></i>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <dt class="input-text-label">
+                    Country
+                  </dt>
+                  <select
+                    v-model="clientInfo.location"
+                    autocomplete="country"
+                    class="mt-1"
+                    @input="focusField"
                   >
-                    {{ country.name }}
-                  </option>
-                </select>
-              </div>
-            </div>
-            <div class="sm:col-span-1 flex">
-              <div class="ml-10">
-                <GwInputField
-                  v-model="clientInfo.city"
-                  placeholder="click here"
-                  type="text"
-                  label="City"
-                  @input="focusField"
-                />
-              </div>
-            </div>
-            <div class="sm:col-span-1 flex">
-              <div class="ml-10">
-                <GwInputField
-                  v-model="clientInfo.zip"
-                  placeholder="click here"
-                  type="text"
-                  label="Post Code"
-                  @input="focusField"
-                />
+                    <option value="none" selected disabled hidden>
+                      click here
+                    </option>
+                    <option
+                      v-for="country in countries"
+                      :key="country.numericCode"
+                    >
+                      {{ country.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="place-self-auto">
+                  <GwInputField
+                    v-model="clientInfo.city"
+                    placeholder="click here"
+                    type="text"
+                    label="City"
+                    @input="focusField"
+                  />
+                </div>
+                <div class="">
+                  <div class="">
+                    <div>
+                      <GwInputField
+                        v-model="clientInfo.zip"
+                        placeholder="click here"
+                        type="text"
+                        label="Post Code"
+                        @input="focusField"
+                      />
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </dl>
         </div>
         <!-- dog details -->
-        <div>
-          <h3 class="mb-6 text-gray-500 text-xs font-medium mt-3">
+        <div class="flex flex-col space-y-6 p-4">
+          <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
             DOG DETAILS
-          </h3>
-          <dl class="grid grid-cols-1 gap-x-4 gap-y-6 sm:grid-cols-2">
-            <div class="sm:col-span-1 flex">
-              <i class="ns-time-add text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <GwInputField
-                  v-model="clientInfo.pet[0].name"
-                  label="Dog name"
-                  placeholder="click here"
-                  type="text"
-                  @input="focusField"
+          </p>
+          <p class="text-xs text-gray-400 text-center">
+            Double click on text to edit
+          </p>
+          <dl class="flex flex-col space-y-6">
+            <div class="flex space-x-4 xl:space-x-6">
+              <div
+                class="p-1 h-12 w-12 mb-4 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"
+              >
+                <img
+                  class="h-5 w-5"
+                  src="~/assets/img/svgs/pawn.svg"
+                  alt="dog paw"
                 />
               </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.pet[0].name"
+                    label="Dog name"
+                    placeholder="click here"
+                    type="text"
+                    @input="focusField"
+                  />
+                </div>
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.pet[0].breed"
+                    placeholder="click here"
+                    label="Breed"
+                    type="text"
+                    @input="focusField"
+                  />
+                </div>
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.pet[0].age"
+                    placeholder="click here"
+                    type="text"
+                    label="Age"
+                    @input="focusField"
+                  />
+                </div>
+              </div>
             </div>
-
-            <div class="sm:col-span-1 ml-10">
-              <GwInputField
-                v-model="clientInfo.pet[0].breed"
-                placeholder="click here"
-                label="Breed"
-                type="text"
-                @input="focusField"
-              />
-            </div>
-
-            <div class="sm:col-span-1 flex">
-              <i class="ns-envelope text-2xl invisible"></i>
-              <div class="ml-4">
-                <GwInputField
-                  v-model="clientInfo.pet[0].age"
-                  placeholder="click here"
-                  type="text"
-                  label="Age"
-                  @input="focusField"
+            <div class="flex flex-grow space-x-4 xl:space-x-6">
+              <div
+                class="p-1 h-12 w-12 mb-4 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"
+              >
+                <img
+                  class="h-5 w-5"
+                  src="~/assets/img/svgs/behaviour.svg"
+                  alt="dog paw"
                 />
               </div>
-            </div>
-
-            <div class="sm:col-span-2 flex">
-              <i class="ns-envelope text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Behavioural Problems
-                </dt>
-                <dd class="mt-1 truncate">
-                  Not Available
-                </dd>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
+                <div>
+                  <dt class="input-text-label">
+                    Behavioural Problems
+                  </dt>
+                  <dd class="mt-1 text-gray-400">
+                    Not Available
+                  </dd>
+                </div>
               </div>
             </div>
-
-            <div class="sm:col-span-2 flex">
-              <i class="ns-notebook text-2xl text-gray-500"></i>
-              <div class="ml-4">
-                <dt class="input-text-label">
-                  Note
-                </dt>
-                <textarea
-                  v-model="clientInfo.notes"
-                  placeholder="click here"
-                  type="text"
-                  @input="focusField"
-                ></textarea>
+            <div class="flex flex-grow space-x-4 xl:space-x-6">
+              <div
+                class="p-1 h-12 w-12 mb-4 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"
+              >
+                <img
+                  class="h-5 w-5"
+                  src="~/assets/img/svgs/notes.svg"
+                  alt="dog paw"
+                />
+              </div>
+              <div class="grid gap-6 flex-grow flex-wrap w-full">
+                <div>
+                  <dt class="input-text-label">
+                    Owner's Notes
+                  </dt>
+                  <dd class="mt-1 truncate">
+                    {{ clientInfo && clientInfo.notes }}
+                  </dd>
+                </div>
               </div>
             </div>
           </dl>
@@ -291,6 +320,8 @@ export default {
               { position: 'bottom-right' }
             )
           }
+        }).finally(() => {
+          this.isLoading = false
         })
     },
     cancelEditField () {

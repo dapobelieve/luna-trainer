@@ -1,15 +1,13 @@
 <template>
   <div
-    class="navigation hidden lg:block lg:flex lg:h-screen z-40 lg:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
+    class="hidden lg:block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
     <!-- Sidebar Search -->
 
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="w-full">
       <div class="relative">
-        <div
-          class="px-1 pb-1 pt-1 lg:pt-0 lg:pb-6 overflow-y-auto h-screen max-h-screen"
-        >
+        <div class="px-1 pb-1 pt-1 lg:pt-0 lg:pb-6 overflow-y-auto h-screen max-h-screen">
           <div class="px-3 py-4">
             <label for="search" class="sr-only">Search</label>
             <div class="relative flex items-center h-8">
@@ -72,16 +70,9 @@
                 <i class="ns-plus" />
                 <span class="truncate">Invite Client</span>
               </button>
-              <div
-                v-else-if="menu.path === 'addSession'"
-                class="bg-gray-50 border rounded-lg"
-              >
-                <div
-                  class="p-4 flex justify-between items-center"
-                >
-                  <span
-                    class="uppercase tracking-wider font-medium text-xs"
-                  >SCHEDULE</span>
+              <div v-else-if="menu.path === 'addSession'" class="bg-gray-50 border rounded-lg">
+                <div class="p-4 flex justify-between items-center">
+                  <span class="uppercase tracking-wider font-medium text-xs">SCHEDULE</span>
                   <span
                     class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
                   >Coming soon</span>
@@ -108,16 +99,9 @@
                   We’re still developing this, so bear with us!
                 </p>
               </div>
-              <div
-                v-else-if="menu.path === 'newCourse'"
-                class="bg-gray-50 border rounded-lg mt-2"
-              >
-                <div
-                  class="p-4 flex justify-between items-center"
-                >
-                  <span
-                    class="uppercase tracking-wider font-medium text-xs"
-                  >COURSES</span>
+              <div v-else-if="menu.path === 'newCourse'" class="bg-gray-50 border rounded-lg mt-2">
+                <div class="p-4 flex justify-between items-center">
+                  <span class="uppercase tracking-wider font-medium text-xs">COURSES</span>
                   <span
                     class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
                   >Coming soon</span>
@@ -127,11 +111,7 @@
                   disabled
                   @click="addSession = true"
                 >
-                  <img
-                    class="p-1 rounded-full"
-                    src="~/assets/img/svgs/course.svg"
-                    alt="course"
-                  />
+                  <img class="p-1 rounded-full" src="~/assets/img/svgs/course.svg" alt="course" />
                   <span class="truncate">My Courses</span>
                 </button>
                 <button
@@ -178,13 +158,8 @@
                 <i class="ns-power" />
                 <span class="truncate">Sign out</span>
               </button>
-              <div
-                v-if="menu.section"
-                class="p-4 flex justify-between items-center"
-              >
-                <span
-                  class="uppercase tracking-wider font-medium text-xs"
-                >{{ menu.section }}</span>
+              <div v-if="menu.section" class="p-4 flex justify-between items-center">
+                <span class="uppercase tracking-wider font-medium text-xs">{{ menu.section }}</span>
                 <span
                   v-if="menu.dev"
                   class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
@@ -215,9 +190,7 @@
                 </div>
                 <div>
                   <div class="flex flex-col gap-1">
-                    <span
-                      class="font-medium text-gray-700"
-                    >APBC Committee Meeting with Ali R</span>
+                    <span class="font-medium text-gray-700">APBC Committee Meeting with Ali R</span>
                     <span class="text-sm">7pm - 9pm . Remote</span>
                   </div>
                   <div class="flex gap-2 mt-3">
@@ -232,10 +205,7 @@
               </div>
             </div>
 
-            <div
-              v-else
-              class="text-center py-8 px-4 flex w-full justify-center"
-            >
+            <div v-else class="text-center py-8 px-4 flex w-full justify-center">
               <div class="max-w-xs flex gap-3 flex-col">
                 <h5 class="font-bold text-lg text-gray-700">
                   No Notifications.
@@ -286,17 +256,9 @@
                 </div>
                 <div class="text-sm">
                   <div class="capitalize font-semibold">
-                    <span
-                      class="capitalize font-semibold mr-2"
-                    >{{ n.lastMessage._sender.nickname }}</span>
+                    <span class="capitalize font-semibold mr-2">{{ n.lastMessage._sender.nickname }}</span>
                     <span class="text-gray-400 text-xs normal-case">
-                      {{
-                        formatDistance(
-                          new Date(n.lastMessage.createdAt),
-                          new Date(),
-                          { addSuffix: true }
-                        )
-                      }}.
+                      {{ n.lastMessage.createdAt | howLongAgo }}.
                     </span>
                   </div>
                   <div
@@ -307,10 +269,7 @@
                 </div>
               </button>
             </div>
-            <div
-              v-else
-              class="text-center py-8 px-4 flex w-full justify-center"
-            >
+            <div v-else class="text-center py-8 px-4 flex w-full justify-center">
               <div class="max-w-xs flex gap-3 flex-col">
                 <h2 class="font-bold text-lg text-gray-700">
                   No New Messages.
@@ -347,9 +306,7 @@
       @closeBackDrop="openModal = $event"
     >
       <template v-slot:status>
-        <div
-          class="bg-gray-100 text-gray-500 px-2 rounded-3xl"
-        >
+        <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
           Create New Invoice
         </div>
       </template>
@@ -394,14 +351,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import { formatDistance } from 'date-fns'
 import menus from '~/navigation.json'
 
 export default {
   name: 'Navigation',
   data () {
     return {
-      formatDistance,
       menus,
       showNotification: false,
       openModal: false,

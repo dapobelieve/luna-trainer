@@ -18,9 +18,7 @@
             >
               We’re here to make dog trainers’ lives easier
             </h1>
-            <div
-              class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6"
-            >
+            <div class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6">
               <p
                 v-if="routeName === 'Auth-SignUp'"
                 class="text-gray-500"
@@ -49,7 +47,7 @@
           </div>
         </div>
         <div
-          class="h-16 w-16 flex-shrink-0 rounded-full flex items-center justify-center text-xs text-gray-500 bg-gray-50"
+          class="h-16 w-16 flex-shrink-0 rounded-full flex items-center justify-center text-xs text-gray-500 bg-gray-100"
         >
           <span class="tracking-widest">OR</span>
           <span

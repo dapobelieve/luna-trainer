@@ -11,7 +11,7 @@ export default {
   components: { InvoiceComponent },
   inject: ['sharedPage'],
   layout: 'invoice',
-  async mounted () {
+  mounted () {
     this.sharedPage.page = 'Create Invoice'
   }
 }

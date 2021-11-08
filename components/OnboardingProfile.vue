@@ -127,7 +127,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
-import { required, numeric } from 'vuelidate/lib/validators'
+import { required } from 'vuelidate/lib/validators'
 import timezones from '~/timezones.json'
 import countries from '~/countries.json'
 import PhoneComponent from '~/components/util/PhoneComponent'

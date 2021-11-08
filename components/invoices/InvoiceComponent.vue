@@ -20,7 +20,7 @@
           <label class="input-text-label">
             Choose
           </label>
-          <gw-customer-selector v-model="invoiceDetails.client || invoiceDetails.customerId" :disabled="mode==='edit'" :clients="allClients">
+          <gw-customer-selector v-model="invoiceDetails.customerId" :disabled="mode==='edit'" :clients="allClients">
             <template v-slot:dropdownOption="{ optionObject }">
               <div class="flex justify-between min-w-full items-center">
                 <div class="flex items-center content-center py-1">
@@ -286,6 +286,8 @@ export default {
           dueDateEpoch: new Date(this.invoiceDetails.dueDate).getTime() / 1000 || new Date().getTime() / 1000,
           client: this.invoiceDetails.client
         }
+      } else {
+        return {}
       }
     }
   },
@@ -350,14 +352,10 @@ export default {
   },
   mounted () {
     if (this.invoiceDetails.items && this.invoiceDetails.items.length) {
-      // this.$nextTick(() => {
-        const items = this.invoiceDetails.items.map((item) => {
-          return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]
-        })
-        this.$set(this.invoiceDetails, 'services', items)
-        // this.$forceUpdate()
-        // console.log(this.invoiceDetails.services)
-      // })
+      const items = this.invoiceDetails.items.map((item) => {
+        return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]
+      })
+      this.$set(this.invoiceDetails, 'services', items)
     }
   },
   beforeMount () {

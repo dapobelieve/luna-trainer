@@ -10,7 +10,7 @@
             </div>
             <div v-show="showDropDown" class="absolute top-[18px] absolute mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
               <div class="py-1" role="none">
-                <a v-for="field in fields" class="text-gray-700 cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100" @click="selectField(field)">
+                <a v-for="(field, indexF) in fields" :key="indexF" class="text-gray-700 cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100" @click="selectField(field)">
                   {{ field }}
                 </a>
               </div>

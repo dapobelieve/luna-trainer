@@ -20,7 +20,7 @@ export default {
       invoiceData: null
     }
   },
-  async mounted () {
+  mounted () {
     this.sharedPage.page = 'Edit Invoice'
   }
 }

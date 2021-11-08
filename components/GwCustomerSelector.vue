@@ -74,7 +74,7 @@ export default {
 </script>
 <style scoped lang="scss">
 ::v-deep .v-select {
-  border: 1px solid #0EA5E9 !important;
+  border: 1px solid #E2E8F0 !important;
 }
 
 ::v-deep {

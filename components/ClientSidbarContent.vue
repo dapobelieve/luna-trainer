@@ -6,26 +6,22 @@
         <client-card-navigation />
 
         <!-- invoices -->
-        <div class="hidden lg:block">
+        <div>
           <containers-summary-card-with-notifications
             :display-view-all-button="Boolean(paidInvoices.length)"
             url="Invoices"
+            :class="{'payment-tab__hidden': displayComponent}"
           >
             <template v-slot:icon>
               <i
-                class="ns-receipt bg-indigo-50 p-1 rounded-full text-gray-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+                class="ns-receipt bg-gray-100 p-1 rounded-full text-gray-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
               ></i>
             </template>
             <template v-slot:title>
-              <span class="text-base">
-                payments
-              </span>
+              <span class="text-base">payments</span>
             </template>
             <template v-slot:content>
-              <div
-                v-if="$store.state.invoice.isLoading"
-                class="flex place-content-center mt-16"
-              >
+              <div v-if="$store.state.invoice.isLoading" class="flex place-content-center mt-16">
                 <SingleLoader />
               </div>
               <template v-else>
@@ -36,8 +32,10 @@
                         <ClientAvatar :client-info="invoice.customerId" />
                       </template>
                       <template v-slot:content>
-                        <span class="font-medium">{{ invoice.customerId.firstName }}
-                          {{ invoice.customerId.lastName }}</span> has paid you.
+                        <span class="font-medium">
+                          {{ invoice.customerId.firstName }}
+                          {{ invoice.customerId.lastName }}
+                        </span> has paid you.
                       </template>
                       <template v-slot:date>
                         {{ invoice.dueDate | date }}
@@ -62,8 +60,10 @@
 
 <script>
 import { mapActions } from 'vuex'
+import Helpers from '~/mixins/helpers'
 export default {
   name: 'ClientSidebarContent',
+  mixins: [Helpers],
   data () {
     return {
       paidInvoices: []
@@ -81,4 +81,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+ .payment-tab__hidden {
+    display: none;
+  }
+@media only screen and (min-width: 1024px) {
+ .payment-tab__hidden {
+    display: block;
+  }
+}
 </style>
