@@ -373,12 +373,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .divider {
   @apply hidden lg:block bg-gray-200 w-[1px];
 }
-
 .dropdown-button {
   @apply text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left;
+}
+.mx-input{
+  height:2.5rem;
 }
 </style>
