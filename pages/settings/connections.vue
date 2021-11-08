@@ -86,11 +86,10 @@
         </button>
       </div>
     </div>
-    <div class="bg-red-100 rounded-md p-4 border-left border-gray-100">
-      <!-- <h1 class='text-left text-md whitespace-nowrap pb-2'>Stripe Connection errors</h1> -->
-      <div v-for="(error,index) in stripeErrors.slice(0,2)" :key="index">
-        <p class='text-left font-semibold capitalize whitespace-nowrap'>{{ error.code.split('_').join(' ') }}</p>
-        <small class='mb-3 block'>{{ error.reason}}</small>
+    <div class="bg-red-100 rounded-md p-4 border-left border-gray-100" v-if="stripeErrors.length > 0">
+      <div v-for="(error,index) in stripeErrors" :key="index" >
+        <p class='text-left font-semibold capitalize whitespace-nowrap text-gray-500'>{{ error.code.split('_').join(' ') }}</p>
+        <small class='mb-3 block text-gray-500'>{{error.reason}}</small>
       </div>
     </div>
   </div>
@@ -112,7 +111,15 @@ export default {
       stripeConnection: 'stripeConnection'
     }),
     stripeErrors () {
-      return (this.stripeConnection && this.stripeConnection.requirements && this.stripeConnection.requirements.errors) || []
+      const errors = (this.stripeConnection && this.stripeConnection.requirements && this.stripeConnection.requirements.errors) || []
+      const errorCodes = []
+      return errors.filter((error) => {
+        if (!errorCodes.includes(error.code)) {
+          errorCodes.push(error.code)
+          return true
+        }
+        return false
+      })
     }
   },
   methods: {
