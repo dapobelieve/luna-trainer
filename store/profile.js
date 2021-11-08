@@ -164,6 +164,7 @@ export const actions = {
 }
 export const getters = {
   getUser: state => state.getWelpUser,
+  stripeConnection: state => state.getWelpUser.stripe,
   isStripeConnected: state =>
     state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
   isStripeReady: state =>

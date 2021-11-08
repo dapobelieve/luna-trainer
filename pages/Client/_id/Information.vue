@@ -37,7 +37,7 @@
             <div class="capitalize font-normal flex space-x-2 text-xl mt-6">
               <GwInputField
                 v-model="clientInfo.firstName"
-                placeholder="first name"
+                placeholder="First name"
                 type="text"
                 :align-right="true"
                 class="text-xl capitalize"
@@ -46,7 +46,7 @@
               />
               <GwInputField
                 v-model="clientInfo.lastName"
-                placeholder="last name"
+                placeholder="Last name"
                 type="text"
                 class="text-xl capitalize"
                 @input="focusField"
@@ -66,7 +66,7 @@
                 <div>
                   <GwInputField
                     v-model="clientInfo.phoneNumber"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="tel"
                     label="Telephone"
                     class="mt-1"
@@ -112,7 +112,7 @@
                 <div class="place-self-auto">
                   <GwInputField
                     v-model="clientInfo.city"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="text"
                     label="City"
                     @input="focusField"
@@ -123,7 +123,7 @@
                     <div>
                       <GwInputField
                         v-model="clientInfo.zip"
-                        placeholder="click here"
+                        placeholder="Type here"
                         type="text"
                         label="Post Code"
                         @input="focusField"
@@ -159,7 +159,7 @@
                   <GwInputField
                     v-model="clientInfo.pet[0].name"
                     label="Dog name"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="text"
                     @input="focusField"
                   />
@@ -167,7 +167,7 @@
                 <div>
                   <GwInputField
                     v-model="clientInfo.pet[0].breed"
-                    placeholder="click here"
+                    placeholder="Type here"
                     label="Breed"
                     type="text"
                     @input="focusField"
@@ -176,7 +176,7 @@
                 <div>
                   <GwInputField
                     v-model="clientInfo.pet[0].age"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="text"
                     label="Age"
                     @input="focusField"
@@ -200,7 +200,7 @@
                     Behavioural Problems
                   </dt>
                   <dd class="mt-1 text-gray-400">
-                    Not Available
+                     {{ clientInfo && clientInfo.behaviour }}
                   </dd>
                 </div>
               </div>

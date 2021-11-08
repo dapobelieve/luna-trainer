@@ -86,6 +86,13 @@
         </button>
       </div>
     </div>
+    <div class="bg-red-100 rounded-md p-4 border-left border-gray-100">
+      <!-- <h1 class='text-left text-md whitespace-nowrap pb-2'>Stripe Connection errors</h1> -->
+      <div v-for="(error,index) in stripeErrors.slice(0,2)" :key="index">
+        <p class='text-left font-semibold capitalize whitespace-nowrap'>{{ error.code.split('_').join(' ') }}</p>
+        <small class='mb-3 block'>{{ error.reason}}</small>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,8 +108,12 @@ export default {
   },
   computed: {
     ...mapGetters('profile', {
-      isStripeConnected: 'isStripeConnected'
-    })
+      isStripeConnected: 'isStripeConnected',
+      stripeConnection: 'stripeConnection'
+    }),
+    stripeErrors () {
+      return (this.stripeConnection && this.stripeConnection.requirements && this.stripeConnection.requirements.errors) || []
+    }
   },
   methods: {
     ...mapActions('invoice', {
@@ -129,10 +140,10 @@ export default {
         if (disconnectStripe === 'OK') {
           await this.fetchUserProfile()
           this.isLoading = false
-          this.$toast.success('Stripe Diconnect Successful')
+          this.$toast.success('Stripe Disconnect Successful')
         }
       } catch (error) {
-        this.$toast.error('Stripe Diconnect Failed!')
+        this.$toast.error('Stripe Disconnect Failed!')
       }
     }
   }

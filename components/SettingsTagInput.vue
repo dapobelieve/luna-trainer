@@ -21,9 +21,9 @@
       v-model.trim="input"
       :tabindex="tabindex"
       class="border-0 bg-transparent w-full text-sm h-6"
-      placeholder="Type here and press enter or tab"
+      placeholder="Press enter to add another item, or tab to continue"
       @keydown.enter.prevent="addItem($event)"
-      @keydown.tab.prevent="addItem($event)"
+      @keydown.tab="addItem($event)"
     />
   </div>
 </template>
