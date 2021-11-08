@@ -31,7 +31,7 @@
             Owner
           </p>
           <div class="flex flex-col items-center relative pt-10">
-            <div v-show="clientInfo.firstName || clientInfo.firstName !== '' " class="absolute bottom-1/2">
+            <div v-show="clientInfo.firstName || clientInfo.lastName !== '' " class="absolute bottom-1/2">
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
             <div class="capitalize font-normal flex space-x-2 text-xl mt-6">
