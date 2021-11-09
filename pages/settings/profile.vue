@@ -178,7 +178,7 @@
         </p>
         <div class="flex flex-col gap-1.5">
           <label for="accreditations">Do you have any accreditations? e.g APDT</label>
-          <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
+          <settings-tag-input v-model="profile.accreditations" :tabindex="9" />
         </div>
         <div class="flex flex-col gap-1.5">
           <label

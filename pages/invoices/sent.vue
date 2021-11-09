@@ -4,7 +4,7 @@
       <div class="flex mt-1 px-3 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
-            <span class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
+            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
               <i class="ns-archive mr-1"></i>
               <span>Archive</span>
             </span>
@@ -18,37 +18,12 @@
             </span>
           </div>
           <div class="flex">
-            <SearchDropdown :options="filteredRecords.map(invoice => invoice.customerId)" class="mr-10">
-              <template v-slot:field="{toggleMenu}">
-                <div class="cursor-pointer mr-4 items-center inline-flex text-sm " @click="toggleMenu">
-                  <span class="text-gray-500">Name</span>
-                  <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
-                </div>
-              </template>
-              <template v-slot:option="{option}">
-                <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer  ">
-                  <ClientAvatar :height="1" :width="1" :client-info="option" />
-                  <div class="ml-4">
-                    <span class="text-xs text-gray-700">
-                      {{ option.firstName }}  {{ option.lastName }}
-                    </span>
-                  </div>
-                </div>
-              </template>
-            </SearchDropdown>
-            <SearchDropdown :options="filteredRecords.map(invoice => invoice.status)" class="mr-10">
-              <template v-slot:field="{toggleMenu}">
-                <div class="cursor-pointer mr-4 items-center inline-flex text-sm " @click="toggleMenu">
-                  <span class="text-gray-500">Status</span>
-                  <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
-                </div>
-              </template>
+            <SearchDropdown v-model="searchField" :fields="searchFields" :options="options" class="mr-10" @selected="searchInvoice">
               <template v-slot:option="{option}">
                 <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
-                  <div class="ml-4 py-2">
-                    <span class="text-sm font-medium text-gray-700">
-                      {{ option.toUpperCase() }}
-                    </span>
+                  <div class="ml-4 py-1">
+                    <span v-if="searchField === 'Name'" class="text-sm font-medium text-gray-700">{{ option.firstName }}</span>
+                    <span v-if="searchField === 'Status'" class="text-sm font-medium text-gray-700">{{ option.toUpperCase() }}</span>
                   </div>
                 </div>
               </template>
@@ -86,7 +61,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'Invoices-id', params: {id: data._id}})">
+                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'invoice-id-view', params: {id: data._id}})">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -153,9 +128,12 @@ export default {
   components: { SearchDropdown, InvoiceStatusComponent },
   data () {
     return {
+      searchField: 'Name',
+      searchFields: ['Name', 'Status'],
       selectAll: false,
       quickSearchQuery: '',
       exporting: false,
+      options: [],
       checkedItems: [],
       invoices: null
     }
@@ -173,6 +151,15 @@ export default {
     }
   },
   watch: {
+    searchField: {
+      handler (newVal) {
+        if (newVal === 'Name') {
+          this.options = this.filteredRecords.map(invoice => invoice.customerId)
+        } else if (newVal === 'Status') {
+          this.options = this.filteredRecords.map(invoice => invoice.status)
+        }
+      }
+    },
     checkedItems (newVal) {
       if (newVal.length !== this.invoices.length) { this.selectAll = false } else if (newVal.length === this.invoices.length) { this.selectAll = true }
     },
@@ -188,8 +175,24 @@ export default {
   async mounted (ctx) {
     const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
     this.invoices = res
+
+    this.options = this.filteredRecords.map(invoice => invoice.customerId)
   },
   methods: {
+    async searchInvoice (option) {
+      try {
+        let res
+        if (this.searchField === 'Name') {
+          res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { customerId: option._id })
+          this.invoices = [...res.data]
+        } else {
+          res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+          this.invoices = [...res.data]
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
     downloadDocument (response) {
       const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
       const link = document.createElement('a')

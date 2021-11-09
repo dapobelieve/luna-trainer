@@ -27,17 +27,17 @@
           </div>
         </div>
         <div class="flex flex-col space-y-6 p-0 lg:p-4">
-          <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+          <p class="uppercase tracking-wider font-medium text-xs text-gray-500 mb-8">
             Owner
           </p>
-          <div class="flex flex-col items-center">
-            <div>
+          <div class="flex flex-col items-center relative pt-10">
+            <div class="absolute bottom-1/2">
               <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
             </div>
-            <div class="capitalize font-normal flex space-x-2 text-xl mt-3">
+            <div class="capitalize font-normal flex space-x-2 text-xl mt-6">
               <GwInputField
                 v-model="clientInfo.firstName"
-                placeholder="first name"
+                placeholder="First name"
                 type="text"
                 :align-right="true"
                 class="text-xl capitalize"
@@ -46,13 +46,14 @@
               />
               <GwInputField
                 v-model="clientInfo.lastName"
-                placeholder="last name"
+                placeholder="Last name"
                 type="text"
                 class="text-xl capitalize"
                 @input="focusField"
               />
             </div>
           </div>
+
           <p class="text-xs text-gray-400 text-center">
             Double click on text to edit
           </p>
@@ -65,7 +66,7 @@
                 <div>
                   <GwInputField
                     v-model="clientInfo.phoneNumber"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="tel"
                     label="Telephone"
                     class="mt-1"
@@ -97,7 +98,7 @@
                     class="mt-1"
                     @input="focusField"
                   >
-                    <option value="none" selected disabled hidden>
+                    <option :value="null" selected disabled>
                       click here
                     </option>
                     <option
@@ -111,7 +112,7 @@
                 <div class="place-self-auto">
                   <GwInputField
                     v-model="clientInfo.city"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="text"
                     label="City"
                     @input="focusField"
@@ -122,7 +123,7 @@
                     <div>
                       <GwInputField
                         v-model="clientInfo.zip"
-                        placeholder="click here"
+                        placeholder="Type here"
                         type="text"
                         label="Post Code"
                         @input="focusField"
@@ -158,7 +159,7 @@
                   <GwInputField
                     v-model="clientInfo.pet[0].name"
                     label="Dog name"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="text"
                     @input="focusField"
                   />
@@ -166,7 +167,7 @@
                 <div>
                   <GwInputField
                     v-model="clientInfo.pet[0].breed"
-                    placeholder="click here"
+                    placeholder="Type here"
                     label="Breed"
                     type="text"
                     @input="focusField"
@@ -175,7 +176,7 @@
                 <div>
                   <GwInputField
                     v-model="clientInfo.pet[0].age"
-                    placeholder="click here"
+                    placeholder="Type here"
                     type="text"
                     label="Age"
                     @input="focusField"
@@ -199,7 +200,7 @@
                     Behavioural Problems
                   </dt>
                   <dd class="mt-1 text-gray-400">
-                    Not Available
+                     {{ clientInfo && clientInfo.behaviour }}
                   </dd>
                 </div>
               </div>

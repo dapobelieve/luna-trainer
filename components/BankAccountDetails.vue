@@ -71,7 +71,6 @@ export default {
     }),
     submit () {
       return this.createAccount(this.details).then((response) => {
-        console.log('response', response)
         if (response.status === 'success') {
           this.$toast.success('Account registration successful', { position: 'bottom-right' })
         }

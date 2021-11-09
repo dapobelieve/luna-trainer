@@ -1,25 +1,6 @@
 <template>
   <div class="h-full">
-    <PageHeader v-if="$route.name === 'Invoices-id'">
-      <template v-slot:back-button>
-        <button type="button outline-none" @click="$router.go(-1)">
-          <img src="~/assets/img/svgs/chevron-back-blue.svg" alt="" srcset="" />
-        </button>
-      </template>
-      <template v-slot:buttons>
-        <div class=" relative">
-          <button
-            type="button"
-            class="bg-white inline-flex items-center text-blue-500 px-2  py-1  border-none  text-base  font-medium  rounded  shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            @click="printInvoice"
-          >
-            <i class="ns-print text-blue-500 text-xl pr-1.5"></i>
-            Print
-          </button>
-        </div>
-      </template>
-    </PageHeader>
-    <PageHeader v-else>
+    <PageHeader>
       <template v-slot:title>
         <span class="font-normal">Invoices</span>
       </template>
@@ -38,12 +19,12 @@
                 <div class="py-1" role="none">
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'Invoices-sent'}); showDrop=false"
+                    @click.prevent="$router.push({name: 'invoices-sent'}); showDrop=false"
                   >Sent
                   </a>
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'Invoices-drafts'}); showDrop=false"
+                    @click.prevent="$router.push({name: 'invoices-drafts'}); showDrop=false"
                   >Drafts
                   </a>
                 </div>
@@ -51,7 +32,7 @@
             </div>
           </ClickOutside>
           <NuxtLink
-            :to="{ name: 'NewInvoice'}"
+            :to="{ name: 'invoice'}"
             exact-active-class="active"
             class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
@@ -145,9 +126,6 @@ export default {
     },
     filterInvoice (link) {
       this.filter = link
-    },
-    printInvoice () {
-      window.print()
     },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {

@@ -12,8 +12,8 @@
         </template>
         <template v-slot:buttons>
           <div class="relative hidden lg:block ">
-            <button type="button" class="button-text w-10" @click="showDropdown">
-              <img src="~/assets/img/svgs/ellipsis.svg" alt srcset />
+            <button type="button" class="button-text h-12 w-12" @click="showDropdown">
+              <img src="~/assets/img/svgs/ellipsis.svg" class="h-5 w-5" alt srcset />
             </button>
             <!-- dropdown menu -->
             <div

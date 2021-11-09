@@ -18,7 +18,7 @@
         <template v-slot:content>
           <span class="capitalize">
             {{
-            menu.pathName
+              menu.pathName
             }}
           </span>
         </template>

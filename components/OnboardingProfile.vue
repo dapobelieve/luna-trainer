@@ -90,17 +90,7 @@
         </select>
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="phone" class="required" :class="{'text-red-400' : $v.phone.$error}">Phone number</label>
-        <div class>
-          <input
-            id="phone"
-            v-model="phone"
-            type="number"
-            name="phone"
-            class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-            :class="{'border-red-400' : $v.phone.$error}"
-          />
-        </div>
+        <PhoneComponent v-model="phone" />
       </div>
       <div class="flex flex-col gap-1.5">
         <label for="timezone" class="required" :class="{'text-red-400' : $v.timezone.$error}">Time zone</label>
@@ -140,8 +130,10 @@ import { mapState, mapMutations } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import timezones from '~/timezones.json'
 import countries from '~/countries.json'
+import PhoneComponent from '~/components/util/PhoneComponent'
 export default {
   name: 'OnboardingProfileSetup',
+  components: { PhoneComponent },
   data () {
     return {
       countries,
@@ -242,9 +234,6 @@ export default {
     timezone: {
       required
     },
-    phone: {
-      required
-    },
     dateFormat: {
       required
     }
@@ -253,7 +242,6 @@ export default {
     ...mapMutations({
       setProfileData: 'profile/UPDATE_TRAINNER_REG_DATA'
     }),
-
     change (e) {
       const url = e.target.value
       if (this.regex.test(url)) {

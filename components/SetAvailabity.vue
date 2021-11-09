@@ -35,7 +35,6 @@ export default {
   methods: {
     displayTag (day) {
       this.tempCheckedId = day.id
-      console.log(day)
       if (this.tempCheckedId === day.id) {
         day.checked = !day.checked
       }

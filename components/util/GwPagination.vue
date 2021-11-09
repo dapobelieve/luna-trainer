@@ -8,7 +8,9 @@
           :disabled="pageNumber <= 1"
           :class="[pageNumber <= 1 ? 'disabled' : 'cursor-auto', 'capitalize text-blue-500 opacity-50']"
           @click="changePageNumber(pageNumber - 1)"
-        >previous</button>
+        >
+          previous
+        </button>
         <span v-for="(item, index) in new Array(numberOfPages)" :key="index" class>
           <button class="button-text px-2" @click="changePageNumber(index + 1)">{{ index + 1 }}</button>
         </span>
@@ -17,7 +19,9 @@
           :disabled="pageNumber >= numberOfPages"
           :class="[pageNumber >= numberOfPages ? 'disabled' : 'cursor-auto', 'opacity-50']"
           @click="changePageNumber(pageNumber + 1)"
-        >next</button>
+        >
+          next
+        </button>
       </div>
     </div>
   </div>

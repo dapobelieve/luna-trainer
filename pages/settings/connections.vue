@@ -86,6 +86,12 @@
         </button>
       </div>
     </div>
+    <div class="bg-red-100 rounded-md p-4 border-left border-gray-100" v-if="stripeErrors.length > 0">
+      <div v-for="(error,index) in stripeErrors" :key="index" >
+        <p class='text-left font-semibold capitalize whitespace-nowrap text-gray-600'>{{ error.code.split('_').join(' ') }}</p>
+        <small class='mb-3 block text-gray-500'>{{error.reason}}</small>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -101,8 +107,20 @@ export default {
   },
   computed: {
     ...mapGetters('profile', {
-      isStripeConnected: 'isStripeConnected'
-    })
+      isStripeConnected: 'isStripeConnected',
+      stripeConnection: 'stripeConnection'
+    }),
+    stripeErrors () {
+      const errors = (this.stripeConnection && this.stripeConnection.requirements && this.stripeConnection.requirements.errors) || []
+      const errorCodes = []
+      return errors.filter((error) => {
+        if (!errorCodes.includes(error.code)) {
+          errorCodes.push(error.code)
+          return true
+        }
+        return false
+      })
+    }
   },
   methods: {
     ...mapActions('invoice', {
@@ -129,10 +147,10 @@ export default {
         if (disconnectStripe === 'OK') {
           await this.fetchUserProfile()
           this.isLoading = false
-          this.$toast.success('Stripe Diconnect Successful')
+          this.$toast.success('Stripe Disconnect Successful')
         }
       } catch (error) {
-        this.$toast.error('Stripe Diconnect Failed!')
+        this.$toast.error('Stripe Disconnect Failed!')
       }
     }
   }

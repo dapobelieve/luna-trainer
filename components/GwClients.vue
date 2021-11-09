@@ -19,7 +19,9 @@
         <div class="hidden md:block h-full invite-client col-span-2"></div>
         <div class="py-10 col-span-3 m-auto md:px-5 xl:px-0">
           <div class="max-w-sm grid gap-5 md:gap-5">
-            <h2 class="text-3xl font-semibold">Add Your Clients</h2>
+            <h2 class="text-3xl font-semibold">
+              Add Your Clients
+            </h2>
             <p>
               Here you can create, invite and onboard your new and existing
               clients into GetWelp and manage the entire client process from one
@@ -38,10 +40,14 @@
       <div class="w-full">
         <img class="text-center inline-block" src="~/assets/img/low-dog.png" alt srcset />
       </div>
-      <h5 class="font-bold">No clients yet</h5>
+      <h5 class="font-bold">
+        No clients yet
+      </h5>
       <p
         class="px-5 text-sm mb-0 max-w-xs"
-      >All your client list will appear here. Send an invite to a potential client to get started</p>
+      >
+        All your client list will appear here. Send an invite to a potential client to get started
+      </p>
       <div class="w-max mx-auto">
         <button class="base-button" type="button" @click="addClient = true">
           <i class="ns-add"></i>

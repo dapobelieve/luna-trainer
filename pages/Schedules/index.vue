@@ -405,10 +405,8 @@ export default {
       calendarApi.next()
     },
     prevEvent () {
-      console.log('prevEvent')
     },
     nextEvent () {
-      console.log('prevEvent')
     },
     setAvailabilty () {
       this.openAvailabilityModal = true

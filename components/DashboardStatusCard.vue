@@ -49,24 +49,8 @@
             Stripe account in review
           </p>
           <button
-            v-tooltip="{
-              content: `${stripeErrors
-                .map(error => {
-                  return `<div class='pb-3'>
-                    <div class='bg-gray-200'>
-                      <h3 class='font-medium p-2 text-left capitalize whitespace-nowrap'>${error.code
-                    .split('_')
-                  .join(' ')}</h3>
-                    </div>
-                <p class='p-3'>${error.reason}</p>
-                  </div>`;
-                })
-                .join('')}`,
-              placement: 'left',
-              classes: ['info']
-            }"
-            class="p-1.5 flex"
-          >
+              alt="see reason here"
+              @click.prevent="$router.push({name: 'settings-connections'});">
             <i class="ns-info text-lg"></i>
           </button>
         </div>
@@ -172,15 +156,15 @@ export default {
 
 <style lang="scss">
 .tooltip {
-  // ...
   z-index: 10000;
   &.info {
     $color: #fff;
+    top: 100px !important;
     .tooltip-inner {
       background: $color;
       color: #000;
       padding: 2px;
-      border-radius: 5px;
+      border-radius: 10px;
       box-shadow: 0 5px 30px rgba(black, 0.1);
       max-width: 350px;
     }
