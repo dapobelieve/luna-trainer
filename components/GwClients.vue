@@ -28,7 +28,7 @@
               end to another. Woof!
             </p>
             <div style="width: fit-content;">
-              <button type="button" class="base-button" @click="addClient = true">
+              <button type="button" class="base-button" @click="$modal.show('inviteClientModal')">
                 <span class>Get Started</span>
               </button>
             </div>
@@ -36,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div v-else class="mt-16 px-5 grid gap-5 justify-center text-center">
+    <div v-else class="my-16 px-5  grid gap-5 justify-center text-center">
       <div class="w-full">
         <img class="text-center inline-block" src="~/assets/img/low-dog.png" alt srcset />
       </div>
@@ -49,15 +49,12 @@
         All your client list will appear here. Send an invite to a potential client to get started
       </p>
       <div class="w-max mx-auto">
-        <button class="base-button" type="button" @click="addClient = true">
+        <button class="base-button" type="button" @click.prevent="$modal.show('inviteClientModal')" >
           <i class="ns-add"></i>
           Add client now
         </button>
       </div>
     </div>
-    <GwModal :is-open="addClient" @close="addClient = $event" @closeBackDrop="addClient = $event">
-      <InviteNewClient @close="addClient = $event" />
-    </GwModal>
   </async-view>
 </template>
 
