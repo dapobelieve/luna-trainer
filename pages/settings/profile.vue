@@ -18,7 +18,7 @@
               name="image"
               class="hidden"
               accept="image/*"
-              @change="onChange"
+              @change="profileImageChange"
             />
             <ClientAvatar
               v-if="!profileImageUrl"
@@ -98,11 +98,8 @@
             id="websiteUrl"
             v-model="profile.websiteUrl"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-            :class="{'border-red-500' : !isWebsiteUrlValid}"
-            @input="change($event)"
-            @change="change($event)"
+            :class="{'border-red-500' : $v.profile.websiteUrl.$invalid}"
           />
-          <!-- <small v-if="isWebsiteUrlValid" class="text-red-500 text-sm absolute -bottom-5">url is invalid</small> -->
         </div>
         <div class="flex flex-col gap-1.5">
           <label for="country" class="required">Where are you based?</label>
@@ -222,7 +219,7 @@
         <div class="flex justify-end">
           <button-spinner
             style="width:fit-content"
-            :disabled="$v.$invalid || !isWebsiteUrlValid"
+            :disabled="$v.$invalid"
             :loading="isLoading"
             @click="update"
           >
@@ -238,21 +235,18 @@
 
 <script>
 import { mapActions } from 'vuex'
-import { required, minLength, helpers } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 import timezones from '~/timezones.json'
 import countries from '~/countries.json'
 export default {
   data () {
     return {
       profile: JSON.parse(JSON.stringify(this.$auth.user)),
-      countries,
-      timezones,
-      isLoading: false,
-      isWebsiteUrlValid: true,
       profileImageUrl: this.$auth.user.imgURL,
       profileImageData: null,
-      // eslint-disable-next-line
-      regex: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+      isLoading: false,
+      countries,
+      timezones
     }
   },
   validations: {
@@ -281,6 +275,13 @@ export default {
       },
       dateFormat: {
         required
+      },
+      websiteUrl: {
+        isUrl: (value) => {
+          // eslint-disable-next-line
+          const urlRegex =  /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/
+          return urlRegex.test(value)
+        }
       }
     }
   },
@@ -313,7 +314,7 @@ export default {
       imageData.append('file', this.profileImageData)
       return this.uploadPicture(imageData)
     },
-    onChange (e) {
+    profileImageChange (e) {
       const files = e.target.files
       const reader = new FileReader()
       this.profileImageData = files[0]
@@ -321,15 +322,6 @@ export default {
         this.profileImageUrl = e.target.result
       }
       reader.readAsDataURL(this.profileImageData)
-    },
-    change (e) {
-      const url = e.target.value
-      if (url === '') {
-        this.isWebsiteUrlValid = false
-        return
-      }
-      const validate = helpers.regex(url, this.regex)
-      this.isWebsiteUrlValid = validate(url)
     }
   }
 }
