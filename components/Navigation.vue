@@ -33,6 +33,7 @@
                       'addSession',
                       'newCourse',
                       'comingNext',
+                      'getHelp',
                       'Schedules',
                       'Courses'
                     ].includes(menu.path)
@@ -127,6 +128,25 @@
                 >
                   We’re still developing this, so bear with us!
                 </p>
+              </div>
+              <div v-else-if="menu.path === 'getHelp'" class="bg-blue-50 border rounded-lg">
+                <div class="flex items-center justify-between p-2">
+                  <div>
+                    <h5 class="text-gray-400 px-2 py-2 text-base">
+                      Need Help?
+                    </h5>
+                    <p
+                      class="text-gray-400 px-2 py-2 text-sm"
+                    >
+                      Activate the switch button to send a message to us
+                    </p>
+                  </div>
+                  <Toggle
+                    small-size
+                    :value="toggleIntercom"
+                    @input="allowIntercom"
+                  />
+                </div>
               </div>
               <button
                 v-else-if="menu.path === 'Notifications'"
@@ -363,7 +383,8 @@ export default {
       showNotificationsMenu: false,
       showMessagesMenu: false,
       addSession: false,
-      newCourse: false
+      newCourse: false,
+      toggleIntercom: false
     }
   },
   computed: {
@@ -390,6 +411,20 @@ export default {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
+    allowIntercom () {
+      this.toggleIntercom = !this.toggleIntercom
+      if (this.toggleIntercom === false) {
+        window && window.Intercom('update', {
+          hide_default_launcher: true
+        })
+        window.Intercom('hide')
+      } else {
+        window && window.Intercom('update', {
+          hide_default_launcher: false
+        })
+        window.Intercom('show')
+      }
+    },
     gotoMessage (arr) {
       const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
       const client = this.acceptedClients.find(

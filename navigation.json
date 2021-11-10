@@ -48,24 +48,6 @@
       "path": "invoice"
     },
     {
-      "section": "Help"
-    },
-    {
-      "icon": "ns-headset",
-      "title": "get help",
-      "path": "#"
-    },
-    {
-      "icon": "ns-time-add",
-      "title": "what's coming next",
-      "path": "comingNext"
-    },
-    {
-      "icon": "ns-power",
-      "title": "sign out",
-      "path": "signout"
-    },
-    {
       "icon": "ns-calendar",
       "title": "my schedule",
       "path": "Schedules"
@@ -84,6 +66,25 @@
       "icon": "ns-plus",
       "title": "new course",
       "path": "newCourse"
+    },
+    
+    {
+      "section": "Help"
+    },
+    {
+      "icon": "ns-headset",
+      "title": "get help",
+      "path": "getHelp"
+    },
+    {
+      "icon": "ns-time-add",
+      "title": "what's coming next",
+      "path": "comingNext"
+    },
+    {
+      "icon": "ns-power",
+      "title": "sign out",
+      "path": "signout"
     }
   ]
 }

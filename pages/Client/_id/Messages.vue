@@ -89,7 +89,6 @@
               type="text"
               class="w-full focus:outline-none text-sm resize-none h-6 box-border"
               placeholder="Type a message"
-              :style="inputStyle"
               @input="resizeField($event)"
             />
             <div class="relative">
@@ -119,7 +118,7 @@
                 <i class="ns-upload"></i>
               </button>
             </div>
-            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': message === '' }" :disabled="message === ''">
+            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': disabled }" :disabled="message === ''">
               <i class="ns-paper-plane"></i>
             </button>
           </div>
@@ -176,8 +175,7 @@ export default {
       messageSentStatus: false,
       messageDeliveryStatus: false,
       channel: null,
-      clientIsReady: true,
-      inputHeight: 'auto'
+      clientIsReady: true
     }
   },
   computed: {
@@ -192,24 +190,18 @@ export default {
         this.channel &&
         this.channel.members.find(u => u.userId !== this.sender).userId
       )
-    },
-    inputStyle () {
-      return {
-        'min-height': this.inputHeight
-      }
     }
   },
-  // watch: {
-  //   message () {
-  //     this.resize()
-  //     this.$emit('input', this.message)
-  //   }
-  // },
   mounted () {
     const channelHandler = new this.$sb.ChannelHandler()
     channelHandler.onMessageReceived = this.onMessageReceived
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
+
+    window && window.Intercom('update', {
+      hide_default_launcher: true
+    })
+    window && window.Intercom('hide')
   },
   created () {
     try {
@@ -243,13 +235,6 @@ export default {
     resizeField (e) {
       e.target.style.height = 'auto'
       e.target.style.height = `${e.target.scrollHeight}px`
-      if (e.target.style.height === '80px') {
-        e.target.style.height = '80px'
-        e.target.style.resize = 'vertical'
-      }
-    },
-    resize () {
-      this.inputHeight = `${this.$refs.input.scrollHeight}px`
     },
     ...mapActions({
       getClientProfile: 'client/getSingleClientById'
