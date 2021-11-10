@@ -42,15 +42,11 @@ export default {
     },
     displayInitials () {
       let initials = ''
-      if (this.clientInfo.firstName && this.clientInfo.lastName) {
-        initials = (
-          this.clientInfo.firstName.charAt(0) +
-          this.clientInfo.lastName.charAt(0)
-        ).toUpperCase()
-      } else if (!this.clientInfo.lastName) {
-        initials = (
-          this.clientInfo.firstName.charAt(0)
-        ).toUpperCase()
+      const values = [this.clientInfo.firstName, this.clientInfo.lastName]
+      if (values.length) {
+        values.forEach((element) => {
+          initials += element.charAt(0).toUpperCase()
+        })
       }
       return initials
     }
