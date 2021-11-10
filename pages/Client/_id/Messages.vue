@@ -6,7 +6,9 @@
     <div v-if="isChannelLoading" class="h-full grid place-content-center">
       <div class="flex flex-col items-center">
         <SingleLoader />
-        <p class="text-center">Starting Chat...</p>
+        <p class="text-center">
+          Starting Chat...
+        </p>
       </div>
     </div>
     <div v-else-if="!clientIsReady" class="h-full grid place-content-center">
@@ -19,7 +21,9 @@
       <div class="flex flex-col items-center">
         <p
           class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-        >An error occured. Please contact support.</p>
+        >
+          An error occured. Please contact support.
+        </p>
       </div>
     </div>
     <div v-else-if="!isUploading" class="flex flex-col justify-between h-full">
@@ -34,7 +38,9 @@
                 v-else
                 class="msg p-2 max-w-lg break-all"
                 style="calc(100% - 2.5rem)"
-              >{{ msg.message }}</div>
+              >
+                {{ msg.message }}
+              </div>
             </li>
             <li v-else class="you flex items-end pr-6">
               <ClientAvatar
@@ -49,7 +55,9 @@
               <span v-if="msg.messageType === 'file'" class="msg overflow-hidden">
                 <img class="bg-white max-w-[16rem]" :src="msg.url" />
               </span>
-              <div v-else class="msg p-2 max-w-lg break-all">{{ msg.message }}</div>
+              <div v-else class="msg p-2 max-w-lg break-all">
+                {{ msg.message }}
+              </div>
             </li>
           </div>
         </template>
@@ -69,7 +77,9 @@
           v-if="uploadingFileToSb"
           class="bg-black text-white px-4 py-2 z-50"
           style="width: fit-content"
-        >{{ fileToBeSent.name }} file is uploading...</div>
+        >
+          {{ fileToBeSent.name }} file is uploading...
+        </div>
         <form class="w-full" @submit.prevent="sendChat">
           <div
             class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
@@ -77,8 +87,10 @@
             <textarea
               v-model="message"
               type="text"
-              class="w-full focus:outline-none text-sm resize-none h-6 max-h-20"
+              class="w-full focus:outline-none text-sm resize-none h-6 box-border"
               placeholder="Type a message"
+              :style="inputStyle"
+              @input="resizeField($event)"
             />
             <div class="relative">
               <transition name="fadeIn">
@@ -107,7 +119,7 @@
                 <i class="ns-upload"></i>
               </button>
             </div>
-            <button class="button-fill button-sm w-8 ml-2" type="submit">
+            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': message === '' }" :disabled="message === ''">
               <i class="ns-paper-plane"></i>
             </button>
           </div>
@@ -164,7 +176,8 @@ export default {
       messageSentStatus: false,
       messageDeliveryStatus: false,
       channel: null,
-      clientIsReady: true
+      clientIsReady: true,
+      inputHeight: 'auto'
     }
   },
   computed: {
@@ -179,8 +192,19 @@ export default {
         this.channel &&
         this.channel.members.find(u => u.userId !== this.sender).userId
       )
+    },
+    inputStyle () {
+      return {
+        'min-height': this.inputHeight
+      }
     }
   },
+  // watch: {
+  //   message () {
+  //     this.resize()
+  //     this.$emit('input', this.message)
+  //   }
+  // },
   mounted () {
     const channelHandler = new this.$sb.ChannelHandler()
     channelHandler.onMessageReceived = this.onMessageReceived
@@ -216,6 +240,17 @@ export default {
     }
   },
   methods: {
+    resizeField (e) {
+      e.target.style.height = 'auto'
+      e.target.style.height = `${e.target.scrollHeight}px`
+      if (e.target.style.height === '80px') {
+        e.target.style.height = '80px'
+        e.target.style.resize = 'vertical'
+      }
+    },
+    resize () {
+      this.inputHeight = `${this.$refs.input.scrollHeight}px`
+    },
     ...mapActions({
       getClientProfile: 'client/getSingleClientById'
     }),

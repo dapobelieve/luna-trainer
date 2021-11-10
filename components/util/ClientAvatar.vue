@@ -45,7 +45,9 @@ export default {
       const values = [this.clientInfo.firstName, this.clientInfo.lastName]
       if (values.length) {
         values.forEach((element) => {
-          initials += element.charAt(0).toUpperCase()
+          if (element !== undefined) {
+            initials += element.charAt(0).toUpperCase()
+          }
         })
       }
       return initials
