@@ -1,8 +1,6 @@
 <template>
   <div class="gw-text-input">
-    <label v-if="label" :for="idName" class="input-text-label block">
-      {{ label }}
-    </label>
+    <label v-if="label" :for="idName" class="input-text-label block">{{ label }}</label>
     <input
       :id="idName"
       :style="computeStyle"
@@ -20,7 +18,7 @@
       @focus="$emit('focus')"
       @change="$emit('change')"
       @keyup="$emit('keyup')"
-    >
+    />
   </div>
 </template>
 
@@ -110,14 +108,6 @@ export default {
 
 <style lang="scss" scoped>
 input {
-  border: none;
-  background-image: none;
-  background-color: transparent;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
-}
-input:focus {
-  outline: none;
+  @apply border-0 bg-none bg-transparent shadow-none focus:outline-none block w-full;
 }
 </style>
