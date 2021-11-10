@@ -1,14 +1,12 @@
 <template>
   <div
-    class="bg-white rounded-xl overflow-y-auto overscroll-contain sticky lg:top-[4.5rem]"
+    class="bg-white rounded-xl overflow-y-auto overscroll-contain sticky lg:top-[4.5rem] w-full border"
     style="height: calc(100vh - 5.5rem)"
   >
     <div v-if="isChannelLoading" class="h-full grid place-content-center">
       <div class="flex flex-col items-center">
         <SingleLoader />
-        <p class="text-center">
-          Starting Chat...
-        </p>
+        <p class="text-center">Starting Chat...</p>
       </div>
     </div>
     <div v-else-if="!clientIsReady" class="h-full grid place-content-center">
@@ -21,47 +19,37 @@
       <div class="flex flex-col items-center">
         <p
           class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-        >
-          An error occured. Please contact support.
-        </p>
+        >An error occured. Please contact support.</p>
       </div>
     </div>
     <div v-else-if="!isUploading" class="flex flex-col justify-between h-full">
-      <ul id="chatBody" class="h-full w-full">
+      <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
         <template v-if="messageHistory.length">
           <div v-for="msg in messageHistory" :key="msg.messageId">
-            <li v-if="msg._sender.userId === sender" class="me flex justify-end mb-3">
-              <span
-                v-if="msg.messageType === 'file'"
-                class="msg overflow-hidden border-4"
-                style="border-color: rgba(86, 204, 242, 1);"
-              >
+            <li v-if="msg._sender.userId === sender" class="me flex justify-end pl-6">
+              <span v-if="msg.messageType === 'file'" class="msg overflow-hidden">
                 <img class="bg-white" :src="msg.imaging || msg.url" style="max-width: 250px" />
               </span>
-              <div v-else class="msg p-2 max-w-lg break-all">
-                {{ msg.message }}
-              </div>
+              <div
+                v-else
+                class="msg p-2 max-w-lg break-all"
+                style="calc(100% - 2.5rem)"
+              >{{ msg.message }}</div>
             </li>
-            <li v-else class="you flex items-end mb-3">
+            <li v-else class="you flex items-end pr-6">
               <ClientAvatar
-                class="mr-2"
+                class="mr-2 flex-shrink-0"
                 :client-info="{
                   firstName: 'Get',
                   lastName: 'Welp'
                 }"
-                :height="3"
-                :width="3"
+                :height="2"
+                :width="2"
               />
-              <span
-                v-if="msg.messageType === 'file'"
-                class="msg overflow-hidden border-4"
-                style="border-color: rgba(86, 204, 242, 1);"
-              >
-                <img class="bg-white" :src="msg.url" style="max-width: 250px" />
+              <span v-if="msg.messageType === 'file'" class="msg overflow-hidden">
+                <img class="bg-white max-w-[16rem]" :src="msg.url" />
               </span>
-              <div v-else class="msg p-2 max-w-lg break-all">
-                {{ msg.message }}
-              </div>
+              <div v-else class="msg p-2 max-w-lg break-all">{{ msg.message }}</div>
             </li>
           </div>
         </template>
@@ -81,15 +69,15 @@
           v-if="uploadingFileToSb"
           class="bg-black text-white px-4 py-2 z-50"
           style="width: fit-content"
-        >
-          {{ fileToBeSent.name }} file is uploading...
-        </div>
+        >{{ fileToBeSent.name }} file is uploading...</div>
         <form class="w-full" @submit.prevent="sendChat">
-          <div class="border flex align-items-center bg-white rounded-b-lg shadow-sm px-6 py-3">
-            <input
+          <div
+            class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
+          >
+            <textarea
               v-model="message"
               type="text"
-              class="w-full focus:outline-none"
+              class="w-full focus:outline-none text-sm resize-none h-6 max-h-20"
               placeholder="Type a message"
             />
             <div class="relative">
@@ -111,12 +99,16 @@
                 class="hidden"
                 @change="onChange"
               />
-              <button class="mr-3" type="button" @click="showUpload = !showUpload">
-                <i class="ns-upload text-2xl text-blue-500"></i>
+              <button
+                class="button-text button-sm w-8 ml-2"
+                type="button"
+                @click="showUpload = !showUpload"
+              >
+                <i class="ns-upload"></i>
               </button>
             </div>
-            <button class type="submit">
-              <i class="ns-paper-plane text-2xl text-blue-500"></i>
+            <button class="button-fill button-sm w-8 ml-2" type="submit">
+              <i class="ns-paper-plane"></i>
             </button>
           </div>
         </form>
@@ -413,26 +405,21 @@ export default {
 <style lang="scss" scoped>
 // chat styles
 #chatBody {
-  overflow-y: auto;
-  list-style: none;
-  padding: 0.5em 1em;
   .me,
   .you {
+    @apply pb-3;
     div {
-      padding: 6px;
+      @apply p-2 shadow-sm;
     }
   }
   .me {
     .msg {
-      border-radius: 8px 8px 1px 8px;
-      color: #fff;
-      @apply bg-blue-500;
+      @apply bg-blue-500 text-white rounded-tl-2xl rounded-tr-2xl rounded-br-sm rounded-bl-2xl;
     }
   }
   .you {
     .msg {
-      border-radius: 8px 8px 8px 1px;
-      background-color: #f0f5fa;
+      @apply bg-gray-100 text-gray-700 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm;
     }
   }
 }
