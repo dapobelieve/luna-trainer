@@ -1,6 +1,6 @@
 <template>
   <div
-    class="hidden lg:block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
+    class="block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
     <!-- Sidebar Search -->
 
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div>
-            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebar">
+            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebarMenu">
               <NuxtLink
                 v-if="
                   menu.path &&
@@ -420,10 +420,13 @@ export default {
     signOut () {
       this.logOut()
     },
-    hideSidebar (e) {
-      if (window.innerWidth <= 768 && e.currentTarget.querySelector('a').classList.contains('navItems')) {
-        this.$nuxt.$emit('hideSideBar')
-      }
+    // hideSidebar (e) {
+    //   if (window.innerWidth <= 768 && e.currentTarget.querySelector('a').classList.contains('navItems')) {
+    //     this.$nuxt.$emit('hideSideBar')
+    //   }
+    // }
+    hideSidebarMenu () {
+      this.$nuxt.$emit('hideSidebarMenu')
     }
   }
 }
