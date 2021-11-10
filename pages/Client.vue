@@ -8,11 +8,13 @@
           </button>
         </template>
         <template v-slot:title>
-          <span class="hidden lg:block capitalize ml-5 font-medium text-lg">{{ firstName }} {{ lastName }}</span>
+          <span
+            class="hidden lg:block capitalize ml-5 font-medium text-lg"
+          >{{ firstName }} {{ lastName }}</span>
         </template>
         <template v-slot:buttons>
-          <div class="relative hidden lg:block ">
-            <button type="button" class="button-text h-12 w-12" @click="showDropdown">
+          <div class="relative hidden lg:block">
+            <button type="button" class="button-text w-10" @click="showDropdown">
               <img src="~/assets/img/svgs/ellipsis.svg" class="h-5 w-5" alt srcset />
             </button>
             <!-- dropdown menu -->
@@ -24,9 +26,7 @@
                 <nuxt-link
                   :to="{ name: 'NewInvoice', params: { pushedClient: clientInfo } }"
                   class="block p-3 hover:bg-gray-100 rounded-md"
-                >
-                  Create Invoice
-                </nuxt-link>
+                >Create Invoice</nuxt-link>
                 <a href="#" class="block p-3 hover:bg-gray-100 rounded-md">Archive</a>
               </div>
             </div>
@@ -35,10 +35,8 @@
       </PageHeader>
     </transition>
     <!-- start here -->
-    <div class="p-0 lg:p-4 md:w-full pb-0 lg:pb-24 bg-gray-100 flex justify-center">
-      <div
-        class="flex lg:space-x-4 w-full max-w-full lg:max-w-full 2xl:max-w-7xl flex-col lg:flex-row"
-      >
+    <div class="p-4 md:w-full bg-gray-100 flex justify-center">
+      <div class="flex lg:space-x-4 w-full max-w-2xl lg:max-w-7xl flex-col lg:flex-row">
         <!-- left menu -->
         <aside
           class="w-full lg:max-w-[18rem] xl:max-w-sm 2xl:max-w-md w-full flex-shrink-0 order-1 lg:order-first"
@@ -52,9 +50,8 @@
         </aside>
 
         <!-- main content -->
-        <main class="flex-grow">
-          <nuxt-child />
-        </main>
+
+        <nuxt-child />
 
         <div
           v-if="displayComponent === false"
