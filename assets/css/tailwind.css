@@ -93,7 +93,7 @@
 
   @layer components {
     .contain-default-pages {
-      @apply max-w-2xl 2xl:max-w-7xl lg:max-w-full w-full;
+      @apply max-w-2xl lg:max-w-7xl lg:max-w-full w-full;
     }
     .base-button {
 
