@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="invoices && invoices.length">
-      <div class="flex mt-1 px-3 mb-5">
+      <div class="flex mt-1 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
             <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
@@ -18,13 +18,27 @@
             </span>
           </div>
           <div class="flex">
-            <SearchDropdown v-model="searchField" :fields="searchFields" :options="options" class="mr-10" @selected="searchInvoice">
+            <SearchDropdown :fields="searchFields" :options="options" @field-selected="searchField=$event" @selected="searchInvoice">
+              <template v-slot:selected-option="{selected}">
+                <span v-if="searchField === 'Name'">
+                  <ClientAvatar :height="1" :width="1" :client-info="selected" />
+                  <span class="text-xs text-gray-700 ml-2">
+                    {{ selected.firstName }}  {{ selected.lastName }}
+                  </span>
+                </span>
+                <span v-else>
+                  <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="selected" />
+                </span>
+              </template>
               <template v-slot:option="{option}">
                 <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
-                  <div class="ml-4 py-1">
-                    <span v-if="searchField === 'Name'" class="text-sm font-medium text-gray-700">{{ option.firstName }}</span>
-                    <span v-if="searchField === 'Status'" class="text-sm font-medium text-gray-700">{{ option.toUpperCase() }}</span>
+                  <div v-if="searchField === 'Name'" class="d-flex">
+                    <ClientAvatar :height="1" :width="1" :client-info="option" />
+                    <span class="text-xs text-gray-700 ml-2">
+                      {{ option.firstName }}  {{ option.lastName }}
+                    </span>
                   </div>
+                  <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
                 </div>
               </template>
             </SearchDropdown>
@@ -156,7 +170,7 @@ export default {
         if (newVal === 'Name') {
           this.options = this.filteredRecords.map(invoice => invoice.customerId)
         } else if (newVal === 'Status') {
-          this.options = this.filteredRecords.map(invoice => invoice.status)
+          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding']
         }
       }
     },
@@ -186,7 +200,7 @@ export default {
           res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { customerId: option._id })
           this.invoices = [...res.data]
         } else {
-          res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+          res = await this.$store.dispatch('invoice/getInvoices', { status: option.toLowerCase() })
           this.invoices = [...res.data]
         }
       } catch (e) {

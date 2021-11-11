@@ -20,6 +20,10 @@ export default {
           bg: 'bg-blue-50'
         },
         overdue: {
+          text: 'text-pink-500',
+          bg: 'bg-red-50'
+        },
+        outstanding: {
           text: 'text-red-500',
           bg: 'bg-red-50'
         },
@@ -32,7 +36,7 @@ export default {
   },
   computed: {
     computedStatus () {
-      return this.statuses[this.status]
+      return this.statuses[this.status.toLowerCase()]
     }
   }
 }
