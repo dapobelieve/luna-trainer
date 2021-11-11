@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <GwPagination v-if="invoices.length && filteredRecords.length" :total-items="filteredRecords.length">
+      <GwPagination v-if="invoices && filteredRecords.length" :total-items="filteredRecords.length">
         <template v-slot:content>
           {{ quickSearchQuery }}
           <div class="overflow-scroll lg:overflow-hidden">
