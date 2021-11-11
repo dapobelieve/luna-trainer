@@ -26,7 +26,9 @@
                 <nuxt-link
                   :to="{ name: 'NewInvoice', params: { pushedClient: clientInfo } }"
                   class="block p-3 hover:bg-gray-100 rounded-md"
-                >Create Invoice</nuxt-link>
+                >
+                  Create Invoice
+                </nuxt-link>
                 <a href="#" class="block p-3 hover:bg-gray-100 rounded-md">Archive</a>
               </div>
             </div>

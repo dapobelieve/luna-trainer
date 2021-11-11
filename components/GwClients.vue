@@ -49,7 +49,7 @@
         All your client list will appear here. Send an invite to a potential client to get started
       </p>
       <div class="w-max mx-auto">
-        <button class="base-button" type="button" @click.prevent="$modal.show('inviteClientModal')" >
+        <button class="base-button" type="button" @click.prevent="$modal.show('inviteClientModal')">
           <i class="ns-add"></i>
           Add client now
         </button>

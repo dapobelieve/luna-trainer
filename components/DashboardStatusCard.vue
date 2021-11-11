@@ -49,8 +49,9 @@
             Stripe account in review
           </p>
           <button
-              alt="see reason here"
-              @click.prevent="$router.push({name: 'settings-connections'});">
+            alt="see reason here"
+            @click.prevent="$router.push({name: 'settings-connections'});"
+          >
             <i class="ns-info text-lg"></i>
           </button>
         </div>
