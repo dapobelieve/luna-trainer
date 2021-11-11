@@ -1,6 +1,6 @@
 <template>
   <div
-    class="hidden lg:block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
+    class="block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
     <!-- Sidebar Search -->
 
@@ -21,7 +21,7 @@
             </div>
           </div>
           <div>
-            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebar">
+            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebarMenu">
               <NuxtLink
                 v-if="
                   menu.path &&
@@ -33,6 +33,7 @@
                       'addSession',
                       'newCourse',
                       'comingNext',
+                      'getHelp',
                       'Schedules',
                       'Courses'
                     ].includes(menu.path)
@@ -127,6 +128,25 @@
                 >
                   We’re still developing this, so bear with us!
                 </p>
+              </div>
+              <div v-else-if="menu.path === 'getHelp'" class="bg-blue-50 border rounded-lg">
+                <div class="flex items-center justify-between p-2">
+                  <div>
+                    <h5 class="text-gray-400 px-2 py-2 text-base">
+                      Need Help?
+                    </h5>
+                    <p
+                      class="text-gray-400 px-2 py-2 text-sm"
+                    >
+                      Activate the switch button to send a message to us
+                    </p>
+                  </div>
+                  <Toggle
+                    small-size
+                    :value="toggleIntercom"
+                    @input="allowIntercom"
+                  />
+                </div>
               </div>
               <button
                 v-else-if="menu.path === 'Notifications'"
@@ -363,7 +383,8 @@ export default {
       showNotificationsMenu: false,
       showMessagesMenu: false,
       addSession: false,
-      newCourse: false
+      newCourse: false,
+      toggleIntercom: false
     }
   },
   computed: {
@@ -390,6 +411,24 @@ export default {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
+    allowIntercom () {
+      this.toggleIntercom = !this.toggleIntercom
+      if (this.$route.name === 'Client-id-Messages') {
+        if (this.toggleIntercom === false) {
+          window && window.Intercom('update', {
+            hide_default_launcher: true
+          })
+          window.Intercom('hide')
+        } else {
+          window && window.Intercom('update', {
+            hide_default_launcher: false
+          })
+          window.Intercom('show')
+        }
+      } else {
+        window.Intercom('show')
+      }
+    },
     gotoMessage (arr) {
       const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
       const client = this.acceptedClients.find(
@@ -420,10 +459,8 @@ export default {
     signOut () {
       this.logOut()
     },
-    hideSidebar (e) {
-      if (window.innerWidth <= 768 && e.currentTarget.querySelector('a').classList.contains('navItems')) {
-        this.$nuxt.$emit('hideSideBar')
-      }
+    hideSidebarMenu () {
+      this.$nuxt.$emit('hideSidebarMenu')
     }
   }
 }

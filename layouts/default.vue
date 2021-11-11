@@ -4,7 +4,10 @@
       <GwHeader :class="{ 'hidden': $route.name === 'Client-id-Information' }" />
       <div class="flex">
         <invite-new-client-modal />
-        <Navigation />
+        <Navigation class="hidden lg:block" />
+        <div v-if="showSidebarMenu" class="block lg:hidden">
+          <Navigation />
+        </div>
         <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
@@ -40,7 +43,7 @@ export default {
     return {
       page: this.$route.name,
       showNotification: false,
-      open: true
+      showSidebarMenu: false
     }
   },
   computed: {
@@ -63,11 +66,11 @@ export default {
     }
   },
   async created () {
-    this.$nuxt.$on('toggleSideBar', () => {
-      this.toggleSide()
+    this.$nuxt.$on('displayPageSidebar', () => {
+      this.toggleSidebarMenu()
     })
-    this.$nuxt.$on('hideSideBar', () => {
-      this.hideSide()
+    this.$nuxt.$on('hideSidebarMenu', () => {
+      this.hideMobileMenu()
     })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
@@ -111,11 +114,6 @@ export default {
       this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
     }
   },
-  mounted () {
-    if (window.innerWidth <= 768) {
-      this.open = false
-    }
-  },
   updated () {
     this.$nextTick(() => {
       if (this.sendBirdConnStatus) {
@@ -126,6 +124,12 @@ export default {
     })
   },
   methods: {
+    toggleSidebarMenu () {
+      this.showSidebarMenu = !this.showSidebarMenu
+    },
+    hideMobileMenu () {
+      this.showSidebarMenu = false
+    },
     ...mapActions('authorize', {
       startFullPageLoad: 'startFullPageLoading',
       endFullPageLoad: 'endFullPageLoading'
@@ -135,12 +139,6 @@ export default {
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
-    toggleSide () {
-      this.open = !this.open
-    },
-    hideSide () {
-      this.open = false
-    },
 
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
