@@ -6,7 +6,9 @@
     <div v-if="isChannelLoading" class="h-full grid place-content-center">
       <div class="flex flex-col items-center">
         <SingleLoader />
-        <p class="text-center">Starting Chat...</p>
+        <p class="text-center">
+          Starting Chat...
+        </p>
       </div>
     </div>
     <div v-else-if="!clientIsReady" class="h-full grid place-content-center">
@@ -19,7 +21,9 @@
       <div class="flex flex-col items-center">
         <p
           class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-        >An error occured. Please contact support.</p>
+        >
+          An error occured. Please contact support.
+        </p>
       </div>
     </div>
     <div v-else-if="!isUploading" class="flex flex-col justify-between h-full">
@@ -34,7 +38,9 @@
                 v-else
                 class="msg p-2 max-w-lg break-all"
                 style="calc(100% - 2.5rem)"
-              >{{ msg.message }}</div>
+              >
+                {{ msg.message }}
+              </div>
             </li>
             <li v-else class="you flex items-end pr-6">
               <ClientAvatar
@@ -49,7 +55,9 @@
               <span v-if="msg.messageType === 'file'" class="msg overflow-hidden">
                 <img class="bg-white max-w-[16rem]" :src="msg.url" />
               </span>
-              <div v-else class="msg p-2 max-w-lg break-all">{{ msg.message }}</div>
+              <div v-else class="msg p-2 max-w-lg break-all">
+                {{ msg.message }}
+              </div>
             </li>
           </div>
         </template>
@@ -69,16 +77,24 @@
           v-if="uploadingFileToSb"
           class="bg-black text-white px-4 py-2 z-50"
           style="width: fit-content"
-        >{{ fileToBeSent.name }} file is uploading...</div>
+        >
+          {{ fileToBeSent.name }} file is uploading...
+        </div>
         <form class="w-full" @submit.prevent="sendChat">
           <div
             class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
           >
             <textarea
+              ref="chatArea"
               v-model="message"
               type="text"
-              class="w-full focus:outline-none text-sm resize-none h-6 max-h-20"
+              class="w-full focus:outline-none text-sm resize-none h-6 box-border"
               placeholder="Type a message"
+              @input="
+                emitValue($event);
+                resize();
+              "
+              @keydown.enter.exact="emitEnter"
             />
             <div class="relative">
               <transition name="fadeIn">
@@ -107,7 +123,7 @@
                 <i class="ns-upload"></i>
               </button>
             </div>
-            <button class="button-fill button-sm w-8 ml-2" type="submit">
+            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': disabled }" :disabled="message === ''">
               <i class="ns-paper-plane"></i>
             </button>
           </div>
@@ -181,11 +197,23 @@ export default {
       )
     }
   },
+  watch: {
+    value (newVal, oldVal) {
+      if (newVal === '') {
+        this.$refs.chatArea.style.height = '55px'
+      }
+    }
+  },
   mounted () {
     const channelHandler = new this.$sb.ChannelHandler()
     channelHandler.onMessageReceived = this.onMessageReceived
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
+
+    window && window.Intercom('update', {
+      hide_default_launcher: true
+    })
+    window && window.Intercom('hide')
   },
   created () {
     try {
@@ -216,6 +244,30 @@ export default {
     }
   },
   methods: {
+    emitEnter (e) {
+      e.preventDefault()
+      this.$emit('enter-pressed')
+    },
+    emitValue (e) {
+      this.$emit('input', e.target.value)
+    },
+    resize () {
+      if (this.$refs.chatArea.value === '') {
+        this.$refs.chatArea.style.height = '46px'
+      }
+      const h = parseInt(this.$refs.chatArea.scrollHeight, 10)
+      if (h < 150) {
+        if (h > 46) {
+          this.$refs.chatArea.style.maxHeight = 'none'
+        }
+        this.$refs.chatArea.style.height = 'auto'
+        this.$refs.chatArea.style.height = `${this.$refs.chatArea.scrollHeight}px`
+      } else if (h > 150) {
+        this.$refs.chatArea.style.height = '150px'
+      } else {
+        this.$refs.chatArea.style.height = 'auto'
+      }
+    },
     ...mapActions({
       getClientProfile: 'client/getSingleClientById'
     }),

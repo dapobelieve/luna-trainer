@@ -18,6 +18,10 @@ export default {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
+      },
+      {
+        rel: 'stylesheet',
+        href: 'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
       }
     ]
   },

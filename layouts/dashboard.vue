@@ -6,7 +6,10 @@
     <GwHeader />
     <div class="flex">
       <invite-new-client-modal />
-      <Navigation :class="open ? 'block' : 'hidden'" />
+      <Navigation class="hidden lg:block" />
+      <div v-if="showSidebarMenu" class="block lg:hidden">
+        <Navigation />
+      </div>
       <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
         <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
           <div class="text-right mb-4">
@@ -26,7 +29,7 @@ export default {
   data () {
     return {
       page: this.$route.name,
-      open: true
+      showSidebarMenu: false
     }
   },
   computed: {
@@ -36,11 +39,11 @@ export default {
     })
   },
   async created () {
-    this.$nuxt.$on('toggleSideBar', () => {
-      this.toggleSide()
+    this.$nuxt.$on('displayPageSidebar', () => {
+      this.toggleSidebarMenu()
     })
-    this.$nuxt.$on('hideSideBar', () => {
-      this.hideSide()
+    this.$nuxt.$on('hideSidebarMenu', () => {
+      this.hideMobileMenu()
     })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
@@ -89,11 +92,14 @@ export default {
     if (isProfileSetUpCompleted && !this.isStripeConnected) {
       this.$modal.show('stripe-modal')
     }
-    if (window.innerWidth <= 768) {
-      this.open = false
-    }
   },
   methods: {
+    toggleSidebarMenu () {
+      this.showSidebarMenu = !this.showSidebarMenu
+    },
+    hideMobileMenu () {
+      this.showSidebarMenu = false
+    },
     ...mapActions('sendBird', {
       connectToSendBird: 'connect_to_sb_server_with_userid',
       newMessage: 'updateConnectedChannels',
