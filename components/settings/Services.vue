@@ -141,7 +141,7 @@ export default {
       return this.updateProfile({ services: this.updatedServices }).then((response) => {
         if (response.status === 'success') {
           this.resetSelectedService()
-          this.$gwtoast.success('Services updated', { position: 'top-right' })
+          this.$gwtoast.success('Services updated')
         }
       }).catch().finally(() => {
         this.isLoading = false

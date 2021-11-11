@@ -315,18 +315,14 @@ export default {
         this.isLoading = true
         const sending = await this.sendInvoice({ id: this.invoiceId })
         if (sending.status === 'success') {
-          this.$gwtoast.success('Invoice sending successful', {
-            position: 'top-right'
-          })
+          this.$gwtoast.success('Invoice sending successful')
           this.$router.push({ name: 'invoices-sent' })
         }
       } catch (error) {
         this.isLoading = false
         const errorResponse = this.$errorHandler.setAndParse(error)
         this.$gwtoast.error(
-          `Something went wrong: ${errorResponse.message}`,
-          { position: 'bottom-right' }
-        )
+          `Something went wrong: ${errorResponse.message}`)
       }
     },
     updateInvoice: debounce(async function () {

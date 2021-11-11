@@ -244,9 +244,7 @@ export default {
       this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
         this.endFullPageLoad()
       })
-      this.$gwtoast.error('Session Expired. Please login', {
-        position: 'bottom-right'
-      })
+      this.$gwtoast.error('Session Expired. Please login')
     } else if (
       this.$auth.strategy.token.status().valid() &&
       'jumpto' in this.$route.query
@@ -281,18 +279,14 @@ export default {
     },
     increaseStep () {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service', {
-          position: 'top-right'
-        })
+        this.$gwtoast.error('You are currently editing a service')
       } else {
         this.step++
       }
     },
     decreaseStep () {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service', {
-          position: 'top-right'
-        })
+        this.$gwtoast.error('You are currently editing a service')
       } else {
         this.step--
       }
@@ -300,9 +294,7 @@ export default {
     saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
         this.$router.replace({ name: 'Auth-SignIn' })
-        this.$gwtoast.error('Session Expired. Please login', {
-          position: 'bottom-right'
-        })
+        this.$gwtoast.error('Session Expired. Please login')
       } else {
         this.isLoading = true
         return this.create().then((result) => {
@@ -315,9 +307,7 @@ export default {
                 if (result.response !== undefined) {
                   this.isLoading = false
                   this.$gwtoast.error(
-                    `Something went wrong: ${result.response.data.message}`,
-                    { position: 'bottom-right' }
-                  )
+                    `Something went wrong: ${result.response.data.message}`)
                 } else {
                   this.$modal.show('done')
                 }
@@ -332,7 +322,7 @@ export default {
     finishedSetUp () {
       this.clearTrainnerRegData()
       this.$router.replace({ name: 'Dashboard' }).then(() => {
-        this.$gwtoast.success('Welcome', { position: 'bottom-right' })
+        this.$gwtoast.success('Welcome')
       })
     }
   }

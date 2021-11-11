@@ -93,16 +93,16 @@ export default {
         await this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
           if (response.status === 'successful') {
             this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
-              this.$gwtoast.success('Reset password sent to your email', { position: 'bottom-right' })
+              this.$gwtoast.success('Reset password sent to your email')
             })
           }
         }).catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+            this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`)
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again', { position: 'bottom-right' })
+            this.$gwtoast.error('Something went wrong. Try again')
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+            this.$gwtoast.error(`Something went wrong: ${err.message}`)
           }
         }).finally(() => {
           this.isLoading = false
