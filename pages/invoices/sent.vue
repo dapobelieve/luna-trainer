@@ -218,9 +218,9 @@ export default {
       try {
         if (this.checkedItems.length) {
           await this.$store.dispatch('invoice/archive', [...this.checkedItems])
-          this.$toasted.success('Records archived')
+          this.$gwtoast.success('Records archived')
         } else {
-          this.$toasted.error('No record selected')
+          this.$gwtoast.error('No record selected')
         }
       } catch (e) {
         console.log(e)

@@ -5,7 +5,7 @@
         <h2 class="text-xl">
           Information
         </h2>
-        <div class="flex space-x-2 ml-auto">
+        <div v-if="showButtons" class="flex space-x-2 ml-auto">
           <button
             :disabled="cancelLoading "
             type="button"
@@ -285,14 +285,14 @@ export default {
           if (response.status === 'success') {
             this.clientInfo = response.data
             this.isLoading = false
-            this.$toast.success('Updated profile successfully')
+            this.$gwtoast.success('Updated profile successfully')
           }
         })
         .catch((err) => {
           this.showButtons = false
           this.isLoading = false
           if (err.response) {
-            this.$toast.error(
+            this.$gwtoast.error(
               `Something went wrong: ${err.response.data.error ||
                 err.response.data.message}`,
               { position: 'bottom-right' }

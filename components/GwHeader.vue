@@ -2,7 +2,7 @@
   <header
     class="lg:hidden bg-white sticky top-0 z-10 h-14 w-full flex items-center px-4 py-1 gw-header"
   >
-    <button class="button-outline w-10" @click="toggle">
+    <button class="button-outline w-10" @click="openPageSidebar">
       <i class="ns-menu-burger text-xl" />
     </button>
 
@@ -38,17 +38,9 @@
 <script>
 export default {
   name: 'GwHeader',
-  data () {
-    return {
-      open: false
-    }
-  },
   methods: {
-    toggle () {
-      this.$nuxt.$emit('toggleSideBar')
-    },
-    externalClick () {
-      this.open = false
+    openPageSidebar () {
+      this.$nuxt.$emit('displayPageSidebar')
     }
   }
 }

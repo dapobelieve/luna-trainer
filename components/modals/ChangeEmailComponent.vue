@@ -46,7 +46,7 @@ export default {
         await this.$store.dispatch('authorize/resetPassword', { ...this.form })
         this.$emit('close-modal')
       } catch (e) {
-        this.$toasted.error(e.response.data.message)
+        this.$gwtoast.error(e.response.data.message)
       } finally {
         this.isLoading = false
       }

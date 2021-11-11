@@ -53,7 +53,7 @@ export default {
     async deleteInvoice () {
       await this.$store.dispatch('invoice/deleteInvoice', this.invoice._id)
       this.$emit('invoice-deleted', this.invoice)
-      this.$toasted.show('Invoice deleted')
+      this.$gwtoast.show('Invoice deleted')
     }
   }
 }

@@ -129,7 +129,7 @@ export default {
                   }
                 })
                 .then((response) => {
-                  this.$toast.success('Signup Successful', {
+                  this.$gwtoast.success('Signup Successful', {
                     position: 'bottom-right'
                   })
                   this.isLoading = false
@@ -151,16 +151,16 @@ export default {
                 })
             } catch (error) {
               if (error.response) {
-                this.$toast.error(
+                this.$gwtoast.error(
                   `Something went wrong: ${error.response.data.message}`,
                   { position: 'bottom-right' }
                 )
               } else if (error.request) {
-                this.$toast.error('Something went wrong. Try again', {
+                this.$gwtoast.error('Something went wrong. Try again', {
                   position: 'bottom-right'
                 })
               } else {
-                this.$toast.error(`Something went wrong: ${error.message}`, {
+                this.$gwtoast.error(`Something went wrong: ${error.message}`, {
                   position: 'bottom-right'
                 })
               }
@@ -171,16 +171,16 @@ export default {
           this.isLoading = false
           this.signUpText = 'get started'
           if (err.response) {
-            this.$toast.error(
+            this.$gwtoast.error(
               `Something went wrong: ${err.response.data.message}`,
               { position: 'bottom-right' }
             )
           } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', {
+            this.$gwtoast.error('Something went wrong. Try again', {
               position: 'bottom-right'
             })
           } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, {
+            this.$gwtoast.error(`Something went wrong: ${err.message}`, {
               position: 'bottom-right'
             })
           }

@@ -82,7 +82,7 @@ export default {
       try {
         this.services.splice(this.services.indexOf(service), 1)
         await this.$store.dispatch('profile/updateProfile', { services: [...this.services] })
-        this.$toasted.success('Service deleted')
+        this.$gwtoast.success('Service deleted')
       } catch (e) {
         console.log(e)
       }

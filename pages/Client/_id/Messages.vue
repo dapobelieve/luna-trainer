@@ -85,10 +85,16 @@
             class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
           >
             <textarea
+              ref="chatArea"
               v-model="message"
               type="text"
-              class="w-full focus:outline-none text-sm resize-none h-6 max-h-20"
+              class="w-full focus:outline-none text-sm resize-none h-6 box-border"
               placeholder="Type a message"
+              @input="
+                emitValue($event);
+                resize();
+              "
+              @keydown.enter.exact="emitEnter"
             />
             <div class="relative">
               <transition name="fadeIn">
@@ -117,7 +123,7 @@
                 <i class="ns-upload"></i>
               </button>
             </div>
-            <button class="button-fill button-sm w-8 ml-2" type="submit">
+            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': disabled }" :disabled="message === ''">
               <i class="ns-paper-plane"></i>
             </button>
           </div>
@@ -191,11 +197,23 @@ export default {
       )
     }
   },
+  watch: {
+    value (newVal, oldVal) {
+      if (newVal === '') {
+        this.$refs.chatArea.style.height = '55px'
+      }
+    }
+  },
   mounted () {
     const channelHandler = new this.$sb.ChannelHandler()
     channelHandler.onMessageReceived = this.onMessageReceived
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
+
+    window && window.Intercom('update', {
+      hide_default_launcher: true
+    })
+    window && window.Intercom('hide')
   },
   created () {
     try {
@@ -226,6 +244,30 @@ export default {
     }
   },
   methods: {
+    emitEnter (e) {
+      e.preventDefault()
+      this.$emit('enter-pressed')
+    },
+    emitValue (e) {
+      this.$emit('input', e.target.value)
+    },
+    resize () {
+      if (this.$refs.chatArea.value === '') {
+        this.$refs.chatArea.style.height = '46px'
+      }
+      const h = parseInt(this.$refs.chatArea.scrollHeight, 10)
+      if (h < 150) {
+        if (h > 46) {
+          this.$refs.chatArea.style.maxHeight = 'none'
+        }
+        this.$refs.chatArea.style.height = 'auto'
+        this.$refs.chatArea.style.height = `${this.$refs.chatArea.scrollHeight}px`
+      } else if (h > 150) {
+        this.$refs.chatArea.style.height = '150px'
+      } else {
+        this.$refs.chatArea.style.height = 'auto'
+      }
+    },
     ...mapActions({
       getClientProfile: 'client/getSingleClientById'
     }),
