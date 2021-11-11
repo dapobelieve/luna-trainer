@@ -296,14 +296,14 @@ export default {
         if (response.status === 'success') {
           if (this.profileImageUrl !== this.profile.imgURL) {
             await this.uploadProfileImage()
-            this.$toast.success('Updated profile successfully')
+            this.$gwtoast.success('Updated profile successfully')
           } else {
-            this.$toast.success('Updated profile successfully')
+            this.$gwtoast.success('Updated profile successfully')
           }
         }
       }).catch((err) => {
         if (err.response) {
-          this.$toast.error(`Something went wrong: ${err.response.data.error || err.response.data.message}`, { position: 'bottom-right' })
+          this.$gwtoast.error(`Something went wrong: ${err.response.data.error || err.response.data.message}`, { position: 'bottom-right' })
         }
       }).finally(() => {
         this.isLoading = false

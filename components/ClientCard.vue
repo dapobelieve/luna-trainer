@@ -73,28 +73,22 @@ export default {
         )
         .then((response) => {
           if (response && response.status === true) {
-            this.$toast.success(
+            this.$gwtoast.success(
               `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
             )
             this.$emit('close', false)
           } else {
-            this.$toast.error('Error resending invite. Retry!!!')
+            this.$gwtoast.error('Error resending invite. Retry!!!')
           }
         })
         .catch((err) => {
           if (err.response) {
-            this.$toast.error(
-              `Something went wrong: ${err.response.data.message}`,
-              { position: 'bottom-right' }
-            )
+            this.$gwtoast.error(
+              `Something went wrong: ${err.response.data.message}`)
           } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', {
-              position: 'bottom-right'
-            })
+            this.$gwtoast.error('Something went wrong. Try again')
           } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, {
-              position: 'bottom-right'
-            })
+            this.$gwtoast.error(`Something went wrong: ${err.message}`)
           }
         })
     }

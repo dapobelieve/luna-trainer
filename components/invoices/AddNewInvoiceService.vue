@@ -187,9 +187,7 @@ export default {
     },
     addNewService () {
       if (!this.disabled) {
-        this.$toast.error('All form fields are required', {
-          position: 'top-right'
-        })
+        this.$gwtoast.error('All form fields are required')
       } else if (
         this.servicesFromStore.length &&
         this.servicesFromStore.some(
@@ -198,10 +196,8 @@ export default {
             this.services.description.toLowerCase()
         )
       ) {
-        this.$toast.error(
-          `${this.services.description} service already exist`,
-          { position: 'top-right' }
-        )
+        this.$gwtoast.error(
+          `${this.services.description} service already exist`)
       } else {
         this.isLoading = true
         return this.updateService({
@@ -213,9 +209,7 @@ export default {
             if (response.status === 'success') {
               this.$emit('close-modal', { ...this.services })
               this.resetSelectedService()
-              this.$toast.success('Services updated', {
-                position: 'top-right'
-              })
+              this.$gwtoast.success('Services updated')
             }
           })
           .catch()
@@ -241,7 +235,7 @@ export default {
           if (response.status === 'success') {
             this.cancelEdit()
             this.$emit('edited')
-            this.$toast.success('Service Updated', { position: 'top-right' })
+            this.$gwtoast.success('Service Updated')
           }
         })
         .catch()

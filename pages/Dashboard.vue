@@ -114,7 +114,7 @@ export default {
       this.showNotification = false
       return this.connectToSendBird(this.$auth.user.sendbirdId).then((result) => {
         if (result !== 'error') {
-          this.$toast.success('Chat connection successful')
+          this.$gwtoast.success('Chat connection successful')
         }
       })
     }
