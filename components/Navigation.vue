@@ -413,15 +413,19 @@ export default {
     }),
     allowIntercom () {
       this.toggleIntercom = !this.toggleIntercom
-      if (this.toggleIntercom === false) {
-        window && window.Intercom('update', {
-          hide_default_launcher: true
-        })
-        window.Intercom('hide')
+      if (this.$route.name === 'Client-id-Messages') {
+        if (this.toggleIntercom === false) {
+          window && window.Intercom('update', {
+            hide_default_launcher: true
+          })
+          window.Intercom('hide')
+        } else {
+          window && window.Intercom('update', {
+            hide_default_launcher: false
+          })
+          window.Intercom('show')
+        }
       } else {
-        window && window.Intercom('update', {
-          hide_default_launcher: false
-        })
         window.Intercom('show')
       }
     },
@@ -455,11 +459,6 @@ export default {
     signOut () {
       this.logOut()
     },
-    // hideSidebar (e) {
-    //   if (window.innerWidth <= 768 && e.currentTarget.querySelector('a').classList.contains('navItems')) {
-    //     this.$nuxt.$emit('hideSideBar')
-    //   }
-    // }
     hideSidebarMenu () {
       this.$nuxt.$emit('hideSidebarMenu')
     }

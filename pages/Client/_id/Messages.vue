@@ -85,11 +85,16 @@
             class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
           >
             <textarea
+              ref="chatArea"
               v-model="message"
               type="text"
               class="w-full focus:outline-none text-sm resize-none h-6 box-border"
               placeholder="Type a message"
-              @input="resizeField($event)"
+              @input="
+                emitValue($event);
+                resize();
+              "
+              @keydown.enter.exact="emitEnter"
             />
             <div class="relative">
               <transition name="fadeIn">
@@ -192,6 +197,13 @@ export default {
       )
     }
   },
+  watch: {
+    value (newVal, oldVal) {
+      if (newVal === '') {
+        this.$refs.chatArea.style.height = '55px'
+      }
+    }
+  },
   mounted () {
     const channelHandler = new this.$sb.ChannelHandler()
     channelHandler.onMessageReceived = this.onMessageReceived
@@ -232,9 +244,27 @@ export default {
     }
   },
   methods: {
-    resizeField (e) {
-      e.target.style.height = 'auto'
-      e.target.style.height = `${e.target.scrollHeight}px`
+    emitEnter (e) {
+      e.preventDefault()
+      this.$emit('enter-pressed')
+    },
+    emitValue (e) {
+      this.$emit('input', e.target.value)
+    },
+    resize () {
+      if (this.$refs.chatArea.value === '') {
+        this.$refs.chatArea.style.height = '46px'
+      }
+      const h = parseInt(this.$refs.chatArea.scrollHeight, 10)
+      if (h < 150) {
+        if (h > 46) {
+          this.$refs.chatArea.style.maxHeight = 'none'
+        }
+        this.$refs.chatArea.style.height = 'auto'
+        this.$refs.chatArea.style.height = `${this.$refs.chatArea.scrollHeight}px`
+      } else if (h > 150) {
+        this.$refs.chatArea.style.height = '150px'
+      }
     },
     ...mapActions({
       getClientProfile: 'client/getSingleClientById'
