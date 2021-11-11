@@ -264,6 +264,8 @@ export default {
         this.$refs.chatArea.style.height = `${this.$refs.chatArea.scrollHeight}px`
       } else if (h > 150) {
         this.$refs.chatArea.style.height = '150px'
+      } else {
+        this.$refs.chatArea.style.height = 'auto'
       }
     },
     ...mapActions({
