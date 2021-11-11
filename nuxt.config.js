@@ -32,6 +32,7 @@ export default {
   ],
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    { src: '~plugins/services.js' },
     { src: '~plugins/v-calendar.js', ssr: false },
     { src: '~/plugins/vue-tel-input.js', ssr: false },
     { src: '~/plugins/vue-select.js', ssr: false },
@@ -75,9 +76,6 @@ export default {
     position: 'top-right',
     duration: 4000,
     closeOnSwipe: true
-  },
-  axios: {
-    // baseURL: 'https://api.getwelp.com/accounts/v0'
   },
 
   router: {
@@ -124,8 +122,6 @@ export default {
       }
     }
   },
-
-  // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: /@fullcalendar.*/,
     postcss: {

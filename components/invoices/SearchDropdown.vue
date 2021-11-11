@@ -2,31 +2,37 @@
   <ClickOutside :do="() => { show = false}">
     <div class="relative border bg-white rounded-lg shadow-sm">
       <div class="pl-3 pr-1 py-0.5 h-8 justify-between flex items-center ">
-        <ClickOutside :do="() => { showDropDown=false }">
+        <ClickOutside :do="() => { showFieldDropdown = false }">
           <div class="relative cursor-pointer mr-4 items-center inline-flex text-sm">
-            <div class="inline-flex items-center" @click="showDropDown = !showDropDown">
+            <div class="inline-flex items-center" @click="showFieldDropdown = !showFieldDropdown; show=false">
               <span class="text-gray-500">{{ field }}</span>
               <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
             </div>
-            <div v-show="showDropDown" class="absolute top-[18px] absolute mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
+            <div v-show="showFieldDropdown" class="absolute top-[18px] absolute mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
               <div class="py-1" role="none">
-                <a v-for="(field, indexF) in fields" :key="indexF" class="text-gray-700 cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100" @click="selectField(field)">
-                  {{ field }}
+                <a v-for="(fieldOption, indexF) in fields" :key="indexF" class="text-gray-700 cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100" @click="selectField(fieldOption)">
+                  {{ fieldOption }}
                 </a>
               </div>
             </div>
           </div>
         </ClickOutside>
-        <input
-          ref="search"
-          v-model="search"
-          :disabled="!selectedField"
-          :placeholder="placeHolder"
-          class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full "
-          @focus="show = true"
-        />
+        <div>
+          <div v-if="selectedOption" class="w-[156px] px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full " @click.exact.stop="clearSelection">
+            <slot :selected="selectedOption" name="selected-option"></slot>
+          </div>
+          <input
+            v-else
+            ref="search"
+            v-model="search"
+            :disabled="!field"
+            :placeholder="placeHolder"
+            class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full "
+            @focus="show = true"
+          />
+        </div>
       </div>
-      <div v-if="show" class="absolute right-0 bg-white my-1.5 w-40 border shadow z-40 rounded">
+      <div v-if="show" class="absolute right-0 bg-white mdy-1.5 w-40 border border-t-0 shadow z-40 rounded">
         <div>
           <ul v-if="filteredRecords" class="">
             <li v-for="(option, index) in filteredRecords" :key="index" @click="selectOption(option)">
@@ -43,14 +49,7 @@
 </template>
 <script>
 export default {
-  model: {
-    prop: 'field',
-    event: 'select'
-  },
   props: {
-    field: {
-      type: String
-    },
     fields: {
       type: Array
     },
@@ -60,8 +59,10 @@ export default {
   },
   data () {
     return {
-      showDropDown: false,
+      field: null,
+      showFieldDropdown: false,
       selectedField: null,
+      selectedOption: null,
       value: null,
       search: '',
       show: false
@@ -84,15 +85,34 @@ export default {
       return records
     }
   },
+  watch: {
+    fields: {
+      immediate: true,
+      handler (newVal) {
+        this.field = this.fields[0]
+        this.$emit('field-selected', this.field)
+      }
+    }
+  },
   mounted () {
-    this.selectedField = this.fields[0]
+
   },
   methods: {
+    clearSelection () {
+      this.selectedOption = null
+      this.show = true
+      this.$nextTick(() => {
+        this.$refs.search.focus()
+      })
+    },
     selectField (field) {
-      this.$emit('select', field)
+      this.field = field
+      this.$emit('field-selected', this.field)
+      this.selectedOption = null
+      this.showFieldDropdown = false
     },
     selectOption (option) {
-      // this.value = option
+      this.selectedOption = option
       this.$emit('selected', option)
       this.close()
     },
