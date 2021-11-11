@@ -147,10 +147,10 @@ export default {
         if (disconnectStripe === 'OK') {
           await this.fetchUserProfile()
           this.isLoading = false
-          this.$toast.success('Stripe Disconnect Successful')
+          this.$gwtoast.success('Stripe Disconnect Successful')
         }
       } catch (error) {
-        this.$toast.error('Stripe Disconnect Failed!')
+        this.$gwtoast.error('Stripe Disconnect Failed!')
       }
     }
   }

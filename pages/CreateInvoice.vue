@@ -56,16 +56,16 @@ export default {
       this.invoice.dueDateEpoch = new Date(this.invoice.dueDate).getTime() / 1000
       this.createNewInvoice(this.invoice).then((result) => {
         if (result.status === 'success') {
-          this.$toast.success('Invoice created successfully', { position: 'bottom-right' })
+          this.$gwtoast.success('Invoice created successfully', { position: 'bottom-right' })
           this.$router.push({ name: 'Invoices' })
         }
       }).catch((err) => {
         if (err.response) {
-          this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+          this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
         } else if (err.request) {
-          this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+          this.$gwtoast.error('Something went wrong. Try again', { position: 'bottom-right' })
         } else {
-          this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+          this.$gwtoast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
         }
       }).finally(() => {
         this.isLoading = false

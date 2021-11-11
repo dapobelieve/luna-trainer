@@ -176,20 +176,20 @@ export default {
           }
         })
           .then((response) => {
-            this.$toast.success('Login Successful', { position: 'bottom-right' })
+            this.$gwtoast.success('Login Successful', { position: 'bottom-right' })
             this.$store.dispatch('authorize/setToken', {
               token: response.data.data.accessToken,
               refreshToken: response.data.data.refreshToken
             })
             if (response.data.data.forceResetPassword) {
               this.$router.push({ name: 'Auth-CreateNewPassword' })
-              this.$toast.info('Please Create A New Password', { position: 'bottom-right' })
+              this.$gwtoast.info('Please Create A New Password', { position: 'bottom-right' })
             } else {
               this.authenticate()
             }
           })
           .catch(() => {
-            this.$toast.error('Incorrect Login Credentials', { position: 'bottom-right' })
+            this.$gwtoast.error('Incorrect Login Credentials', { position: 'bottom-right' })
           })
           .finally(() => {
             this.isLoading = false

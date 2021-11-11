@@ -178,7 +178,7 @@ export default {
     }),
     addNewService () {
       if (!this.disabled) {
-        this.$toast.error('All form fields are required', {
+        this.$gwtoast.error('All form fields are required', {
           position: 'top-right'
         })
       } else if (
@@ -189,7 +189,7 @@ export default {
             this.services.description.toLowerCase()
         )
       ) {
-        this.$toast.error(
+        this.$gwtoast.error(
           `${this.services.description} service already exist`,
           { position: 'top-right' }
         )
@@ -209,7 +209,7 @@ export default {
     },
     saveEdit () {
       if (this.disableUpdate && this.services.pricing.amount === this.selectedService.pricing.amount) {
-        this.$toast.error('You have not made any change to the service', {
+        this.$gwtoast.error('You have not made any change to the service', {
           position: 'top-right'
         })
       } else {
@@ -220,7 +220,7 @@ export default {
           value: { ...this.services }
         })
         this.cancelEdit()
-        this.$toast.success('Service Updated', { position: 'top-right' })
+        this.$gwtoast.success('Service Updated', { position: 'top-right' })
       }
     },
     cancelEdit () {

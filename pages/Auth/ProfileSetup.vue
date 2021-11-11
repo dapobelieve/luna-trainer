@@ -162,7 +162,7 @@ export default {
     }
   },
   mounted () {
-    this.$toast.info('Please complete your profile.', { position: 'top-right' })
+    this.$gwtoast.info('Please complete your profile.', { position: 'top-right' })
   },
   auth: false,
   validations: {
@@ -192,25 +192,25 @@ export default {
         this.isLoading = true
         return this.createTrainerProfile(this.profileInfo).then(async (response) => {
           if (response.status === 'success') {
-            this.$toast.info('Profile creations successfully', { position: 'bottom-right' })
+            this.$gwtoast.info('Profile creations successfully', { position: 'bottom-right' })
 
             if (this.profilePic) {
-              this.$toast.info('Uploading Profile Picture', { position: 'bottom-right' })
+              this.$gwtoast.info('Uploading Profile Picture', { position: 'bottom-right' })
               response = await this.uploadProfileImage()
               if (response.success === true) {
-                this.$toast.info('Profile picture upload successfully', { position: 'bottom-right' })
+                this.$gwtoast.info('Profile picture upload successfully', { position: 'bottom-right' })
               }
             }
-            this.$toast.success('Welcome', { position: 'bottom-right' })
+            this.$gwtoast.success('Welcome', { position: 'bottom-right' })
             this.$router.push({ name: 'Dashboard' })
           }
         }).catch((err) => {
           if (err.response) {
-            this.$toast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
+            this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`, { position: 'bottom-right' })
           } else if (err.request) {
-            this.$toast.error('Something went wrong. Try again', { position: 'bottom-right' })
+            this.$gwtoast.error('Something went wrong. Try again', { position: 'bottom-right' })
           } else {
-            this.$toast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
+            this.$gwtoast.error(`Something went wrong: ${err.message}`, { position: 'bottom-right' })
           }
         }).finally(() => {
           this.isLoading = false

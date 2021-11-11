@@ -213,7 +213,7 @@ export default {
         })
           .then((result) => {
             if (result.status === 'success') {
-              this.$toast.success('Invoice created successfully', {
+              this.$gwtoast.success('Invoice created successfully', {
                 position: 'bottom-right'
               })
               this.fetchInvoices()
@@ -222,16 +222,16 @@ export default {
           })
           .catch((err) => {
             if (err.response) {
-              this.$toast.error(
+              this.$gwtoast.error(
                 `Something went wrong: ${err.response.data.message}`,
                 { position: 'bottom-right' }
               )
             } else if (err.request) {
-              this.$toast.error('Something went wrong. Try again', {
+              this.$gwtoast.error('Something went wrong. Try again', {
                 position: 'bottom-right'
               })
             } else {
-              this.$toast.error(`Something went wrong: ${err.message}`, {
+              this.$gwtoast.error(`Something went wrong: ${err.message}`, {
                 position: 'bottom-right'
               })
             }

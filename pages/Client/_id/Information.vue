@@ -255,14 +255,14 @@ export default {
           if (response.status === 'success') {
             this.clientInfo = response.data
             this.isLoading = false
-            this.$toast.success('Updated profile successfully')
+            this.$gwtoast.success('Updated profile successfully')
           }
         })
         .catch((err) => {
           this.showButtons = false
           this.isLoading = false
           if (err.response) {
-            this.$toast.error(
+            this.$gwtoast.error(
               `Something went wrong: ${err.response.data.error ||
                 err.response.data.message}`,
               { position: 'bottom-right' }

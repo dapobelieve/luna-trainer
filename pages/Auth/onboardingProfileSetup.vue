@@ -244,7 +244,7 @@ export default {
       this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
         this.endFullPageLoad()
       })
-      this.$toast.error('Session Expired. Please login', {
+      this.$gwtoast.error('Session Expired. Please login', {
         position: 'bottom-right'
       })
     } else if (
@@ -281,7 +281,7 @@ export default {
     },
     increaseStep () {
       if (this.editingService) {
-        this.$toast.error('You are currently editing a service', {
+        this.$gwtoast.error('You are currently editing a service', {
           position: 'top-right'
         })
       } else {
@@ -290,7 +290,7 @@ export default {
     },
     decreaseStep () {
       if (this.editingService) {
-        this.$toast.error('You are currently editing a service', {
+        this.$gwtoast.error('You are currently editing a service', {
           position: 'top-right'
         })
       } else {
@@ -300,7 +300,7 @@ export default {
     saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
         this.$router.replace({ name: 'Auth-SignIn' })
-        this.$toast.error('Session Expired. Please login', {
+        this.$gwtoast.error('Session Expired. Please login', {
           position: 'bottom-right'
         })
       } else {
@@ -314,7 +314,7 @@ export default {
               return this.addClient(this.clientInfo).then((result) => {
                 if (result.response !== undefined) {
                   this.isLoading = false
-                  this.$toast.error(
+                  this.$gwtoast.error(
                     `Something went wrong: ${result.response.data.message}`,
                     { position: 'bottom-right' }
                   )
@@ -332,7 +332,7 @@ export default {
     finishedSetUp () {
       this.clearTrainnerRegData()
       this.$router.replace({ name: 'Dashboard' }).then(() => {
-        this.$toast.success('Welcome', { position: 'bottom-right' })
+        this.$gwtoast.success('Welcome', { position: 'bottom-right' })
       })
     }
   }

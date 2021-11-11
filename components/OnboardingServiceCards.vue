@@ -72,7 +72,7 @@ export default {
     }),
     deleteService (index) {
       if (this.editingService) {
-        this.$toast.error('You are currently editing a service', { position: 'top-right' })
+        this.$gwtoast.error('You are currently editing a service', { position: 'top-right' })
       } else {
         const updatedServices = [...this.services]
         updatedServices.splice(index, 1)

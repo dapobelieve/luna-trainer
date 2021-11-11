@@ -241,25 +241,6 @@ export default {
       selectedServiceProps: null
     }
   },
-  watch: {
-    'invoiceDetails.services': {
-      handler (val) {
-        this.updateInvoice()
-      }
-    },
-    invoiceDetails: {
-      handler (newValue) {
-        if (this.invoiceId === null && this.invoiceDetails.customerId) {
-          this.$nuxt.$emit('autosaving-invoice')
-          this.createInvoice()
-        } else if (this.invoiceId) {
-          this.updateInvoice()
-        }
-      },
-      immediate: true,
-      deep: true
-    }
-  },
   computed: {
     ...mapGetters({
       allClients: 'client/getAllClients'
@@ -291,6 +272,25 @@ export default {
       }
     }
   },
+  watch: {
+    'invoiceDetails.services': {
+      handler (val) {
+        this.updateInvoice()
+      }
+    },
+    invoiceDetails: {
+      handler (newValue) {
+        if (this.invoiceId === null && this.invoiceDetails.customerId) {
+          this.$nuxt.$emit('autosaving-invoice')
+          this.createInvoice()
+        } else if (this.invoiceId) {
+          this.updateInvoice()
+        }
+      },
+      immediate: true,
+      deep: true
+    }
+  },
   methods: {
     handleSelection (data) {
       this.$set(this.invoiceDetails, 'services', data)
@@ -315,7 +315,7 @@ export default {
         this.isLoading = true
         const sending = await this.sendInvoice({ id: this.invoiceId })
         if (sending.status === 'success') {
-          this.$toast.success('Invoice sending successful', {
+          this.$gwtoast.success('Invoice sending successful', {
             position: 'top-right'
           })
           this.$router.push({ name: 'invoices-sent' })
@@ -323,24 +323,10 @@ export default {
       } catch (error) {
         this.isLoading = false
         const errorResponse = this.$errorHandler.setAndParse(error)
-        this.$toast.error(
+        this.$gwtoast.error(
           `Something went wrong: ${errorResponse.message}`,
           { position: 'bottom-right' }
         )
-        // if (error.response) {
-        //   this.$toast.error(
-        //     `Something went wrong: ${error.response.data.message}`,
-        //     { position: 'bottom-right' }
-        //   )
-        // } else if (error.request) {
-        //   this.$toast.error('Something went wrong. Try again', {
-        //     position: 'bottom-right'
-        //   })
-        // } else {
-        //   this.$toast.error(`Something went wrong: ${error.message}`, {
-        //     position: 'bottom-right'
-        //   })
-        // }
       }
     },
     updateInvoice: debounce(async function () {
