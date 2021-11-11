@@ -2,7 +2,9 @@
   <async-view>
     <div v-if="clientInfo" class="grid bg-white border rounded-xl w-full">
       <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl">
-        <h2 class="text-xl">Information</h2>
+        <h2 class="text-xl">
+          Information
+        </h2>
         <div class="flex space-x-2 ml-auto">
           <button
             :disabled="cancelLoading "
@@ -18,11 +20,15 @@
             type="button"
             class="button-fill button-sm"
             @click="updateProfile"
-          >Save</button-spinner>
+          >
+            Save
+          </button-spinner>
         </div>
       </div>
       <div class="grid gap-6 p-4">
-        <p class="uppercase tracking-wider font-medium text-xs text-gray-500">Owner</p>
+        <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+          Owner
+        </p>
         <div class="flex flex-col items-center">
           <div>
             <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
@@ -46,7 +52,9 @@
           </div>
         </div>
 
-        <p class="text-xs text-gray-400 text-center">Click on text to edit</p>
+        <p class="text-xs text-gray-400 text-center">
+          Click on text to edit
+        </p>
         <dl class="grid gap-6">
           <div class="flex space-x-4 xl:space-x-6">
             <i
@@ -64,8 +72,12 @@
                 />
               </div>
               <div class="place-self-auto">
-                <dt class="input-text-label">Email</dt>
-                <dd class="truncate">{{ clientInfo && clientInfo.email }}</dd>
+                <dt class="input-text-label">
+                  Email
+                </dt>
+                <dd class="truncate">
+                  {{ clientInfo && clientInfo.email }}
+                </dd>
               </div>
             </div>
           </div>
@@ -75,10 +87,16 @@
             ></i>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
               <div>
-                <dt class="input-text-label">Country</dt>
+                <dt class="input-text-label">
+                  Country
+                </dt>
                 <select v-model="clientInfo.location" autocomplete="country" @input="focusField">
-                  <option :value="null" selected disabled>click here</option>
-                  <option v-for="country in countries" :key="country.numericCode">{{ country.name }}</option>
+                  <option :value="null" selected disabled>
+                    click here
+                  </option>
+                  <option v-for="country in countries" :key="country.numericCode">
+                    {{ country.name }}
+                  </option>
                 </select>
               </div>
               <div class="place-self-auto">
@@ -109,8 +127,12 @@
       </div>
       <!-- dog details -->
       <div class="grid gap-6 p-4">
-        <p class="uppercase tracking-wider font-medium text-xs text-gray-500">DOG DETAILS</p>
-        <p class="text-xs text-gray-400 text-center">Click on text to edit</p>
+        <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+          DOG DETAILS
+        </p>
+        <p class="text-xs text-gray-400 text-center">
+          Click on text to edit
+        </p>
         <dl class="flex flex-col space-y-6">
           <div class="flex space-x-4 xl:space-x-6">
             <div
@@ -156,8 +178,12 @@
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
               <div>
-                <dt class="input-text-label">Behavioural Problems</dt>
-                <dd class="mt-1 text-gray-400">{{ clientInfo && clientInfo.behaviour }}</dd>
+                <dt class="input-text-label">
+                  Behavioural Problems
+                </dt>
+                <dd class="mt-1 text-gray-400">
+                  {{ clientInfo && clientInfo.behaviour }}
+                </dd>
               </div>
             </div>
           </div>
@@ -169,8 +195,12 @@
             </div>
             <div class="grid gap-6 flex-grow flex-wrap w-full">
               <div>
-                <dt class="input-text-label">Owner's Notes</dt>
-                <dd class="mt-1 truncate">{{ clientInfo && clientInfo.notes }}</dd>
+                <dt class="input-text-label">
+                  Owner's Notes
+                </dt>
+                <dd class="mt-1 truncate">
+                  {{ clientInfo && clientInfo.notes }}
+                </dd>
               </div>
             </div>
           </div>

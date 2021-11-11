@@ -9,17 +9,14 @@ export class ToastService {
   }
 
   success (message, options) {
-    const optionsObj = { ...this.options, ...options }
-    this.$toast.success(message, optionsObj)
+    this.$toast.success(message, { ...this.options, ...options })
   }
 
   show (message, options) {
-    const optionsObj = { ...this.options, ...options }
-    this.$toast.show(message, optionsObj)
+    this.$toast.show(message, { ...this.options, ...options })
   }
 
   error (message, options) {
-    const optionsObj = { ...this.options, ...options }
-    this.$toast.error(message, optionsObj)
+    this.$toast.error(message, { ...this.options, ...options })
   }
 }

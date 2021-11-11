@@ -1,6 +1,6 @@
 <template>
   <div>
-    <template v-if="invoices && invoices.length">
+    <template>
       <div class="flex mt-1 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
@@ -31,7 +31,7 @@
                 </span>
               </template>
               <template v-slot:option="{option}">
-                <div class="flex client items-center client px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
+                <div class="flex client items-center client py-2 px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
                   <div v-if="searchField === 'Name'" class="d-flex">
                     <ClientAvatar :height="1" :width="1" :client-info="option" />
                     <span class="text-xs text-gray-700 ml-2">
@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <GwPagination v-if="filteredRecords" :total-items="filteredRecords.length">
+      <GwPagination v-if="invoices.length && filteredRecords.length" :total-items="filteredRecords.length">
         <template v-slot:content>
           {{ quickSearchQuery }}
           <div class="overflow-scroll lg:overflow-hidden">
@@ -114,9 +114,7 @@
           </div>
         </template>
       </GwPagination>
-    </template>
-    <template v-else>
-      <div class="flex justify-around">
+      <div v-else class="flex justify-around">
         <div class="mt-5 text-center">
           <h4 class="font-bold text-gray-700 mb-1">
             No Invoices yet
@@ -201,10 +199,10 @@ export default {
           this.invoices = [...res.data]
         } else {
           res = await this.$store.dispatch('invoice/getInvoices', { status: option.toLowerCase() })
-          this.invoices = [...res.data]
+          this.invoices = res
         }
       } catch (e) {
-        console.log(e)
+        console.log({ e })
       }
     },
     downloadDocument (response) {
