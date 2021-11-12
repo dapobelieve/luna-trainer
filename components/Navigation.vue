@@ -384,7 +384,7 @@ export default {
       showMessagesMenu: false,
       addSession: false,
       newCourse: false,
-      toggleIntercom: false
+      toggleIntercom: true
     }
   },
   computed: {
@@ -414,7 +414,7 @@ export default {
     allowIntercom () {
       this.toggleIntercom = !this.toggleIntercom
       if (this.$route.name === 'Client-id-Messages') {
-        if (this.toggleIntercom === false) {
+        if (!this.toggleIntercom) {
           window && window.Intercom('update', {
             hide_default_launcher: true
           })
@@ -425,9 +425,9 @@ export default {
           })
           window.Intercom('show')
         }
-      } else {
-        window.Intercom('show')
+        return
       }
+      !this.toggleIntercom ? window.Intercom('hide') : window.Intercom('show')
     },
     gotoMessage (arr) {
       const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
