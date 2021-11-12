@@ -14,14 +14,17 @@
     <div v-else-if="!clientIsReady" class="h-full grid place-content-center">
       <div class="flex items-center">
         <i class="ns-lock text-lg mr-1"></i>
-        <span class="mr-2">You can only message clients who have accepted your invite.</span>
+        <span
+          class="mr-2"
+        >You can only message clients who have accepted your invite.</span>
       </div>
     </div>
-    <div v-else-if="errorCreatingChannel" class="h-full grid place-content-center">
+    <div
+      v-else-if="errorCreatingChannel"
+      class="h-full grid place-content-center"
+    >
       <div class="flex flex-col items-center">
-        <p
-          class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-        >
+        <p class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm">
           An error occured. Please contact support.
         </p>
       </div>
@@ -30,9 +33,19 @@
       <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
         <template v-if="messageHistory.length">
           <div v-for="msg in messageHistory" :key="msg.messageId">
-            <li v-if="msg._sender.userId === sender" class="me flex justify-end pl-6">
-              <span v-if="msg.messageType === 'file'" class="msg overflow-hidden">
-                <img class="bg-white" :src="msg.imaging || msg.url" style="max-width: 250px" />
+            <li
+              v-if="msg._sender.userId === sender"
+              class="me flex justify-end pl-6"
+            >
+              <span
+                v-if="msg.messageType === 'file'"
+                class="msg overflow-hidden"
+              >
+                <img
+                  class="bg-white"
+                  :src="msg.imaging || msg.url"
+                  style="max-width: 250px"
+                />
               </span>
               <div
                 v-else
@@ -44,12 +57,23 @@
             </li>
             <li v-else class="you flex items-end pr-6">
               <ClientAvatar
+                v-if="msg._sender.profileUrl"
                 class="mr-2 flex-shrink-0"
                 :client-info="{ imgURL: msg._sender.profileUrl }"
                 :height="2"
                 :width="2"
               />
-              <span v-if="msg.messageType === 'file'" class="msg overflow-hidden">
+              <ClientAvatar
+                v-else
+                class="mr-2 flex-shrink-0"
+                :client-info="{ firstName: msg._sender.nickname }"
+                :height="2"
+                :width="2"
+              />
+              <span
+                v-if="msg.messageType === 'file'"
+                class="msg overflow-hidden"
+              >
                 <img class="bg-white max-w-[16rem]" :src="msg.url" />
               </span>
               <div v-else class="msg p-2 max-w-lg break-all">
@@ -62,7 +86,12 @@
           <div class="h-full grid place-content-center text-gray-500">
             <div class="flex items-center">
               <span class="mr-2">Start a conversation</span>
-              <img class="text-center inline-block" src="~/assets/img/svgs/paw.svg" alt srcset />
+              <img
+                class="text-center inline-block"
+                src="~/assets/img/svgs/paw.svg"
+                alt
+                srcset
+              />
             </div>
           </div>
         </template>
@@ -120,14 +149,22 @@
                 <i class="ns-upload"></i>
               </button>
             </div>
-            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': message === '' }" :disabled="message === ''">
+            <button
+              class="button-fill button-sm w-8 ml-2"
+              type="submit"
+              :class="{ 'opacity-50 cursor-default': message === '' }"
+              :disabled="message === ''"
+            >
               <i class="ns-paper-plane"></i>
             </button>
           </div>
         </form>
       </div>
     </div>
-    <div v-else class="flex flex-col justify-between bg-gray-50 overflow-hidden">
+    <div
+      v-else
+      class="flex flex-col justify-between bg-gray-50 overflow-hidden"
+    >
       <div class="h-full relative">
         <div class="bg-green-200 px-5 py-3 flex items-center justify-between">
           <span class="capitalize font-semibold">preview</span>
@@ -135,15 +172,34 @@
             <i class="ns-cross text-sm text-black"></i>
           </button>
         </div>
-        <button type="button" class="absolute -bottom-4 right-5" @click="sendFile">
-          <i class="ns-envelope text-xl text-black bg-green-400 p-4 rounded-full"></i>
+        <button
+          type="button"
+          class="absolute -bottom-4 right-5"
+          @click="sendFile"
+        >
+          <i
+            class="ns-envelope text-xl text-black bg-green-400 p-4 rounded-full"
+          ></i>
         </button>
-        <div class="grid place-content-center" style="height: calc(100vh - 271px)">
-          <img :src="fileImage" class="inline-block" style="max-width: 450px;" />
+        <div
+          class="grid place-content-center"
+          style="height: calc(100vh - 271px)"
+        >
+          <img
+            :src="fileImage"
+            class="inline-block"
+            style="max-width: 450px;"
+          />
         </div>
       </div>
-      <div class="h-32 grid place-items-center py-0" style="background: rgba(230, 246, 255, 1)">
-        <div class="border-4 relative" style="border-color: rgba(59, 130, 246, 1)">
+      <div
+        class="h-32 grid place-items-center py-0"
+        style="background: rgba(230, 246, 255, 1)"
+      >
+        <div
+          class="border-4 relative"
+          style="border-color: rgba(59, 130, 246, 1)"
+        >
           <button
             type="button"
             class="px-1.5 bg-red-500 rounded-full absolute -right-3 -top-3"
@@ -207,9 +263,10 @@ export default {
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
 
-    window && window.Intercom('update', {
-      hide_default_launcher: true
-    })
+    window &&
+      window.Intercom('update', {
+        hide_default_launcher: true
+      })
     window && window.Intercom('hide')
   },
   created () {
