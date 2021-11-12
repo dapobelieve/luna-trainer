@@ -43,13 +43,11 @@ export default {
   width: 100%;
 
   .vti__dropdown {
-    background-color: rgb(245, 245, 245);
-    margin-right: 0.9rem;
-    border-radius: .25rem;
-
+    background-color: white;
+    border-radius: .25rem 0 0 .25rem;
+    border:1px solid #ced4da;
     &:focus-visible {
       @apply focus:border-blue-500;
-      //outline: none;
       //border: 1px solid #ff9311;
     }
   }
@@ -90,6 +88,7 @@ export default {
     border: 1px solid #ced4da;
     border-radius: .25rem;
     height: 2.5rem;
+    border-left: 0px;
     &:hover {
       @apply hover:border-blue-500;
     }
