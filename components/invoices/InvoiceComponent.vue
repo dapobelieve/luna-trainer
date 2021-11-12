@@ -6,7 +6,7 @@
         <span class="text-xl capitalize">
           client
         </span>
-        <button :disabled="mode==='edit'" type="button" @click="$modal.show('inviteClientModal')">
+        <button type="button" @click="$modal.show('inviteClientModal')">
           <img
             class="h-4"
             src="~/assets/img/svgs/plus-icon.svg"
@@ -20,7 +20,7 @@
           <label class="input-text-label">
             Choose
           </label>
-          <gw-customer-selector v-model="invoiceDetails.customerId" :disabled="mode==='edit'" :clients="allClients">
+          <gw-customer-selector v-model="invoiceDetails.customerId"  :clients="allClients">
             <template v-slot:dropdownOption="{ optionObject }">
               <div class="flex justify-between min-w-full items-center">
                 <div class="flex items-center content-center py-1">
@@ -30,7 +30,7 @@
                     :client-info="optionObject"
                   />
                   <p class="capitalize text-gray-700 ml-4">
-                    {{ optionObject.firstName }}
+                    {{ optionObject.firstName }} {{ $utils.optional(optionObject.lastName) }}
                   </p>
                 </div>
                 <div class="check">

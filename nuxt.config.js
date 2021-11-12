@@ -46,10 +46,11 @@ export default {
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/errorHandler.js' },
     { src: '~/plugins/sendBird' },
-    { src: '@/plugins/vClickOutside', ssr: false },
+    { src: '~/plugins/vClickOutside', ssr: false },
     { src: '~plugins/filters.js', ssr: false },
     { src: '~plugins/v-tooltip.js', ssr: false },
-    { src: '~plugins/v-modal.js', ssr: true }
+    { src: '~plugins/v-modal.js', ssr: true },
+    { src: '~plugins/utils.js', ssr: false }
   ],
   components: {
     dirs: ['~/components', '~/components/util']

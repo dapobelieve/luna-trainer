@@ -24,7 +24,7 @@
             >
               <div role="none">
                 <nuxt-link
-                  :to="{ name: 'NewInvoice', params: { pushedClient: clientInfo } }"
+                  :to="{ name: 'invoice', params: { pushedClient: clientInfo } }"
                   class="block p-3 hover:bg-gray-100 rounded-md"
                 >
                   Create Invoice
