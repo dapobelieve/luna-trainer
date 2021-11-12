@@ -2,7 +2,7 @@
   <main class="grid place-content-center min-h-screen">
     <div class="flex justify-center px-4 pb-28 lg:pb-0">
       <div
-        class="flex flex-col lg:flex-row justify-center items-center max-w-lg lg:max-w-screen-xl w-full mt-10 lg:mt-20 2xl:mt-28 gap-4 lg:gap-9 xl:gap-12 relative"
+        class="flex flex-col lg:flex-row justify-center items-center max-w-lg lg:max-w-screen-xl w-full mt-10 lg:mt-12 2xl:mt-20 gap-4 lg:gap-9 xl:gap-12 relative"
       >
         <div
           class="max-w-full lg:max-w-sm w-full flex-shrink-0 flex flex-col text-center lg:text-left self-start"

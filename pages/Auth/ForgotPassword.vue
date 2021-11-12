@@ -46,7 +46,7 @@
             class="button-fill"
           >
             <SingleLoader v-if="isLoading" class="mr-2" />
-            {{ isLoading ? 'Resetting...' : 'Save' }}
+            {{ isLoading ? 'Resetting...' : 'Reset' }}
           </button>
         </div>
       </form>
