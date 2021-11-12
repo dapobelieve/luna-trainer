@@ -45,10 +45,7 @@
             <li v-else class="you flex items-end pr-6">
               <ClientAvatar
                 class="mr-2 flex-shrink-0"
-                :client-info="{
-                  firstName: 'Get',
-                  lastName: 'Welp'
-                }"
+                :client-info="{ imgURL: msg._sender.profileUrl }"
                 :height="2"
                 :width="2"
               />
@@ -123,7 +120,7 @@
                 <i class="ns-upload"></i>
               </button>
             </div>
-            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': disabled }" :disabled="message === ''">
+            <button class="button-fill button-sm w-8 ml-2" type="submit" :class="{ 'opacity-50 cursor-default': message === '' }" :disabled="message === ''">
               <i class="ns-paper-plane"></i>
             </button>
           </div>
