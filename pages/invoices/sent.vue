@@ -122,7 +122,7 @@
           <p class="text-sm text-gray-500 mb-4">
             We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
           </p>
-          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'NewInvoice' })">
+          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'Invoice' })">
             <i class="ns-plus text-white"></i>
             <span class="text-font-medium text-white text-base ml-2">Create your first invoice</span>
           </button>
