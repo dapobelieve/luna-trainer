@@ -86,7 +86,7 @@ export default {
 
   input {
     border: 1px solid #ced4da;
-    border-radius: .25rem;
+    border-radius: 0 .25rem .25rem 0;
     height: 2.5rem;
     border-left: 0px;
     &:hover {
