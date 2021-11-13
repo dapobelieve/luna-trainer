@@ -26,12 +26,19 @@
       <template v-else>
         <ul v-if="acceptedClients.length" role="list" class="relative z-0 px-1">
           <li v-for="client in acceptedClients" :key="client.index">
-            <containers-summary-information-with-avatar :show-chevron-right="false">
+            <containers-summary-information-with-avatar
+              :show-chevron-right="false"
+              url="Client-id-Information"
+              :parameter="{ id: client._id }"
+            >
               <template v-slot:avatar>
                 <ClientAvatar :client-info="client" />
               </template>
               <template v-slot:content>
-                <span class="font-medium capitalize">{{ client.firstName }}</span> has accepted your invitation.
+                <span class="font-medium capitalize">{{
+                  client.firstName
+                }}</span>
+                has accepted your invitation.
               </template>
               <template v-slot:date>
                 {{ client.updatedAt | howLongAgo }}
@@ -39,10 +46,7 @@
             </containers-summary-information-with-avatar>
           </li>
         </ul>
-        <div
-          v-else
-          class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-        >
+        <div v-else class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm">
           Newly accepted client requests will be displayed here.
         </div>
       </template>
