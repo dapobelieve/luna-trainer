@@ -10,7 +10,7 @@
       <div v-if="showSidebarMenu" class="block lg:hidden">
         <Navigation />
       </div>
-      <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
+      <div class="w-full p-4 pb-24 bg-gray flex justify-center">
         <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
           <div class="text-right mb-4">
             <span class="font-medium">{{ new Date().toDateString() }}</span>
