@@ -144,6 +144,7 @@
                   <Toggle
                     small-size
                     :value="toggleIntercom"
+                    class="toggle"
                     @input="allowIntercom"
                   />
                 </div>

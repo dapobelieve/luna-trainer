@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue-50 w-full min-h-screen">
+  <div class="bg-gray-100 w-full min-h-screen">
     <div
       class="flex justify-between lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
     >

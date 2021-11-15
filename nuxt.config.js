@@ -21,7 +21,8 @@ export default {
       },
       {
         rel: 'stylesheet',
-        href: 'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
+        href:
+          'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
       }
     ]
   },
@@ -50,7 +51,8 @@ export default {
     { src: '~plugins/filters.js', ssr: false },
     { src: '~plugins/v-tooltip.js', ssr: false },
     { src: '~plugins/v-modal.js', ssr: true },
-    { src: '~plugins/utils.js', ssr: false }
+    { src: '~plugins/utils.js', ssr: false },
+    { src: '~plugins/getHelp.js', ssr: false }
   ],
   components: {
     dirs: ['~/components', '~/components/util']
