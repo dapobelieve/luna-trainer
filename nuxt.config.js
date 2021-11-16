@@ -51,8 +51,7 @@ export default {
     { src: '~plugins/filters.js', ssr: false },
     { src: '~plugins/v-tooltip.js', ssr: false },
     { src: '~plugins/v-modal.js', ssr: true },
-    { src: '~plugins/utils.js', ssr: false },
-    { src: '~plugins/getHelp.js', ssr: false }
+    { src: '~plugins/utils.js', ssr: false }
   ],
   components: {
     dirs: ['~/components', '~/components/util']
