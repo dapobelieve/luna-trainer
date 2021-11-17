@@ -263,24 +263,28 @@ export default {
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
   },
-  created () {
+  async created () {
     try {
-      this.getClientProfile(this.id).then(async (response) => {
+      await this.getClientProfile(this.id).then(async (response) => {
         await response
         if (response.status === 'invited') {
           this.clientIsReady = false
           this.isChannelLoading = false
         } else {
           try {
-            this.checkChannel(response.sendbirdId).then((res) => {
-              if (res === undefined) {
-                this.createChannel(response.sendbirdId)
-              } else if (res) {
-                this.existingChannel(res)
-              } else if (!res) {
-                this.errorCreatingChannel = true
-                this.isChannelLoading = false
-              }
+            await this.connectToSendBird(response.sendbirdId).then(async () => {
+              await this.getChannelListing().then(() => {
+                this.checkChannel(response.sendbirdId).then((res) => {
+                  if (res === undefined) {
+                    this.createChannel(response.sendbirdId)
+                  } else if (res) {
+                    this.existingChannel(res)
+                  } else if (!res) {
+                    this.errorCreatingChannel = true
+                    this.isChannelLoading = false
+                  }
+                })
+              })
             })
           } catch (error) {
             console.log(error)
@@ -323,11 +327,10 @@ export default {
       markAsRead: 'markMessageAsRead',
       addChannel: 'addNewChannel',
       newMessage: 'updateConnectedChannels',
-      checkChannel: 'checkIfChannelExists'
+      checkChannel: 'checkIfChannelExists',
+      connectToSendBird: 'connect_to_sb_server_with_userid',
+      getChannelListing: 'listOfConnectedChannels'
     }),
-    // retry () {
-    //   this.createChannel(this.receiver)
-    // },
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
       listQuery.includeMetaArray = true // Retrieve a list of messages along with their metaarrays.
@@ -352,7 +355,7 @@ export default {
       this.fetchMessageHistory(groupChannel)
       this.isChannelLoading = false
     },
-    createChannel (receiver) {
+    async createChannel (receiver) {
       // this.isChannelLoading = true
       const params = new this.$sb.GroupChannelParams()
       params.isPublic = false
@@ -361,12 +364,7 @@ export default {
       params.isSuper = false
       params.addUserIds([receiver])
       params.operatorUserIds = [this.$auth.user.sendbirdId] // Or .operators(Array<User>)
-      // params.name = NAME
-      // params.channelUrl = UNIQUE_CHANNEL_URL // In a group channel, you can create a new channel by specifying its unique channel URL in a 'GroupChannelParams' object.
-      // params.coverImage = FILE // Or .coverUrl = COVER_URL;
-      // params.data = DATA
-      // params.customType = CUSTOM_TYPE
-      this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
+      await this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
         if (error) {
           // Handle error.
           console.log('error creating channel', error)
@@ -417,9 +415,6 @@ export default {
       params.file = this.fileToBeSent // Or .fileUrl  = FILE_URL (You can also send a file message with a file URL.)
       params.fileName = this.fileToBeSent.name
       params.fileSize = this.fileToBeSent.size
-      // params.thumbnailSizes = [{ maxWidth: 100, maxHeight: 100 }, { maxWidth: 200, maxHeight: 200 }] // Add the maximum sizes of thumbnail images (allowed number of thumbnail images: 3).
-      // params.mimeType = MIME_TYPE
-      // params.customType = CUSTOM_TYPE
       params.mentionType = 'users' // Either 'users' or 'channel'
       params.mentionedUserIds = [this.receiver] // Or mentionedUsers = Array<User>;
       params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
