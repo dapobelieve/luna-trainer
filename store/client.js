@@ -15,6 +15,9 @@ export const mutations = {
 }
 
 export const actions = {
+  async archive ({}, payload) {
+    return await this.$axios.post(`${process.env.BASEURL_HOST}/profile/${payload._id}/archive`)
+  },
   updateClientProfile ({ commit }, details) {
     return this.$axios
       .$patch(`${process.env.BASEURL_HOST}/client/${details.id}`, details.info)

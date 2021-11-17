@@ -70,6 +70,7 @@ export default {
       this.isLoading = true
       try {
         await this.$store.dispatch('authorize/resetPassword', { ...this.form })
+        this.$gwtoast.success('Password changed successfully')
         this.$emit('close-modal')
       } catch (e) {
         this.$gwtoast.error(e.response.data.message)
