@@ -51,25 +51,25 @@ export default {
         {
           name: 'profile',
           icon: 'ns-user',
-          details: 'Your personal information will be public to your clients, kindly ensure it is as accurate as possible',
+          details: 'Some of your information will be shown to your clients. Try and be as accurate as possible',
           route: 'settings-profile'
         },
         {
           name: 'services',
           icon: 'ns-circle',
-          details: 'Brief description about services',
+          details: 'What type of things do you offer?',
           route: 'settings-services'
         },
         {
           name: 'security',
           icon: 'ns-shield',
-          details: 'Brief description about security',
+          details: 'We keep your data as secure as possible',
           route: 'settings-security'
         },
         {
           name: 'connections',
           icon: 'ns-data-transfer',
-          details: 'Brief description about connections',
+          details: 'Integrate with multiple other services platforms',
           route: 'settings-connections'
         }
       ]

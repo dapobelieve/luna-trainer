@@ -144,6 +144,7 @@
                   <Toggle
                     small-size
                     :value="toggleIntercom"
+                    class="toggle"
                     @input="allowIntercom"
                   />
                 </div>
@@ -392,6 +393,15 @@ export default {
       acceptedClients: 'client/acceptedClients',
       unreadMessages: 'sendBird/getUnreadMessages'
     }),
+    toggleIntercomCheck () {
+      let isToggled = null
+      if (this.$route.path.includes('Messages')) {
+        isToggled = false
+      } else {
+        isToggled = true
+      }
+      return isToggled
+    },
     firstName (string) {
       if (string) {
         const firstName = string.split(' ')
@@ -407,27 +417,33 @@ export default {
       return 'welp'
     }
   },
+  watch: {
+    toggleIntercomCheck: 'isMessagesRoute'
+  },
+  mounted () {
+    this.isMessagesRoute(this.toggleIntercomCheck)
+  },
   methods: {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
+    isMessagesRoute (value) {
+      if (value) {
+        this.toggleIntercom = true
+        window && window.Intercom('update', {
+          hide_default_launcher: false
+        })
+        // window.Intercom('show')
+      } else {
+        this.toggleIntercom = false
+        window && window.Intercom('update', {
+          hide_default_launcher: true
+        })
+      }
+    },
     allowIntercom () {
       this.toggleIntercom = !this.toggleIntercom
-      if (this.$route.name === 'Client-id-Messages') {
-        if (!this.toggleIntercom) {
-          window && window.Intercom('update', {
-            hide_default_launcher: true
-          })
-          window.Intercom('hide')
-        } else {
-          window && window.Intercom('update', {
-            hide_default_launcher: false
-          })
-          window.Intercom('show')
-        }
-        return
-      }
-      !this.toggleIntercom ? window.Intercom('hide') : window.Intercom('show')
+      window.Intercom(this.toggleIntercom ? 'show' : 'hide')
     },
     gotoMessage (arr) {
       const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)

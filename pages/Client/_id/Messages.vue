@@ -262,12 +262,6 @@ export default {
     channelHandler.onMessageReceived = this.onMessageReceived
     // Add this channel event handler to the `SendBird` instance.
     this.$sb.addChannelHandler('msgHandler', channelHandler)
-
-    window &&
-      window.Intercom('update', {
-        hide_default_launcher: true
-      })
-    window && window.Intercom('hide')
   },
   created () {
     try {

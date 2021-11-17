@@ -31,18 +31,18 @@
                 }"
               />
             </template>
-            <template v-slot:content>
+            <!-- <template v-slot:content>
               <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
               <p>
                 {{
-                  msg.lastMessage.message.length > 76
+                  msg && msg.lastMessage.message.length > 76
                     ? `${msg.lastMessage.message.substring(0, 76)}`
                     : msg.lastMessage.message
                 }}
               </p>
-            </template>
+            </template> -->
             <template v-slot:date>
               {{
                 formatDistance(
