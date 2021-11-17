@@ -58,16 +58,6 @@ export const actions = {
     commit('SET_CURRENT_VIEWING_CLIENT', {})
   },
   checkIfChannelExists ({ state, commit }, userId) {
-    const channelStuff = state.connectedChannels
-    console.log('inside here channel exits ', userId)
-    console.log('connected channels ', channelStuff)
-    // if (
-    //   state.connectedChannels.size === 0 &&
-    //   state.connectedChannels.constructor === Object
-    // ) {
-    //   return false
-    // }
-    // else
     if (state && state.connectedChannels.size) {
       return Array.from(state.connectedChannels.values()).find(c =>
         c.members.find(m => m.userId === userId)
@@ -75,16 +65,13 @@ export const actions = {
     }
   },
   markMessageAsRead ({ commit, dispatch }, channel) {
-    // Call the 'markAsRead()' when the current user views unread messages in a group channel.
     channel.markAsRead()
 
-    // To listen to an update from all the other channel members' client apps, implement the onReadReceiptUpdated() with things to do when notified.
     const channelHandler = new this.$sb.ChannelHandler()
     dispatch('listOfConnectedChannels')
 
     channelHandler.onReadReceiptUpdated = (groupChannel) => {
       if (channel.url === groupChannel.url) {
-        // For example, code for redrawing a channel view.
         console.log('read receipt checked ')
         console.log('channel read receipt ', groupChannel)
       }
