@@ -8,7 +8,7 @@
         <div v-if="showSidebarMenu" class="block lg:hidden">
           <Navigation />
         </div>
-        <main class="w-full bg-gray">
+        <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
       </div>
