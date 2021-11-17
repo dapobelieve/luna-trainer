@@ -4,6 +4,7 @@ export const state = () => ({
   mySendBirdUsers: [],
   tempClient: null,
   connectedChannels: new Map(),
+  connectingToSendBird: true,
   connectingStatus: false,
   latestMessage: {},
   isUserOnline: false
@@ -46,6 +47,9 @@ export const mutations = {
   },
   CONNECTION_ERROR (state, status) {
     state.connectingStatus = status
+  },
+  CONNECTING_TO_SENDBIRD (state, status) {
+    state.connectingToSendBird = status
   }
 }
 
@@ -54,12 +58,17 @@ export const actions = {
     commit('SET_CURRENT_VIEWING_CLIENT', {})
   },
   checkIfChannelExists ({ state, commit }, userId) {
-    if (
-      Object.keys(state.connectedChannels).length === 0 &&
-      state.connectedChannels.constructor === Object
-    ) {
-      return false
-    } else if (state.connectedChannels.size) {
+    const channelStuff = state.connectedChannels
+    console.log('inside here channel exits ', userId)
+    console.log('connected channels ', channelStuff)
+    // if (
+    //   state.connectedChannels.size === 0 &&
+    //   state.connectedChannels.constructor === Object
+    // ) {
+    //   return false
+    // }
+    // else
+    if (state && state.connectedChannels.size) {
       return Array.from(state.connectedChannels.values()).find(c =>
         c.members.find(m => m.userId === userId)
       )
@@ -77,6 +86,7 @@ export const actions = {
       if (channel.url === groupChannel.url) {
         // For example, code for redrawing a channel view.
         console.log('read receipt checked ')
+        console.log('channel read receipt ', groupChannel)
       }
     }
 
@@ -117,19 +127,21 @@ export const actions = {
       return await this.$sb.connect(sendbirdId, (user, error) => {
         if (error) {
           // Handle error.
+          commit('CONNECTING_TO_SENDBIRD', false)
           commit('CONNECTION_ERROR', true)
           return false
         }
         // The user is connected to Sendbird server.
         commit('SET_SB_USER', user)
         dispatch('listOfConnectedChannels')
+        commit('CONNECTING_TO_SENDBIRD', false)
       })
     } catch (error) {
       commit('CONNECTION_ERROR', true)
       return 'error'
     }
   },
-  listOfConnectedChannels ({ commit }) {
+  async listOfConnectedChannels ({ commit }) {
     const listQuery = this.$sb.GroupChannel.createMyGroupChannelListQuery()
     listQuery.includeEmpty = true
     listQuery.userIdsIncludeFilter = [this.$auth.user.sendbirdId]
@@ -138,7 +150,7 @@ export const actions = {
     listQuery.limit = 15
 
     if (listQuery.hasNext) {
-      listQuery.next((groupChannels, error) => {
+      await listQuery.next((groupChannels, error) => {
         if (error) {
           // Handle error.
           console.log('error fetching connected channels', error)
@@ -149,8 +161,6 @@ export const actions = {
             channels.set(channel.url, channel)
           })
           commit('SET_CHANNELS', channels)
-        } else {
-          commit('SET_CHANNELS', {})
         }
       })
     }

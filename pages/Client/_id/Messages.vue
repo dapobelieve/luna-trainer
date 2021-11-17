@@ -269,24 +269,28 @@ export default {
       })
     window && window.Intercom('hide')
   },
-  created () {
+  async created () {
     try {
-      this.getClientProfile(this.id).then(async (response) => {
+      await this.getClientProfile(this.id).then(async (response) => {
         await response
         if (response.status === 'invited') {
           this.clientIsReady = false
           this.isChannelLoading = false
         } else {
           try {
-            this.checkChannel(response.sendbirdId).then((res) => {
-              if (res === undefined) {
-                this.createChannel(response.sendbirdId)
-              } else if (res) {
-                this.existingChannel(res)
-              } else if (!res) {
-                this.errorCreatingChannel = true
-                this.isChannelLoading = false
-              }
+            await this.connectToSendBird(response.sendbirdId).then(async () => {
+              await this.getChannelListing().then(() => {
+                this.checkChannel(response.sendbirdId).then((res) => {
+                  if (res === undefined) {
+                    this.createChannel(response.sendbirdId)
+                  } else if (res) {
+                    this.existingChannel(res)
+                  } else if (!res) {
+                    this.errorCreatingChannel = true
+                    this.isChannelLoading = false
+                  }
+                })
+              })
             })
           } catch (error) {
             console.log(error)
@@ -329,7 +333,9 @@ export default {
       markAsRead: 'markMessageAsRead',
       addChannel: 'addNewChannel',
       newMessage: 'updateConnectedChannels',
-      checkChannel: 'checkIfChannelExists'
+      checkChannel: 'checkIfChannelExists',
+      connectToSendBird: 'connect_to_sb_server_with_userid',
+      getChannelListing: 'listOfConnectedChannels'
     }),
     // retry () {
     //   this.createChannel(this.receiver)
@@ -358,7 +364,7 @@ export default {
       this.fetchMessageHistory(groupChannel)
       this.isChannelLoading = false
     },
-    createChannel (receiver) {
+    async createChannel (receiver) {
       // this.isChannelLoading = true
       const params = new this.$sb.GroupChannelParams()
       params.isPublic = false
@@ -372,7 +378,7 @@ export default {
       // params.coverImage = FILE // Or .coverUrl = COVER_URL;
       // params.data = DATA
       // params.customType = CUSTOM_TYPE
-      this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
+      await this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
         if (error) {
           // Handle error.
           console.log('error creating channel', error)
