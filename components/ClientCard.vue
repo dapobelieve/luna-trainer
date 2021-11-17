@@ -36,7 +36,7 @@
             >
               Create Invoice
             </nuxt-link>
-            <a href="#" class="block p-3 hover:bg-gray-100 rounded-md transition-all">Archive</a>
+            <a href="#" class="block p-3 hover:bg-gray-100 rounded-md transition-all" @click.prevent="archiveClient">Archive</a>
           </div>
         </div>
       </div>
@@ -89,6 +89,14 @@ export default {
             this.$gwtoast.error(`Something went wrong: ${err.message}`)
           }
         })
+    },
+    async archiveClient () {
+      try {
+        const res = await this.$store.dispatch('client/archive', { ...this.client })
+        this.$gwtoast.success('Client Archived')
+      } catch (e) {
+        console.log({ e })
+      }
     }
   }
 }

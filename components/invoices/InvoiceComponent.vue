@@ -20,7 +20,7 @@
           <label class="input-text-label">
             Choose
           </label>
-          <gw-customer-selector v-model="invoiceDetails.customerId"  :clients="allClients">
+          <gw-customer-selector v-model="invoiceDetails.customerId" :clients="allClients">
             <template v-slot:dropdownOption="{ optionObject }">
               <div class="flex justify-between min-w-full items-center">
                 <div class="flex items-center content-center py-1">
