@@ -16,7 +16,7 @@
         <div class="flex justify-center">
           <img
             style="max-width: 568px; max-height: 568px"
-            class=""
+            class="w-full"
             :src="fileImage"
           />
         </div>
