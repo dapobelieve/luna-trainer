@@ -1,213 +1,204 @@
 <template>
   <div
     class="bg-white rounded-xl overflow-y-auto overscroll-contain sticky lg:top-[4.5rem] w-full border"
-    style="height: calc(100vh - 5.5rem)"
+    style="height: calc(100vh - 5.5rem);"
   >
-    <div v-if="isChannelLoading" class="h-full grid place-content-center">
-      <div class="flex flex-col items-center">
-        <SingleLoader />
-        <p class="text-center">
-          Starting Chat...
-        </p>
-      </div>
-    </div>
-    <div v-else-if="!clientIsReady" class="h-full grid place-content-center">
-      <div class="flex items-center">
-        <i class="ns-lock text-lg mr-1"></i>
-        <span
-          class="mr-2"
-        >You can only message clients who have accepted your invite.</span>
-      </div>
-    </div>
-    <div
-      v-else-if="errorCreatingChannel"
-      class="h-full grid place-content-center"
-    >
-      <div class="flex flex-col items-center">
-        <p class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm">
-          An error occured. Please contact support.
-        </p>
-      </div>
-    </div>
-    <div v-else-if="!isUploading" class="flex flex-col justify-between h-full">
-      <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
-        <template v-if="messageHistory.length">
-          <div v-for="msg in messageHistory" :key="msg.messageId">
-            <li
-              v-if="msg._sender.userId === sender"
-              class="me flex justify-end pl-6"
-            >
-              <span
-                v-if="msg.messageType === 'file'"
-                class="msg overflow-hidden"
-              >
-                <img
-                  class="bg-white"
-                  :src="msg.imaging || msg.url"
-                  style="max-width: 250px"
-                />
-              </span>
-              <div
-                v-else
-                class="msg p-2 max-w-lg break-all"
-                style="calc(100% - 2.5rem)"
-              >
-                {{ msg.message }}
-              </div>
-            </li>
-            <li v-else class="you flex items-end pr-6">
-              <ClientAvatar
-                v-if="msg._sender.profileUrl"
-                class="mr-2 flex-shrink-0"
-                :client-info="{ imgURL: msg._sender.profileUrl }"
-                :height="2"
-                :width="2"
-              />
-              <ClientAvatar
-                v-else
-                class="mr-2 flex-shrink-0"
-                :client-info="{ firstName: msg._sender.nickname }"
-                :height="2"
-                :width="2"
-              />
-              <span
-                v-if="msg.messageType === 'file'"
-                class="msg overflow-hidden"
-              >
-                <img class="bg-white max-w-[16rem]" :src="msg.url" />
-              </span>
-              <div v-else class="msg p-2 max-w-lg break-all">
-                {{ msg.message }}
-              </div>
-            </li>
-          </div>
-        </template>
-        <template v-else>
-          <div class="h-full grid place-content-center text-gray-500">
-            <div class="flex items-center">
-              <span class="mr-2">Start a conversation</span>
-              <img
-                class="text-center inline-block"
-                src="~/assets/img/svgs/paw.svg"
-                alt
-                srcset
-              />
-            </div>
-          </div>
-        </template>
-      </ul>
-      <!-- input area -->
-      <div class>
-        <!-- loading notice -->
-        <div
-          v-if="uploadingFileToSb"
-          class="bg-black text-white px-4 py-2 z-50"
-          style="width: fit-content"
-        >
-          {{ fileToBeSent.name }} file is uploading...
-        </div>
-        <form class="w-full" @submit.prevent="sendChat">
-          <div
-            class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
-          >
-            <textarea
-              ref="chatArea"
-              v-model="message"
-              type="text"
-              class="w-full focus:outline-none text-sm resize-none h-6 box-border"
-              placeholder="Type a message"
-              @input="
-                emitValue($event);
-                resize();
-              "
-              @keydown.enter.exact="emitEnter"
-            />
-            <div class="relative">
-              <transition name="fadeIn">
-                <img
-                  v-if="showUpload"
-                  role="button"
-                  class="text-2xl text-center inline-block p-1 absolute z-50 -top-14 right-2 rounded-full"
-                  src="~/assets/img/svgs/image.svg"
-                  style="background: rgba(59, 130, 246, 1)"
-                  @click="uploadPhoto"
-                />
-              </transition>
-              <input
-                ref="fileUpload"
-                type="file"
-                name="image"
-                accept="image/*"
-                class="hidden"
-                @change="onChange"
-              />
-              <button
-                class="button-text button-sm w-8 ml-2"
-                type="button"
-                @click="showUpload = !showUpload"
-              >
-                <i class="ns-upload"></i>
-              </button>
-            </div>
-            <button
-              class="button-fill button-sm w-8 ml-2"
-              type="submit"
-              :class="{ 'opacity-50 cursor-default': message === '' }"
-              :disabled="message === ''"
-            >
-              <i class="ns-paper-plane"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <div
-      v-else
-      class="flex flex-col justify-between bg-gray-50 overflow-hidden"
-    >
-      <div class="h-full relative">
-        <div class="bg-green-200 px-5 py-3 flex items-center justify-between">
-          <span class="capitalize font-semibold">preview</span>
+    <div class="relative h-full">
+      <div v-show="isUploading" class="flex flex-col justify-between h-full bg-black absolute right-0 left-0 z-10">
+        <div class="flex justify-between bg-white pt-5 px-4 pb-2">
+          <p class="text-gray-700 text-xl font-normal">
+            Preview
+          </p>
           <button type="button" @click="removeImage">
-            <i class="ns-cross text-sm text-black"></i>
+            <i class="ns-cross text-xl text-blue-500"></i>
           </button>
         </div>
-        <button
-          type="button"
-          class="absolute -bottom-4 right-5"
-          @click="sendFile"
-        >
-          <i
-            class="ns-envelope text-xl text-black bg-green-400 p-4 rounded-full"
-          ></i>
-        </button>
-        <div
-          class="grid place-content-center"
-          style="height: calc(100vh - 271px)"
-        >
+        <div class="flex justify-center">
           <img
+            style="max-width: 568px; max-height: 568px"
+            class=""
             :src="fileImage"
-            class="inline-block"
-            style="max-width: 450px;"
           />
+        </div>
+        <div
+          class="bg-white flex justify-between items-center p-4"
+        >
+          <div
+            class="overflow-hidden relative rounded-lg"
+            style="border: 3px solid #3B82F6;"
+          >
+            <img
+              style="max-width: 80px; max-height: 80px"
+              class="inline-block object-contain"
+              :src="fileImage"
+            />
+            <button
+              type="button"
+              class="absolute right-1 top-1"
+              @click="removeImage"
+            >
+              <i class="ns-cross text-md text-white"></i>
+            </button>
+          </div>
+          <button class="button-fill button-sm w-11" style="height: 40px" @click="sendFile">
+            <i class="ns-paper-plane text-xl"></i>
+          </button>
+        </div>
+      </div>
+      <div v-if="isChannelLoading" class="h-full grid place-content-center">
+        <div class="flex flex-col items-center">
+          <SingleLoader />
+          <p class="text-center">
+            Starting Chat...
+          </p>
+        </div>
+      </div>
+      <div v-else-if="!clientIsReady" class="h-full grid place-content-center">
+        <div class="flex items-center">
+          <i class="ns-lock text-lg mr-1"></i>
+          <span
+            class="mr-2"
+          >You can only message clients who have accepted your invite.</span>
         </div>
       </div>
       <div
-        class="h-32 grid place-items-center py-0"
-        style="background: rgba(230, 246, 255, 1)"
+        v-else-if="errorCreatingChannel"
+        class="h-full grid place-content-center"
       >
-        <div
-          class="border-4 relative"
-          style="border-color: rgba(59, 130, 246, 1)"
-        >
-          <button
-            type="button"
-            class="px-1.5 bg-red-500 rounded-full absolute -right-3 -top-3"
-            @click="removeImage"
+        <div class="flex flex-col items-center">
+          <p class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm">
+            An error occured. Please contact support.
+          </p>
+        </div>
+      </div>
+      <div v-else class="flex flex-col justify-between h-full">
+        <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
+          <template v-if="messageHistory.length">
+            <div v-for="msg in messageHistory" :key="msg.messageId">
+              <li
+                v-if="msg._sender.userId === sender"
+                class="me flex justify-end pl-6"
+              >
+                <span
+                  v-if="msg.messageType === 'file'"
+                  class="msg overflow-hidden"
+                >
+                  <img
+                    class="bg-white"
+                    :src="msg.imaging || msg.url"
+                    style="max-width: 250px"
+                  />
+                </span>
+                <div
+                  v-else
+                  class="msg p-2 max-w-lg break-all"
+                  style="calc(100% - 2.5rem)"
+                >
+                  {{ msg.message }}
+                </div>
+              </li>
+              <li v-else class="you flex items-end pr-6">
+                <ClientAvatar
+                  v-if="msg._sender.profileUrl"
+                  class="mr-2 flex-shrink-0"
+                  :client-info="{ imgURL: msg._sender.profileUrl }"
+                  :height="2"
+                  :width="2"
+                />
+                <ClientAvatar
+                  v-else
+                  class="mr-2 flex-shrink-0"
+                  :client-info="{ firstName: msg._sender.nickname }"
+                  :height="2"
+                  :width="2"
+                />
+                <span
+                  v-if="msg.messageType === 'file'"
+                  class="msg overflow-hidden"
+                >
+                  <img class="bg-white max-w-[16rem]" :src="msg.url" />
+                </span>
+                <div v-else class="msg p-2 max-w-lg break-all">
+                  {{ msg.message }}
+                </div>
+              </li>
+            </div>
+          </template>
+          <template v-else>
+            <div class="h-full grid place-content-center text-gray-500">
+              <div class="flex items-center">
+                <span class="mr-2">Start a conversation</span>
+                <img
+                  class="text-center inline-block"
+                  src="~/assets/img/svgs/paw.svg"
+                  alt
+                  srcset
+                />
+              </div>
+            </div>
+          </template>
+        </ul>
+        <div class>
+          <div
+            v-if="uploadingFileToSb"
+            class="bg-black text-white px-4 py-2 z-50"
+            style="width: fit-content"
           >
-            <i class="ns-cross text-xs text-white"></i>
-          </button>
-          <img :src="fileImage" class="inline-block object-contain h-20" />
+            {{ fileToBeSent.name }} file is uploading...
+          </div>
+          <form class="w-full" @submit.prevent="sendChat">
+            <div
+              class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
+            >
+              <textarea
+                ref="chatArea"
+                v-model="message"
+                type="text"
+                class="w-full focus:outline-none text-sm resize-none h-6 box-border"
+                placeholder="Type a message"
+                @input="
+                  emitValue($event);
+                  resize();
+                "
+                @keydown.enter.exact="emitEnter"
+              />
+              <div class="relative">
+                <transition name="fadeIn">
+                  <img
+                    v-if="showUpload"
+                    role="button"
+                    class="text-2xl text-center inline-block p-1 absolute z-50 -top-14 right-0 rounded-full"
+                    src="~/assets/img/svgs/image.svg"
+                    style="background: rgba(59, 130, 246, 1)"
+                    @click="uploadPhoto"
+                  />
+                </transition>
+                <input
+                  ref="fileUpload"
+                  class="hidden"
+                  type="file"
+                  name="image"
+                  accept="image/*"
+                  @change="onChange"
+                />
+                <button
+                  class="button-text button-sm w-8 ml-2"
+                  type="button"
+                  @click="showUpload = !showUpload"
+                >
+                  <i class="ns-upload"></i>
+                </button>
+              </div>
+              <button
+                class="button-fill button-sm w-8 ml-2"
+                type="submit"
+                :class="{ 'opacity-50 cursor-default': message === '' }"
+                :disabled="message === ''"
+              >
+                <i class="ns-paper-plane"></i>
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
@@ -480,6 +471,8 @@ export default {
     removeImage () {
       this.isUploading = false
       this.fileImage = null
+      this.fileToBeSent = null
+      this.$refs.fileUpload.value = ''
     },
     scrollFeedToBottom () {
       const messageFeed = document.getElementById('chatBody')
