@@ -1,7 +1,7 @@
 <template>
   <async-view loader-id="logout">
     <div class="min-h-screen">
-      <GwHeader :class="{ 'hidden': $route.name === 'Client-id-Information' }" />
+      <GwHeader :class="{ 'hidden': $route.name === 'Client-id-Information' || $route.name === 'Client-id-Messages' }" />
       <div class="flex">
         <invite-new-client-modal />
         <Navigation class="hidden lg:block" />
