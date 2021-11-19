@@ -65,11 +65,12 @@ export default {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
     }),
-  async mounted () {
-    try {
-      await this.$store.dispatch('notifications/fetchNotifications');
-    } catch (e) {
-      console.log({e})
+    async mounted() {
+      try {
+        await this.$store.dispatch('notifications/fetchNotifications');
+      } catch (e) {
+        console.log({e})
+      }
     }
   }
 }
