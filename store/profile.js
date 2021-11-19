@@ -37,10 +37,10 @@ export const state = () => ({
 })
 
 export const mutations = {
-  SET_STATE (state, data) {
+  SET_STATE(state, data) {
     Object.keys(data).forEach(key => (state[key] = data[key]))
   },
-  SET_EMPTY_TRAINNER_REG_DATA (state) {
+  SET_EMPTY_TRAINNER_REG_DATA(state) {
     state.trainnerRegData = {
       personalProfile: {
         firstName: '',
@@ -70,7 +70,7 @@ export const mutations = {
       stripe: false
     }
   },
-  UPDATE_TRAINNER_REG_DATA (state, payload) {
+  UPDATE_TRAINNER_REG_DATA(state, payload) {
     if ('type' in payload && payload.type === 'services') {
       state.trainnerRegData[payload.parent].push(payload.value)
     } else if ('type' in payload && payload.type === 'deleteService') {
@@ -81,7 +81,7 @@ export const mutations = {
       state.trainnerRegData[payload.parent][payload.key] = payload.value
     }
   },
-  SET_GETWELP_USER (state, user) {
+  SET_GETWELP_USER(state, user) {
     const checkEmptiness =
       Object.keys(user).length === 0 && user.constructor === Object
     const gwuser = checkEmptiness ? {} : user
@@ -92,10 +92,10 @@ export const mutations = {
 }
 
 export const actions = {
-  clearGetWelpUser ({ commit }) {
+  clearGetWelpUser({ commit }) {
     commit('SET_GETWELP_USER', {})
   },
-  createProfile (
+  createProfile(
     { state, commit, dispatch },
     payload = {
       ...state.trainnerRegData.personalProfile,
@@ -113,7 +113,7 @@ export const actions = {
         return response
       })
   },
-  createTrainerProfile ({ commit, dispatch }, payload) {
+  createTrainerProfile({ commit, dispatch }, payload) {
     const data = { ...payload }
     delete data.profilePic
     return this.$axios
@@ -126,7 +126,7 @@ export const actions = {
         return response
       })
   },
-  updateProfile ({ commit }, payload) {
+  updateProfile({ commit }, payload) {
     return this.$axios
       .$put(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
@@ -134,7 +134,7 @@ export const actions = {
         return response
       })
   },
-  getUserProfile ({ commit }) {
+  getUserProfile({ commit }) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/profile`)
       .then(({ data }) => {
@@ -144,22 +144,25 @@ export const actions = {
         return data
       })
   },
-  uploadProfileImage ({ commit }, payload) {
+  uploadProfileImage({ commit }, payload) {
     return this.$axios
       .$patch(
-               `${process.env.BASEURL_HOST}/profile/upload-image`,
-               payload,
-               {
-                 headers: { 'Content-Type': 'multipart/form-data' }
-               }
+        `${process.env.BASEURL_HOST}/profile/upload-image`,
+        payload,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        }
       )
       .then((response) => {
         commit('SET_GETWELP_USER', response.data)
         return response
       })
   },
-  async getServices ({ commit }, payload) {
+  async getServices({ commit }, payload) {
     return await this.$axios.$get(`${process.env.BASEURL_HOST}/profile/services`)
+  },
+  async deleteService({ commit }, serviceId) {
+    return await this.$axios.$delete(`${process.env.BASEURL_HOST}/profile/services/${serviceId}`)
   }
 }
 export const getters = {
@@ -169,9 +172,9 @@ export const getters = {
     state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
   isStripeReady: state =>
     state.getWelpUser.stripe &&
-           state.getWelpUser.stripe.capabilities &&
-           state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
-           state.getWelpUser.stripe.capabilities.transfers === 'active' &&
-           state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
-             'active'
+    state.getWelpUser.stripe.capabilities &&
+    state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
+    state.getWelpUser.stripe.capabilities.transfers === 'active' &&
+    state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
+    'active'
 }
