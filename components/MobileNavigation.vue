@@ -142,7 +142,7 @@
                       {{ n.lastMessage._sender.nickname }}
                     </span> <span class="text-gray-400 text-xs normal-case">{{ formatDistance(new Date(n.lastMessage.createdAt), new Date(), { addSuffix: true }) }}.</span>
                   </div>
-                  <div class="flex space-x-2 pt-2 text-gray-600">
+                  <div v-if="n.lastMessage.message" class="flex space-x-2 pt-2 text-gray-600">
                     {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}...` : n.lastMessage.message }}
                   </div>
                 </div>
