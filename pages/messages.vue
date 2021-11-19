@@ -73,6 +73,16 @@
               </div>
             </button>
           </div>
+          <div v-else class="text-center py-8 px-4 flex w-full justify-center">
+            <div class="max-w-xs flex gap-3 flex-col">
+              <h2 class="font-bold text-lg text-gray-700">
+                No New Messages.
+              </h2>
+              <p class="text-sm">
+                We will notify you when something arrives
+              </p>
+            </div>
+          </div>
         </div>
       </transition>
     </div>
