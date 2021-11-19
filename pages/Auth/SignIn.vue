@@ -95,7 +95,7 @@
 </template>
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 export default {
   name: 'SignIn',
   layout: 'auth',
@@ -139,6 +139,9 @@ export default {
     ...mapMutations({
       setTempState: 'profile/SET_STATE'
     }),
+    ...mapActions({
+      fetchAllClients: 'client/fetchAllClients'
+    }),
     authenticateWithTokens (tokens) {
       // set necessary tokens
       this.$store.dispatch('authorize/setToken', tokens)
@@ -161,7 +164,9 @@ export default {
 
           // set user in store
           this.$store.commit('profile/SET_GETWELP_USER', response)
-          this.$router.push({ name: 'Dashboard' })
+          this.$router.replace({ name: 'Dashboard' }).then(() => {
+            this.fetchAllClients()
+          })
         }
       })
     },
