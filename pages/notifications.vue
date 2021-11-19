@@ -1,5 +1,6 @@
 <template>
   <div
+    style="height: calc(100vh - 2px)"
     :class="[
       'fixed w-full lg:left-56 xl:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
   >
@@ -65,12 +66,12 @@ export default {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
     }),
-    async mounted() {
-      try {
-        await this.$store.dispatch('notifications/fetchNotifications');
-      } catch (e) {
-        console.log({e})
-      }
+  },
+  async mounted () {
+    try {
+      await this.$store.dispatch('notifications/fetchNotifications');
+    } catch (e) {
+      console.log({e})
     }
   }
 }
