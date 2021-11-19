@@ -381,13 +381,6 @@ export default {
         this.openModal = true
       }
     },
-    // toggleMenu (path) {
-    //   if (path === 'Notifications') {
-    //     this.showNotificationsMenu = true
-    //   } else if (path === 'Messages') {
-    //     this.showMessagesMenu = true
-    //   }
-    // },
     inviteClient () {
       this.$modal.show('inviteClientModal')
     },

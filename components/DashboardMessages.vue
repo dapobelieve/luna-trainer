@@ -31,7 +31,7 @@
                 }"
               />
             </template>
-            <!-- <template v-slot:content>
+            <template v-slot:content>
               <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
@@ -42,7 +42,7 @@
                     : msg.lastMessage.message
                 }}
               </p>
-            </template> -->
+            </template>
             <template v-slot:date>
               {{
                 formatDistance(

@@ -66,7 +66,7 @@
                 </div>
                 <div
                   v-if="n.lastMessage.message"
-                  class="flex space-x-2 pt-2 text-gray-700"
+                  class="flex space-x-2 pt-2 text-gray-700 normal-case"
                 >
                   {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
                 </div>
