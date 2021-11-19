@@ -66,9 +66,6 @@ export default {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
     }),
-    unreadnotifications() {
-      return this.notifications.filter(n => n.status === 'UNREAD')
-    },
     resizeHeight () {
       if (this.$route.name !== 'Dashboard') {
         return 'calc(100vh - 52px)'
