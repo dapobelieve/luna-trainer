@@ -1,6 +1,6 @@
 <template>
   <containers-summary-card-with-notifications
-    :display-view-all-button="Boolean(acceptedClients.length)"
+    :display-view-all-button="Boolean(acceptedClients.length > 2)"
     url="Clients"
   >
     <template v-slot:icon>
@@ -25,7 +25,7 @@
       </div>
       <template v-else>
         <ul v-if="acceptedClients.length" role="list" class="relative z-0 px-1">
-          <li v-for="client in acceptedClients" :key="client.index">
+          <li v-for="client in acceptedClients.slice(0, 2)" :key="client._id">
             <containers-summary-information-with-avatar
               :show-chevron-right="false"
               url="Client-id-Information"
@@ -55,12 +55,15 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'DashboardClients',
-  props: {
-    acceptedClients: {
-      type: Array,
-      required: true
+  computed: {
+    ...mapGetters({
+      allClients: 'client/getAllClients'
+    }),
+    acceptedClients () {
+      return this.allClients.filter(c => c.status === 'accepted')
     }
   }
 }

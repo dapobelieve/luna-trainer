@@ -8,7 +8,7 @@
         <div class="grid md:grid-cols-2 gap-4">
           <div class="grid gap-4">
             <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" class="h-72" />
+            <dashboard-clients class="h-72" />
             <!-- new messages -->
             <dashboard-messages />
           </div>
@@ -59,8 +59,7 @@ export default {
     return {
       openBankModal: false,
       showNotification: false,
-      paidInvoices: [],
-      acceptedClients: []
+      paidInvoices: []
     }
   },
   head () {
@@ -91,7 +90,6 @@ export default {
   mounted () {
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
-    this.fetchAcceptedClients({ status: 'accepted', limit: 2 }).then((r) => { this.acceptedClients = r }).catch(e => console.error(e))
   },
   updated () {
     this.$nextTick(() => {
@@ -106,7 +104,6 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
-      fetchAcceptedClients: 'client/fetchClientsWithStatusAndLimit',
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {

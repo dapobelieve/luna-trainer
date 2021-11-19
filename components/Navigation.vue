@@ -339,12 +339,17 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
+      const { type } = data
+      if (type === 'INVITE_REQUEST_ACCEPTED') {
+        this.fetchAllClients()
+      }
       this.$store.commit('notifications/setNotification', data)
     })
   },
   methods: {
     ...mapActions({
-      logOut: 'authorize/logOut'
+      logOut: 'authorize/logOut',
+      fetchAllClients: 'client/fetchAllClients'
     }),
     isMessagesRoute (value) {
       if (value) {
