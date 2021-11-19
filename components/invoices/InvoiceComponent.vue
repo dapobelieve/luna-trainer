@@ -269,9 +269,7 @@ export default {
           client: this.invoiceDetails.customerId
         }
       } else {
-        return {
-          items: []
-        }
+        return {}
       }
     }
   },
@@ -323,6 +321,12 @@ export default {
     async createInvoice () {
       const res = await this.createNewInvoice(this.invoiceToBeSent)
       this.invoiceId = res.data._id
+      this.$router.replace({
+        name: 'invoice-id',
+        params: {
+          id: res.data._id
+        }
+      })
     },
     async send () {
       try {
@@ -347,7 +351,6 @@ export default {
     updateInvoice: debounce(async function () {
       try {
         this.$nuxt.$emit('autosaving-invoice')
-        console.log(this.invoiceToBeSent)
         await this.$axios.$put(`${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
       } catch (error) {
         console.error(error)
