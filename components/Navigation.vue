@@ -27,7 +27,7 @@
                   menu.path &&
                     ![
                       'signout',
-                      'Messages',
+                      'messages',
                       'notifications',
                       'inviteClient',
                       'addSession',
@@ -165,9 +165,10 @@
                 </div>
               </button>
               <button
-                v-else-if="menu.path === 'Messages'"
+                v-else-if="menu.path === 'messages'"
+                :class="[$route.path.includes(menu.title) ? 'active': '']"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="toggleMenu(menu.path)"
+                @click="$router.push({name: 'messages'})"
               >
                 <i :class="[menu.icon ? menu.icon : '']" />
                 <div class="flex items-center flex-grow justify-between">
@@ -196,71 +197,6 @@
             </div>
           </div>
         </div>
-
-        <!-- flyout messages -->
-        <navigation-sub-menu v-model="showMessagesMenu">
-          <template v-slot:title>
-            <h5 class="text-xl text-gray-700">
-              Messages
-            </h5>
-          </template>
-          <template v-slot:search>
-            <div class="pb-2 px-4 bg-white">
-              <div class="relative flex items-center h-8">
-                <i class="ns-search absolute left-2 text-gray-400"></i>
-                <input
-                  type="text"
-                  class="focus:outline-none w-full sm:text-sm border rounded-md h-8 pl-7 shadow-sm focus:border-blue-500"
-                  placeholder="Search name to start new chat"
-                />
-              </div>
-            </div>
-          </template>
-          <template v-slot:body>
-            <div v-if="unreadMessages.length">
-              <button
-                v-for="n in unreadMessages"
-                :key="n.url"
-                type="button"
-                class="flex justify-start space-x-3 hover:bg-gray-100 px-4 py-2 cursor-pointer w-full"
-                @click="gotoMessage(n.members)"
-              >
-                <div>
-                  <ClientAvatar
-                    :client-info="{
-                      firstName: n.lastMessage._sender.nickname.split(' ')[0],
-                      lastName: n.lastMessage._sender.nickname.split(' ')[1]
-                    }"
-                  />
-                </div>
-                <div class="text-sm">
-                  <div class="capitalize font-semibold">
-                    <span class="capitalize font-semibold mr-2">{{ n.lastMessage._sender.nickname }}</span>
-                    <span class="text-gray-400 text-xs normal-case">
-                      {{ n.lastMessage.createdAt | howLongAgo }}.
-                    </span>
-                  </div>
-                  <div
-                    class="flex space-x-2 pt-2 text-gray-700"
-                    v-if="n.lastMessage.message"
-                  >
-                    {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
-                  </div>
-                </div>
-              </button>
-            </div>
-            <div v-else class="text-center py-8 px-4 flex w-full justify-center">
-              <div class="max-w-xs flex gap-3 flex-col">
-                <h2 class="font-bold text-lg text-gray-700">
-                  No New Messages.
-                </h2>
-                <p class="text-sm">
-                  We will notify you when something arrives
-                </p>
-              </div>
-            </div>
-          </template>
-        </navigation-sub-menu>
       </div>
     </nav>
     <GwModal
@@ -352,7 +288,7 @@ export default {
       unreadMessages: 'sendBird/getUnreadMessages',
       notifications: 'notifications/getAllNotifications'
     }),
-    unreadnotifications() {
+    unreadnotifications () {
       return this.notifications.filter(n => n.status === 'UNREAD')
     },
     toggleIntercomCheck () {
@@ -385,24 +321,26 @@ export default {
   async mounted () {
     this.isMessagesRoute(this.toggleIntercomCheck)
     try {
-      await this.$store.dispatch('notifications/fetchNotifications');
-    }catch (e) {
+      await this.$store.dispatch('notifications/fetchNotifications')
+    } catch (e) {
       console.log()
     }
-    
+
     const url = new URL(process.env.BASEURL_HOST)
     const socket = io(`${url.origin}`,
-      { path: `${url.pathname}/socket.io`,
+      {
+        path: `${url.pathname}/socket.io`,
         query: {
           accessToken: localStorage.getItem('auth._token.local').split('Bearer ')[1]
-        }});
+        }
+      })
 
-    socket.on("connect", () => {
-      console.log("CONNECTED 🚀")
+    socket.on('connect', () => {
+      console.log('CONNECTED 🚀')
     })
-    socket.on("new-notification", (data) => {
+    socket.on('new-notification', (data) => {
       this.$store.commit('notifications/setNotification', data)
-    });
+    })
   },
   methods: {
     ...mapActions({
@@ -443,13 +381,13 @@ export default {
         this.openModal = true
       }
     },
-    toggleMenu (path) {
-      if (path === 'Notifications') {
-        this.showNotificationsMenu = true
-      } else if (path === 'Messages') {
-        this.showMessagesMenu = true
-      }
-    },
+    // toggleMenu (path) {
+    //   if (path === 'Notifications') {
+    //     this.showNotificationsMenu = true
+    //   } else if (path === 'Messages') {
+    //     this.showMessagesMenu = true
+    //   }
+    // },
     inviteClient () {
       this.$modal.show('inviteClientModal')
     },

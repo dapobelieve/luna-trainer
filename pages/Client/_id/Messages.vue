@@ -156,6 +156,7 @@
                 type="text"
                 class="w-full focus:outline-none text-sm resize-none h-6 box-border"
                 placeholder="Type a message"
+                @keyup.enter="sendChat"
                 @input="
                   emitValue($event);
                   resize();
@@ -263,7 +264,7 @@ export default {
           this.isChannelLoading = false
         } else {
           try {
-            await this.connectToSendBird(response.sendbirdId).then(async () => {
+            await this.connectToSendBird(this.$auth.user.sendbirdId).then(async () => {
               await this.getChannelListing().then(() => {
                 this.checkChannel(response.sendbirdId).then((res) => {
                   if (res === undefined) {
