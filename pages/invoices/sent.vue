@@ -198,7 +198,7 @@ export default {
           res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { customerId: option._id })
           this.invoices = [...res.data]
         } else {
-          res = await this.$store.dispatch('invoice/getInvoices', { status: option.toLowerCase() })
+          res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: option.toLowerCase() })
           this.invoices = res
         }
       } catch (e) {

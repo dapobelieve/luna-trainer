@@ -23,7 +23,13 @@ export default {
         rel: 'stylesheet',
         href:
           'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
-      }
+      },
+    ],
+    script: [
+      { 
+        src: "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js", 
+        async: true
+      },
     ]
   },
 

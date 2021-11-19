@@ -139,7 +139,6 @@ export default {
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
-
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
       this.showNotification = false
@@ -167,7 +166,7 @@ export default {
         }
       }
     }
-  }
+  },
 }
 </script>
 

@@ -268,7 +268,9 @@ export default {
           client: this.invoiceDetails.client
         }
       } else {
-        return {}
+        return {
+          items: []
+        }
       }
     }
   },
@@ -328,6 +330,7 @@ export default {
     updateInvoice: debounce(async function () {
       try {
         this.$nuxt.$emit('autosaving-invoice')
+        console.log(this.invoiceToBeSent)
         await this.$axios.$put(`${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
       } catch (error) {
         console.error(error)

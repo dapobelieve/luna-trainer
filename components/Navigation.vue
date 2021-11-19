@@ -27,8 +27,8 @@
                   menu.path &&
                     ![
                       'signout',
-                      'Notifications',
                       'Messages',
+                      'notifications',
                       'inviteClient',
                       'addSession',
                       'newCourse',
@@ -150,12 +150,19 @@
                 </div>
               </div>
               <button
-                v-else-if="menu.path === 'Notifications'"
+                v-else-if="menu.path === 'notifications'"
+                :class="[$route.path.includes(menu.title) ? 'active': '']"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="toggleMenu(menu.path)"
+                @click="$router.push({name: 'notifications'})"
               >
                 <i :class="[menu.icon ? menu.icon : '']" />
-                <span class="truncate">Notifications</span>
+                <div class="flex items-center flex-grow justify-between">
+                  <span class="truncate">Notifications</span>
+                  <span
+                    v-if="unreadnotifications.length"
+                    class="inline-flex items-center justify-center bg-blue-500 rounded-full text-xs text-white ml-2 px-1 h-5 font-medium flex-shrink-0 min-w-[1.25rem]"
+                  >{{ unreadnotifications.length }}</span>
+                </div>
               </button>
               <button
                 v-else-if="menu.path === 'Messages'"
@@ -189,55 +196,6 @@
             </div>
           </div>
         </div>
-        <!-- flyout notifications -->
-        <navigation-sub-menu v-model="showNotificationsMenu">
-          <template v-slot:title>
-            <h5 class="text-xl text-gray-700">
-              Notifications
-            </h5>
-          </template>
-          <template v-slot:body>
-            <div v-if="10" class="px-1 pb-20 lg:pb-1">
-              <div
-                v-for="n in 20"
-                :key="n.index"
-                class="flex gap-4 py-4 px-3 rounded-lg hover:bg-gray-100 hover:transition-all"
-              >
-                <div class="flex-shrink-0">
-                  <img
-                    src="https://picsum.photos/seed/picsum/200/300"
-                    class="rounded-full w-12 h-12"
-                  />
-                </div>
-                <div>
-                  <div class="flex flex-col gap-1">
-                    <span class="font-medium text-gray-700">APBC Committee Meeting with Ali R</span>
-                    <span class="text-sm">7pm - 9pm . Remote</span>
-                  </div>
-                  <div class="flex gap-2 mt-3">
-                    <button class="button-fill">
-                      Accept
-                    </button>
-                    <button class="button-outline">
-                      Re-schedule
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div v-else class="text-center py-8 px-4 flex w-full justify-center">
-              <div class="max-w-xs flex gap-3 flex-col">
-                <h5 class="font-bold text-lg text-gray-700">
-                  No Notifications.
-                </h5>
-                <p class="text-sm">
-                  We will notify you when something arrives
-                </p>
-              </div>
-            </div>
-          </template>
-        </navigation-sub-menu>
 
         <!-- flyout messages -->
         <navigation-sub-menu v-model="showMessagesMenu">
@@ -284,6 +242,7 @@
                   </div>
                   <div
                     class="flex space-x-2 pt-2 text-gray-700"
+                    v-if="n.lastMessage.message"
                   >
                     {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
                   </div>
@@ -373,7 +332,6 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
-
 export default {
   name: 'Navigation',
   data () {
@@ -391,8 +349,12 @@ export default {
   computed: {
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
-      unreadMessages: 'sendBird/getUnreadMessages'
+      unreadMessages: 'sendBird/getUnreadMessages',
+      notifications: 'notifications/getAllNotifications'
     }),
+    unreadnotifications() {
+      return this.notifications.filter(n => n.status === 'UNREAD')
+    },
     toggleIntercomCheck () {
       let isToggled = null
       if (this.$route.path.includes('Messages')) {
@@ -420,8 +382,27 @@ export default {
   watch: {
     toggleIntercomCheck: 'isMessagesRoute'
   },
-  mounted () {
+  async mounted () {
     this.isMessagesRoute(this.toggleIntercomCheck)
+    try {
+      await this.$store.dispatch('notifications/fetchNotifications');
+    }catch (e) {
+      console.log()
+    }
+    
+    const url = new URL(process.env.BASEURL_HOST)
+    const socket = io(`${url.origin}`,
+      { path: `${url.pathname}/socket.io`,
+        query: {
+          accessToken: localStorage.getItem('auth._token.local').split('Bearer ')[1]
+        }});
+
+    socket.on("connect", () => {
+      console.log("CONNECTED 🚀")
+    })
+    socket.on("new-notification", (data) => {
+      this.$store.commit('notifications/setNotification', data)
+    });
   },
   methods: {
     ...mapActions({
