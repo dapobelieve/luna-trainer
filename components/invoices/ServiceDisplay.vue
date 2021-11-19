@@ -18,6 +18,7 @@
             <button
               type="button"
               class="dropdown-button"
+              @click="$emit('delete-service',service)"
             >
               Delete
             </button>

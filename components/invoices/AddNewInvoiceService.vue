@@ -233,8 +233,8 @@ export default {
         .then((response) => {
           this.isLoading = false
           if (response.status === 'success') {
-            this.cancelEdit()
-            this.$emit('edited')
+            this.cancelAndSave()
+            this.$emit('edited', response.data.services)
             this.$gwtoast.success('Service Updated')
           }
         })
@@ -242,6 +242,16 @@ export default {
         .finally(() => {
           this.isLoading = false
         })
+    },
+    cancelAndSave () {
+      this.editing = false
+      this.services.description = ''
+      this.services.appointmentTypes = []
+      this.services.pricing = {
+        amount: '',
+        plan: 'hourly'
+      }
+      this.selectedService = null
     },
     cancelEdit () {
       this.$emit('close-modal')
