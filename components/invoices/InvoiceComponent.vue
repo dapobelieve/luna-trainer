@@ -115,7 +115,7 @@
               class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
             >
               <div
-                v-for="service in $auth.user.services"
+                v-for="service in invoiceDetails.services"
                 :key="service._id"
                 class="flex justify-between items-center"
               >
@@ -127,7 +127,7 @@
                     {{ service.subtitle }}
                   </p>
                 </div>
-                <ServiceDisplay :service="service" @edit-service="editServiceItem($event)">
+                <ServiceDisplay :service="service" @delete-service="deleteServiceItem($event)" @edit-service="editServiceItem($event)">
                 </ServiceDisplay>
               </div>
             </div>
@@ -187,13 +187,14 @@
     </modal>
 
     <!-- adding and editing services modal -->
-    <modal name="add-service-modal" height="auto" :adaptive="true">
+    <modal name="add-service-modal" height="auto" :adaptive="true" :click-to-close="false">
       <invoices-add-new-invoice-service
         class="m-6"
+        @edited="updatedServiceItem($event)"
         :service-object="serviceObject"
         :selected-service-index="selectedServiceProps"
-        @clearSelectedServiceIndex="selectedServiceProps = $event"
-        @close-modal="$modal.hide('add-service-modal')"
+        @clearSelectedServiceIndex="clearServiceObject($event)"
+        @close-modal="hideModal"
       />
     </modal>
 
@@ -265,7 +266,7 @@ export default {
           customerId: this.invoiceDetails.customerId ? this.invoiceDetails.customerId._id : null,
           dueDate: this.invoiceDetails.dueDate || new Date(),
           dueDateEpoch: new Date(this.invoiceDetails.dueDate).getTime() / 1000 || new Date().getTime() / 1000,
-          client: this.invoiceDetails.client
+          client: this.invoiceDetails.customerId
         }
       } else {
         return {}
@@ -292,8 +293,25 @@ export default {
     }
   },
   methods: {
+    updatedServiceItem (e) {
+      this.$modal.hide('add-service-modal')
+      const id = this.serviceObject._id
+      const serviceToUpdate = e.find(s => s._id === id)
+      const theIndex = this.invoiceDetails.services.findIndex(s => s._id === id)
+      this.invoiceDetails.services.splice(theIndex, 1, serviceToUpdate)
+      this.selectedServiceProps = null
+      this.serviceObject = null
+    },
     handleSelection (data) {
       this.$set(this.invoiceDetails, 'services', data)
+    },
+    clearServiceObject (e) {
+      this.selectedServiceProps = e
+      this.serviceObject = null
+    },
+    hideModal () {
+      this.$modal.hide('add-service-modal')
+      this.serviceObject = null
     },
     ...mapActions('invoice', {
       createNewInvoice: 'createInvoice',
@@ -303,12 +321,6 @@ export default {
     async createInvoice () {
       const res = await this.createNewInvoice(this.invoiceToBeSent)
       this.invoiceId = res.data._id
-      this.$router.replace({
-        name: 'invoice-id',
-        params: {
-          id: res.data._id
-        }
-      })
     },
     async send () {
       try {
@@ -320,9 +332,14 @@ export default {
         }
       } catch (error) {
         this.isLoading = false
-        const errorResponse = this.$errorHandler.setAndParse(error)
-        this.$gwtoast.error(
-          `Something went wrong: ${errorResponse.message}`)
+        if (error.response) {
+          this.$gwtoast.error(
+            `Something went wrong: ${error.response.data.message}`)
+        } else if (error.request) {
+          this.$gwtoast.error('Something went wrong. Try again')
+        } else {
+          this.$gwtoast.error(`Something went wrong: ${error.message}`)
+        }
       }
     },
     updateInvoice: debounce(async function () {
@@ -336,6 +353,10 @@ export default {
     editServiceItem (id) {
       this.serviceObject = id
       this.$modal.show('add-service-modal')
+    },
+    deleteServiceItem (e) {
+      const serviceItemIndex = this.invoiceDetails.services.findIndex(s => s._id === e._id)
+      this.invoiceDetails.services.splice(serviceItemIndex, 1)
     }
   },
   mounted () {

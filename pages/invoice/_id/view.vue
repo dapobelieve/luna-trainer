@@ -22,7 +22,7 @@
     <div class="parent-container">
       <div class="flex items-center header">
         <p class="font-normal text-2xl text-gray-700 mr-auto">
-          Getwelp Limited
+          {{ $auth.user.businessName }}
         </p>
         <span class="inline-flex items-center px-3 py-0.5 rounded-full capitalize text-sm font-normal bg-blue-50 text-blue-500">
           {{ client && client.workflowStatus }}
@@ -42,7 +42,7 @@
             Invoice no.
           </p>
           <p class="info">
-            039211224
+            {{ client && client.invoiceNo }}
           </p>
         </div>
       </div>
