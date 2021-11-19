@@ -1,6 +1,5 @@
 <template>
   <div
-    :style="{ height: resizeHeight, top: resizeTop }"
     :class="[
       'fixed w-full lg:left-56 xl:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
   >
@@ -66,19 +65,6 @@ export default {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
     }),
-    resizeHeight () {
-      if (this.$route.name !== 'Dashboard') {
-        return 'calc(100vh - 52px)'
-      }
-      return '100vh'
-    },
-    resizeTop () {
-      if (this.$route.name !== 'Dashboard') {
-        return '3rem'
-      }
-      return '0'
-    }
-  },
   async mounted () {
     try {
       await this.$store.dispatch('notifications/fetchNotifications');
