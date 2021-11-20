@@ -35,7 +35,7 @@
               <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
-              <p class="truncate w-48 xl:w-80">
+              <p class="truncate w-48 xl:w-80 normal-case">
                 {{ msg.lastMessage.message }}
               </p>
             </template>
