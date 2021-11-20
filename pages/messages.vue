@@ -42,36 +42,34 @@
             </div>
           </div>
           <div v-if="unreadMessages.length">
-            <button
+            <div
               v-for="n in unreadMessages"
               :key="n.url"
-              type="button"
-              class="flex justify-start space-x-3 hover:bg-gray-100 px-4 py-2 cursor-pointer w-full"
+              role="button"
+              class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
               @click="gotoMessage(n.members)"
             >
-              <div>
+              <div class="flex-none w-12 mr-4">
                 <ClientAvatar
                   :client-info="{
-                    firstName: n.lastMessage._sender.nickname.split(' ')[0],
-                    lastName: n.lastMessage._sender.nickname.split(' ')[1]
+                    firstName: n.lastMessage._sender.nickname
                   }"
                 />
               </div>
-              <div class="text-sm">
-                <div class="font-semibold">
-                  <span class="font-semibold mr-2">{{ n.lastMessage._sender.nickname }}</span>
-                  <span class="text-gray-400 text-xs normal-case">
-                    {{ n.lastMessage.createdAt | howLongAgo }}.
+              <div class="truncate flex-grow">
+                <div class="flex items-center">
+                  <span class="text-base text-gray-700 font-medium capitalize mr-2 flex-grow truncate">{{ n.lastMessage._sender.nickname }}</span>
+                  <span class="text-gray-500 text-sm font-normal normal-case flex-none w-18">
+                    {{ n.lastMessage.createdAt | howLongAgo }}
                   </span>
                 </div>
                 <div
-                  v-if="n.lastMessage.message"
-                  class="flex space-x-2 pt-2 text-gray-700 normal-case"
+                  class="text-gray-700 text-base font-normal normal-case truncate"
                 >
-                  {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
+                  {{ n.lastMessage.message }}
                 </div>
               </div>
-            </button>
+            </div>
           </div>
           <div v-else class="text-center py-8 px-4 flex w-full justify-center">
             <div class="max-w-xs flex gap-3 flex-col">

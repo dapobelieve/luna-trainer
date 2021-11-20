@@ -35,22 +35,12 @@
               <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
-              <p>
-                {{
-                  msg && msg.lastMessage.message.length > 76
-                    ? `${msg.lastMessage.message.substring(0, 76)}`
-                    : msg.lastMessage.message
-                }}
+              <p class="truncate w-48 xl:w-80">
+                {{ msg.lastMessage.message }}
               </p>
             </template>
             <template v-slot:date>
-              {{
-                formatDistance(
-                  new Date(msg.lastMessage.createdAt),
-                  new Date(),
-                  { addSuffix: true }
-                )
-              }}.
+              {{ msg.lastMessage.createdAt | howLongAgo }}
             </template>
           </containers-summary-information-with-avatar>
         </li>

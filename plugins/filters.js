@@ -11,7 +11,7 @@ function date (date) {
 function howLongAgo (date) {
   return formatDistance(new Date(date), new Date(), {
     addSuffix: true
-  })
+  }).substring(5)
 }
 
 Vue.filter('amount', amount)

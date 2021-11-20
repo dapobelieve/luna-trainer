@@ -87,7 +87,7 @@ export default {
       this.$sb.addChannelHandler('dashboardLayoutHandler', channelHandler)
     }
   },
-  async mounted () {
+  mounted () {
     const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
     if (isProfileSetUpCompleted && !this.isStripeConnected) {
       this.$modal.show('stripe-modal')
@@ -139,8 +139,8 @@ export default {
         }
       }
     }
-  },
-  
+  }
+
 }
 </script>
 
