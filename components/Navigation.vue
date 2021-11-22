@@ -285,7 +285,6 @@ export default {
   computed: {
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
-      allClients: 'client/getAllClients',
       unreadMessages: 'sendBird/getUnreadMessages',
       notifications: 'notifications/getAllNotifications'
     }),
@@ -342,7 +341,7 @@ export default {
     socket.on('new-notification', (data) => {
       const { type } = data
       if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.updateSingleClientInfo('data')
+        this.updateSingleClientInfo(data.data)
       }
       this.$store.commit('notifications/setNotification', data)
     })
