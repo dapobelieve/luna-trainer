@@ -15,29 +15,41 @@ phases:
       - curl -sS -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
       - chmod +x ./kubectl ./aws-iam-authenticator
       - export PATH=$PWD/:$PATH
-      
   pre_build:
     commands:
-      - sed -i 's@CONTAINER_IMAGE@'"$DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION"'@' k8s/deployment.yaml
-      - sed -i 's@APPNAME@'"$APPNAME"'@' k8s/deployment.yaml
-      - sed -i 's@APPNAME@'"$APPNAME"'@' k8s/service.yaml
-
-      - cat k8s/deployment.yaml
+      - sed -i 's@CONTAINER_IMAGE@'"$DOCKER_USER/$IMAGE_REPO_NAME:latest"'@' ./k8s/deployment.yaml
+      - sed -i 's@APPNAME@'"$APPNAME"'@' ./k8s/deployment.yaml
+      - sed -i 's@APPNAME@'"$APPNAME"'@' ./k8s/service.yaml
       - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
-      - ls -las
       - export KUBECONFIG=$HOME/.kube/config
   build:
     commands:
       ## Enable the below line if you want to create your DB and other secure parameters to the .env/config files. make sure to grant access to the SSM parameter store.
       ## - aws ssm get-parameter --with-decryption --name $WHATEVERTHEPARAMETERNAMR --region $REGION | jq '.Parameter.Value' > .env
-      - docker build -t $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION .
+      - echo 'Building...'
 
   post_build:
     commands:
-      - docker push $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
-      - kubectl apply -f k8s/deployment.yaml
-      - kubectl apply -f k8s/service.yaml
-      - printf '[{"name":"k8s-deployment","imageUri":"%s"}]' $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION > build.json
+
+      - aws ssm get-parameter --name $APPNAME-$ENVIRONMENT --with-decryption | jq .Parameter.Value >> .env
+
+      - sed -i -e 's/"//g' .env
+
+      - sed -i -e 's/\\n/\n/g' .env
+
+      - kubectl create configmap $APPNAME --from-env-file=.env -o yaml --dry-run=client | kubectl apply -f -
+
+      - kubectl apply -f ./k8s/ingress/nginx/deploy.yaml
+
+      - kubectl apply -f ./k8s/tls/cert-manager.yaml
+
+      - kubectl apply -f ./k8s/tls/ssl-tls-cluster-issuer.yaml
+
+      - kubectl apply -f ./k8s/deployment.yaml
+      
+      - kubectl apply -f ./k8s/service.yaml
+
+      - printf '[{"name":"k8s-deployment","imageUri":"%s"}]' $DOCKER_USER/$IMAGE_REPO_NAME:latest > build.json
 artifacts:
   files: build.json
