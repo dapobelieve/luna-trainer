@@ -12,10 +12,10 @@ export const mutations = {
   IS_LOADING (state, loadingStatus) {
     state.isLoading = loadingStatus
   },
-  UPDATE_SINGLE_CLIENT_INFO (state, clientInfo) {
-    const userId = clientInfo._id
-    const theClientPosition = state.clients.findIndex(c => c._id === userId)
-    state.clients.splice(theClientPosition, 1, clientInfo)
+  LOCAL_UPDATE_CLIENT (state, client) {
+    const userId = client._id
+    const clientIndex = state.clients.findIndex(c => c._id === userId)
+    state.clients.splice(clientIndex, 1, client)
   }
 }
 
@@ -82,8 +82,6 @@ export const actions = {
         commit('SET_ALL_CLIENTS', response)
         commit('IS_LOADING', false)
         dispatch('loader/endProcess', null, { root: true })
-        // fetch their sendBird profiles
-        // dispatch('sendBird/listOfMySendBirdUsers', response, { root: true })
         return response.data
       })
       .catch(() => {
