@@ -6,7 +6,7 @@
     <div>
       <div class="flex flex-col gap-1">
         <span class="font-medium text-gray-700">You have a new client registration!</span>
-        <span class="text-sm">{{ date }}</span>
+        <span class="text-sm">{{ notification.createdAt | howLongAgo}}</span>
       </div>
     </div>
   </div>
@@ -17,11 +17,6 @@ import UserAvatar from '~/components/util/ClientAvatar'
 export default {
   components: { UserAvatar },
   props: ['notification'],
-  computed: {
-    date () {
-      return this.$dateFns.formatDistanceToNow(new Date(this.notification.createdAt), { addSuffix: true })
-    }
-  },
   methods: {
     async userProfile () {
       await this.$store.dispatch('notifications/readNotification', { id: this.notification._id })
