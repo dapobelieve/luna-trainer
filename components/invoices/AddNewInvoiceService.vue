@@ -207,7 +207,7 @@ export default {
             this.isLoading = false
 
             if (response.status === 'success') {
-              this.$emit('close-modal', { ...this.services })
+              this.$emit('close-modal', { ...response.data.services[0] })
               this.resetSelectedService()
               this.$gwtoast.success('Services updated')
             }

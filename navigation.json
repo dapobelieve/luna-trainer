@@ -3,7 +3,7 @@
     {
       "icon": "ns-home",
       "title": "home",
-      "path": "Dashboard"
+      "path": "dashboard"
     },
     {
       "icon": "ns-bell-ring",
@@ -27,7 +27,7 @@
     {
       "icon": "ns-user",
       "title": "my clients",
-      "path": "Clients"
+      "path": "clients"
     },
     {
       "icon": "ns-plus",
@@ -50,7 +50,7 @@
     {
       "icon": "ns-calendar",
       "title": "my schedule",
-      "path": "Schedules"
+      "path": "schedules"
     },
     {
       "icon": "ns-plus",
@@ -60,7 +60,7 @@
     {
       "icon": "ns-users",
       "title": "my courses",
-      "path": "Courses"
+      "path": "courses"
     },
     {
       "icon": "ns-plus",
