@@ -11,6 +11,11 @@ export const mutations = {
   },
   IS_LOADING (state, loadingStatus) {
     state.isLoading = loadingStatus
+  },
+  UPDATE_SINGLE_CLIENT_INFO (state, clientInfo) {
+    const userId = clientInfo._id
+    const theClientPosition = state.clients.findIndex(c => c._id === userId)
+    state.clients.splice(theClientPosition, 1, clientInfo)
   }
 }
 
