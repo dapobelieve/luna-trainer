@@ -266,7 +266,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
 export default {
   name: 'Navigation',
@@ -285,6 +285,7 @@ export default {
   computed: {
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
+      allClients: 'client/getAllClients',
       unreadMessages: 'sendBird/getUnreadMessages',
       notifications: 'notifications/getAllNotifications'
     }),
@@ -341,15 +342,17 @@ export default {
     socket.on('new-notification', (data) => {
       const { type } = data
       if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.fetchAllClients()
+        this.updateSingleClientInfo('data')
       }
       this.$store.commit('notifications/setNotification', data)
     })
   },
   methods: {
+    ...mapMutations({
+      updateSingleClientInfo: 'client/UPDATE_SINGLE_CLIENT_INFO'
+    }),
     ...mapActions({
-      logOut: 'authorize/logOut',
-      fetchAllClients: 'client/fetchAllClients'
+      logOut: 'authorize/logOut'
     }),
     isMessagesRoute (value) {
       if (value) {
