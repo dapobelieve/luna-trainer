@@ -341,14 +341,14 @@ export default {
     socket.on('new-notification', (data) => {
       const { type } = data
       if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.updateSingleClientInfo(data.data)
+        this.localUpdateClient(data.data)
       }
       this.$store.commit('notifications/setNotification', data)
     })
   },
   methods: {
     ...mapMutations({
-      updateSingleClientInfo: 'client/UPDATE_SINGLE_CLIENT_INFO'
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
     }),
     ...mapActions({
       logOut: 'authorize/logOut'
