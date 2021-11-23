@@ -1,16 +1,26 @@
 <template>
   <containers-summary-card-with-notifications
-    :display-view-all-button="Boolean(acceptedClients.length > 2)"
+    :display-view-all-button="true"
     url="Clients"
   >
     <template v-slot:icon>
       <i
-        class="ns-users bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+        class="
+          ns-users
+          bg-indigo-50
+          p-1
+          rounded-full
+          text-indigo-500 text-2xl
+          h-12
+          w-12
+          flex
+          items-center
+          justify-center
+          flex-shrink-0
+        "
       ></i>
     </template>
-    <template v-slot:title>
-      recently accepted clients
-    </template>
+    <template v-slot:title> recently accepted clients </template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
         acceptedClients.length > 1 ? "s" : ""
@@ -25,7 +35,7 @@
       </div>
       <template v-else>
         <ul v-if="acceptedClients.length" role="list" class="relative z-0 px-1">
-          <li v-for="client in acceptedClients.slice(0, 2)" :key="client._id">
+          <li v-for="client in acceptedClients" :key="client._id">
             <containers-summary-information-with-avatar
               :show-chevron-right="false"
               url="Client-id-Information"
@@ -55,18 +65,26 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions } from "vuex";
 export default {
-  name: 'DashboardClients',
-  computed: {
-    ...mapGetters({
-      allClients: 'client/getAllClients'
-    }),
-    acceptedClients () {
-      return this.allClients.filter(c => c.status === 'accepted')
-    }
-  }
-}
+  name: "DashboardClients",
+  data() {
+    return {
+      acceptedClients: [],
+    };
+  },
+  async fetch() {
+    this.acceptedClients = await this.fetchAcceptedClients({
+      status: "accepted",
+      limit: 2,
+    })
+      .then(r =>  r)
+      .catch((e) => console.error(e));
+  },
+  ...mapActions({
+    fetchAcceptedClients: 'client/fetchClientsWithStatusAndLimit',
+  }),
+};
 </script>
 
 <style lang="scss" scoped></style>
