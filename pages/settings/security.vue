@@ -53,7 +53,7 @@
               Your Email
             </h6>
             <p class="text-gray-500 text-sm">
-              We have sent a verification link to {{ $auth.user.secondaryEmail }}. <br>
+              We have sent a verification link to {{ $auth.user.email }}. <br>
               Please confirm your email to complete the setup.
             </p>
           </div>
