@@ -18,18 +18,13 @@ export default {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
-      },
+      }
     ],
     script: [
-      { 
-        src: "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js", 
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js',
         async: true
-      },
+      }
     ]
   },
 
@@ -66,6 +61,7 @@ export default {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
     STRIPE_RETURN: process.env.STRIPE_RETURN,
+    SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
     sendBirdAppId: process.env.SENDBIRD_APP_ID
