@@ -27,7 +27,8 @@
               <ClientAvatar
                 :client-info="{
                   firstName: msg.lastMessage._sender.nickname.split(' ')[0],
-                  lastName: msg.lastMessage._sender.nickname.split(' ')[1]
+                  lastName: msg.lastMessage._sender.nickname.split(' ')[1],
+                  sendbirdId: msg.lastMessage._sender.userId
                 }"
               />
             </template>

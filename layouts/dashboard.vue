@@ -24,8 +24,12 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
+import sendBird from '../mixins/sendBird'
+import sendBirdEvents from '../mixins/sendBirdEvents'
+import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 export default {
   components: { InviteNewClientModal },
+  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents],
   data () {
     return {
       page: this.$route.name,
@@ -38,7 +42,7 @@ export default {
       isStripeConnected: state => state.profile.isStripeConnected
     })
   },
-  async created () {
+  created () {
     this.$nuxt.$on('displayPageSidebar', () => {
       this.toggleSidebarMenu()
     })
@@ -58,36 +62,9 @@ export default {
     } else {
       this.endFullPageLoad()
       this.fetchAllClients()
-      // connect user to sendbird server
-      await this.connectToSendBird(this.$auth.user.sendbirdId)
-      // sendbird events
-      const channelHandler = new this.$sb.ChannelHandler()
-
-      channelHandler.onMessageReceived = this.onMessageReceived
-      channelHandler.onMessageUpdated = function (channel, message) {}
-      channelHandler.onMessageDeleted = function (channel, messageId) {}
-      channelHandler.onMentionReceived = function (channel, message) {}
-      channelHandler.onChannelChanged = function (channel) {}
-      channelHandler.onMetaDataCreated = function (channel, metaData) {}
-      channelHandler.onMetaDataUpdated = function (channel, metaData) {}
-      channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
-      channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
-      channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
-      channelHandler.onMetaCountersDeleted = function (
-        channel,
-        metaCounterKeys
-      ) {}
-      channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
-      channelHandler.onReadReceiptUpdated = function (groupChannel) {}
-      channelHandler.onTypingStatusUpdated = function (groupChannel) {}
-      channelHandler.onChannelMemberCountChanged = function (channels) {}
-      channelHandler.onChannelParticipantCountChanged = function (channels) {}
-
-      // Add this channel event handler to the `SendBird` instance.
-      this.$sb.addChannelHandler('dashboardLayoutHandler', channelHandler)
     }
   },
-  async mounted () {
+  mounted () {
     const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
     if (isProfileSetUpCompleted && !this.isStripeConnected) {
       this.$modal.show('stripe-modal')
@@ -121,26 +98,9 @@ export default {
     skipStripeProcess () {
       localStorage.removeItem('profileCompleted')
       this.$modal.hide('stripe-modal')
-    },
-    // events for sendbird
-    onMessageReceived (channel, message) {
-      if (this.$route.name === 'Dashboard') {
-        if (
-          Object.keys(this.connectedChannels).length === 0 &&
-          this.connectedChannels.constructor === Object &&
-          channel.memberMap[this.$auth.user.sendbirdId]
-        ) {
-          this.addChannel({ channel, message })
-        } else if (
-          this.connectedChannels.size &&
-          this.connectedChannels.has(channel.url)
-        ) {
-          this.newMessage({ channel, message })
-        }
-      }
     }
-  },
-  
+  }
+
 }
 </script>
 
