@@ -54,7 +54,7 @@
     <div
       class="text-center mt-4 bg-white rounded-xl border h-auto md:h-20 flex items-center justify-center px-4 py-6"
     >
-      <NuxtLink :to="{ name: 'Auth-SignIn' }">
+      <NuxtLink :to="{ name: 'auth-signin' }">
         Back to
         <span
           class="text-blue-500 font-medium ml-1 no-underline hover:underline"
@@ -92,7 +92,8 @@ export default {
         this.isLoading = true
         await this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
           if (response.status === 'successful') {
-            this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
+            this.$router.replace({ name: 'auth-signin' }).then(() => {
+              console.log(this.$gwToast)
               this.$gwtoast.success('Reset password sent to your email')
             })
           }
