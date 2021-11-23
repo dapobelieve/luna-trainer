@@ -374,9 +374,9 @@ export default {
     },
     sendChat () {
       if (this.message) {
+        console.log('sending this message: ', this.message)
         const params = new this.$sb.UserMessageParams()
         params.message = this.message
-        params.data = { 'font-size': '30rem' }
         params.mentionType = 'users' // Either 'users' or 'channel'
         params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
         this.channel.sendUserMessage(params, (userMessage, error) => {

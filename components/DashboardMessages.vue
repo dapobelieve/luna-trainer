@@ -36,12 +36,11 @@
               <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
-              <p>
-                {{
-                  msg && msg.lastMessage.message.length > 76
-                    ? `${msg.lastMessage.message.substring(0, 76)}`
-                    : msg.lastMessage.message
-                }}
+              <p v-if="msg.lastMessage.messageType === 'user'">
+                {{ msg.lastMessage.message }}
+              </p>
+              <p v-else-if="msg.lastMessage.messageType === 'file'">
+              <img src="~/assets/img/image-outline.svg" class="w-5 h-5" alt="" srcset="">
               </p>
             </template>
             <template v-slot:date>

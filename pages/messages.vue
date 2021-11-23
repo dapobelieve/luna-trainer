@@ -66,10 +66,16 @@
                   </span>
                 </div>
                 <div
-                  v-if="n.lastMessage.message"
+                  v-if="n.lastMessage.messageType === 'user'"
                   class="flex space-x-2 pt-2 text-gray-700 normal-case"
                 >
-                  {{ n.lastMessage.message.length > 76 ? `${n.lastMessage.message.substring(0, 76)}` : n.lastMessage.message }}
+                  {{ n.lastMessage.message }}
+                </div>
+                <div
+                  v-else-if="n.lastMessage.messageType === 'file'"
+                  class="flex space-x-2 pt-2 text-gray-700 normal-case"
+                >
+                  <img src="~/assets/img/image-outline.svg" class="w-5 h-5" alt="" srcset="">
                 </div>
               </div>
             </button>
@@ -98,7 +104,11 @@ export default {
     ...mapGetters({
       unreadMessages: 'sendBird/getUnreadMessages',
       acceptedClients: 'client/acceptedClients'
-    })
+    }),
+    acceptedImageTypes(file) {
+      const allowableImageTypes = ['image/gif', 'image/jpeg', 'image/png']
+      return allowableImageTypes.includes(file)
+    }
   },
   methods: {
     gotoMessage (arr) {
