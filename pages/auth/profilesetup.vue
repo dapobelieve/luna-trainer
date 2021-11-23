@@ -162,7 +162,7 @@ export default {
     }
   },
   mounted () {
-    this.$gwtoast.info('Please complete your profile.')
+    this.$gwtoast.show('Please complete your profile.')
   },
   auth: false,
   validations: {
@@ -192,13 +192,13 @@ export default {
         this.isLoading = true
         return this.createTrainerProfile(this.profileInfo).then(async (response) => {
           if (response.status === 'success') {
-            this.$gwtoast.info('Profile creations successfully')
+            this.$gwtoast.show('Profile creations successfully')
 
             if (this.profilePic) {
-              this.$gwtoast.info('Uploading Profile Picture')
+              this.$gwtoast.show('Uploading Profile Picture')
               response = await this.uploadProfileImage()
               if (response.success === true) {
-                this.$gwtoast.info('Profile picture upload successfully')
+                this.$gwtoast.show('Profile picture upload successfully')
               }
             }
             this.$gwtoast.success('Welcome')
