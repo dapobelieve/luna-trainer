@@ -8,7 +8,7 @@
         <div class="grid md:grid-cols-2 gap-4">
           <div class="grid gap-4">
             <!-- client registration -->
-            <dashboard-clients class="h-72" />
+            <dashboard-clients :accepted-clients="acceptedClients" class="h-72" />
             <!-- new messages -->
             <dashboard-messages />
           </div>
@@ -29,7 +29,10 @@
         before proceeding to creating invoices.
       </template>
     </NotificationsModal>
-    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+    <NotificationsModal
+      :visible="showNotification"
+      @close="showNotification = $event"
+    >
       <template v-slot:title>
         Chat Connection Failed
       </template>
@@ -55,11 +58,19 @@ export default {
   name: 'Dashboard',
   components: { DashboardClients },
   layout: 'dashboard',
+  async asyncData ({ store }) {
+    const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
+      status: 'accepted',
+      limit: 2
+    })
+    return { acceptedClients }
+  },
   data () {
     return {
       openBankModal: false,
       showNotification: false,
-      paidInvoices: []
+      paidInvoices: [],
+      acceptedClients: []
     }
   },
   head () {
@@ -89,7 +100,11 @@ export default {
   },
   mounted () {
     this.fetchUserProfile()
-    this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
+    this.fetchPaidInvoices({ status: 'paid', limit: 5 })
+      .then((r) => {
+        this.paidInvoices = r
+      })
+      .catch(e => console.error(e))
   },
   updated () {
     this.$nextTick(() => {

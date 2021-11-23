@@ -20,7 +20,9 @@
         "
       ></i>
     </template>
-    <template v-slot:title> recently accepted clients </template>
+    <template v-slot:title>
+      recently accepted clients
+    </template>
     <template v-slot:notifications>
       {{ acceptedClients.length }} new request{{
         acceptedClients.length > 1 ? "s" : ""
@@ -65,26 +67,15 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
 export default {
-  name: "DashboardClients",
-  data() {
-    return {
-      acceptedClients: [],
-    };
-  },
-  async fetch() {
-    this.acceptedClients = await this.fetchAcceptedClients({
-      status: "accepted",
-      limit: 2,
-    })
-      .then(r =>  r)
-      .catch((e) => console.error(e));
-  },
-  ...mapActions({
-    fetchAcceptedClients: 'client/fetchClientsWithStatusAndLimit',
-  }),
-};
+  name: 'DashboardClients',
+  props: {
+    acceptedClients: {
+      type: Array,
+      required: true
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
