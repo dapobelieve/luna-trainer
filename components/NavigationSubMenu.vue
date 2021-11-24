@@ -46,13 +46,13 @@ export default {
   },
   computed: {
     resizeHeight () {
-      if (this.$route.name !== 'Dashboard') {
+      if (this.$route.name !== 'dashboard') {
         return 'calc(100vh - 52px)'
       }
       return '100vh'
     },
     resizeTop () {
-      if (this.$route.name !== 'Dashboard') {
+      if (this.$route.name !== 'dashboard') {
         return '3rem'
       }
       return '0'

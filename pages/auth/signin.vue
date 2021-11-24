@@ -161,7 +161,7 @@ export default {
 
           // set user in store
           this.$store.commit('profile/SET_GETWELP_USER', response)
-          this.$router.push({ name: 'Dashboard' })
+          this.$router.push({ name: 'dashboard' })
         }
       })
     },

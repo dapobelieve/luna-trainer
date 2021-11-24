@@ -4,7 +4,7 @@
       <PageHeader v-if="clientInfo">
         <template v-slot:back-button>
           <button type="button" class="button-text w-10" @click="$router.push({ name: 'Clients' })">
-            <img src="~/assets/img/svgs/chevron-back.svg" alt srcset />
+            <i class="fi-rr-arrow-left font-bold text-blue-500 text-lg"></i>
           </button>
         </template>
         <template v-slot:title>
