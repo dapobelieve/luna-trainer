@@ -68,6 +68,7 @@ export default {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
     STRIPE_RETURN: process.env.STRIPE_RETURN,
+    SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
     sendBirdAppId: process.env.SENDBIRD_APP_ID
