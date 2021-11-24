@@ -46,14 +46,14 @@
           </div>
         </div>
       </div>
-      <div v-show="cancelEmailChange">
+      <div v-show="secondaryEmail">
         <div class="flex justify-between items-center">
           <div>
             <h6 class="text-grey-700 font-medium text-lg mb-1">
               Your Email
             </h6>
             <p class="text-gray-500 text-sm">
-              We have sent a verification link to {{ $auth.user.email }}. <br>
+              We have sent a verification link to {{ secondaryEmail }}. <br>
               Please confirm your email to complete the setup.
             </p>
           </div>
@@ -78,9 +78,9 @@ import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent
 import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
 export default {
   components: { ChangeEmailComponent, ChangePasswordComponent },
-  data () {
-    return {
-      cancelEmailChange: false
+  computed: {
+    secondaryEmail () {
+      return this.$auth.user.secondaryEmail
     }
   },
   methods: {
@@ -93,7 +93,6 @@ export default {
         await this.$store.dispatch('authorize/cancelChangeEmail', { ...this.form })
         this.$gwtoast.success('Successfully cancelled ')
         await this.fetchUserProfile()
-        this.cancelEmailChange = false
       } catch (e) {
         this.$gwtoast.error(e.response.data.message)
       }
