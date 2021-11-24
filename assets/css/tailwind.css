@@ -13,6 +13,18 @@
   ::selection {
    @apply bg-blue-500
   }
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus,
+  textarea:-webkit-autofill,
+  textarea:-webkit-autofill:hover,
+  textarea:-webkit-autofill:focus,
+  select:-webkit-autofill,
+  select:-webkit-autofill:hover,
+  select:-webkit-autofill:focus {
+     box-shadow: 0 0 0 30px #fff inset !important;
+    -webkit-box-shadow: 0 0 0 30px #fff inset !important;
+  }
 
   /* base h1 to h6 styles */
   /* h1,
@@ -69,6 +81,20 @@
     }
   }
 
+  .information_box{
+    height: 2.5rem;
+    border: 1px solid #E2E8F0;
+    padding: 7px 12px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
+  .information_text-area{
+    height: 6rem;
+    border: 1px solid #E2E8F0;
+    padding: 7px 12px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
   .snap-scroll-x {
     scroll-snap-type: x mandatory;
     &::-webkit-scrollbar {

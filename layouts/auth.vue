@@ -20,7 +20,7 @@
             </h1>
             <div class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6">
               <p
-                v-if="routeName === 'Auth-SignUp'"
+                v-if="routeName === 'auth-signup'"
                 class="text-gray-500"
               >
                 You can sign in with your Google account below to sign up.
@@ -36,12 +36,12 @@
               <button
                 type="button"
                 class="bg-white border border-gray-400 w-100 flex items-center justify-center py-3 h-12 lg:m-0 m-auto rounded-md w-full lg:w-max px-3 lg:px-12 hover:bg-gray-50 shadow-sm"
-                @click="routeName === 'Auth-SignIn' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
+                @click="routeName === 'auth-signin' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
               >
                 <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
                 <span
                   class="ml-3"
-                >{{ routeName === 'Auth-SignIn' ? 'Sign in' : 'Sign up' }} With Google</span>
+                >{{ routeName === 'auth-signin' ? 'Sign in' : 'Sign up' }} With Google</span>
               </button>
             </div>
           </div>

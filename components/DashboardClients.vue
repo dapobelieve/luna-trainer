@@ -28,7 +28,7 @@
           <li v-for="client in acceptedClients" :key="client.index">
             <containers-summary-information-with-avatar
               :show-chevron-right="false"
-              url="client-id-Information"
+              url="client-id-information"
               :parameter="{ id: client._id }"
             >
               <template v-slot:avatar>

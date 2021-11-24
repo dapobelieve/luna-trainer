@@ -202,7 +202,7 @@ export default {
               }
             }
             this.$gwtoast.success('Welcome')
-            this.$router.push({ name: 'Dashboard' })
+            this.$router.push({ name: 'dashboard' })
           }
         }).catch((err) => {
           if (err.response) {
