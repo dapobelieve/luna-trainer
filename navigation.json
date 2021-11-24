@@ -13,6 +13,7 @@
     {
       "icon": "ns-comment-alt",
       "title": "messages",
+      "id": "introjs-step-5",
       "path": "messages"
     },
     {
@@ -27,6 +28,7 @@
     {
       "icon": "ns-user",
       "title": "my clients",
+      "id": "introjs-step-3",
       "path": "clients"
     },
     {
@@ -45,6 +47,7 @@
     {
       "icon": "ns-plus",
       "title": "new invoice",
+      "id": "introjs-step-4",
       "path": "invoice"
     },
     {

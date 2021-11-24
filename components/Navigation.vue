@@ -38,6 +38,7 @@
                       'Courses'
                     ].includes(menu.path)
                 "
+                :id="menu.id || ''"
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
                 :class="[$route.path.includes(menu.title) ? 'active': '']"
@@ -166,6 +167,7 @@
               </button>
               <button
                 v-else-if="menu.path === 'messages'"
+                :id="menu.id || ''"
                 :class="[$route.path.includes(menu.title) ? 'active': '']"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
                 @click="$router.push({name: 'messages'})"
@@ -327,6 +329,7 @@ export default {
     }
 
     const url = new URL(process.env.BASEURL_HOST)
+    // eslint-disable-next-line
     const socket = io(`${url.origin}`,
       {
         path: `${url.pathname}/socket.io`,

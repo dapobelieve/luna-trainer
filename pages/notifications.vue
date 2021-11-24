@@ -4,7 +4,7 @@
     :class="[
       'fixed w-full lg:left-56 xl:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
   >
-    <div @click.stop="$router.go(-1)" class="relative p-0 sm:p-3 h-full  flex justify-center lg:justify-start">
+    <div class="relative p-0 sm:p-3 h-full  flex justify-center lg:justify-start" @click.stop="$router.go(-1)">
       <transition
         enter="ease-out duration-300"
         enter-from="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
@@ -14,8 +14,8 @@
         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
       >
         <div
-          @click.stop=""
           class="sm:border border-none bg-white rounded-none sm:rounded-xl overflow-y-auto shadow-xl sm:max-w-md lg:max-w-sm w-full h-full"
+          @click.stop=""
         >
           <div
             class="opacity-50 w-full h-full absolute left-0 top-0 -z-10"
@@ -34,7 +34,7 @@
           </div>
           <div v-if="notifications && notifications.length" class="px-1 pb-20 lg:pb-1">
             <div v-for="n in notifications" :key="n.index" class="">
-              <NewClient :notification="n" v-if="n.type === 'INVITE_REQUEST_ACCEPTED'" />
+              <NewClient v-if="n.type === 'INVITE_REQUEST_ACCEPTED'" :notification="n" />
             </div>
           </div>
           <div v-else class="text-center py-8 px-4 flex w-full justify-center">
@@ -54,24 +54,24 @@
 </template>
 
 <script>
-import {mapGetters} from "vuex";
-import NewClient from "~/components/notifications/NewClient";
+import { mapGetters } from 'vuex'
+import NewClient from '~/components/notifications/NewClient'
 export default {
   name: 'NavigationSubMenu',
-  components: {NewClient},
+  components: { NewClient },
   props: {
     value: Boolean
   },
   computed: {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
-    }),
+    })
   },
   async mounted () {
     try {
-      await this.$store.dispatch('notifications/fetchNotifications');
+      await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
-      console.log({e})
+      console.log({ e })
     }
   }
 }

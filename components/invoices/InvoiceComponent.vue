@@ -190,9 +190,9 @@
     <modal name="add-service-modal" height="auto" :adaptive="true" :click-to-close="false">
       <invoices-add-new-invoice-service
         class="m-6"
-        @edited="updatedServiceItem($event)"
         :service-object="serviceObject"
         :selected-service-index="selectedServiceProps"
+        @edited="updatedServiceItem($event)"
         @clearSelectedServiceIndex="clearServiceObject($event)"
         @close-modal="hideModal"
       />

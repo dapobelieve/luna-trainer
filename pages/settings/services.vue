@@ -80,12 +80,12 @@ export default {
     },
     async removeService (service) {
       try {
-        await this.$store.dispatch('profile/deleteService', service._id )
+        await this.$store.dispatch('profile/deleteService', service._id)
         this.services.splice(this.services.indexOf(service), 1)
         this.$gwtoast.success('Service deleted')
       } catch (e) {
         this.$gwtoast.error(e)
-        console.log("Unable to delete service")
+        console.log('Unable to delete service')
       }
     }
   }
