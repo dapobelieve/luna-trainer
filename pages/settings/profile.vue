@@ -127,16 +127,16 @@
             :class="{'border-red-500' : $v.profile.currency.$invalid}"
           >
             <option value="AUD">
-              AUD
+              AUD ($)
             </option>
             <option value="CAD">
-              CAD
+              CAD ($)
             </option>
             <option value="GBP">
               GBP (£)
             </option>
             <option value="USD">
-              USD
+              USD ($)
             </option>
           </select>
         </div>

@@ -113,7 +113,7 @@ export default {
     },
     displaySetUp () {
       this.$router.replace({
-        name: 'Auth-onboardingProfileSetup'
+        name: 'auth-onboarding'
       })
     }
   }

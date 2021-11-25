@@ -2,7 +2,7 @@
   <async-view>
     <div v-if="clientInfo" class="grid bg-white border rounded-xl w-full p-2">
       <form>
-        <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl">
+        <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl z-40">
           <h2 class="text-xl">
             Information
           </h2>
@@ -58,16 +58,9 @@
             </p>
             <div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <GwInputField
-                  v-model="clientInfo.phoneNumber"
-                  placeholder="Type here"
-                  type="tel"
-                  label="Telephone"
-                  class="mt-1"
-                  autocomplete="text"
-                  class-name="information_box"
-                  @input="focusField"
-                />
+                <div>
+                  <PhoneComponent v-model="clientInfo.phoneNumber" label="Telephone" @input="focusField" />
+                </div>
                 <div class="place-self-auto mt-1">
                   <dt class="input-text-label">
                     Email Address
@@ -300,4 +293,18 @@ textarea,
 select {
   @apply border-0 bg-none bg-transparent shadow-none appearance-none focus:outline-none overflow-hidden;
 }
+.information_box{
+    height: 2.5rem;
+    border: 1px solid #E2E8F0;
+    padding: 7px 12px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
+  .information_text-area{
+    height: 6rem;
+    border: 1px solid #E2E8F0;
+    padding: 7px 12px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
 </style>
