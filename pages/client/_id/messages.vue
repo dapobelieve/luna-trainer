@@ -476,7 +476,7 @@ export default {
         message
       )
       if (
-        this.$route.name === 'Client-id-Messages' &&
+        this.$route.name === 'client-id-Messages' &&
         channel.url === this.channel.url
       ) {
         console.log('logging in messages')

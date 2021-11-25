@@ -237,11 +237,11 @@ export default {
       Object.entries(this.$auth.user).length !== 0 &&
       tokenValidity
     ) {
-      this.$router.replace({ name: 'Dashboard' }).then(() => {
+      this.$router.replace({ name: 'dashboard' }).then(() => {
         this.endFullPageLoad()
       })
     } else if (!this.$auth.strategy.token.status().valid()) {
-      this.$router.replace({ name: 'Auth-SignIn' }).then(() => {
+      this.$router.replace({ name: 'auth-signin' }).then(() => {
         this.endFullPageLoad()
       })
       this.$gwtoast.error('Session Expired. Please login')
@@ -293,7 +293,7 @@ export default {
     },
     saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
-        this.$router.replace({ name: 'Auth-SignIn' })
+        this.$router.replace({ name: 'auth-signin' })
         this.$gwtoast.error('Session Expired. Please login')
       } else {
         this.isLoading = true
@@ -321,7 +321,7 @@ export default {
     },
     finishedSetUp () {
       this.clearTrainnerRegData()
-      this.$router.replace({ name: 'Dashboard' }).then(() => {
+      this.$router.replace({ name: 'dashboard' }).then(() => {
         this.$gwtoast.success('Welcome')
       })
     }

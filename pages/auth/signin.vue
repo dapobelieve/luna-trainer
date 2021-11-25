@@ -65,7 +65,7 @@
         <div class="flex justify-between items-center">
           <div>
             <NuxtLink
-              :to="{ name: 'Auth-ForgotPassword' }"
+              :to="{ name: 'auth-forgotpassword' }"
               class="text-blue-500 font-medium no-underline hover:underline"
             >
               Forgot your password?
@@ -85,7 +85,7 @@
     <div class="text-center mt-4 bg-white rounded-xl border h-auto md:h-20 flex items-center justify-center px-4 py-6">
       Don't have an account?
       <NuxtLink
-        :to="{ name: 'Auth-SignUp' }"
+        :to="{ name: 'auth-signup' }"
         class="text-blue-500 font-medium ml-1 no-underline hover:underline"
       >
         Sign up
@@ -148,7 +148,7 @@ export default {
       // fetch user profile
       this.$store.dispatch('profile/getUserProfile').then((response) => {
         if (response === null) {
-          this.$router.push({ name: 'Auth-onboardingProfileSetup' })
+          this.$router.push({ name: 'auth-onboardingProfileSetup' })
         } else {
           this.$auth.setUser(response)
           // set currency in store
@@ -161,7 +161,7 @@ export default {
 
           // set user in store
           this.$store.commit('profile/SET_GETWELP_USER', response)
-          this.$router.replace({ name: 'Dashboard' })
+          this.$router.push({ name: 'dashboard' })
         }
       })
     },
@@ -182,8 +182,8 @@ export default {
               refreshToken: response.data.data.refreshToken
             })
             if (response.data.data.forceResetPassword) {
-              this.$router.push({ name: 'Auth-CreateNewPassword' })
-              this.$gwtoast.info('Please Create A New Password')
+              this.$router.push({ name: 'auth-createnewpassword' })
+              this.$gwtoast.show('Please Create A New Password')
             } else {
               this.authenticate()
             }

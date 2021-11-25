@@ -5,7 +5,7 @@
   >
     <li v-for="menu in menuItems" :key="menu.index" class="w-full">
       <containers-summary-information-with-avatar
-        :url="`Client-id-${menu.pathName}`"
+        :url="`client-id-${menu.pathName}`"
         :parameter="{ id: $route.params.id }"
         hover-color="bg-gray-100"
       >
@@ -105,11 +105,11 @@ export default {
     return {
       menuItems: [
         {
-          pathName: 'Messages',
+          pathName: 'messages',
           icon: 'ns-comment-alt'
         },
         {
-          pathName: 'Information',
+          pathName: 'information',
           icon: 'ns-user'
         }
       ]

@@ -1,6 +1,6 @@
 <template>
   <div class="gw-text-input">
-    <label v-if="label" :for="idName" class="input-text-label block">{{ label }}</label>
+    <label v-if="label" :for="idName" class="input-text-label text-gray-700 block">{{ label }}</label>
     <input
       :id="idName"
       :style="computeStyle"
@@ -68,7 +68,7 @@ export default {
     },
     autocomplete: {
       type: String,
-      default: 'on'
+      default: 'off'
     },
     inputmode: {
       type: String,
@@ -109,5 +109,12 @@ export default {
 <style lang="scss" scoped>
 input {
   @apply border-0 bg-none bg-transparent shadow-none focus:outline-none block w-full;
+}
+.information_box{
+  height: 2.5rem;
+  border: 1px solid #E2E8F0;
+  padding: 7px 12px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
 }
 </style>

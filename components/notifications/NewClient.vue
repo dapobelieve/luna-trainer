@@ -21,7 +21,7 @@ export default {
     async userProfile () {
       await this.$store.dispatch('notifications/readNotification', { id: this.notification._id })
       this.$router.push({
-        name: 'Client-id-Information',
+        name: 'client-id-information',
         params: {
           id: this.notification.data._id
         }
