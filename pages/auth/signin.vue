@@ -148,7 +148,7 @@ export default {
       // fetch user profile
       this.$store.dispatch('profile/getUserProfile').then((response) => {
         if (response === null) {
-          this.$router.push({ name: 'auth-onboardingProfileSetup' })
+          this.$router.push({ name: 'auth-onboarding' })
         } else {
           this.$auth.setUser(response)
           // set currency in store

@@ -147,7 +147,7 @@
 import { mapState, mapMutations, mapActions } from 'vuex'
 import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
 export default {
-  name: 'OnboardingProfileSetup',
+  name: 'Onboarding',
   components: { OnboardingCompleteModal },
   layout: 'authOnboarding',
   data () {
