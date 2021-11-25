@@ -75,6 +75,12 @@ export const actions = {
         return response
       })
   },
+  async resendInvoice ({ commit }, invoiceDetails) {
+    return await this.$axios
+      .$post(`${process.env.BASEURL_HOST}/invoice/resend/${invoiceDetails.id}`, {
+        recipients: [invoiceDetails.recipient]
+      })
+  },
   deleteInvoice ({ commit }, id) {
     return this.$axios
       .$delete(`${process.env.BASEURL_HOST}/invoice/${id}`)

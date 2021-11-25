@@ -3,14 +3,29 @@
     <PageHeader>
       <template v-slot:back-button>
         <button type="button outline-none" @click="$router.go(-1)">
-          <img src="~/assets/img/svgs/chevron-back-blue.svg" alt="" srcset="" />
+          <i class="ns-plus text-blue-500 text-[1.125rem]"></i>
         </button>
       </template>
       <template v-slot:buttons>
-        <div class=" relative">
+        <div class="relative flex space-x-3">
           <button
             type="button"
-            class="bg-white inline-flex items-center text-blue-500 px-2  py-1  border-none  text-base  font-medium  rounded  shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
+            class="nav-button"
+          >
+            <i class="ns-edit-alt text-blue-500 text-xl pr-1.5"></i>
+            Edit
+          </button>
+          <button
+            type="button"
+            class="nav-button"
+            @click="resend"
+          >
+            <i class="ns-paper-plane text-blue-500 text-xl pr-1.5"></i>
+            Resend
+          </button>
+          <button
+            type="button"
+            class="nav-button"
             @click="printInvoice"
           >
             <i class="ns-print text-blue-500 text-xl pr-1.5"></i>
@@ -152,7 +167,8 @@ export default {
   },
   data () {
     return {
-      client: null
+      client: null,
+      isLoading: false
     }
   },
   computed: {
@@ -173,17 +189,33 @@ export default {
       })
   },
   methods: {
+    ...mapActions('invoice', {
+      getSingleInvoice: 'getSingleInvoice',
+      resendInvoice: 'resendInvoice'
+    }),
     printInvoice () {
       window.print()
     },
-    ...mapActions({
-      getSingleInvoice: 'invoice/getSingleInvoice'
-    })
+    async resend () {
+      if (this.id) {
+        try {
+          const invoiceStatus = await this.resendInvoice({ id: this.id })
+          console.log('resent invoice ', invoiceStatus)
+          this.$gwtoast.success('Invoice sent successfully')
+        } catch (error) {
+          this.$gwtoast.error(`Error sending invoice: ${error}`)
+        }
+      }
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.nav-button {
+  @apply bg-white border inline-flex items-center text-blue-500 px-3 py-1 text-base  font-medium  rounded-lg  shadow-sm hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  border-color: #E2E8F0;
+}
 .parent-container {
   @apply bg-white p-4 mx-auto my-9 rounded-xl;
   border: 1px solid #e2e8f0;
