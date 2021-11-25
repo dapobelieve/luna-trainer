@@ -25,6 +25,9 @@ export const mutations = {
   LATEST_MESSAGE (state, message) {
     state.latestMessage = message
   },
+  DELETE_CHANNEL_LOCALLY (state, channelUrl) {
+    state.connectedChannels.delete(channelUrl)
+  },
 
   // messages
   ADD_NEW_CHANNEL (state, channelDetails) {
@@ -154,7 +157,9 @@ export const actions = {
         await groupChannel.delete((response, error) => {
           if (error) {
             this.$gwtoast.error('Error deleting channel')
+            return
           }
+          commit('DELETE_CHANNEL_LOCALLY', CHANNEL_URL)
         })
       }
     )

@@ -7,7 +7,8 @@ export default {
     channelHandler.onMessageUpdated = this.onMessageUpdated
     channelHandler.onMessageDeleted = this.onMessageDeleted
     channelHandler.onChannelChanged = this.onChannelChanged
-    // channelHandler.onDeliveryReceiptUpdated = this.onDeliveryReceiptUpdated
+    channelHandler.onChannelDeleted = this.onChannelDeleted
+    channelHandler.onDeliveryReceiptUpdated = this.onDeliveryReceiptUpdated
     // channelHandler.onReadReceiptUpdated = this.onReadReceiptUpdated
     channelHandler.onTypingStatusUpdated = this.onTypingStatusUpdated
 
@@ -18,19 +19,36 @@ export default {
     // events for sendbird
     onMessageReceived (channel, message) {
       const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png']
-      const { messageType: incomingMessageType  } = message
+      const { messageType: incomingMessageType } = message
       const { type: incomingFileType } = message
-      console.log('got message from channel: ', channel, ' and the message: ', message, 'message type: ', incomingMessageType)
-      if ((incomingMessageType === 'file' && acceptedImageTypes.includes(incomingFileType) ) || incomingMessageType === 'user') {
-        console.log('message received happening');
-        this.$store.dispatch('sendBird/newMessageReceived', { channel, message })
-        if (this.$route.name === 'Client-id-Messages' && channel.url === this.channelUrl) {
+      console.log(
+        'got message from channel: ',
+        channel,
+        ' and the message: ',
+        message,
+        'message type: ',
+        incomingMessageType
+      )
+      if (
+        (incomingMessageType === 'file' &&
+          acceptedImageTypes.includes(incomingFileType)) ||
+        incomingMessageType === 'user'
+      ) {
+        console.log('message received happening')
+        this.$store.dispatch('sendBird/newMessageReceived', {
+          channel,
+          message
+        })
+        if (
+          this.$route.name === 'Client-id-Messages' &&
+          channel.url === this.channelUrl
+        ) {
           console.log('logging in messages')
-          // this.messageHistory.push(message)
-          // this.$nextTick(() => {
-          //   this.scrollFeedToBottom()
-          //   // this.markAsRead(channel)
-          // })
+          this.messageHistory.push(message)
+          this.$nextTick(() => {
+            this.scrollFeedToBottom()
+            // this.markAsRead(channel)
+          })
         }
       }
     },
@@ -45,12 +63,39 @@ export default {
     onChannelChanged () {},
 
     // message has been delivered
-    onDeliveryReceiptUpdated () {},
+    onDeliveryReceiptUpdated (channel) {
+      console.log('this channels delivery is updated ', channel)
+    },
 
     // user reads a specific unread message in the chat
     onReadReceiptUpdated () {},
 
+    // a group channel has been deleted on the sendbord server
+    async onChannelDeleted (channelUrl, channelType) {
+      const currentChannel = sessionStorage.getItem('deletingChannelUrl')
+      if (
+        currentChannel === null ||
+        (currentChannel && currentChannel !== channelUrl)
+      ) {
+        try {
+          await this.$store.commit(
+            'sendBird/DELETE_CHANNEL_LOCALLY',
+            channelUrl
+          )
+        } catch (error) {
+          this.$gwtoast.error('An error occured, please reload')
+          console.log(error)
+        }
+      }
+      if (currentChannel) {
+        sessionStorage.removeItem('deletingChannelUrl')
+      }
+    },
+
     // a user starts typing a message
-    onTypingStatusUpdated () {}
+    onTypingStatusUpdated (groupChannel) {
+      const membersTyping = groupChannel.getTypingMembers()
+      return membersTyping
+    }
   }
 }

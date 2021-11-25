@@ -83,7 +83,27 @@
               <li
                 v-if="msg._sender.userId === sender"
                 class="me flex justify-end pl-6"
+                @dblclick="replyParentMessageWithText(msg)"
               >
+                <small class="self-end text-xs mr-1.5">
+                  <img
+                    v-if="msg.sendingStatus === 'succeeded'"
+                    class="text-center inline-block h-3"
+                    src="~/assets/img/svgs/checkmark-done-outline.svg"
+                    alt
+                    srcset
+                  />
+                  <img
+                    v-else
+                    class="text-center inline-block h-3"
+                    src="~/assets/img/svgs/checkmark-outline.svg"
+                    alt
+                    srcset
+                  />
+                  <span class="">{{
+                    new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
+                  }}</span>
+                </small>
                 <span
                   v-if="msg.messageType === 'file'"
                   class="msg overflow-hidden"
@@ -102,7 +122,11 @@
                   {{ msg.message }}
                 </div>
               </li>
-              <li v-else class="you flex items-end pr-6">
+              <li
+                v-else
+                class="you flex items-end pr-6"
+                @dblclick="replyParentMessageWithText(msg)"
+              >
                 <ClientAvatar
                   v-if="msg._sender.profileUrl"
                   class="mr-2 flex-shrink-0"
@@ -121,11 +145,21 @@
                   v-if="msg.messageType === 'file'"
                   class="msg overflow-hidden"
                 >
-                  <img class="bg-white max-w-[16rem]" :src="msg.url" />
+                  <img
+                    class="bg-white max-w-[16rem] max-h-[13.4rem]"
+                    :src="msg.url"
+                  />
                 </span>
-                <div v-else class="msg p-2 max-w-lg break-all">
+                <div
+                  v-else
+                  class="msg p-2 max-w-lg break-all"
+                  @dblclick="replyParentMessageWithText(msg)"
+                >
                   {{ msg.message }}
                 </div>
+                <small class="ml-2 text-xs">{{
+                  new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
+                }}</small>
               </li>
             </div>
           </template>
@@ -152,6 +186,39 @@
             {{ fileToBeSent.name }} file is uploading...
           </div>
           <form class="w-full" @submit.prevent="sendChat">
+            <div
+              v-if="replyToThread"
+              class="h-auto px-6 py-2 bg-gray-100 flex items-center justify-between"
+            >
+              <div
+                :class="[
+                  replyToThread.messageType === 'file'
+                    ? 'h-[4.93rem]'
+                    : 'h-[3.67rem]',
+                  'mr-4 rounded-md border-l-[5px] py-2 px-3 bg-gray-200 w-full border-blue-500 overflow-hidden'
+                ]"
+              >
+                <p class="font-medium text-blue-500 capitalize">
+                  {{
+                    replyToThread._sender.nickname === $auth.user.firstName
+                      ? "you"
+                      : replyToThread._sender.nickname
+                  }}
+                </p>
+                <p v-if="replyToThread.messageType === 'user'" class="">
+                  {{ replyToThread.message }}
+                </p>
+                <img
+                  v-else
+                  class="text-center inline-block h-10 w-10"
+                  :src="replyToThread.url"
+                  alt
+                />
+              </div>
+              <button type="button" @click="replyToThread = null">
+                <i class="ns-cross text-lg text-blue-500"></i>
+              </button>
+            </div>
             <div
               class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
             >
@@ -188,6 +255,7 @@
                   @change="onChange"
                 />
                 <button
+                  v-show="!replyToThread"
                   class="button-text button-sm w-8 ml-2"
                   type="button"
                   @click="showUpload = !showUpload"
@@ -232,6 +300,8 @@ export default {
       client: null,
       channelUrl: null,
       isChannelLoading: true,
+      replyToThread: null,
+      parentMessageId: 0,
       uploadingFileToSb: false,
       isUploading: false,
       id: this.$route.params.id,
@@ -268,7 +338,12 @@ export default {
           this.client !== null &&
           this.$store.state.sendBird.sendbirdChannels === 'not fetching'
         ) {
-          console.log('states ', [newValue, oldValue, this.$store.state.sendBird.sendbirdChannels, this.client])
+          console.log('states ', [
+            newValue,
+            oldValue,
+            this.$store.state.sendBird.sendbirdChannels,
+            this.client
+          ])
           console.log('sendbird ', this.client.sendbirdId)
           if (this.client.status === 'accepted') {
             const conversations = await this.checkIfConversationExits(
@@ -277,9 +352,12 @@ export default {
             console.log('conversaton received ', conversations)
             if (!conversations || conversations === undefined) {
               try {
-                const createdChannel = await this.createPrivateChannel(this.client.sendbirdId)
+                const createdChannel = await this.createPrivateChannel(
+                  this.client.sendbirdId
+                )
                 console.log('result creating channel ', createdChannel)
                 this.channelUrl = createdChannel.url
+                this.channel = createdChannel
                 return
               } catch (error) {
                 this.errorCreatingChannel = true
@@ -304,13 +382,31 @@ export default {
     }
   },
   destroyed () {
-    if (this.channelUrl !== null && !this.messageHistory.length) {
+    if (
+      this.channelUrl !== null &&
+      this.channel.creator.userId === this.sender &&
+      !this.messageHistory.length
+    ) {
       // since no messages were exchanged, delete channel
-      console.log('destroying channel')
+      sessionStorage.setItem('deletingChannelUrl', this.channelUrl)
       this.deleteChannel(this.channelUrl)
     }
   },
   methods: {
+    ...mapActions({
+      getClientProfile: 'client/getSingleClientById'
+    }),
+    ...mapActions('sendBird', {
+      createPrivateChannel: 'createPrivateChannel',
+      deleteChannel: 'deleteChannel',
+      checkIfConversationExits: 'checkIfConversationExits',
+      markAsRead: 'markMessageAsRead',
+      addChannel: 'addNewChannel',
+      newMessage: 'updateConnectedChannels',
+      connectToSendBird: 'connect_to_sb_server_with_userid',
+      getChannelListing: 'listOfConnectedChannels'
+    }),
+
     emitEnter (e) {
       e.preventDefault()
       this.$emit('enter-pressed')
@@ -335,23 +431,14 @@ export default {
         this.$refs.chatArea.style.height = 'auto'
       }
     },
-    ...mapActions({
-      getClientProfile: 'client/getSingleClientById'
-    }),
-    ...mapActions('sendBird', {
-      createPrivateChannel: 'createPrivateChannel',
-      deleteChannel: 'deleteChannel',
-      checkIfConversationExits: 'checkIfConversationExits',
-      markAsRead: 'markMessageAsRead',
-      addChannel: 'addNewChannel',
-      newMessage: 'updateConnectedChannels',
-      connectToSendBird: 'connect_to_sb_server_with_userid',
-      getChannelListing: 'listOfConnectedChannels'
-    }),
+
+    // fetch message history
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
-      listQuery.includeMetaArray = true // Retrieve a list of messages along with their metaarrays.
-      listQuery.includeReaction = true // Retrieve a list of messages along with their reactions.
+      listQuery.replyType = 'ONLY_REPLY_TO_CHANNEL'
+      listQuery.includeThreadInfo = true
+      // listQuery.includeParentMessageInfo = true
+
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
         if (error) {
@@ -367,31 +454,49 @@ export default {
         }
       })
     },
+
+    // if an existing chat exist between trainer and current client in view
     existingChannel (groupChannel) {
       console.log('an existing channel ', groupChannel)
       this.channel = groupChannel
+      this.channelUrl = groupChannel.url
       this.fetchMessageHistory(groupChannel)
     },
+
+    // send text message
     sendChat () {
       if (this.message) {
         console.log('sending this message: ', this.message)
         const params = new this.$sb.UserMessageParams()
+        params.parentMessageId = parseInt(this.parentMessageId)
         params.message = this.message
         params.mentionType = 'users' // Either 'users' or 'channel'
         params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
             // Handle error.
-            console.log('error sending messge', error)
+            this.$gwtoast.error('Message not sent: ', error)
+            return
           }
+          console.log('response from sending message ', userMessage)
           this.messageHistory.push(userMessage)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
           })
           this.message = ''
+          this.replyToThread = null
+          this.parentMessageId = 0
         })
       }
     },
+
+    // call when replying to a particular message
+    replyParentMessageWithText (msgObject) {
+      this.parentMessageId = msgObject.messageId
+      this.replyToThread = msgObject
+    },
+
+    // when sending a file message (for images only)
     sendFile () {
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
@@ -432,6 +537,7 @@ export default {
         }
       })
     },
+
     uploadPhoto () {
       this.$refs.fileUpload.click()
       this.showUpload = false
@@ -455,6 +561,8 @@ export default {
       this.fileToBeSent = null
       this.$refs.fileUpload.value = ''
     },
+
+    // scroll chat feed to bottom onload
     scrollFeedToBottom () {
       const messageFeed = document.getElementById('chatBody')
       return messageFeed.scrollTo(0, messageFeed.scrollHeight)
@@ -468,7 +576,7 @@ export default {
 #chatBody {
   .me,
   .you {
-    @apply pb-3;
+    @apply pb-4;
     div {
       @apply p-2 shadow-sm;
     }
