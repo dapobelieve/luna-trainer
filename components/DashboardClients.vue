@@ -1,11 +1,23 @@
 <template>
   <containers-summary-card-with-notifications
-    :display-view-all-button="Boolean(acceptedClients.length)"
+    :display-view-all-button="true"
     url="Clients"
   >
     <template v-slot:icon>
       <i
-        class="ns-users bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+        class="
+          ns-users
+          bg-indigo-50
+          p-1
+          rounded-full
+          text-indigo-500 text-2xl
+          h-12
+          w-12
+          flex
+          items-center
+          justify-center
+          flex-shrink-0
+        "
       ></i>
     </template>
     <template v-slot:title>
@@ -25,7 +37,7 @@
       </div>
       <template v-else>
         <ul v-if="acceptedClients.length" role="list" class="relative z-0 px-1">
-          <li v-for="client in acceptedClients" :key="client.index">
+          <li v-for="client in acceptedClients" :key="client._id">
             <containers-summary-information-with-avatar
               :show-chevron-right="false"
               url="client-id-information"

@@ -266,7 +266,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
 export default {
   name: 'Navigation',
@@ -339,10 +339,17 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
+      const { type } = data
+      if (type === 'INVITE_REQUEST_ACCEPTED') {
+        this.localUpdateClient(data.data)
+      }
       this.$store.commit('notifications/setNotification', data)
     })
   },
   methods: {
+    ...mapMutations({
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
+    }),
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
