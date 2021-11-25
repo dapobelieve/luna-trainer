@@ -123,9 +123,10 @@ export default {
 
     const getTime = localStorage.getItem('dashboardFirstVisit')
     if (!getTime) {
-      this.$modal.show('welcome-modal')
+      
       localStorage.setItem('dashboardFirstVisit', Date.now())
     }
+    this.$modal.show('welcome-modal')
   },
   updated () {
     this.$nextTick(() => {
@@ -141,12 +142,11 @@ export default {
       this.$modal.hide('welcome-modal')
       this.$intro()
         .setOptions({
-          prevLabel: 'Previous',
-          skipLabel: 'Skip',
+          hidePrev: true,
           steps: [
             {
               element: document.querySelector('#introjs-step-1'),
-              intro: 'Click here to your stripe account'
+              intro: 'Click here to connect your stripe account'
             },
             {
               element: document.querySelector('#introjs-step-2'),
@@ -192,4 +192,37 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.introjs-tooltip {
+  background-color: #3B82F6;
+  border-radius: 12px;
+  &-header  {
+    display: none;
+  }
+  .introjs-tooltiptext {
+    color: #fff;
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .introjs-bullets {
+    display: none;
+  }
+  .introjs-tooltipbuttons {
+    border: none;
+    a {
+      padding: 6px 16px 6px 16px;
+      color: #3B82F6;
+      background: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 500;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+  
+}
+</style>
