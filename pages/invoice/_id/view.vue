@@ -2,7 +2,7 @@
   <async-view>
     <PageHeader>
       <template v-slot:back-button>
-        <button type="button outline-none" @click="$router.go(-1)">
+        <button type="button outline-none" @click="$router.push({ name: 'invoice' })">
           <i class="ns-plus text-blue-500 text-[1.125rem]"></i>
         </button>
       </template>
