@@ -1,211 +1,185 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="grid bg-white border rounded-xl w-full">
-      <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl">
-        <h2 class="text-xl">
-          Information
-        </h2>
-        <div v-if="showButtons" class="flex space-x-2 ml-auto">
-          <button
-            :disabled="cancelLoading "
-            type="button"
-            class="button-text button-sm"
-            @click="cancelEditField"
-          >
-            Cancel
-            <SingleLoader v-if="cancelLoading" class="mr-2" />
-          </button>
-          <button-spinner
-            :loading="isLoading"
-            type="button"
-            class="button-fill button-sm"
-            @click="updateProfile"
-          >
-            Save
-          </button-spinner>
-        </div>
-      </div>
-      <div class="grid gap-6 p-4">
-        <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
-          Owner
-        </p>
-        <div class="flex flex-col items-center">
-          <div>
-            <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
-          </div>
-          <div class="capitalize font-normal flex space-x-2 text-xl mt-2">
-            <GwInputField
-              v-model="clientInfo.firstName"
-              placeholder="First name"
-              type="text"
-              :align-right="true"
-              class="text-xl capitalize text-right"
-              @input="focusField"
-            />
-            <GwInputField
-              v-model="clientInfo.lastName"
-              placeholder="Last name"
-              type="text"
-              class="text-xl capitalize"
-              @input="focusField"
-            />
+    <div v-if="clientInfo" class="grid bg-white border rounded-xl w-full p-2">
+      <form>
+        <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl z-40">
+          <h2 class="text-xl">
+            Information
+          </h2>
+          <div v-if="showButtons" class="flex space-x-2 ml-auto">
+            <button
+              :disabled="cancelLoading "
+              type="button"
+              class="button-text button-sm"
+              @click="cancelEditField"
+            >
+              Cancel
+              <SingleLoader v-if="cancelLoading" class="mr-2" />
+            </button>
+            <button-spinner
+              :loading="isLoading"
+              type="button"
+              class="button-fill button-sm"
+              @click="updateProfile"
+            >
+              Save
+            </button-spinner>
           </div>
         </div>
-
-        <p class="text-xs text-gray-400 text-center">
-          Click on text to edit
-        </p>
-        <dl class="grid gap-6">
-          <div class="flex space-x-4 xl:space-x-6">
-            <i
-              class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-envelope"
-            ></i>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
-              <div>
+        <div class="grid gap-6 p-4">
+          <div class="h-40 bg-blue-50 rounded-xl mb-6">
+            <div class="mt-6 flex flex-col items-center ">
+              <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
+              <div class="flex space-x-2 mt-2">
                 <GwInputField
-                  v-model="clientInfo.phoneNumber"
-                  placeholder="Type here"
-                  type="tel"
-                  label="Telephone"
-                  class="mt-1"
+                  v-model="clientInfo.firstName"
+                  placeholder="First name"
+                  type="text"
+                  autocomplete="text"
+                  :align-right="true"
+                  class="text-xl capitalize text-right"
                   @input="focusField"
                 />
-              </div>
-              <div class="place-self-auto">
-                <dt class="input-text-label">
-                  Email
-                </dt>
-                <dd class="truncate">
-                  {{ clientInfo && clientInfo.email }}
-                </dd>
+                <GwInputField
+                  v-model="clientInfo.lastName"
+                  placeholder="Last name"
+                  autocomplete="text"
+                  type="text"
+                  class="text-xl capitalize"
+                  @input="focusField"
+                />
               </div>
             </div>
           </div>
-          <div class="flex space-x-4 xl:space-x-6">
-            <i
-              class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0 text-gray-500 bg-gray-100 ns-location-alt"
-            ></i>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
-              <div>
-                <dt class="input-text-label">
-                  Country
-                </dt>
-                <select v-model="clientInfo.location" autocomplete="country" @input="focusField">
-                  <option :value="null" selected disabled>
-                    click here
-                  </option>
-                  <option v-for="country in countries" :key="country.numericCode">
-                    {{ country.name }}
-                  </option>
-                </select>
+          <!-- Personal Information -->
+          <div>
+            <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+              Personal Information
+            </p>
+            <div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+                <div>
+                  <PhoneComponent v-model="clientInfo.phoneNumber" label="Telephone" @input="focusField" />
+                </div>
+                <div class="place-self-auto mt-1">
+                  <dt class="input-text-label">
+                    Email Address
+                  </dt>
+                  <dd class="truncate information_box">
+                    {{ clientInfo && clientInfo.email }}
+                  </dd>
+                </div>
               </div>
-              <div class="place-self-auto">
-                <GwInputField
-                  v-model="clientInfo.city"
-                  placeholder="Type here"
-                  type="text"
-                  label="City"
-                  @input="focusField"
-                />
-              </div>
-              <div class>
-                <div class>
-                  <div>
-                    <GwInputField
-                      v-model="clientInfo.zip"
-                      placeholder="Type here"
-                      type="text"
-                      label="Post Code"
-                      @input="focusField"
-                    />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+                <div class="w-full">
+                  <dt class="input-text-label">
+                    Country
+                  </dt>
+                  <div class="information_box">
+                    <select v-model="clientInfo.location" autocomplete="country" @input="focusField">
+                      <option :value="null" selected disabled>
+                        click here
+                      </option>
+                      <option v-for="country in countries" :key="country.numericCode">
+                        {{ country.name }}
+                      </option>
+                    </select>
                   </div>
+                </div>
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.city"
+                    placeholder="Type here"
+                    type="text"
+                    label="City"
+                    autocomplete="text"
+                    class-name="information_box"
+                    class="w-full"
+                    @input="focusField"
+                  />
+                </div>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.zip"
+                    placeholder="Type here"
+                    type="text"
+                    autocomplete="text"
+                    label="Post Code/ Zip Code"
+                    class-name="information_box"
+                    @input="focusField"
+                  />
                 </div>
               </div>
             </div>
           </div>
-        </dl>
-      </div>
-      <!-- dog details -->
-      <div class="grid gap-6 p-4">
-        <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
-          DOG DETAILS
-        </p>
-        <p class="text-xs text-gray-400 text-center">
-          Click on text to edit
-        </p>
-        <dl class="flex flex-col space-y-6">
-          <div class="flex space-x-4 xl:space-x-6">
-            <div
-              class="p-1 h-12 w-12 mb-4 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"
-            >
-              <img class="h-5 w-5" src="~/assets/img/svgs/pawn.svg" alt="dog paw" />
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
-              <div>
-                <GwInputField
-                  v-model="clientInfo.pet[0].name"
-                  label="Dog name"
-                  placeholder="Type here"
-                  type="text"
-                  @input="focusField"
-                />
+
+          <!-- Dog Details -->
+          <div class="mt-6">
+            <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
+              Dog Details
+            </p>
+            <div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.pet[0].name"
+                    label="Dog name"
+                    placeholder="Type here"
+                    type="text"
+                    autocomplete="text"
+                    class-name="information_box"
+                    @input="focusField"
+                  />
+                </div>
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.pet[0].breed"
+                    placeholder="Type here"
+                    label="Breed"
+                    type="text"
+                    autocomplete="text"
+                    class-name="information_box"
+                    @input="focusField"
+                  />
+                </div>
               </div>
-              <div>
-                <GwInputField
-                  v-model="clientInfo.pet[0].breed"
-                  placeholder="Type here"
-                  label="Breed"
-                  type="text"
-                  @input="focusField"
-                />
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+                <div>
+                  <GwInputField
+                    v-model="clientInfo.pet[0].age"
+                    placeholder="Type here"
+                    type="text"
+                    autocomplete="text"
+                    label="Age"
+                    class-name="information_box"
+                    @input="focusField"
+                  />
+                </div>
+                <div>
+                  <dt class="input-text-label">
+                    Behavioural Problems
+                  </dt>
+                  <dd class="information_box text-gray-400">
+                    {{ clientInfo && clientInfo.behaviour }}
+                  </dd>
+                </div>
               </div>
-              <div>
-                <GwInputField
-                  v-model="clientInfo.pet[0].age"
-                  placeholder="Type here"
-                  type="text"
-                  label="Age"
-                  @input="focusField"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-grow space-x-4 xl:space-x-6">
-            <div
-              class="p-1 h-12 w-12 mb-4 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"
-            >
-              <img class="h-5 w-5" src="~/assets/img/svgs/behaviour.svg" alt="dog paw" />
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full">
-              <div>
-                <dt class="input-text-label">
-                  Behavioural Problems
-                </dt>
-                <dd class="mt-1 text-gray-400">
-                  {{ clientInfo && clientInfo.behaviour }}
-                </dd>
-              </div>
-            </div>
-          </div>
-          <div class="flex flex-grow space-x-4 xl:space-x-6">
-            <div
-              class="p-1 h-12 w-12 mb-4 rounded-full flex items-center justify-center flex-shrink-0 bg-gray-100"
-            >
-              <img class="h-5 w-5" src="~/assets/img/svgs/notes.svg" alt="dog paw" />
-            </div>
-            <div class="grid gap-6 flex-grow flex-wrap w-full">
-              <div>
-                <dt class="input-text-label">
-                  Owner's Notes
-                </dt>
-                <dd class="mt-1 truncate">
-                  {{ clientInfo && clientInfo.notes }}
-                </dd>
+              <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
+                <div>
+                  <dt class="input-text-label">
+                    Owner's Notes
+                  </dt>
+                  <dd class="information_text-area truncate">
+                    {{ clientInfo && clientInfo.notes }}
+                  </dd>
+                </div>
               </div>
             </div>
           </div>
-        </dl>
-      </div>
+        </div>
+      </form>
     </div>
   </async-view>
 </template>
@@ -319,4 +293,18 @@ textarea,
 select {
   @apply border-0 bg-none bg-transparent shadow-none appearance-none focus:outline-none overflow-hidden;
 }
+.information_box{
+    height: 2.5rem;
+    border: 1px solid #E2E8F0;
+    padding: 7px 12px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
+  .information_text-area{
+    height: 6rem;
+    border: 1px solid #E2E8F0;
+    padding: 7px 12px;
+    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+  }
 </style>

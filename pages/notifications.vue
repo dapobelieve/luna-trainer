@@ -2,7 +2,7 @@
   <div
     style="height: calc(100vh - 2px)"
     :class="[
-      'fixed w-full lg:left-56 xl:left-64 left-0 z-10 bg-gray-50 bg-opacity-95']"
+      'fixed w-full lg:left-56 xl:left-64 left-0 z-10']"
   >
     <div class="relative p-0 sm:p-3 h-full  flex justify-center lg:justify-start" @click.stop="$router.go(-1)">
       <transition
@@ -33,7 +33,7 @@
             <slot name="search" />
           </div>
           <div v-if="notifications && notifications.length" class="px-1 pb-20 lg:pb-1">
-            <div v-for="n in notifications" :key="n.index" class="">
+            <div v-for="n in notifications" :key="n.index" class="mb-2 last:mb-0">
               <NewClient v-if="n.type === 'INVITE_REQUEST_ACCEPTED'" :notification="n" />
             </div>
           </div>

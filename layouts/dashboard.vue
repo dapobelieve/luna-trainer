@@ -52,7 +52,7 @@ export default {
       Object.entries(this.$auth.user).length === 0 &&
       tokenValidity
     ) {
-      this.$router.replace({ name: 'Auth-onboardingProfileSetup' }).then(() => {
+      this.$router.replace({ name: 'auth-onboarding' }).then(() => {
         this.endFullPageLoad()
       })
     } else {
@@ -124,7 +124,7 @@ export default {
     },
     // events for sendbird
     onMessageReceived (channel, message) {
-      if (this.$route.name === 'Dashboard') {
+      if (this.$route.name === 'dashboard') {
         if (
           Object.keys(this.connectedChannels).length === 0 &&
           this.connectedChannels.constructor === Object &&

@@ -16,13 +16,17 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchNotifications ({ commit }) {
-    const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/notifications`)
+  async fetchNotifications ({ commit, dispatch }) {
+    const res = await this.$axios.$get(
+      `${process.env.BASEURL_HOST}/notifications`
+    )
     res.data.notifications.map(item => commit('setNotification', item))
   },
 
   async readNotification ({ dispatch }, payload) {
-    await this.$axios.patch(`${process.env.BASEURL_HOST}/notifications/${payload.id}/read`)
+    await this.$axios.patch(
+      `${process.env.BASEURL_HOST}/notifications/${payload.id}/read`
+    )
     dispatch('fetchNotifications')
   }
 }

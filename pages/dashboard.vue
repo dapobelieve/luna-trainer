@@ -39,7 +39,10 @@
         before proceeding to creating invoices.
       </template>
     </NotificationsModal>
-    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+    <NotificationsModal
+      :visible="showNotification"
+      @close="showNotification = $event"
+    >
       <template v-slot:title>
         Chat Connection Failed
       </template>
@@ -82,6 +85,13 @@ export default {
   name: 'Dashboard',
   components: { DashboardClients },
   layout: 'dashboard',
+  async asyncData ({ store }) {
+    const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
+      status: 'accepted',
+      limit: 2
+    })
+    return { acceptedClients }
+  },
   data () {
     return {
       intro: null,
@@ -123,10 +133,15 @@ export default {
 
     const getTime = localStorage.getItem('dashboardFirstVisit')
     if (!getTime) {
-      
+      this.$modal.show('welcome-modal')
       localStorage.setItem('dashboardFirstVisit', Date.now())
     }
-    this.$modal.show('welcome-modal')
+    
+    this.fetchPaidInvoices({ status: 'paid', limit: 5 })
+      .then((r) => {
+        this.paidInvoices = r
+      })
+      .catch(e => console.error(e))
   },
   updated () {
     this.$nextTick(() => {
@@ -176,7 +191,6 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
-      fetchAcceptedClients: 'client/fetchClientsWithStatusAndLimit',
       connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
     }),
     retry () {
@@ -223,6 +237,5 @@ export default {
       }
     }
   }
-  
 }
 </style>

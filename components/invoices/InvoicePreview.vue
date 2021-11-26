@@ -24,7 +24,7 @@
         <containers-container-with-title class="">
           <template v-slot:headerbox>
             <span class="text-xl capitalize">
-              getwelp limited
+              {{ $auth.user.businessName }}
             </span>
           </template>
           <template v-slot:content>
@@ -105,10 +105,10 @@
           <template v-slot:headerbox>
             <div>
               <h2 class="text-xl capitalize">
-                getwelp limited
+                {{ $auth.user.businessName }}
               </h2>
-              <span class="text-sm">
-                Tel: +44 000 000 0000
+              <span v-if="Boolean($auth.user.phoneNumber)" class="text-sm">
+                Tel: {{ $auth.user.phoneNumber }}
               </span>
             </div>
           </template>

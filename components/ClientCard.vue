@@ -1,6 +1,6 @@
 <template>
   <containers-summary-information-with-avatar
-    url="client-id-Information"
+    url="client-id-information"
     :parameter="{ id: client._id }"
   >
     <template v-slot:avatar>

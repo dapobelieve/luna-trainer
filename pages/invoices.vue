@@ -14,7 +14,7 @@
               </span>
               <div
                 v-show="showDrop"
-                class="origin-top-right absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+                class="origin-top-right cursor-pointer absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
               >
                 <div class="py-1" role="none">
                   <a
