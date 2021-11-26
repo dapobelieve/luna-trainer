@@ -17,6 +17,11 @@ import UserAvatar from '~/components/util/ClientAvatar'
 export default {
   components: { UserAvatar },
   props: ['notification'],
+  computed: {
+    date () {
+      return this.$dateFns.formatDistanceToNow(new Date(this.notification.createdAt), { addSuffix: true })
+    }
+  },
   methods: {
     async userProfile () {
       await this.$store.dispatch('notifications/readNotification', { id: this.notification._id })

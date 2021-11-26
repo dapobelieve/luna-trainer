@@ -3,7 +3,17 @@
     <article>
       <div class="grid gap-4">
         <!-- dashboard intro -->
-        <dashboard-intro-card />
+        <div class="rounded-xl border bg-white shadow-sm overflow-hidden">
+          <div class="font-normal p-4 pt-5 flex flex-col space-y-2">
+            <h1 class="capitalize text-3xl">
+              hey {{ $auth.user.firstName }}!
+            </h1>
+            <p class="text-gray-500">
+              Welcome back! If you need the GetWelp Team’s help with anything, just pop us a message in the live chat below!
+            </p>
+          </div>
+          <dashboard-status-card />
+        </div>
 
         <div class="grid md:grid-cols-2 gap-4">
           <div class="grid gap-4">
@@ -48,6 +58,23 @@
         </button>
       </template>
     </NotificationsModal>
+    <modal name="welcome-modal">
+      <div class="grid m-6">
+        <div class="py-0">
+          <div class="text-center mb-10 font-medium text-2xl">
+            <h3>Welcome to your Getwelp Dashboard</h3>
+          </div>
+          <p class="text-center mb-8 w-50">
+            Some information about getwelp and things that <br> can be done on the dashboard
+          </p>
+          <div class="flex justify-center gap-5">
+            <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="tour()">
+              start tour
+            </button>
+          </div>
+        </div>
+      </div>
+    </modal>
   </main>
 </template>
 
@@ -67,6 +94,7 @@ export default {
   },
   data () {
     return {
+      intro: null,
       openBankModal: false,
       showNotification: false,
       paidInvoices: [],
@@ -100,6 +128,15 @@ export default {
   },
   mounted () {
     this.fetchUserProfile()
+    this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
+    this.fetchAcceptedClients({ status: 'accepted', limit: 2 }).then((r) => { this.acceptedClients = r }).catch(e => console.error(e))
+
+    const getTime = localStorage.getItem('dashboardFirstVisit')
+    if (!getTime) {
+      this.$modal.show('welcome-modal')
+      localStorage.setItem('dashboardFirstVisit', Date.now())
+    }
+    
     this.fetchPaidInvoices({ status: 'paid', limit: 5 })
       .then((r) => {
         this.paidInvoices = r
@@ -116,6 +153,41 @@ export default {
     })
   },
   methods: {
+    tour () {
+      this.$modal.hide('welcome-modal')
+      this.$intro()
+        .setOptions({
+          hidePrev: true,
+          steps: [
+            {
+              element: document.querySelector('#introjs-step-1'),
+              intro: 'Click here to connect your stripe account'
+            },
+            {
+              element: document.querySelector('#introjs-step-2'),
+              intro: 'Add your first client here',
+              position: 'left'
+            },
+            {
+              element: document.querySelector('#introjs-step-3'),
+              intro: 'Click here to manage all your clients',
+              position: 'right'
+            },
+            {
+              element: document.querySelector('#introjs-step-4'),
+              intro: 'Click here generate new invoice for your clients',
+              position: 'right'
+            },
+            {
+              element: document.querySelector('#introjs-step-5'),
+              intro: 'Here you can manages messages received  from your clients',
+              position: 'right'
+            }
+          ]
+        })
+        .start()
+      this.$intro().showHints()
+    },
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
@@ -134,4 +206,36 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+.introjs-tooltip {
+  background-color: #3B82F6;
+  border-radius: 12px;
+  &-header  {
+    display: none;
+  }
+  .introjs-tooltiptext {
+    color: #fff;
+    padding: 16px;
+    font-size: 14px;
+    font-weight: 400;
+  }
+  .introjs-bullets {
+    display: none;
+  }
+  .introjs-tooltipbuttons {
+    border: none;
+    a {
+      padding: 6px 16px 6px 16px;
+      color: #3B82F6;
+      background: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 10px;
+      font-weight: 500;
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
+}
+</style>

@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
@@ -51,6 +52,7 @@ export default {
     { src: '~plugins/persistedState.client.js' },
     { src: '~plugins/intercom.js', ssr: false },
     { src: '~/plugins/axios.js' },
+    { src: '~/plugins/intro.js', ssr: false },
     { src: '~/plugins/errorHandler.js' },
     { src: '~/plugins/sendBird' },
     { src: '~/plugins/vClickOutside', ssr: false },
@@ -73,7 +75,7 @@ export default {
   },
 
   buildModules: [
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],
@@ -147,6 +149,11 @@ export default {
           ]
         }
       }
-    }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        introJs: ['intro.js']
+      })
+    ]
   }
 }
