@@ -129,14 +129,13 @@ export default {
   mounted () {
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
-    this.fetchAcceptedClients({ status: 'accepted', limit: 2 }).then((r) => { this.acceptedClients = r }).catch(e => console.error(e))
 
     const getTime = localStorage.getItem('dashboardFirstVisit')
     if (!getTime) {
       this.$modal.show('welcome-modal')
       localStorage.setItem('dashboardFirstVisit', Date.now())
     }
-    
+
     this.fetchPaidInvoices({ status: 'paid', limit: 5 })
       .then((r) => {
         this.paidInvoices = r
