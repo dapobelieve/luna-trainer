@@ -147,11 +147,11 @@ export const actions = {
   uploadProfileImage ({ commit }, payload) {
     return this.$axios
       .$patch(
-               `${process.env.BASEURL_HOST}/profile/upload-image`,
-               payload,
-               {
-                 headers: { 'Content-Type': 'multipart/form-data' }
-               }
+        `${process.env.BASEURL_HOST}/profile/upload-image`,
+        payload,
+        {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        }
       )
       .then((response) => {
         commit('SET_GETWELP_USER', response.data)
@@ -160,6 +160,9 @@ export const actions = {
   },
   async getServices ({ commit }, payload) {
     return await this.$axios.$get(`${process.env.BASEURL_HOST}/profile/services`)
+  },
+  async deleteService ({ commit }, serviceId) {
+    return await this.$axios.$delete(`${process.env.BASEURL_HOST}/profile/services/${serviceId}`)
   }
 }
 export const getters = {
@@ -169,9 +172,9 @@ export const getters = {
     state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
   isStripeReady: state =>
     state.getWelpUser.stripe &&
-           state.getWelpUser.stripe.capabilities &&
-           state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
-           state.getWelpUser.stripe.capabilities.transfers === 'active' &&
-           state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
-             'active'
+    state.getWelpUser.stripe.capabilities &&
+    state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
+    state.getWelpUser.stripe.capabilities.transfers === 'active' &&
+    state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
+    'active'
 }

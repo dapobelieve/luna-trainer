@@ -21,7 +21,7 @@
           </p>
         </div>
       </li>-->
-      <li class="hover:bg-gray-100 p-1 pr-3 rounded-md">
+      <li id="introjs-step-1" class="hover:bg-gray-100 p-1 pr-3 rounded-md">
         <div
           v-if="isStripeConnected && isStripeReady"
           class="flex items-center space-x-2"
@@ -77,7 +77,7 @@
           </p>
         </div>
       </li>
-      <li class="hover:bg-gray-100 p-1 pr-3 rounded-md">
+      <li id="introjs-step-2" class="hover:bg-gray-100 p-1 pr-3 rounded-md">
         <div class="flex items-center space-x-2">
           <SingleLoader v-if="$store.state.client.isLoading" />
           <template v-else>

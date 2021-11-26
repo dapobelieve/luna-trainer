@@ -93,6 +93,7 @@ export default {
   auth: false,
   data () {
     return {
+      showPassword: false,
       showOldPassword: false,
       showNewPassword: false,
       isLoading: false,
@@ -119,15 +120,18 @@ export default {
       }
     }
   },
+  mounted () {
+    console.log('Here')
+  },
   methods: {
     async reset () {
       if (this.userInfo) {
         this.isLoading = true
-        await this.$store.dispatch('authorize/resetPassword', this.userInfo).then((response) => {
+        await this.$store.dispatch('authorize/resetpassword', this.userInfo).then((response) => {
           if (response.status === 'successful') {
             this.$auth.strategy.token.reset()
             this.$gwtoast.success('Reset successful')
-            this.$router.push({ name: 'Auth-SignIn' })
+            this.$router.push({ name: 'auth-signin' })
           }
         }).catch((err) => {
           if (err.response) {

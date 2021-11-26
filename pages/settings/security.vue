@@ -36,55 +36,68 @@
               Your Email
             </h6>
             <p class="text-gray-500 text-sm">
-              email@getwelp.com
+              {{ $auth.user.email }}
             </p>
           </div>
           <div>
-            <button disabled class="text-gray-200 font-medium text-sm" @click="$modal.show('change-email-modal')">
+            <button class="text-primary-color font-medium text-sm" @click="$modal.show('change-email-modal')">
               Change Email
             </button>
           </div>
         </div>
       </div>
-      <div v-if="!true">
+      <div v-show="secondaryEmail">
         <div class="flex justify-between items-center">
           <div>
             <h6 class="text-grey-700 font-medium text-lg mb-1">
               Your Email
             </h6>
             <p class="text-gray-500 text-sm">
-              We have sent a verification link to newemail@email.com. <br>
+              We have sent a verification link to {{ secondaryEmail }}. <br>
               Please confirm your email to complete the setup.
             </p>
           </div>
           <div>
-            <button class="text-primary-color font-medium text-sm">
+            <button class="text-primary-color font-medium text-sm" @click="cancelChange">
               Cancel
             </button>
           </div>
         </div>
       </div>
     </div>
-    <modal name="change-email-modal" height="auto" :adaptive="true">
-      <ChangeEmailComponent
-        class="m-6"
-        @close-modal="$modal.hide('change-email-modal')"
-      />
-    </modal>
-    <modal name="change-password-modal" height="auto" :adaptive="true">
-      <ChangePasswordComponent
-        class="m-6"
-        @close-modal="$modal.hide('change-password-modal')"
-      />
-    </modal>
+    <ChangeEmailComponent
+      @display-cancel-change="cancelEmailChange = true"
+    />
+    <ChangePasswordComponent />
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent'
 import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
 export default {
-  components: { ChangeEmailComponent, ChangePasswordComponent }
+  components: { ChangeEmailComponent, ChangePasswordComponent },
+  computed: {
+    secondaryEmail () {
+      return this.$auth.user.secondaryEmail
+    }
+  },
+  methods: {
+    ...mapActions({
+      fetchUserProfile: 'profile/getUserProfile'
+    }),
+    async  cancelChange () {
+      this.isLoading = true
+      try {
+        await this.$store.dispatch('authorize/cancelChangeEmail', { ...this.form })
+        this.$gwtoast.success('Successfully cancelled ')
+        await this.fetchUserProfile()
+      } catch (e) {
+        this.$gwtoast.error(e.response.data.message)
+      }
+    }
+  }
 }
 </script>
 

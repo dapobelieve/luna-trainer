@@ -38,6 +38,7 @@
                       'Courses'
                     ].includes(menu.path)
                 "
+                :id="menu.id || ''"
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
                 :class="[$route.path.includes(menu.title) ? 'active': '']"
@@ -166,6 +167,7 @@
               </button>
               <button
                 v-else-if="menu.path === 'messages'"
+                :id="menu.id || ''"
                 :class="[$route.path.includes(menu.title) ? 'active': '']"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
                 @click="$router.push({name: 'messages'})"
@@ -266,7 +268,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
 export default {
   name: 'Navigation',
@@ -327,6 +329,7 @@ export default {
     }
 
     const url = new URL(process.env.BASEURL_HOST)
+    // eslint-disable-next-line
     const socket = io(`${url.origin}`,
       {
         path: `${url.pathname}/socket.io`,
@@ -339,10 +342,17 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
+      const { type } = data
+      if (type === 'INVITE_REQUEST_ACCEPTED') {
+        this.localUpdateClient(data.data)
+      }
       this.$store.commit('notifications/setNotification', data)
     })
   },
   methods: {
+    ...mapMutations({
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
+    }),
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
@@ -370,7 +380,7 @@ export default {
         c => c.sendbirdId === user.userId
       )
       this.$router.push({
-        name: 'Client-id-Messages',
+        name: 'client-id-Messages',
         params: { id: client._id }
       })
     },

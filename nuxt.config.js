@@ -1,3 +1,4 @@
+import webpack from 'webpack'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
@@ -23,13 +24,13 @@ export default {
         rel: 'stylesheet',
         href:
           'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
-      },
+      }
     ],
     script: [
-      { 
-        src: "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js", 
+      {
+        src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js',
         async: true
-      },
+      }
     ]
   },
 
@@ -51,6 +52,7 @@ export default {
     { src: '~plugins/persistedState.client.js' },
     { src: '~plugins/intercom.js', ssr: false },
     { src: '~/plugins/axios.js' },
+    { src: '~/plugins/intro.js', ssr: false },
     { src: '~/plugins/errorHandler.js' },
     { src: '~/plugins/sendBird' },
     { src: '~/plugins/vClickOutside', ssr: false },
@@ -66,13 +68,14 @@ export default {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
     STRIPE_RETURN: process.env.STRIPE_RETURN,
+    SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
     sendBirdAppId: process.env.SENDBIRD_APP_ID
   },
 
   buildModules: [
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],
@@ -146,6 +149,11 @@ export default {
           ]
         }
       }
-    }
+    },
+    plugins: [
+      new webpack.ProvidePlugin({
+        introJs: ['intro.js']
+      })
+    ]
   }
 }

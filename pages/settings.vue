@@ -56,7 +56,7 @@ export default {
         },
         {
           name: 'services',
-          icon: 'ns-circle',
+          icon: 'fi-rr-hand-holding-heart',
           details: 'What type of things do you offer?',
           route: 'settings-services'
         },
