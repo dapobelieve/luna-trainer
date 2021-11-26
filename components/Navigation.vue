@@ -325,7 +325,7 @@ export default {
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
-      console.log()
+      console.log(e)
     }
 
     const url = new URL(process.env.BASEURL_HOST)

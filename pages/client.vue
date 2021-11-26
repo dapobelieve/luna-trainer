@@ -90,8 +90,7 @@ export default {
       thisUser: state => state.sendBird.tempClient
     }),
     ...mapGetters({
-      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount',
-      isOnline: 'sendBird/isUserOnline'
+      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount'
     }),
     firstName () {
       return (this.clientInfo && this.clientInfo.firstName) || ''
@@ -129,7 +128,6 @@ export default {
     }),
     ...mapActions({
       getClientProfile: 'client/getSingleClientById',
-      getSendbirdUser: 'sendBird/getUser',
       isUserOnline: 'sendBird/isUserOnline'
     }),
     showDropdown () {

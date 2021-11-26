@@ -4,7 +4,10 @@
     style="height: calc(100vh - 5.5rem);"
   >
     <div class="relative h-full">
-      <div v-show="isUploading" class="flex flex-col justify-between h-full bg-black absolute right-0 left-0 z-10">
+      <div
+        v-show="isUploading"
+        class="flex flex-col justify-between h-full bg-black absolute right-0 left-0 z-10"
+      >
         <div class="flex justify-between bg-white pt-5 px-4 pb-2">
           <p class="text-gray-700 text-xl font-normal">
             Preview
@@ -20,9 +23,7 @@
             :src="fileImage"
           />
         </div>
-        <div
-          class="bg-white flex justify-between items-center p-4"
-        >
+        <div class="bg-white flex justify-between items-center p-4">
           <div
             class="overflow-hidden relative rounded-lg"
             style="border: 3px solid #3B82F6;"
@@ -40,7 +41,11 @@
               <i class="ns-cross text-md text-white"></i>
             </button>
           </div>
-          <button class="button-fill button-sm w-11" style="height: 40px" @click="sendFile">
+          <button
+            class="button-fill button-sm w-11"
+            style="height: 40px"
+            @click="sendFile"
+          >
             <i class="ns-paper-plane text-xl"></i>
           </button>
         </div>
@@ -78,13 +83,34 @@
               <li
                 v-if="msg._sender.userId === sender"
                 class="me flex justify-end pl-6"
+                @dblclick="replyParentMessageWithText(msg)"
               >
+                <small class="self-end text-xs mr-1.5">
+                  <!-- <img
+                    v-if="msg.sendingStatus === 'succeeded'"
+                    class="text-center inline-block h-3"
+                    src="~/assets/img/svgs/checkmark-done-outline.svg"
+                    alt
+                    srcset
+                  /> -->
+                  <img
+                    v-if="msg.sendingStatus === 'succeeded'"
+                    class="text-center inline-block h-3"
+                    src="~/assets/img/svgs/checkmark-outline.svg"
+                    alt
+                    srcset
+                  />
+                  <span class="">{{
+                    new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
+                  }}</span>
+                </small>
                 <span
                   v-if="msg.messageType === 'file'"
                   class="msg overflow-hidden"
+                  @click="viewImage(msg)"
                 >
                   <img
-                    class="bg-white"
+                    class="bg-white cursor-pointer"
                     :src="msg.imaging || msg.url"
                     style="max-width: 250px"
                   />
@@ -97,7 +123,11 @@
                   {{ msg.message }}
                 </div>
               </li>
-              <li v-else class="you flex items-end pr-6">
+              <li
+                v-else
+                class="you flex items-end pr-6"
+                @dblclick="replyParentMessageWithText(msg)"
+              >
                 <ClientAvatar
                   v-if="msg._sender.profileUrl"
                   class="mr-2 flex-shrink-0"
@@ -114,13 +144,24 @@
                 />
                 <span
                   v-if="msg.messageType === 'file'"
-                  class="msg overflow-hidden"
+                  class="msg overflow-hidden border"
+                  @click="viewImage(msg)"
                 >
-                  <img class="bg-white max-w-[16rem]" :src="msg.url" />
+                  <img
+                    class="bg-white max-w-[16rem] max-h-[13.4rem] cursor-pointer"
+                    :src="msg.url"
+                  />
                 </span>
-                <div v-else class="msg p-2 max-w-lg break-all">
+                <div
+                  v-else
+                  class="msg p-2 max-w-lg break-all"
+                  @dblclick="replyParentMessageWithText(msg)"
+                >
                   {{ msg.message }}
                 </div>
+                <small class="ml-2 text-xs">{{
+                  new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
+                }}</small>
               </li>
             </div>
           </template>
@@ -147,6 +188,39 @@
             {{ fileToBeSent.name }} file is uploading...
           </div>
           <form class="w-full" @submit.prevent="sendChat">
+            <div
+              v-if="replyToThread"
+              class="h-auto px-6 py-2 bg-gray-100 flex items-center justify-between"
+            >
+              <div
+                :class="[
+                  replyToThread.messageType === 'file'
+                    ? 'h-[4.93rem]'
+                    : 'h-[3.67rem]',
+                  'mr-4 rounded-md border-l-[5px] py-2 px-3 bg-gray-200 w-full border-blue-500 overflow-hidden'
+                ]"
+              >
+                <p class="font-medium text-blue-500 capitalize">
+                  {{
+                    replyToThread._sender.nickname === $auth.user.firstName
+                      ? "you"
+                      : replyToThread._sender.nickname
+                  }}
+                </p>
+                <p v-if="replyToThread.messageType === 'user'" class="">
+                  {{ replyToThread.message }}
+                </p>
+                <img
+                  v-else
+                  class="text-center inline-block h-10 w-10"
+                  :src="replyToThread.url"
+                  alt
+                />
+              </div>
+              <button type="button" @click="replyToThread = null">
+                <i class="ns-cross text-lg text-blue-500"></i>
+              </button>
+            </div>
             <div
               class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
             >
@@ -183,6 +257,7 @@
                   @change="onChange"
                 />
                 <button
+                  v-show="!replyToThread"
                   class="button-text button-sm w-8 ml-2"
                   type="button"
                   @click="showUpload = !showUpload"
@@ -208,11 +283,27 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
+import sendBirdEvents from '../../../mixins/sendBirdEvents'
 export default {
   name: 'Messages',
+  mixins: [sendBirdEvents],
+  async asyncData ({ params, store }) {
+    try {
+      const res = await store
+        .dispatch('client/getSingleClientById', params.id)
+        .then(res => res)
+      return { client: res }
+    } catch (error) {
+      console.log('error fetching client profile ', error)
+    }
+  },
   data () {
     return {
+      client: null,
+      channelUrl: null,
       isChannelLoading: true,
+      replyToThread: null,
+      parentMessageId: 0,
       uploadingFileToSb: false,
       isUploading: false,
       id: this.$route.params.id,
@@ -222,15 +313,14 @@ export default {
       fileImage: null,
       fileToBeSent: null,
       messageHistory: [],
-      messageSentStatus: false,
-      messageDeliveryStatus: false,
       channel: null,
       clientIsReady: true
     }
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
+      connectedChannels: state => state.sendBird.connectedChannels,
+      isSendbirdConnected: state => state.sendBird.sendbirdConnected
     }),
     sender () {
       return this.$auth.user.sendbirdId
@@ -243,51 +333,73 @@ export default {
     }
   },
   watch: {
+    isSendbirdConnected: {
+      async handler (newValue, oldValue) {
+        if (
+          (newValue || oldValue) &&
+          this.client !== null &&
+          this.$store.state.sendBird.sendbirdChannels === 'not fetching'
+        ) {
+          if (this.client.status === 'accepted') {
+            const conversations = await this.checkIfConversationExits(
+              this.client.sendbirdId
+            )
+            if (!conversations || conversations === undefined) {
+              try {
+                const createdChannel = await this.createPrivateChannel(
+                  this.client.sendbirdId
+                )
+                this.channelUrl = createdChannel.url
+                this.channel = createdChannel
+                return
+              } catch (error) {
+                this.errorCreatingChannel = true
+                return
+              } finally {
+                this.isChannelLoading = false
+              }
+            }
+            this.existingChannel(conversations)
+            return
+          }
+          this.clientIsReady = false
+          this.isChannelLoading = false
+        }
+      },
+      immediate: true
+    },
     value (newVal, oldVal) {
       if (newVal === '') {
         this.$refs.chatArea.style.height = '55px'
       }
     }
   },
-  mounted () {
-    const channelHandler = new this.$sb.ChannelHandler()
-    channelHandler.onMessageReceived = this.onMessageReceived
-    // Add this channel event handler to the `SendBird` instance.
-    this.$sb.addChannelHandler('msgHandler', channelHandler)
-  },
-  async created () {
-    try {
-      await this.getClientProfile(this.id).then(async (response) => {
-        await response
-        if (response.status === 'invited') {
-          this.clientIsReady = false
-          this.isChannelLoading = false
-        } else {
-          try {
-            await this.connectToSendBird(this.$auth.user.sendbirdId).then(async () => {
-              await this.getChannelListing().then(() => {
-                this.checkChannel(response.sendbirdId).then((res) => {
-                  if (res === undefined) {
-                    this.createChannel(response.sendbirdId)
-                  } else if (res) {
-                    this.existingChannel(res)
-                  } else if (!res) {
-                    this.errorCreatingChannel = true
-                    this.isChannelLoading = false
-                  }
-                })
-              })
-            })
-          } catch (error) {
-            console.log(error)
-          }
-        }
-      })
-    } catch (error) {
-      console.log('error occured ', error)
+  destroyed () {
+    if (
+      this.channelUrl !== null &&
+      this.channel.creator.userId === this.sender &&
+      !this.messageHistory.length
+    ) {
+      // since no messages were exchanged, delete channel
+      sessionStorage.setItem('deletingChannelUrl', this.channelUrl)
+      this.deleteChannel(this.channelUrl)
     }
   },
   methods: {
+    ...mapActions({
+      getClientProfile: 'client/getSingleClientById'
+    }),
+    ...mapActions('sendBird', {
+      createPrivateChannel: 'createPrivateChannel',
+      deleteChannel: 'deleteChannel',
+      checkIfConversationExits: 'checkIfConversationExits',
+      markAsRead: 'markMessageAsRead',
+      addChannel: 'addNewChannel',
+      newMessage: 'updateConnectedChannels',
+      connectToSendBird: 'connect_to_sb_server_with_userid',
+      getChannelListing: 'listOfConnectedChannels'
+    }),
+
     emitEnter (e) {
       e.preventDefault()
       this.$emit('enter-pressed')
@@ -312,98 +424,85 @@ export default {
         this.$refs.chatArea.style.height = 'auto'
       }
     },
-    ...mapActions({
-      getClientProfile: 'client/getSingleClientById'
-    }),
-    ...mapActions('sendBird', {
-      markAsRead: 'markMessageAsRead',
-      addChannel: 'addNewChannel',
-      newMessage: 'updateConnectedChannels',
-      checkChannel: 'checkIfChannelExists',
-      connectToSendBird: 'connect_to_sb_server_with_userid',
-      getChannelListing: 'listOfConnectedChannels'
-    }),
+
+    viewImage (image) {
+      this.$store.commit('sendBird/VIEW_IMAGE', {
+        imageDetails: {
+          url: image.url,
+          nickname: image._sender.nickname,
+          profileImg: image._sender.plainProfileUrl,
+          dateTime: image.createdAt
+        },
+        status: true
+      })
+    },
+
+    // fetch message history
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
-      listQuery.includeMetaArray = true // Retrieve a list of messages along with their metaarrays.
-      listQuery.includeReaction = true // Retrieve a list of messages along with their reactions.
+      listQuery.replyType = 'ONLY_REPLY_TO_CHANNEL'
+      listQuery.includeThreadInfo = true
+      // listQuery.includeParentMessageInfo = true
+
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
         if (error) {
-          // Handle error.
-          console.log('error retrieving chat', error)
+          this.$gwtoast.error('Error fetching messages', error)
         }
         if (messages) {
           this.messageHistory = messages
+          this.isChannelLoading = false
           this.$nextTick(() => {
             this.scrollFeedToBottom()
-            this.markAsRead(channel)
+            // this.markAsRead(channel)
           })
         }
       })
     },
+
+    // if an existing chat exist between trainer and current client in view
     existingChannel (groupChannel) {
       this.channel = groupChannel
+      this.channelUrl = groupChannel.url
       this.fetchMessageHistory(groupChannel)
-      this.isChannelLoading = false
     },
-    async createChannel (receiver) {
-      // this.isChannelLoading = true
-      const params = new this.$sb.GroupChannelParams()
-      params.isPublic = false
-      params.isEphemeral = false
-      params.isDistinct = true
-      params.isSuper = false
-      params.addUserIds([receiver])
-      params.operatorUserIds = [this.$auth.user.sendbirdId] // Or .operators(Array<User>)
-      await this.$sb.GroupChannel.createChannel(params, (groupChannel, error) => {
-        if (error) {
-          // Handle error.
-          console.log('error creating channel', error)
-          this.errorCreatingChannel = true
-          this.isChannelLoading = false
-        }
-        if (groupChannel) {
-          this.channel = groupChannel
-          this.fetchMessageHistory(groupChannel)
-          this.isChannelLoading = false
-          if (
-            Object.keys(this.connectedChannels).length === 0 &&
-            this.connectedChannels.constructor === Object
-          ) {
-            this.addChannel({ channel: groupChannel, message: groupChannel })
-          } else if (
-            this.connectedChannels.size &&
-            !this.connectedChannels.has(groupChannel.url)
-          ) {
-            this.newMessage({ channel: groupChannel, message: groupChannel })
-          }
-        }
-      })
-    },
+
+    // send text message
     sendChat () {
       if (this.message) {
         const params = new this.$sb.UserMessageParams()
+        params.parentMessageId = parseInt(this.parentMessageId)
         params.message = this.message
         params.mentionType = 'users' // Either 'users' or 'channel'
-        params.mentionedUserIds = [this.receiver]
         params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
             // Handle error.
-            console.log('error sending messge', error)
+            this.$gwtoast.error('Message not sent: ', error)
+            return
           }
           this.messageHistory.push(userMessage)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
           })
           this.message = ''
+          this.replyToThread = null
+          this.parentMessageId = 0
         })
       }
     },
+
+    // call when replying to a particular message
+    replyParentMessageWithText (msgObject) {
+      this.parentMessageId = msgObject.messageId
+      this.replyToThread = msgObject
+    },
+
+    // when sending a file message (for images only)
     sendFile () {
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
+      params.parentMessageId = parseInt(this.parentMessageId)
       params.file = this.fileToBeSent // Or .fileUrl  = FILE_URL (You can also send a file message with a file URL.)
       params.fileName = this.fileToBeSent.name
       params.fileSize = this.fileToBeSent.size
@@ -411,24 +510,27 @@ export default {
       params.mentionedUserIds = [this.receiver] // Or mentionedUsers = Array<User>;
       params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
       this.isUploading = false
-      this.$nextTick(() => {
-        this.scrollFeedToBottom()
-      })
+      // this.$nextTick(() => {
+      //   this.scrollFeedToBottom()
+      // })
       this.uploadingFileToSb = true
       this.channel.sendFileMessage(params, (fileMessage, error) => {
         if (error) {
           // Handle error.
-          console.log('error uploading file', error)
+          this.$gwtoast.error('Error uploading image')
+          console.log(error)
           this.uploadingFileToSb = false
         }
         const messageId = fileMessage.messageId
-        console.log('file id', fileMessage)
         if (messageId) {
           this.uploadingFileToSb = false
           this.messageHistory.push({
             messageId,
             imaging: this.fileImage,
             messageType: 'file',
+            createdAt: fileMessage.createdAt,
+            sendingStatus: fileMessage.sendingStatus,
+            url: fileMessage.url,
             _sender: {
               userId: this.sender
             }
@@ -441,6 +543,7 @@ export default {
         }
       })
     },
+
     uploadPhoto () {
       this.$refs.fileUpload.click()
       this.showUpload = false
@@ -464,28 +567,11 @@ export default {
       this.fileToBeSent = null
       this.$refs.fileUpload.value = ''
     },
+
+    // scroll chat feed to bottom onload
     scrollFeedToBottom () {
       const messageFeed = document.getElementById('chatBody')
       return messageFeed.scrollTo(0, messageFeed.scrollHeight)
-    },
-    onMessageReceived (channel, message) {
-      console.log(
-        'new message in the channel ',
-        channel,
-        ' the message ',
-        message
-      )
-      if (
-        this.$route.name === 'client-id-Messages' &&
-        channel.url === this.channel.url
-      ) {
-        console.log('logging in messages')
-        this.messageHistory.push(message)
-        this.$nextTick(() => {
-          this.scrollFeedToBottom()
-          this.markAsRead(channel)
-        })
-      }
     }
   }
 }
@@ -496,7 +582,7 @@ export default {
 #chatBody {
   .me,
   .you {
-    @apply pb-3;
+    @apply pb-4;
     div {
       @apply p-2 shadow-sm;
     }

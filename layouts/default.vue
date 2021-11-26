@@ -1,7 +1,13 @@
 <template>
   <async-view loader-id="logout">
     <div class="min-h-screen">
-      <GwHeader :class="{ 'hidden': $route.name === 'client-id-information' || $route.name === 'client-id-Messages' }" />
+      <GwHeader
+        :class="{
+          hidden:
+            $route.name === 'client-id-information' ||
+            $route.name === 'client-id-Messages'
+        }"
+      />
       <div class="flex">
         <invite-new-client-modal />
         <Navigation class="hidden lg:block" />
@@ -32,13 +38,58 @@
         </template>
       </NotificationsModal>
     </div>
+
+    <!-- modal -->
+    <modal
+      name="view-image"
+      height="100%"
+      width="100%"
+      :click-to-close="false"
+    >
+      <div v-if="isImageOpen">
+        <div class="bg-black flex items-center justify-between px-4 py-2 text-white">
+          <div class="flex items-center">
+            <ClientAvatar
+              :client-info="{
+                firstName: imageDetails.nickname,
+                imgUrl: imageDetails.profileImg
+              }"
+            />
+            <div class="ml-4">
+              <p class="capitalize mb-0">
+                {{ imageDetails.nickname }}
+              </p>
+              <small>
+                {{ new Date(imageDetails.dateTime).toDateString() }}
+              </small>
+            </div>
+          </div>
+          <div class="space-x-3 text-xl cursor-pointer">
+            <i class="ns-comment-alt"></i>
+            <i class="ns-download"></i>
+            <i class="ns-share"></i>
+            <i class="ns-cross" @click="closeImage"></i>
+          </div>
+        </div>
+        <div class="flex justify-center bg-black" style="height: calc(100vh - 64px)">
+          <img
+            class="w-full h-full object-contain"
+            :src="imageDetails.url"
+          />
+        </div>
+      </div>
+    </modal>
   </async-view>
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
+import sendBird from '../mixins/sendBird'
+import sendBirdEvents from '../mixins/sendBirdEvents'
+import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 export default {
   components: { InviteNewClientModal },
+  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents],
   data () {
     return {
       page: this.$route.name,
@@ -48,7 +99,9 @@ export default {
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
+      connectedChannels: state => state.sendBird.connectedChannels,
+      isImageOpen: state => state.sendBird.openImage,
+      imageDetails: state => state.sendBird.imageDetails
     }),
     ...mapGetters({
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
@@ -63,9 +116,16 @@ export default {
           }, 2000)
         })
       }
+    },
+    isImageOpen (newValue) {
+      if (newValue) {
+        this.$modal.show('view-image')
+      } else if (!newValue) {
+        this.$modal.hide('view-image')
+      }
     }
   },
-  async created () {
+  created () {
     this.$nuxt.$on('displayPageSidebar', () => {
       this.toggleSidebarMenu()
     })
@@ -84,34 +144,6 @@ export default {
       })
     } else {
       this.endFullPageLoad()
-      // connect user to sendbird server
-      await this.connectToSendBird(this.$auth.user.sendbirdId)
-
-      // sendbird events
-      const channelHandler = new this.$sb.ChannelHandler()
-
-      channelHandler.onMessageReceived = this.onMessageReceived
-      channelHandler.onMessageUpdated = function (channel, message) {}
-      channelHandler.onMessageDeleted = function (channel, messageId) {}
-      channelHandler.onMentionReceived = function (channel, message) {}
-      channelHandler.onChannelChanged = function (channel) {}
-      channelHandler.onMetaDataCreated = function (channel, metaData) {}
-      channelHandler.onMetaDataUpdated = function (channel, metaData) {}
-      channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
-      channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
-      channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
-      channelHandler.onMetaCountersDeleted = function (
-        channel,
-        metaCounterKeys
-      ) {}
-      channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
-      channelHandler.onReadReceiptUpdated = function (groupChannel) {}
-      channelHandler.onTypingStatusUpdated = function (groupChannel) {}
-      channelHandler.onChannelMemberCountChanged = function (channels) {}
-      channelHandler.onChannelParticipantCountChanged = function (channels) {}
-
-      // Add this channel event handler to the `SendBird` instance.
-      this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
     }
   },
   updated () {
@@ -124,6 +156,9 @@ export default {
     })
   },
   methods: {
+    closeImage () {
+      this.$store.commit('sendBird/VIEW_IMAGE', { imageDetails: null, status: false })
+    },
     toggleSidebarMenu () {
       this.showSidebarMenu = !this.showSidebarMenu
     },
@@ -147,24 +182,6 @@ export default {
           this.$gwtoast.success('Chat connection successful')
         }
       })
-    },
-
-    // events for sendbird
-    onMessageReceived (channel, message) {
-      if (this.$route.name !== 'dashboard') {
-        if (
-          Object.keys(this.connectedChannels).length === 0 &&
-          this.connectedChannels.constructor === Object &&
-          channel.memberMap[this.$auth.user.sendbirdId]
-        ) {
-          this.addChannel({ channel, message })
-        } else if (
-          this.connectedChannels.size &&
-          this.connectedChannels.has(channel.url)
-        ) {
-          this.newMessage({ channel, message })
-        }
-      }
     }
   }
 }
@@ -174,7 +191,7 @@ export default {
 @media print {
   .page-header,
   .navigation,
-  .gw-header{
+  .gw-header {
     display: none !important;
   }
 }

@@ -25,8 +25,8 @@
             <template v-slot:avatar>
               <ClientAvatar
                 :client-info="{
-                  firstName: msg.lastMessage._sender.nickname.split(' ')[0],
-                  lastName: msg.lastMessage._sender.nickname.split(' ')[1]
+                  firstName: msg.lastMessage._sender.nickname,
+                  sendbirdId: msg.lastMessage._sender.userId
                 }"
               />
             </template>
@@ -34,22 +34,16 @@
               <span class="font-medium capitalize">{{
                 msg.lastMessage._sender.nickname
               }}</span>
-              <p>
-                {{
-                  msg && msg.lastMessage.message.length > 76
-                    ? `${msg.lastMessage.message.substring(0, 76)}`
-                    : msg.lastMessage.message
-                }}
+              <p v-if="msg.lastMessage.messageType === 'user'" class="truncate w-48 xl:w-80 normal-case">
+                {{ msg.lastMessage.message }}
+              </p>
+              <p v-else-if="msg.lastMessage.messageType === 'file'" class="flex items-center">
+                <img src="~/assets/img/image-outline.svg" class="w-5 h-5" alt="" srcset="">
+                <span class="ml-1 font-medium text-sm">Photo</span>
               </p>
             </template>
             <template v-slot:date>
-              {{
-                formatDistance(
-                  new Date(msg.lastMessage.createdAt),
-                  new Date(),
-                  { addSuffix: true }
-                )
-              }}.
+              {{ msg.lastMessage.createdAt | howLongAgo }}
             </template>
           </containers-summary-information-with-avatar>
         </li>
