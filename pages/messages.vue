@@ -131,7 +131,7 @@ export default {
         c => c.sendbirdId === user.userId
       )
       this.$router.push({
-        name: 'Client-id-Messages',
+        name: 'client-id-Messages',
         params: { id: client._id }
       })
     }

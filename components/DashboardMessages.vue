@@ -1,5 +1,8 @@
 <template>
-  <containers-summary-card-with-notifications :display-view-all-button="false">
+  <containers-summary-card-with-notifications
+    :display-view-all-button="Boolean(unreadMessages.length > 2)"
+    url="messages"
+  >
     <template v-slot:icon>
       <i
         class="ns-comment-alt bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
@@ -14,12 +17,8 @@
       }}
     </template>
     <template v-slot:content>
-      <ul
-        v-if="unreadMessages.length"
-        role="list"
-        class="relative z-0 px-1"
-      >
-        <li v-for="msg in unreadMessages" :key="msg.url">
+      <ul v-if="unreadMessages.length" role="list" class="relative z-0 px-1">
+        <li v-for="msg in unreadMessages.slice(0, 2)" :key="msg.url">
           <containers-summary-information-with-avatar
             :show-chevron-right="false"
           >
@@ -49,12 +48,12 @@
           </containers-summary-information-with-avatar>
         </li>
       </ul>
-      <div
-        v-else
-        class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm"
-      >
+      <div v-else class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm">
         New messages will appear here.
       </div>
+    </template>
+    <template v-slot:button>
+      View unread messages
     </template>
   </containers-summary-card-with-notifications>
 </template>

@@ -76,16 +76,16 @@
           :class="{'border-red-400' : $v.currency.$error}"
         >
           <option value="AUD">
-            AUD
+            AUD ($)
           </option>
           <option value="CAD">
-            CAD
+            CAD ($)
           </option>
           <option value="GBP">
             GBP (£)
           </option>
           <option value="USD">
-            USD
+            USD ($)
           </option>
         </select>
       </div>

@@ -63,7 +63,7 @@
     >
       Already have an account?
       <NuxtLink
-        :to="{ name: 'Auth-SignIn' }"
+        :to="{ name: 'auth-signin' }"
         class="text-blue-500 font-medium no-underline ml-1 hover:underline"
       >
         Sign in

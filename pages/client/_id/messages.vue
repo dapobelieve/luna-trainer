@@ -86,15 +86,15 @@
                 @dblclick="replyParentMessageWithText(msg)"
               >
                 <small class="self-end text-xs mr-1.5">
-                  <img
+                  <!-- <img
                     v-if="msg.sendingStatus === 'succeeded'"
                     class="text-center inline-block h-3"
                     src="~/assets/img/svgs/checkmark-done-outline.svg"
                     alt
                     srcset
-                  />
+                  /> -->
                   <img
-                    v-else
+                    v-if="msg.sendingStatus === 'succeeded'"
                     class="text-center inline-block h-3"
                     src="~/assets/img/svgs/checkmark-outline.svg"
                     alt
@@ -107,9 +107,10 @@
                 <span
                   v-if="msg.messageType === 'file'"
                   class="msg overflow-hidden"
+                  @click="viewImage(msg)"
                 >
                   <img
-                    class="bg-white"
+                    class="bg-white cursor-pointer"
                     :src="msg.imaging || msg.url"
                     style="max-width: 250px"
                   />
@@ -143,10 +144,11 @@
                 />
                 <span
                   v-if="msg.messageType === 'file'"
-                  class="msg overflow-hidden"
+                  class="msg overflow-hidden border"
+                  @click="viewImage(msg)"
                 >
                   <img
-                    class="bg-white max-w-[16rem] max-h-[13.4rem]"
+                    class="bg-white max-w-[16rem] max-h-[13.4rem] cursor-pointer"
                     :src="msg.url"
                   />
                 </span>
@@ -338,24 +340,15 @@ export default {
           this.client !== null &&
           this.$store.state.sendBird.sendbirdChannels === 'not fetching'
         ) {
-          console.log('states ', [
-            newValue,
-            oldValue,
-            this.$store.state.sendBird.sendbirdChannels,
-            this.client
-          ])
-          console.log('sendbird ', this.client.sendbirdId)
           if (this.client.status === 'accepted') {
             const conversations = await this.checkIfConversationExits(
               this.client.sendbirdId
             )
-            console.log('conversaton received ', conversations)
             if (!conversations || conversations === undefined) {
               try {
                 const createdChannel = await this.createPrivateChannel(
                   this.client.sendbirdId
                 )
-                console.log('result creating channel ', createdChannel)
                 this.channelUrl = createdChannel.url
                 this.channel = createdChannel
                 return
@@ -432,6 +425,18 @@ export default {
       }
     },
 
+    viewImage (image) {
+      this.$store.commit('sendBird/VIEW_IMAGE', {
+        imageDetails: {
+          url: image.url,
+          nickname: image._sender.nickname,
+          profileImg: image._sender.plainProfileUrl,
+          dateTime: image.createdAt
+        },
+        status: true
+      })
+    },
+
     // fetch message history
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
@@ -457,7 +462,6 @@ export default {
 
     // if an existing chat exist between trainer and current client in view
     existingChannel (groupChannel) {
-      console.log('an existing channel ', groupChannel)
       this.channel = groupChannel
       this.channelUrl = groupChannel.url
       this.fetchMessageHistory(groupChannel)
@@ -466,7 +470,6 @@ export default {
     // send text message
     sendChat () {
       if (this.message) {
-        console.log('sending this message: ', this.message)
         const params = new this.$sb.UserMessageParams()
         params.parentMessageId = parseInt(this.parentMessageId)
         params.message = this.message
@@ -478,7 +481,6 @@ export default {
             this.$gwtoast.error('Message not sent: ', error)
             return
           }
-          console.log('response from sending message ', userMessage)
           this.messageHistory.push(userMessage)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
@@ -500,6 +502,7 @@ export default {
     sendFile () {
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
+      params.parentMessageId = parseInt(this.parentMessageId)
       params.file = this.fileToBeSent // Or .fileUrl  = FILE_URL (You can also send a file message with a file URL.)
       params.fileName = this.fileToBeSent.name
       params.fileSize = this.fileToBeSent.size
@@ -507,24 +510,27 @@ export default {
       params.mentionedUserIds = [this.receiver] // Or mentionedUsers = Array<User>;
       params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
       this.isUploading = false
-      this.$nextTick(() => {
-        this.scrollFeedToBottom()
-      })
+      // this.$nextTick(() => {
+      //   this.scrollFeedToBottom()
+      // })
       this.uploadingFileToSb = true
       this.channel.sendFileMessage(params, (fileMessage, error) => {
         if (error) {
           // Handle error.
-          console.log('error uploading file', error)
+          this.$gwtoast.error('Error uploading image')
+          console.log(error)
           this.uploadingFileToSb = false
         }
         const messageId = fileMessage.messageId
-        console.log('file id', fileMessage)
         if (messageId) {
           this.uploadingFileToSb = false
           this.messageHistory.push({
             messageId,
             imaging: this.fileImage,
             messageType: 'file',
+            createdAt: fileMessage.createdAt,
+            sendingStatus: fileMessage.sendingStatus,
+            url: fileMessage.url,
             _sender: {
               userId: this.sender
             }

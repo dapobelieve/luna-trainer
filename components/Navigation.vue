@@ -266,7 +266,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 import menus from '~/navigation.json'
 export default {
   name: 'Navigation',
@@ -323,7 +323,7 @@ export default {
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
-      console.log()
+      console.log(e)
     }
 
     const url = new URL(process.env.BASEURL_HOST)
@@ -341,15 +341,17 @@ export default {
     socket.on('new-notification', (data) => {
       const { type } = data
       if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.fetchAllClients()
+        this.localUpdateClient(data.data)
       }
       this.$store.commit('notifications/setNotification', data)
     })
   },
   methods: {
+    ...mapMutations({
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
+    }),
     ...mapActions({
-      logOut: 'authorize/logOut',
-      fetchAllClients: 'client/fetchAllClients'
+      logOut: 'authorize/logOut'
     }),
     isMessagesRoute (value) {
       if (value) {
@@ -375,7 +377,7 @@ export default {
         c => c.sendbirdId === user.userId
       )
       this.$router.push({
-        name: 'Client-id-Messages',
+        name: 'client-id-Messages',
         params: { id: client._id }
       })
     },

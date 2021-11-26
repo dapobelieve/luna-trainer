@@ -1,7 +1,13 @@
 <template>
   <async-view loader-id="logout">
     <div class="min-h-screen">
-      <GwHeader :class="{ 'hidden': $route.name === 'Client-id-Information' || $route.name === 'Client-id-Messages' }" />
+      <GwHeader
+        :class="{
+          hidden:
+            $route.name === 'client-id-information' ||
+            $route.name === 'client-id-Messages'
+        }"
+      />
       <div class="flex">
         <invite-new-client-modal />
         <Navigation class="hidden lg:block" />
@@ -32,6 +38,47 @@
         </template>
       </NotificationsModal>
     </div>
+
+    <!-- modal -->
+    <modal
+      name="view-image"
+      height="100%"
+      width="100%"
+      :click-to-close="false"
+    >
+      <div v-if="isImageOpen">
+        <div class="bg-black flex items-center justify-between px-4 py-2 text-white">
+          <div class="flex items-center">
+            <ClientAvatar
+              :client-info="{
+                firstName: imageDetails.nickname,
+                imgUrl: imageDetails.profileImg
+              }"
+            />
+            <div class="ml-4">
+              <p class="capitalize mb-0">
+                {{ imageDetails.nickname }}
+              </p>
+              <small>
+                {{ new Date(imageDetails.dateTime).toDateString() }}
+              </small>
+            </div>
+          </div>
+          <div class="space-x-3 text-xl cursor-pointer">
+            <i class="ns-comment-alt"></i>
+            <i class="ns-download"></i>
+            <i class="ns-share"></i>
+            <i class="ns-cross" @click="closeImage"></i>
+          </div>
+        </div>
+        <div class="flex justify-center bg-black" style="height: calc(100vh - 64px)">
+          <img
+            class="w-full h-full object-contain"
+            :src="imageDetails.url"
+          />
+        </div>
+      </div>
+    </modal>
   </async-view>
 </template>
 <script>
@@ -52,7 +99,9 @@ export default {
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
+      connectedChannels: state => state.sendBird.connectedChannels,
+      isImageOpen: state => state.sendBird.openImage,
+      imageDetails: state => state.sendBird.imageDetails
     }),
     ...mapGetters({
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
@@ -66,6 +115,13 @@ export default {
             this.showNotification = true
           }, 2000)
         })
+      }
+    },
+    isImageOpen (newValue) {
+      if (newValue) {
+        this.$modal.show('view-image')
+      } else if (!newValue) {
+        this.$modal.hide('view-image')
       }
     }
   },
@@ -83,7 +139,7 @@ export default {
       Object.entries(this.$auth.user).length === 0 &&
       tokenValidity
     ) {
-      this.$router.replace({ name: 'Auth-onboardingProfileSetup' }).then(() => {
+      this.$router.replace({ name: 'auth-onboarding' }).then(() => {
         this.endFullPageLoad()
       })
     } else {
@@ -100,6 +156,9 @@ export default {
     })
   },
   methods: {
+    closeImage () {
+      this.$store.commit('sendBird/VIEW_IMAGE', { imageDetails: null, status: false })
+    },
     toggleSidebarMenu () {
       this.showSidebarMenu = !this.showSidebarMenu
     },
@@ -132,7 +191,7 @@ export default {
 @media print {
   .page-header,
   .navigation,
-  .gw-header{
+  .gw-header {
     display: none !important;
   }
 }

@@ -8,12 +8,12 @@ export const state = () => ({
   connectingToSendBird: true,
   connectingStatus: false,
   latestMessage: {},
-  isUserOnline: false
+  openImage: false,
+  imageDetails: null
 })
 
 export const mutations = {
   CHANGE_SENDBIRD_CHANNEL_STATUS (state, status) {
-    console.log('hello working here ', status)
     state.sendbirdChannels = status
   },
   CHANGE_SENDBIRD_CONNECTION_STATUS (state, status) {
@@ -28,16 +28,20 @@ export const mutations = {
   DELETE_CHANNEL_LOCALLY (state, channelUrl) {
     state.connectedChannels.delete(channelUrl)
   },
+  VIEW_IMAGE (state, payload) {
+    const { imageDetails } = payload
+    const { status } = payload
+    state.imageDetails = imageDetails
+    state.openImage = status
+  },
 
   // messages
   ADD_NEW_CHANNEL (state, channelDetails) {
-    console.log('adding new channel', channelDetails.channel)
     state.connectedChannels = Object.assign(
       new Map([[channelDetails.channel.url, channelDetails.channel]])
     )
   },
   UPDATE_CONNECTED_CHANNEL (state, msgDetails) {
-    console.log('updating connected channel')
     state.connectedChannels = Object.assign(
       new Map([
         ...state.connectedChannels,
@@ -51,7 +55,6 @@ export const mutations = {
   DISCONNECT_USER_FROM_SENDBIRD (state) {
     state.connectedChannels = new Map()
     state.latestMessage = {}
-    state.isUserOnline = false
     state.sendbirdConnected = false
   },
   CONNECTION_ERROR (state, status) {
@@ -96,7 +99,6 @@ export const actions = {
 
   // creation of channels
   async createPrivateChannel ({ commit }, participant) {
-    // creates a channel
     const params = new this.$sb.GroupChannelParams()
     params.isPublic = false
     params.isEphemeral = false
@@ -113,7 +115,6 @@ export const actions = {
           return error
         }
         if (groupChannel) {
-          console.log('newly created channel ', groupChannel)
           commit('ADD_NEW_CHANNEL', { channel: groupChannel })
         }
       }
@@ -176,7 +177,6 @@ export const actions = {
   },
   async checkIfConversationExits ({ state, commit }, userId) {
     const channels = await state.connectedChannels
-    console.log('size of state ', channels)
     if (channels.size) {
       return Array.from(state.connectedChannels.values()).find(c =>
         c.members.find(m => m.userId === userId)
@@ -224,6 +224,5 @@ export const getters = {
       )
     }
   },
-  isUserOnline: state => state.isUserOnline,
   getCurrentClient: state => state.tempClient
 }

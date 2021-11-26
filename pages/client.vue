@@ -4,7 +4,7 @@
       <PageHeader v-if="clientInfo">
         <template v-slot:back-button>
           <button type="button" class="button-text w-10" @click="$router.push({ name: 'Clients' })">
-            <img src="~/assets/img/svgs/chevron-back.svg" alt srcset />
+            <i class="fi-rr-arrow-left font-bold text-blue-500 text-lg"></i>
           </button>
         </template>
         <template v-slot:title>
@@ -90,8 +90,7 @@ export default {
       thisUser: state => state.sendBird.tempClient
     }),
     ...mapGetters({
-      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount',
-      isOnline: 'sendBird/isUserOnline'
+      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount'
     }),
     firstName () {
       return (this.clientInfo && this.clientInfo.firstName) || ''
@@ -129,7 +128,6 @@ export default {
     }),
     ...mapActions({
       getClientProfile: 'client/getSingleClientById',
-      getSendbirdUser: 'sendBird/getUser',
       isUserOnline: 'sendBird/isUserOnline'
     }),
     showDropdown () {

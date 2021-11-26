@@ -21,29 +21,19 @@ export default {
       const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png']
       const { messageType: incomingMessageType } = message
       const { type: incomingFileType } = message
-      console.log(
-        'got message from channel: ',
-        channel,
-        ' and the message: ',
-        message,
-        'message type: ',
-        incomingMessageType
-      )
       if (
         (incomingMessageType === 'file' &&
           acceptedImageTypes.includes(incomingFileType)) ||
         incomingMessageType === 'user'
       ) {
-        console.log('message received happening')
         this.$store.dispatch('sendBird/newMessageReceived', {
           channel,
           message
         })
         if (
-          this.$route.name === 'Client-id-Messages' &&
+          this.$route.name === 'client-id-messages' &&
           channel.url === this.channelUrl
         ) {
-          console.log('logging in messages')
           this.messageHistory.push(message)
           this.$nextTick(() => {
             this.scrollFeedToBottom()

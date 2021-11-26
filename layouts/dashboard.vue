@@ -56,7 +56,7 @@ export default {
       Object.entries(this.$auth.user).length === 0 &&
       tokenValidity
     ) {
-      this.$router.replace({ name: 'Auth-onboardingProfileSetup' }).then(() => {
+      this.$router.replace({ name: 'auth-onboarding' }).then(() => {
         this.endFullPageLoad()
       })
     } else {
