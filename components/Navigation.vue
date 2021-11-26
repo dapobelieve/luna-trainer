@@ -34,8 +34,8 @@
                       'newCourse',
                       'comingNext',
                       'getHelp',
-                      'Schedules',
-                      'Courses'
+                      'schedules',
+                      'courses'
                     ].includes(menu.path)
                 "
                 :id="menu.id || ''"
@@ -114,7 +114,7 @@
                   @click="addSession = true"
                 >
                   <img class="p-1 rounded-full" src="~/assets/img/svgs/course.svg" alt="course" />
-                  <span class="truncate">My Courses</span>
+                  <span class="truncate">My Courses </span>
                 </button>
                 <button
                   class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
