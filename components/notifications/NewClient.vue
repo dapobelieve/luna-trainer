@@ -6,7 +6,7 @@
     <div>
       <div class="flex flex-col gap-1">
         <span class="font-medium text-gray-700">You have a new client registration!</span>
-        <span class="text-sm">{{ notification.createdAt | howLongAgo}}</span>
+        <span class="text-sm">{{ notification.createdAt | howLongAgo }}</span>
       </div>
     </div>
   </div>
