@@ -159,7 +159,7 @@
                 </div>
                 <div>
                   <dt class="input-text-label">
-                    Behavioural Problems
+                    Behavioural Issues
                   </dt>
                   <dd class="information_box text-gray-400">
                     {{ clientInfo && clientInfo.behaviour }}
