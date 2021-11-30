@@ -1,4 +1,4 @@
-<template>
+  <template>
   <div
     :class="[matchedRoute ? 'active' : '' ,`relative py-4 flex items-center rounded-lg px-3 transition-all hover:${hoverColor}`]"
   >
