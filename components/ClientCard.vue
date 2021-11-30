@@ -7,9 +7,12 @@
       <ClientAvatar :client-info="client" />
     </template>
     <template v-slot:content>
-      <span class="font-medium capitalize">
-        {{ client.firstName }} {{ $utils.optional(client.lastName) }}
-      </span>
+      <div class="font-medium capitalize">
+        <div>{{ client.firstName }} {{ $utils.optional(client.lastName) }}</div>
+       <div class="font-extralight text-md text-gray-500 dot normal-case">
+         {{client.email}}
+       </div>
+      </div>
     </template>
     <template v-slot:button>
       <button
@@ -92,7 +95,7 @@ export default {
     },
     async archiveClient () {
       try {
-        const res = await this.$store.dispatch('client/archive', { ...this.client })
+        await this.$store.dispatch('client/archive', { ...this.client })
         this.$gwtoast.success('Client Archived')
       } catch (e) {
         console.log({ e })
@@ -102,4 +105,18 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dot {
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    height: 2px !important;
+    width: 2px;
+    background: #334155;
+    border-radius: 50%;
+    bottom: 10px;
+    margin-left: 5px
+  }
+}
+</style>
