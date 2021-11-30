@@ -11,7 +11,7 @@
       <div class="flex flex-col gap-1.5">
         <label
           class="required"
-        >What training or behavioural areas do you specialise in? e.g Puppies, Separation Anxiety</label>
+        >What training or behavioural issues do you specialise in? e.g Puppies, Separation Anxiety</label>
         <settings-tag-input v-model="specialization" :block="false" />
       </div>
       <div class="flex flex-col gap-1.5">
