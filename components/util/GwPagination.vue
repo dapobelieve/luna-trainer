@@ -1,12 +1,12 @@
 <template>
-  <div class="rounded-xl overflow-hidden border bg-gray-50">
+  <div class="rounded-xl border bg-gray-50">
     <slot name="content" :pageNumber="pageNumber" />
     <div v-if="totalItems" class="w-max flex ml-auto px-4 py-2">
       <div class="flex items-center">
         <button
           class="button-text px-2"
           :disabled="pageNumber <= 1"
-          :class="[pageNumber <= 1 ? 'disabled' : 'cursor-auto', 'capitalize text-blue-500 opacity-50']"
+          :class="[pageNumber <= 1 ? 'disabled' : 'cursor-auto', 'capitalize text-blue-500']"
           @click="changePageNumber(pageNumber - 1)"
         >
           previous
@@ -17,7 +17,7 @@
         <button
           class="button-text px-2"
           :disabled="pageNumber >= numberOfPages"
-          :class="[pageNumber >= numberOfPages ? 'disabled' : 'cursor-auto', 'opacity-50']"
+          :class="[pageNumber >= numberOfPages ? 'disabled' : 'cursor-auto', '']"
           @click="changePageNumber(pageNumber + 1)"
         >
           next

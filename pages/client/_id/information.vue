@@ -2,7 +2,7 @@
   <async-view>
     <div v-if="clientInfo" class="grid bg-white border rounded-xl w-full p-2">
       <form>
-        <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl z-40">
+        <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl" style="z-index: 1">
           <h2 class="text-xl">
             Information
           </h2>
@@ -159,7 +159,7 @@
                 </div>
                 <div>
                   <dt class="input-text-label">
-                    Behavioural Issues
+                    Behavioural Problems
                   </dt>
                   <dd class="information_box text-gray-400">
                     {{ clientInfo && clientInfo.behaviour }}

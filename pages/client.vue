@@ -13,26 +13,7 @@
           >{{ firstName }} {{ lastName }}</span>
         </template>
         <template v-slot:buttons>
-          <div class="relative hidden lg:block">
-            <button type="button" class="button-text w-10" @click="showDropdown">
-              <img src="~/assets/img/svgs/ellipsis.svg" class="h-5 w-5" alt srcset />
-            </button>
-            <!-- dropdown menu -->
-            <div
-              v-show="showDropDown"
-              class="origin-top-right absolute right-0 mt-2 p-1 min-w-[6rem] w-48 rounded-xl border shadow-lg bg-white z-40"
-            >
-              <div role="none">
-                <nuxt-link
-                  :to="{ name: 'invoice', params: { pushedClient: clientInfo } }"
-                  class="block p-3 hover:bg-gray-100 rounded-md"
-                >
-                  Create Invoice
-                </nuxt-link>
-                <a href="#" class="block p-3 hover:bg-gray-100 rounded-md">Archive</a>
-              </div>
-            </div>
-          </div>
+          <ClientActions :client-info="clientInfo" />
         </template>
       </PageHeader>
     </transition>
@@ -90,7 +71,8 @@ export default {
       thisUser: state => state.sendBird.tempClient
     }),
     ...mapGetters({
-      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount'
+      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount',
+      isOnline: 'sendBird/isUserOnline'
     }),
     firstName () {
       return (this.clientInfo && this.clientInfo.firstName) || ''
@@ -128,6 +110,7 @@ export default {
     }),
     ...mapActions({
       getClientProfile: 'client/getSingleClientById',
+      getSendbirdUser: 'sendBird/getUser',
       isUserOnline: 'sendBird/isUserOnline'
     }),
     showDropdown () {
