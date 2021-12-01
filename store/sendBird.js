@@ -169,7 +169,7 @@ export const actions = {
   // messages
   newMessageReceived ({ state, commit }, messageDetails) {
     const { url } = messageDetails.channel
-    if (state.connectedChannels.has(url)) {
+    if (state.connectedChannels.size && state.connectedChannels.has(url)) {
       commit('UPDATE_CONNECTED_CHANNEL', messageDetails)
       return
     }

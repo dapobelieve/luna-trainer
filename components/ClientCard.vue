@@ -25,23 +25,7 @@
         <span class="capitalize ml-2">resend invite</span>
       </button>
       <div v-else>
-        <button type="button" class="button-text button-sm w-8" @click="showDropdown">
-          <i class="ns-ellipsis text-lg"></i>
-        </button>
-        <div
-          v-show="showDropDown"
-          class="origin-top-right absolute right-0 mt-2 p-1 min-w-[6rem] w-48 rounded-xl border shadow-lg bg-white z-40"
-        >
-          <div role="none">
-            <nuxt-link
-              :to="{ name: 'invoice', params: { pushedClient: client } }"
-              class="block p-3 hover:bg-gray-100 rounded-md transition-all"
-            >
-              Create Invoice
-            </nuxt-link>
-            <a href="#" class="block p-3 hover:bg-gray-100 rounded-md transition-all" @click.prevent="archiveClient">Archive</a>
-          </div>
-        </div>
+        <ClientActions :client-info="client" />
       </div>
     </template>
   </containers-summary-information-with-avatar>
