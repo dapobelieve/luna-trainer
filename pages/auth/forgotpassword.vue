@@ -93,7 +93,6 @@ export default {
         await this.$store.dispatch('authorize/forgotPassword', { email: this.email }).then((response) => {
           if (response.status === 'successful') {
             this.$router.replace({ name: 'auth-signin' }).then(() => {
-              console.log(this.$gwToast)
               this.$gwtoast.success('Reset password sent to your email')
             })
           }

@@ -120,9 +120,6 @@ export default {
       }
     }
   },
-  mounted () {
-    console.log('Here')
-  },
   methods: {
     async reset () {
       if (this.userInfo) {

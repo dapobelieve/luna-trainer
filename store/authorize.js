@@ -1,11 +1,25 @@
-
+import Vue from 'vue'
+export const state = () => ({
+  tokenExpired: false
+})
 export const mutations = {
+  TOKEN_EXPIRED (state, value) {
+    state.tokenExpired = value
+  },
   CLEAR_LOCAL_STORAGE () {
     window.localStorage.clear()
   }
 }
 
 export const actions = {
+  async loginUser ({ commit, dispatch }, payload) {
+    const res = await this.$axios.$post(`${process.env.ACCOUNT_HOST_URL}/auth/login`, { ...payload })
+    if (res.status === 'success') {
+      await dispatch('authorize/setToken', { token: res.data.accessToken, refreshToken: res.data.refreshToken }, { root: true })
+      await dispatch('profile/getUserProfile', '', { root: true })
+    }
+    return res
+  },
   startFullPageLoading ({ commit, dispatch }) {
     dispatch('loader/startProcess', 'logout', { root: true })
   },
@@ -50,6 +64,9 @@ export const actions = {
     )
   },
   setToken ({ commit }, payload) {
+    // console.log(payload)
+    // localStorage.setItem('auth._token.local', payload.token)
+    // localStorage.setItem('auth._refresh_token.local', payload.refreshToken);
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
   async logOut ({ commit, dispatch }) {

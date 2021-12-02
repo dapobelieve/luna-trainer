@@ -134,15 +134,13 @@ export const actions = {
         return response
       })
   },
-  getUserProfile ({ commit }) {
-    return this.$axios
-      .$get(`${process.env.BASEURL_HOST}/profile`)
-      .then(({ data }) => {
-        if (data !== null) {
-          commit('SET_GETWELP_USER', data)
-        }
-        return data
-      })
+  async getUserProfile ({ commit }) {
+    const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/profile`)
+    if (res.status === 'success') {
+      commit('SET_GETWELP_USER', res.data)
+      return res.data
+    }
+    return res
   },
   uploadProfileImage ({ commit }, payload) {
     return this.$axios

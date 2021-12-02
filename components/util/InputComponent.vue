@@ -8,6 +8,7 @@
         :id="id"
         :value="value"
         :autofocus="autofocus"
+        :disabled="disabled"
         :type="inputType"
         :placeholder="placeholder"
         class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
@@ -45,6 +46,10 @@ export default {
     required: {
       type: Boolean,
       default: true
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     value: {
       type: String
