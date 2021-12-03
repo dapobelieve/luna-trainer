@@ -45,7 +45,7 @@
           </div>
         </div>
       </div>
-      <GwPagination v-if="invoices && filteredRecords.length" :total-items="filteredRecords.length">
+      <GwPagination v-if="filteredRecords && filteredRecords.length" :total-items="filteredRecords.length">
         <template v-slot:content>
           {{ quickSearchQuery }}
           <div class="overflow-scroll lg:overflow-hidden">
@@ -147,19 +147,21 @@ export default {
       exporting: false,
       options: [],
       checkedItems: [],
-      invoices: null
+      invoices: []
     }
   },
   computed: {
     filteredRecords () {
       let records = this.invoices
-      records = records.filter((row) => {
-        return Object.keys(row).some((key) => {
-          return String(row[key]).toLowerCase().includes(this.quickSearchQuery.toLowerCase())
+      if (records && records.length > 0) {
+        records = records.filter((row) => {
+          return Object.keys(row).some((key) => {
+            return String(row[key]).toLowerCase().includes(this.quickSearchQuery.toLowerCase())
+          })
         })
-      })
 
-      return records
+        return records
+      }
     }
   },
   watch: {
@@ -185,10 +187,14 @@ export default {
     }
   },
   async mounted (ctx) {
-    const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-    this.invoices = res
+    try {
+      const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+      this.invoices = res
 
-    this.options = this.filteredRecords.map(invoice => invoice.customerId)
+      this.options = this.filteredRecords.map(invoice => invoice.customerId)
+    } catch (e) {
+      console.log({ e })
+    }
   },
   methods: {
     async searchInvoice (option) {

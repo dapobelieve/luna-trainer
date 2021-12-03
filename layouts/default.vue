@@ -79,6 +79,7 @@
         </div>
       </div>
     </modal>
+    <AuthModal />
   </async-view>
 </template>
 <script>
@@ -87,9 +88,11 @@ import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
+import auth from '~/mixins/auth'
+import ExpiredSessionAuthModal from "~/components/modals/ExpiredSessionAuthModal";
 export default {
-  components: { InviteNewClientModal },
-  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents],
+  components: {ExpiredSessionAuthModal, InviteNewClientModal },
+  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
       page: this.$route.name,

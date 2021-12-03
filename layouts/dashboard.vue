@@ -18,6 +18,7 @@
           <Nuxt />
         </div>
       </div>
+      <ExpiredSessionAuthModal />
     </div>
   </async-view>
 </template>
@@ -27,11 +28,17 @@ import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
+import auth from '~/mixins/auth'
+import ExpiredSessionAuthModal from "~/components/modals/ExpiredSessionAuthModal";
 export default {
-  components: { InviteNewClientModal },
-  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents],
+  components: { ExpiredSessionAuthModal, InviteNewClientModal },
+  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
+      isLoading: false,
+      form: {
+        password: null
+      },
       page: this.$route.name,
       showSidebarMenu: false
     }
@@ -41,34 +48,6 @@ export default {
       connectedChannels: state => state.sendBird.connectedChannels,
       isStripeConnected: state => state.profile.isStripeConnected
     })
-  },
-  created () {
-    this.$nuxt.$on('displayPageSidebar', () => {
-      this.toggleSidebarMenu()
-    })
-    this.$nuxt.$on('hideSidebarMenu', () => {
-      this.hideMobileMenu()
-    })
-    this.startFullPageLoad()
-    const tokenValidity = this.$auth.strategy.token.status().valid()
-    if (
-      this.$auth.loggedIn &&
-      Object.entries(this.$auth.user).length === 0 &&
-      tokenValidity
-    ) {
-      this.$router.replace({ name: 'auth-onboarding' }).then(() => {
-        this.endFullPageLoad()
-      })
-    } else {
-      this.endFullPageLoad()
-      this.fetchAllClients()
-    }
-  },
-  mounted () {
-    const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
-    if (isProfileSetUpCompleted && !this.isStripeConnected) {
-      this.$modal.show('stripe-modal')
-    }
   },
   methods: {
     toggleSidebarMenu () {
@@ -98,6 +77,34 @@ export default {
     skipStripeProcess () {
       localStorage.removeItem('profileCompleted')
       this.$modal.hide('stripe-modal')
+    }
+  },
+  mounted () {
+    const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
+    if (isProfileSetUpCompleted && !this.isStripeConnected) {
+      this.$modal.show('stripe-modal')
+    }
+  },
+  created () {
+    this.$nuxt.$on('displayPageSidebar', () => {
+      this.toggleSidebarMenu()
+    })
+    this.$nuxt.$on('hideSidebarMenu', () => {
+      this.hideMobileMenu()
+    })
+    this.startFullPageLoad()
+    const tokenValidity = this.$auth.strategy.token.status().valid()
+    if (
+      this.$auth.loggedIn &&
+      Object.entries(this.$auth.user).length === 0 &&
+      tokenValidity
+    ) {
+      this.$router.replace({ name: 'auth-onboarding' }).then(() => {
+        this.endFullPageLoad()
+      })
+    } else {
+      this.endFullPageLoad()
+      this.fetchAllClients()
     }
   }
 

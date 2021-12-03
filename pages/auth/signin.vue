@@ -160,7 +160,6 @@ export default {
           localStorage.setItem('getWelpUser', JSON.stringify(response))
 
           // set user in store
-          this.$store.commit('profile/SET_GETWELP_USER', response)
           this.$router.push({ name: 'dashboard' })
         }
       })

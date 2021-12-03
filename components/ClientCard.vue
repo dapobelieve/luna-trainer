@@ -9,9 +9,9 @@
     <template v-slot:content>
       <div class="font-medium capitalize">
         <div>{{ client.firstName }} {{ $utils.optional(client.lastName) }}</div>
-       <div class="font-extralight text-md text-gray-500 dot normal-case">
-         {{client.email}}
-       </div>
+        <div class="font-extralight text-md text-gray-500 dot normal-case">
+          {{ client.email }}
+        </div>
       </div>
     </template>
     <template v-slot:button>
