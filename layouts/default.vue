@@ -89,9 +89,9 @@ import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
-import AuthModal from "~/components/modals/AuthModal";
+import ExpiredSessionAuthModal from "~/components/modals/ExpiredSessionAuthModal";
 export default {
-  components: {AuthModal, InviteNewClientModal },
+  components: {ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
