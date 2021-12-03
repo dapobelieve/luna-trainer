@@ -328,13 +328,18 @@ export default {
       return this.uploadPicture(imageData)
     },
     onDropImage (event) {
-      const files = event.dataTransfer.files
-      const reader = new FileReader()
-      this.profileImageData = files[0]
-      reader.onload = (e) => {
-        this.profileImageUrl = e.target.result
+      const fileType = event.dataTransfer.files[0].type.split('/')[0] === 'image'
+      if (fileType) {
+        const files = event.dataTransfer.files
+        const reader = new FileReader()
+        this.profileImageData = files[0]
+        reader.onload = (e) => {
+          this.profileImageUrl = e.target.result
+        }
+        reader.readAsDataURL(this.profileImageData)
+      } else {
+        this.$gwtoast.error('File is not an image')
       }
-      reader.readAsDataURL(this.profileImageData)
       this.dragging = false
     },
     profileImageChange (e) {
