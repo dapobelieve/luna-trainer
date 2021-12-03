@@ -153,7 +153,7 @@ export default {
   computed: {
     filteredRecords () {
       let records = this.invoices
-      if(records && records.length > 0) {
+      if (records && records.length > 0) {
         records = records.filter((row) => {
           return Object.keys(row).some((key) => {
             return String(row[key]).toLowerCase().includes(this.quickSearchQuery.toLowerCase())
@@ -192,8 +192,8 @@ export default {
       this.invoices = res
 
       this.options = this.filteredRecords.map(invoice => invoice.customerId)
-    }catch (e) {
-      console.log({e})
+    } catch (e) {
+      console.log({ e })
     }
   },
   methods: {

@@ -10,9 +10,9 @@ export default {
     }
   },
   watch: {
-    "tokenExpired": {
-      handler(val) {
-        if(val) {
+    tokenExpired: {
+      handler (val) {
+        if (val) {
           this.$modal.show('auth-modal')
         }
       }

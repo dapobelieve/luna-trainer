@@ -15,7 +15,7 @@
           <div class="text-right mb-4">
             <span class="font-medium">{{ new Date().toDateString() }}</span>
           </div>
-          
+
           <Nuxt />
         </div>
       </div>
