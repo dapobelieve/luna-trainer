@@ -11,7 +11,19 @@
       <form class="flex flex-col gap-6">
         <div class="flex flex-col gap-1.5">
           <label>Profile image</label>
-          <div class="border-dashed cursor-pointer flex items-center rounded p-2" @click="()=>$refs.fileInput.click()">
+          <div
+            class="border-dashed cursor-pointer flex items-center rounded p-2"
+            @dragenter.prevent="dragging = true"
+            @dragleave.prevent="dragging = false"
+            @dragend.prevent="dragging = false"
+            @dragover.prevent
+            @drop.prevent="onDropImage($event)"
+            @click="()=>$refs.fileInput.click()"
+          >
+            <!-- when dragEntered is true -->
+            <div v-if="dragging" class="dragEnter">
+              Drop Image Here
+            </div>
             <input
               ref="fileInput"
               type="file"
@@ -245,6 +257,7 @@ export default {
       profileImageUrl: this.$auth.user.imgURL,
       profileImageData: null,
       isLoading: false,
+      dragging: false,
       countries,
       timezones
     }
@@ -314,6 +327,16 @@ export default {
       imageData.append('file', this.profileImageData)
       return this.uploadPicture(imageData)
     },
+    onDropImage (event) {
+      const files = event.dataTransfer.files
+      const reader = new FileReader()
+      this.profileImageData = files[0]
+      reader.onload = (e) => {
+        this.profileImageUrl = e.target.result
+      }
+      reader.readAsDataURL(this.profileImageData)
+      this.dragging = false
+    },
     profileImageChange (e) {
       const files = e.target.files
       const reader = new FileReader()
@@ -346,8 +369,8 @@ export default {
   }
 }
 
-.border-dashed{
-  @apply p-2 rounded-md;
+.border-dashed {
+  @apply p-2 rounded-md relative;
     border: 1px dashed #E2E8F0;
     border-style: dashed;
 
@@ -362,5 +385,12 @@ export default {
         line-height: 20px;
       }
     }
+}
+
+.dragEnter {
+  @apply rounded-md absolute bg-gray-100 grid place-content-center;
+  border: 1px dashed #E2E8F0;
+  padding: 0.5em;
+  inset: 0.5em;
 }
 </style>
