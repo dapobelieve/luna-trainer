@@ -442,7 +442,7 @@ export default {
       const listQuery = channel.createPreviousMessageListQuery()
       listQuery.replyType = 'ONLY_REPLY_TO_CHANNEL'
       listQuery.includeThreadInfo = true
-      // listQuery.includeParentMessageInfo = true
+      listQuery.includeParentMessageInfo = true
 
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
