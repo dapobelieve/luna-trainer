@@ -27,7 +27,7 @@
                 Notifications
               </h5>
               <div class="hover:bg-blue-50 h-8 w-8 flex items-center justify-center rounded-full">
-                <i class="ns-cross text-blue-500" role="button" @click.stop="$router.go(-1)"></i>
+                <i class="fi-rr-cross text-base text-blue-500" role="button" @click.stop="$router.go(-1)"></i>
               </div>
             </div>
             <slot name="search" />

@@ -34,7 +34,7 @@
                 class="hover:bg-blue-50 h-8 w-8 flex items-center justify-center rounded-full"
               >
                 <i
-                  class="ns-cross text-blue-500"
+                  class="fi-rr-cross text-base text-blue-500"
                   role="button"
                   @click.stop="$router.go(-1)"
                 ></i>

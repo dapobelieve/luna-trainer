@@ -10,7 +10,7 @@
             <div class="relative">
               <span class="font-medium flex items-center cursor-pointer text-primary-color mr-5" @click="showDrop = !showDrop">
                 <span>{{ currentInvoice }}</span>
-                <i class="ns-caret-down ml-2 text-2xl"></i>
+                <i class="fi-rr-caret-down ml-2 text-lg"></i>
               </span>
               <div
                 v-show="showDrop"

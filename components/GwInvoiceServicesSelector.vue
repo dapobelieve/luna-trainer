@@ -11,7 +11,7 @@
       <template v-slot:open-indicator="{}">
         <span>
           <i
-            class="ns-caret-down font-bold text-xl cursor-pointer"
+            class="fi-rr-caret-down font-bold text-base cursor-pointer"
           ></i>
         </span>
       </template>
@@ -73,7 +73,7 @@ export default {
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
-        class: 'ns-caret-down font-bold text-xl cursor-pointer absolute right-0 p-3'
+        class: 'fi-rr-caret-down font-bold text-xl cursor-pointer absolute right-0 p-3'
       }
     }
   },

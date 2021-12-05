@@ -50,7 +50,7 @@
       </p>
       <div class="w-max mx-auto">
         <button class="base-button" type="button" @click.prevent="$modal.show('inviteClientModal')">
-          <i class="ns-add"></i>
+          <i class="fi-rr-add text-sm"></i>
           Add client now
         </button>
       </div>
