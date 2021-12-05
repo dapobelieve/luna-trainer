@@ -1,23 +1,23 @@
 {
   "menu": [
     {
-      "icon": "ns-home",
+      "icon": "fi-rr-home",
       "title": "home",
       "path": "dashboard"
     },
     {
-      "icon": "ns-bell-ring",
+      "icon": "fi-rr-bell-ring",
       "title": "notifications",
       "path": "notifications"
     },
     {
-      "icon": "ns-comment-alt",
+      "icon": "fi-rr-comment-alt",
       "title": "messages",
       "id": "introjs-step-5",
       "path": "messages"
     },
     {
-      "icon": "ns-settings",
+      "icon": "fi-rr-settings",
       "title": "settings",
       "path": "settings-profile"
     },
@@ -26,13 +26,13 @@
       "classes":"mt-4"
     },
     {
-      "icon": "ns-user",
+      "icon": "fi-rr-user",
       "title": "my clients",
       "id": "introjs-step-3",
       "path": "clients"
     },
     {
-      "icon": "ns-plus",
+      "icon": "fi-rr-plus",
       "title": "invite new client",
       "path": "inviteClient"
     },
@@ -40,33 +40,33 @@
       "section": "Invoicing"
     },
     {
-      "icon": "ns-receipt",
+      "icon": "fi-rr-receipt",
       "title": "my invoices",
       "path": "invoices-sent"
     },
     {
-      "icon": "ns-plus",
+      "icon": "fi-rr-plus",
       "title": "new invoice",
       "id": "introjs-step-4",
       "path": "invoice"
     },
     {
-      "icon": "ns-calendar",
+      "icon": "fi-rr-calendar",
       "title": "my schedule",
       "path": "schedules"
     },
     {
-      "icon": "ns-plus",
+      "icon": "fi-rr-plus",
       "title": "Add New Session",
       "path": "addSession"
     },
     {
-      "icon": "ns-users",
+      "icon": "fi-rr-user",
       "title": "my courses",
       "path": "courses"
     },
     {
-      "icon": "ns-plus",
+      "icon": "fi-rr-plus",
       "title": "new course",
       "path": "newCourse"
     },
@@ -75,17 +75,17 @@
       "section": "Help"
     },
     {
-      "icon": "ns-headset",
+      "icon": "fi-rr-headset",
       "title": "get help",
       "path": "getHelp"
     },
     {
-      "icon": "ns-time-add",
+      "icon": "fi-rr-time-add",
       "title": "what's coming next",
       "path": "comingNext"
     },
     {
-      "icon": "ns-power",
+      "icon": "fi-rr-power",
       "title": "sign out",
       "path": "signout"
     }

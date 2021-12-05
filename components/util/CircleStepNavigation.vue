@@ -24,7 +24,7 @@
           aria-current="step"
           @click.prevent="moveToStep(index)"
         >
-          <svg
+          <!-- <svg
             v-if="stepCount > index"
             class="w-5 h-5 text-blue-500"
             xmlns="http://www.w3.org/2000/svg"
@@ -37,7 +37,11 @@
               d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
               clip-rule="evenodd"
             />
-          </svg>
+          </svg> -->
+          <i
+            v-if="stepCount > index"
+            class="fi-rr-check text-sm text-blue-500"
+          ></i>
           <span
             v-else-if="stepCount === index"
             class="h-5 w-5 bg-blue-500 rounded-full shadow-md"

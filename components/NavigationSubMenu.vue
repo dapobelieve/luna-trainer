@@ -26,7 +26,7 @@
             <div class="flex justify-between items-center bg-white p-4">
               <slot name="title" />
               <div class="hover:bg-blue-50 h-8 w-8 flex items-center justify-center rounded-full">
-                <i class="ns-cross text-blue-500" role="button" @click="$emit('input', false)"></i>
+                <i class="fi-rr-cross text-blue-500" role="button" @click="$emit('input', false)"></i>
               </div>
             </div>
             <slot name="search" />

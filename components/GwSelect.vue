@@ -13,7 +13,7 @@
           {{ $data.$selected }}
         </span>
         <span class="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-          <i class="ns-caret-down text-lg"></i>
+          <i class="fi-rr-caret-down text-sm"></i>
         </span>
       </button>
       <transition
