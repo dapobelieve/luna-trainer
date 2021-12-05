@@ -79,7 +79,7 @@ export default {
         this.isLoading = false
       }
     }
-  },
+  }
 }
 </script>
 
