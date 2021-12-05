@@ -29,7 +29,7 @@ import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
-import ExpiredSessionAuthModal from "~/components/modals/ExpiredSessionAuthModal";
+import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 export default {
   components: { ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
