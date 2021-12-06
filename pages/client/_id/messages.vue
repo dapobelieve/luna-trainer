@@ -76,7 +76,17 @@
           </p>
         </div>
       </div>
-      <div v-else class="flex flex-col justify-between h-full">
+      <div
+        v-else
+        class="flex flex-col justify-between h-full"
+        @dragenter.prevent="dragging = true"
+        @dragend.prevent="dragging = false"
+        @dragover.prevent
+        @drop.prevent="onDropImage($event)">
+        <!-- when dragEntered is true -->
+        <div v-show="dragging" class="dragEnter" @dragleave.prevent="dragging = false">
+          Drop Image Here
+        </div>
         <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
           <template v-if="messageHistory.length">
             <div v-for="msg in messageHistory" :key="msg.messageId">
@@ -314,7 +324,8 @@ export default {
       fileToBeSent: null,
       messageHistory: [],
       channel: null,
-      clientIsReady: true
+      clientIsReady: true,
+      dragging: false
     }
   },
   computed: {
@@ -548,6 +559,17 @@ export default {
       this.$refs.fileUpload.click()
       this.showUpload = false
     },
+    onDropImage (event) {
+      const files = event.dataTransfer.files
+      const fileType = event.dataTransfer.files[0].type.split('/')[0] === 'image'
+      if (fileType) {
+        this.fileToBeSent = files[0]
+        this.createImage(files[0])
+      } else {
+        this.$gwtoast.error('File is not an image')
+      }
+      this.dragging = false
+    },
     onChange (e) {
       const files = e.target.files
       this.fileToBeSent = files[0]
@@ -578,6 +600,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dragEnter {
+  @apply rounded-md absolute bg-gray-100 grid place-content-center;
+  border: 5px dashed #E2E8F0;
+  padding: 0.5em;
+  inset: 0.5em;
+}
+
 // chat styles
 #chatBody {
   .me,

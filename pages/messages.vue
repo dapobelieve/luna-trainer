@@ -44,6 +44,7 @@
               <div class="relative flex items-center h-8">
                 <i class="ns-search absolute left-2 text-gray-400"></i>
                 <input
+                  v-model="search"
                   type="text"
                   class="focus:outline-none w-full sm:text-sm border rounded-md h-8 pl-7 shadow-sm focus:border-blue-500"
                   placeholder="Search name to start new chat"
@@ -51,7 +52,40 @@
               </div>
             </div>
           </div>
-          <div v-if="unreadMessages.length">
+          <template v-if="search">
+            <template v-if="searchClient.length">
+              <div role="button" @click="$router.push({ name: 'client-id-messages', params: { id: client._id } })" class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg" v-for="client in searchClient" :key="client._id">
+                <div class="flex-none w-12 mr-4">
+                  <ClientAvatar
+                    :client-info="{
+                      firstName: client.firstName
+                    }"
+                  />
+                </div>
+                <div class="truncate flex-grow">
+                  <div class="flex items-center">
+                    <span
+                      class="text-base text-gray-700 font-medium capitalize mr-2 flex-grow truncate"
+                    >{{ client.firstName }}</span>
+                    <span
+                      :class="[client.status === 'accepted' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700', 'px-1 rounded text-sm font-normal normal-case flex-none w-18']"
+                    >
+                      {{ client.status === 'accepted' ? client.status : 'pending' }}
+                    </span>
+                  </div>
+                  <div
+                    class="text-gray-700 text-base font-normal normal-case truncate"
+                  >
+                    {{ client.status === 'accepted' ? 'Send Message' : 'Messaging not ready' }}
+                  </div>
+                </div>
+              </div>
+            </template>
+            <div v-else class="text-center mt-10">
+              😩 Client not found.
+            </div>
+          </template>
+          <div v-else-if="unreadMessages.length && !search.length">
             <div
               v-for="n in unreadMessages"
               :key="n.url"
@@ -88,7 +122,12 @@
                   v-else-if="n.lastMessage.messageType === 'file'"
                   class="text-gray-700 flex items-center"
                 >
-                  <img src="~/assets/img/image-outline.svg" class="w-5 h-5" alt="" srcset="">
+                  <img
+                    src="~/assets/img/image-outline.svg"
+                    class="w-5 h-5"
+                    alt=""
+                    srcset=""
+                  />
                   <span class="ml-1 font-medium text-sm">Photo</span>
                 </div>
               </div>
@@ -114,14 +153,28 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'MessagesSubMenu',
+  data () {
+    return {
+      search: ''
+    }
+  },
   computed: {
     ...mapGetters({
+      allClients: 'client/getAllClients',
       unreadMessages: 'sendBird/getUnreadMessages',
       acceptedClients: 'client/acceptedClients'
     }),
     acceptedImageTypes (file) {
       const allowableImageTypes = ['image/gif', 'image/jpeg', 'image/png']
       return allowableImageTypes.includes(file)
+    },
+    searchClient () {
+      return this.allClients.filter((client) => {
+        if (this.search && this.allClients.length) {
+          return client.firstName.toLowerCase().match(this.search.toLowerCase())
+        }
+        return 'No Result'
+      })
     }
   },
   methods: {
