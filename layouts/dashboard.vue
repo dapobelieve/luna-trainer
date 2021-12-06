@@ -1,8 +1,5 @@
 <template>
   <async-view loader-id="logout">
-    <modal name="stripe-modal" height="auto" :adaptive="true" :max-width="500">
-      <onboarding-stripe class="m-6" @closeModal="skipStripeProcess" />
-    </modal>
     <GwHeader />
     <div class="flex">
       <invite-new-client-modal />
@@ -29,7 +26,7 @@ import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
-import ExpiredSessionAuthModal from "~/components/modals/ExpiredSessionAuthModal";
+import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 export default {
   components: { ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
@@ -74,16 +71,6 @@ export default {
     hideSide () {
       this.open = false
     },
-    skipStripeProcess () {
-      localStorage.removeItem('profileCompleted')
-      this.$modal.hide('stripe-modal')
-    }
-  },
-  mounted () {
-    const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
-    if (isProfileSetUpCompleted && !this.isStripeConnected) {
-      this.$modal.show('stripe-modal')
-    }
   },
   created () {
     this.$nuxt.$on('displayPageSidebar', () => {
