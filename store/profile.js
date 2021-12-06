@@ -62,10 +62,17 @@ export const mutations = {
       client: {
         firstName: '',
         email: '',
-        petName: '',
-        petBreed: '',
-        petAge: '',
-        petGender: ''
+        pet: [
+          {
+            name: '',
+            age: {
+              format: '',
+              value: ''
+            },
+            breed: '',
+            gender: ''
+          }
+        ]
       },
       stripe: false
     }

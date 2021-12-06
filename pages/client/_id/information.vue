@@ -147,15 +147,7 @@
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
                 <div>
-                  <GwInputField
-                    v-model="clientInfo.pet[0].age"
-                    placeholder="Type here"
-                    type="text"
-                    autocomplete="text"
-                    label="Age"
-                    class-name="information_box"
-                    @input="focusField"
-                  />
+                  <DogAge :dogInfo="clientInfo.pet[0].age.approxDateOfBirth" />
                 </div>
                 <div>
                   <dt class="input-text-label">

@@ -295,7 +295,7 @@ export default {
     },
     toggleIntercomCheck () {
       let isToggled = null
-      if (this.$route.path.includes('Messages')) {
+      if (this.$route.path.includes('messages')) {
         isToggled = false
       } else {
         isToggled = true
