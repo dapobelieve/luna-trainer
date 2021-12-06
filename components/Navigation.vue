@@ -374,16 +374,6 @@ export default {
       this.toggleIntercom = !this.toggleIntercom
       window.Intercom(this.toggleIntercom ? 'show' : 'hide')
     },
-    gotoMessage (arr) {
-      const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
-      const client = this.acceptedClients.find(
-        c => c.sendbirdId === user.userId
-      )
-      this.$router.push({
-        name: 'client-id-Messages',
-        params: { id: client._id }
-      })
-    },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {
         this.showNotification = true

@@ -24,7 +24,7 @@
           </div>
           <div class="inline-flex">
             <span class="font-medium mr-6">
-              {{ "\uFFE1" }}{{ service.pricing.amount }}
+              {{ service.pricing.amount | amount }}
             </span>
             <button class="mr-6" @click="selectedService=service; $modal.show('service-modal')">
               <i class="ns-pencil text-xl text-primary-color"></i>
