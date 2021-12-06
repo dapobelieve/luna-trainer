@@ -1,8 +1,5 @@
 <template>
   <async-view loader-id="logout">
-    <modal name="stripe-modal" height="auto" :adaptive="true" :max-width="500">
-      <onboarding-stripe class="m-6" @closeModal="skipStripeProcess" />
-    </modal>
     <GwHeader />
     <div class="flex">
       <invite-new-client-modal />
@@ -74,16 +71,6 @@ export default {
     hideSide () {
       this.open = false
     },
-    skipStripeProcess () {
-      localStorage.removeItem('profileCompleted')
-      this.$modal.hide('stripe-modal')
-    }
-  },
-  mounted () {
-    const isProfileSetUpCompleted = localStorage.getItem('profileCompleted')
-    if (isProfileSetUpCompleted && !this.isStripeConnected) {
-      this.$modal.show('stripe-modal')
-    }
   },
   created () {
     this.$nuxt.$on('displayPageSidebar', () => {
