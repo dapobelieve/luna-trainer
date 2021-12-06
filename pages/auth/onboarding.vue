@@ -241,11 +241,10 @@ export default {
         this.endFullPageLoad()
       })
     } else if (!this.$auth.strategy.token.status().valid()) {
-      console.log(this.$auth.strategy.token.status().valid())
-      // this.$router.replace({ name: 'auth-signin' }).then(() => {
-      //   this.endFullPageLoad()
-      // })
-      // this.$gwtoast.error('Session Expired. Please login')
+      this.$router.replace({ name: 'auth-signin' }).then(() => {
+        this.endFullPageLoad()
+      })
+      this.$gwtoast.error('Session Expired. Please login')
     } else if (
       this.$auth.strategy.token.status().valid() &&
       'jumpto' in this.$route.query
