@@ -5,7 +5,7 @@
         :class="{
           hidden:
             $route.name === 'client-id-information' ||
-            $route.name === 'client-id-Messages'
+            $route.name === 'client-id-messages'
         }"
       />
       <div class="flex">

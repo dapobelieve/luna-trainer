@@ -31,7 +31,7 @@
               'bg-green-50 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
             ]"
           >
-            <i class="ns-check text-lg text-green-500"></i>
+            <i class="fi-rr-check text-base text-green-500"></i>
           </p>
           <p class="font-medium whitespace-nowrap">
             Stripe ready!
@@ -43,7 +43,7 @@
               'bg-indigo-500 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
             ]"
           >
-            <i class="ns-refresh text-white"></i>
+            <i class="fi-rr-refresh text-white"></i>
           </button>
           <p class="font-medium whitespace-nowrap">
             Stripe account in review
@@ -52,7 +52,7 @@
             alt="see reason here"
             @click.prevent="$router.push({name: 'settings-connections'});"
           >
-            <i class="ns-info text-lg"></i>
+            <i class="fi-rr-info text-base"></i>
           </button>
         </div>
         <div
@@ -68,7 +68,7 @@
               'bg-yellow-50 rounded-full p-2 h-8 w-8 flex shadow-sm'
             ]"
           >
-            <i class="ns-time-forward text-yellow-500 text-lg" />
+            <i class="fi-rr-time-forward text-yellow-500 text-base" />
           </p>
           <p class="font-medium whitespace-nowrap">
             {{
@@ -86,8 +86,8 @@
             >
               <i
                 :class="[
-                  allClients.length ? 'ns-check' : 'ns-users',
-                  'text-green-500 text-lg'
+                  allClients.length ? 'fi-rr-check' : 'fi-rr-user',
+                  'text-green-500 text-base'
                 ]"
               />
             </p>

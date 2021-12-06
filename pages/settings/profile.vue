@@ -14,14 +14,13 @@
           <div
             class="border-dashed cursor-pointer flex items-center rounded p-2"
             @dragenter.prevent="dragging = true"
-            @dragleave.prevent="dragging = false"
             @dragend.prevent="dragging = false"
             @dragover.prevent
             @drop.prevent="onDropImage($event)"
             @click="()=>$refs.fileInput.click()"
           >
             <!-- when dragEntered is true -->
-            <div v-if="dragging" class="dragEnter">
+            <div v-if="dragging" class="dragEnter" @dragleave.prevent="dragging = false">
               Drop Image Here
             </div>
             <input

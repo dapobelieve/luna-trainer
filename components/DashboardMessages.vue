@@ -5,7 +5,7 @@
   >
     <template v-slot:icon>
       <i
-        class="ns-comment-alt bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+        class="fi-rr-comment-alt bg-indigo-50 p-1 rounded-full text-indigo-500 text-lg h-12 w-12 flex items-center justify-center flex-shrink-0"
       ></i>
     </template>
     <template v-slot:title>

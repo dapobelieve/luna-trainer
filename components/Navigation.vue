@@ -11,7 +11,7 @@
           <div class="px-3 py-4">
             <label for="search" class="sr-only">Search</label>
             <div class="relative flex items-center h-8">
-              <i class="ns-search absolute left-2 text-gray-400" aria-hidden="true"></i>
+              <i class="fi-rr-search absolute left-2 text-gray-400" aria-hidden="true"></i>
               <input
                 type="text"
                 name="search"
@@ -61,7 +61,7 @@
                 target="_blank"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
               >
-                <i class="ns-time-add" />
+                <i class="fi-rr-time-add" />
                 <span class="truncate">What’s coming next...</span>
               </a>
               <button
@@ -69,7 +69,7 @@
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
                 @click="inviteClient"
               >
-                <i class="ns-plus" />
+                <i class="fi-rr-plus" />
                 <span class="truncate">Invite Client</span>
               </button>
               <div v-else-if="menu.path === 'addSession'" class="bg-gray-50 border rounded-lg">
@@ -84,7 +84,7 @@
                   disabled
                   @click="addSession = true"
                 >
-                  <i class="ns-calendar" />
+                  <i class="fi-rr-calendar" />
                   <span class="truncate">My Schedule</span>
                 </button>
                 <button
@@ -92,7 +92,7 @@
                   disabled
                   @click="addSession = true"
                 >
-                  <i class="ns-plus" />
+                  <i class="fi-rr-plus" />
                   <span class="truncate">New Session</span>
                 </button>
                 <p
@@ -113,7 +113,7 @@
                   disabled
                   @click="addSession = true"
                 >
-                  <img class="p-1 rounded-full" src="~/assets/img/svgs/course.svg" alt="course" />
+                  <img class="p-1 rounded-full h-8" src="~/assets/img/svgs/course.svg" alt="course" />
                   <span class="truncate">My Courses </span>
                 </button>
                 <button
@@ -121,7 +121,7 @@
                   disabled
                   @click="newCourse = true"
                 >
-                  <i class="ns-plus" />
+                  <i class="fi-rr-plus" />
                   <span class="truncate">New Course</span>
                 </button>
                 <p
@@ -186,7 +186,7 @@
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
                 @click="signOut"
               >
-                <i class="ns-power" />
+                <i class="fi-rr-power" />
                 <span class="truncate">Sign out</span>
               </button>
               <div v-if="menu.section" class="p-4 flex justify-between items-center">
@@ -373,16 +373,6 @@ export default {
     allowIntercom () {
       this.toggleIntercom = !this.toggleIntercom
       window.Intercom(this.toggleIntercom ? 'show' : 'hide')
-    },
-    gotoMessage (arr) {
-      const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
-      const client = this.acceptedClients.find(
-        c => c.sendbirdId === user.userId
-      )
-      this.$router.push({
-        name: 'client-id-Messages',
-        params: { id: client._id }
-      })
     },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {

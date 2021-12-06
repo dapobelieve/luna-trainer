@@ -175,7 +175,7 @@
 
     <!-- invoice previews -->
     <invoices-invoice-preview
-      :client="invoiceDetails.client"
+      :client="invoiceDetails.customerId"
       :services="invoiceDetails.services"
       :due-date="invoiceDetails.dueDate"
     />
