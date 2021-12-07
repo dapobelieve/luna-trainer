@@ -147,7 +147,7 @@
               </div>
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
                 <div>
-                  <DogAge :dogInfo="clientInfo.pet[0].age.approxDateOfBirth" />
+                  <DogAge :dog-info="clientInfo.pet[0]" @datePickerFormat="displayEmittedDate(e)" @wmyFormat="emittedWMY = $event" />
                 </div>
                 <div>
                   <dt class="input-text-label">
@@ -158,7 +158,7 @@
                   </dd>
                 </div>
               </div>
-              <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
+              <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-8">
                 <div>
                   <dt class="input-text-label">
                     Owner's Notes
@@ -191,7 +191,10 @@ export default {
       id: this.$route.params.id,
       editField: '',
       tempClientInfo: {},
-      showButtons: false
+      showButtons: false,
+      emittedDate: {},
+      emittedWMY: {}
+
     }
   },
   computed: {
@@ -210,19 +213,29 @@ export default {
   mounted () {
     this.getClientProfile(this.id)
       .then((response) => {
+        console.log(response)
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
-            pet: [{ name: '', age: '', breed: '' }]
+            pet: [{ name: '', age: {}, breed: '' }]
           }
         } else {
           this.clientInfo = response
+          console.log(this.clientInfo)
         }
         this.tempClientInfo = { ...this.clientInfo }
       })
       .catch(err => console.log('error fetching client', err))
   },
   methods: {
+    displayEmittedDate (e) {
+      this.emittedDate = e
+      this.showButtons = true
+    },
+    displayEmittedWMY (e) {
+      this.emittedWMY = e
+      this.showButtons = true
+    },
     ...mapActions('client', {
       getClientProfile: 'getSingleClientById',
       updateClient: 'updateClientProfile'
@@ -240,7 +253,9 @@ export default {
           phoneNumber: this.clientInfo.phoneNumber,
           pet: [{
             name: this.clientInfo.pet[0].name,
-            age: this.clientInfo.pet[0].age,
+            age: this.emittedDate.format === 'DATE'
+              ? this.emittedDate
+              : this.emittedWMY,
             breed: this.clientInfo.pet[0].breed
           }],
           notes: this.clientInfo.notes
