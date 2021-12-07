@@ -105,7 +105,6 @@ export default {
         let {
           day: currentDay,
           month: currentMonth,
-          // eslint-disable-next-line prefer-const
           year: currentYear
         } = this.current
 
@@ -124,7 +123,6 @@ export default {
           currentDay += 30
           month -= 1
         }
-        // eslint-disable-next-line prefer-const
         day = currentDay - dateDay
 
         const weeks = Math.round(day / 7)
@@ -137,3 +135,13 @@ export default {
   }
 }
 </script>
+<style scoped>
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type=number] {
+  -moz-appearance: textfield;
+}
+</style>
