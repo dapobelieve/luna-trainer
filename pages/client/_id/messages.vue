@@ -469,7 +469,6 @@ export default {
           this.markMessagesAsRead(channel)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
-            // this.markAsRead(channel)
           })
         }
       })

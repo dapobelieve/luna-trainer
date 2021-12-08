@@ -35,9 +35,9 @@ export default {
           channel.url === this.channelUrl
         ) {
           this.messageHistory.push(message)
+          this.markMessagesAsRead(channel)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
-            // this.markAsRead(channel)
           })
         }
       }
