@@ -9,7 +9,7 @@ export default {
     channelHandler.onChannelChanged = this.onChannelChanged
     channelHandler.onChannelDeleted = this.onChannelDeleted
     channelHandler.onDeliveryReceiptUpdated = this.onDeliveryReceiptUpdated
-    // channelHandler.onReadReceiptUpdated = this.onReadReceiptUpdated
+    channelHandler.onReadReceiptUpdated = this.onReadReceiptUpdated
     channelHandler.onTypingStatusUpdated = this.onTypingStatusUpdated
 
     this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
@@ -58,7 +58,11 @@ export default {
     },
 
     // user reads a specific unread message in the chat
-    onReadReceiptUpdated () {},
+    onReadReceiptUpdated (groupChannel) {
+      if (this.channelUrl === groupChannel.url) {
+        this.messageReadReceipt = true
+      }
+    },
 
     // a group channel has been deleted on the sendbord server
     async onChannelDeleted (channelUrl, channelType) {

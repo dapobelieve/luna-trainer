@@ -62,6 +62,16 @@ export const mutations = {
   },
   CONNECTING_TO_SENDBIRD (state, status) {
     state.connectingToSendBird = status
+  },
+  REMOVE_MARKED_MESSAGE (state, channelUrl) {
+    const channel = state.connectedChannels.get(channelUrl)
+    channel.unreadMessageCount = 0
+    state.connectedChannels = Object.assign(
+      new Map([
+        ...state.connectedChannels,
+        [channel.url, channel]
+      ])
+    )
   }
 }
 
@@ -183,46 +193,31 @@ export const actions = {
       )
     }
     return false
+  },
+  markMessageAsRead ({ commit, dispatch }, channel) {
+    channel.markAsRead()
+    commit('REMOVE_MARKED_MESSAGE', channel.url)
   }
-  // markMessageAsRead ({ commit, dispatch }, channel) {
-  //   channel.markAsRead()
-
-  //   const channelHandler = new this.$sb.ChannelHandler()
-  //   dispatch('listOfConnectedChannels')
-
-  //   channelHandler.onReadReceiptUpdated = (groupChannel) => {
-  //     if (channel.url === groupChannel.url) {
-  //       console.log('read receipt checked ')
-  //       console.log('channel read receipt ', groupChannel)
-  //     }
-  //   }
-
-  //   this.$sb.addChannelHandler('markMessages', channelHandler)
-  // }
 }
 
 export const getters = {
   connectingToSendbirdServerWithUserStatus: state => state.connectingStatus,
   getUser: id => state => state.mySendBirdUsers.find(u => u.userId === id),
-  getUnreadMessages: (state) => {
+  getUnreadMessages: (state, getters, rootState) => {
     const unread = []
     if (state.connectedChannels.size) {
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of state.connectedChannels.entries()) {
-        if (value.unreadMessageCount) {
+        if (
+          value.unreadMessageCount &&
+          value.lastMessage._sender.userId !== rootState.auth.user.sendbirdId
+        ) {
           unread.push(value)
         }
       }
       return unread
     }
     return []
-  },
-  getUserUnreadMessageCount: (state, getters) => (id) => {
-    if (getters.getUnreadMessages.length) {
-      return getters.getUnreadMessages.find(m =>
-        m.members.find(m => m.userId === id)
-      )
-    }
   },
   getCurrentClient: state => state.tempClient
 }

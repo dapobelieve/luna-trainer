@@ -96,15 +96,15 @@
                 @dblclick="replyParentMessageWithText(msg)"
               >
                 <small class="self-end text-xs mr-1.5">
-                  <!-- <img
-                    v-if="msg.sendingStatus === 'succeeded'"
+                  <img
+                    v-if="messageReadReceipt"
                     class="text-center inline-block h-3"
                     src="~/assets/img/svgs/checkmark-done-outline.svg"
                     alt
                     srcset
-                  /> -->
+                  />
                   <img
-                    v-if="msg.sendingStatus === 'succeeded'"
+                    v-else
                     class="text-center inline-block h-3"
                     src="~/assets/img/svgs/checkmark-outline.svg"
                     alt
@@ -325,7 +325,8 @@ export default {
       messageHistory: [],
       channel: null,
       clientIsReady: true,
-      dragging: false
+      dragging: false,
+      messageReadReceipt: false
     }
   },
   computed: {
@@ -408,7 +409,8 @@ export default {
       addChannel: 'addNewChannel',
       newMessage: 'updateConnectedChannels',
       connectToSendBird: 'connect_to_sb_server_with_userid',
-      getChannelListing: 'listOfConnectedChannels'
+      getChannelListing: 'listOfConnectedChannels',
+      markMessagesAsRead: 'markMessageAsRead'
     }),
 
     emitEnter (e) {
@@ -451,7 +453,7 @@ export default {
     // fetch message history
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
-      listQuery.replyType = 'ONLY_REPLY_TO_CHANNEL'
+      listQuery.replyType = 'ALL'
       listQuery.includeThreadInfo = true
       listQuery.includeParentMessageInfo = true
 
@@ -461,8 +463,10 @@ export default {
           this.$gwtoast.error('Error fetching messages', error)
         }
         if (messages) {
+          console.log('the messages ', messages)
           this.messageHistory = messages
           this.isChannelLoading = false
+          this.markMessagesAsRead(channel)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
             // this.markAsRead(channel)
