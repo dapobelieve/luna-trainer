@@ -60,7 +60,7 @@
                 role="button"
                 :class="{ 'cursor-not-allowed': client.status !== 'accepted' }"
                 class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
-                @click="$router.push({ name: 'client-id-messages', params: { id: client._id } })"
+                @click="client.status === 'accepted' ? $router.push({ name: 'client-id-messages', params: { id: client._id } }) : '#'"
               >
                 <div class="flex-none w-12 mr-4">
                   <ClientAvatar
