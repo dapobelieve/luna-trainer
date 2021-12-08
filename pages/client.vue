@@ -42,7 +42,7 @@
         >
           <button
             class="button-fill w-full"
-            @click="$router.push({name: 'Client-id-Messages', params: {id: $route.params.id }})"
+            @click="$router.push({name: 'Client-id-messages', params: {id: $route.params.id }})"
           >
             <i class="ns-comment-alt mr-2"></i> send message
           </button>

@@ -59,28 +59,6 @@
         </div>
       </div>
     </div>
-    <modal name="my-modal" height="auto" :adaptive="true" :max-width="450" :click-to-close="false">
-      <div class="text-left mx-6 mt-8 mb-4">
-        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">
-          Welcome to GetWelp!
-        </h2>
-        <p
-          class="text-base text-gray-700 mb-6 leading-relaxed"
-        >
-          So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
-        </p>
-        <div class="flex justify-start py-4">
-          <button
-            style="width: fit-content"
-            type="submit"
-            class="button-fill"
-            @click="displaySetUp"
-          >
-            Lets Get Started
-          </button>
-        </div>
-      </div>
-    </modal>
   </main>
 </template>
 <script>
@@ -95,11 +73,6 @@ export default {
       return this.$route.name
     }
   },
-  created () {
-    this.$nuxt.$on('profile', () => {
-      this.started()
-    })
-  },
   methods: {
     handleOnClickGoogleSignUp () {
       const { host, protocol } = window.location
@@ -107,14 +80,6 @@ export default {
     },
     handleOnClickGoogleSignIn () {
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
-    },
-    started () {
-      this.$modal.show('my-modal')
-    },
-    displaySetUp () {
-      this.$router.replace({
-        name: 'auth-onboarding'
-      })
     }
   }
 }

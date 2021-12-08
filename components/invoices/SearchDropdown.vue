@@ -6,7 +6,7 @@
           <div class="relative cursor-pointer mr-4 items-center inline-flex text-sm">
             <div class="inline-flex items-center" @click="showFieldDropdown = !showFieldDropdown; show=false">
               <span class="text-gray-500">{{ field }}</span>
-              <i class="ns-caret-down h-3 w-3 text-base text-gray-700"></i>
+              <i class="fi-rr-caret-down h-5 w-3 text-base text-gray-700"></i>
             </div>
             <div v-show="showFieldDropdown" class="absolute top-[18px] absolute mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
               <div class="py-1" role="none">

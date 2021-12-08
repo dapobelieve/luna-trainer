@@ -87,7 +87,7 @@ export const mutations = {
     }
   },
   SET_GETWELP_USER (state, user) {
-    const checkEmptiness =
+    const checkEmptiness = user &&
       Object.keys(user).length === 0 && user.constructor === Object
     const gwuser = checkEmptiness ? {} : user
     this.$auth.setUser(gwuser)

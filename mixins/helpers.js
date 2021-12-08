@@ -7,7 +7,7 @@ export default {
       return Object.values(obj).length && obj.constructor === Object
     },
     displayComponent () {
-      return this.$route.name === 'client-id-Messages'
+      return this.$route.name === 'client-id-messages'
     }
   },
   methods: {

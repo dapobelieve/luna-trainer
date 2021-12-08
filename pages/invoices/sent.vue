@@ -5,15 +5,15 @@
         <div class="actions flex justify-between items-center w-full">
           <div>
             <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
-              <i class="ns-archive mr-1"></i>
+              <i class="fi-rr-archive mr-1"></i>
               <span>Archive</span>
             </span>
             <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
-              <i class="ns-download mr-1"></i>
+              <i class="fi-rr-download mr-1"></i>
               <span>Export</span>
             </span>
             <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
-              <i class="ns-download mr-1"></i>
+              <i class="fi-rr-download mr-1"></i>
               <span>Exporting...</span>
             </span>
           </div>
@@ -123,7 +123,7 @@
             We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
           </p>
           <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'invoice' })">
-            <i class="ns-plus text-white"></i>
+            <i class="fi-rr-plus text-white"></i>
             <span class="text-font-medium text-white text-base ml-2">New Invoice</span>
           </button>
         </div>

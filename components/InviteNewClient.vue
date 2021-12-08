@@ -121,6 +121,12 @@ export default {
       `${this.clientInfo.firstName} has been sent an invite.`
           )
           this.$emit('close', false)
+          this.$router.push({
+            name: 'client-id-information',
+            params: {
+              id: response.data.data._id
+            }
+          })
         } else {
           this.$gwtoast.error('Error sending client invite')
         }

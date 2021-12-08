@@ -11,7 +11,7 @@
       <template v-slot:open-indicator="{ dropdowIndicatorattributes }">
         <span v-bind="dropdowIndicatorattributes">
           <i
-            class="ns-caret-down font-bold pt-1 text-xl cursor-pointer"
+            class="fi-rr-caret-down font-bold pt-1 text-base cursor-pointer"
           ></i>
         </span>
       </template>
@@ -58,7 +58,7 @@ export default {
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
-        class: 'ns-caret-down font-bold text-xl cursor-pointer absolute right-0 p-3'
+        class: 'fi-rr-caret-down font-bold text-base cursor-pointer absolute right-0 p-3'
       }
     }
   },

@@ -63,9 +63,6 @@ export const actions = {
     )
   },
   setToken ({ commit }, payload) {
-    // console.log(payload)
-    // localStorage.setItem('auth._token.local', payload.token)
-    // localStorage.setItem('auth._refresh_token.local', payload.refreshToken);
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
   async logOut ({ commit, dispatch }) {
