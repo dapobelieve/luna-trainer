@@ -81,15 +81,15 @@ export default {
       }
     },
     petName: {
-      get () { return this.clientData.petName },
+      get () { return this.clientData.pet[0].name },
       set (val) {
         this.addClient({ parent: 'client', key: 'petName', value: val })
       }
     },
     petBreed: {
-      get () { return this.clientData.petBreed },
+      get () { return this.clientData.pet[0].breed },
       set (val) {
-        this.addClient({ parent: 'client', key: 'petBreed', value: val })
+        this.addClient({ parent: 'client', key: 'petBreed', value: val  })
       }
     }
   },

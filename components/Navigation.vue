@@ -113,7 +113,7 @@
                   disabled
                   @click="addSession = true"
                 >
-                  <img class="p-1 rounded-full h-8" src="~/assets/img/svgs/course.svg" alt="course" />
+                  <i class="fi-rr-graduation-cap" />
                   <span class="truncate">My Courses </span>
                 </button>
                 <button
@@ -295,7 +295,7 @@ export default {
     },
     toggleIntercomCheck () {
       let isToggled = null
-      if (this.$route.path.includes('Messages')) {
+      if (this.$route.path.includes('messages')) {
         isToggled = false
       } else {
         isToggled = true

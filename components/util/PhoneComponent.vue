@@ -5,6 +5,7 @@
     </label>
     <client-only>
       <vue-tel-input
+        :value="value"
         input-id="phone_number"
         :disabled="disable"
         input-classes="form-control"
@@ -23,6 +24,10 @@ export default {
     disable: {
       type: Boolean,
       default: false
+    },
+    value: {
+      type: String,
+      default: ''
     }
   },
   data () {

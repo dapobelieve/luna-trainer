@@ -145,18 +145,19 @@
                   />
                 </div>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <GwInputField
-                    v-model="clientInfo.pet[0].age"
-                    placeholder="Type here"
-                    type="text"
-                    autocomplete="text"
-                    label="Age"
-                    class-name="information_box"
-                    @input="focusField"
-                  />
-                </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6"> 
+               <div>
+                <label for="age" class="input-text-label text-gray-700 block">Age</label>
+                  <date-picker
+                    v-model="petAge"
+                    style="width: 100% !important"
+                    class="w-full relative"
+                    :disabled-date="date => date > new Date()"
+                    format="DD-MMM-YYYY"
+                    @change="focusField"
+                  ></date-picker>
+                <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is approximately {{ showDate }}</small>  
+             </div>
                 <div>
                   <dt class="input-text-label">
                     Behavioural Problems
@@ -185,10 +186,13 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
 import countries from '~/countries.json'
 export default {
   name: 'Information',
+  components: { DatePicker },
   data () {
     return {
       hasAnyInputChanged: false,
@@ -199,7 +203,10 @@ export default {
       id: this.$route.params.id,
       editField: '',
       tempClientInfo: {},
-      showButtons: false
+      showButtons: false,
+      calcWeeks: '',
+      calcMonths: '',
+      calcYears: ''
     }
   },
   computed: {
@@ -213,6 +220,26 @@ export default {
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
+    },
+    petAge: {
+      set (value) {
+        return this.clientInfo.pet[0].age = value
+      },
+      get () {
+        return new Date(this.clientInfo.pet[0].age)
+      }
+    },
+    showDate(){
+      let month, years, week
+      const userDate = new Date(this.clientInfo.pet[0].age)
+      const currentDate = new Date()
+      const days =  Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate()) ) /(1000 * 60 * 60 * 24))
+      const weeks = Math.floor(days / 7)
+      const months = Math.floor(weeks / 4) 
+      this.calcWeeks = weeks % 4
+      this.calcYears = months > 12 ? Math.floor(months / 12) : 0
+      this.calcMonths = this.calcYears >= 1 ? months % 12 : months
+      return `${this.calcWeeks}week(s), ${this.calcMonths}month(s) and ${this.calcYears}years(s)`
     }
   },
   mounted () {
@@ -222,6 +249,7 @@ export default {
           this.clientInfo = {
             ...response,
             pet: [{ name: '', age: '', breed: '' }]
+            
           }
         } else {
           this.clientInfo = response
