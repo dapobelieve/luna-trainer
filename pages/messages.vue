@@ -54,7 +54,14 @@
           </div>
           <template v-if="search">
             <template v-if="searchClient.length">
-              <div role="button" @click="$router.push({ name: 'client-id-messages', params: { id: client._id } })" class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg" v-for="client in searchClient" :key="client._id">
+              <div
+                v-for="client in searchClient"
+                :key="client._id"
+                role="button"
+                :class="{ 'cursor-not-allowed': client.status !== 'accepted' }"
+                class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
+                @click="client.status === 'accepted' ? $router.push({ name: 'client-id-messages', params: { id: client._id } }) : '#'"
+              >
                 <div class="flex-none w-12 mr-4">
                   <ClientAvatar
                     :client-info="{
@@ -68,15 +75,15 @@
                       class="text-base text-gray-700 font-medium capitalize mr-2 flex-grow truncate"
                     >{{ client.firstName }}</span>
                     <span
-                      :class="[client.status === 'accepted' ? 'bg-green-200 text-green-700' : 'bg-red-200 text-red-700', 'px-1 rounded text-sm font-normal normal-case flex-none w-18']"
+                      :class="[client.status === 'accepted' ? 'bg-green-200 text-green-700' : 'text-red-700', 'rounded text-sm font-normal normal-case flex-none w-18 text-sm items-center flex']"
                     >
-                      {{ client.status === 'accepted' ? client.status : 'pending' }}
+                      <i :class="{ hidden : client.status === 'accepted' }" class="fi-rr-time-add text-xs mr-1"></i>
                     </span>
                   </div>
                   <div
-                    class="text-gray-700 text-base font-normal normal-case truncate"
+                    class="text-gray-700 text-xs font-normal normal-case truncate"
                   >
-                    {{ client.status === 'accepted' ? 'Send Message' : 'Messaging not ready' }}
+                    {{ client.status === 'accepted' ? 'Message' : 'Invitation Pending' }}
                   </div>
                 </div>
               </div>

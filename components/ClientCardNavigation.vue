@@ -98,7 +98,7 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 export default {
   name: 'ClientCardNavigation',
   data () {
@@ -118,15 +118,7 @@ export default {
   computed: {
     ...mapState({
       thisUser: state => state.sendBird.tempClient
-    }),
-    ...mapGetters({
-      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount'
-    }),
-    unreadMessages () {
-      return this.unreadMessagesCount(this.thisUser)
-        ? this.unreadMessagesCount(this.thisUser).unreadMessageCount
-        : 0
-    }
+    })
   }
 }
 </script>
