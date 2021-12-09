@@ -145,10 +145,19 @@
                   />
                 </div>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <DogAge :dog-info="clientInfo.pet[0]" @datePickerFormat="displayEmittedDate(e)" @wmyFormat="emittedWMY = $event" />
-                </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6"> 
+               <div>
+                <label for="age" class="input-text-label text-gray-700 block">Age</label>
+                  <date-picker
+                    v-model="petAge"
+                    style="width: 100% !important"
+                    class="w-full relative"
+                    :disabled-date="date => date > new Date()"
+                    format="DD-MMM-YYYY"
+                    @change="focusField"
+                  ></date-picker>
+                <small class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is {{ showDate }}</small>  
+             </div>
                 <div>
                   <dt class="input-text-label">
                     Behavioural Problems
@@ -158,7 +167,7 @@
                   </dd>
                 </div>
               </div>
-              <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-8">
+              <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
                 <div>
                   <dt class="input-text-label">
                     Owner's Notes
@@ -177,10 +186,14 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker'
+import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
 import countries from '~/countries.json'
+import * as dayjs from 'dayjs'
 export default {
   name: 'Information',
+  components: { DatePicker },
   data () {
     return {
       hasAnyInputChanged: false,
@@ -194,7 +207,6 @@ export default {
       showButtons: false,
       emittedDate: {},
       emittedWMY: {}
-
     }
   },
   computed: {
@@ -208,20 +220,39 @@ export default {
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
-    }
+    },
+    petAge: {
+      set (value) {
+        console.log(value);
+        return this.clientInfo.pet[0].age = value
+      },
+      get () {
+        const date1 = new Date(this.clientInfo.pet[0].age)
+        return date1
+      }
+    },
+  showDate(){
+  const userDate = new Date(this.clientInfo.pet[0].age)
+  const currentDate = new Date()
+
+  const year = currentDate.getFullYear() - userDate.getFullYear()
+  const month = (currentDate.getMonth() + 1) - (userDate.getMonth() + 1)
+  const week = (0 | userDate.getDate() / 7)+1
+
+  return `${week} week(s) ${month} month(s) ${year} year(s)`
+}
   },
   mounted () {
     this.getClientProfile(this.id)
       .then((response) => {
-        console.log(response)
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
-            pet: [{ name: '', age: {}, breed: '' }]
+            pet: [{ name: '', age: '', breed: '' }]
+            
           }
         } else {
           this.clientInfo = response
-          console.log(this.clientInfo)
         }
         this.tempClientInfo = { ...this.clientInfo }
       })
@@ -253,9 +284,7 @@ export default {
           phoneNumber: this.clientInfo.phoneNumber,
           pet: [{
             name: this.clientInfo.pet[0].name,
-            age: this.emittedDate.format === 'DATE'
-              ? this.emittedDate
-              : this.emittedWMY,
+            age: this.clientInfo.pet[0].age,
             breed: this.clientInfo.pet[0].breed
           }],
           notes: this.clientInfo.notes

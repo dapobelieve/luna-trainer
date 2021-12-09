@@ -116,5 +116,6 @@ input {
   padding: 7px 12px;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   border-radius: 6px;
+  text-transform: capitalize;
 }
 </style>
