@@ -226,8 +226,7 @@ export default {
         return this.clientInfo.pet[0].age = value
       },
       get () {
-        const date1 = new Date(this.clientInfo.pet[0].age)
-        return date1
+        return new Date(this.clientInfo.pet[0].age)
       }
     },
     showDate(){
