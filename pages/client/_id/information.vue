@@ -156,7 +156,7 @@
                     format="DD-MMM-YYYY"
                     @change="focusField"
                   ></date-picker>
-                <small class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is {{ showDate }}</small>  
+                <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is approximately {{ showDate }}</small>  
              </div>
                 <div>
                   <dt class="input-text-label">
@@ -190,7 +190,6 @@ import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
 import countries from '~/countries.json'
-import * as dayjs from 'dayjs'
 export default {
   name: 'Information',
   components: { DatePicker },
@@ -205,8 +204,9 @@ export default {
       editField: '',
       tempClientInfo: {},
       showButtons: false,
-      emittedDate: {},
-      emittedWMY: {}
+      calcWeeks: '',
+      calcMonths: '',
+      calcYears: ''
     }
   },
   computed: {
@@ -223,7 +223,6 @@ export default {
     },
     petAge: {
       set (value) {
-        console.log(value);
         return this.clientInfo.pet[0].age = value
       },
       get () {
@@ -231,16 +230,18 @@ export default {
         return date1
       }
     },
-  showDate(){
-  const userDate = new Date(this.clientInfo.pet[0].age)
-  const currentDate = new Date()
-
-  const year = currentDate.getFullYear() - userDate.getFullYear()
-  const month = (currentDate.getMonth() + 1) - (userDate.getMonth() + 1)
-  const week = (0 | userDate.getDate() / 7)+1
-
-  return `${week} week(s) ${month} month(s) ${year} year(s)`
-}
+    showDate(){
+      let month, years, week
+      const userDate = new Date(this.clientInfo.pet[0].age)
+      const currentDate = new Date()
+      const days =  Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate()) ) /(1000 * 60 * 60 * 24))
+      const weeks = Math.floor(days / 7)
+      const months = Math.floor(weeks / 4) 
+      this.calcWeeks = weeks % 4
+      this.calcYears = months > 12 ? Math.floor(months / 12) : 0
+      this.calcMonths = this.calcYears >= 1 ? months % 12 : months
+      return `${this.calcWeeks}week(s), ${this.calcMonths}month(s) and ${this.calcYears}years(s)`
+    }
   },
   mounted () {
     this.getClientProfile(this.id)
@@ -259,14 +260,6 @@ export default {
       .catch(err => console.log('error fetching client', err))
   },
   methods: {
-    displayEmittedDate (e) {
-      this.emittedDate = e
-      this.showButtons = true
-    },
-    displayEmittedWMY (e) {
-      this.emittedWMY = e
-      this.showButtons = true
-    },
     ...mapActions('client', {
       getClientProfile: 'getSingleClientById',
       updateClient: 'updateClientProfile'
