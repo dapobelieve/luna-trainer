@@ -106,11 +106,11 @@ export default {
       menuItems: [
         {
           pathName: 'messages',
-          icon: 'ns-comment-alt'
+          icon: 'fi-rr-comment-alt'
         },
         {
           pathName: 'information',
-          icon: 'ns-user'
+          icon: 'fi-rr-user'
         }
       ]
     }

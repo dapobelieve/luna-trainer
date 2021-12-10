@@ -41,7 +41,7 @@
     </div>
     <div class="flex mb-5">
       <div class="mr-5 text-xl">
-        <i class="ns-envelope mt-1 text-gray-500"></i>
+        <i class="fi-rr-envelope mt-1 text-gray-500"></i>
       </div>
       <div class="flex flex-col">
         <p class="capitalize font-normal">
@@ -54,7 +54,7 @@
     </div>
     <div class="flex mb-5">
       <div class="mr-5 text-xl">
-        <i class="ns-location-alt mt-1 text-gray-500"></i>
+        <i class="fi-rr-location-alt mt-1 text-gray-500"></i>
       </div>
       <div class="flex flex-col">
         <p class="capitalize font-normal">

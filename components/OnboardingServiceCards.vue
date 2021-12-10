@@ -40,13 +40,13 @@
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
             @click.prevent="editService(index)"
           >
-            <i class="ns-pencil"></i>
+            <i class="fi-rr-pencil"></i>
           </button>
           <button
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
             @click.prevent="deleteService(index)"
           >
-            <i class="ns-trash"></i>
+            <i class="fi-rr-trash"></i>
           </button>
         </div>
       </div>
