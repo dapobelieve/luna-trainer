@@ -1,4 +1,5 @@
 import webpack from 'webpack'
+// import PnpWebpackPlugin from "pnp-webpack-plugin"
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
@@ -138,6 +139,10 @@ export default {
   },
   build: {
     transpile: /@fullcalendar.*/,
+    // extend(config) {
+    //   config.resolve.plugins.push(PnpWebpackPlugin);
+    //   config.resolveLoader.plugins.push(PnpWebpackPlugin.moduleLoader(module));
+    // },
     postcss: {
       plugins: {
         cssnano: {
