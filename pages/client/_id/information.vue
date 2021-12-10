@@ -230,20 +230,12 @@ export default {
       const currentDate = new Date()
       const days = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate())) / (1000 * 60 * 60 * 24))
       const weeks = Math.floor(days / 7)
-<<<<<<< HEAD
-      const months = Math.floor(weeks / 4)
-      this.calcWeeks = weeks % 4
-      this.calcYears = months > 12 ? Math.floor(months / 12) : 0
-      this.calcMonths = this.calcYears >= 1 ? months % 12 : months
-      return `${this.calcWeeks}week(s), ${this.calcMonths}month(s) and ${this.calcYears}years(s)`
-=======
       const months = Math.floor(weeks / 4) 
       const calcWeeks = weeks % 4
       const calcYears = months > 12 ? Math.floor(months / 12) : 0
       const calcMonths = this.calcYears >= 1 ? months % 12 : months
 
       return `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} years(s)`
->>>>>>> develop
     }
   },
   mounted () {
