@@ -156,7 +156,7 @@
                     format="DD-MMM-YYYY"
                     @change="focusField"
                   ></date-picker>
-                <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is approximately {{ showDate }}</small>  
+                <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is about {{ showDate }}</small>  
              </div>
                 <div>
                   <dt class="input-text-label">
@@ -201,12 +201,8 @@ export default {
       clientInfo: null,
       countries,
       id: this.$route.params.id,
-      editField: '',
       tempClientInfo: {},
       showButtons: false,
-      calcWeeks: '',
-      calcMonths: '',
-      calcYears: ''
     }
   },
   computed: {
@@ -236,10 +232,11 @@ export default {
       const days =  Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate()) ) /(1000 * 60 * 60 * 24))
       const weeks = Math.floor(days / 7)
       const months = Math.floor(weeks / 4) 
-      this.calcWeeks = weeks % 4
-      this.calcYears = months > 12 ? Math.floor(months / 12) : 0
-      this.calcMonths = this.calcYears >= 1 ? months % 12 : months
-      return `${this.calcWeeks}week(s), ${this.calcMonths}month(s) and ${this.calcYears}years(s)`
+      const calcWeeks = weeks % 4
+      const calcYears = months > 12 ? Math.floor(months / 12) : 0
+      const calcMonths = this.calcYears >= 1 ? months % 12 : months
+
+      return `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} years(s)`
     }
   },
   mounted () {
