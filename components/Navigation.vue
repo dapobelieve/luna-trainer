@@ -113,7 +113,7 @@
                   disabled
                   @click="addSession = true"
                 >
-                  <img class="p-1 rounded-full h-8" src="~/assets/img/svgs/course.svg" alt="course" />
+                  <i class="fi-rr-graduation-cap" />
                   <span class="truncate">My Courses </span>
                 </button>
                 <button

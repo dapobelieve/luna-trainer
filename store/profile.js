@@ -62,13 +62,10 @@ export const mutations = {
       client: {
         firstName: '',
         email: '',
-        pet: [
-        {
-            name: '',
-            breed: ''
-        }
-       ]
-
+        petName: '',
+        petBreed: '',
+        petAge: '',
+        petGender: ''
       },
       stripe: false
     }
@@ -80,8 +77,6 @@ export const mutations = {
       state.trainnerRegData[payload.parent] = payload.value
     } else if ('type' in payload && payload.type === 'updateService') {
       state.trainnerRegData.services.splice(payload.index, 1, payload.value)
-    } else if(payload.key === 'pet'){
-     state.trainnerRegData.client.pet[0][payload.subkey] = payload.value
     } else {
       state.trainnerRegData[payload.parent][payload.key] = payload.value
     }

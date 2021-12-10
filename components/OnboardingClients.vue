@@ -83,13 +83,13 @@ export default {
     petName: {
       get () { return this.clientData.pet[0].name },
       set (val) {
-        this.addClient({ parent: 'client', key: 'pet', value: val, subkey: 'name' })
+        this.addClient({ parent: 'client', key: 'petName', value: val })
       }
     },
     petBreed: {
       get () { return this.clientData.pet[0].breed },
       set (val) {
-        this.addClient({ parent: 'client', key: 'pet', value: val, subkey: 'breed' })
+        this.addClient({ parent: 'client', key: 'petBreed', value: val  })
       }
     }
   },
