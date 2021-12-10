@@ -21,7 +21,7 @@
         class="button-text button-sm"
         @click="resendInvite"
       >
-        <i class="ns-refresh"></i>
+        <i class="fi-rr-refresh"></i>
         <span class="capitalize ml-2">resend invite</span>
       </button>
       <div v-else>

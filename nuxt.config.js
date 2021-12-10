@@ -19,11 +19,6 @@ export default {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
       }
     ],
     script: [
@@ -37,7 +32,7 @@ export default {
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/css/theme.scss',
-    '@/assets/css/fonts.css',
+    '@/assets/css/new-fonts.css',
     'vue-popperjs/dist/vue-popper.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
     'vue2-datepicker/index.css'

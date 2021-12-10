@@ -145,9 +145,9 @@
                   />
                 </div>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6"> 
-               <div>
-                <label for="age" class="input-text-label text-gray-700 block">Age</label>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+                <div>
+                  <label for="age" class="input-text-label text-gray-700 block">Age</label>
                   <date-picker
                     v-model="petAge"
                     style="width: 100% !important"
@@ -156,8 +156,8 @@
                     format="DD-MMM-YYYY"
                     @change="focusField"
                   ></date-picker>
-                <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is approximately {{ showDate }}</small>  
-             </div>
+                  <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is approximately {{ showDate }}</small>
+                </div>
                 <div>
                   <dt class="input-text-label">
                     Behavioural Problems
@@ -229,13 +229,12 @@ export default {
         return new Date(this.clientInfo.pet[0].age)
       }
     },
-    showDate(){
-      let month, years, week
+    showDate () {
       const userDate = new Date(this.clientInfo.pet[0].age)
       const currentDate = new Date()
-      const days =  Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate()) ) /(1000 * 60 * 60 * 24))
+      const days = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate())) / (1000 * 60 * 60 * 24))
       const weeks = Math.floor(days / 7)
-      const months = Math.floor(weeks / 4) 
+      const months = Math.floor(weeks / 4)
       this.calcWeeks = weeks % 4
       this.calcYears = months > 12 ? Math.floor(months / 12) : 0
       this.calcMonths = this.calcYears >= 1 ? months % 12 : months
@@ -249,7 +248,7 @@ export default {
           this.clientInfo = {
             ...response,
             pet: [{ name: '', age: '', breed: '' }]
-            
+
           }
         } else {
           this.clientInfo = response

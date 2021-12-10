@@ -14,7 +14,7 @@
               'bg-red-50 rounded-full text-xs p-2 flex'
             ]"
           >
-            <i class="ns-exclamation text-red-500 text-lg" />
+            <i class="fi-rr-exclamation text-red-500 text-lg" />
           </p>
           <p class="text-gray-700 text-base font-medium whitespace-nowrap">
             Calendar(s) <span class="underline">Sync</span>

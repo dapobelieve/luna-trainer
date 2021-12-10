@@ -13,7 +13,7 @@
     </div>
     <ClickOutside :do="() => { showDropDown = false }">
       <div class="relative">
-        <span class="ns-menu-dots cursor-pointer font-medium text-2xl text-primary-color" @click="showDropDown = !showDropDown"></span>
+        <span class="fi-rr-menu-dots cursor-pointer font-medium text-xl text-primary-color" @click="showDropDown = !showDropDown"></span>
         <div
           v-show="showDropDown"
           class="absolute top-[13px] absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"

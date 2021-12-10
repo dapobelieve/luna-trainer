@@ -4,7 +4,7 @@
     <div>
       <div class="flex mt-5">
         <div class=" mr-3">
-          <i class="ns-user text-gray-500 text-2xl"></i>
+          <i class="fi-rr-user text-gray-500 text-2xl"></i>
         </div>
         <div class="w-full">
           <label for="name" class="block font-light">Name</label>
@@ -56,7 +56,7 @@
       </div>
       <div class="flex mt-5">
         <div class=" mr-3">
-          <i class="ns-location-alt text-gray-500 text-2xl"></i>
+          <i class="fi-rr-location-alt text-gray-500 text-2xl"></i>
         </div>
         <div class="w-full">
           <div>
@@ -94,7 +94,7 @@
       </div>
       <div class="flex mt-5">
         <div class=" mr-3">
-          <i class="ns-users text-gray-500 text-2xl"></i>
+          <i class="fi-rr-user text-gray-500 text-2xl"></i>
         </div>
         <div class="w-full">
           <label
@@ -118,7 +118,7 @@
       </div>
       <div class="flex mt-5">
         <div class=" mr-3">
-          <i class="ns-label text-gray-500 text-2xl"></i>
+          <i class="fi-rr-label text-gray-500 text-2xl"></i>
         </div>
         <div class="w-full">
           <label for="name" class="block font-light">Price</label>
@@ -135,7 +135,7 @@
       </div>
       <div class="flex mt-5">
         <div class=" mr-3">
-          <i class="ns-calendar text-gray-500 text-2xl"></i>
+          <i class="fi-rr-calendar text-gray-500 text-2xl"></i>
         </div>
         <div class="w-full">
           <label
