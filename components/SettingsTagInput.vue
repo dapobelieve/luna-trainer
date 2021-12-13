@@ -1,32 +1,38 @@
 <template>
-  <div
-    class="bg-white h-auto py-2 px-3 w-full border shadow-sm rounded-md flex flex-wrap gap-1"
-  >
+  <div>
     <div
-      v-for="tag in value"
-      :key="tag.index"
-      class="bg-whites inline-flex items-center border rounded-full h-8 w-auto pl-2 pr-1 font-medium"
+      class="bg-white h-auto py-2 px-3 w-full border shadow-sm rounded-md flex flex-wrap gap-1"
     >
-      <span class="text-sm capitalize">{{ tag }}</span>
-      <button
-        title="Delete item"
-        type="button"
-        class="text-blue-500 text-xs h-5 w-5 flex justify-center items-center ml-1 hover:bg-blue-50 rounded-full"
-        @click="removeItem(tag)"
+      <div
+        v-for="tag in value"
+        :key="tag.index"
+        class="bg-whites inline-flex items-center border rounded-full h-8 w-auto pl-2 pr-1 font-medium"
       >
-        <i class="ns-cross"></i>
-      </button>
+        <span class="text-sm capitalize">{{ tag }}</span>
+        <button
+          title="Delete item"
+          type="button"
+          class="text-blue-500 text-xs h-5 w-5 flex justify-center items-center ml-1 hover:bg-blue-50 rounded-full"
+          @click="removeItem(tag)"
+        >
+          <i class="fi-rr-cross text-xs h-3 w-3"></i>
+        </button>
+      </div>
+      <input
+        v-model.trim="input"
+        :tabindex="tabindex"
+        class="border-0 bg-transparent w-full text-sm h-6"
+        placeholder="Input an item"
+        @keydown.enter.prevent="addItem($event)"
+        @keydown.tab="addItem($event)"
+      />
     </div>
-    <input
-      v-model.trim="input"
-      :tabindex="tabindex"
-      class="border-0 bg-transparent w-full text-sm h-6"
-      placeholder="Press enter to add another item, or tab to continue"
-      @keydown.enter.prevent="addItem($event)"
-      @keydown.tab="addItem($event)"
-    />
+    <p v-if="input.length" class="text-gray-500 text-sm font-normal mt-2">
+      Press enter to add another item, or tab to continue
+    </p>
   </div>
 </template>
+
 <script>
 export default {
   name: 'SettingsTagInput',
@@ -41,7 +47,8 @@ export default {
   data () {
     return {
       items: this.value,
-      input: ''
+      input: '',
+      showHint: false
     }
   },
   methods: {

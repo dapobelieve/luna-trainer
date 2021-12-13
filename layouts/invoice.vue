@@ -11,7 +11,7 @@
       </span>
       <i
         role="button"
-        class="ns-cross text-blue-500 text-lg lg:justify-self-end"
+        class="fi-rr-cross text-blue-500 text-md lg:justify-self-end"
         @click="$router.go(-1)"
       ></i>
     </div>
