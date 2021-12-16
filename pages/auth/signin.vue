@@ -147,19 +147,12 @@ export default {
     authenticate () {
       // fetch user profile
       this.$store.dispatch('profile/getUserProfile').then((response) => {
+        console.log(response)
         if (response === null) {
-          this.$router.push({ name: 'auth-onboarding' })
+          location.href = "auth/onboarding"
         } else {
           this.$auth.setUser(response)
-          // set currency in store
-          this.setTempState({ currency: response.currency })
-          // set user in local storage
-          const getWelpUser = localStorage.getItem('getWelpUser')
-          // eslint-disable-next-line curly
-          if (getWelpUser !== null) localStorage.removeItem('getWelpUser')
-          localStorage.setItem('getWelpUser', JSON.stringify(response))
-
-          // set user in store
+          localStorage.setItem('user', JSON.stringify(response))
           this.$router.push({ name: 'dashboard' })
         }
       })

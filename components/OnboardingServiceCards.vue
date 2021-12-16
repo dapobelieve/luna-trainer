@@ -32,7 +32,7 @@
           <div
             class="font-medium"
           >
-            {{ $store.state.profile.trainnerRegData.personalProfile.currency }}{{ n.pricing.amount }}.00
+            {{ $store.state.profile.trainerRegData.personalProfile.currency }}{{ n.pricing.amount }}.00
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
@@ -60,14 +60,14 @@ export default {
   name: 'OnboardingServiceCards',
   computed: {
     ...mapState({
-      services: state => state.profile.trainnerRegData.services,
-      currency: state => state.profile.trainnerRegData.personalProfile.currency,
+      services: state => state.profile.trainerRegData.services,
+      currency: state => state.profile.trainerRegData.personalProfile.currency,
       editingService: state => state.profile.editingServiceCard
     })
   },
   methods: {
     ...mapMutations({
-      updateServices: 'profile/UPDATE_TRAINNER_REG_DATA',
+      updateServices: 'profile/UPDATE_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
     deleteService (index) {

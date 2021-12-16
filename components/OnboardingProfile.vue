@@ -145,7 +145,7 @@ export default {
   },
   computed: {
     ...mapState({
-      personalProfile: state => state.profile.trainnerRegData.personalProfile
+      personalProfile: state => state.profile.trainerRegData.personalProfile
     }),
     firstName: {
       get () { return this.personalProfile.firstName },
@@ -240,7 +240,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setProfileData: 'profile/UPDATE_TRAINNER_REG_DATA'
+      setProfileData: 'profile/UPDATE_TRAINER_REG_DATA'
     }),
     change (e) {
       const url = e.target.value

@@ -4,9 +4,9 @@ export default ({ store }) => {
   createPersistedState({
     key: 'vuex',
     paths: [
-      'profile.getWelpUser',
+      'profile.user',
       'profile.currency',
-      'profile.trainnerRegData',
+      'profile.trainerRegData',
       'auth',
       'sendBird.connectedChannels',
       'sendBird.tempClient',

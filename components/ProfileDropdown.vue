@@ -6,10 +6,10 @@
         src="https://www.gravatar.com/avatar/205e460b479e2e5b48aec07710c08d50"
       >
       <p class="text-sm text-center capitalize truncate px-4">
-        {{ $store.state.authorize.getWelpUser.firstName }} {{ $store.state.authorize.getWelpUser.lastName }}
+        {{ $store.state.authorize.user.firstName }} {{ $store.state.authorize.user.lastName }}
       </p>
       <p class="text-sm text-gray-400 capitalize text-center">
-        {{ $store.state.authorize.getWelpUser.location }}
+        {{ $store.state.authorize.user.location }}
       </p>
     </div>
     <div class="block grid gap-4 place-items-start pt-4">

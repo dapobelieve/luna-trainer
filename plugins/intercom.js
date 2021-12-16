@@ -1,5 +1,5 @@
 if (localStorage.getItem('auth_token.local')) {
-  const user = JSON.parse(localStorage.getItem('getWelpUser'))
+  const user = JSON.parse(localStorage.getItem('user'))
   window.intercomSettings = {
     app_id: 'ovxbm9hr',
     name: user.firstName, // Full name from currently logged in user

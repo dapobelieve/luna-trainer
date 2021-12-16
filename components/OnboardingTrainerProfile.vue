@@ -64,18 +64,18 @@ export default {
   name: 'OnboardingTrainerProfile',
   data () {
     return {
-      accreditations: [...this.$store.state.profile.trainnerRegData.trainnerProfile.accreditations],
-      specialization: [...this.$store.state.profile.trainnerRegData.trainnerProfile.specialization]
+      accreditations: [...this.$store.state.profile.trainerRegData.trainerProfile.accreditations],
+      specialization: [...this.$store.state.profile.trainerRegData.trainerProfile.specialization]
     }
   },
   computed: {
     ...mapState({
-      personalProfile: state => state.profile.trainnerRegData.trainnerProfile
+      personalProfile: state => state.profile.trainerRegData.trainerProfile
     }),
     usePositiveReinforce: {
       get () { return this.personalProfile.usePositiveReinforce },
       set (val) {
-        this.setProfileData({ parent: 'trainnerProfile', key: 'usePositiveReinforce', value: val })
+        this.setProfileData({ parent: 'trainerProfile', key: 'usePositiveReinforce', value: val })
       }
     }
   },
@@ -83,13 +83,13 @@ export default {
     specialization (newValue, oldValue) {
       if (newValue) {
         const specials = [...this.specialization]
-        this.setProfileData({ parent: 'trainnerProfile', key: 'specialization', value: specials })
+        this.setProfileData({ parent: 'trainerProfile', key: 'specialization', value: specials })
       }
     },
     accreditations (newValue, oldValue) {
       if (newValue) {
         const creds = [...this.accreditations]
-        this.setProfileData({ parent: 'trainnerProfile', key: 'accreditations', value: creds })
+        this.setProfileData({ parent: 'trainerProfile', key: 'accreditations', value: creds })
       }
     },
     '$v.$invalid' (newValue, oldValue) {
@@ -109,7 +109,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setProfileData: 'profile/UPDATE_TRAINNER_REG_DATA'
+      setProfileData: 'profile/UPDATE_TRAINER_REG_DATA'
     })
   }
 }

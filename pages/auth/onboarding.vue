@@ -217,19 +217,18 @@ export default {
   },
   computed: {
     ...mapState({
-      trainerRegInfo: state => state.profile.trainnerRegData.personalProfile,
-      clientInfo: state => state.profile.trainnerRegData.client,
+      trainerRegInfo: state => state.profile.trainerRegData.personalProfile,
+      clientInfo: state => state.profile.trainerRegData.client,
       editingService: state => state.profile.editingServiceCard
     }),
     isClientFormFilled () {
       return (
-        Object.values(this.clientInfo).length &&
-        (this.clientInfo.firstName || this.clientInfo.lastName) &&
-        this.clientInfo.email
+        Object.values(this.clientInfo).length && this.clientInfo.firstName && this.clientInfo.email
       )
     }
   },
   created () {
+    console.log('ok')
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
@@ -258,7 +257,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
+      cleartrainerRegData: 'profile/SET_EMPTY_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
     ...mapActions('authorize', {
@@ -320,7 +319,7 @@ export default {
       }
     },
     finishedSetUp () {
-      this.clearTrainnerRegData()
+      this.cleartrainerRegData()
       this.$router.replace({ name: 'dashboard' }).then(() => {
         this.$gwtoast.success('Welcome')
       })
