@@ -33,6 +33,7 @@
     "nuxt": "^2.15.3",
     "sendbird": "^3.0.154",
     "sha1": "^1.1.1",
+    "tailwind-colors": "^1.1.0",
     "v-calendar": "^2.3.2",
     "v-click-outside": "^3.1.2",
     "v-tooltip": "^2.1.3",
