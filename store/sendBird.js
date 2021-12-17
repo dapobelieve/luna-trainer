@@ -185,7 +185,8 @@ export const actions = {
     }
     commit('ADD_NEW_CHANNEL', messageDetails)
   },
-  async checkIfConversationExits ({ state, commit }, userId) {
+  async checkIfConversationExits ({ state, dispatch, commit }, userId) {
+    await dispatch('listOfConnectedChannels', '', { root: false })
     const channels = await state.connectedChannels
     if (channels.size) {
       return Array.from(state.connectedChannels.values()).find(c =>

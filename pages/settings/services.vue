@@ -4,8 +4,8 @@
       <h5 class="text-lg">
         Services
       </h5>
-      <button class="text-primary-color" @click="$modal.show('service-modal')">
-        <i class="ns-plus mr-2"></i>
+      <button class="text-primary-color flex items-center" @click="$modal.show('service-modal')">
+        <i class="fi-rr-plus text-sm mr-2"></i>
         <span>Add Service</span>
       </button>
     </div>
@@ -27,10 +27,10 @@
               {{ service.pricing.amount | amount }}
             </span>
             <button class="mr-6" @click="selectedService=service; $modal.show('service-modal')">
-              <i class="ns-pencil text-xl text-primary-color"></i>
+              <i class="fi-rr-pencil text-md text-primary-color"></i>
             </button>
             <button @click="removeService(service)">
-              <i class="ns-trash text-xl text-primary-color"></i>
+              <i class="fi-rr-trash text-md text-primary-color"></i>
             </button>
           </div>
         </div>
@@ -40,7 +40,7 @@
           You have no service
         </h4>
         <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$modal.show('service-modal')">
-          <i class="ns-plus text-white"></i>
+          <i class="fi-rr-plus text-white"></i>
           <span class="text-font-medium text-white text-base ml-2">Add service</span>
         </button>
       </div>
