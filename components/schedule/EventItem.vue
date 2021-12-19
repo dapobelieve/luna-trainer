@@ -13,8 +13,8 @@
             <img style="width: 8px" src="~/assets/img/video-camera.svg">
           </div>
         </div>
-        <div><span class="text-black text-sm font-medium">Monthly catch-up</span></div>
-        <a target="_blank" class="text-blue-500 text-sm" href="https://zoom.us/i/1983475281">https://zoom.us/i/1983475281</a>
+        <div><span class="text-black text-sm font-medium">{{ event.title }}</span></div>
+<!--        <a target="_blank" class="text-blue-500 text-sm" href="https://zoom.us/i/1983475281">https://zoom.us/i/1983475281</a>-->
       </div>
     </div>
   </div>
@@ -23,6 +23,7 @@
 <script>
 export default {
   props: {
+    event: {},
     day: {
       type: String,
       default: 'today'

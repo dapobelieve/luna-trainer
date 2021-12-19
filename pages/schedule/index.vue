@@ -13,7 +13,7 @@
         <ClickOutside :do="() => showDrop = false">
           <div class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
               <span class="font-medium flex items-center cursor-pointer text-primary-color " @click="showDrop = !showDrop">
-                <span>Month</span>
+                <span>{{ currentView }}</span>
                 <i class="fi-rr-caret-down ml-2 text-lg"></i>
               </span>
             <div
@@ -21,17 +21,17 @@
               class="origin-top-right cursor-pointer absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
             >
               <div class="py-1" role="none">
-                <a @click="changeView('dayGridMonth')" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" showDrop="false" >Month
+                <a @click="changeView('dayGridMonth', 'Month')" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" showDrop="false" >Month
                 </a>
-                <a @click="changeView('timeGridWeek')"
+                <a @click="changeView('timeGridWeek', 'Week')"
                   class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"  showDrop="false"
                 >Week
                 </a>
-                <a @click="changeView('timeGridDay')"
+                <a @click="changeView('timeGridDay', 'Day')"
                   class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"  showDrop="false"
                 >Day
                 </a>
-                <a @click="changeView('listWeek')"
+                <a @click="changeView('listWeek', 'List')"
                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"  showDrop="false"
                 >List
                 </a>
@@ -41,6 +41,7 @@
         </ClickOutside>
         <button
           @click="newSchedule = true"
+          id="schduler-step-1"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
         >
           <i class="fi-rr-plus text-white text-xl mt-1"></i>
@@ -53,53 +54,35 @@
       </div>
       <div class="pt-1 bg-white max-h-screen top-0 relative">
         <div class="grid gap-3 h-full w-full max-h-screen">
-          <NewSchedule @close="newSchedule = false" v-if="newSchedule" />
-          <div v-else class="px-3">
-            <MiniCalendar />
-            <div>
-              <h3 class="mr-3 font-bold mb-4">Upcoming sessions</h3>
-              <div class="mb-8">
-                <div class="flex justify-between mb-4">
-                  <div class="font-bold">Today</div>
-                  <div class="date text-gray-400">4/03/2022</div>
-                </div>
-                <EventItem class="mb-8" />
-                <EventItem />
-              </div>
-              <div>
-                <div class="flex justify-between mb-4">
-                  <div class="font-bold">Tomorrow</div>
-                  <div class="date text-gray-400">4/03/2022</div>
-                </div>
-                <EventItem day="tomorrow" />
-              </div>
-            </div>
-          </div>
+          <NewSchedule @close="newSchedule = false" @created="processNewEvent($event)" v-if="newSchedule" />
+          <SchedulerInfo :active-calendar="activeCalendar" :events="events" v-else />
       </div>
     </div>
     </div>
-    <SchedulerWelcome />
+    <SchedulerWelcome @tour="tour()" />
   </div>
 </template>
 
 <script>
+import { format, fromUnixTime } from "date-fns"
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list'
-import MiniCalendar from "~/components/schedule/MiniCalendar";
-import EventItem from "~/components/schedule/EventItem";
 import NewSchedule from "~/components/schedule/NewSchedule";
 import SchedulerWelcome from "~/components/schedule/SchedulerWelcome";
+import {mapGetters} from "vuex"
+import SchedulerInfo from "~/components/schedule/SchedulerInfo";
 export default {
   name: 'Schedules',
   data () {
     return {
-      newSchedule: true,
+      currentView: 'Month',
+      events: [],
+      newSchedule: false,
       months:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
       calendarApi: {},
-      calendars: [],
       currentDate: {
         month: null,
         year: null
@@ -107,24 +90,18 @@ export default {
       showDrop: false,
       calendarOptions: {
         headerToolbar: false,
+        eventClick: this.handleEventClick(event),
         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         initialView: 'dayGridMonth',
         nowIndicator: true,
-        editable: false,
-        initialEvents: [
-          { title: 'nice event', start: new Date("2021-12-16") },
-          { title: 'nice event', start: new Date("2021-12-1") },
-          { title: 'nice event', start: new Date("2021-12-1") },
-          { title: 'nice event', start: new Date("2021-12-12") },
-        ]
+        editable: true,
       }
     }
   },
   components: {
+    SchedulerInfo,
     SchedulerWelcome,
     NewSchedule,
-    EventItem,
-    MiniCalendar,
     FullCalendar
   },
   layout: 'Scheduler',
@@ -134,9 +111,38 @@ export default {
     }
   },
   methods: {
-    changeView(viewname) {
+    tour() {
+      this.$modal.hide('scheduler-modal')
+      this.$intro()
+        .setOptions({
+          hidePrev: true,
+          steps: [
+            {
+              element: document.querySelector('#schduler-step-1'),
+              intro: 'To create a  new session and add participants, click here'
+            },
+          ]
+        })
+        .start()
+      this.$intro().showHints()
+    },
+    async handleEventClick(event) {
+      console.log(event)
+    },
+    changeView(viewname, display) {
+      this.currentView = display
       this.calendarApi.changeView(viewname)
       this.showDrop = false
+    },
+    processNewEvent(event) {
+      this.calendarApi.addEvent({
+        title: event.title,
+        start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
+        end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
+        allDay: false
+      });
+      if(this.newSchedule)
+        this.newSchedule = false
     },
     updateDate() {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
@@ -156,13 +162,31 @@ export default {
     return {calendars: res}
   },
   computed: {
+    ...mapGetters({
+      activeCalendar: "schedule/getCalendar"
+    })
   },
-  mounted() {
+  async mounted() {
+    // setup calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
-    if(this.calendars.length === 0) {
+    // fetch local calendar
+    if(!this.activeCalendar) {
       this.$modal.show('scheduler-modal')
-    }    
+      await this.$store.dispatch('schedule/connectToLocalCalendar')
+      
+    }else {
+      let res = await this.$store.dispatch('schedule/getAllAppointments', {
+        calendar: this.activeCalendar.id,
+        startDatetime: parseInt(new Date(new Date().getFullYear(), 0, 1).setHours(0) / 1000),
+        endDatetime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 2)).setHours(23) / 1000),
+      })
+      this.events = res
+      
+      res.map(event => {
+        this.processNewEvent(event)
+      })
+    }
   }
   
 }

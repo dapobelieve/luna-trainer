@@ -55,10 +55,10 @@
               </div>
             </div>
           </div>
-          <div class="flex items-center mb-3">
-            <span class="text-gray-500 mr-2">All Day?</span>
-            <Toggle2 v-model="form.allDay" />
-          </div>
+<!--          <div class="flex items-center mb-3">-->
+<!--            <span class="text-gray-500 mr-2">All Day?</span>-->
+<!--            <Toggle2 v-model="form.allDay" />-->
+<!--          </div>-->
           <div class="flex items-center mb-3">
             <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
             <span class="ml-3 text-gray-500 w-full">
@@ -330,8 +330,8 @@ export default {
       const start = new Date(this.form.date.setHours(fromHrs)).setMinutes(fromMinutes)
       const end = new Date(this.form.date.setHours(toHrs)).setMinutes(toMinutes)
 
-      this.form.when.startTime = start
-      this.form.when.endTime = end
+      this.form.when.startTime = start/1000
+      this.form.when.endTime = end/1000
             
       
       let participants = this.form.participants.reduce((acc, curr) => {
@@ -347,7 +347,7 @@ export default {
       
       
       try {
-        await this.$store.dispatch('schedule/createAppointment',  {
+        let res = await this.$store.dispatch('schedule/createAppointment',  {
           calendar: '6g63jns1l38cszdtvn749lqzm',
           data: {
             title: this.form.title,
@@ -358,11 +358,12 @@ export default {
             participants: participants
           }
         })
+        this.$emit('created', res)
+        this.$gwtoast.success('New  Appointment created')
       }catch (e) {
         console.log({e})
       }
-      // console.log(new Date(this.form.date.setMinutes(43)))
-      // console.log(this.form)
+      
     }
   },
   mounted() {

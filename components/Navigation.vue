@@ -79,14 +79,12 @@
                     class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
                   >Coming soon</span>
                 </div>
-                <button
-                  class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
-                  disabled
-                  @click="addSession = true"
-                >
-                  <i class="fi-rr-calendar" />
-                  <span class="truncate">My Schedule</span>
-                </button>
+                <nuxt-link to="/schedule" class="flex items-center relative navItems">
+                  <div class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4">
+                    <i class="fi-rr-calendar" />
+                    <span class="truncate">My Schedule</span>
+                  </div>
+                </nuxt-link>
                 <button
                   class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
                   disabled
