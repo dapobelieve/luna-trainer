@@ -90,7 +90,10 @@ export default {
       showDrop: false,
       calendarOptions: {
         headerToolbar: false,
-        eventClick: this.handleEventClick(event),
+        // eventClick: this.handleCalendarEventClick(info),
+        eventClick: function(info) {
+          console.log(info)
+        },
         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         initialView: 'dayGridMonth',
         nowIndicator: true,
@@ -126,8 +129,8 @@ export default {
         .start()
       this.$intro().showHints()
     },
-    async handleEventClick(event) {
-      console.log(event)
+    async handleCalendarEventClick(info) {
+      console.log(info)
     },
     changeView(viewname, display) {
       this.currentView = display
@@ -135,7 +138,9 @@ export default {
       this.showDrop = false
     },
     processNewEvent(event) {
-      this.calendarApi.addEvent({
+        this.calendarApi.addEvent({
+        id: event.id,
+        editable: false,
         title: event.title,
         start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
         end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
