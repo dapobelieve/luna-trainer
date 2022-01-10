@@ -91,9 +91,9 @@
         <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
           <template v-if="Object.keys(msgHistory).length">
             <div v-for="(msgs, propertyName) in msgHistory" :key="msgs.index">
-              <div class="text-center my-2">
+              <div class="text-center my-2 z-10 sticky top-0">
                 <span class="bg-gray-500 p-1.5 text-xs text-white rounded">
-                  {{ propertyName }}
+                  {{ formatGroupDate(propertyName) }}
                 </span>
               </div>
               <div v-for="msg in msgs" :key="msg.index">
@@ -420,6 +420,16 @@ export default {
       getChannelListing: 'listOfConnectedChannels',
       markMessagesAsRead: 'markMessageAsRead'
     }),
+    formatGroupDate (d) {
+      const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+      const currentDate = new Date()
+      const groupDate = new Date(d)
+      const diff = (currentDate.getTime() - groupDate.getTime()) / (1000 * 3600 * 24)
+      if (diff <= 6) {
+        return weekDays[groupDate.getDay()]
+      }
+      return new Date(d).toDateString()
+    },
 
     emitEnter (e) {
       e.preventDefault()
