@@ -82,97 +82,105 @@
         @dragenter.prevent="dragging = true"
         @dragend.prevent="dragging = false"
         @dragover.prevent
-        @drop.prevent="onDropImage($event)">
+        @drop.prevent="onDropImage($event)"
+      >
         <!-- when dragEntered is true -->
         <div v-show="dragging" class="dragEnter" @dragleave.prevent="dragging = false">
           Drop Image Here
         </div>
         <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
-          <template v-if="messageHistory.length">
-            <div v-for="msg in messageHistory" :key="msg.messageId">
-              <li
-                v-if="msg._sender.userId === sender"
-                class="me flex justify-end pl-6"
-                @dblclick="replyParentMessageWithText(msg)"
-              >
-                <small class="self-end text-xs mr-1.5">
-                  <img
-                    v-if="messageReadReceipt"
-                    class="text-center inline-block h-3"
-                    src="~/assets/img/svgs/checkmark-done-outline.svg"
-                    alt
-                    srcset
-                  />
-                  <img
-                    v-else
-                    class="text-center inline-block h-3"
-                    src="~/assets/img/svgs/checkmark-outline.svg"
-                    alt
-                    srcset
-                  />
-                  <span class="">{{
-                    new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
-                  }}</span>
-                </small>
-                <span
-                  v-if="msg.messageType === 'file'"
-                  class="msg overflow-hidden"
-                  @click="viewImage(msg)"
-                >
-                  <img
-                    class="bg-white cursor-pointer"
-                    :src="msg.imaging || msg.url"
-                    style="max-width: 250px"
-                  />
+          <template v-if="Object.keys(msgHistory).length">
+            <div v-for="(msgs, propertyName) in msgHistory" :key="msgs.index">
+              <div class="text-center my-2">
+                <span class="bg-gray-500 p-1.5 text-xs text-white rounded">
+                  {{ propertyName }}
                 </span>
-                <div
-                  v-else
-                  class="msg p-2 max-w-lg break-all"
-                  style="calc(100% - 2.5rem)"
-                >
-                  {{ msg.message }}
-                </div>
-              </li>
-              <li
-                v-else
-                class="you flex items-end pr-6"
-                @dblclick="replyParentMessageWithText(msg)"
-              >
-                <ClientAvatar
-                  v-if="msg._sender.profileUrl"
-                  class="mr-2 flex-shrink-0"
-                  :client-info="{ imgURL: msg._sender.profileUrl }"
-                  :height="2"
-                  :width="2"
-                />
-                <ClientAvatar
-                  v-else
-                  class="mr-2 flex-shrink-0"
-                  :client-info="{ firstName: msg._sender.nickname }"
-                  :height="2"
-                  :width="2"
-                />
-                <span
-                  v-if="msg.messageType === 'file'"
-                  class="msg overflow-hidden border"
-                  @click="viewImage(msg)"
-                >
-                  <img
-                    class="bg-white max-w-[16rem] max-h-[13.4rem] cursor-pointer"
-                    :src="msg.url"
-                  />
-                </span>
-                <div
-                  v-else
-                  class="msg p-2 max-w-lg break-all"
+              </div>
+              <div v-for="msg in msgs" :key="msg.index">
+                <li
+                  v-if="msg._sender.userId === sender"
+                  class="me flex justify-end pl-6"
                   @dblclick="replyParentMessageWithText(msg)"
                 >
-                  {{ msg.message }}
-                </div>
-                <small class="ml-2 text-xs">{{
-                  new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
-                }}</small>
-              </li>
+                  <small class="self-end text-xs mr-1.5">
+                    <img
+                      v-if="messageReadReceipt"
+                      class="text-center inline-block h-3"
+                      src="~/assets/img/svgs/checkmark-done-outline.svg"
+                      alt
+                      srcset
+                    />
+                    <img
+                      v-else
+                      class="text-center inline-block h-3"
+                      src="~/assets/img/svgs/checkmark-outline.svg"
+                      alt
+                      srcset
+                    />
+                    <span class="">{{
+                      new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
+                    }}</span>
+                  </small>
+                  <span
+                    v-if="msg.messageType === 'file'"
+                    class="msg overflow-hidden"
+                    @click="viewImage(msg)"
+                  >
+                    <img
+                      class="bg-white cursor-pointer"
+                      :src="msg.imaging || msg.url"
+                      style="max-width: 250px"
+                    />
+                  </span>
+                  <div
+                    v-else
+                    class="msg p-2 max-w-lg break-all"
+                    style="calc(100% - 2.5rem)"
+                  >
+                    {{ msg.message }}
+                  </div>
+                </li>
+                <li
+                  v-else
+                  class="you flex items-end pr-6"
+                  @dblclick="replyParentMessageWithText(msg)"
+                >
+                  <ClientAvatar
+                    v-if="msg._sender.profileUrl"
+                    class="mr-2 flex-shrink-0"
+                    :client-info="{ imgURL: msg._sender.profileUrl }"
+                    :height="2"
+                    :width="2"
+                  />
+                  <ClientAvatar
+                    v-else
+                    class="mr-2 flex-shrink-0"
+                    :client-info="{ firstName: msg._sender.nickname }"
+                    :height="2"
+                    :width="2"
+                  />
+                  <span
+                    v-if="msg.messageType === 'file'"
+                    class="msg overflow-hidden border"
+                    @click="viewImage(msg)"
+                  >
+                    <img
+                      class="bg-white max-w-[16rem] max-h-[13.4rem] cursor-pointer"
+                      :src="msg.url"
+                    />
+                  </span>
+                  <div
+                    v-else
+                    class="msg p-2 max-w-lg break-all"
+                    @dblclick="replyParentMessageWithText(msg)"
+                  >
+                    {{ msg.message }}
+                  </div>
+                  <small class="ml-2 text-xs">{{
+                    new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
+                  }}</small>
+                </li>
+              </div>
             </div>
           </template>
           <template v-else>
@@ -322,11 +330,11 @@ export default {
       showUpload: false,
       fileImage: null,
       fileToBeSent: null,
-      messageHistory: [],
       channel: null,
       clientIsReady: true,
       dragging: false,
-      messageReadReceipt: false
+      messageReadReceipt: false,
+      msgHistory: []
     }
   },
   computed: {
@@ -390,7 +398,7 @@ export default {
     if (
       this.channelUrl !== null &&
       this.channel.creator.userId === this.sender &&
-      !this.messageHistory.length
+      !this.msgHistory.length
     ) {
       // since no messages were exchanged, delete channel
       sessionStorage.setItem('deletingChannelUrl', this.channelUrl)
@@ -463,8 +471,14 @@ export default {
           this.$gwtoast.error('Error fetching messages', error)
         }
         if (messages) {
-          console.log('the messages ', messages)
-          this.messageHistory = messages
+          this.msgHistory = messages.reduce((groupedDates, message) => {
+            const date = new Date(message.createdAt).toLocaleDateString()
+            if (!groupedDates[date]) {
+              groupedDates[date] = []
+            }
+            groupedDates[date].push(message)
+            return groupedDates
+          }, {})
           this.isChannelLoading = false
           this.markMessagesAsRead(channel)
           this.$nextTick(() => {
@@ -495,7 +509,12 @@ export default {
             this.$gwtoast.error('Message not sent: ', error)
             return
           }
-          this.messageHistory.push(userMessage)
+          const createdDate = new Date(userMessage.createdAt).toLocaleDateString()
+          if (createdDate in this.msgHistory) {
+            this.msgHistory[createdDate].push(userMessage)
+          } else {
+            this.msgHistory[createdDate] = userMessage
+          }
           this.$nextTick(() => {
             this.scrollFeedToBottom()
           })
@@ -538,17 +557,34 @@ export default {
         const messageId = fileMessage.messageId
         if (messageId) {
           this.uploadingFileToSb = false
-          this.messageHistory.push({
-            messageId,
-            imaging: this.fileImage,
-            messageType: 'file',
-            createdAt: fileMessage.createdAt,
-            sendingStatus: fileMessage.sendingStatus,
-            url: fileMessage.url,
-            _sender: {
-              userId: this.sender
+          const createdDate = new Date(
+            fileMessage.createdAt
+          ).toLocaleDateString()
+          if (createdDate in this.msgHistory) {
+            this.msgHistory[createdDate].push({
+              messageId,
+              imaging: this.fileImage,
+              messageType: 'file',
+              createdAt: fileMessage.createdAt,
+              sendingStatus: fileMessage.sendingStatus,
+              url: fileMessage.url,
+              _sender: {
+                userId: this.sender
+              }
+            })
+          } else {
+            this.msgHistory[createdDate] = {
+              messageId,
+              imaging: this.fileImage,
+              messageType: 'file',
+              createdAt: fileMessage.createdAt,
+              sendingStatus: fileMessage.sendingStatus,
+              url: fileMessage.url,
+              _sender: {
+                userId: this.sender
+              }
             }
-          })
+          }
           this.fileImage = null
           this.fileToBeSent = null
           this.$nextTick(() => {

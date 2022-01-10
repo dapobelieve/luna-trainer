@@ -34,7 +34,14 @@ export default {
           this.$route.name === 'client-id-messages' &&
           channel.url === this.channelUrl
         ) {
-          this.messageHistory.push(message)
+          const createdDate = new Date(
+            message.createdAt
+          ).toLocaleDateString()
+          if (createdDate in this.msgHistory) {
+            this.msgHistory[createdDate].push(message)
+          } else {
+            this.msgHistory[createdDate] = message
+          }
           this.markMessagesAsRead(channel)
           this.$nextTick(() => {
             this.scrollFeedToBottom()
