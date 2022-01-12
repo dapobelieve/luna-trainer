@@ -334,7 +334,7 @@ export default {
       clientIsReady: true,
       dragging: false,
       messageReadReceipt: false,
-      msgHistory: []
+      msgHistory: {}
     }
   },
   computed: {
@@ -398,7 +398,7 @@ export default {
     if (
       this.channelUrl !== null &&
       this.channel.creator.userId === this.sender &&
-      !this.msgHistory.length
+      !Object.keys(this.msgHistory).length
     ) {
       // since no messages were exchanged, delete channel
       sessionStorage.setItem('deletingChannelUrl', this.channelUrl)
@@ -481,6 +481,7 @@ export default {
           this.$gwtoast.error('Error fetching messages', error)
         }
         if (messages) {
+          console.log('message history ', messages)
           this.msgHistory = messages.reduce((groupedDates, message) => {
             const date = new Date(message.createdAt).toLocaleDateString()
             if (!groupedDates[date]) {
@@ -523,6 +524,7 @@ export default {
           if (createdDate in this.msgHistory) {
             this.msgHistory[createdDate].push(userMessage)
           } else {
+            console.log('here working ', [this.msgHistory[createdDate], userMessage])
             this.msgHistory[createdDate] = userMessage
           }
           this.$nextTick(() => {

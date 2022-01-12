@@ -186,10 +186,13 @@ export default {
   },
   methods: {
     gotoMessage (arr) {
+      console.log('the array ', arr)
       const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
+      console.log('the user ', user)
       const client = this.acceptedClients.find(
         c => c.sendbirdId === user.userId
       )
+      console.log('the client ', client)
       this.$router.push({
         name: 'client-id-messages',
         params: { id: client._id }
