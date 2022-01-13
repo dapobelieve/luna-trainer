@@ -82,7 +82,8 @@
         @dragenter.prevent="dragging = true"
         @dragend.prevent="dragging = false"
         @dragover.prevent
-        @drop.prevent="onDropImage($event)">
+        @drop.prevent="onDropImage($event)"
+      >
         <!-- when dragEntered is true -->
         <div v-show="dragging" class="dragEnter" @dragleave.prevent="dragging = false">
           Drop Image Here

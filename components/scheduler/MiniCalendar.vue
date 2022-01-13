@@ -1,63 +1,70 @@
 <template>
   <div class="mini-calendar-section pt-2">
     <div class="flex items-center justify-between mb-3">
-      <h3 class="mr-3 font-bold">{{months[currentDate.month]}} {{ currentDate.year }}</h3>
+      <h3 class="mr-3 font-bold">
+        {{ months[currentDate.month] }} {{ currentDate.year }}
+      </h3>
       <div class="flex items-center">
-        <span @click="mainPrev" class="mt-1 cursor-pointer mr-4"><i class="fi-rr-angle-left "></i></span>
-        <span @click="mainNext" class="mt-1 cursor-pointer"><i class="fi-rr-angle-right"></i></span>
+        <span class="mt-1 cursor-pointer mr-4" @click="mainPrev"><i class="fi-rr-angle-left "></i></span>
+        <span class="mt-1 cursor-pointer" @click="mainNext"><i class="fi-rr-angle-right"></i></span>
       </div>
     </div>
     <div class="bg-white mini-calendar-table">
-      <FullCalendar ref="miniCalendar" :options="miniCalendarOptions" />
+      <FullCalendar @select="handleSelect" ref="miniCalendar" :options="miniCalendarOptions" />
     </div>
   </div>
 </template>
 
 <script>
-import FullCalendar from "@fullcalendar/vue";
-import dayGridPlugin from "@fullcalendar/daygrid";
-import interactionPlugin from "@fullcalendar/interaction";
-import timeGridPlugin from "@fullcalendar/timegrid";
-import listPlugin from "@fullcalendar/list";
+import FullCalendar from '@fullcalendar/vue'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import interactionPlugin from '@fullcalendar/interaction'
+import timeGridPlugin from '@fullcalendar/timegrid'
+import listPlugin from '@fullcalendar/list'
 export default {
-  data() {
+  components: {
+    FullCalendar
+  },
+  data () {
     return {
       currentDate: {
         month: null,
         year: null
       },
-      months:["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+      months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       miniCalendarOptions: {
         headerToolbar: false,
         height: 250,
         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         initialView: 'dayGridMonth',
+        selectable: true,
+        select: this.handleSelect,
         contentHeight: 300,
         fixedWeekCount: false,
-        nowIndicator: true,
-      },
+        nowIndicator: true
+      }
     }
   },
-  components: {
-    FullCalendar
+  mounted () {
+    this.calendarApi = this.$refs.miniCalendar.getApi()
+    this.updateDate()
   },
   methods: {
-    updateDate() {
+    handleSelect(info) {
+      this.$emit('date-clicked', info)
+    },
+    updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
       this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
     },
-    mainPrev() {
+    mainPrev () {
       this.calendarApi.prev()
       this.updateDate()
     },
-    mainNext() {
+    mainNext () {
       this.calendarApi.next()
       this.updateDate()
     }
-  },
-  mounted() {
-    this.calendarApi = this.$refs.miniCalendar.getApi()
-    this.updateDate()
   }
 }
 </script>
@@ -66,6 +73,7 @@ export default {
  .mini-calendar-table {
   ::v-deep .fc {
     .fc-dayGridMonth-view {
+      cursor: pointer;
       .fc-daygrid-day-frame {
         display: flex;
         flex-direction: column;

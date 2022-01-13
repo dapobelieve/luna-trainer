@@ -1,38 +1,48 @@
 <template>
   <div class="min-h-screen">
     <div class="bg-white flex items-center justify-between md:px-4 px-1 py-1 sticky top-0 shadow-sm h-14 border-b z-10">
-      <h3 class="text-lg hidden md:block sm:text-2xl">My Schedule</h3>
+      <h3 class="text-lg hidden md:block sm:text-2xl">
+        My Schedule
+      </h3>
       <div v-if="calendarApi">
         <div class="flex items-center justify-between w-48">
-          <span @click="mainPrev" class="mt-1 cursor-pointer"><i class="fi-rr-angle-left "></i></span>
-          <h3 class="text-black">{{months[currentDate.month]}} {{ currentDate.year }}</h3>
-          <span @click="mainNext" class="mt-1 cursor-pointer"><i class="fi-rr-angle-right"></i></span>
+          <span class="mt-1 cursor-pointer" @click="mainPrev"><i class="fi-rr-angle-left "></i></span>
+          <h3 class="text-black">
+            {{ months[currentDate.month] }} {{ currentDate.year }}
+          </h3>
+          <span class="mt-1 cursor-pointer" @click="mainNext"><i class="fi-rr-angle-right"></i></span>
         </div>
       </div>
       <div class="flex items-center">
         <ClickOutside :do="() => showDrop = false">
           <div class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
-              <span class="font-medium flex items-center cursor-pointer text-primary-color " @click="showDrop = !showDrop">
-                <span>{{ currentView }}</span>
-                <i class="fi-rr-caret-down ml-2 text-lg"></i>
-              </span>
+            <span class="font-medium flex items-center cursor-pointer text-primary-color " @click="showDrop = !showDrop">
+              <span>{{ currentView }}</span>
+              <i class="fi-rr-caret-down ml-2 text-lg"></i>
+            </span>
             <div
               v-show="showDrop"
               class="origin-top-right cursor-pointer absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
             >
               <div class="py-1" role="none">
-                <a @click="changeView('dayGridMonth', 'Month')" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" showDrop="false" >Month
+                <a class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" showDrop="false" @click="changeView('dayGridMonth', 'Month')">Month
                 </a>
-                <a @click="changeView('timeGridWeek', 'Week')"
-                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"  showDrop="false"
+                <a
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  showDrop="false"
+                  @click="changeView('timeGridWeek', 'Week')"
                 >Week
                 </a>
-                <a @click="changeView('timeGridDay', 'Day')"
-                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"  showDrop="false"
+                <a
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  showDrop="false"
+                  @click="changeView('timeGridDay', 'Day')"
                 >Day
                 </a>
-                <a @click="changeView('listWeek', 'List')"
-                   class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"  showDrop="false"
+                <a
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  showDrop="false"
+                  @click="changeView('listWeek', 'List')"
                 >List
                 </a>
               </div>
@@ -40,9 +50,9 @@
           </div>
         </ClickOutside>
         <button
-          @click="newSchedule = true"
           id="schduler-step-1"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
+          @click="openDrawer = true; activePage = 'new-schedule'"
         >
           <i class="fi-rr-plus text-white text-xl mt-1"></i>
         </button>
@@ -50,38 +60,43 @@
     </div>
     <div class="grid md:grid-cols-4 schedule-section">
       <div class="col-span-3 bg-blue-50">
-        <FullCalendar class="main-calendar" ref="fullCalendar" :options="calendarOptions" />
+        <FullCalendar ref="fullCalendar" class="main-calendar" :options="calendarOptions" />
       </div>
       <div class="pt-1 bg-white max-h-screen top-0 relative">
         <div class="grid gap-3 h-full w-full max-h-screen">
-          <NewSchedule @close="newSchedule = false" @created="processNewEvent($event)" v-if="newSchedule" />
-          <SchedulerInfo :active-calendar="activeCalendar" :events="events" v-else />
+          <keep-alive>
+            <SchedulerDrawer @remove-event="removeEvent($event)" v-if="openDrawer" v-model="activePage" @process-event="processNewEvent($event)" @close="openDrawer = false" />
+            <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+          </keep-alive>
+        </div>
       </div>
-    </div>
     </div>
     <SchedulerWelcome @tour="tour()" />
   </div>
 </template>
 
 <script>
-import { format, fromUnixTime } from "date-fns"
+import { format, fromUnixTime } from 'date-fns'
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
-import timeGridPlugin from '@fullcalendar/timegrid';
+import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
-import NewSchedule from "~/components/schedule/NewSchedule";
-import SchedulerWelcome from "~/components/schedule/SchedulerWelcome";
-import {mapGetters} from "vuex"
-import SchedulerInfo from "~/components/schedule/SchedulerInfo";
+import { mapGetters } from 'vuex'
+import NewSchedule from '~/components/scheduler/NewSchedule'
+import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
+import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  name: 'Schedules',
+  name: 'Scheduler',
   data () {
     return {
+      openDrawer: false,
+      activeEvent: {}, //event that was clicked
+      activePage: 'new-schedule',
       currentView: 'Month',
-      events: [],
       newSchedule: false,
-      months:["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       calendarApi: {},
       currentDate: {
         month: null,
@@ -90,31 +105,53 @@ export default {
       showDrop: false,
       calendarOptions: {
         headerToolbar: false,
-        // eventClick: this.handleCalendarEventClick(info),
-        eventClick: function(info) {
-          console.log(info)
-        },
+        eventClick: this.handleCalendarEventClick,
         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         initialView: 'dayGridMonth',
-        nowIndicator: true,
-        editable: true,
+        nowIndicator: false,
+        editable: true
+      },
+      colorMap: {
+        teal: 'rgba(20, 184, 166)',
+        blue: 'rgba(59, 130, 246)',
+        amber: 'rgba(245, 158, 11)',
+        rose: 'rgba(239, 68, 68)',
+        sky: 'rgba(6, 182, 212)'
       }
     }
   },
   components: {
+    SchedulerDrawer,
     SchedulerInfo,
     SchedulerWelcome,
     NewSchedule,
     FullCalendar
   },
   layout: 'Scheduler',
+  async asyncData (ctx) {
+    await ctx.store.dispatch('scheduler/getCalendars')
+  },
   head () {
     return {
       title: 'Schedules'
     }
   },
   methods: {
-    tour() {
+    async loadEvents() {
+      await this.$store.dispatch('scheduler/getAllAppointments', {
+        startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
+        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 2)).setHours(23) / 1000)
+      })
+
+      this.allEvents.map((event) => {
+        this.processNewEvent(event)
+      })
+    },
+    removeEvent(eventId) {
+      const event = this.calendarApi.getEventById(eventId)
+      event.remove()
+    },
+    tour () {
       this.$modal.hide('scheduler-modal')
       this.$intro()
         .setOptions({
@@ -123,77 +160,77 @@ export default {
             {
               element: document.querySelector('#schduler-step-1'),
               intro: 'To create a  new session and add participants, click here'
-            },
+            }
           ]
         })
         .start()
       this.$intro().showHints()
     },
-    async handleCalendarEventClick(info) {
-      console.log(info)
+    handleCalendarEventClick (info) {
+      this.$store.commit('scheduler/setEvent', info.event)
+      this.openDrawer = true
+      this.activePage = 'schedule-details'      
     },
-    changeView(viewname, display) {
+    changeView (viewname, display) {
       this.currentView = display
       this.calendarApi.changeView(viewname)
       this.showDrop = false
     },
-    processNewEvent(event) {
-        this.calendarApi.addEvent({
+    processNewEvent (event) {
+      this.calendarApi.addEvent({
         id: event.id,
+        color: this.colorMap[event.color],
+        description: event.description,
+        participants: [...event.participants],
+        colorName: event.color,
+        when: event.when,
         editable: false,
         title: event.title,
         start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
         end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
         allDay: false
-      });
-      if(this.newSchedule)
-        this.newSchedule = false
+      })
+      this.openDrawer = false
+      this.activePage = ''
     },
-    updateDate() {
+    updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
       this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
     },
-    mainPrev() {
+    mainPrev () {
       this.calendarApi.prev()
       this.updateDate()
     },
-    mainNext() {
+    mainNext () {
       this.calendarApi.next()
       this.updateDate()
     }
   },
-  async asyncData(ctx) {
-    let res = await ctx.store.dispatch('schedule/getCalendars')
-    return {calendars: res}
-  },
   computed: {
     ...mapGetters({
-      activeCalendar: "schedule/getCalendar"
+      activeCalendar: 'scheduler/getCalendar',
+      allEvents: 'scheduler/getAllEvents'
     })
   },
-  async mounted() {
+  async mounted () {
+    // this.$modal.show('scheduler-modal')
     // setup calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
     // fetch local calendar
-    if(!this.activeCalendar) {
-      this.$modal.show('scheduler-modal')
-      await this.$store.dispatch('schedule/connectToLocalCalendar')
-      
-    }else {
-      let res = await this.$store.dispatch('schedule/getAllAppointments', {
-        calendar: this.activeCalendar.id,
-        startDatetime: parseInt(new Date(new Date().getFullYear(), 0, 1).setHours(0) / 1000),
-        endDatetime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 2)).setHours(23) / 1000),
-      })
-      this.events = res
-      
-      res.map(event => {
-        this.processNewEvent(event)
-      })
+    try {
+      if (!this.activeCalendar) {
+        this.$modal.show('scheduler-modal')
+        await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      } else {
+        await this.loadEvents()
+      }
+      await this.$store.dispatch('scheduler/connectToLocalCalendar')
+    }catch (e) {
+      console.log(e)
     }
   }
-  
+
 }
 </script>
 
@@ -203,6 +240,7 @@ export default {
 }
 ::v-deep .main-calendar {
   .fc-dayGridMonth-view, .fc-timeGridWeek-view {
+    background-color: #F8FAFC;
     .fc-col-header-cell {
       background-color: #fff;
       text-transform: uppercase;
@@ -235,8 +273,10 @@ export default {
       }
     }
     .fc-daygrid-event {
-      background-color: #fff;
-      border-radius: 8px;
+      cursor: context-menu;
+      background-color: #FFFFFF;
+      box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 6px;
+      border-radius: 4px;
       font-size: 12px;
     }
   }

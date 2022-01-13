@@ -32,7 +32,6 @@ export default class ErrorMessages {
     if (errorStatus && this.errorMessages[errorStatus]) {
       return this.errorMessages[errorStatus]
     }
-
     return this.generalErrorMessage
   }
 }

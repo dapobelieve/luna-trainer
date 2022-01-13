@@ -69,7 +69,7 @@ export default {
         ref: 'openIndicator',
         role: 'presentation',
         class: 'fi-rr-angle-down font-bold text-base cursor-pointer absolute right-0 p-3'
-      } 
+      }
     }
   },
   watch: {

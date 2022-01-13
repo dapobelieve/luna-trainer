@@ -13,22 +13,11 @@
           <button @click="$emit('tour')" class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" >
             Take the Tour
           </button>
-          <button class="py-2 px-4 text-primary-color" style="width:fit-content" >
+          <button class="py-2 px-4 text-primary-color" style="width:fit-content">
             Explore by myself
           </button>
         </div>
       </div>
-
     </div>
   </modal>
 </template>
-
-<script>
-export default {
-  
-}
-</script>
-
-<style scoped>
-
-</style>
