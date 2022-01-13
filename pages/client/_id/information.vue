@@ -1,14 +1,14 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="grid bg-white border rounded-xl w-full p-2">
+    <div v-if="clientInfo" class="grid pb-4 bg-white border rounded-xl w-full min-h-screen">
       <form>
-        <div class="flex items-center p-4 bg-white sticky top-14 rounded-xl" style="z-index: 1">
-          <h2 class="text-xl">
+        <div class="bg-white sticky top-14 rounded-xl" style="z-index: 1">
+          <h2 class="text-xl py-4 px-3.5">
             Information
           </h2>
           <div v-if="showButtons" class="flex space-x-2 ml-auto">
             <button
-              :disabled="cancelLoading "
+              :disabled="cancelLoading"
               type="button"
               class="button-text button-sm"
               @click="cancelEditField"
@@ -25,160 +25,29 @@
               Save
             </button-spinner>
           </div>
-        </div>
-        <div class="grid gap-6 p-4">
-          <div class="h-40 bg-blue-50 rounded-xl mb-6">
-            <div class="mt-6 flex flex-col items-center ">
-              <ClientAvatar :client-info="clientInfo" :height="5" :width="5" />
-              <div class="flex space-x-2 mt-2">
-                <GwInputField
-                  v-model="clientInfo.firstName"
-                  placeholder="First name"
-                  type="text"
-                  autocomplete="text"
-                  :align-right="true"
-                  class="text-xl capitalize text-right"
-                  @input="focusField"
-                />
-                <GwInputField
-                  v-model="clientInfo.lastName"
-                  placeholder="Last name"
-                  autocomplete="text"
-                  type="text"
-                  class="text-xl capitalize"
-                  @input="focusField"
-                />
-              </div>
-            </div>
-          </div>
-          <!-- Personal Information -->
-          <div>
-            <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
-              Personal Information
-            </p>
-            <div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <PhoneComponent v-model="clientInfo.phoneNumber" label="Telephone" @input="focusField" />
-                </div>
-                <div class="place-self-auto mt-1">
-                  <dt class="input-text-label">
-                    Email Address
-                  </dt>
-                  <dd class="truncate information_box">
-                    {{ clientInfo && clientInfo.email }}
-                  </dd>
-                </div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div class="w-full">
-                  <dt class="input-text-label">
-                    Country
-                  </dt>
-                  <div class="information_box">
-                    <select v-model="clientInfo.location" autocomplete="country" @input="focusField">
-                      <option :value="null" selected disabled>
-                        click here
-                      </option>
-                      <option v-for="country in countries" :key="country.numericCode">
-                        {{ country.name }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <GwInputField
-                    v-model="clientInfo.city"
-                    placeholder="Type here"
-                    type="text"
-                    label="City"
-                    autocomplete="text"
-                    class-name="information_box"
-                    class="w-full"
-                    @input="focusField"
-                  />
-                </div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <GwInputField
-                    v-model="clientInfo.zip"
-                    placeholder="Type here"
-                    type="text"
-                    autocomplete="text"
-                    label="Post Code/ Zip Code"
-                    class-name="information_box"
-                    @input="focusField"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <!-- Dog Details -->
-          <div class="mt-6">
-            <p class="uppercase tracking-wider font-medium text-xs text-gray-500">
-              Dog Details
-            </p>
-            <div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <GwInputField
-                    v-model="clientInfo.pet[0].name"
-                    label="Dog name"
-                    placeholder="Type here"
-                    type="text"
-                    autocomplete="text"
-                    class-name="information_box"
-                    @input="focusField"
-                  />
-                </div>
-                <div>
-                  <GwInputField
-                    v-model="clientInfo.pet[0].breed"
-                    placeholder="Type here"
-                    label="Breed"
-                    type="text"
-                    autocomplete="text"
-                    class-name="information_box"
-                    @input="focusField"
-                  />
-                </div>
-              </div>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <label for="age" class="input-text-label text-gray-700 block">Age</label>
-                  <date-picker
-                    v-model="petAge"
-                    style="width: 100% !important"
-                    class="w-full relative"
-                    :disabled-date="date => date > new Date()"
-                    format="DD-MMM-YYYY"
-                    @change="focusField"
-                  ></date-picker>
-                <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is about {{ showDate }}</small>  
-             </div>
-                <div>
-                  <dt class="input-text-label">
-                    Behavioural Problems
-                  </dt>
-                  <dd class="information_box text-gray-400">
-                    {{ clientInfo && clientInfo.behaviour }}
-                  </dd>
-                </div>
-              </div>
-              <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
-                <div>
-                  <dt class="input-text-label">
-                    Owner's Notes
-                  </dt>
-                  <dd class="information_text-area truncate">
-                    {{ clientInfo && clientInfo.notes }}
-                  </dd>
-                </div>
+          <section class="">
+            <ul
+              class="tabs flex justify-between md:justify-start md:space-x-[2rem] px-3.5 border-b border-gray-200"
+            >
+              <button
+                v-for="(link, index) in links"
+                :key="link.index"
+                :class="[{ active: tab === index + 1 }, 'capitalize py-2.5 px-3']"
+                @click.prevent="switchTabs(index + 1)"
+              >
+                {{ link }}
+              </button>
+            </ul>
+            <!-- Tab contents -->
+            <div class="my-6 mx-4">
+              <client-information v-if="tab === 1" v-model="clientInfo" />
+              <client-dog-information v-if="tab === 2" v-model="clientInfo" />
+              <div v-if="tab === 3">
+                <client-health-information v-if="tab === 3" v-model="clientInfo" />
               </div>
             </div>
-          </div>
+          </section>
         </div>
       </form>
     </div>
@@ -186,23 +55,21 @@
 </template>
 
 <script>
-import DatePicker from 'vue2-datepicker'
 import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
-import countries from '~/countries.json'
 export default {
   name: 'Information',
-  components: { DatePicker },
   data () {
     return {
       hasAnyInputChanged: false,
       isLoading: false,
       cancelLoading: false,
       clientInfo: null,
-      countries,
       id: this.$route.params.id,
       tempClientInfo: {},
       showButtons: false,
+      tab: 1,
+      links: ['client', 'dog', 'health']
     }
   },
   computed: {
@@ -216,26 +83,6 @@ export default {
     },
     fullName () {
       return this.firstName + ' ' + this.lastName
-    },
-    petAge: {
-      set (value) {
-        return this.clientInfo.pet[0].age = value
-      },
-      get () {
-        return new Date(this.clientInfo.pet[0].age)
-      }
-    },
-    showDate () {
-      const userDate = new Date(this.clientInfo.pet[0].age)
-      const currentDate = new Date()
-      const days = Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(userDate.getFullYear(), userDate.getMonth(), userDate.getDate())) / (1000 * 60 * 60 * 24))
-      const weeks = Math.floor(days / 7)
-      const months = Math.floor(weeks / 4) 
-      const calcWeeks = weeks % 4
-      const calcYears = months > 12 ? Math.floor(months / 12) : 0
-      const calcMonths = this.calcYears >= 1 ? months % 12 : months
-
-      return `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} years(s)`
     }
   },
   mounted () {
@@ -245,7 +92,6 @@ export default {
           this.clientInfo = {
             ...response,
             pet: [{ name: '', age: '', breed: '' }]
-
           }
         } else {
           this.clientInfo = response
@@ -270,11 +116,13 @@ export default {
           zip: this.clientInfo.zip,
           city: this.clientInfo.city,
           phoneNumber: this.clientInfo.phoneNumber,
-          pet: [{
-            name: this.clientInfo.pet[0].name,
-            age: this.clientInfo.pet[0].age,
-            breed: this.clientInfo.pet[0].breed
-          }],
+          pet: [
+            {
+              name: this.clientInfo.pet[0].name,
+              age: this.clientInfo.pet[0].age,
+              breed: this.clientInfo.pet[0].breed
+            }
+          ],
           notes: this.clientInfo.notes
         }
       })
@@ -296,7 +144,8 @@ export default {
               { position: 'bottom-right' }
             )
           }
-        }).finally(() => {
+        })
+        .finally(() => {
           this.isLoading = false
         })
     },
@@ -305,8 +154,8 @@ export default {
       this.clientInfo = this.tempClientInfo
       this.showButtons = false
     },
-    focusField () {
-      this.showButtons = true
+    switchTabs (tabNumber) {
+      this.tab = tabNumber
     }
   }
 }
@@ -317,18 +166,36 @@ textarea,
 select {
   @apply border-0 bg-none bg-transparent shadow-none appearance-none focus:outline-none overflow-hidden;
 }
-.information_box{
-    height: 2.5rem;
-    border: 1px solid #E2E8F0;
-    padding: 7px 12px;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-    border-radius: 6px;
+
+.information_box {
+  height: 2.5rem;
+  border: 1px solid #e2e8f0;
+  padding: 7px 12px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+
+.information_text-area {
+  height: 6rem;
+  border: 1px solid #e2e8f0;
+  padding: 7px 12px;
+  box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+}
+
+.tabs {
+  @apply text-base font-normal text-gray-500;
+}
+
+.tabs button {
+  transition: 0.3s;
+  position: relative;
+}
+.tabs button.active {
+  @apply text-gray-700;
+  &::after {
+    content: "";
+    @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-0.5;
   }
-  .information_text-area{
-    height: 6rem;
-    border: 1px solid #E2E8F0;
-    padding: 7px 12px;
-    box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
-    border-radius: 6px;
-  }
+}
 </style>

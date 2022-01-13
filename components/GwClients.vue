@@ -86,10 +86,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invite-client {
-  background-image: url("~assets/img/black-dog.png");
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  background-color: rgba(214, 233, 227, 1);
-}
 </style>
