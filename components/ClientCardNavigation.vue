@@ -111,6 +111,10 @@ export default {
         {
           pathName: 'information',
           icon: 'fi-rr-user'
+        },
+        {
+          pathName: 'notes',
+          icon: 'fi-rr-notebook'
         }
       ]
     }
