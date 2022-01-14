@@ -1,4 +1,5 @@
 import webpack from 'webpack'
+// import PnpWebpackPlugin from "pnp-webpack-plugin"
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
@@ -20,6 +21,11 @@ export default {
         href:
           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
       }
+      // {
+      //   rel: 'stylesheet',
+      //   href:
+      //     'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
+      // }
     ],
     script: [
       {
@@ -63,6 +69,7 @@ export default {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
     STRIPE_RETURN: process.env.STRIPE_RETURN,
+    SCHEDULER_HOST: process.env.SCHEDULER_HOST,
     SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
@@ -70,7 +77,7 @@ export default {
   },
 
   buildModules: [
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],
@@ -133,6 +140,10 @@ export default {
   },
   build: {
     transpile: /@fullcalendar.*/,
+    // extend(config) {
+    //   config.resolve.plugins.push(PnpWebpackPlugin);
+    //   config.resolveLoader.plugins.push(PnpWebpackPlugin.moduleLoader(module));
+    // },
     postcss: {
       plugins: {
         cssnano: {

@@ -6,8 +6,12 @@
       :multiple="multiple"
       class="v-select"
       :options="clients"
+      :placeholder="placeholder"
       label="firstName"
     >
+      <template v-slot:selected-option="selectedOption">
+        <slot name="selectedOption" :selected="selectedOption"></slot>
+      </template>
       <template v-slot:open-indicator="{ dropdowIndicatorattributes }">
         <span v-bind="dropdowIndicatorattributes">
           <i
@@ -40,6 +44,8 @@ export default {
     event: 'change'
   },
   props: {
+    label: {
+    },
     multiple: {
       type: Boolean,
       default: false
@@ -48,8 +54,12 @@ export default {
       type: Boolean,
       default: false
     },
+    placeholder: {
+      type: String,
+      default: ''
+    },
     clients: Array,
-    value: [Object, Array]
+    value: [Object, Array, String]
   },
   data () {
     return {
@@ -58,7 +68,7 @@ export default {
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
-        class: 'fi-rr-caret-down font-bold text-base cursor-pointer absolute right-0 p-3'
+        class: 'fi-rr-angle-down font-bold text-base cursor-pointer absolute right-0 p-3'
       }
     }
   },
@@ -66,9 +76,6 @@ export default {
     selected (newValue) {
       this.$emit('change', newValue)
     }
-  },
-  mounted () {
-    // document.getElementById('defaultOpen').click()
   }
 }
 </script>
