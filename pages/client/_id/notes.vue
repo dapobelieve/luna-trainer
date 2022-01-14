@@ -5,11 +5,11 @@
         <p class="text-gray-700 font-normal text-xl">
           Notes
         </p>
-        <button class="text-blue-500" type="button" @click.prevent="addNote">
+        <button class="text-blue-500" type="button" @click.prevent="addNote(true)">
           <i class="fi-rr-plus h-4 w-4"></i>
         </button>
       </div>
-      <div class="mt-8 px-3">
+      <div class="mt-8">
         <div v-if="!notes.length" class="mb-4 px-5  grid gap-5 justify-center text-center">
           <h5 class="font-bold text-gray-700 text-lg">
             You have no notes
@@ -27,10 +27,10 @@
           </div>
         </div>
         <div v-else>
-          <ul v-for="note in notes" :key="note.id">
-            <li class="py-4 flex items-center first:pt-0">
+          <ul v-for="note in notes" :key="note.index">
+            <li class="py-4 flex items-center cursor-pointer hover:bg-blue-50 rounded-lg mx-1 px-4">
               <div class="mr-auto">
-                <h3 class="text-gray-700 text-base font-medium">
+                <h3 class="text-gray-700 text-base font-medium capitalize">
                   {{ note.title }}
                 </h3>
                 <p class="font-normal text-sm text-gray-700">
@@ -89,7 +89,6 @@ export default {
       toggleModal: 'notes/toggleModal'
     }),
     addNote (status) {
-      console.log('stat ', status)
       this.toggleModal(status)
     }
   }
