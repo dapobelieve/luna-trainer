@@ -298,7 +298,7 @@ export default {
           },
           {
             name: `Every month on the 1st ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
-            value: `RRULE:FREQ=MONTHLY`
+            value: `RRULE:FREQ=MONTHLY;INTERVAL=1`
           }
         ]
       }
