@@ -22,7 +22,6 @@
             <!-- new messages -->
             <dashboard-messages />
           </div>
-
           <!-- invoices -->
           <dashboard-payments :paid-invoices="paidInvoices" />
         </div>

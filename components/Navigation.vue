@@ -1,6 +1,6 @@
 <template>
   <div
-    class="block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
+    class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
     <!-- Sidebar Search -->
 
@@ -79,14 +79,12 @@
                     class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
                   >Coming soon</span>
                 </div>
-                <button
-                  class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
-                  disabled
-                  @click="addSession = true"
-                >
-                  <i class="fi-rr-calendar" />
-                  <span class="truncate">My Schedule</span>
-                </button>
+                <nuxt-link to="/schedule" class="flex items-center relative navItems">
+                  <div class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4">
+                    <i class="fi-rr-calendar" />
+                    <span class="truncate">My Schedule</span>
+                  </div>
+                </nuxt-link>
                 <button
                   class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
                   disabled

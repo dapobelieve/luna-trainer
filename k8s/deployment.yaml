@@ -38,6 +38,8 @@ spec:
               value: production
             - name: ACCOUNT_HOST_URL
               value: https://api.getwelp.com/accounts/v0
+            - name: SCHEDULER_HOST
+              value: https://api.getwelp.com/scheduler/v0
             - name: BASEURL_HOST
               value: https://api.getwelp.com/core/v0
             - name: STRIPE_RETURN

@@ -70,7 +70,7 @@ export default {
     },
     hideSide () {
       this.open = false
-    },
+    }
   },
   created () {
     this.$nuxt.$on('displayPageSidebar', () => {

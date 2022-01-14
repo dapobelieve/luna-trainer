@@ -1,381 +1,135 @@
 <template>
-  <div>
-    <PageHeader>
-      <template v-slot:title>
-        <div class="flex items-center">
-          {{ displayMonth ? 'June' : 'April' }}
-          <button
-            type="button"
-            class="outline-none border-none m-1 inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            @click.prevent="displayMonth ? prev() : prevEvent()"
-          >
-            <img class="h-6" src="~/assets/img/chevron-left.svg" alt="">
-          </button>
-          <button
-            type="button"
-            class="outline-none border-none m-1 inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-            @click.prevent="displayMonth ? next() : nextEvent()"
-          >
-            <img class="h-6" src="~/assets/img/chevron-right.svg" alt="">
-          </button>
+  <div class="min-h-screen">
+    <div class="bg-white flex items-center justify-between md:px-4 px-1 py-1 sticky top-0 shadow-sm h-14 border-b z-10">
+      <h3 class="text-lg hidden md:block sm:text-2xl">
+        My Schedule
+      </h3>
+      <div v-if="calendarApi">
+        <div class="flex items-center justify-between w-48">
+          <span class="mt-1 cursor-pointer" @click="mainPrev"><i class="fi-rr-angle-left "></i></span>
+          <h3 class="text-black">
+            {{ months[currentDate.month] }} {{ currentDate.year }}
+          </h3>
+          <span class="mt-1 cursor-pointer" @click="mainNext"><i class="fi-rr-angle-right"></i></span>
         </div>
-      </template>
-      <template v-slot:buttons>
+      </div>
+      <div class="flex items-center">
+        <ClickOutside :do="() => showDrop = false">
+          <div class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
+            <span class="font-medium flex items-center cursor-pointer text-primary-color " @click="showDrop = !showDrop">
+              <span>{{ currentView }}</span>
+              <i class="fi-rr-caret-down ml-2 text-lg"></i>
+            </span>
+            <div
+              v-show="showDrop"
+              class="origin-top-right cursor-pointer absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+            >
+              <div class="py-1" role="none">
+                <a class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100" showDrop="false" @click="changeView('dayGridMonth', 'Month')">Month
+                </a>
+                <a
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  showDrop="false"
+                  @click="changeView('timeGridWeek', 'Week')"
+                >Week
+                </a>
+                <a
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  showDrop="false"
+                  @click="changeView('timeGridDay', 'Day')"
+                >Day
+                </a>
+                <a
+                  class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
+                  showDrop="false"
+                  @click="changeView('listWeek', 'List')"
+                >List
+                </a>
+              </div>
+            </div>
+          </div>
+        </ClickOutside>
         <button
-          type="button"
-          class="base-button inline-flex items-center px-2 py-1 border border-gray-300 text-xs font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          @click="openCreateModal = true"
+          id="schduler-step-1"
+          class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
+          @click="openDrawer = true; activePage = 'new-schedule'"
         >
-          <i class="ns-plus text-lg hover:text-white"></i>
+          <i class="fi-rr-plus text-white text-xl mt-1"></i>
         </button>
-        <div>
-          <gw-select
-            :options="['Day', 'Month']"
-            selected="Day"
-            @selected="filterCard"
-          />
-        </div>
-        <button
-          type="button"
-          class=" inline-flex items-center px-2 py-1 border border-gray-300 text-sm font-medium rounded shadow-sm text-black hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2"
-          @click.prevent="showSubMenu"
-        >
-          <i class="ns-ellipsis  text-lg"></i>
-        </button>
-        <div v-show="meetSubMenu" class="mt-8">
-          <GwOptions
-            :options="['Set Availability']"
-            selected="availability"
-            @selected="setAvailabilty"
-          />
-        </div>
-      </template>
-    </PageHeader>
-    <GwModal
-      :is-open="openAvailabilityModal"
-      :input-width="30"
-      @close="openAvailabilityModal = $event"
-      @closeBackDrop="openAvailabilityModal = $event"
-    >
-      <template v-slot:status>
-        <div class="px-2 capitalize text-xl leading-normal">
-          Set availability
-        </div>
-      </template>
-      <div @close="openAvailabilityModal = $event">
-        <SetAvailabity />
       </div>
-    </GwModal>
-    <GwModal
-      :is-open="openCreateModal"
-      :input-width="40"
-      @close="openCreateModal = $event"
-      @closeBackDrop="addCreateModal = $event"
-    >
-      <div @close="openCreateModal = $event">
-        <CreateSchedule />
-      </div>
-    </GwModal>
-
-    <div
-      v-if="1 > 0"
-      class="m-5 sm:m-3 pb-14 lg:pb-10 h-full mt-2 md:mt-5"
-    >
-      <template v-if="displayDay">
-        <div v-for="data in group" :key="data.id">
-          <GroupIdentifier :identifier="data" />
-        </div>
-      </template>
-      <client-only>
-        <div v-if="displayMonth">
-          <FullCalendar
-            ref="fullCalendar"
-            class="my-fc"
-            :options="calendarOptions"
-          ></FullCalendar>
-        </div>
-      </client-only>
     </div>
-    <div
-      v-else
-      class="mt-16 px-5 grid gap-5 justify-center text-center"
-    >
-      <div class="w-full">
-        <img
-          class="text-center inline-block"
-          src="~/assets/img/low-dog.png"
-          alt=""
-          srcset=""
-        />
+    <div class="grid md:grid-cols-4 schedule-section">
+      <div class="col-span-3 bg-blue-50">
+        <FullCalendar ref="fullCalendar" class="main-calendar" :options="calendarOptions" />
       </div>
-      <h5 class="font-bold text-base">
-        No scheduled sessions
-      </h5>
-      <p
-        class="px-5 text-sm mb-0 max-w-lg leading-6 mt-0 font-normal"
-      >
-        All your current, confirmed, and cancelled sessions will appear here.
-        Schedule a session with your clients to begin
-      </p>
+      <div class="pt-1 bg-white max-h-screen top-0 relative">
+        <div class="grid gap-3 h-full w-full max-h-screen">
+          <keep-alive>
+            <SchedulerDrawer @remove-event="removeEvent($event)" v-if="openDrawer" v-model="activePage" @process-event="processNewEvent($event)" @close="openDrawer = false" />
+            <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+          </keep-alive>
+        </div>
+      </div>
     </div>
+    <SchedulerWelcome @tour="tour()" />
   </div>
 </template>
 
 <script>
+import { format, fromUnixTime } from 'date-fns'
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
-import timeGridPlugin from '@fullcalendar/timegrid'
 import interactionPlugin from '@fullcalendar/interaction'
+import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
-import GroupIdentifier from '~/components/GroupIdentifier'
+import { mapGetters } from 'vuex'
+import NewSchedule from '~/components/scheduler/NewSchedule'
+import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
+import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  name: 'Schedules',
+  name: 'Scheduler',
+  data () {
+    return {
+      openDrawer: false,
+      activeEvent: {}, //event that was clicked
+      activePage: 'new-schedule',
+      currentView: 'Month',
+      newSchedule: false,
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      calendarApi: {},
+      currentDate: {
+        month: null,
+        year: null
+      },
+      showDrop: false,
+      calendarOptions: {
+        headerToolbar: false,
+        eventClick: this.handleCalendarEventClick,
+        plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
+        initialView: 'dayGridMonth',
+        nowIndicator: false,
+        editable: true
+      },
+      colorMap: {
+        teal: 'rgba(20, 184, 166)',
+        blue: 'rgba(59, 130, 246)',
+        amber: 'rgba(245, 158, 11)',
+        rose: 'rgba(239, 68, 68)',
+        sky: 'rgba(6, 182, 212)'
+      }
+    }
+  },
   components: {
-    GroupIdentifier,
+    SchedulerDrawer,
+    SchedulerInfo,
+    SchedulerWelcome,
+    NewSchedule,
     FullCalendar
   },
   layout: 'Scheduler',
-  data () {
-    return {
-      openModal: false,
-      openAvailabilityModal: false,
-      filter: 'day',
-      displayMonth: false,
-      displayDay: true,
-      meetSubMenu: false,
-      openCreateModal: false,
-      group: [
-        {
-          _id: {
-            date: '10',
-            day: 'Wed'
-          },
-          schedules: [
-            {
-              meeting: 'APBC Committee Meeting ',
-              trainer: 'Ali R',
-              time: 'Happening Now',
-              venue: 'Remote',
-              join: 'Join',
-              session: false,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'happening_now',
-              schedule_info: 'Tuesday 27 April, 2021',
-              trainer_firstname: 'Josh',
-              trainer_lastname: 'Bryan',
-              dog_name: 'Bingo'
-            },
-            {
-              meeting: 'APBC Committee Meeting ',
-              trainer: 'Ali R',
-              time: '2pm-3pm',
-              venue: 'SMV-I12',
-              cancelled: true,
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'cancelled',
-              schedule_info: 'Tuesday 27 April, 2021',
-              trainer_firstname: 'Josh',
-              trainer_lastname: 'Bryan',
-              dog_name: 'Bingo'
-            },
-            {
-              meeting: 'Dap Committee Meeting',
-              trainer: 'Josh',
-              time: '10am-12pm',
-              venue: 'SL-ILA',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'request',
-              schedule_info: 'Friday 31 April, 2021',
-              trainer_firstname: 'Daniel',
-              trainer_lastname: 'John',
-              dog_name: 'Polly'
-            },
-            {
-              meeting: 'Cap Committee Meeting',
-              trainer: 'Josh',
-              time: '10am-12pm',
-              venue: 'SL-ILA',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'confirmed',
-              schedule_info: 'Saturday 3 May, 2021',
-              trainer_firstname: 'Killian',
-              trainer_lastname: 'Abram',
-              dog_name: 'Potty'
-            }
-          ]
-        },
-        {
-          _id: {
-            date: '05',
-            day: 'Tue'
-          },
-          schedules: [
-            {
-              meeting: 'APBC Committee Meeting ',
-              trainer: 'Ali R',
-              time: 'Happening Now',
-              venue: 'Remote',
-              join: 'Join',
-              session: false,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'happening_now',
-              schedule_info: 'Tuesday 27 April, 2021',
-              trainer_firstname: 'Josh',
-              trainer_lastname: 'Bryan',
-              dog_name: 'Bingo'
-            },
-            {
-              meeting: 'APBC Committee Meeting ',
-              trainer: 'Ali R',
-              time: '2pm-3pm',
-              venue: 'SMV-I12',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'cancelled',
-              schedule_info: 'Tuesday 27 April, 2021',
-              trainer_firstname: 'Josh',
-              trainer_lastname: 'Bryan',
-              dog_name: 'Bingo'
-            },
-            {
-              meeting: 'Dap Committee Meeting',
-              trainer: 'Josh',
-              time: '10am-12pm',
-              venue: 'SL-ILA',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'request',
-              schedule_info: 'Friday 31 April, 2021',
-              trainer_firstname: 'Daniel',
-              trainer_lastname: 'John',
-              dog_name: 'Polly'
-            },
-            {
-              meeting: 'Cap Committee Meeting',
-              trainer: 'Josh',
-              time: '10am-12pm',
-              venue: 'SL-ILA',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'confirmed',
-              schedule_info: 'Saturday 3 May, 2021',
-              trainer_firstname: 'Killian',
-              trainer_lastname: 'Abram',
-              dog_name: 'Potty'
-            }
-          ]
-        },
-        {
-          _id: {
-            date: '15',
-            day: 'Fri'
-          },
-          schedules: [
-            {
-              meeting: 'APBC Committee Meeting ',
-              trainer: 'Ali R',
-              time: 'Happening Now',
-              venue: 'Remote',
-              join: 'Join',
-              session: false,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'happening_now',
-              schedule_info: 'Tuesday 27 April, 2021',
-              trainer_firstname: 'Josh',
-              trainer_lastname: 'Bryan',
-              dog_name: 'Bingo'
-            },
-            {
-              meeting: 'APBC Committee Meeting ',
-              trainer: 'Ali R',
-              time: '2pm-3pm',
-              venue: 'SMV-I12',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'cancelled',
-              schedule_info: 'Tuesday 27 April, 2021',
-              trainer_firstname: 'Josh',
-              trainer_lastname: 'Bryan',
-              dog_name: 'Bingo'
-            },
-            {
-              meeting: 'Dap Committee Meeting',
-              trainer: 'Josh',
-              time: '10am-12pm',
-              venue: 'SL-ILA',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'request',
-              schedule_info: 'Friday 31 April, 2021',
-              trainer_firstname: 'Daniel',
-              trainer_lastname: 'John',
-              dog_name: 'Polly'
-            },
-            {
-              meeting: 'Cap Committee Meeting',
-              trainer: 'Josh',
-              time: '10am-12pm',
-              venue: 'SL-ILA',
-              actions: '...',
-              session: true,
-              address_description: 'Kindly note that the location of this meeting is behind the popular Whispering Park along Melrose',
-              status: 'confirmed',
-              schedule_info: 'Saturday 3 May, 2021',
-              trainer_firstname: 'Killian',
-              trainer_lastname: 'Abram',
-              dog_name: 'Potty'
-            }
-          ]
-        }
-      ],
-      calendarOptions: {
-        headerToolbar: false,
-        plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin, listPlugin],
-        initialView: 'dayGridMonth',
-        themeSystem: 'default',
-        editable: true,
-        droppable: true,
-        eventResizableFromStart: true,
-        background: '#fffff',
-        events: [
-          {
-            id: 1,
-            title: 'All Day Event',
-            start: new Date().setDate(new Date().getDate() + 1)
-          },
-          {
-            id: 2,
-            title: 'Long Event',
-            start: new Date().setDate(new Date().getDate() - 5),
-            end: new Date().setDate(new Date().getDate() - 3)
-          },
-          {
-            id: 3,
-            title: 'Repeating Event',
-            start: new Date().setDate(new Date().getDate() - 3)
-          },
-          {
-            id: 4,
-            title: 'Meeting',
-            start: new Date().setDate(new Date().getDate() + 4)
-          }
-        ],
-        weekends: true,
-        selectable: true,
-        selectMirror: true,
-        dayMaxEvents: true
-      }
-    }
+  async asyncData (ctx) {
+    await ctx.store.dispatch('scheduler/getCalendars')
   },
   head () {
     return {
@@ -383,90 +137,177 @@ export default {
     }
   },
   methods: {
-    filterCard () {
-      this.filter = this.filter === 'day' ? 'month' : 'day'
-      if (this.filter === 'month') {
-        this.displayMonth = true
-        this.displayDay = false
-      } else {
-        this.displayMonth = false
-        this.displayDay = true
+    async loadEvents() {
+      await this.$store.dispatch('scheduler/getAllAppointments', {
+        startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
+        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
+      })
+
+      this.allEvents.map((event) => {
+        this.processNewEvent(event)
+      })
+    },
+    removeEvent(eventId) {
+      const event = this.calendarApi.getEventById(eventId)
+      event.remove()
+    },
+    tour () {
+      this.$modal.hide('scheduler-modal')
+      this.$intro()
+        .setOptions({
+          hidePrev: true,
+          steps: [
+            {
+              element: document.querySelector('#schduler-step-1'),
+              intro: 'To create a  new session and add participants, click here'
+            }
+          ]
+        })
+        .start()
+      this.$intro().showHints()
+    },
+    handleCalendarEventClick (info) {
+      this.$store.commit('scheduler/setEvent', info.event)
+      this.openDrawer = true
+      this.activePage = 'schedule-details'      
+    },
+    changeView (viewname, display) {
+      this.currentView = display
+      this.calendarApi.changeView(viewname)
+      this.showDrop = false
+    },
+    processNewEvent (event) {
+      if(event.updated) {
+        this.removeEvent(event.id)
       }
+      
+      this.calendarApi.addEvent({
+        id: event.id,
+        color: this.colorMap[event.color],
+        description: event.description,
+        participants: [...event.participants],
+        colorName: event.color,
+        when: event.when,
+        editable: false,
+        title: event.title,
+        start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
+        end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
+        allDay: false
+      })
+      this.openDrawer = false
+      this.activePage = ''
     },
-    showSubMenu () {
-      this.meetSubMenu = !this.meetSubMenu
+    updateDate () {
+      this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
+      this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
     },
-    prev () {
-      const calendarApi = this.$refs.fullCalendar.getApi()
-      calendarApi.prev()
+    mainPrev () {
+      this.calendarApi.prev()
+      this.updateDate()
     },
-    next () {
-      const calendarApi = this.$refs.fullCalendar.getApi()
-      calendarApi.next()
-    },
-    prevEvent () {
-    },
-    nextEvent () {
-    },
-    setAvailabilty () {
-      this.openAvailabilityModal = true
-      this.meetSubMenu = false
+    mainNext () {
+      this.calendarApi.next()
+      this.updateDate()
+    }
+  },
+  computed: {
+    ...mapGetters({
+      activeCalendar: 'scheduler/getCalendar',
+      allEvents: 'scheduler/getAllEvents'
+    })
+  },
+  async mounted () {
+    // this.$modal.show('scheduler-modal')
+    // setup calendar
+    this.calendarApi = this.$refs.fullCalendar.getApi()
+    this.updateDate()
+    // fetch local calendar
+    try {
+      if (!this.activeCalendar) {
+        this.$modal.show('scheduler-modal')
+        await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      } else {
+        await this.loadEvents()
+      }
+      // await this.$store.dispatch('scheduler/connectToLocalCalendar')
+    }catch (e) {
+      console.log(e)
     }
   }
+
 }
 </script>
 
 <style lang="scss" scoped>
-a {
-  color: rgba(143, 151, 166, 1);
+.schedule-section {
+  height: calc(100vh - 61px);
 }
-
-.active {
-  color: black;
-}
-
-.active:focus {
-  outline: none !important;
-}
-.my-fc::v-deep {
-  .fc-daygrid-day-top {
-    display: flex;
-    /* flex-direction: row-reverse; */
-    align-items: center !important;
-    justify-content: center !important;
-    margin: auto !important;
-    background-color: #e5f0fa !important;
-    border-radius: 50%;
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
+::v-deep .main-calendar {
+  .fc-dayGridMonth-view, .fc-timeGridWeek-view {
+    background-color: #F8FAFC;
+    .fc-col-header-cell {
+      background-color: #fff;
+      text-transform: uppercase;
+      color: rgba(100, 116, 139, 1);
+      font-weight: 500;
+      font-size: 12px;
+      .fc-scrollgrid-sync-inner {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .fc-daygrid-day-number {
+      font-size: 14px;
+    }
+    .fc-day-today {
+      background-color: transparent;
+      .fc-daygrid-day-top {
+        a {
+          border-radius: 50%;
+          height: 30px !important;
+          width: 30px !important;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          background: rgba(59, 130, 246, 1);
+          color: white;
+        }
+      }
+    }
+    .fc-daygrid-event {
+      cursor: context-menu;
+      background-color: #FFFFFF;
+      box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 6px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
   }
-}
-.my-fc::v-deep {
-  .fc-daygrid-event-harness {
-    background-color: #fff !important;
-    border-left-width: 3px;
-    border-color: #ffab00;
-    color: #172942 !important;
-    border-radius: 2px;
-    margin: 5px;
-  }
-}
-.my-fc::v-deep {
-  .fc-daygrid-body-balanced .fc-daygrid-day-events {
-    margin-top: 5px;
-  }
-}
-.my-fc::v-deep {
-  .fc-daygrid-event-dot {
-    display: none !important;
-  }
-  td th, .fc-theme-standard td,
-  .fc-theme-standard th,
-  .fc-daygrid-day-frame,
-   .fc-daygrid-day-events,
-    .fc-daygrid-event-harness  {
-    background-color: #fff !important;
+  .fc-timeGridWeek-view {
+    background-color: #F8FAFC;
+    .fc-timegrid-event {
+      background-color: #3B82F6;
+      border: none;
+      .fc-event-title {
+        font-weight: 500;
+        font-size: 12px;
+      }
+    }
+    .fc-scrollgrid-shrink-frame {
+      font-size: 12px;
+      text-align: center;
+    }
+    .fc-timegrid-slots {
+      tbody {
+        tr {
+          .fc-timegrid-slot-minor {
+            //background-color: red;
+            //display: none;
+          }
+        }
+      }
+    }
   }
 }
 </style>
