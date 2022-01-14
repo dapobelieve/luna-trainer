@@ -140,7 +140,7 @@ export default {
     async loadEvents() {
       await this.$store.dispatch('scheduler/getAllAppointments', {
         startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
-        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 2)).setHours(23) / 1000)
+        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
       })
 
       this.allEvents.map((event) => {
@@ -177,6 +177,10 @@ export default {
       this.showDrop = false
     },
     processNewEvent (event) {
+      if(event.updated) {
+        this.removeEvent(event.id)
+      }
+      
       this.calendarApi.addEvent({
         id: event.id,
         color: this.colorMap[event.color],
@@ -225,7 +229,7 @@ export default {
       } else {
         await this.loadEvents()
       }
-      await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      // await this.$store.dispatch('scheduler/connectToLocalCalendar')
     }catch (e) {
       console.log(e)
     }

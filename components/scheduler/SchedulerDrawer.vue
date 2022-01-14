@@ -4,6 +4,7 @@
       @back="event={};$emit('active-page', pages.SCHEDULE_DETAILS)" 
       :event="event" v-if="activePage === pages.NEW_SCHEDULE" 
       @close="event={};$emit('close')" 
+      @updated="$emit('process-event',$event)"
       @created="$emit('process-event',$event)" />
     
     <ScheduleDetails 

@@ -22,7 +22,7 @@
         <div class="flex items-center mb-3">
           <i class="fi-rr-calendar mt-1 text-md text-gray-500"></i>
           <div class="ml-3 text-gray-500 w-full">
-            <date-picker v-model="form.date" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+            <date-picker :value="form.date" @change="updateDate" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
           </div>
         </div>
         <div class="flex items-center mb-3">
@@ -103,7 +103,7 @@
       </div>
       <div>
         <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
-          Client
+          Clients
         </h6>
         <div class="mb-6">
           <div class="flex items-center ">
@@ -118,6 +118,7 @@
                 <template v-slot:dropdownOption="{ optionObject }">
                   <div class="flex justify-between min-w-full items-center">
                     <div class="flex items-center content-center py-1">
+                      
                       <ClientAvatar
                         :width="2.3"
                         :height="2.3"
@@ -154,13 +155,21 @@
               <div v-for="client in form.participants">
                 <div class="flex items-center content-center py-1">
                   <ClientAvatar
+                    v-if="client.firstName"
                     :width="2.3"
                     :height="2.3"
                     :client-info="client"
                   />
+                  <ClientAvatar
+                    v-else
+                    :width="2.3"
+                    :height="2.3"
+                    :client-info="{firstName: client.name}"
+                  />
                   <div class="ml-2">
                     <p class="capitalize text-md text-gray-700">
-                      {{ client.firstName }} {{ $utils.optional(client.lastName) }}
+                      <template v-if="client.firstName">{{ client.firstName }} {{ $utils.optional(client.lastName) }}</template>
+                      <template v-else>{{client.name}}</template>
                     </p>
                     <span class="text-sm text-gray-400">{{ client.email }}</span>
                   </div>
@@ -194,8 +203,11 @@
       <InviteNewClient :redirect="false" class="m-6" @close="$modal.hide('inviteClientModal')" />
     </modal>
     <div class="schedule-footer mb-4">
-      <button :disabled="btn.loading" class="button-fill w-full" @click="createEvent">
+      <button v-if="!event.id" :disabled="btn.loading" class="button-fill w-full" @click="createEvent">
         {{ btn.text }}
+      </button>
+      <button v-else :disabled="btn.loading" class="button-fill w-full" @click="updateEvent">
+        Confirm
       </button>
     </div>
   </div>
@@ -203,6 +215,7 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
+import {format, fromUnixTime} from 'date-fns'
 import { mapGetters } from 'vuex'
 import 'vue2-datepicker/index.css'
 import timezones from '~/timezones.json'
@@ -220,7 +233,82 @@ export default {
         loading: false
       },
       timezones,
-      time: [
+      colors: [
+        {
+          name: 'Default color',
+          value: 'blue',
+          class: 'bg-blue-500'
+        },
+        {
+          name: 'Teal',
+          value: 'teal',
+          class: 'bg-teal-500'
+        },
+        {
+          name: 'Amber',
+          value: 'amber',
+          class: 'bg-yellow-500'
+        },
+        {
+          name: 'Rose',
+          value: 'rose',
+          class: 'bg-red-500'
+        },
+        {
+          name: 'Sky',
+          value: 'sky',
+          class: 'bg-cyan-400'
+        }
+      ],
+      form: {
+        title: null,
+        from: "",
+        details: null,
+        participants: [],
+        to: null,
+        when: {},
+        color: {
+          name: 'Default color',
+          value: 'blue',
+          class: 'bg-blue-500'
+        },
+        allDay: false
+      }
+    }
+  },
+  computed: {
+    repeat() {
+      if(this.form.date) {
+        return [
+          {
+            name: 'Does not repeat',
+            value: ''
+          },
+          {
+            name: 'Every day',
+            value: 'RRULE:FREQ=DAILY'
+          },
+          {
+            name: 'Every weekday',
+            value: 'RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
+          },
+          {
+            name: `Every week on ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
+            value: `RRULE:FREQ=WEEKLY;INTERVAL=1`
+          },
+          {
+            name: `Every month on the 1st ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
+            value: `RRULE:FREQ=MONTHLY`
+          }
+        ]
+      }
+      return []
+    },
+    hasSchedule() {
+      return !!this.event.id
+    },
+    time() {
+      return [
         '07:00 am',
         '07:15 am',
         '07:30 am',
@@ -278,79 +366,7 @@ export default {
         '08:30 pm',
         '08:45 pm',
         '09:00 pm'
-      ],
-      colors: [
-        {
-          name: 'Default color',
-          value: 'blue',
-          class: 'bg-blue-500'
-        },
-        {
-          name: 'Teal',
-          value: 'teal',
-          class: 'bg-teal-500'
-        },
-        {
-          name: 'Amber',
-          value: 'amber',
-          class: 'bg-yellow-500'
-        },
-        {
-          name: 'Rose',
-          value: 'rose',
-          class: 'bg-red-500'
-        },
-        {
-          name: 'Sky',
-          value: 'sky',
-          class: 'bg-cyan-400'
-        }
-      ],
-      form: {
-        title: null,
-        from: null,
-        participants: [],
-        to: null,
-        when: {},
-        color: {
-          name: 'Default color',
-          value: 'blue',
-          class: 'bg-blue-500'
-        },
-        allDay: false
-      }
-    }
-  },
-  computed: {
-    repeat() {
-      if(this.form.date) {
-        return [
-          {
-            name: 'Does not repeat',
-            value: ''
-          },
-          {
-            name: 'Every day',
-            value: 'RRULE:FREQ=DAILY'
-          },
-          {
-            name: 'Every weekday',
-            value: 'RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
-          },
-          {
-            name: `Every week on ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
-            value: `RRULE:FREQ=WEEKLY;INTERVAL=1`
-          },
-          {
-            name: `Every month on the 1st ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
-            value: `RRULE:FREQ=MONTHLY`
-          }
-        ]
-      }
-      return []
-    },
-    hasSchedule() {
-      return !!this.event.id
+      ]
     },
     computeToTime() {
       if(this.form.from) {
@@ -386,6 +402,74 @@ export default {
     }
   },
   methods: {
+    updateDate(event) {
+      this.form.date = event
+      this.$forceUpdate()
+    },
+    async updateEvent () {
+      
+        this.btn.loading = true
+        this.btn.text = 'Creating Schedule...'
+        
+        const fromTime = this.form.from.split(' ')
+        const fromHrs = fromTime[1] === 'pm' ? (parseInt(fromTime[0].split(':')[0]) + 12) : parseInt(fromTime[0].split(':')[0])
+        const fromMinutes = parseInt(fromTime[0].split(':')[1])
+
+        const toTime = this.form.to.split(' ')
+        const toHrs = toTime[1] === 'pm' ? (parseInt(toTime[0].split(':')[0]) + 12) : parseInt(toTime[0].split(':')[0])
+        const toMinutes = parseInt(toTime[0].split(':')[1])
+
+        const start = new Date(this.form.date.setHours(fromHrs, fromMinutes))
+      // console.log(start)
+      console.log(fromHrs, fromMinutes)
+      
+        const end = new Date(this.form.date.setUTCHours(toHrs, toMinutes))
+        console.log(toHrs, toMinutes)
+
+        this.form.when.startTime = start / 1000
+        this.form.when.endTime = end / 1000
+
+        const participants = this.form.participants.reduce((acc, curr) => {
+          acc.push({
+            userId: curr._id,
+            email: curr.email,
+            profileId: curr._id,
+            imgUrl : curr.imgURL,
+            name: curr.firstName
+          })
+          return acc
+        }, [])
+
+        const payloadData = {
+          id: this.event.id,
+          title: this.form.title,
+          color: this.form.color.value,
+          when: this.form.when,
+          timezone: this.form.timezone || 'Africa/Lagos',
+          description: this.form.description,
+          participants
+        }
+
+        if(this.form.repeat?.value) {
+          payloadData.recurrence = [this.form.repeat.value]
+        }
+      try {
+        const res = await this.$store.dispatch('scheduler/updateAppointment', {
+          calendar: this.activeCalendar.id,
+          data: { ...payloadData }
+        })
+        console.log(res)
+        this.$emit('updated', {...res, updated: true})
+        this.$gwtoast.success('Appointment updated')
+      } catch (e) {
+        console.log({ e })
+      } finally {
+        this.btn = {
+          text: 'Send',
+          loading: false
+        }
+      }
+    },
     async createEvent () {
       try {
         this.btn.loading = true
@@ -425,12 +509,12 @@ export default {
         }
         
         if(this.form.repeat?.value) {
-          payloadData.recurrence = this.form.repeat.value
+          payloadData.recurrence = [this.form.repeat.value]
         }
       
         const res = await this.$store.dispatch('scheduler/createAppointment', {
           calendar: this.activeCalendar.id,
-          ...payloadData 
+          data: { ...payloadData }
         })
         this.$emit('created', res)
         this.$gwtoast.success('New  Appointment created')
@@ -444,11 +528,17 @@ export default {
       }
     }
   },
-  mounted () {
+  beforeMount() {
     if(this.event.id) {
+      console.log(new Date(this.event.when.startTime * 1000))
       this.form.title = this.event.title
-      this.form.when.startTime = this.event.when.startTime
-      console.log(this.event)
+      this.form.date = new Date(this.event.when.startTime * 1000)
+      this.form.from = format(fromUnixTime(this.event.when.startTime), "HH:mm aaa")
+      this.form.to = format(fromUnixTime(this.event.when.endTime), "HH:mm aaa")
+      this.form.description = this.event.description
+      this.form.participants = this.event.participants
+      
+      this.form.color = this.colors.find(item => item.value === this.event.colorName)
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-start">
       <div :class="colors[color]" class="indicator rounded-full mr-2.5 mt-1"></div>
-      <div class="">
+      <div v-if="event && event.when" class="">
         <div class="flex items-center mb-1">
           <div class="inline-flex items-center justify-around text-gray-500 w-32 mr-1">
             <span>{{ formatTime(event.when.startTime, 'H:mm') }}</span>

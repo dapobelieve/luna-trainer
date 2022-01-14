@@ -1,7 +1,6 @@
 <template>
   <div>
     <date-picker
-      v-model="model"
       :style="{ width: widthSize }"
       class="w-full my-dp"
       type="date"

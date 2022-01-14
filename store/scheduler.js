@@ -23,7 +23,11 @@ export const actions = {
     return res
   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
-    return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload })
+    return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
+  },
+  async updateAppointment ({ commit, dispatch }, payload, calendar) {
+    console.log(payload.data.when)
+    return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {
     let res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`);
@@ -33,11 +37,12 @@ export const actions = {
     return res;
   },
   async deleteAppointment({ state }, payload) {
-    let res = await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${payload.id}`);
+    const id = (payload.id.indexOf('_') > -1) ? payload.id.split('_')[0] : payload.id
+    let res = await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`);
     return true
   },
   async connectToLocalCalendar ({ rootState, commit }) {
-    const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/connect/${rootState.auth.user.userId}?timezone=Europe/London&provider=local`)
+    const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/connect/local?timezone=Africa/Lagos`)
     commit('setCalendar', res[0])
   }
 }

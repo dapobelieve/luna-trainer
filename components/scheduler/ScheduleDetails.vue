@@ -5,6 +5,9 @@
         <i class="fi-rr-cross text-primary-color"></i>
       </span>
     </div>
+    <div v-if="Object.keys(event).length < 1" class="flex-grow flex justify-center items-center">
+      <SingleLoader height="40px" width="40px" />
+    </div>
     <div class="flex-grow">
       <h4 class="text-2xl mb-2 text-gray-700 mb-3">
         {{ event.title }}
