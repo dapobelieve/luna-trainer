@@ -471,9 +471,10 @@ export default {
     // fetch message history
     fetchMessageHistory (channel) {
       const listQuery = channel.createPreviousMessageListQuery()
-      listQuery.replyType = 'ALL'
-      listQuery.includeThreadInfo = true
-      listQuery.includeParentMessageInfo = true
+      listQuery.limit = 100
+      // listQuery.replyType = 'ALL'
+      // listQuery.includeThreadInfo = true
+      // listQuery.includeParentMessageInfo = true
 
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
