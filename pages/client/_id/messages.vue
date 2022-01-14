@@ -463,7 +463,6 @@ export default {
           this.$gwtoast.error('Error fetching messages', error)
         }
         if (messages) {
-          console.log('the messages ', messages)
           this.messageHistory = messages
           this.isChannelLoading = false
           this.markMessagesAsRead(channel)

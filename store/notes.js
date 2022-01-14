@@ -14,12 +14,11 @@ export const mutations = {
       body: details.body,
       date: details.date
     })
-  }
+  },
+  deleteNote () {}
 }
 
-export const actions = {
-
-}
+export const actions = {}
 
 export const getters = {
   notes: state => state.notes
