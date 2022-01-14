@@ -3,7 +3,7 @@
     <transition name="fadeIn">
       <PageHeader v-if="clientInfo">
         <template v-slot:back-button>
-          <button type="button" class="button-text w-10" @click="$router.push({ name: 'Clients' })">
+          <button type="button" class="button-text w-10" @click="$router.push({ name: 'clients' })">
             <i class="fi-rr-arrow-left font-bold text-blue-500 text-lg"></i>
           </button>
         </template>
@@ -62,8 +62,7 @@ export default {
     return {
       showDropDown: false,
       clientInfo: null,
-      id: this.$route.params.id,
-      unreadMessages: 0
+      id: this.$route.params.id
     }
   },
   computed: {
@@ -71,7 +70,6 @@ export default {
       thisUser: state => state.sendBird.tempClient
     }),
     ...mapGetters({
-      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount',
       isOnline: 'sendBird/isUserOnline'
     }),
     firstName () {
@@ -97,9 +95,6 @@ export default {
         if (response.status === 'invited' && 'sendbirdId' in response) {
           this.isUserOnline(response.sendbirdId)
           this.setCurrentClient(response.sendbirdId)
-          this.unreadMessages = this.unreadMessagesCount(response.sendbirdId)
-            ? this.unreadMessagesCount(response.sendbirdId).unreadMessageCount
-            : 0
         }
       })
       .catch(err => console.log('error fetching client', err))

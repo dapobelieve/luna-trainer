@@ -62,7 +62,7 @@
           <div
             class="inset-y-0 left-0 pl-3 flex items-center pointer-events-none bg-white h-10 border shadow-sm rounded-l-md border-r-0"
           >
-            <span class="text-gray-500">{{ $store.state.profile.trainnerRegData.personalProfile.currency }}</span>
+            <span class="text-gray-500">{{ $store.state.profile.trainerRegData.personalProfile.currency }}</span>
           </div>
           <input
             id="currency"
@@ -123,7 +123,7 @@ export default {
   },
   computed: {
     ...mapState({
-      servicesFromStore: state => state.profile.trainnerRegData.services,
+      servicesFromStore: state => state.profile.trainerRegData.services,
       editing: state => state.profile.editingServiceCard
     }),
     disabled () {
@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      createService: 'profile/UPDATE_TRAINNER_REG_DATA',
+      createService: 'profile/UPDATE_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
     addNewService () {

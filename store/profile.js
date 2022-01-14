@@ -3,9 +3,9 @@ import Vue from 'vue'
 export const state = () => ({
   isStripeConnected: false,
   editingServiceCard: false,
-  getWelpUser: {},
+  user: {},
   currency: 'GBP',
-  trainnerRegData: {
+  trainerRegData: {
     personalProfile: {
       firstName: '',
       lastName: '',
@@ -17,7 +17,7 @@ export const state = () => ({
       timezone: '',
       dateFormat: 'DD/MM/YY'
     },
-    trainnerProfile: {
+    trainerProfile: {
       accreditations: [],
       specialization: [],
       usePositiveReinforce: false
@@ -40,8 +40,8 @@ export const mutations = {
   SET_STATE (state, data) {
     Object.keys(data).forEach(key => (state[key] = data[key]))
   },
-  SET_EMPTY_TRAINNER_REG_DATA (state) {
-    state.trainnerRegData = {
+  SET_EMPTY_TRAINER_REG_DATA (state) {
+    state.trainerRegData = {
       personalProfile: {
         firstName: '',
         lastName: '',
@@ -53,7 +53,7 @@ export const mutations = {
         timezone: '',
         dateFormat: 'DD/MM/YY'
       },
-      trainnerProfile: {
+      trainerProfile: {
         accreditations: [],
         specialization: [],
         usePositiveReinforce: false
@@ -70,37 +70,36 @@ export const mutations = {
       stripe: false
     }
   },
-  UPDATE_TRAINNER_REG_DATA (state, payload) {
+  UPDATE_TRAINER_REG_DATA (state, payload) {
     if ('type' in payload && payload.type === 'services') {
-      state.trainnerRegData[payload.parent].push(payload.value)
+      state.trainerRegData[payload.parent].push(payload.value)
     } else if ('type' in payload && payload.type === 'deleteService') {
-      state.trainnerRegData[payload.parent] = payload.value
+      state.trainerRegData[payload.parent] = payload.value
     } else if ('type' in payload && payload.type === 'updateService') {
-      state.trainnerRegData.services.splice(payload.index, 1, payload.value)
+      state.trainerRegData.services.splice(payload.index, 1, payload.value)
     } else {
-      state.trainnerRegData[payload.parent][payload.key] = payload.value
+      state.trainerRegData[payload.parent][payload.key] = payload.value
     }
   },
-  SET_GETWELP_USER (state, user) {
+  SET_USER (state, user) {
     const checkEmptiness = user &&
       Object.keys(user).length === 0 && user.constructor === Object
     const gwuser = checkEmptiness ? {} : user
     this.$auth.setUser(gwuser)
-    localStorage.setItem('getWelpUser', JSON.stringify(gwuser))
-    Vue.set(state, 'getWelpUser', user)
+    Vue.set(state, 'user', user)
   }
 }
 
 export const actions = {
   clearGetWelpUser ({ commit }) {
-    commit('SET_GETWELP_USER', {})
+    commit('SET_USER', {})
   },
   createProfile (
     { state, commit, dispatch },
     payload = {
-      ...state.trainnerRegData.personalProfile,
-      ...state.trainnerRegData.trainnerProfile,
-      services: state.trainnerRegData.services
+      ...state.trainerRegData.personalProfile,
+      ...state.trainerRegData.trainerProfile,
+      services: state.trainerRegData.services
     }
   ) {
     return this.$axios
@@ -108,7 +107,7 @@ export const actions = {
       .then((response) => {
         const { data } = response
         if (data !== null) {
-          commit('SET_GETWELP_USER', data)
+          commit('SET_USER', data)
         }
         return response
       })
@@ -121,7 +120,7 @@ export const actions = {
       .then((response) => {
         const { data } = response
         if (data !== null) {
-          commit('SET_GETWELP_USER', data)
+          commit('SET_USER', data)
         }
         return response
       })
@@ -130,14 +129,14 @@ export const actions = {
     return this.$axios
       .$put(`${process.env.BASEURL_HOST}/profile`, payload)
       .then((response) => {
-        commit('SET_GETWELP_USER', response.data)
+        commit('SET_USER', response.data)
         return response
       })
   },
   async getUserProfile ({ commit }) {
     const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/profile`)
     if (res.status === 'success') {
-      commit('SET_GETWELP_USER', res.data)
+      commit('SET_USER', res.data)
       return res.data
     }
     return res
@@ -152,7 +151,7 @@ export const actions = {
         }
       )
       .then((response) => {
-        commit('SET_GETWELP_USER', response.data)
+        commit('SET_USER', response.data)
         return response
       })
   },
@@ -164,15 +163,15 @@ export const actions = {
   }
 }
 export const getters = {
-  getUser: state => state.getWelpUser,
-  stripeConnection: state => state.getWelpUser.stripe,
+  getUser: state => state.user,
+  stripeConnection: state => state.user.stripe,
   isStripeConnected: state =>
-    state.getWelpUser.stripe && state.getWelpUser.stripe.connected,
+    state.user.stripe && state.user.stripe.connected,
   isStripeReady: state =>
-    state.getWelpUser.stripe &&
-    state.getWelpUser.stripe.capabilities &&
-    state.getWelpUser.stripe.capabilities.card_payments === 'active' &&
-    state.getWelpUser.stripe.capabilities.transfers === 'active' &&
-    state.getWelpUser.stripe.capabilities.bacs_debit_payments ===
+    state.user.stripe &&
+    state.user.stripe.capabilities &&
+    state.user.stripe.capabilities.card_payments === 'active' &&
+    state.user.stripe.capabilities.transfers === 'active' &&
+    state.user.stripe.capabilities.bacs_debit_payments ===
     'active'
 }

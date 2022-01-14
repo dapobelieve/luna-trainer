@@ -18,8 +18,8 @@
             </div>
             <div>
               <div class="flex">
-                <div class="text-2xl mr-3 mt-3">
-                  <i class="ns-clock text-gray-500"></i>
+                <div class="text-xl mr-3 mt-3">
+                  <i class="fi-rr-clock text-gray-500"></i>
                 </div>
                 <div>
                   <div class="text-sm my-3">
@@ -34,8 +34,8 @@
                 </div>
               </div>
               <div class="flex items-center">
-                <div class="text-2xl mr-3">
-                  <i class="ns-location-alt mt-1 text-gray-500"></i>
+                <div class="text-xl mr-3">
+                  <i class="fi-rr-home-location-alt mt-1 text-gray-500"></i>
                 </div>
                 <div class="text-sm my-3">
                   <p>Location</p>

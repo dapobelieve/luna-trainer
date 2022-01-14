@@ -64,32 +64,33 @@ import { mapState, mapMutations } from 'vuex'
 import { required, email } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingClients',
+
   computed: {
     ...mapState({
-      clientData: state => state.profile.trainnerRegData.client
+      clientData: state => state.profile.trainerRegData.client
     }),
     firstName: {
       get () { return this.clientData.firstName },
       set (val) {
-        this.addClient({ parent: 'client', key: 'firstName', value: val })
+        this.addClientToTrainerRegData('firstName', val)
       }
     },
     email: {
       get () { return this.clientData.email },
       set (val) {
-        this.addClient({ parent: 'client', key: 'email', value: val })
+        this.addClientToTrainerRegData('email', val)
       }
     },
     petName: {
       get () { return this.clientData.petName },
       set (val) {
-        this.addClient({ parent: 'client', key: 'petName', value: val })
+        this.addClientToTrainerRegData('petName', val)
       }
     },
     petBreed: {
       get () { return this.clientData.petBreed },
       set (val) {
-        this.addClient({ parent: 'client', key: 'petBreed', value: val })
+        this.addClientToTrainerRegData('petBreed', val)
       }
     }
   },
@@ -103,8 +104,11 @@ export default {
     }
   },
   methods: {
+    addClientToTrainerRegData(key,  value){
+      this.updateTrainerRegData({ parent: 'client', key, value  })
+    },
     ...mapMutations({
-      addClient: 'profile/UPDATE_TRAINNER_REG_DATA'
+      updateTrainerRegData: 'profile/UPDATE_TRAINER_REG_DATA'
     })
   }
 }

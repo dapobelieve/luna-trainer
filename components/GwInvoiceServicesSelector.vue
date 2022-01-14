@@ -18,7 +18,7 @@
       <template v-slot:list-footer>
         <button type="button" class="py-2 outline-none" @click="addNewItem">
           <div class="flex px-2  ml-1 items-center justify-center">
-            <i class="ns-plus text-base rounded-full text-blue-500 p-1" />
+            <i class="fi-rr-plus text-sm rounded-full text-blue-500 p-1" />
             <span class="text-primary-color text-base pl-2">Add New Service</span>
           </div>
         </button>
@@ -41,7 +41,7 @@
             </div>
           </div>
           <div class="check">
-            <i class="ns-check text-blue-500 text-lg"></i>
+            <i class="fi-rr-check text-blue-500 text-base"></i>
           </div>
         </div>
       </template>

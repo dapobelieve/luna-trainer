@@ -69,7 +69,7 @@
         Sign in
       </NuxtLink>
     </div>
-    <modal name="my-modal" height="auto" :adaptive="true" :max-width="450" :click-to-close="false">
+    <modal name="welcome-modal" height="auto" :adaptive="true" :max-width="450" :click-to-close="false">
       <div class="text-left mx-6 mt-8 mb-4">
         <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">
           Welcome to GetWelp!
@@ -166,7 +166,7 @@ export default {
                     .dispatch('profile/getUserProfile')
                     .then((response) => {
                       console.log(response)
-                      this.$modal.show('my-modal')
+                      this.$modal.show('welcome-modal')
                     })
                 })
             } catch (error) {

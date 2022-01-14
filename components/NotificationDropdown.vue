@@ -27,7 +27,7 @@
         <div v-else-if="null" class="flex py-4 px-4">
           <div class="bg-gray-200 w-12 h-12 rounded-full flex justify-center items-center">
             <i
-              class="ns-bell-ring text-gray-600"
+              class="fi-rr-bell-ring text-gray-600"
             />
           </div>
           <div>

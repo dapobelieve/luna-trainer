@@ -34,9 +34,9 @@
           <NuxtLink
             :to="{ name: 'invoice'}"
             exact-active-class="active"
-            class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
+            class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
-            <i class="ns-plus text-white text-2xl"></i>
+            <i class="fi-rr-plus text-base text-white"></i>
           </NuxtLink>
         </div>
       </template>
