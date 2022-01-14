@@ -79,6 +79,19 @@
         </div>
       </div>
     </modal>
+    <!-- adding notes -->
+    <modal
+      name="add-note"
+      height="100%"
+      :resizable="true"
+      :adaptive="true"
+      :shift-x="1"
+      :width="fullWidth ? '100%' : '25%'"
+      :click-to-close="false"
+    >
+      <notes-add-note @expand="fullWidth = $event" @closeModal="closeNoteModal" />
+    </modal>
+
     <ExpiredSessionAuthModal />
   </async-view>
 </template>
@@ -97,14 +110,16 @@ export default {
     return {
       page: this.$route.name,
       showNotification: false,
-      showSidebarMenu: false
+      showSidebarMenu: false,
+      fullWidth: false
     }
   },
   computed: {
     ...mapState({
       connectedChannels: state => state.sendBird.connectedChannels,
       isImageOpen: state => state.sendBird.openImage,
-      imageDetails: state => state.sendBird.imageDetails
+      imageDetails: state => state.sendBird.imageDetails,
+      addNoteModal: state => state.notes.addNoteModal
     }),
     ...mapGetters({
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
@@ -125,6 +140,13 @@ export default {
         this.$modal.show('view-image')
       } else if (!newValue) {
         this.$modal.hide('view-image')
+      }
+    },
+    addNoteModal (newValue) {
+      if (newValue) {
+        this.$modal.show('add-note')
+      } else if (!newValue) {
+        this.$modal.hide('add-note')
       }
     }
   },
@@ -159,6 +181,9 @@ export default {
     })
   },
   methods: {
+    closeNoteModal () {
+      this.$store.commit('notes/toggleModal', false)
+    },
     closeImage () {
       this.$store.commit('sendBird/VIEW_IMAGE', { imageDetails: null, status: false })
     },
