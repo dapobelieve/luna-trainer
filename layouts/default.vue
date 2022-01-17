@@ -80,17 +80,19 @@
       </div>
     </modal>
     <!-- adding notes -->
-    <modal
-      name="add-note"
-      height="100%"
-      :resizable="true"
-      :adaptive="true"
-      :shift-x="1"
-      :width="fullWidth ? '100%' : '25%'"
-      :click-to-close="false"
-    >
-      <notes-add-note @expand="fullWidth = $event" @closeModal="closeNoteModal" />
-    </modal>
+    <div id="no-border">
+      <modal
+        name="add-note"
+        height="100%"
+        :resizable="true"
+        :adaptive="true"
+        :shift-x="1"
+        :width="fullWidth ? '100%' : '25%'"
+        :click-to-close="false"
+      >
+        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" @expand="fullWidth = $event" @closeModal="closeNoteModal" />
+      </modal>
+    </div>
 
     <ExpiredSessionAuthModal />
   </async-view>
@@ -182,7 +184,7 @@ export default {
   },
   methods: {
     closeNoteModal () {
-      this.$store.commit('notes/toggleModal', false)
+      this.$store.commit('notes/toggleModal', { status: false, addingMode: true, note: {} })
     },
     closeImage () {
       this.$store.commit('sendBird/VIEW_IMAGE', { imageDetails: null, status: false })
