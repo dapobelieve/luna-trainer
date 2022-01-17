@@ -5,22 +5,31 @@
         <p class="text-gray-700 font-normal text-xl">
           Notes
         </p>
-        <button class="text-blue-500" type="button" @click.prevent="addNote(true)">
+        <button
+          class="text-blue-500"
+          type="button"
+          @click.prevent="addNote"
+        >
           <i class="fi-rr-plus h-4 w-4"></i>
         </button>
       </div>
       <div class="mt-8">
-        <div v-if="!notes.length" class="mb-4 px-5  grid gap-5 justify-center text-center">
+        <div
+          v-if="!notes.length"
+          class="mb-4 px-5 grid gap-5 justify-center text-center"
+        >
           <h5 class="font-bold text-gray-700 text-lg">
             You have no notes
           </h5>
-          <p
-            class="text-sm max-w-xs font-normal text-gray-500"
-          >
+          <p class="text-sm max-w-xs font-normal text-gray-500">
             Short message about adding services
           </p>
           <div class="w-max mx-auto">
-            <button class="base-button flex items-center" type="button" @click.prevent="addNote(true)">
+            <button
+              class="base-button flex items-center"
+              type="button"
+              @click.prevent="addNote"
+            >
               <i class="fi-rr-plus h-4 w-4 mr-2"></i>
               Create Note
             </button>
@@ -28,7 +37,19 @@
         </div>
         <div v-else>
           <ul v-for="note in notes" :key="note.index">
-            <li class="py-4 flex items-center cursor-pointer hover:bg-blue-50 rounded-lg mx-1 px-4">
+            <li
+              class="
+                py-4
+                flex
+                items-center
+                cursor-pointer
+                hover:bg-gray-100
+                rounded-lg
+                mx-1
+                px-4
+              "
+              @click="viewNote(note)"
+            >
               <div class="mr-auto">
                 <h3 class="text-gray-700 text-base font-medium capitalize">
                   {{ note.title }}
@@ -36,7 +57,7 @@
                 <p class="font-normal text-sm text-gray-700">
                   {{ note.body }}
                 </p>
-                <p class=" text-gray-500 text-sm font-normal">
+                <p class="text-gray-500 text-sm font-normal">
                   {{ note.date | date }}
                 </p>
               </div>
@@ -46,39 +67,13 @@
         </div>
       </div>
     </div>
-    </div>
   </async-view>
-  </div>
 </template>
 
 <script>
 import { mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'Notes',
-  data () {
-    return {
-    //   notes: [
-    //     {
-    //       id: 1,
-    //       title: 'Note one',
-    //       body: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Id maxime incidunt laborum sunt est, neque molestiae quasi ipsam nesciunt cupiditate non unde ab quas natus earum odio! Debitis, ullam animi alias sunt laborum delectus magnam, optio ex, sit natus harum vel ipsam facere enim? Quasi vero nulla culpa numquam soluta!',
-    //       date: new Date()
-    //     },
-    //     {
-    //       id: 2,
-    //       title: 'Note one',
-    //       body: 'Lorem ipsum',
-    //       date: new Date()
-    //     },
-    //     {
-    //       id: 3,
-    //       title: 'Note one',
-    //       body: 'Lorem ipsum',
-    //       date: new Date()
-    //     }
-    //   ]
-    }
-  },
   computed: {
     ...mapGetters({
       notes: 'notes/notes'
@@ -88,13 +83,14 @@ export default {
     ...mapMutations({
       toggleModal: 'notes/toggleModal'
     }),
-    addNote (status) {
-      this.toggleModal(status)
+    addNote () {
+      this.toggleModal({ status: true, addingMode: true, note: {} })
+    },
+    viewNote (note) {
+      this.toggleModal({ status: true, addingMode: false, note })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>

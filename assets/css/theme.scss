@@ -157,3 +157,13 @@
 .vm--modal{
   border-radius: 15px !important;
 }
+#no-border {
+  .vm--modal{
+    border-radius: 0 !important;
+  }
+}
+#use-border {
+  .vm--modal{
+    border-radius: 15px !important;
+  }
+}

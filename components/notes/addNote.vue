@@ -2,42 +2,124 @@
   <div>
     <div class="flex items-center border-b px-4 py-3">
       <p class="mr-auto font-bold text-gray-700 text-xl">
-        New note
+        {{ mode === 'create' ? 'New note' : 'Edit note' }}
       </p>
+      <small v-if="autoSaving" class="text-xs">
+        Saving...
+      </small>
       <div class="flex space-x-7 pr-4">
-        <i role="button" class="fi-rr-expand text-blue-500 h-4 w-4" @click.prevent="toggleWidth"></i>
-        <i role="button" class="fi-rr-cross text-blue-500 h-4 w-4" @click.prevent="closeModal"></i>
+        <i
+          role="button"
+          class="fi-rr-expand text-blue-500 h-4 w-4"
+          @click.prevent="toggleWidth"
+        ></i>
+        <i
+          role="button"
+          class="fi-rr-cross text-blue-500 h-4 w-4"
+          @click.prevent="closeModal"
+        ></i>
       </div>
     </div>
     <div class="min-h-screen px-4 pt-3 flex flex-col relative">
       <div class="pb-8 pr-4">
-        <input v-model="title" class="focus:outline-none w-full" placeholder="Enter title (Optional)" />
+        <input
+          v-model="title"
+          class="focus:outline-none w-full font-bold placeholder:font-normal"
+          placeholder="Enter title (Optional)"
+        />
       </div>
       <div class="pr-4">
-        <textarea id="" v-model="body" name="" class="w-full focus:outline-none pr-4">
+        <textarea
+          v-model="body"
+          class="w-full focus:outline-none pr-4"
+        >
           Enter note
         </textarea>
       </div>
       <div class="-mx-4 absolute right-0 left-0 bottom-12">
-        <button class="w-full -mx-4 py-4 text-blue-500 text-base font-medium" @click.prevent="createNotes">
-          Create Note
+        <button
+          v-if="mode !== 'editing'"
+          class="w-full -mx-4 py-4 text-blue-500 text-base font-medium"
+          @click.prevent="cancel"
+        >
+          Cancel
+        </button>
+        <button
+          v-if="mode === 'editing'"
+          class="w-full -mx-4 py-4 text-red-500 text-base font-medium"
+          @click.prevent="$modal.show('delete-note')"
+        >
+          Delete
         </button>
       </div>
+    </div>
+
+    <!-- delete modal -->
+    <div id="use-border">
+      <modal name="delete-note" height="auto" :adaptive="true">
+        <div class="px-4 py-4">
+          <p class="text-2xl text-gray-700 font-normal py-4">
+            Delete Note?
+          </p>
+          <p class="text-base font-normal text-gray-700">
+            This note will permanently be deleted.
+          </p>
+          <div class="mt-10 flex justify-end space-x-4">
+            <button class="button-outline" @click.prevent="$modal.hide('delete-note')">
+              No, don't
+            </button>
+            <button class="button-fill" @click.prevent="deleteNote">
+              Yes, Delete
+            </button>
+          </div>
+        </div>
+      </modal>
     </div>
   </div>
 </template>
 
 <script>
+import debounce from 'lodash.debounce'
+import { mapActions, mapMutations } from 'vuex'
 export default {
   name: 'AddNote',
+  props: {
+    addingMode: {
+      type: Boolean,
+      default: true
+    },
+    noteInView: {
+      type: Object,
+      default: () => {}
+    }
+  },
   data () {
     return {
+      noteId: this.addingMode ? null : this.noteInView.id,
       expand: false,
-      title: '',
-      body: ''
+      title: this.addingMode ? '' : this.noteInView.title,
+      body: this.addingMode ? '' : this.noteInView.body,
+      autoSaving: false,
+      mode: this.addingMode ? 'create' : 'editing'
+    }
+  },
+  watch: {
+    body (newValue) {
+      if (this.noteId === null && newValue) {
+        this.createNotes()
+      } else {
+        this.updateNote()
+      }
     }
   },
   methods: {
+    ...mapActions({
+      createNote: 'notes/addNotes'
+    }),
+    ...mapMutations({
+      updateNotes: 'notes/updateNotes',
+      deleteSingleNote: 'notes/deleteSingleNote'
+    }),
     toggleWidth () {
       this.expand = !this.expand
       this.$emit('expand', this.expand)
@@ -48,14 +130,29 @@ export default {
     cancel () {
       this.closeModal()
     },
-    createNotes () {
-      this.$store.commit('notes/addNotes', { title: this.title, body: this.body, date: new Date() })
+    createNotes: debounce(function () {
+      this.createNote({ title: this.title, body: this.body, date: new Date() }).then((result) => {
+        this.noteId = result
+        this.mode = 'editing'
+        this.autoSaving = true
+        setTimeout(() => {
+          this.autoSaving = false
+        }, 3500)
+      })
+    }, 1000),
+    updateNote: debounce(function () {
+      this.updateNotes({ id: this.noteId, title: this.title, body: this.body, date: new Date() })
+      this.autoSaving = true
+      setTimeout(() => {
+        this.autoSaving = false
+      }, 3500)
+    }, 1000),
+    deleteNote () {
+      this.deleteSingleNote(this.noteId)
       this.closeModal()
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
