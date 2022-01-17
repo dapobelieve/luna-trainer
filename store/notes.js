@@ -2,17 +2,26 @@ export const state = () => ({
   notes: [],
   addNoteModal: false,
   addingMode: true,
-  noteInView: {}
+  noteInView: {},
+  isLoading: false
 })
 
 export const mutations = {
+  isLoading (state, loadingStatus) {
+    state.isLoading = loadingStatus
+  },
+  setNotes (state, notes) {
+    state.notes = notes
+  },
   toggleModal (state, payload) {
     state.addNoteModal = payload.status
     state.addingMode = payload.addingMode
     state.noteInView = payload.note
   },
   addNotes (state, details) {
-    const newNoteId = state.notes.length ? state.notes[state.notes.length - 1].id + 1 : 1
+    const newNoteId = state.notes.length
+      ? state.notes[state.notes.length - 1].id + 1
+      : 1
     state.notes.push({
       id: newNoteId,
       title: details.title,
@@ -31,9 +40,35 @@ export const mutations = {
 }
 
 export const actions = {
+  async fetchNotesWithStatusAndLimit ({ commit }, payload) {
+    const currPage =
+      payload !== undefined && 'page' in payload ? payload.page : 1
+    const limit =
+      payload !== undefined && 'limit' in payload ? payload.limit : 5
+    const clientId = payload.clientId
+    commit('isLoading', true)
+    try {
+      const { data } = await this.$axios.$get(
+        `${process.env.BASEURL_HOST}/note?page=${currPage}&limit=${limit}&clientId=${clientId}`
+      )
+      commit('setNotes', data)
+      commit('isLoading', false)
+    } catch (error) {
+      commit('isLoading', false)
+    }
+  },
   async addNotes ({ state, commit }, details) {
-    await commit('addNotes', details)
-    return state.notes[state.notes.length - 1].id
+    try {
+      const newNote = await this.$axios.$post(
+        `${process.env.BASEURL_HOST}/note`,
+        details
+      )
+      console.log('result to note ', newNote)
+      // commit('addNotes', details)
+      // return state.notes[state.notes.length - 1].id
+    } catch (error) {
+      console.log('error creating notes ', error)
+    }
   }
 }
 

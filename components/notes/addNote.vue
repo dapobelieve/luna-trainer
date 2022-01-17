@@ -97,6 +97,7 @@ export default {
   },
   data () {
     return {
+      clientId: null,
       noteId: this.addingMode ? null : this.noteInView.id,
       expand: false,
       title: this.addingMode ? '' : this.noteInView.title,
@@ -104,6 +105,14 @@ export default {
       autoSaving: false,
       mode: this.addingMode ? 'create' : 'editing'
     }
+  },
+  mounted () {
+    this.getClientProfile(this.id)
+      .then((response) => {
+        console.log('response ', response)
+        this.clientId = response._id
+      })
+      .catch(err => console.log('error fetching client', err))
   },
   watch: {
     body (newValue) {
@@ -139,7 +148,7 @@ export default {
       }, 3500)
     },
     createNotes: debounce(function () {
-      this.createNote({ title: this.title, body: this.body, date: new Date() }).then((result) => {
+      this.createNote({ title: this.title, body: this.body, clientId: this.clientId }).then((result) => {
         this.noteId = result
         this.mode = 'editing'
         this.autoSave()

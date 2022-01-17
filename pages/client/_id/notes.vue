@@ -71,15 +71,27 @@
 </template>
 
 <script>
-import { mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'Notes',
+  data () {
+    return {
+      clientId: null,
+      id: this.$route.params.id
+    }
+  },
   computed: {
     ...mapGetters({
       notes: 'notes/notes'
     })
   },
+  mounted () {
+    this.fetchnotes({ clientId: this.id })
+  },
   methods: {
+    ...mapActions({
+      fetchnotes: 'notes/fetchNotesWithStatusAndLimit'
+    }),
     ...mapMutations({
       toggleModal: 'notes/toggleModal'
     }),
