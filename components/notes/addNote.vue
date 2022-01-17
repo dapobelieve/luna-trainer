@@ -1,12 +1,14 @@
 <template>
   <div>
     <div class="flex items-center border-b px-4 py-3">
-      <p class="mr-auto font-bold text-gray-700 text-xl">
-        {{ mode === 'create' ? 'New note' : 'Edit note' }}
-      </p>
-      <small v-if="autoSaving" class="text-xs">
-        Saving...
-      </small>
+      <div class="mr-auto space-x-2 flex items-center">
+        <p class="font-bold text-gray-700 text-xl">
+          {{ mode === 'create' ? 'New note' : 'Editing note' }}
+        </p>
+        <small v-if="autoSaving" class="text-xs">
+          Saving...
+        </small>
+      </div>
       <div class="flex space-x-7 pr-4">
         <i
           role="button"
@@ -24,16 +26,16 @@
       <div class="pb-8 pr-4">
         <input
           v-model="title"
-          class="focus:outline-none w-full font-bold placeholder:font-normal"
+          class="focus:outline-none w-full font-normal text-gray-500 placeholder:font-normal text-xl"
           placeholder="Enter title (Optional)"
         />
       </div>
       <div class="pr-4">
         <textarea
           v-model="body"
-          class="w-full focus:outline-none pr-4"
+          class="w-full focus:outline-none pr-4 placeholder-gray-400"
+          placeholder="Enter note"
         >
-          Enter note
         </textarea>
       </div>
       <div class="-mx-4 absolute right-0 left-0 bottom-12">
@@ -130,22 +132,22 @@ export default {
     cancel () {
       this.closeModal()
     },
-    createNotes: debounce(function () {
-      this.createNote({ title: this.title, body: this.body, date: new Date() }).then((result) => {
-        this.noteId = result
-        this.mode = 'editing'
-        this.autoSaving = true
-        setTimeout(() => {
-          this.autoSaving = false
-        }, 3500)
-      })
-    }, 1000),
-    updateNote: debounce(function () {
-      this.updateNotes({ id: this.noteId, title: this.title, body: this.body, date: new Date() })
+    autoSave () {
       this.autoSaving = true
       setTimeout(() => {
         this.autoSaving = false
       }, 3500)
+    },
+    createNotes: debounce(function () {
+      this.createNote({ title: this.title, body: this.body, date: new Date() }).then((result) => {
+        this.noteId = result
+        this.mode = 'editing'
+        this.autoSave()
+      })
+    }, 1000),
+    updateNote: debounce(function () {
+      this.updateNotes({ id: this.noteId, title: this.title, body: this.body, date: new Date() })
+      this.autoSave()
     }, 1000),
     deleteNote () {
       this.deleteSingleNote(this.noteId)
