@@ -55,10 +55,10 @@
                   {{ note.title }}
                 </h3>
                 <p class="font-normal text-sm text-gray-700">
-                  {{ note.body }}
+                  {{ note.description }}
                 </p>
                 <p class="text-gray-500 text-sm font-normal">
-                  {{ note.date | date }}
+                  {{ note.updatedAt | date }}
                 </p>
               </div>
               <i class="fi-rr-angle-small-right text-blue-500 h-2 w-2"></i>

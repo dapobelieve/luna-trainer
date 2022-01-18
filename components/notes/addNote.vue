@@ -97,7 +97,7 @@ export default {
   },
   data () {
     return {
-      clientId: null,
+      id: this.$route.params.id,
       noteId: this.addingMode ? null : this.noteInView.id,
       expand: false,
       title: this.addingMode ? '' : this.noteInView.title,
@@ -105,14 +105,6 @@ export default {
       autoSaving: false,
       mode: this.addingMode ? 'create' : 'editing'
     }
-  },
-  mounted () {
-    this.getClientProfile(this.id)
-      .then((response) => {
-        console.log('response ', response)
-        this.clientId = response._id
-      })
-      .catch(err => console.log('error fetching client', err))
   },
   watch: {
     body (newValue) {
@@ -125,10 +117,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      createNote: 'notes/addNotes'
+      createNote: 'notes/addNotes',
+      updateNotes: 'notes/updateNotes'
     }),
     ...mapMutations({
-      updateNotes: 'notes/updateNotes',
       deleteSingleNote: 'notes/deleteSingleNote'
     }),
     toggleWidth () {
@@ -148,14 +140,14 @@ export default {
       }, 3500)
     },
     createNotes: debounce(function () {
-      this.createNote({ title: this.title, body: this.body, clientId: this.clientId }).then((result) => {
+      this.createNote({ title: this.title, description: this.body, clientId: this.id }).then((result) => {
         this.noteId = result
         this.mode = 'editing'
         this.autoSave()
       })
     }, 1000),
     updateNote: debounce(function () {
-      this.updateNotes({ id: this.noteId, title: this.title, body: this.body, date: new Date() })
+      this.updateNotes({ description: this.body, noteId: this.noteId })
       this.autoSave()
     }, 1000),
     deleteNote () {
