@@ -4,7 +4,7 @@
       <MiniCalendar @date-clicked="fetchDateEvents" />
     </div>
     <div v-if="loading" class="flex-grow flex justify-center items-center">
-       <SingleLoader height="40px" width="40px" />
+      <SingleLoader height="40px" width="40px" />
     </div>
     <div v-else class="mt-2">
       <h3 class="mr-3 font-bold mb-4">
@@ -33,7 +33,7 @@
 <script>
 import MiniCalendar from '~/components/scheduler/MiniCalendar'
 import EventItem from '~/components/scheduler/EventItem'
-import SingleLoader from "~/components/util/SingleLoader";
+import SingleLoader from '~/components/util/SingleLoader'
 export default {
   components: {
     SingleLoader,
@@ -47,33 +47,33 @@ export default {
       todayAndTomorrowsEvents: []
     }
   },
+  async mounted () {
+    try {
+      this.loading = true
+      this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointments', {
+        startDateTime: parseInt(new Date().setUTCHours(0, 0, 0) / 1000),
+        endDateTime: parseInt(new Date(new Date().setDate(new Date().getDate() + 1)).setUTCHours(23, 59, 59, 999) / 1000)
+      })
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.loading = false
+    }
+  },
   methods: {
-    async fetchDateEvents(dateObj) {
-      const {start, end} = dateObj;
+    async fetchDateEvents (dateObj) {
+      const { start, end } = dateObj
       try {
         this.loading = true
         this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointments', {
           startDateTime: parseInt(Date.parse(start) / 1000),
           endDateTime: parseInt(Date.parse(end) / 1000)
         })
-      }catch (e) {
+      } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.loading = false
       }
-    }
-  },
-  async mounted () {
-    try {
-      this.loading = true
-      this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointments', {
-        startDateTime: parseInt(new Date().setUTCHours(0,0,0) / 1000),
-        endDateTime: parseInt(new Date(new Date().setDate(new Date().getDate() + 1)).setUTCHours(23, 59, 59, 999) / 1000)
-      })
-    }catch (e) {
-      console.log(e)
-    }finally {
-      this.loading = false
     }
   }
 }

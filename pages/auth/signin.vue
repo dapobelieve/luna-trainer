@@ -149,7 +149,7 @@ export default {
       this.$store.dispatch('profile/getUserProfile').then((response) => {
         console.log(response)
         if (response === null) {
-          location.href = "auth/onboarding"
+          location.href = 'auth/onboarding'
         } else {
           this.$auth.setUser(response)
           localStorage.setItem('user', JSON.stringify(response))

@@ -125,7 +125,7 @@ export default {
       `${this.clientInfo.firstName} has been sent an invite.`
           )
           this.$emit('close', false)
-          if(this.redirect) {
+          if (this.redirect) {
             // this.$router.push({
             //   name: 'client-id-information',
             //   params: {

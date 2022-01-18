@@ -46,17 +46,17 @@ export default {
     }
   },
   computed: {
-    color() {
-      return this.event.color || this.event.colorName;
+    color () {
+      return this.event.color || this.event.colorName
     }
+  },
+  mounted () {
+    console.log()
   },
   methods: {
     formatTime (time, formatString = 'HH:mm b') {
       return format(fromUnixTime(time), formatString)
     }
-  },
-  mounted() {
-    console.log()
   }
 }
 </script>

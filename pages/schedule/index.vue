@@ -65,13 +65,13 @@
       <div class="pt-1 bg-white max-h-screen top-0 relative">
         <div class="grid gap-3 h-full w-full max-h-screen">
           <keep-alive>
-            <SchedulerDrawer @remove-event="removeEvent($event)" v-if="openDrawer" v-model="activePage" @process-event="processNewEvent($event)" @close="openDrawer = false" />
+            <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @process-event="processNewEvent($event)" @close="openDrawer = false" />
             <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
           </keep-alive>
         </div>
       </div>
     </div>
-    <SchedulerWelcome @tour="tour()" />
+    <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
   </div>
 </template>
 
@@ -89,10 +89,21 @@ import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'Scheduler',
+  components: {
+    SchedulerDrawer,
+    SchedulerInfo,
+    SchedulerWelcome,
+    NewSchedule,
+    FullCalendar
+  },
+  layout: 'Scheduler',
+  async asyncData (ctx) {
+    await ctx.store.dispatch('scheduler/getCalendars')
+  },
   data () {
     return {
       openDrawer: false,
-      activeEvent: {}, //event that was clicked
+      activeEvent: {}, // event that was clicked
       activePage: 'new-schedule',
       currentView: 'Month',
       newSchedule: false,
@@ -120,24 +131,13 @@ export default {
       }
     }
   },
-  components: {
-    SchedulerDrawer,
-    SchedulerInfo,
-    SchedulerWelcome,
-    NewSchedule,
-    FullCalendar
-  },
-  layout: 'Scheduler',
-  async asyncData (ctx) {
-    await ctx.store.dispatch('scheduler/getCalendars')
-  },
   head () {
     return {
       title: 'Schedules'
     }
   },
   methods: {
-    async loadEvents() {
+    async loadEvents () {
       await this.$store.dispatch('scheduler/getAllAppointments', {
         startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
         endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
@@ -147,7 +147,7 @@ export default {
         this.processNewEvent(event)
       })
     },
-    removeEvent(eventId) {
+    removeEvent (eventId) {
       const event = this.calendarApi.getEventById(eventId)
       event.remove()
     },
@@ -169,7 +169,7 @@ export default {
     handleCalendarEventClick (info) {
       this.$store.commit('scheduler/setEvent', info.event)
       this.openDrawer = true
-      this.activePage = 'schedule-details'      
+      this.activePage = 'schedule-details'
     },
     changeView (viewname, display) {
       this.currentView = display
@@ -177,10 +177,10 @@ export default {
       this.showDrop = false
     },
     processNewEvent (event) {
-      if(event.updated) {
+      if (event.updated) {
         this.removeEvent(event.id)
       }
-      
+
       this.calendarApi.addEvent({
         id: event.id,
         color: this.colorMap[event.color],
@@ -230,7 +230,7 @@ export default {
         await this.loadEvents()
       }
       // await this.$store.dispatch('scheduler/connectToLocalCalendar')
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
   }
