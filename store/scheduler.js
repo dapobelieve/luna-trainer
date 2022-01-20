@@ -36,6 +36,9 @@ export const actions = {
     }
     return res
   },
+  async getSingleAppointment({}, payload) {
+    
+  },
   async deleteAppointment ({ state }, payload) {
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
     const res = await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)

@@ -90,7 +90,7 @@
             </GwCustomerSelector>
           </span>
         </div>
-        <div class="flex flex-col mb-3">
+        <div v-if="hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-globe mt-1 text-md text-gray-500"></i>
             <span class="ml-3 text-gray-500 w-full">
@@ -194,6 +194,7 @@
             </div>
           </div>
         </div>
+        <Conference class="mb-4" />
         <div class="flex flex-col mb-3">
           <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
             <template v-slot:selectedOption="{selected}">
@@ -234,13 +235,14 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 import { format, fromUnixTime } from 'date-fns'
-import { required, numeric, minValue, maxValue } from "vuelidate/lib/validators";
+import { required } from "vuelidate/lib/validators";
 import { mapGetters } from 'vuex'
 import 'vue2-datepicker/index.css'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
+import Conference from "~/components/conference/index";
 export default {
-  components: { DatePicker },
+  components: {Conference, DatePicker },
   props: {
     event: {
       type: Object
@@ -407,7 +409,6 @@ export default {
       const toMinutes = parseInt(toTime[0].split(':')[1])
 
       const start = new Date(this.form.date.setHours(fromHrs, fromMinutes))
-      // console.log(start)
       console.log(fromHrs, fromMinutes)
 
       const end = new Date(this.form.date.setUTCHours(toHrs, toMinutes))
@@ -416,38 +417,30 @@ export default {
       this.form.when.startTime = start / 1000
       this.form.when.endTime = end / 1000
 
-      const participants = this.form.participants.reduce((acc, curr) => {
-        acc.push({
-          userId: curr._id,
-          email: curr.email,
-          profileId: curr._id,
-          imgUrl: curr.imgURL,
-          name: curr.firstName
-        })
-        return acc
-      }, [])
+      
 
       const payloadData = {
         id: this.event.id,
         title: this.form.title,
         color: this.form.color.value,
         when: this.form.when,
-        timezone: this.form.timezone || 'Africa/Lagos',
         description: this.form.description,
-        participants
+        participants: this.form.participants
       }
 
       if (this.form.repeat?.value) {
         payloadData.recurrence = [this.form.repeat.value]
       }
       try {
-        const res = await this.$store.dispatch('scheduler/updateAppointment', {
+        
+        await this.$store.dispatch('scheduler/updateAppointment', {
           calendar: this.activeCalendar.id,
           data: { ...payloadData }
         })
-        console.log(res)
-        this.$emit('updated', { ...res, updated: true })
-        this.$gwtoast.success('Appointment updated')
+
+        // this.$emit('updated', { id: this.event.id, updated: true })
+        this.$emit('updated')
+        this.$gwtoast.success('Schedule updated')
       } catch (e) {
         console.log({ e })
       } finally {

@@ -102,7 +102,7 @@ export default {
   },
   data () {
     return {
-      openDrawer: false,
+      openDrawer: true,
       activeEvent: {}, // event that was clicked
       activePage: 'new-schedule',
       currentView: 'Month',
@@ -177,25 +177,28 @@ export default {
       this.showDrop = false
     },
     processNewEvent (event) {
-      if (event.updated) {
+      if (event?.updated) {
         this.removeEvent(event.id)
+        console.log(event.id)
       }
 
-      this.calendarApi.addEvent({
-        id: event.id,
-        color: this.colorMap[event.color],
-        description: event.description,
-        participants: [...event.participants],
-        colorName: event.color,
-        when: event.when,
-        editable: false,
-        title: event.title,
-        start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
-        end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
-        allDay: false
-      })
-      this.openDrawer = false
-      this.activePage = ''
+      if(event) {
+        this.calendarApi.addEvent({
+          id: event.id,
+          color: this.colorMap[event.color],
+          description: event.description,
+          participants: [...event.participants],
+          colorName: event.color,
+          when: event.when,
+          editable: false,
+          title: event.title,
+          start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
+          end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
+          allDay: false
+        })
+      }
+      // this.openDrawer = false
+      // this.activePage = ''
     },
     updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
