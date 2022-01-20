@@ -2,26 +2,27 @@ export const state = () => ({
   notes: [],
   addNoteModal: false,
   addingMode: true,
-  noteInView: {}
+  noteInView: {},
+  isLoading: false
 })
 
 export const mutations = {
+  isLoading (state, loadingStatus) {
+    state.isLoading = loadingStatus
+  },
+  setNotes (state, notes) {
+    state.notes = notes
+  },
   toggleModal (state, payload) {
     state.addNoteModal = payload.status
     state.addingMode = payload.addingMode
     state.noteInView = payload.note
   },
   addNotes (state, details) {
-    const newNoteId = state.notes.length ? state.notes[state.notes.length - 1].id + 1 : 1
-    state.notes.push({
-      id: newNoteId,
-      title: details.title,
-      body: details.body,
-      date: details.date
-    })
+    state.notes.unshift(details)
   },
   updateNotes (state, noteDetails) {
-    const noteIndex = state.notes.findIndex(n => n.id === noteDetails.id)
+    const noteIndex = state.notes.findIndex(n => n._id === noteDetails._id)
     state.notes.splice(noteIndex, 1, noteDetails)
   },
   deleteSingleNote (state, noteId) {
@@ -31,9 +32,46 @@ export const mutations = {
 }
 
 export const actions = {
+  async fetchNotesWithStatusAndLimit ({ commit }, payload) {
+    const currPage =
+      payload !== undefined && 'page' in payload ? payload.page : 1
+    const limit =
+      payload !== undefined && 'limit' in payload ? payload.limit : 5
+    const clientId = payload.clientId
+    commit('isLoading', true)
+    try {
+      const { data } = await this.$axios.$get(
+        `${process.env.BASEURL_HOST}/note?page=${currPage}&limit=${limit}&clientId=${clientId}`
+      )
+      commit('setNotes', data)
+      commit('isLoading', false)
+    } catch (error) {
+      commit('isLoading', false)
+    }
+  },
   async addNotes ({ state, commit }, details) {
-    await commit('addNotes', details)
-    return state.notes[state.notes.length - 1].id
+    try {
+      const { data } = await this.$axios.$post(
+        `${process.env.BASEURL_HOST}/note`,
+        details
+      )
+      commit('addNotes', data)
+      return data._id
+    } catch (error) {
+      console.log('error creating notes ', error)
+    }
+  },
+  async updateNotes ({ commit }, payload) {
+    const noteId = payload.noteId
+    const description = payload.description
+    try {
+      const { data } = await this.$axios.$patch(
+        `${process.env.BASEURL_HOST}/note/${noteId}`, { description })
+      commit('updateNotes', data)
+      return data._id
+    } catch (error) {
+      console.log('error updating notes ', error)
+    }
   }
 }
 
