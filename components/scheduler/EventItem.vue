@@ -50,9 +50,6 @@ export default {
       return this.event.color || this.event.colorName
     }
   },
-  mounted () {
-    console.log()
-  },
   methods: {
     formatTime (time, formatString = 'KK:mm b') {
       return format(fromUnixTime(time), formatString)

@@ -126,12 +126,12 @@ export default {
           )
           this.$emit('close', false)
           if (this.redirect) {
-            // this.$router.push({
-            //   name: 'client-id-information',
-            //   params: {
-            //     id: response.data.data._id
-            //   }
-            // })
+            this.$router.push({
+              name: 'client-id-information',
+              params: {
+                id: response.data.data._id
+              }
+            })
           }
         } else {
           this.$gwtoast.error('Error sending client invite')

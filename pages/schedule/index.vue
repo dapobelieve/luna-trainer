@@ -162,12 +162,11 @@ export default {
       } else {
         await this.loadEvents()
       }
-      // await this.$store.dispatch('scheduler/connectToLocalCalendar')
     } catch (e) {
       console.log(e)
     }
   },
-  created () {
+  beforeMount () {
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && this.openDrawer) {
         this.openDrawer = false
@@ -249,7 +248,6 @@ export default {
       this.updateDate()
     }
   }
-
 }
 </script>
 
