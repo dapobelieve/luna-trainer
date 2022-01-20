@@ -14,7 +14,7 @@
     <div class="schedule-body flex-grow">
       <div class="mb-3">
         <textarea v-model="form.title" placeholder="Enter Title" class="w-full border-red-500 h-16 font-normal text-xl resize-none px-1 focus:outline-none"></textarea>
-        <small class="text-red-600" v-if="$v.form.title.$error">Enter a title </small>
+        <small v-if="$v.form.title.$error" class="text-red-600">Enter a title </small>
       </div>
       <div class="mb-8">
         <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
@@ -90,23 +90,23 @@
             </GwCustomerSelector>
           </span>
         </div>
-        <div v-if="hasSchedule" class="flex flex-col mb-3">
+        <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-globe mt-1 text-md text-gray-500"></i>
             <span class="ml-3 text-gray-500 w-full">
-            <GwCustomerSelector v-model="form.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :clients="timezoneArr">
-              <template v-slot:selectedOption="{selected}">
-                <div class="flex items-center">
-                  <span class="text-gray-700">{{ selected.firstName }}</span>
-                </div>
-              </template>
-              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                <div class="flex items-center py-2">
-                  <span class="text-gray-700">{{ optionObject.firstName }}</span>
-                </div>
-              </template>
-            </GwCustomerSelector>
-          </span>
+              <GwCustomerSelector v-model="form.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :clients="timezoneArr">
+                <template v-slot:selectedOption="{selected}">
+                  <div class="flex items-center">
+                    <span class="text-gray-700">{{ selected.firstName }}</span>
+                  </div>
+                </template>
+                <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                  <div class="flex items-center py-2">
+                    <span class="text-gray-700">{{ optionObject.firstName }}</span>
+                  </div>
+                </template>
+              </GwCustomerSelector>
+            </span>
           </div>
           <small v-if="$v.form.timezone.$error" class="text-red-600">select a timezone</small>
         </div>
@@ -121,7 +121,7 @@
               <i class="fi-rr-user mt-1 text-md text-gray-500"></i>
               <div class="ml-3 text-gray-500 w-full">
                 <GwCustomerSelector v-model="form.participants" placeholder="Participants" multiple class="w-full clients-selector repeat-selector" :clients="allClients">
-                  <template v-slot:selectedOption="{selected}">
+                  <template>
                     <div class="flex items-center">
                       <span>Participants</span>
                     </div>
@@ -164,7 +164,7 @@
           </div>
           <div>
             <div v-if="form.participants">
-              <div v-for="client in form.participants">
+              <div v-for="(client, cId) in form.participants" :key="cId">
                 <div class="flex items-center content-center py-1">
                   <ClientAvatar
                     v-if="client.firstName"
@@ -210,18 +210,18 @@
               </div>
             </template>
           </GwCustomerSelector>
-          <small v-if="$v.form.color.$error"  class="text-red-600">select a color</small>
+          <small v-if="$v.form.color.$error" class="text-red-600">select a color</small>
         </div>
         <div class="flex flex-col mb-3">
           <textarea v-model="form.description" placeholder="Add description" rows="6" class="w-full resize-none px-1 focus:outline-none"></textarea>
-          <small v-if="$v.form.description.$error"  class="text-red-600">Enter meeting details</small>
+          <small v-if="$v.form.description.$error" class="text-red-600">Enter meeting details</small>
         </div>
       </div>
     </div>
     <modal name="inviteClientModal" height="auto" :adaptive="true">
       <InviteNewClient :redirect="false" class="m-6" @close="$modal.hide('inviteClientModal')" />
     </modal>
-    <div class="schedule-footer mb-4">
+    <div class="schedule-footer mb-10">
       <button v-if="!event.id" :disabled="btn.loading" class="button-fill w-full" @click="createEvent">
         {{ btn.text }}
       </button>
@@ -235,14 +235,14 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 import { format, fromUnixTime } from 'date-fns'
-import { required } from "vuelidate/lib/validators";
+import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import 'vue2-datepicker/index.css'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
-import Conference from "~/components/conference/index";
+import Conference from '~/components/conference/index'
 export default {
-  components: {Conference, DatePicker },
+  components: { Conference, DatePicker },
   props: {
     event: {
       type: Object
@@ -308,7 +308,7 @@ export default {
       description: { required },
       timezone: { required },
       date: { required },
-      color: { required },
+      color: { required }
     }
   },
   computed: {
@@ -346,9 +346,7 @@ export default {
       return time
     },
     computeToTime () {
-      if (this.form.from) {
-        return [...this.time].slice(this.time.indexOf(this.form.from) + 1)
-      }
+      return this.form.from && [...this.time].slice(this.time.indexOf(this.form.from) + 1)
     },
     timezoneArr () {
       return Array.from(new Set(this.timezones.reduce((acc, curr) => {
@@ -380,11 +378,11 @@ export default {
   },
   beforeMount () {
     if (this.event.id) {
-      console.log(new Date(this.event.when.startTime * 1000))
       this.form.title = this.event.title
       this.form.date = new Date(this.event.when.startTime * 1000)
-      this.form.from = format(fromUnixTime(this.event.when.startTime), 'HH:mm aaa')
-      this.form.to = format(fromUnixTime(this.event.when.endTime), 'HH:mm aaa')
+      this.form.from = format(fromUnixTime(this.event.when.startTime), 'KK:mm aaa')
+
+      this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
       this.form.description = this.event.description
       this.form.participants = this.event.participants
 
@@ -398,7 +396,7 @@ export default {
     },
     async updateEvent () {
       this.btn.loading = true
-      this.btn.text = 'Creating Schedule...'
+      this.btn.text = 'Rescheduling...'
 
       const fromTime = this.form.from.split(' ')
       const fromHrs = fromTime[1] === 'pm' ? (parseInt(fromTime[0].split(':')[0]) + 12) : parseInt(fromTime[0].split(':')[0])
@@ -417,8 +415,6 @@ export default {
       this.form.when.startTime = start / 1000
       this.form.when.endTime = end / 1000
 
-      
-
       const payloadData = {
         id: this.event.id,
         title: this.form.title,
@@ -432,15 +428,13 @@ export default {
         payloadData.recurrence = [this.form.repeat.value]
       }
       try {
-        
         await this.$store.dispatch('scheduler/updateAppointment', {
           calendar: this.activeCalendar.id,
           data: { ...payloadData }
         })
 
-        // this.$emit('updated', { id: this.event.id, updated: true })
-        this.$emit('updated')
-        this.$gwtoast.success('Schedule updated')
+        this.$emit('updated', { id: this.event.id, updated: true })
+        this.$gwtoast.success('Session updated')
       } catch (e) {
         console.log({ e })
       } finally {
@@ -509,7 +503,6 @@ export default {
           }
         }
       }
-      
     }
   }
 }

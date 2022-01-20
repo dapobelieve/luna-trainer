@@ -83,7 +83,6 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
-import NewSchedule from '~/components/scheduler/NewSchedule'
 import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
@@ -93,7 +92,6 @@ export default {
     SchedulerDrawer,
     SchedulerInfo,
     SchedulerWelcome,
-    NewSchedule,
     FullCalendar
   },
   layout: 'Scheduler',
@@ -143,9 +141,7 @@ export default {
         endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
       })
 
-      this.allEvents.map((event) => {
-        this.processNewEvent(event)
-      })
+      this.allEvents.forEach(event => this.processNewEvent(event))
     },
     removeEvent (eventId) {
       const event = this.calendarApi.getEventById(eventId)
@@ -182,7 +178,7 @@ export default {
         console.log(event.id)
       }
 
-      if(event) {
+      if (event) {
         this.calendarApi.addEvent({
           id: event.id,
           color: this.colorMap[event.color],

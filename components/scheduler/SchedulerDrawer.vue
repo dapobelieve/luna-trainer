@@ -52,3 +52,9 @@ export default {
   }
 }
 </script>
+<style lang="scss">
+.drawer {
+  //opacity: ;
+  transition: translate 3s ease;
+}
+</style>

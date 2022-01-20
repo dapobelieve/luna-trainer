@@ -1,16 +1,45 @@
 <template>
   <label class="border block w-full rounded-lg px-2 py-2 cursor-pointer">
     <div class="checkbox">
-      <span class="text-base text-gray-700">{{ name }}</span>
-      <input checked type="radio" name="radio">
+      <span class="text-base text-gray-700">{{ label }}</span>
+      <input :checked="isChecked" :value="value" type="radio" name="radio" @change="updateInput">
       <span class="checkmark"></span>
     </div>
   </label>
 </template>
 
 <script>
+let checkbox = 0
 export default {
-  props: ['name']
+  model: {
+    prop: 'checkboxValue',
+    event: 'change'
+  },
+  props: {
+    label: {},
+    checkboxValue: {
+      default: ''
+    },
+    value: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      checkboxId: checkbox++
+    }
+  },
+  computed: {
+    isChecked () {
+      return this.checkboxValue === this.value
+    }
+  },
+  methods: {
+    updateInput () {
+      this.$emit('change', this.value)
+    }
+  }
 }
 </script>
 
@@ -24,7 +53,7 @@ export default {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  
+
   input {
     position: absolute;
     opacity: 0;
