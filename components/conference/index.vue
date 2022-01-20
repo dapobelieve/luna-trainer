@@ -54,13 +54,13 @@ export default {
     }
   },
   watch: {
-    "conference.type": {
+    'conference.type': {
       deep: true,
-      handler(newVal) {
+      handler (newVal) {
         console.log(newVal)
       }
     }
-  },
+  }
 }
 </script>
 

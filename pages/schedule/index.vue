@@ -65,8 +65,17 @@
       <div class="pt-1 bg-white max-h-screen top-0 relative">
         <div class="grid gap-3 h-full w-full max-h-screen">
           <keep-alive>
-            <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @process-event="processNewEvent($event)" @close="openDrawer = false" />
-            <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+            <transition
+              enter-active-class="transition-all ease-linear duration-[500ms] motion-reduce:transition-none motion-reduce:transform-none"
+              leave-active-class="transition-all ease-linear duration-[500ms] motion-reduce:transition-none motion-reduce:transform-none"
+              enter-class="transform translate-x-full"
+              leave-class="-translate-x-0"
+              enter-to-class="-translate-x-0"
+              leave-to-class="translate-x-full"
+            >
+              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @process-event="processNewEvent($event)" @close="openDrawer = false" />
+              <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+            </transition>
           </keep-alive>
         </div>
       </div>
@@ -100,9 +109,9 @@ export default {
   },
   data () {
     return {
-      openDrawer: true,
+      openDrawer: false,
       activeEvent: {}, // event that was clicked
-      activePage: 'new-schedule',
+      activePage: '',
       currentView: 'Month',
       newSchedule: false,
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -133,6 +142,37 @@ export default {
     return {
       title: 'Schedules'
     }
+  },
+  computed: {
+    ...mapGetters({
+      activeCalendar: 'scheduler/getCalendar',
+      allEvents: 'scheduler/getAllEvents'
+    })
+  },
+  async mounted () {
+    // this.$modal.show('scheduler-modal')
+    // setup calendar
+    this.calendarApi = this.$refs.fullCalendar.getApi()
+    this.updateDate()
+    // fetch local calendar
+    try {
+      if (!this.activeCalendar) {
+        this.$modal.show('scheduler-modal')
+        await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      } else {
+        await this.loadEvents()
+      }
+      // await this.$store.dispatch('scheduler/connectToLocalCalendar')
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  created () {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.openDrawer) {
+        this.openDrawer = false
+      }
+    })
   },
   methods: {
     async loadEvents () {
@@ -207,30 +247,6 @@ export default {
     mainNext () {
       this.calendarApi.next()
       this.updateDate()
-    }
-  },
-  computed: {
-    ...mapGetters({
-      activeCalendar: 'scheduler/getCalendar',
-      allEvents: 'scheduler/getAllEvents'
-    })
-  },
-  async mounted () {
-    // this.$modal.show('scheduler-modal')
-    // setup calendar
-    this.calendarApi = this.$refs.fullCalendar.getApi()
-    this.updateDate()
-    // fetch local calendar
-    try {
-      if (!this.activeCalendar) {
-        this.$modal.show('scheduler-modal')
-        await this.$store.dispatch('scheduler/connectToLocalCalendar')
-      } else {
-        await this.loadEvents()
-      }
-      // await this.$store.dispatch('scheduler/connectToLocalCalendar')
-    } catch (e) {
-      console.log(e)
     }
   }
 
