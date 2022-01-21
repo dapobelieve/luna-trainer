@@ -189,6 +189,9 @@
                     </p>
                     <span class="text-sm text-gray-400">{{ client.email }}</span>
                   </div>
+                  <span v-if="hasSchedule" @click="removeClient(client)" class="ml-auto cursor-pointer">
+                    <i class="fi-rr-cross text-primary-color"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -334,8 +337,7 @@ export default {
           },
           {
             name: `Every month on the 1st ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
-            // value: `RRULE:FREQ=MONTHLY;BYDAY=${this.$dateFns.format(new Date(this.form.date), 'EEEEEE').toUpperCase()};BYMONTH=1,2,3,4,5,6,7,8,9,10,11,12;INTERVAL=1`
-            value: `RRULE:FREQ=MONTHLY;BYMONTH=1,2,3,4,5,6,7,8,9,10,11,12;BYDAY=MO;INTERVAL=1`
+            value: `RRULE:FREQ=MONTHLY;BYSETPOS=1;BYDAY=${this.$dateFns.format(new Date(this.form.date), 'EEEEEE').toUpperCase()};INTERVAL=1`
           }
         ]
       }
@@ -444,6 +446,9 @@ export default {
         }
       }
     },
+    removeClient(client) {
+     this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
+    },
     async createEvent () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
@@ -492,7 +497,14 @@ export default {
             calendar: this.activeCalendar.id,
             data: { ...payloadData }
           })
-          this.$emit('created', res)
+          
+          // refactor this 🤡
+          if(payloadData.recurrence) {
+            this.$emit('recurring')
+          }else {
+            this.$emit('created', res)
+          }
+          
           this.$gwtoast.success('New  Appointment created')
           if(res.length === 0) {
             location.reload()
