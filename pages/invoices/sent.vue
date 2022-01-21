@@ -1,134 +1,155 @@
 <template>
   <div>
-    <template>
-      <div class="flex mt-1 mb-5">
-        <div class="actions flex justify-between items-center w-full">
-          <div>
-            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
-              <i class="fi-rr-archive mr-1"></i>
-              <span>Archive</span>
-            </span>
-            <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
-              <i class="fi-rr-download mr-1"></i>
-              <span>Export</span>
-            </span>
-            <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
-              <i class="fi-rr-download mr-1"></i>
-              <span>Exporting...</span>
-            </span>
-          </div>
-          <div class="flex">
-            <SearchDropdown :fields="searchFields" :options="options" @field-selected="searchField=$event" @selected="searchInvoice">
-              <template v-slot:selected-option="{selected}">
-                <span v-if="searchField === 'Name'">
-                  <ClientAvatar :height="1" :width="1" :client-info="selected" />
+    <div class="flex mt-1 mb-5">
+      <div class="actions flex justify-between items-center w-full">
+        <div>
+          <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
+            <i class="fi-rr-archive mr-1"></i>
+            <span>Archive</span>
+          </span>
+          <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
+            <i class="fi-rr-download mr-1"></i>
+            <span>Export</span>
+          </span>
+          <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
+            <i class="fi-rr-download mr-1"></i>
+            <span>Exporting...</span>
+          </span>
+        </div>
+        <div class="flex">
+          <SearchDropdown :fields="searchFields" :options="options" @field-selected="searchField=$event" @selected="searchInvoice">
+            <template v-slot:selected-option="{selected}">
+              <span v-if="searchField === 'Name'">
+                <ClientAvatar :height="1" :width="1" :client-info="selected" />
+                <span class="text-xs text-gray-700 ml-2">
+                  {{ selected.firstName }}  {{ selected.lastName }}
+                </span>
+              </span>
+              <span v-else>
+                <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="selected" />
+              </span>
+            </template>
+            <template v-slot:option="{option}">
+              <div class="flex client items-center client py-2 px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
+                <div v-if="searchField === 'Name'" class="d-flex">
+                  <ClientAvatar :height="1" :width="1" :client-info="option" />
                   <span class="text-xs text-gray-700 ml-2">
-                    {{ selected.firstName }}  {{ selected.lastName }}
+                    {{ option.firstName }}  {{ option.lastName }}
                   </span>
-                </span>
-                <span v-else>
-                  <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="selected" />
-                </span>
-              </template>
-              <template v-slot:option="{option}">
-                <div class="flex client items-center client py-2 px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
-                  <div v-if="searchField === 'Name'" class="d-flex">
-                    <ClientAvatar :height="1" :width="1" :client-info="option" />
-                    <span class="text-xs text-gray-700 ml-2">
-                      {{ option.firstName }}  {{ option.lastName }}
-                    </span>
-                  </div>
-                  <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
                 </div>
-              </template>
-            </SearchDropdown>
-          </div>
+                <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
+              </div>
+            </template>
+          </SearchDropdown>
         </div>
       </div>
-      <GwPagination v-if="filteredRecords && filteredRecords.length" :total-items="filteredRecords.length">
-        <template v-slot:content>
-          {{ quickSearchQuery }}
-          <div class="overflow-scroll lg:overflow-hidden">
-            <table class="table-auto table bg-white w-full text-xs rounded-md">
-              <thead class="">
-                <tr class="uppercase tracking-wider text-gray-500">
-                  <th class="w-12 py-4 font-medium pl-1">
-                    <div class="pl-3">
-                      <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
+    </div>
+    <GwPagination v-if="filteredRecords && filteredRecords.length" :total-items="filteredRecords.length">
+      <template v-slot:content>
+        {{ quickSearchQuery }}
+        <div class="overflow-scroll lg:overflow-hidden">
+          <table class="table-auto table bg-white w-full text-xs rounded-md">
+            <thead class="">
+              <tr class="uppercase tracking-wider text-gray-500">
+                <th class="w-12 py-4 font-medium pl-1">
+                  <div class="pl-3">
+                    <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
+                  </div>
+                </th>
+                <th class="py-4 font-medium text-left px-6 w-3/6">
+                  Name
+                </th>
+                <th class="py-4 font-medium px-6">
+                  INVOICE#
+                </th>
+                <th class="py-4 font-medium px-6">
+                  CREATED
+                </th>
+                <th class="py-4 font-medium px-6">
+                  AMOUNT
+                </th>
+                <th class="py-4 font-medium px-6">
+                  STATUS
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'invoice-id-view', params: {id: data._id}})">
+                <td class="w-12 py-4 font-medium pl-3">
+                  <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
+                </td>
+                <td class="py-4 text-left px-6 w-3/6">
+                  <div class="flex items-center">
+                    <ClientAvatar :client-info="data.customerId" />
+                    <div class="ml-4">
+                      <h6 class="text-base text-gray-700 text-capitalize">
+                        {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
+                      </h6>
+                      <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
                     </div>
-                  </th>
-                  <th class="py-4 font-medium text-left px-6 w-3/6">
-                    Name
-                  </th>
-                  <th class="py-4 font-medium px-6">
-                    INVOICE#
-                  </th>
-                  <th class="py-4 font-medium px-6">
-                    CREATED
-                  </th>
-                  <th class="py-4 font-medium px-6">
-                    AMOUNT
-                  </th>
-                  <th class="py-4 font-medium px-6">
-                    STATUS
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'invoice-id-view', params: {id: data._id}})">
-                  <td class="w-12 py-4 font-medium pl-3">
-                    <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
-                  </td>
-                  <td class="py-4 text-left px-6 w-3/6">
-                    <div class="flex items-center">
-                      <ClientAvatar :client-info="data.customerId" />
-                      <div class="ml-4">
-                        <h6 class="text-base text-gray-700 text-capitalize">
-                          {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
-                        </h6>
-                        <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
-                      </div>
-                    </div>
-                  </td>
-                  <td class="py-4  px-6">
-                    <div class="text-base text-gray-700">
-                      {{ data.invoiceNo }}
-                    </div>
-                  </td>
-                  <td class="py-4  px-6">
-                    <div class="text-xs md:text-base text-gray-700">
-                      {{ data.createdAt | date }}
-                    </div>
-                  </td>
-                  <td class="py-4 px-6">
-                    <div class="text-sm md:text-base text-gray-700">
-                      {{ "\uFFE1" }}{{ data.total }}
-                    </div>
-                  </td>
-                  <td class="py-4 px-6">
-                    <InvoiceStatusComponent :status="data.status" />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </template>
-      </GwPagination>
-      <div v-else class="flex justify-around">
-        <div class="mt-5 text-center">
-          <h4 class="font-bold text-gray-700 mb-1">
-            No Sent Invoices yet
-          </h4>
-          <p class="text-sm text-gray-500 mb-4">
-            We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
-          </p>
-          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'invoice' })">
-            <i class="fi-rr-plus text-white"></i>
-            <span class="text-font-medium text-white text-base ml-2">New Invoice</span>
-          </button>
+                  </div>
+                </td>
+                <td class="py-4  px-6">
+                  <div class="text-base text-gray-700">
+                    {{ data.invoiceNo }}
+                  </div>
+                </td>
+                <td class="py-4  px-6">
+                  <div class="text-xs md:text-base text-gray-700">
+                    {{ data.createdAt | date }}
+                  </div>
+                </td>
+                <td class="py-4 px-6">
+                  <div class="text-sm md:text-base text-gray-700">
+                    {{ "\uFFE1" }}{{ data.total }}
+                  </div>
+                </td>
+                <td class="py-4 px-6">
+                  <InvoiceStatusComponent :status="data.status" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+      </template>
+    </GwPagination>
+    <div v-else class="flex justify-around">
+      <div class="mt-5 text-center">
+        <h4 class="font-bold text-gray-700 mb-1">
+          No Sent Invoices yet
+        </h4>
+        <p class="text-sm text-gray-500 mb-4">
+          We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
+        </p>
+        <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'invoice' })">
+          <i class="fi-rr-plus text-white"></i>
+          <span class="text-font-medium text-white text-base ml-2">New Invoice</span>
+        </button>
       </div>
-    </template>
+    </div>
+
+    <!-- modals -->
+    <modal
+      name="connection"
+      height="auto"
+      width="500px"
+      :adaptive="true"
+      :click-to-close="false"
+    >
+      <invoices-payment-connection @closeModal="closeConnectionModal($event)" />
+    </modal>
+
+    <modal
+      name="connectionStatus"
+      height="auto"
+      width="30%"
+      :adaptive="true"
+      :shift-x="0.97"
+      :shift-y="0.93"
+      :click-to-close="false"
+    >
+      <invoices-payment-connection-status @closeModal="closeConnectionStatusModal" />
+    </modal>
   </div>
 </template>
 
@@ -159,9 +180,9 @@ export default {
             return String(row[key]).toLowerCase().includes(this.quickSearchQuery.toLowerCase())
           })
         })
-
         return records
       }
+      return records
     }
   },
   watch: {
@@ -187,6 +208,7 @@ export default {
     }
   },
   async mounted (ctx) {
+    this.$modal.show('connection')
     try {
       const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
       this.invoices = res
@@ -244,6 +266,15 @@ export default {
       } finally {
         this.exporting = false
       }
+    },
+    closeConnectionModal (e) {
+      this.$modal.hide('connection')
+      if (e) {
+        this.$modal.show('connectionStatus')
+      }
+    },
+    closeConnectionStatusModal () {
+      this.$modal.hide('connectionStatus')
     }
   }
 }

@@ -72,6 +72,17 @@ export const actions = {
     } catch (error) {
       console.log('error updating notes ', error)
     }
+  },
+  async deleteSingleNote ({ commit }, noteId) {
+    console.log('deleting note id ', noteId)
+    try {
+      await this.$axios.$delete(
+        `${process.env.BASEURL_HOST}/note/${noteId}`)
+      commit('deleteSingleNote', noteId)
+      return true
+    } catch (error) {
+      console.log('error deleting notes ', error)
+    }
   }
 }
 
