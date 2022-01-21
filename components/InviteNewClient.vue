@@ -88,8 +88,7 @@ export default {
   props: {
     client: Object,
     redirect: {
-      type: Boolean,
-      default: true
+      type: Boolean
     }
   },
   data () {
@@ -125,13 +124,13 @@ export default {
       `${this.clientInfo.firstName} has been sent an invite.`
           )
           this.$emit('close', false)
-          if(this.redirect) {
-            // this.$router.push({
-            //   name: 'client-id-information',
-            //   params: {
-            //     id: response.data.data._id
-            //   }
-            // })
+          if (this.redirect) {
+            this.$router.push({
+              name: 'client-id-information',
+              params: {
+                id: response.data.data._id
+              }
+            })
           }
         } else {
           this.$gwtoast.error('Error sending client invite')

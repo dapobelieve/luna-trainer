@@ -5,9 +5,9 @@
       <div v-if="event && event.when" class="">
         <div class="flex items-center mb-1">
           <div class="inline-flex items-center justify-around text-gray-500 w-32 mr-1">
-            <span>{{ formatTime(event.when.startTime, 'H:mm') }}</span>
+            <span>{{ formatTime(event.when.startTime, 'K:mm') }}</span>
             <span>-</span>
-            <span>{{ formatTime(event.when.endTime, 'H:mm b') }}</span>
+            <span>{{ formatTime(event.when.endTime, 'K:mm b') }}</span>
           </div>
           <div class="event-icon inline-flex justify-center items-center rounded-full bg-gray-200">
             <img style="width: 8px" src="~/assets/img/video-camera.svg">
@@ -46,17 +46,14 @@ export default {
     }
   },
   computed: {
-    color() {
-      return this.event.color || this.event.colorName;
+    color () {
+      return this.event.color || this.event.colorName
     }
   },
   methods: {
-    formatTime (time, formatString = 'HH:mm b') {
+    formatTime (time, formatString = 'KK:mm b') {
       return format(fromUnixTime(time), formatString)
     }
-  },
-  mounted() {
-    console.log()
   }
 }
 </script>

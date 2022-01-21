@@ -21,11 +21,6 @@ export default {
         href:
           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
       }
-      // {
-      //   rel: 'stylesheet',
-      //   href:
-      //     'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
-      // }
     ],
     script: [
       {
@@ -77,7 +72,7 @@ export default {
   },
 
   buildModules: [
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],

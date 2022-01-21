@@ -104,8 +104,8 @@ export default {
     }
   },
   methods: {
-    addClientToTrainerRegData(key,  value){
-      this.updateTrainerRegData({ parent: 'client', key, value  })
+    addClientToTrainerRegData (key, value) {
+      this.updateTrainerRegData({ parent: 'client', key, value })
     },
     ...mapMutations({
       updateTrainerRegData: 'profile/UPDATE_TRAINER_REG_DATA'

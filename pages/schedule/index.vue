@@ -65,13 +65,22 @@
       <div class="pt-1 bg-white max-h-screen top-0 relative">
         <div class="grid gap-3 h-full w-full max-h-screen">
           <keep-alive>
-            <SchedulerDrawer @remove-event="removeEvent($event)" v-if="openDrawer" v-model="activePage" @process-event="processNewEvent($event)" @close="openDrawer = false" />
-            <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+            <transition
+              enter-active-class="transition-all ease-linear duration-[500ms] motion-reduce:transition-none motion-reduce:transform-none"
+              leave-active-class="transition-all ease-linear duration-[500ms] motion-reduce:transition-none motion-reduce:transform-none"
+              enter-class="transform translate-x-full"
+              leave-class="-translate-x-0"
+              enter-to-class="-translate-x-0"
+              leave-to-class="translate-x-full"
+            >
+              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @process-event="loadEvents();processNewEvent($event)" @close="openDrawer = false" />
+              <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+            </transition>
           </keep-alive>
         </div>
       </div>
     </div>
-    <SchedulerWelcome @tour="tour()" />
+    <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
   </div>
 </template>
 
@@ -83,17 +92,26 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
-import NewSchedule from '~/components/scheduler/NewSchedule'
 import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'Scheduler',
+  components: {
+    SchedulerDrawer,
+    SchedulerInfo,
+    SchedulerWelcome,
+    FullCalendar
+  },
+  layout: 'Scheduler',
+  async asyncData (ctx) {
+    await ctx.store.dispatch('scheduler/getCalendars')
+  },
   data () {
     return {
       openDrawer: false,
-      activeEvent: {}, //event that was clicked
-      activePage: 'new-schedule',
+      activeEvent: {}, // event that was clicked
+      activePage: '',
       currentView: 'Month',
       newSchedule: false,
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -120,94 +138,9 @@ export default {
       }
     }
   },
-  components: {
-    SchedulerDrawer,
-    SchedulerInfo,
-    SchedulerWelcome,
-    NewSchedule,
-    FullCalendar
-  },
-  layout: 'Scheduler',
-  async asyncData (ctx) {
-    await ctx.store.dispatch('scheduler/getCalendars')
-  },
   head () {
     return {
       title: 'Schedules'
-    }
-  },
-  methods: {
-    async loadEvents() {
-      await this.$store.dispatch('scheduler/getAllAppointments', {
-        startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
-        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
-      })
-
-      this.allEvents.map((event) => {
-        this.processNewEvent(event)
-      })
-    },
-    removeEvent(eventId) {
-      const event = this.calendarApi.getEventById(eventId)
-      event.remove()
-    },
-    tour () {
-      this.$modal.hide('scheduler-modal')
-      this.$intro()
-        .setOptions({
-          hidePrev: true,
-          steps: [
-            {
-              element: document.querySelector('#schduler-step-1'),
-              intro: 'To create a  new session and add participants, click here'
-            }
-          ]
-        })
-        .start()
-      this.$intro().showHints()
-    },
-    handleCalendarEventClick (info) {
-      this.$store.commit('scheduler/setEvent', info.event)
-      this.openDrawer = true
-      this.activePage = 'schedule-details'      
-    },
-    changeView (viewname, display) {
-      this.currentView = display
-      this.calendarApi.changeView(viewname)
-      this.showDrop = false
-    },
-    processNewEvent (event) {
-      if(event.updated) {
-        this.removeEvent(event.id)
-      }
-      
-      this.calendarApi.addEvent({
-        id: event.id,
-        color: this.colorMap[event.color],
-        description: event.description,
-        participants: [...event.participants],
-        colorName: event.color,
-        when: event.when,
-        editable: false,
-        title: event.title,
-        start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
-        end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
-        allDay: false
-      })
-      this.openDrawer = false
-      this.activePage = ''
-    },
-    updateDate () {
-      this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
-      this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
-    },
-    mainPrev () {
-      this.calendarApi.prev()
-      this.updateDate()
-    },
-    mainNext () {
-      this.calendarApi.next()
-      this.updateDate()
     }
   },
   computed: {
@@ -229,12 +162,91 @@ export default {
       } else {
         await this.loadEvents()
       }
-      // await this.$store.dispatch('scheduler/connectToLocalCalendar')
-    }catch (e) {
+    } catch (e) {
       console.log(e)
     }
-  }
+  },
+  beforeMount () {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.openDrawer) {
+        this.openDrawer = false
+      }
+    })
+  },
+  methods: {
+    async loadEvents () {
+      await this.$store.dispatch('scheduler/getAllAppointments', {
+        startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
+        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
+      })
 
+      this.allEvents.forEach(event => this.processNewEvent(event))
+    },
+    removeEvent (eventId) {
+      const event = this.calendarApi.getEventById(eventId)
+      event.remove()
+    },
+    tour () {
+      this.$modal.hide('scheduler-modal')
+      this.$intro()
+        .setOptions({
+          hidePrev: true,
+          steps: [
+            {
+              element: document.querySelector('#schduler-step-1'),
+              intro: 'To create a  new session and add participants, click here'
+            }
+          ]
+        })
+        .start()
+      this.$intro().showHints()
+    },
+    handleCalendarEventClick (info) {
+      this.$store.commit('scheduler/setEvent', info.event)
+      this.openDrawer = true
+      this.activePage = 'schedule-details'
+    },
+    changeView (viewname, display) {
+      this.currentView = display
+      this.calendarApi.changeView(viewname)
+      this.showDrop = false
+    },
+    processNewEvent (event) {
+      if (event?.updated) {
+        this.removeEvent(event.id)
+      }
+
+      if (event) {
+        this.calendarApi.addEvent({
+          id: event.id,
+          color: this.colorMap[event.color],
+          description: event.description,
+          participants: [...event.participants],
+          colorName: event.color,
+          when: event.when,
+          editable: false,
+          title: event.title,
+          start: format(fromUnixTime(event.when.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
+          end: format(fromUnixTime(event.when.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
+          allDay: false
+        })
+      }
+      this.openDrawer = false
+      this.activePage = ''
+    },
+    updateDate () {
+      this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
+      this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
+    },
+    mainPrev () {
+      this.calendarApi.prev()
+      this.updateDate()
+    },
+    mainNext () {
+      this.calendarApi.next()
+      this.updateDate()
+    }
+  }
 }
 </script>
 

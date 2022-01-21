@@ -13,31 +13,33 @@
         {{ event.title }}
       </h4>
       <p class="mb-4">
-          {{event.description}}
-      </p>      
+        {{ event.description }}
+      </p>
       <div class="mb-4">
         <EventItem :event="event" />
       </div>
       <div v-if="event.participants">
-          <div v-for="client in event.participants">
-            <div class="flex items-center content-center py-1 mb-2.5">
-              <ClientAvatar
-                :width="3"
-                :height="3"
-                :client-info="{firstName: client.name, ...client}"
-              />
-              <div class="ml-2">
-                <p class="capitalize font-medium text-md  text-gray-700">
-                  {{ client.name }}
-                </p>
-                <span class="text-sm text-gray-400">{{ client.email }}</span>
-              </div>
+        <div v-for="client in event.participants">
+          <div class="flex items-center content-center py-1 mb-2.5">
+            <ClientAvatar
+              :width="3"
+              :height="3"
+              :client-info="{firstName: client.name, ...client}"
+            />
+            <div class="ml-2">
+              <p class="capitalize font-medium text-md  text-gray-700">
+                {{ client.name }}
+              </p>
+              <span class="text-sm text-gray-400">{{ client.email }}</span>
             </div>
           </div>
         </div>
+      </div>
     </div>
     <div class="schedule-footer flex justify-around mb-4">
-      <button @click="$modal.show('scheduler-cancel-session')" class="text-primary-color">Cancel</button>
+      <button class="text-primary-color" @click="$modal.show('scheduler-cancel-session')">
+        Cancel
+      </button>
       <button class="button-fill" @click="$emit('reschedule', event)">
         Reschedule
       </button>
@@ -47,37 +49,37 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex"
-import EventItem from "~/components/scheduler/EventItem";
-import CancelSessionModal from "~/components/scheduler/CancelSessionModal";
+import { mapGetters } from 'vuex'
+import EventItem from '~/components/scheduler/EventItem'
+import CancelSessionModal from '~/components/scheduler/CancelSessionModal'
 export default {
-  data() {
+  components: { CancelSessionModal, EventItem },
+  data () {
     return {
       loading: false
     }
   },
-  components: {CancelSessionModal, EventItem},
   computed: {
     ...mapGetters({
-      event: "scheduler/getActiveEvent"
+      event: 'scheduler/getActiveEvent'
     })
   },
   methods: {
-    async deleteEvent() {
+    async deleteEvent () {
       this.loading = true
       try {
-        await this.$store.dispatch('scheduler/deleteAppointment', {id: this.event.id});
+        await this.$store.dispatch('scheduler/deleteAppointment', { id: this.event.id })
         this.$emit('remove-event', this.event.id)
         this.closeModal()
         this.$gwtoast.success('Session Deleted')
         this.$emit('close')
-      }catch (e) {
+      } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.loading = false
       }
     },
-    closeModal() {
+    closeModal () {
       this.$modal.hide('scheduler-cancel-session')
       this.$emit('close')
     }

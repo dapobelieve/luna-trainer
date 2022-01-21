@@ -8,9 +8,9 @@ export const mutations = {
   setCalendar (state, data) {
     Vue.set(state, 'calendar', data)
   },
-  setEvent(state, data) {
-    const {title, startStr, id, endStr, extendedProps} = data
-    state.activeEvent = {title, startStr, id, endStr, ...extendedProps}
+  setEvent (state, data) {
+    const { title, startStr, id, endStr, extendedProps } = data
+    state.activeEvent = { title, startStr, id, endStr, ...extendedProps }
   },
   setEvents (state, data) {
     Vue.set(state, 'events', data)
@@ -26,19 +26,18 @@ export const actions = {
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
   },
   async updateAppointment ({ commit, dispatch }, payload, calendar) {
-    console.log(payload.data.when)
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {
-    let res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`);
-    if(res.length > 0) {
+    const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`)
+    if (res.length > 0) {
       commit('setEvents', res)
     }
-    return res;
+    return res
   },
-  async deleteAppointment({ state }, payload) {
-    const id = (payload.id.indexOf('_') > -1) ? payload.id.split('_')[0] : payload.id
-    let res = await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`);
+  async deleteAppointment ({ state }, payload) {
+    const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
+    await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
     return true
   },
   async connectToLocalCalendar ({ rootState, commit }) {

@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="bg-white mini-calendar-table">
-      <FullCalendar @select="handleSelect" ref="miniCalendar" :options="miniCalendarOptions" />
+      <FullCalendar ref="miniCalendar" :options="miniCalendarOptions" @select="handleSelect" />
     </div>
   </div>
 </template>
@@ -50,7 +50,7 @@ export default {
     this.updateDate()
   },
   methods: {
-    handleSelect(info) {
+    handleSelect (info) {
       this.$emit('date-clicked', info)
     },
     updateDate () {
