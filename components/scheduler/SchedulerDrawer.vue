@@ -7,6 +7,7 @@
       @close="event={};$emit('close')"
       @updated="$emit('process-event',$event)"
       @created="$emit('process-event',$event)"
+      @recurring="$emit('recurring')"
     />
 
     <ScheduleDetails
