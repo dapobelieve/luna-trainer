@@ -72,12 +72,9 @@
                 <i class="fi-rr-plus" />
                 <span class="truncate">Invite Client</span>
               </button>
-              <div v-else-if="menu.path === 'addSession'" class="bg-gray-50 border rounded-lg">
+              <div v-else-if="menu.path === 'addSession'">
                 <div class="p-4 flex justify-between items-center">
                   <span class="uppercase tracking-wider font-medium text-xs">SCHEDULE</span>
-                  <span
-                    class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
-                  >Coming soon</span>
                 </div>
                 <nuxt-link to="/schedule" class="flex items-center relative navItems">
                   <div class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4">
@@ -93,11 +90,6 @@
                   <i class="fi-rr-plus" />
                   <span class="truncate">New Session</span>
                 </button>
-                <p
-                  class="text-gray-400 px-4 py-3 text-sm"
-                >
-                  We’re still developing this, so bear with us!
-                </p>
               </div>
               <div v-else-if="menu.path === 'newCourse'" class="bg-gray-50 border rounded-lg mt-2">
                 <div class="p-4 flex justify-between items-center">

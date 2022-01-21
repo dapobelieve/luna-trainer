@@ -133,10 +133,6 @@
             </div>
           </div>
           <div>
-            <input type="checkbox" class="p-2" />
-            <span class="font-light">Value Added Tax (VAT)</span>
-          </div>
-          <div>
             <label for="dueDate" class="input-text-label">Due date</label>
             <date-picker
               v-model="invoiceDetails.dueDate"
@@ -148,6 +144,35 @@
               placeholder="Select a due date for this invoice"
             ></date-picker>
           </div>
+        </div>
+
+        <div>
+          <input type="checkbox" class="p-2" />
+          <span class="font-light">Value Added Tax (VAT)</span>
+        </div>
+
+        <!-- payment options -->
+        <div class="mb-8">
+          <p class="text-xl font-normal text-black mb-4">
+            Payment Option
+          </p>
+          <div class="flex justify-between items-center mb-6">
+            <p class="text-base text-gray-700 font-normal">
+              Pay with<span>
+                <img
+                  class="h-6 inline-block"
+                  src="~/assets/img/stripe.png"
+                  alt="stripe logo"
+                />
+              </span>
+            </p>
+            <span class="bg-blue-50 p-1 px-2 rounded-full text-sm text-blue-400">
+              Default
+            </span>
+          </div>
+          <p class="cursor-pointer text-blue-500 text-base font-normal" @click="showPaymentOptions">
+            Choose another payment method
+          </p>
         </div>
         <div class="flex justify-end space-x-6 lg:space-x-0">
           <button
@@ -207,6 +232,29 @@
         :due-date="invoiceDetails.dueDate"
         @close="$modal.hide('preview-invoice')"
       />
+    </modal>
+
+    <!-- payment options -->
+    <modal
+      name="payment-options"
+      height="auto"
+      :adaptive="true"
+      width="500px"
+      :click-to-close="false"
+    >
+      <invoices-payment-connection :select-display="2" @closeModal="paymentModal($event)" />
+    </modal>
+
+    <modal
+      name="connectionStatus"
+      height="auto"
+      width="30%"
+      :adaptive="true"
+      :shift-x="0.92"
+      :shift-y="0.93"
+      :click-to-close="false"
+    >
+      <invoices-payment-connection-status @closeModal="closeConnectionStatusModal" />
     </modal>
   </div>
 </template>
@@ -363,6 +411,18 @@ export default {
     deleteServiceItem (e) {
       const serviceItemIndex = this.invoiceDetails.services.findIndex(s => s._id === e._id)
       this.invoiceDetails.services.splice(serviceItemIndex, 1)
+    },
+    showPaymentOptions () {
+      this.$modal.show('payment-options')
+    },
+    paymentModal (e) {
+      this.$modal.hide('payment-options')
+      if (e) {
+        this.$modal.show('connectionStatus')
+      }
+    },
+    closeConnectionStatusModal () {
+      this.$modal.hide('connectionStatus')
     }
   },
   mounted () {

@@ -82,7 +82,7 @@
 
 <script>
 import debounce from 'lodash.debounce'
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'AddNote',
   props: {
@@ -98,10 +98,10 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      noteId: this.addingMode ? null : this.noteInView.id,
+      noteId: this.addingMode ? null : this.noteInView._id,
       expand: false,
       title: this.addingMode ? '' : this.noteInView.title,
-      body: this.addingMode ? '' : this.noteInView.body,
+      body: this.addingMode ? '' : this.noteInView.description,
       autoSaving: false,
       mode: this.addingMode ? 'create' : 'editing'
     }
@@ -118,9 +118,7 @@ export default {
   methods: {
     ...mapActions({
       createNote: 'notes/addNotes',
-      updateNotes: 'notes/updateNotes'
-    }),
-    ...mapMutations({
+      updateNotes: 'notes/updateNotes',
       deleteSingleNote: 'notes/deleteSingleNote'
     }),
     toggleWidth () {
@@ -151,11 +149,16 @@ export default {
       this.autoSave()
     }, 1000),
     deleteNote () {
-      this.deleteSingleNote(this.noteId)
-      this.closeModal()
+      this.deleteSingleNote(this.noteId).then(() => {
+        this.closeModal()
+      })
     }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+textarea {
+  resize: none;
+}
+</style>
