@@ -219,7 +219,7 @@
       </div>
     </div>
     <modal name="inviteClientModal" height="auto" :adaptive="true">
-      <InviteNewClient :redirect="false" class="m-6" @close="$modal.hide('inviteClientModal')" />
+      <InviteNewClient class="m-6" @close="$modal.hide('inviteClientModal')" />
     </modal>
     <div class="schedule-footer mb-10">
       <button v-if="!event.id" :disabled="btn.loading" class="button-fill w-full" @click="createEvent">
@@ -314,6 +314,7 @@ export default {
   computed: {
     repeat () {
       if (this.form.date) {
+        console.log(this.$dateFns.format(new Date(this.form.date), 'EEEEEE'))
         return [
           {
             name: 'Does not repeat',
@@ -333,7 +334,8 @@ export default {
           },
           {
             name: `Every month on the 1st ${this.$dateFns.format(new Date(this.form.date), 'ccc')}`,
-            value: 'RRULE:FREQ=MONTHLY;INTERVAL=1'
+            // value: `RRULE:FREQ=MONTHLY;BYDAY=${this.$dateFns.format(new Date(this.form.date), 'EEEEEE').toUpperCase()};BYMONTH=1,2,3,4,5,6,7,8,9,10,11,12;INTERVAL=1`
+            value: `RRULE:FREQ=MONTHLY;BYMONTH=1,2,3,4,5,6,7,8,9,10,11,12;BYDAY=MO;INTERVAL=1`
           }
         ]
       }
@@ -407,10 +409,8 @@ export default {
       const toMinutes = parseInt(toTime[0].split(':')[1])
 
       const start = new Date(this.form.date.setHours(fromHrs, fromMinutes))
-      console.log(fromHrs, fromMinutes)
 
       const end = new Date(this.form.date.setUTCHours(toHrs, toMinutes))
-      console.log(toHrs, toMinutes)
 
       this.form.when.startTime = start / 1000
       this.form.when.endTime = end / 1000
@@ -428,12 +428,12 @@ export default {
         payloadData.recurrence = [this.form.repeat.value]
       }
       try {
-        await this.$store.dispatch('scheduler/updateAppointment', {
+        const res = await this.$store.dispatch('scheduler/updateAppointment', {
           calendar: this.activeCalendar.id,
           data: { ...payloadData }
         })
 
-        this.$emit('updated', { id: this.event.id, updated: true })
+        this.$emit('updated', { ...res, updated: true })
         this.$gwtoast.success('Session updated')
       } catch (e) {
         console.log({ e })
@@ -494,6 +494,9 @@ export default {
           })
           this.$emit('created', res)
           this.$gwtoast.success('New  Appointment created')
+          if(res.length === 0) {
+            location.reload()
+          }
         } catch (e) {
           console.log({ e })
         } finally {

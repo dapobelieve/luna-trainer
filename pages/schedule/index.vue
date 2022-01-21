@@ -73,7 +73,7 @@
               enter-to-class="-translate-x-0"
               leave-to-class="translate-x-full"
             >
-              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @process-event="processNewEvent($event)" @close="openDrawer = false" />
+              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @process-event="loadEvents();processNewEvent($event)" @close="openDrawer = false" />
               <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
             </transition>
           </keep-alive>
@@ -214,7 +214,6 @@ export default {
     processNewEvent (event) {
       if (event?.updated) {
         this.removeEvent(event.id)
-        console.log(event.id)
       }
 
       if (event) {
@@ -232,8 +231,8 @@ export default {
           allDay: false
         })
       }
-      // this.openDrawer = false
-      // this.activePage = ''
+      this.openDrawer = false
+      this.activePage = ''
     },
     updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()

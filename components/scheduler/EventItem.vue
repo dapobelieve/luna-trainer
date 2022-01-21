@@ -5,7 +5,7 @@
       <div v-if="event && event.when" class="">
         <div class="flex items-center mb-1">
           <div class="inline-flex items-center justify-around text-gray-500 w-32 mr-1">
-            <span>{{ formatTime(event.when.startTime, 'K:mm b') }}</span>
+            <span>{{ formatTime(event.when.startTime, 'K:mm') }}</span>
             <span>-</span>
             <span>{{ formatTime(event.when.endTime, 'K:mm b') }}</span>
           </div>

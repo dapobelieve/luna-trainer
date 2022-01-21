@@ -19,14 +19,13 @@ export const mutations = {
 export const actions = {
   async getCalendars ({ commit }) {
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
-    // commit('setCalendar', res[0])
+    commit('setCalendar', res[0])
     return res
   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
   },
   async updateAppointment ({ commit, dispatch }, payload, calendar) {
-    console.log(payload.data.when)
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {

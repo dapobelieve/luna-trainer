@@ -88,8 +88,7 @@ export default {
   props: {
     client: Object,
     redirect: {
-      type: Boolean,
-      default: true
+      type: Boolean
     }
   },
   data () {

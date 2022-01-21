@@ -2,7 +2,7 @@
   <async-view loader-id="logout">
     <GwHeader />
     <div class="flex">
-      <invite-new-client-modal />
+      <invite-new-client-modal redirect />
       <Navigation class="hidden lg:block" />
       <div v-if="showSidebarMenu" class="block lg:hidden">
         <Navigation />
