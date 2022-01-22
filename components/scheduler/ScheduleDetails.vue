@@ -68,7 +68,8 @@ export default {
     async deleteEvent () {
       this.loading = true
       try {
-        await this.$store.dispatch('scheduler/deleteAppointment', { id: this.event.id })
+        const id = this.event.id.includes('_') ? this.event.id.split('_')[0] : this.event.id
+        await this.$store.dispatch('scheduler/deleteAppointment', { id: id })
         this.$emit('remove-event', this.event.id)
         this.closeModal()
         this.$gwtoast.success('Session Deleted')
