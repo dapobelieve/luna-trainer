@@ -5,7 +5,7 @@
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
-        <label for="service" class="required">Service Title</label>
+        <label for="service" class="required">Service Description</label>
         <input
           id="service"
           v-model="services.description"

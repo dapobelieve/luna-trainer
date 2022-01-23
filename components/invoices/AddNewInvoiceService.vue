@@ -7,12 +7,12 @@
         </slot>
       </h5>
       <button type="button" @click="$emit('close-modal')">
-        <i class="ns-cross text-lg text-blue-500"></i>
+        <i class="fi-rr-cross text-sm text-blue-500"></i>
       </button>
     </div>
     <form class="flex flex-col gap-6 mt-8">
       <div class="flex flex-col gap-1.5">
-        <label for="service" class="required">Title</label>
+        <label for="service" class="required">Description</label>
         <input
           id="service"
           v-model="services.description"
