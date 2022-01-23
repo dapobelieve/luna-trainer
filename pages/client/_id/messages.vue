@@ -118,7 +118,7 @@
                       srcset
                     />
                     <span class="">{{
-                      new Date(msg.createdAt) | date
+                      new Date(msg.createdAt).toLocaleTimeString()
                     }}</span>
                   </small>
                   <span
@@ -177,7 +177,7 @@
                     {{ msg.message }}
                   </div>
                   <small class="ml-2 text-xs">{{
-                    new Date(msg.createdAt) | date
+                    new Date(msg.createdAt).toLocaleTimeString()
                   }}</small>
                 </li>
               </div>
