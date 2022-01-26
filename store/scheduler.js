@@ -23,6 +23,9 @@ export const actions = {
     return res
   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
+    if(payload.data.conferencing) {
+      return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/auto-conferencing/appointment`, { ...payload.data })
+    }
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
   },
   async updateAppointment ({ commit, dispatch }, payload, calendar) {

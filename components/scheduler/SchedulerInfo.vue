@@ -1,12 +1,12 @@
 <template>
-  <div class="px-3 overflow-scroll flex flex-col">
-    <div class="mb-4">
+  <div class=" overflow-scroll flex flex-col relative">
+    <div class="px-3 mb-4">
       <MiniCalendar @date-clicked="fetchDateEvents" />
     </div>
-    <div v-if="loading" class="flex-grow flex justify-center items-center">
+    <div v-if="loading" class="px-3 flex-grow flex justify-center items-center">
       <SingleLoader height="40px" width="40px" />
     </div>
-    <div v-else class="mt-2">
+    <div v-else class="px-3 mt-2">
       <h3 class="mr-3 font-bold mb-4">
         Upcoming sessions
       </h3>
@@ -19,7 +19,7 @@
             17/12/2021
           </div>
         </div>
-        <EventItem v-for="event in todayAndTomorrowsEvents" :key="event.id" :event="event" class="mb-8" />
+        <EventItem v-for="event in todayAndTomorrowsEvents.slice(0, 3)" :key="event.id" :event="event" class="mb-8" />
       </div>
       <div v-else class="text-gray-500">
         Your schedule is free
@@ -27,6 +27,18 @@
       <div>
       </div>
     </div>
+    <div class="absolute w-full px-1" style="bottom: 10px">
+      <div @click="$modal.show('scheduler-connect-calendar')" class="bg-blue-50 px-3 py-3 cursor-pointer items-center flex" style="border-radius: 12px">
+        <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center mr-5">
+          <i class="fi-rr-calendar text-2xl text-primary-color mt-2"></i>
+        </div>
+        <h5 class="font-medium text-blue-500">Sync with Calendar</h5>
+        <div class="ml-auto ">
+          <i class="fi-rr-angle-right text-sm text-primary-color mt-3" style="font-size: 8px"></i>
+        </div>
+      </div>
+    </div>
+    <ConnectCalendarModal @close="$modal.hide('scheduler-connect-calendar')" id="" />
   </div>
 </template>
 
@@ -34,8 +46,10 @@
 import MiniCalendar from '~/components/scheduler/MiniCalendar'
 import EventItem from '~/components/scheduler/EventItem'
 import SingleLoader from '~/components/util/SingleLoader'
+import ConnectCalendarModal from "~/components/scheduler/ConnectCalendarModal";
 export default {
   components: {
+    ConnectCalendarModal,
     SingleLoader,
     EventItem,
     MiniCalendar

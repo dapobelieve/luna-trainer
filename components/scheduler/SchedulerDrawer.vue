@@ -40,7 +40,7 @@ export default {
     return {
       event: {},
       pages: {
-        NEW_SCHEDULE: 'new-schedule',
+        NEW_SCHEDULE: 'new-session',
         SCHEDULE_DETAILS: 'schedule-details'
       }
     }
