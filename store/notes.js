@@ -1,5 +1,7 @@
 export const state = () => ({
   notes: [],
+  expandModal: false,
+  largeScreen: false,
   addNoteModal: false,
   addingMode: true,
   noteInView: {},
@@ -15,8 +17,16 @@ export const mutations = {
   },
   toggleModal (state, payload) {
     state.addNoteModal = payload.status
-    state.addingMode = payload.addingMode
-    state.noteInView = payload.note
+    if ('addingMode' in payload) {
+      state.addingMode = payload.addingMode
+    }
+    if (payload.note) {
+      state.noteInView = payload.note
+    }
+  },
+  toggleExpandModal (state, payload) {
+    state.largeScreen = !state.largeScreen
+    state.expandModal = payload.status
   },
   addNotes (state, details) {
     state.notes.unshift(details)

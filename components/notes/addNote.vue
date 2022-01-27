@@ -12,7 +12,8 @@
       <div class="flex space-x-7 pr-4">
         <i
           role="button"
-          class="fi-rr-expand text-blue-500 h-4 w-4"
+          class="text-blue-500 h-4 w-4"
+          :class="[$store.state.notes.expandModal ? 'fi-rr-compress' : 'fi-rr-expand']"
           @click.prevent="toggleWidth"
         ></i>
         <i
@@ -22,7 +23,10 @@
         ></i>
       </div>
     </div>
-    <div class="min-h-screen px-4 pt-3 flex flex-col relative">
+    <div
+      class="min-h-screen px-4 pt-3 flex flex-col relative"
+      :class="{'max-w-md mx-auto' : $store.state.notes.expandModal}"
+    >
       <div class="pb-8 pr-4">
         <input
           v-model="title"
@@ -30,10 +34,10 @@
           placeholder="Enter title (Optional)"
         />
       </div>
-      <div class="pr-4">
+      <div class="pr-4" style="height: calc(100vh - 160px)">
         <textarea
           v-model="body"
-          class="w-full focus:outline-none pr-4 placeholder-gray-400"
+          class="w-full h-full focus:outline-none pr-4 placeholder-gray-400"
           placeholder="Enter note"
         >
         </textarea>
@@ -82,7 +86,7 @@
 
 <script>
 import debounce from 'lodash.debounce'
-import { mapActions } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 export default {
   name: 'AddNote',
   props: {
@@ -116,17 +120,30 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('notes', {
+      toggleExpandModal: 'toggleExpandModal',
+      toggleModal: 'toggleModal'
+    }),
     ...mapActions({
       createNote: 'notes/addNotes',
       updateNotes: 'notes/updateNotes',
       deleteSingleNote: 'notes/deleteSingleNote'
     }),
     toggleWidth () {
-      this.expand = !this.expand
-      this.$emit('expand', this.expand)
+      if (this.$store.state.notes.largeScreen) {
+        this.toggleModal({ status: false })
+        this.toggleExpandModal({ status: true })
+        return
+      }
+      this.toggleExpandModal({ status: false })
+      this.toggleModal({ status: true })
     },
     closeModal () {
-      this.$emit('closeModal')
+      if (this.$store.state.notes.addNoteModal) {
+        this.toggleModal({ status: false, addingMode: true, note: {} })
+        return
+      }
+      this.toggleExpandModal({ status: false, addingMode: true, note: {} })
     },
     cancel () {
       this.closeModal()
