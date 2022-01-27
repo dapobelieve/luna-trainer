@@ -13,7 +13,7 @@
     </div>
     <div class="schedule-body flex-grow">
       <div class="mb-3">
-        <textarea v-model="form.title" placeholder="Enter Title" class="w-full border-red-500 h-16 font-normal text-xl resize-none px-1 focus:outline-none"></textarea>
+        <textarea v-model="form.title" placeholder="Enter Title" class="w-full border-red-500 h-8 font-normal text-xl resize-none px-1 focus:outline-none"></textarea>
         <small v-if="$v.form.title.$error" class="text-red-600">Enter a title </small>
       </div>
       <div class="mb-8">
@@ -72,7 +72,7 @@
         <!--            <span class="text-gray-500 mr-2">All Day?</span>-->
         <!--            <Toggle2 v-model="form.allDay" />-->
         <!--          </div>-->
-        <div class="flex items-center mb-3">
+        <div v-if="!hasSchedule" class="flex items-center mb-3">
           <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
           <span class="ml-3 text-gray-500 w-full">
             <GwCustomerSelector v-model="form.repeat" placeholder="Repeat" class="w-full repeat-selector" :clients="repeat">
@@ -420,7 +420,7 @@ export default {
       const payloadData = {
         id: this.event.id,
         title: this.form.title,
-        color: this.form.color.value,
+        color: this.form.color?.value || 'blue',
         when: this.form.when,
         description: this.form.description,
         participants: this.form.participants

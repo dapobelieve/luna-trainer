@@ -26,6 +26,7 @@ export const actions = {
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
   },
   async updateAppointment ({ commit, dispatch }, payload, calendar) {
+    payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {

@@ -73,7 +73,7 @@
               enter-to-class="-translate-x-0"
               leave-to-class="translate-x-full"
             >
-              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @recurring="loadEvents" @process-event="processNewEvent($event)" @close="openDrawer = false" />
+              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @recurring="loadEvents" @process-event="loadEvents" @close="openDrawer = false" />
               <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
             </transition>
           </keep-alive>
