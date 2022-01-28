@@ -58,7 +58,7 @@
         </button>
       </div>
     </div>
-    
+
     <div class="">
       <div class="min-h-screen">
         <div class="grid md:grid-cols-4 2xl:grid-cols-5 schedule-section">
@@ -77,10 +77,12 @@
                   leave-to-class="translate-x-full"
                 >
                   <SchedulerDrawer
-                    v-if="openDrawer" v-model="activePage"
+                    v-if="openDrawer"
+                    v-model="activePage"
                     @remove-event="removeEvent($event)"
                     @process-event="processNewEvent"
-                    @close="openDrawer = false" />
+                    @close="openDrawer = false"
+                  />
                   <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
                 </transition>
               </keep-alive>
@@ -158,6 +160,29 @@ export default {
       allEvents: 'scheduler/getAllEvents'
     })
   },
+  async mounted () {
+    // setup calendar
+    this.calendarApi = this.$refs.fullCalendar.getApi()
+    this.updateDate()
+    // fetch local calendar
+    try {
+      if (!this.activeCalendar) {
+        this.$modal.show('scheduler-modal')
+        await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      } else {
+        await this.loadEvents()
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  beforeMount () {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.openDrawer) {
+        this.openDrawer = false
+      }
+    })
+  },
   methods: {
     async loadEvents () {
       this.calendarApi.refetchEvents()
@@ -232,29 +257,6 @@ export default {
       this.calendarApi.next()
       this.updateDate()
     }
-  },
-  async mounted () {
-    // setup calendar
-    this.calendarApi = this.$refs.fullCalendar.getApi()
-    this.updateDate()
-    // fetch local calendar
-    try {
-      if (!this.activeCalendar) {
-        this.$modal.show('scheduler-modal')
-        await this.$store.dispatch('scheduler/connectToLocalCalendar')
-      } else {
-        await this.loadEvents()
-      }
-    } catch (e) {
-      console.log(e)
-    }
-  },
-  beforeMount () {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.openDrawer) {
-        this.openDrawer = false
-      }
-    })
   }
 }
 </script>

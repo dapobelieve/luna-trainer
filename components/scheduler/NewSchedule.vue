@@ -189,7 +189,7 @@
                     </p>
                     <span class="text-sm text-gray-400">{{ client.email }}</span>
                   </div>
-                  <span v-if="hasSchedule" @click="removeClient(client)" class="ml-auto cursor-pointer">
+                  <span v-if="hasSchedule" class="ml-auto cursor-pointer" @click="removeClient(client)">
                     <i class="fi-rr-cross text-primary-color"></i>
                   </span>
                 </div>
@@ -197,7 +197,7 @@
             </div>
           </div>
         </div>
-        <Conference @conference="attachConference" class="mb-4" />
+        <Conference class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
             <template v-slot:selectedOption="{selected}">
@@ -380,9 +380,22 @@ export default {
       loading: false
     }
   },
+  beforeMount () {
+    if (this.event.id) {
+      this.form.title = this.event.title
+      this.form.date = new Date(this.event.when.startTime * 1000)
+      this.form.from = format(fromUnixTime(this.event.when.startTime), 'KK:mm aaa')
+
+      this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
+      this.form.description = this.event.description
+      this.form.participants = this.event.participants
+
+      this.form.color = this.colors.find(item => item.value === this.event.colorName)
+    }
+  },
   methods: {
-    attachConference(event) {
-      this.form.conferencing = {...event}
+    attachConference (event) {
+      this.form.conferencing = { ...event }
     },
     updateDate (event) {
       this.form.date = event
@@ -425,7 +438,7 @@ export default {
           data: { ...payloadData }
         })
 
-        if(res.recurrence?.length) {
+        if (res.recurrence?.length) {
           location.reload()
         }
 
@@ -440,7 +453,7 @@ export default {
         }
       }
     },
-    removeClient(client) {
+    removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
     },
     async createEvent () {
@@ -486,8 +499,8 @@ export default {
           if (this.form.repeat?.value) {
             payloadData.recurrence = [this.form.repeat.value]
           }
-          
-          if(this.form.conferencing) {
+
+          if (this.form.conferencing) {
             payloadData.conferencing = this.form.conferencing
           }
 
@@ -495,15 +508,14 @@ export default {
             calendar: this.activeCalendar.id,
             data: { ...payloadData }
           })
-          
-          if(payloadData.recurrence) {
+
+          if (payloadData.recurrence) {
             location.reload()
-          }else {
+          } else {
             this.$emit('created', res)
           }
 
           this.$gwtoast.success('New  Appointment created')
-          
         } catch (e) {
           console.log({ e })
         } finally {
@@ -514,20 +526,7 @@ export default {
         }
       }
     }
-  },
-  beforeMount () {
-    if (this.event.id) {
-      this.form.title = this.event.title
-      this.form.date = new Date(this.event.when.startTime * 1000)
-      this.form.from = format(fromUnixTime(this.event.when.startTime), 'KK:mm aaa')
-
-      this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
-      this.form.description = this.event.description
-      this.form.participants = this.event.participants
-
-      this.form.color = this.colors.find(item => item.value === this.event.colorName)
-    }
-  }  
+  }
 }
 </script>
 

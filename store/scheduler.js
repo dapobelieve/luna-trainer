@@ -23,7 +23,7 @@ export const actions = {
     return res
   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
-    if(payload.data.conferencing) {
+    if (payload.data.conferencing) {
       delete payload.data.conferencing.type
       return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment?conferencing=automatic`, { ...payload.data })
     }

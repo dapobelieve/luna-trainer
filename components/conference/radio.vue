@@ -2,7 +2,14 @@
   <label :class="[isChecked ? 'bg-blue-50' : '' ]" class="border block w-full rounded-lg px-2 py-2 cursor-pointer">
     <div class="radio-container">
       <span class="text-base text-gray-700">{{ label }}</span>
-      <input :disabled="disabled" :checked="isChecked" :value="value" type="radio" name="radio" @change="updateInput">
+      <input
+        :disabled="disabled"
+        :checked="isChecked"
+        :value="value"
+        type="radio"
+        name="radio"
+        @change="updateInput"
+      >
       <span class="radio-checkmark"></span>
     </div>
   </label>

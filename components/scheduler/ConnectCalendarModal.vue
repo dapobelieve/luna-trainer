@@ -12,13 +12,15 @@
         <div class="flex justify-between mb-2 font-medium text-2xl mb-16">
           <h3>Sync with calendar</h3>
           <div>
-            <i @click="$emit('close')" class="fi-rr-cross cursor-pointer text-primary-color text-xl"></i>
+            <i class="fi-rr-cross cursor-pointer text-primary-color text-xl" @click="$emit('close')"></i>
           </div>
         </div>
         <div>
           <div class="flex mb-6">
             <div>
-              <h6 class="text-lg font-medium">GetWelp</h6>
+              <h6 class="text-lg font-medium">
+                GetWelp
+              </h6>
               <span class="text-gray-500 text-sm">trainersemail@gmail.com</span>
             </div>
             <div class="ml-auto">
@@ -26,24 +28,25 @@
             </div>
           </div>
           <SchedulerSyncCalendarItem @connect="connectToCalendar" provider="google">
-            <template v-slot:content="{provider}">
+            <template v-slot:content>
               <div>
-                <h6 class="text-lg font-medium flex">Sync with <img alt="google logo" class="ml-2 mt-0.5" src="~/assets/img/google.svg"> </h6>
+                <h6 class="text-lg font-medium flex">
+                  Sync with <img alt="google logo" class="ml-2 mt-0.5" src="~/assets/img/google.svg">
+                </h6>
                 <span class="text-gray-500 text-sm">Brief description about this feature</span>
               </div>
             </template>
           </SchedulerSyncCalendarItem>
-        </div>        
+        </div>
       </div>
     </div>
   </modal>
 </template>
 
 <script>
-import SingleLoader from '~/components/util/SingleLoader'
-import SchedulerSyncCalendarItem from "~/components/scheduler/SchedulerSyncCalendarItem";
+import SchedulerSyncCalendarItem from '~/components/scheduler/SchedulerSyncCalendarItem'
 export default {
-  components: {SchedulerSyncCalendarItem, SingleLoader },
+  components: { SchedulerSyncCalendarItem },
   props: {
     loading: {
       type: Boolean,
@@ -51,7 +54,7 @@ export default {
     }
   },
   methods: {
-    connectToCalendar(provider) {
+    connectToCalendar (provider) {
       window.location = new URL(`${process.env.SCHEDULER_HOST}/calendar/connect/${provider}/?userId=${this.$auth.user.userId}&timezone=Africa/Lagos`)
     }
   }

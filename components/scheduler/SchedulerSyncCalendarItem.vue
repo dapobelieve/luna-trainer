@@ -3,7 +3,7 @@
     <slot :provider="provider" name="content" />
     <div class="ml-auto w-20 flex justify-center">
       <SingleLoader v-if="loading" />
-      <button @click="connect" v-else class="text-primary-color px-4 py-2 border rounded-lg">
+      <button v-else class="text-primary-color px-4 py-2 border rounded-lg" @click="connect">
         Connect
       </button>
     </div>
@@ -18,19 +18,19 @@ export default {
       required: true
     }
   },
-  data() {
+  data () {
     return {
       loading: false
     }
   },
   methods: {
-    connect() {
+    connect () {
       this.loading = true
       setTimeout(() => {
         this.$emit('connect', this.provider)
         this.loading = false
       }, 2000)
-    }    
+    }
   }
 }
 </script>
