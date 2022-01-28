@@ -26,6 +26,7 @@
           </p>
           <div class="w-max mx-auto">
             <button
+              v-if="inviteStatus"
               class="base-button flex items-center"
               type="button"
               @click.prevent="addNote"
@@ -33,6 +34,9 @@
               <i class="fi-rr-plus h-4 w-4 mr-2"></i>
               Create Note
             </button>
+            <p v-else>
+              This client has not accepted your invite.
+            </p>
           </div>
         </div>
         <div v-else>
@@ -82,8 +86,13 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notes: 'notes/notes'
-    })
+      notes: 'notes/notes',
+      allClients: 'client/getAllClients'
+    }),
+    inviteStatus () {
+      const client = this.allClients.find(c => c._id === this.id)
+      return client.status === 'accepted'
+    }
   },
   mounted () {
     this.fetchnotes({ clientId: this.id })
@@ -96,6 +105,10 @@ export default {
       toggleModal: 'notes/toggleModal'
     }),
     addNote () {
+      if (!this.inviteStatus) {
+        this.$gwtoast.error('Client invite still pending')
+        return
+      }
       this.toggleModal({ status: true, addingMode: true, note: {} })
     },
     viewNote (note) {

@@ -87,10 +87,23 @@
         :resizable="true"
         :adaptive="true"
         :shift-x="1"
-        :width="fullWidth ? '100%' : '25%'"
+        width="25%"
         :click-to-close="false"
       >
-        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" @expand="fullWidth = $event" @closeModal="closeNoteModal" />
+        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      </modal>
+    </div>
+
+    <!-- expanding notes modal -->
+    <div id="no-border">
+      <modal
+        name="expand-add-note"
+        height="100%"
+        width="100%"
+        :adaptive="true"
+        :click-to-close="false"
+      >
+        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
       </modal>
     </div>
 
@@ -112,8 +125,7 @@ export default {
     return {
       page: this.$route.name,
       showNotification: false,
-      showSidebarMenu: false,
-      fullWidth: false
+      showSidebarMenu: false
     }
   },
   computed: {
@@ -121,7 +133,8 @@ export default {
       connectedChannels: state => state.sendBird.connectedChannels,
       isImageOpen: state => state.sendBird.openImage,
       imageDetails: state => state.sendBird.imageDetails,
-      addNoteModal: state => state.notes.addNoteModal
+      addNoteModal: state => state.notes.addNoteModal,
+      expandModal: state => state.notes.expandModal
     }),
     ...mapGetters({
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
@@ -149,6 +162,13 @@ export default {
         this.$modal.show('add-note')
       } else if (!newValue) {
         this.$modal.hide('add-note')
+      }
+    },
+    expandModal (newValue) {
+      if (newValue) {
+        this.$modal.show('expand-add-note')
+      } else if (!newValue) {
+        this.$modal.hide('expand-add-note')
       }
     }
   },
@@ -183,9 +203,6 @@ export default {
     })
   },
   methods: {
-    closeNoteModal () {
-      this.$store.commit('notes/toggleModal', { status: false, addingMode: true, note: {} })
-    },
     closeImage () {
       this.$store.commit('sendBird/VIEW_IMAGE', { imageDetails: null, status: false })
     },

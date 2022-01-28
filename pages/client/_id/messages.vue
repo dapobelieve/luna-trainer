@@ -13,7 +13,7 @@
             Preview
           </p>
           <button type="button" @click="removeImage">
-            <i class="ns-cross text-xl text-blue-500"></i>
+            <i class="fi-rr-cross text-xl text-blue-500"></i>
           </button>
         </div>
         <div class="flex justify-center">
@@ -38,7 +38,7 @@
               class="absolute right-1 top-1"
               @click="removeImage"
             >
-              <i class="ns-cross text-md text-white"></i>
+              <i class="fi-rr-cross text-md text-white"></i>
             </button>
           </div>
           <button
@@ -46,7 +46,7 @@
             style="height: 40px"
             @click="sendFile"
           >
-            <i class="ns-paper-plane text-xl"></i>
+            <i class="fi-rr-paper-plane text-xl"></i>
           </button>
         </div>
       </div>
@@ -118,7 +118,7 @@
                       srcset
                     />
                     <span class="">{{
-                      new Date(msg.createdAt) | date
+                      new Date(msg.createdAt).toLocaleTimeString()
                     }}</span>
                   </small>
                   <span
@@ -177,7 +177,7 @@
                     {{ msg.message }}
                   </div>
                   <small class="ml-2 text-xs">{{
-                    new Date(msg.createdAt) | date
+                    new Date(msg.createdAt).toLocaleTimeString()
                   }}</small>
                 </li>
               </div>
@@ -236,7 +236,7 @@
                 />
               </div>
               <button type="button" @click="replyToThread = null">
-                <i class="ns-cross text-lg text-blue-500"></i>
+                <i class="fi-rr-cross text-lg text-blue-500"></i>
               </button>
             </div>
             <div
@@ -280,16 +280,16 @@
                   type="button"
                   @click="showUpload = !showUpload"
                 >
-                  <i class="ns-upload"></i>
+                  <i class="fi-rr-upload"></i>
                 </button>
               </div>
               <button
-                class="button-fill button-sm w-8 ml-2"
+                class="button-fill flex items-center button-sm w-8 ml-2"
                 type="submit"
                 :class="{ 'opacity-50 cursor-default': message === '' }"
                 :disabled="message === ''"
               >
-                <i class="ns-paper-plane"></i>
+                <i class="fi-rr-paper-plane"></i>
               </button>
             </div>
           </form>
