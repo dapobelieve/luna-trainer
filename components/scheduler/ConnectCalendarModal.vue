@@ -21,7 +21,7 @@
               <h6 class="text-lg font-medium">
                 GetWelp
               </h6>
-              <span class="text-gray-500 text-sm">trainersemail@gmail.com</span>
+              <span class="text-gray-500 text-sm">{{ $auth.user.email }}</span>
             </div>
             <div class="ml-auto">
               <span class="bg-blue-50 px-2 py-1 rounded-full text-sm text-cyan-400">Default</span>
