@@ -24,7 +24,8 @@ export const actions = {
   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
     if(payload.data.conferencing) {
-      return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/auto-conferencing/appointment`, { ...payload.data })
+      delete payload.data.conferencing.type
+      return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment?conferencing=automatic`, { ...payload.data })
     }
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
   },

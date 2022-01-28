@@ -217,8 +217,8 @@ export default {
           allDay: false
         })
       }
-      // this.openDrawer = false
-      // this.activePage = ''
+      this.openDrawer = false
+      this.activePage = ''
     },
     updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()

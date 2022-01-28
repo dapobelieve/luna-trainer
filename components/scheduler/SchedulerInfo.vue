@@ -28,7 +28,53 @@
       </div>
     </div>
     <div class="absolute w-full px-1" style="bottom: 10px">
-      <div @click="$modal.show('scheduler-connect-calendar')" class="bg-blue-50 px-3 py-3 cursor-pointer items-center flex" style="border-radius: 12px">
+      <ClickOutside :do="() => openCalendarSelector = false">
+        <div class="relative">
+          <transition
+            enter-active-class="transition-all ease-in-out duration-[500ms]"
+            leave-active-class="transition-all ease-in-out duration-[500ms]"
+            enter-class="opacity-0 transform translate-y-10"
+            enter-to-class="opacity-100 transform translate-y-0"
+            leave-class="opacity-100 transform translate-y-0"          
+            leave-to-class="opacity-0 transform translate-y-20"
+          >
+            <div v-if="openCalendarSelector" class="dropup w-full z-10 absolute bg-white bottom-[60px] border py-2 rounded-[8px]">
+              <div class="bg-white w-full">
+                <SchedulerSelectCalendarItem>
+                  <span class="calendar flex items-center cursor-pointer">
+                    <span class="select-none"> All </span>
+                  </span>
+                </SchedulerSelectCalendarItem>
+                <SchedulerSelectCalendarItem>
+                  <span class="calendar flex items-center cursor-pointer">
+                    <img src="~/assets/img/getwelp.svg" class="mr-3">
+                    <span class="select-none"> GetWelp calendar</span>
+                  </span>
+                </SchedulerSelectCalendarItem>
+                <SchedulerSelectCalendarItem>
+                  <span class="calendar text-gray-700 flex items-center cursor-pointer">
+                    <img src="~/assets/img/google-cal.svg" class="mr-3">
+                    <span class="select-none">Google Calendar</span>
+                  </span>
+                </SchedulerSelectCalendarItem>
+                <SchedulerSelectCalendarItem>
+                  <span class="calendar flex items-center cursor-pointer select-none">
+                    <img src="~/assets/img/apple-13.svg" class="mr-3">
+                    <span class="select-none">Apple Calendar</span>
+                  </span>
+                </SchedulerSelectCalendarItem>
+              </div>
+            </div>
+          </transition>
+          <div @click="openCalendarSelector = !openCalendarSelector" class="flex relative z-20 bg-white items-center px-3 py-3 cursor-pointer select-none border rounded-[12px]">
+            <h5 class="font-medium text-blue-500 select-none">My Calendars</h5>
+            <span class="ml-auto text-primary-color mt-1">
+              <i :class="[openCalendarSelector ? 'fi-rr-caret-up' : 'fi-rr-caret-down']"></i>
+            </span>
+          </div>
+        </div>
+      </ClickOutside>
+      <div v-if="false" @click="$modal.show('scheduler-connect-calendar')" class="bg-blue-50 px-3 py-3 rounded-[12px] cursor-pointer items-center flex">
         <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center mr-5">
           <i class="fi-rr-calendar text-2xl text-primary-color mt-2"></i>
         </div>
@@ -47,8 +93,12 @@ import MiniCalendar from '~/components/scheduler/MiniCalendar'
 import EventItem from '~/components/scheduler/EventItem'
 import SingleLoader from '~/components/util/SingleLoader'
 import ConnectCalendarModal from "~/components/scheduler/ConnectCalendarModal";
+import ClickOutside from "~/components/util/ClickOutside";
+import SchedulerSelectCalendarItem from "~/components/scheduler/SchedulerSelectCalendarItem";
 export default {
   components: {
+    SchedulerSelectCalendarItem,
+    ClickOutside,
     ConnectCalendarModal,
     SingleLoader,
     EventItem,
@@ -57,6 +107,7 @@ export default {
   props: ['events', 'activeCalendar'],
   data () {
     return {
+      openCalendarSelector: false,
       loading: false,
       todayAndTomorrowsEvents: []
     }

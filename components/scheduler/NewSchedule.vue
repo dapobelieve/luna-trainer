@@ -382,7 +382,7 @@ export default {
   },
   methods: {
     attachConference(event) {
-      this.form.conferencing = {provider: event.provider}
+      this.form.conferencing = {...event}
     },
     updateDate (event) {
       this.form.date = event

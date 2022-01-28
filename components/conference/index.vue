@@ -42,9 +42,9 @@
 </template>
 
 <script>
-import Checkbox from '~/components/conference/checkbox'
+import RadioInput from '~/components/conference/radio'
 export default {
-  components: { Checkbox },
+  components: { Checkbox: RadioInput },
   data () {
     return {
       readonly: true,
@@ -63,6 +63,9 @@ export default {
     'conference.type': {
       deep: true,
       handler (newVal) {
+        if(newVal === 'onsite') {
+          this.selectOptions = false
+        }
         this.conference.type = newVal
       }
     }

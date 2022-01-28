@@ -1,9 +1,9 @@
 <template>
   <label :class="[isChecked ? 'bg-blue-50' : '' ]" class="border block w-full rounded-lg px-2 py-2 cursor-pointer">
-    <div class="checkbox">
+    <div class="radio-container">
       <span class="text-base text-gray-700">{{ label }}</span>
       <input :disabled="disabled" :checked="isChecked" :value="value" type="radio" name="radio" @change="updateInput">
-      <span class="checkmark"></span>
+      <span class="radio-checkmark"></span>
     </div>
   </label>
 </template>
@@ -47,8 +47,8 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.checkbox {
+<style lang="scss" scoped>
+.radio-container {
   display: block;
   position: relative;
   padding-left: 30px;
@@ -67,7 +67,7 @@ export default {
   }
 }
 
-.checkmark {
+.radio-checkmark {
   position: absolute;
   top: 1px;
   left: 0;
@@ -88,11 +88,11 @@ export default {
    }
 }
 
- .checkbox input:checked ~ .checkmark {
+ .radio-container input:checked ~ .radio-checkmark {
   background-color: #3B82F6;
   border: none;
 }
-.checkbox input:checked ~ .checkmark:after {
+.radio-container input:checked ~ .radio-checkmark:after {
   display: block;
 }
 </style>
