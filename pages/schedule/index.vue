@@ -58,7 +58,6 @@
         </button>
       </div>
     </div>
-
     <div class="">
       <div class="min-h-screen">
         <div class="grid md:grid-cols-4 2xl:grid-cols-5 schedule-section">

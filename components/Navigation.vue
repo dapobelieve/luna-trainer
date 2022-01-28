@@ -3,7 +3,6 @@
     class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
     <!-- Sidebar Search -->
-
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="w-full">
       <div class="relative">
