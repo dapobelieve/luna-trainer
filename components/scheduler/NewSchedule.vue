@@ -189,7 +189,7 @@
                     </p>
                     <span class="text-sm text-gray-400">{{ client.email }}</span>
                   </div>
-                  <span v-if="hasSchedule" @click="removeClient(client)" class="ml-auto cursor-pointer">
+                  <span v-if="hasSchedule" class="ml-auto cursor-pointer" @click="removeClient(client)">
                     <i class="fi-rr-cross text-primary-color"></i>
                   </span>
                 </div>
@@ -197,7 +197,7 @@
             </div>
           </div>
         </div>
-        <Conference class="mb-4" />
+        <Conference class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
             <template v-slot:selectedOption="{selected}">
@@ -394,6 +394,9 @@ export default {
     }
   },
   methods: {
+    attachConference (event) {
+      this.form.conferencing = { ...event }
+    },
     updateDate (event) {
       this.form.date = event
       this.$forceUpdate()
@@ -435,6 +438,10 @@ export default {
           data: { ...payloadData }
         })
 
+        if (res.recurrence?.length) {
+          location.reload()
+        }
+
         this.$emit('updated', { ...res, updated: true })
         this.$gwtoast.success('Session updated')
       } catch (e) {
@@ -446,8 +453,8 @@ export default {
         }
       }
     },
-    removeClient(client) {
-     this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
+    removeClient (client) {
+      this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
     },
     async createEvent () {
       this.$v.$touch()
@@ -493,22 +500,22 @@ export default {
             payloadData.recurrence = [this.form.repeat.value]
           }
 
+          if (this.form.conferencing) {
+            payloadData.conferencing = this.form.conferencing
+          }
+
           const res = await this.$store.dispatch('scheduler/createAppointment', {
             calendar: this.activeCalendar.id,
             data: { ...payloadData }
           })
-          
-          // refactor this 🤡
-          if(payloadData.recurrence) {
-            this.$emit('recurring')
-          }else {
+
+          if (payloadData.recurrence) {
+            location.reload()
+          } else {
             this.$emit('created', res)
           }
-          
+
           this.$gwtoast.success('New  Appointment created')
-          if(res.length === 0) {
-            location.reload()
-          }
         } catch (e) {
           console.log({ e })
         } finally {

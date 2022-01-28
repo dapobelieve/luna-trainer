@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen">
+  <div>
     <div class="bg-white flex items-center justify-between md:px-4 px-1 py-1 sticky top-0 shadow-sm h-14 border-b z-10">
       <h3 class="text-lg hidden md:block sm:text-2xl">
         My Schedule
@@ -52,35 +52,46 @@
         <button
           id="schduler-step-1"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
-          @click="openDrawer = true; activePage = 'new-schedule'"
+          @click="openDrawer = true; activePage = 'new-session'"
         >
           <i class="fi-rr-plus text-white text-xl mt-1"></i>
         </button>
       </div>
     </div>
-    <div class="grid md:grid-cols-4 schedule-section">
-      <div class="col-span-3 bg-blue-50">
-        <FullCalendar ref="fullCalendar" class="main-calendar" :options="calendarOptions" />
-      </div>
-      <div class="pt-1 bg-white max-h-screen top-0 relative">
-        <div class="grid gap-3 h-full w-full max-h-screen">
-          <keep-alive>
-            <transition
-              enter-active-class="transition-all ease-linear duration-[500ms] motion-reduce:transition-none motion-reduce:transform-none"
-              leave-active-class="transition-all ease-linear duration-[500ms] motion-reduce:transition-none motion-reduce:transform-none"
-              enter-class="transform translate-x-full"
-              leave-class="-translate-x-0"
-              enter-to-class="-translate-x-0"
-              leave-to-class="translate-x-full"
-            >
-              <SchedulerDrawer v-if="openDrawer" v-model="activePage" @remove-event="removeEvent($event)" @recurring="loadEvents" @process-event="loadEvents" @close="openDrawer = false" />
-              <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
-            </transition>
-          </keep-alive>
+
+    <div class="">
+      <div class="min-h-screen">
+        <div class="grid md:grid-cols-4 2xl:grid-cols-5 schedule-section">
+          <div class="col-span-3 2xl:col-span-4 bg-blue-50">
+            <FullCalendar ref="fullCalendar" class="main-calendar" :options="calendarOptions" />
+          </div>
+          <div class="pt-1 bg-white max-h-screen top-0 relative">
+            <div class="grid gap-3 h-full w-full max-h-screen">
+              <keep-alive>
+                <transition
+                  enter-active-class="transition-all ease-in-out duration-[500ms]"
+                  leave-active-class="transition-all ease-in-out duration-[500ms]"
+                  enter-class="transform translate-x-full"
+                  leave-class="-translate-x-0"
+                  enter-to-class="-translate-x-0"
+                  leave-to-class="translate-x-full"
+                >
+                  <SchedulerDrawer
+                    v-if="openDrawer"
+                    v-model="activePage"
+                    @remove-event="removeEvent($event)"
+                    @process-event="processNewEvent"
+                    @close="openDrawer = false"
+                  />
+                  <SchedulerInfo v-else :active-calendar="activeCalendar" :events="allEvents" />
+                </transition>
+              </keep-alive>
+            </div>
+          </div>
         </div>
+        <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
       </div>
     </div>
-    <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
   </div>
 </template>
 
@@ -150,7 +161,6 @@ export default {
     })
   },
   async mounted () {
-    // this.$modal.show('scheduler-modal')
     // setup calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
@@ -175,6 +185,7 @@ export default {
   },
   methods: {
     async loadEvents () {
+      this.calendarApi.refetchEvents()
       await this.$store.dispatch('scheduler/getAllAppointments', {
         startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
         endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)

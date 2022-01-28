@@ -19,7 +19,7 @@
         <EventItem :event="event" />
       </div>
       <div v-if="event.participants">
-        <div v-for="client in event.participants">
+        <div v-for="(clientIndex, client) in event.participants" :key="clientIndex">
           <div class="flex items-center content-center py-1 mb-2.5">
             <ClientAvatar
               :width="3"
@@ -69,7 +69,7 @@ export default {
       this.loading = true
       try {
         const id = this.event.id.includes('_') ? this.event.id.split('_')[0] : this.event.id
-        await this.$store.dispatch('scheduler/deleteAppointment', { id: id })
+        await this.$store.dispatch('scheduler/deleteAppointment', { id })
         this.$emit('remove-event', this.event.id)
         this.closeModal()
         this.$gwtoast.success('Session Deleted')

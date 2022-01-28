@@ -53,8 +53,8 @@ export default {
     handleSelect (info) {
       const clickedDay = info.jsEvent
       const prevClicked = clickedDay.path[6].querySelectorAll('.lighter-day')
-      if(prevClicked) {
-        prevClicked.forEach(item => {
+      if (prevClicked) {
+        prevClicked.forEach((item) => {
           item.classList.remove('lighter-day')
         })
       }
@@ -114,7 +114,7 @@ export default {
           td {
             border-style: hidden;
           }
-        }        
+        }
         .fc-day-today {
           background: none;
           & > div {
@@ -129,7 +129,7 @@ export default {
               color: white;
             }
           }
-        } 
+        }
         .lighter-day {
           background: none;
           & > div {
