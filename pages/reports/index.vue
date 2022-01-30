@@ -5,9 +5,13 @@
         <span class="font-normal">Reporting</span>
       </template>
     </PageHeader>
-    <div class="bg-white py-2 flex items-center">
-      <div class="p-3">Financial</div>
-      <div class="p-3">Client</div>
+    <div class="bg-white flex items-center">
+      <div class="p-3">
+        Financial
+      </div>
+      <div class="p-3">
+        Client
+      </div>
     </div>
 
     <div class="w-full p-4 bg-red-100 flex justify-center">
@@ -26,7 +30,7 @@
           </div>
         </div>
       </div>
-    </div>    
+    </div>
   </div>
 </template>
 
