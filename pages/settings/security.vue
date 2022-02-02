@@ -20,7 +20,7 @@
             </p>
           </div>
           <div>
-            <button class="text-primary-color font-medium text-sm" @click="$modal.show('change-password-modal')">
+            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="text-primary-color font-medium text-sm" @click="$modal.show('change-password-modal')">
               Change Password
             </button>
           </div>
@@ -40,7 +40,7 @@
             </p>
           </div>
           <div>
-            <button class="text-primary-color font-medium text-sm" @click="$modal.show('change-email-modal')">
+            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="text-primary-color font-medium text-sm" @click="$modal.show('change-email-modal')">
               Change Email
             </button>
           </div>
@@ -73,12 +73,18 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent'
 import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
 export default {
   components: { ChangeEmailComponent, ChangePasswordComponent },
   computed: {
+    ...mapGetters({
+      getUser: 'profile/getUser'
+    }),
+    isAuthLocal () {
+      return this.getUser.authProvider === 'local'
+    },
     secondaryEmail () {
       return this.$auth.user.secondaryEmail
     }
