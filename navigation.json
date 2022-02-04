@@ -29,7 +29,7 @@
     },
       {
       "section": "Clients",
-      "classes":"mt-4"
+      "classes": "mt-4"
     },
     {
       "icon": "fi-rr-user",
@@ -51,10 +51,12 @@
       "path": "invoices-sent"
     },
     {
-      "icon": "fi-rr-plus",
-      "title": "new invoice",
-      "id": "introjs-step-4",
-      "path": "invoice"
+      "section": "Files"
+    },
+    {
+      "icon": "fi-rr-file",
+      "title": "my files",
+      "path": "myFiles"
     },
     {
       "icon": "fi-rr-calendar",
@@ -76,7 +78,7 @@
       "title": "new course",
       "path": "newCourse"
     },
-    
+
     {
       "section": "Help"
     },
