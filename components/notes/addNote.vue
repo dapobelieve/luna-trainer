@@ -32,10 +32,12 @@
           v-model="title"
           class="focus:outline-none w-full font-normal text-gray-500 placeholder:font-normal text-xl"
           placeholder="Enter title (Optional)"
+          @keyup.enter="nextInput"
         />
       </div>
       <div class="pr-4" style="height: calc(100vh - 160px)">
         <textarea
+          ref="text-area"
           v-model="body"
           class="w-full h-full focus:outline-none pr-4 placeholder-gray-400"
           placeholder="Enter note"
@@ -169,6 +171,9 @@ export default {
       this.deleteSingleNote(this.noteId).then(() => {
         this.closeModal()
       })
+    },
+    nextInput () {
+      this.$refs['text-area'].focus()
     }
   }
 }
