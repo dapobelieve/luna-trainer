@@ -42,22 +42,22 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchNotesWithStatusAndLimit ({ commit }, payload) {
+  async fetchNotesWithStatusAndLimit ({ commit, dispatch }, payload) {
     const currPage =
       payload !== undefined && 'page' in payload ? payload.page : 1
     const limit =
       payload !== undefined && 'limit' in payload ? payload.limit : 5
     const clientId = payload.clientId
-    commit('isLoading', true)
+    dispatch('loader/startProcess', null, { root: true })
     try {
       const { data } = await this.$axios.$get(
         `${process.env.BASEURL_HOST}/note?page=${currPage}&limit=${limit}&clientId=${clientId}`
       )
       commit('setNotes', data)
-      commit('isLoading', false)
     } catch (error) {
-      commit('isLoading', false)
+      return error
     }
+    dispatch('loader/endProcess', null, { root: true })
   },
   async addNotes ({ state, commit }, details) {
     try {

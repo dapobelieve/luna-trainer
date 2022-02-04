@@ -51,6 +51,14 @@ export default {
   },
   methods: {
     handleSelect (info) {
+      const clickedDay = info.jsEvent
+      const prevClicked = clickedDay.path[6].querySelectorAll('.lighter-day')
+      if (prevClicked) {
+        prevClicked.forEach((item) => {
+          item.classList.remove('lighter-day')
+        })
+      }
+      clickedDay.target.closest('.fc-daygrid-day').classList.add('lighter-day')
       this.$emit('date-clicked', info)
     },
     updateDate () {
@@ -92,6 +100,8 @@ export default {
       border: none;
       table {
         font-size: 14px;
+        border: none;
+        border-collapse: collapse !important;
         .fc-col-header-cell {
           color: #000;
           border-style: hidden;
@@ -105,8 +115,6 @@ export default {
             border-style: hidden;
           }
         }
-        border: none;
-        border-collapse: collapse !important;
         .fc-day-today {
           background: none;
           & > div {
@@ -122,6 +130,21 @@ export default {
             }
           }
         }
+        .lighter-day {
+          background: none;
+          & > div {
+            a {
+              border-radius: 50%;
+              height: 30px !important;
+              width: 30px !important;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              background: rgba(127, 163, 222, 0.5);
+              color: white;
+            }
+          }
+        }
         tbody {
           border: none !important;
         }
@@ -129,4 +152,5 @@ export default {
     }
   }
 }
+
 </style>

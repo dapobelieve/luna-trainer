@@ -42,7 +42,7 @@
             </div>
             <div class="pb-2 px-4 bg-white">
               <div class="relative flex items-center h-8">
-                <i class="ns-search absolute left-2 text-gray-400"></i>
+                <i class="fi-rr-search absolute left-2 text-gray-400"></i>
                 <input
                   v-model="search"
                   type="text"

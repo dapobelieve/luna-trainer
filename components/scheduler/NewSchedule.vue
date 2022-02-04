@@ -13,7 +13,7 @@
     </div>
     <div class="schedule-body flex-grow">
       <div class="mb-3">
-        <textarea v-model="form.title" placeholder="Enter Title" class="w-full border-red-500 h-16 font-normal text-xl resize-none px-1 focus:outline-none"></textarea>
+        <textarea v-model="form.title" placeholder="Enter Title" class="w-full border-red-500 h-8 font-normal text-xl resize-none px-1 focus:outline-none"></textarea>
         <small v-if="$v.form.title.$error" class="text-red-600">Enter a title </small>
       </div>
       <div class="mb-8">
@@ -72,7 +72,7 @@
         <!--            <span class="text-gray-500 mr-2">All Day?</span>-->
         <!--            <Toggle2 v-model="form.allDay" />-->
         <!--          </div>-->
-        <div class="flex items-center mb-3">
+        <div v-if="!hasSchedule" class="flex items-center mb-3">
           <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
           <span class="ml-3 text-gray-500 w-full">
             <GwCustomerSelector v-model="form.repeat" placeholder="Repeat" class="w-full repeat-selector" :clients="repeat">
@@ -189,7 +189,7 @@
                     </p>
                     <span class="text-sm text-gray-400">{{ client.email }}</span>
                   </div>
-                  <span v-if="hasSchedule" @click="removeClient(client)" class="ml-auto cursor-pointer">
+                  <span v-if="hasSchedule" class="ml-auto cursor-pointer" @click="removeClient(client)">
                     <i class="fi-rr-cross text-primary-color"></i>
                   </span>
                 </div>
@@ -197,7 +197,7 @@
             </div>
           </div>
         </div>
-        <Conference class="mb-4" />
+        <Conference class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
             <template v-slot:selectedOption="{selected}">
@@ -394,6 +394,9 @@ export default {
     }
   },
   methods: {
+    attachConference (event) {
+      this.form.conferencing = { ...event }
+    },
     updateDate (event) {
       this.form.date = event
       this.$forceUpdate()
@@ -420,7 +423,7 @@ export default {
       const payloadData = {
         id: this.event.id,
         title: this.form.title,
-        color: this.form.color.value,
+        color: this.form.color?.value || 'blue',
         when: this.form.when,
         description: this.form.description,
         participants: this.form.participants
@@ -435,6 +438,10 @@ export default {
           data: { ...payloadData }
         })
 
+        if (res.recurrence?.length) {
+          location.reload()
+        }
+
         this.$emit('updated', { ...res, updated: true })
         this.$gwtoast.success('Session updated')
       } catch (e) {
@@ -446,8 +453,8 @@ export default {
         }
       }
     },
-    removeClient(client) {
-     this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
+    removeClient (client) {
+      this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
     },
     async createEvent () {
       this.$v.$touch()
@@ -493,22 +500,22 @@ export default {
             payloadData.recurrence = [this.form.repeat.value]
           }
 
+          if (this.form.conferencing) {
+            payloadData.conferencing = this.form.conferencing
+          }
+
           const res = await this.$store.dispatch('scheduler/createAppointment', {
             calendar: this.activeCalendar.id,
             data: { ...payloadData }
           })
-          
-          // refactor this 🤡
-          if(payloadData.recurrence) {
-            this.$emit('recurring')
-          }else {
+
+          if (payloadData.recurrence) {
+            location.reload()
+          } else {
             this.$emit('created', res)
           }
-          
+
           this.$gwtoast.success('New  Appointment created')
-          if(res.length === 0) {
-            location.reload()
-          }
         } catch (e) {
           console.log({ e })
         } finally {
