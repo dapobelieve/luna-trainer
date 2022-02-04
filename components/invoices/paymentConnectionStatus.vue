@@ -3,7 +3,7 @@
     <div class="px-4 py-5">
       <div class="flex justify-between items-center mb-6">
         <p class="text-xl font-bold text-gray-700">
-          Payment Gateway
+          Payment Method
         </p>
         <i
           role="button"
@@ -88,15 +88,14 @@
       </div>
     </div>
 
-    <!-- connection modal -->
-      <modal
-        name="payment-options"
-        height="auto"
-        :adaptive="true"
-        width="500px"
-      >
-        <invoices-payment-connection :select-display="3" @closeModal="closePaymentModal" />
-      </modal>
+    <modal
+      name="payment-options"
+      height="auto"
+      :adaptive="true"
+      width="500px"
+    >
+      <invoices-payment-connection :select-display="3" @closeModal="closePaymentModal" />
+    </modal>
   </async-view>
 </template>
 

@@ -198,10 +198,8 @@ export default {
       this.isStripeLoading = true
       try {
         if (this.isStripeConnected) {
-        // disconnect stripe
           await this.disconnectStripe()
         } else {
-          // connect stripe
           const connect = await this.stripeConnect()
           window.location.href = connect
         }
@@ -214,10 +212,8 @@ export default {
       this.isLoading = true
       try {
         if (!this.isBankConnected) {
-          // saving bank details
           await this.createBankAccount(this.bankForm)
         } else {
-          // updating details
           await this.updateBankAccount(this.bankForm)
         }
         this.closeModal()
@@ -225,16 +221,10 @@ export default {
       } catch (error) {
         this.$gwtoast.error(`Something went wrong: ${error.response.data.message}`)
       }
-      // this.currentDisplay += 1
       this.isLoading = false
     },
     closeModal () {
       this.$emit('closeModal')
-      // eslint-disable-next-line no-unneeded-ternary
-      // const showStatus = this.currentDisplay === 4 ? true : false
-      // this.$emit('closeModal', {
-      //   showConnectionStatus: showStatus
-      // })
     }
   }
 }
