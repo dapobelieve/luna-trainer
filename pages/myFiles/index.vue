@@ -8,7 +8,7 @@
       :key="index"
       class="overflow-hidden border border-gray-200 flex flex-col rounded-md cursor-pointer"
       style="width: 234px; height: 234px"
-      @click="$router.push({ name: `files-${items.url}` })"
+      @click="$router.push({ name: `myFiles-${items.url}` })"
     >
       <div class="flex-1">
         <div class="grid place-content-center h-full">

@@ -1,12 +1,5 @@
 <template>
   <div>
-    <PageHeader>
-      <template v-slot:title>
-        <span
-          class="hidden lg:block capitalize ml-5 font-medium text-lg"
-        >My files <span>{{ $route.fullPath }}</span></span>
-      </template>
-    </PageHeader>
     <!-- view -->
     <div class="w-full p-4 pb-24 bg-gray-50 flex justify-center minimum-height ">
       <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
@@ -18,7 +11,7 @@
 
 <script>
 export default {
-  name: 'Files'
+  name: 'LocalStorage'
 }
 </script>
 

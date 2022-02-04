@@ -4,7 +4,7 @@
       <p>
         Send to
       </p>
-      <i class="fi-rr-cross text-blue-500" @click="$emit('close')"></i>
+      <i class="fi-rr-cross text-blue-500" role="button" @click="$emit('close')"></i>
     </div>
     <button
       v-for="client, index in acceptedClients"

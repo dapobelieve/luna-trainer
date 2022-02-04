@@ -75,7 +75,7 @@
       >
         <div class="flex-none w-12 mr-4">
           <span
-            class="bg-green-50 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink"
+            class="bg-gray-100 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink"
           >
             <i class="fi-rr-folder text-sm text-gray-700"></i>
           </span>

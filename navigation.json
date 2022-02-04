@@ -50,7 +50,7 @@
     {
       "icon": "fi-rr-file",
       "title": "my files",
-      "path": "files"
+      "path": "myFiles"
     },
     {
       "icon": "fi-rr-calendar",
