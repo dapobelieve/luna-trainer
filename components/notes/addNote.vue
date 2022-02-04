@@ -37,7 +37,7 @@
       </div>
       <div class="pr-4" style="height: calc(100vh - 160px)">
         <textarea
-          id="text-area"
+          ref="text-area"
           v-model="body"
           class="w-full h-full focus:outline-none pr-4 placeholder-gray-400"
           placeholder="Enter note"
@@ -173,7 +173,7 @@ export default {
       })
     },
     nextInput () {
-      document.getElementById('text-area').focus()
+      this.$refs['text-area'].focus()
     }
   }
 }
