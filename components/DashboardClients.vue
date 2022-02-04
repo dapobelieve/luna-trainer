@@ -1,7 +1,7 @@
 <template>
   <containers-summary-card-with-notifications
     :display-view-all-button="true"
-    url="Clients"
+    url="clients"
   >
     <template v-slot:icon>
       <i

@@ -28,7 +28,7 @@
       </div>
     </div>
     <div class="absolute w-full px-1" style="bottom: 10px">
-      <ClickOutside v-if="false" :do="() => openCalendarSelector = false">
+      <ClickOutside v-if="show" :do="() => openCalendarSelector = false">
         <div class="relative">
           <transition
             enter-active-class="transition-all ease-in-out duration-[500ms]"
@@ -76,7 +76,7 @@
           </div>
         </div>
       </ClickOutside>
-      <div class="bg-blue-50 px-3 py-3 rounded-[12px] cursor-pointer items-center flex" @click="$modal.show('scheduler-connect-calendar')">
+      <div v-else class="bg-blue-50 px-3 py-3 rounded-[12px] cursor-pointer items-center flex" @click="$modal.show('scheduler-connect-calendar')">
         <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center mr-5">
           <i class="fi-rr-calendar text-2xl text-primary-color mt-2"></i>
         </div>
@@ -111,6 +111,7 @@ export default {
   props: ['events', 'activeCalendar'],
   data () {
     return {
+      show: false,
       openCalendarSelector: false,
       loading: false,
       todayAndTomorrowsEvents: []

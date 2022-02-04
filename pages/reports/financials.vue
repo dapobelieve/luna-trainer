@@ -1,0 +1,194 @@
+<template>
+  <div class="max-w-xl 2xl:max-w-7xl md:max-w-4xl lg:max-w-full w-full">
+    <div class="mb-6 flex items-center justify-between">
+      <div class="pt-0.5 text-sm px-2 border rounded-md inline-flex cursor-pointer text-primary-color">
+        All <i class="ml-1 mt-1 fi-rr-caret-down"></i>
+      </div>
+      <div class="text-sm">
+        <button class="text-primary-color">Year</button>
+        <button class="ml-2">Month</button>
+        <button class="ml-2">Week</button>
+        <button class="ml-2">More <i class="fi-rr-caret-down"></i></button>
+      </div>
+    </div>
+    <div class="grid gap-4">
+      <div class="grid gap-4 lg:grid-cols-2 rounded-md ">
+        <ReportCard class="px-5">
+          <div class="text-gray-700">
+            <div class="mb-16">
+              <p class="text-lg font-light leading-7">Total Value of Sales</p>
+              <p class="font-bold text-md">£ 245,000.00</p>
+            </div>
+            <div class="flex justify-between lg:px-2 mb-5">
+              <template v-for="(mon, monIndex) in months" >
+                <BarComponent v-if="mon === 'Dec'" color="#3B82F6" :key="monIndex"  :label="mon" />
+                <BarComponent v-else :color="(monIndex+1) % 2 === 0 ? '#3EE145' : '#FFD66B'" :key="monIndex"  :label="mon" />
+              </template>
+            </div>
+            <div class="flex justify-between">
+              <CircularKey color="#3EE145">
+                <div>
+                  <h4 class="text-sm text-gray-500">Overdue</h4>
+                  <span class="text-sm font-bold">£1,500</span>
+                </div>
+              </CircularKey>
+              <CircularKey color="#FFD66B">
+                <div>
+                  <h4 class="text-sm text-gray-500">Unpaid</h4>
+                  <span class="text-sm font-bold">£1,500.00</span>
+                </div>
+              </CircularKey>
+              <CircularKey color="#3B82F6">
+                <div>
+                  <h4 class="text-sm text-gray-500">Paid</h4>
+                  <span class="text-sm font-bold">£2,500.00</span>
+                </div>
+              </CircularKey>
+            </div>
+          </div>
+        </ReportCard>
+        <ReportCard>
+          <div class="text-gray-700">
+            <div class="mb-16">
+              <p class="text-lg font-light leading-7">Number of Sales</p>
+              <p class="font-bold text-md">1200</p>
+            </div>
+            <div class="flex justify-between lg:px-2 mb-5">
+              <template v-for="(mon, monIndex) in months" >
+                <BarComponent v-if="mon === 'Dec'" color="#3B82F6" :key="monIndex"  :label="mon" />
+                <BarComponent v-else :color="(monIndex+1) % 2 === 0 ? '#3EE145' : '#FFD66B'" :key="monIndex"  :label="mon" />
+              </template>
+            </div>
+            <div class="flex justify-between">
+              <CircularKey color="#3EE145">
+                <div>
+                  <h4 class="text-sm text-gray-500">Overdue</h4>
+                  <span class="text-sm font-bold">30</span>
+                </div>
+              </CircularKey>
+              <CircularKey color="#FFD66B">
+                <div>
+                  <h4 class="text-sm text-gray-500">Unpaid</h4>
+                  <span class="text-sm font-bold">32</span>
+                </div>
+              </CircularKey>
+              <CircularKey color="#3B82F6">
+                <div>
+                  <h4 class="text-sm text-gray-500">Paid</h4>
+                  <span class="text-sm font-bold">56</span>
+                </div>
+              </CircularKey>
+            </div>
+          </div>
+        </ReportCard>
+      </div>
+      <ReportCard class="px-0">
+        <div class="px-3">
+          <h4 class="font-bold text-xl">Performance</h4>
+        </div>
+        <div class="py-12">
+          <canvas id="performance-chart"></canvas>
+        </div>
+        <div class="px-3 flex">
+          <div class="mr-6">
+            <h4 class="text-sm text-gray-500">Overdue</h4>
+            <span class="text-2xl font-bold">£30,000</span>
+          </div>
+          <div>
+            <h4 class="text-sm text-gray-500">Invoices</h4>
+            <span class="text-2xl font-bold">+ 20</span>
+          </div>
+        </div>
+      </ReportCard>
+    </div>
+  </div>
+</template>
+
+<script>
+import ReportCard from "~/components/report/Card"
+import BarComponent from "~/components/report/BarComponent";
+import CircularKey from "~/components/report/CircularKey";
+import { Chart, registerables } from "chart.js"
+Chart.register(...registerables)
+export default {
+  data() {
+    return {
+      months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    }
+  },
+  components: {
+    CircularKey,
+    BarComponent,
+    ReportCard
+  },
+  mounted() {
+    const clientsData = {
+      type: "line",
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            data: [ 40, 140, 110, 230, 592, 385,82, 214, 90, 140, 410, 230 ],
+            backgroundColor: ["rgba(37, 99, 235, 0.11)", "rgba(255, 255, 255, 0)"],
+            borderColor: "#3B82F6",
+            borderWidth: 4
+          }
+        ]
+      },
+      options: {
+        aspectRatio: 5,
+        events: ['mousemove', 'mouseout', 'click'],
+        interaction: {
+          intersect: false,
+          axis: 'y',
+          mode: 'index'
+        },
+        elements: {
+          line: {
+            tension: 0.5
+          },
+          point: {
+            radius: 0
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        responsive: true,
+        scales: {
+          xAxis: {
+            display: false,
+            grid: {
+              display: false
+            },
+            ticks: {
+              beginAtZero: true,
+              padding: 10
+            }
+          },
+          yAxis:{
+            display: false,
+            tickColor: 'red',
+            grid: {
+              display: false
+            },
+            ticks: {
+              beginAtZero: true,
+              padding: 10
+            }
+          }
+        }
+      }
+    }
+
+    const clientsCtx = document.getElementById('performance-chart').getContext('2d');
+    this.clientChart = new Chart(clientsCtx, clientsData);
+  }
+}
+</script>
+
+<style scoped>
+
+</style>
