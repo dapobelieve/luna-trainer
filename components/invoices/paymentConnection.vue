@@ -165,7 +165,7 @@ export default {
         accountHolderName: this.isBankConnected ? this.bankDetails : '',
         accountHolderType: this.isBankConnected ? this.bankDetails.accountHolderType : 'individual',
         accountNo: this.isBankConnected ? this.bankDetails.accountNo : '',
-        accountRoutingNo: this.isBankConnected ? this.bankDetails.accountRoutingNo : '108800',
+        accountRoutingNo: this.isBankConnected ? this.bankDetails.accountRoutingNo : '',
         accountBankName: this.isBankConnected ? this.bankDetails.accountBankName : ''
       }
     }
@@ -189,7 +189,8 @@ export default {
     ...mapActions({
       createBankAccount: 'payment/createBankAccount',
       updateBankAccount: 'payment/updateBankAccount',
-      disconnectStripe: 'invoice/disconnectStripe'
+      disconnectStripe: 'invoice/disconnectStripe',
+      stripeConnect: 'invoice/stripeConnect'
     }),
     nextStep () {
       this.currentDisplay += 1
