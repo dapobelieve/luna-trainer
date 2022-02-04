@@ -24,7 +24,8 @@
     {
       "icon": "fi-rr-chart-histogram",
       "title": "reporting",
-      "path": "reports"
+      "path": "reports-financials",
+      "group": "report"
     },
       {
       "section": "Clients",

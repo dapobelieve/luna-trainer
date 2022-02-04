@@ -181,6 +181,10 @@ export default {
         this.openDrawer = false
       }
     })
+
+    this.$once('hook:destroyed', () => {
+      document.removeEventListener('keydown', ()=> {})
+    })
   },
   methods: {
     async loadEvents () {
