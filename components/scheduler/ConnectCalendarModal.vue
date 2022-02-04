@@ -27,7 +27,7 @@
               <span class="bg-blue-50 px-2 py-1 rounded-full text-sm text-cyan-400">Default</span>
             </div>
           </div>
-          <SchedulerSyncCalendarItem @connect="connectToCalendar" provider="google">
+          <SchedulerSyncCalendarItem provider="google" @connect="connectToCalendar">
             <template v-slot:content>
               <div>
                 <h6 class="text-lg font-medium flex">
@@ -42,7 +42,7 @@
     </div>
   </modal>
 </template>
-
+ 
 <script>
 import SchedulerSyncCalendarItem from '~/components/scheduler/SchedulerSyncCalendarItem'
 export default {
@@ -57,6 +57,9 @@ export default {
     connectToCalendar (provider) {
       window.location = new URL(`${process.env.SCHEDULER_HOST}/calendar/connect/${provider}/?userId=${this.$auth.user.userId}&timezone=Africa/Lagos`)
     }
+  },
+  mounted () {
+    console.log(process.env.SCHEDULER_HOST)
   }
 }
 </script>

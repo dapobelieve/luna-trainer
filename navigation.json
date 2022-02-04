@@ -21,6 +21,12 @@
       "title": "settings",
       "path": "settings-profile"
     },
+    {
+      "icon": "fi-rr-chart-histogram",
+      "title": "reporting",
+      "path": "reports-financials",
+      "group": "report"
+    },
       {
       "section": "Clients",
       "classes":"mt-4"
