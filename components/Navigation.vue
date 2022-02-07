@@ -75,7 +75,7 @@
                 <div class="p-4 flex justify-between items-center">
                   <span class="uppercase tracking-wider font-medium text-xs">SCHEDULE</span>
                 </div>
-                <nuxt-link to="/schedule" class="flex items-center relative navItems">
+                <nuxt-link :class="[$route.path.includes('schedule') ? 'active': '']" to="/schedule" class="flex items-center relative navItems">
                   <div class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4">
                     <i class="fi-rr-calendar" />
                     <span class="truncate">My Schedule</span>

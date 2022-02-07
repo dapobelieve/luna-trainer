@@ -121,6 +121,7 @@ export default {
     return {
       openDrawer: false,
       activeEvent: {}, // event that was clicked
+      // activePage: 'new-session',
       activePage: '',
       currentView: 'Month',
       newSchedule: false,
@@ -245,8 +246,8 @@ export default {
           allDay: false
         })
       }
-      this.openDrawer = false
-      this.activePage = ''
+      // this.openDrawer = false
+      // this.activePage = ''
     },
     updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
