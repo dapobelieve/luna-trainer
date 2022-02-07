@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="bg-white flex items-center justify-between md:px-4 px-1 py-1 sticky top-0 shadow-sm h-14 border-b z-10">
+    <div class="bg-white flex items-center justify-between md:px-4 px-1 py-1 sticky top-0 shadow-sm h-14 z-10">
       <h3 class="text-lg hidden md:block sm:text-2xl">
         My Schedule
       </h3>
@@ -246,8 +246,8 @@ export default {
           allDay: false
         })
       }
-      // this.openDrawer = false
-      // this.activePage = ''
+      this.openDrawer = false
+      this.activePage = ''
     },
     updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()

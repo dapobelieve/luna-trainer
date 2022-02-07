@@ -75,6 +75,7 @@ export default {
           this.selectOptions = false
         }
         this.conference.type = newVal
+        this.conference.provider = null
       }
     }
   },

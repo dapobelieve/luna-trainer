@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col h-full px-3 mt-2">
     <div class="flex items-center justify-between mb-3">
       <span v-if="hasSchedule" class="cursor-pointer" @click="$emit('back')">
         <i class="fi-rr-arrow-left text-xl font-bold text-primary-color"></i>
