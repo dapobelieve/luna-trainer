@@ -1,14 +1,14 @@
 <template>
   <div class="flex flex-col h-full">
-    <div class="flex items-center justify-end mb-4">
+    <div class="flex items-center justify-end border-b pr-4 h-[3.6rem]">
       <span class="cursor-pointer" @click="$emit('close')">
         <i class="fi-rr-cross text-primary-color"></i>
       </span>
     </div>
-    <div v-if="Object.keys(event).length < 1" class="flex-grow flex justify-center items-center">
+    <div v-if="Object.keys(event).length < 1" class="px-3 flex-grow flex justify-center items-center">
       <SingleLoader height="40px" width="40px" />
     </div>
-    <div class="flex-grow">
+    <div class="flex-grow px-3">
       <h4 class="text-2xl mb-2 text-gray-700 mb-3">
         {{ event.title }}
       </h4>
@@ -19,12 +19,12 @@
         <EventItem :event="event" />
       </div>
       <div v-if="event.participants">
-        <div v-for="(clientIndex, client) in event.participants" :key="clientIndex">
+        <div v-for="(client, clientIndex) in event.participants" :key="clientIndex">
           <div class="flex items-center content-center py-1 mb-2.5">
             <ClientAvatar
               :width="3"
               :height="3"
-              :client-info="{firstName: client.name, ...client}"
+              :clientInfo="{ firstName: client.name, ...client }"
             />
             <div class="ml-2">
               <p class="capitalize font-medium text-md  text-gray-700">
@@ -84,6 +84,11 @@ export default {
       this.$modal.hide('scheduler-cancel-session')
       this.$emit('close')
     }
+  },
+  async beforeMount() {
+    let res = await this.$store.dispatch('scheduler/getSingleAppointment', {id: this.event.id})
+    console.log(res)
+    // console.log(this.event)
   }
 }
 </script>

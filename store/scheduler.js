@@ -25,9 +25,14 @@ export const actions = {
   async createAppointment ({ commit, dispatch }, payload, calendar) {
     if (payload.data.conferencing) {
       delete payload.data.conferencing.type
+      console.log(payload)
+      console.log({...payload.data})
       return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment?conferencing=automatic`, { ...payload.data })
     }
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
+  },
+  async getSingleAppointment({state}, payload) {
+    return await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${payload.id}`)
   },
   async updateAppointment ({ commit, dispatch }, payload, calendar) {
     payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id

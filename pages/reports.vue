@@ -5,7 +5,7 @@
         <span class="font-normal">Reporting</span>
       </template>
     </PageHeader>
-    <div class="bg-white sticky top-[12px] flex items-center border border-t-0 border-l-0 border-r-0 pl-5">
+    <div class="bg-white sticky top-[56px] z-10 flex items-center border border-t-0 border-l-0 border-r-0 pl-5">
       <nuxt-link :to="{name: 'reports-financials'}" :class="[currentRoute.includes('financials') ? 'active' : '']" @click="tab = 'financial'" class="py-3 cursor-pointer font-medium relative flex mr-7">
         Financial
       </nuxt-link>
@@ -13,7 +13,6 @@
         Client
       </nuxt-link>
     </div>
-    
     <div class="w-full p-4 flex justify-center">
       <NuxtChild />
     </div>

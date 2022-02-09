@@ -26,16 +26,16 @@
           <div class="py-2">
             <div class="flex items-center py-3 px-4 cursor-pointer">
               <img alt="" src="~/assets/img/google-meet.svg" class="mr-5">
-              <h4>Google Meet</h4>
+              <h4 class="select-none">Google Meet</h4>
               <button v-if="conference.provider !== 'Google Meet'" class="ml-auto px-3 py-2 text-primary-color border rounded-lg text-sm" @click="selectMeetType('Google Meet')">
                 Select
               </button>
             </div>
             <div class="flex items-center py-3 px-4 cursor-pointer">
               <img alt="" style="width: 21px" src="~/assets/img/zoom.svg" class="mr-5">
-              <h4>Zoom</h4>
-              <button v-if="conference.provider !== 'Zoom Meeting'" class="ml-auto px-3 py-2 text-primary-color border rounded-lg text-sm" @click="selectMeetType('Zoom Meeting')">
-                Select
+              <h4 class="select-none">Zoom</h4>
+              <button disabled v-if="conference.provider !== 'Zoom Meeting'" class="cursor-default ml-auto px-3 py-2 text-gray-500 border text-sm" @click="selectMeetType('Zoom Meeting')">
+                No Available
               </button>
             </div>
             <div class="flex items-center py-3 px-4 cursor-pointer" @click="customConference">
@@ -75,6 +75,7 @@ export default {
           this.selectOptions = false
         }
         this.conference.type = newVal
+        this.conference.provider = null
       }
     }
   },
