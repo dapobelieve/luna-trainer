@@ -83,19 +83,19 @@
             </button>
           </div>
         </div>
-        <div v-if="connectedDevices" class="flex items-center mt-4">
-          <i class="fi-rr-mobile text-gray-500"></i>
-          <div class="ml-4">
-            <p class="text-lg font-medium text-gray-700 mb-1">
-              Samsung A31.678867
-            </p>
-            <p class="text-sm font-normal text-gray-500">
-              Last Active today at 09:31
-            </p>
-          </div>
-        </div>
       </div>
     </div>
+    <button v-if="connectedDevices" class="flex items-center justify-start w-full mt-4 px-4 py-1 hover:bg-gray-50 focus:outline-none" @click="showDeleteModal = true">
+      <i class="fi-rr-mobile text-gray-500"></i>
+      <div class="ml-4">
+        <p class="text-lg font-medium text-gray-700 mb-1">
+          Samsung A31.678867
+        </p>
+        <p class="text-sm font-normal text-gray-500">
+          Last Active today at 09:31
+        </p>
+      </div>
+    </button>
     <ChangeEmailComponent
       @display-cancel-change="cancelEmailChange = true"
     />
@@ -106,10 +106,22 @@
       height="535px"
       width="512px"
       :adaptive="true"
-      :click-to-close="false"
     >
       <settings-link-device @close="$modal.hide('link-device')" />
     </modal>
+
+    <delete-modal v-model="showDeleteModal" title="Disconnect Device">
+      <template v-slot:subTitle>
+        <p class="text-base font-normal text-gray-700">
+          Are you syre you want to disconnect device <span class="font-medium">Samsung A31.678867</span>.
+        </p>
+      </template>
+      <template v-slot:confirm>
+        <button class="button-fill" @click.prevent="disconnectDevice">
+          Yes, Disconnect
+        </button>
+      </template>
+    </delete-modal>
   </div>
 </template>
 
@@ -117,11 +129,13 @@
 import { mapActions, mapGetters } from 'vuex'
 import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent'
 import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
+import DeleteModal from '~/components/util/modals/deleteModal.vue'
 export default {
-  components: { ChangeEmailComponent, ChangePasswordComponent },
+  components: { ChangeEmailComponent, ChangePasswordComponent, DeleteModal },
   data () {
     return {
-      connectedDevices: true
+      connectedDevices: false,
+      showDeleteModal: false
     }
   },
   computed: {
@@ -151,6 +165,11 @@ export default {
     },
     deviceConnection () {
       this.$modal.show('link-device')
+      this.connectedDevices = !this.connectedDevices
+    },
+    disconnectDevice () {
+      this.connectedDevices = false
+      this.showDeleteModal = false
     }
   }
 }
