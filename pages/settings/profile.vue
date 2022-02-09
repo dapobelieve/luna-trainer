@@ -129,7 +129,7 @@
           <label
             for="currency"
             class="required"
-          >Select your local currency</label>
+          >Select your currency</label>
           <select
             id="currency"
             v-model="profile.currency"

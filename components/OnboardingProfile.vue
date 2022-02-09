@@ -67,7 +67,7 @@
         </select>
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="currency" class="required" :class="{'text-red-400' : $v.currency.$error}">Select your local currency</label>
+        <label for="currency" class="required" :class="{'text-red-400' : $v.currency.$error}">Select your currency</label>
         <select
           id="currency"
           v-model="currency"

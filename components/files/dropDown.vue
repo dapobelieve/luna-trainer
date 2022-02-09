@@ -11,39 +11,7 @@
           class="origin-top-right top-[1] absolute right-0 w-32 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
         >
           <div class="flex flex-col" role="none">
-            <button type="button" class="dropdown-button" @click="sending">
-              <i class="fi-rr-share mr-2"></i>
-              Send to
-            </button>
-            <button
-              type="button"
-              class="dropdown-button"
-              @click="moving"
-            >
-              <i class="fi-rr-redo-alt mr-2"></i>
-              Move to
-            </button>
-            <button
-              type="button"
-              class="dropdown-button"
-            >
-              <i class="fi-rr-pencil mr-2"></i>
-              Rename
-            </button>
-            <button
-              type="button"
-              class="dropdown-button"
-            >
-              <i class="fi-rr-download mr-2"></i>
-              Download
-            </button>
-            <button
-              type="button"
-              class="dropdown-button"
-            >
-              <i class="fi-rr-trash mr-2"></i>
-              Delete
-            </button>
+            <slot />
           </div>
         </div>
       </div>
@@ -60,18 +28,7 @@ export default {
     return {
       showOptions: false
     }
-  },
-  methods: {
-    sending () {
-      this.$emit('sending')
-      this.showOptions = false
-    },
-    moving () {
-      this.$emit('moving')
-      this.showOptions = false
-    }
   }
-
 }
 </script>
 
