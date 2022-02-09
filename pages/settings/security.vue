@@ -20,7 +20,7 @@
             </p>
           </div>
           <div>
-            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="text-primary-color font-medium text-sm" @click="$modal.show('change-password-modal')">
+            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="button-outline" @click="$modal.show('change-password-modal')">
               Change Password
             </button>
           </div>
@@ -40,13 +40,13 @@
             </p>
           </div>
           <div>
-            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="text-primary-color font-medium text-sm" @click="$modal.show('change-email-modal')">
+            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="button-outline" @click="$modal.show('change-email-modal')">
               Change Email
             </button>
           </div>
         </div>
       </div>
-      <div v-show="secondaryEmail">
+      <div v-show="secondaryEmail" class="mb-6">
         <div class="flex justify-between items-center">
           <div>
             <h6 class="text-grey-700 font-medium text-lg mb-1">
@@ -58,9 +58,40 @@
             </p>
           </div>
           <div>
-            <button class="text-primary-color font-medium text-sm" @click="cancelChange">
+            <button class="button-outline" @click="cancelChange">
               Cancel
             </button>
+          </div>
+        </div>
+      </div>
+      <div class="mb-6">
+        <p class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
+          connection access
+        </p>
+        <div class="flex justify-between items-center">
+          <div>
+            <h6 class="text-grey-700 font-medium text-lg mb-1">
+              {{ connectedDevices ? 'Linked devices' : 'Connect to a device' }}
+              <p class="text-gray-500 text-sm">
+                {{ connectedDevices ? 'Tap a device to disconnect' : 'Connect to a device or login to your mobile app using QR code' }}
+              </p>
+            </h6>
+          </div>
+          <div>
+            <button class="button-outline" @click="deviceConnection">
+              {{ connectedDevices ? 'Link A Device' : 'Connect Device' }}
+            </button>
+          </div>
+        </div>
+        <div v-if="connectedDevices" class="flex items-center mt-4">
+          <i class="fi-rr-mobile text-gray-500"></i>
+          <div class="ml-4">
+            <p class="text-lg font-medium text-gray-700 mb-1">
+              Samsung A31.678867
+            </p>
+            <p class="text-sm font-normal text-gray-500">
+              Last Active today at 09:31
+            </p>
           </div>
         </div>
       </div>
@@ -69,6 +100,16 @@
       @display-cancel-change="cancelEmailChange = true"
     />
     <ChangePasswordComponent />
+
+    <modal
+      name="link-device"
+      height="535px"
+      width="512px"
+      :adaptive="true"
+      :click-to-close="false"
+    >
+      <settings-link-device @close="$modal.hide('link-device')" />
+    </modal>
   </div>
 </template>
 
@@ -78,6 +119,11 @@ import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent
 import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
 export default {
   components: { ChangeEmailComponent, ChangePasswordComponent },
+  data () {
+    return {
+      connectedDevices: true
+    }
+  },
   computed: {
     ...mapGetters({
       getUser: 'profile/getUser'
@@ -93,7 +139,7 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile'
     }),
-    async  cancelChange () {
+    async cancelChange () {
       this.isLoading = true
       try {
         await this.$store.dispatch('authorize/cancelChangeEmail', { ...this.form })
@@ -102,6 +148,9 @@ export default {
       } catch (e) {
         this.$gwtoast.error(e.response.data.message)
       }
+    },
+    deviceConnection () {
+      this.$modal.show('link-device')
     }
   }
 }
