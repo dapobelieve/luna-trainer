@@ -157,10 +157,8 @@ export default {
         this.setProfile(profile)
         localStorage.setItem('profile', JSON.stringify(profile))
         if (!profile.services.length) {
-          console.log('hit here')
           this.$router.push({ name: 'auth-onboarding' })
         } else {
-          console.log('hit there')
           this.$router.push({ name: 'dashboard' })
         }
       } catch (err) {
