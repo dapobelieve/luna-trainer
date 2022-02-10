@@ -11,18 +11,17 @@
           <label
             for="email"
             class="required"
-            :class="{'text-red-500' : $v.userInfo.email.$error}"
+            :class="{ 'text-red-500': $v.userInfo.email.$error }"
           >Email</label>
 
           <input
-            v-model="
-              $v.userInfo.email.$model"
+            v-model="$v.userInfo.email.$model"
             :disabled="isLoading"
             tabindex="1"
             autocomplete="off"
             type="email"
             class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-            :class="{'border-red-500' : $v.userInfo.email.$error}"
+            :class="{ 'border-red-500': $v.userInfo.email.$error }"
           />
           <div v-if="$v.userInfo.email.$error" class="absolute -bottom-5">
             <small
@@ -35,28 +34,30 @@
           <label
             for="password"
             class="required"
-            :class="{'text-red-500' : $v.userInfo.password.$error}"
+            :class="{ 'text-red-500': $v.userInfo.password.$error }"
           >Password</label>
 
-          <div
-            class="
-            flex
-            justify-between
-            items-center
-            relative"
-          >
+          <div class="flex justify-between items-center relative">
             <input
               v-model.trim="$v.userInfo.password.$model"
               tabindex="2"
               :disabled="isLoading"
-              :type="showPassword ? 'text':'password'"
+              :type="showPassword ? 'text' : 'password'"
               class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500 pr-8"
-              :class="{'shadow-md border-red-500' : $v.userInfo.password.$error}"
+              :class="{
+                'shadow-md border-red-500': $v.userInfo.password.$error,
+              }"
             />
-            <password-toggle v-model="showPassword" class="absolute right-0 p-3" />
+            <password-toggle
+              v-model="showPassword"
+              class="absolute right-0 p-3"
+            />
           </div>
           <div v-if="$v.userInfo.password.$error" class="absolute -bottom-5">
-            <small v-if="!$v.userInfo.password.minLength" class="error text-red-500">
+            <small
+              v-if="!$v.userInfo.password.minLength"
+              class="error text-red-500"
+            >
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
@@ -82,7 +83,9 @@
         </div>
       </form>
     </div>
-    <div class="text-center mt-4 bg-white rounded-xl border h-auto md:h-20 flex items-center justify-center px-4 py-6">
+    <div
+      class="text-center mt-4 bg-white rounded-xl border h-auto md:h-20 flex items-center justify-center px-4 py-6"
+    >
       Don't have an account?
       <NuxtLink
         :to="{ name: 'auth-signup' }"
@@ -95,7 +98,7 @@
 </template>
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 export default {
   name: 'SignIn',
   layout: 'auth',
@@ -137,55 +140,75 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setTempState: 'profile/SET_STATE'
+      setTempState: 'profile/SET_STATE',
+      setProfile: 'profile/SET_PROFILE'
+    }),
+    ...mapActions({
+      setToken: 'authorize/setToken',
+      getUserProfile: 'profile/getUserProfile'
     }),
     authenticateWithTokens (tokens) {
-      // set necessary tokens
       this.$store.dispatch('authorize/setToken', tokens)
       this.authenticate()
     },
-    authenticate () {
-      // fetch user profile
-      this.$store.dispatch('profile/getUserProfile').then((response) => {
-        console.log(response)
-        if (response === null) {
-          location.href = 'auth/onboarding'
+    async authenticate () {
+      try {
+        const profile = await this.getUserProfile()
+        this.setProfile(profile)
+        localStorage.setItem('profile', JSON.stringify(profile))
+        if (!profile.services.length) {
+          console.log('hit here')
+          this.$router.push({ name: 'auth-onboarding' })
         } else {
-          this.$auth.setUser(response)
-          localStorage.setItem('user', JSON.stringify(response))
+          console.log('hit there')
           this.$router.push({ name: 'dashboard' })
         }
-      })
+      } catch (err) {
+        this.$gwtoast.error('Something went wrong', {
+          position: 'bottom-right'
+        })
+      }
     },
-    login () {
+    async login () {
       if (this.userInfo.email && this.userInfo.password) {
         this.isLoading = true
-        this.$auth.loginWith('local', {
-          data: {
-            email: this.userInfo.email.toLowerCase(),
-            password: this.userInfo.password,
-            domain: 'getwelp-trainer-ui'
-          }
-        })
-          .then((response) => {
-            this.$gwtoast.success('Login Successful')
-            this.$store.dispatch('authorize/setToken', {
-              token: response.data.data.accessToken,
-              refreshToken: response.data.data.refreshToken
-            })
-            if (response.data.data.forceResetPassword) {
-              this.$router.push({ name: 'auth-createnewpassword' })
-              this.$gwtoast.show('Please Create A New Password')
-            } else {
-              this.authenticate()
+        try {
+          const { data } = await this.$auth.loginWith('local', {
+            data: {
+              email: this.userInfo.email.toLowerCase(),
+              password: this.userInfo.password,
+              domain: 'getwelp-trainer-ui'
             }
           })
-          .catch(() => {
-            this.$gwtoast.error('Incorrect Login Credentials')
+          this.$gwtoast.success('Login Successful')
+          const forceResetPassword = data.data.forceResetPassword
+          this.setToken({
+            token: data.data.accessToken,
+            refreshToken: data.data.refreshToken
           })
-          .finally(() => {
-            this.isLoading = false
-          })
+          if (forceResetPassword) {
+            this.$router.push({ name: 'auth-createnewpassword' })
+            this.$gwtoast.show('Please Create A New Password')
+          } else {
+            this.authenticate()
+          }
+        } catch (err) {
+          if (err.response) {
+            this.$gwtoast.error(
+              `Something went wrong: ${err.response.data.message}`,
+              { position: 'bottom-right' }
+            )
+          } else if (err.request) {
+            this.$gwtoast.error('Something went wrong. Try again', {
+              position: 'bottom-right'
+            })
+          } else {
+            this.$gwtoast.error(`Something went wrong: ${err.message}`, {
+              position: 'bottom-right'
+            })
+          }
+        }
+        this.isLoading = false
       }
     },
     handleGoogleAuthCallback () {
@@ -197,5 +220,4 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-</style>
+<style lang="scss"></style>

@@ -37,6 +37,9 @@ export const state = () => ({
 })
 
 export const mutations = {
+  SET_PROFILE (state, user) {
+    state.user = user
+  },
   SET_STATE (state, data) {
     Object.keys(data).forEach(key => (state[key] = data[key]))
   },
