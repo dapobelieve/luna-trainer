@@ -1,7 +1,5 @@
 import webpack from 'webpack'
-// import PnpWebpackPlugin from "pnp-webpack-plugin"
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
   head: {
     title: 'Getwelp',
@@ -29,8 +27,6 @@ export default {
       }
     ]
   },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/css/theme.scss',
     '@/assets/css/new-fonts.css',
@@ -38,7 +34,6 @@ export default {
     'vue-multiselect/dist/vue-multiselect.min.css',
     'vue2-datepicker/index.css'
   ],
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     { src: '~plugins/services.js' },
     { src: '~plugins/v-calendar.js', ssr: false },
@@ -72,7 +67,7 @@ export default {
   },
 
   buildModules: [
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],
