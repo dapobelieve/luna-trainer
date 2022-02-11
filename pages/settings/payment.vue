@@ -57,7 +57,7 @@
                 <button
                   :class="{
                     'cursor-not-allowed text-gray-400':
-                      defaultPayment === 'stripe',
+                      defaultPayment === 'stripe' || stripeDetails.disabled
                   }"
                   :disabled="defaultPayment === 'stripe' || stripeDetails.disabled"
                   type="button"
@@ -162,7 +162,7 @@
                   class="dropdown-button"
                   :class="{
                     'cursor-not-allowed text-gray-400':
-                      defaultPayment === 'bank',
+                      defaultPayment === 'bank' || bankConnectionDetails.disabled
                   }"
                   @click="makeDefault('bank')"
                 >
@@ -223,7 +223,6 @@ export default {
     try {
       await this.checkConnectedPaymentMethods()
     } catch (error) {
-      console.log('check error ', error)
       this.$gwtoast.error('No connected payment method')
     }
   },
@@ -254,7 +253,7 @@ export default {
         if (this.defaultPayment === 'stripe') {
           localStorage.removeItem('dp')
           this.defaultPayment = ''
-          this.$gwtoast.info('Strip is no longer default!')
+          this.$gwtoast.show('Strip is no longer default!')
         }
       } catch (error) {
         this.$gwtoast.error('Stripe Disconnect failed!')
@@ -275,25 +274,29 @@ export default {
         if (e === 'stripe' && this.isStripeConnected && this.stripeDetails.disabled) {
           await this.enablePayment(e)
           this.$gwtoast.success('Stripe enabled')
+          return
         } else if (e === 'stripe' && this.isStripeConnected && !this.stripeDetails.disabled) {
           await this.disablePayment(e)
-          this.$gwtoast.success('Stripe disabled')
+          this.$gwtoast.error('Stripe disabled')
           if (this.defaultPayment === 'stripe') {
             localStorage.removeItem('dp')
             this.defaultPayment = ''
-            this.$gwtoast.info('Strip is no longer default!')
+            this.$gwtoast.show('Strip is no longer default!')
           }
+          return
         } else if (e === 'bank' && this.isBankConnected && this.bankConnectionDetails.disabled) {
           await this.enablePayment(e)
           this.$gwtoast.success('Bank enabled')
+          return
         } else if (e === 'bank' && this.isStripeConnected && !this.bankConnectionDetails.disabled) {
           await this.disablePayment(e)
-          this.$gwtoast.success('Bank disabled')
+          this.$gwtoast.error('Bank disabled')
           if (this.defaultPayment === 'bank') {
             localStorage.removeItem('dp')
             this.defaultPayment = ''
-            this.$gwtoast.info('Bank is no longer default!')
+            this.$gwtoast.show('Bank is no longer default!')
           }
+          return
         }
       } catch (error) {
         this.$gwtoast.error('Something went wrong: ', error)

@@ -217,8 +217,8 @@ export default {
   },
   computed: {
     ...mapState({
-      trainerRegInfo: state => state.profile.trainerRegData.personalProfile,
-      clientInfo: state => state.profile.trainerRegData.client,
+      trainerRegInfo: state => state.profile.user,
+      clientInfo: state => state.profile.user.client,
       editingService: state => state.profile.editingServiceCard
     }),
     isClientFormFilled () {
@@ -233,7 +233,7 @@ export default {
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
       this.$auth.loggedIn &&
-      Object.entries(this.$auth.user).length !== 0 &&
+      Object.entries(this.$auth.user.services).length !== 0 &&
       tokenValidity
     ) {
       this.$router.replace({ name: 'dashboard' }).then(() => {
@@ -265,7 +265,7 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions({
-      create: 'profile/createProfile',
+      updateOnboardingProfile: 'profile/updateOnboardingProfile',
       addClient: 'client/inviteClient'
     }),
     move (e) {
@@ -290,36 +290,51 @@ export default {
         this.step--
       }
     },
-    saveProfile () {
+    async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
+        console.log('authing')
         this.$router.replace({ name: 'auth-signin' })
         this.$gwtoast.error('Session Expired. Please login')
       } else {
         this.isLoading = true
-        return this.create().then((result) => {
+        try {
+          // if (this.isClientFormFilled) {
+          //   await this.addClient(this.clientInfo)
+          //   console.log('inside client adding', this.clientInfo)
+          // }
+          await this.updateOnboardingProfile()
           localStorage.setItem('profileCompleted', 'true')
-          if (result.status === 'success') {
-            // set currency in store
-            this.setTempState({ currency: this.trainerRegInfo.currency })
-            if (this.isClientFormFilled) {
-              return this.addClient(this.clientInfo).then((result) => {
-                if (result.response !== undefined) {
-                  this.isLoading = false
-                  this.$gwtoast.error(
-                    `Something went wrong: ${result.response.data.message}`)
-                } else {
-                  this.$modal.show('done')
-                }
-              })
-            } else {
-              this.$modal.show('done')
-            }
-          }
-        })
+          console.log('updateing')
+          console.log('outside here')
+          this.$modal.show('done')
+        } catch (error) {
+          this.$gwtoast.error(
+                    `Something went wrong: ${error}`)
+        }
+        // return this.updateOnboardingProfile().then((result) => {
+        //   localStorage.setItem('profileCompleted', 'true')
+        //   if (result.status === 'success') {
+        //     // set currency in store
+        //     this.setTempState({ currency: this.trainerRegInfo.currency })
+        //     if (this.isClientFormFilled) {
+        //       return this.addClient(this.clientInfo).then((result) => {
+        //         if (result.response !== undefined) {
+        //           this.isLoading = false
+        //           this.$gwtoast.error(
+        //             `Something went wrong: ${result.response.data.message}`)
+        //         } else {
+        //           this.$modal.show('done')
+        //         }
+        //       })
+        //     } else {
+        //       this.$modal.show('done')
+        //     }
+        //   }
+        // })
       }
     },
     finishedSetUp () {
-      this.cleartrainerRegData()
+      // this.cleartrainerRegData()
       this.$router.replace({ name: 'dashboard' }).then(() => {
         this.$gwtoast.success('Welcome')
       })

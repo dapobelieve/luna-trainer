@@ -155,7 +155,6 @@ export default {
       try {
         const profile = await this.getUserProfile()
         this.setProfile(profile)
-        localStorage.setItem('profile', JSON.stringify(profile))
         if (!profile.services.length) {
           this.$router.push({ name: 'auth-onboarding' })
         } else {

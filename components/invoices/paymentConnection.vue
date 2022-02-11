@@ -162,7 +162,7 @@ export default {
       isStripeLoading: false,
       currentDisplay: this.selectDisplay,
       bankForm: {
-        accountHolderName: this.isBankConnected ? this.bankDetails : '',
+        accountHolderName: this.isBankConnected ? this.bankDetails.accountHolderName : '',
         accountHolderType: this.isBankConnected ? this.bankDetails.accountHolderType : 'individual',
         accountNo: this.isBankConnected ? this.bankDetails.accountNo : '',
         accountRoutingNo: this.isBankConnected ? this.bankDetails.accountRoutingNo : '',

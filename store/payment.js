@@ -39,18 +39,19 @@ export const actions = {
         })
       }
     } catch (error) {
+      dispatch('loader/endProcess', null, { root: true })
       return error
     }
     dispatch('loader/endProcess', null, { root: true })
   },
-  async createBankAccount ({ commit }, accountDetails) {
+  async createBankAccount ({ commit, dispatch }, accountDetails) {
     // eslint-disable-next-line no-useless-catch
     try {
-      const { data } = await this.$axios.$post(
+      await this.$axios.$post(
         `${process.env.PAYMENT_HOST_URL}/bank/account`,
         accountDetails
       )
-      commit('SET_ACCOUNT_DETAILS', { key: 'bank', value: data })
+      await dispatch('checkConnectedPaymentMethods')
       return true
     } catch (error) {
       throw error

@@ -75,6 +75,9 @@
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           :class="{'border-red-400' : $v.currency.$error}"
         >
+          <option value="NGN">
+            NGN (₦)
+          </option>
           <option value="AUD">
             AUD ($)
           </option>
@@ -145,60 +148,60 @@ export default {
   },
   computed: {
     ...mapState({
-      personalProfile: state => state.profile.trainerRegData.personalProfile
+      personalProfile: state => state.profile.user
     }),
     firstName: {
       get () { return this.personalProfile.firstName },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'firstName', value: val })
+        this.setProfileData({ key: 'firstName', value: val })
       }
     },
     lastName: {
       get () { return this.personalProfile.lastName },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'lastName', value: val })
+        this.setProfileData({ key: 'lastName', value: val })
       }
     },
     businessName: {
       get () { return this.personalProfile.businessName },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'businessName', value: val })
+        this.setProfileData({ key: 'businessName', value: val })
       }
     },
     websiteUrl: {
       get () { return this.personalProfile.websiteUrl },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'websiteUrl', value: val })
+        this.setProfileData({ key: 'websiteUrl', value: val })
       }
     },
     location: {
       get () { return this.personalProfile.location },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'location', value: val })
+        this.setProfileData({ key: 'location', value: val })
       }
     },
     currency: {
       get () { return this.personalProfile.currency },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'currency', value: val })
+        this.setProfileData({ key: 'currency', value: val })
       }
     },
     phone: {
-      get () { return this.personalProfile.phone },
+      get () { return this.personalProfile.phoneNumber },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'phone', value: val })
+        this.setProfileData({ key: 'phoneNumber', value: val })
       }
     },
     timezone: {
       get () { return this.personalProfile.timezone },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'timezone', value: val })
+        this.setProfileData({ key: 'timezone', value: val })
       }
     },
     dateFormat: {
       get () { return this.personalProfile.dateFormat },
       set (val) {
-        this.setProfileData({ parent: 'personalProfile', key: 'dateFormat', value: val })
+        this.setProfileData({ key: 'dateFormat', value: val })
       }
     }
   },
