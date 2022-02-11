@@ -1,61 +1,104 @@
 <template>
-  <label class="block checkbox py-3 cursor-pointer px-3">
-    <span class="flex items-centers">
+  <label class="block w-full rounded-lg px-3 py-3 cursor-pointer">
+    <div class="radio-container">
       <slot></slot>
-      <span class="ml-auto relative w-5">
-        <input type="checkbox" class="absolute">
-        <span class="checkbox-checkmark absolute"></span>
-      </span>
-    </span>
+      <input
+        :disabled="disabled"
+        :checked="isChecked"
+        :value="value"
+        type="radio"
+        name="radio"
+        @change="updateInput"
+      >
+      <span class="radio-checkmark"></span>
+    </div>
   </label>
 </template>
 
 <script>
+let checkbox = 0
 export default {
-
+  model: {
+    prop: 'checkboxValue',
+    event: 'change'
+  },
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    label: {},
+    checkboxValue: {
+      default: ''
+    },
+    value: {
+      type: String,
+      required: true
+    }
+  },
+  data () {
+    return {
+      checkboxId: checkbox++
+    }
+  },
+  computed: {
+    isChecked () {
+      return this.checkboxValue === this.value
+    }
+  },
+  methods: {
+    updateInput () {
+      this.$emit('change', this.value)
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.checkbox {
+.radio-container {
+  display: block;
+  position: relative;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
   input {
+    position: absolute;
     opacity: 0;
     cursor: pointer;
     height: 0;
     width: 0;
-    &:checked ~ .checkbox-checkmark {
-      background-color: #3B82F6;
-      border: none;
-      &:after {
-        display: block;
-      }
-    }
-  }
-}
-.checkbox-checkmark {
-  top: 0;
-  left: 0;
-  height: 20px;
-  border-radius: 4px;
-  width: 20px;
-  border: 1px solid #64748B;
-  &::after {
-    content: "";
-    position: absolute;
-    display: none;
-  }
-  &::after {
-    left: 7px;
-    top: 1px;
-    width: 7px;
-    height: 14px;
-    border: solid #fff;
-    border-radius: 0px 1px 2px 1px;
-    border-width: 0 1px 1px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
   }
 }
 
+.radio-checkmark {
+  position: absolute;
+  top: 1px;
+  right: 0;
+  height: 20px;
+  width: 20px;
+  border: 1px solid #64748B;
+  border-radius: 50%;
+  &:after {
+    content: "";
+    position: absolute;
+    display: none;
+    top: 6px;
+    left: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: white;
+  }
+}
+
+.radio-container input:checked ~ .radio-checkmark {
+  background-color: #3B82F6;
+  border: none;
+}
+.radio-container input:checked ~ .radio-checkmark:after {
+  display: block;
+}
 </style>

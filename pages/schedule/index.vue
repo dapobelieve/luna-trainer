@@ -184,7 +184,7 @@ export default {
     })
 
     this.$once('hook:destroyed', () => {
-      document.removeEventListener('keydown', ()=> {})
+      document.removeEventListener('keydown', () => {})
     })
   },
   methods: {
@@ -304,7 +304,7 @@ export default {
       }
     }
     .fc-daygrid-event {
-      cursor: context-menu;
+      cursor: pointer;
       background-color: #FFFFFF;
       box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 6px;
       border-radius: 4px;

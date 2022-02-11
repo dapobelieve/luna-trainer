@@ -46,7 +46,9 @@ export default {
     }
   },
   methods: {
-    reschedule (event) {
+    async reschedule (event) {
+      const _event = await this.$store.dispatch('scheduler/getSingleAppointment', { id: event.id })
+      // console.log(_event)
       this.$emit('active-page', this.pages.NEW_SCHEDULE)
       this.event = event
     }
