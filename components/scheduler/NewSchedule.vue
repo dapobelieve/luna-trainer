@@ -120,7 +120,14 @@
             <div class="flex items-center">
               <i class="fi-rr-user mt-1 text-md text-gray-500"></i>
               <div class="ml-3 text-gray-500 w-full">
-                <GwCustomerSelector v-model="form.participants" placeholder="Participants" multiple class="w-full clients-selector repeat-selector" :clients="allClients">
+                <GwCustomerSelector
+                  v-model="form.participants"
+                  placeholder="Participants"
+                  multiple
+                  class="w-full clients-selector repeat-selector"
+                  :clients="allClients"
+                  @change="showPart($event)"
+                >
                   <template>
                     <div class="flex items-center">
                       <span>Participants</span>
@@ -189,7 +196,7 @@
                     </p>
                     <span class="text-sm text-gray-400">{{ client.email }}</span>
                   </div>
-                  <span v-if="hasSchedule" class="ml-auto cursor-pointer" @click="removeClient(client)">
+                  <span v-if="hasSchedule || form.participants.length" class="ml-auto cursor-pointer" @click="removeClient(client)">
                     <i class="fi-rr-cross text-primary-color"></i>
                   </span>
                 </div>
@@ -197,7 +204,7 @@
             </div>
           </div>
         </div>
-        <Conference class="mb-4" @conference="attachConference" />
+        <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
             <template v-slot:selectedOption="{selected}">
@@ -357,6 +364,16 @@ export default {
         return [...acc, ...curr.utc]
       }, [])))
     },
+    isLocalCalendar () {
+      return this.activeCalendar.provider === 'nylas'
+    },
+    showConference () {
+      if (this.hasSchedule || this.isLocalCalendar) {
+        return false
+      } else {
+        return true
+      }
+    },
     ...mapGetters({
       activeCalendar: 'scheduler/getCalendar',
       allClients: 'client/getAllClients'
@@ -380,6 +397,9 @@ export default {
       loading: false
     }
   },
+  mounted () {
+    console.log(this.activeCalendar)
+  },
   beforeMount () {
     if (this.event.id) {
       this.form.title = this.event.title
@@ -389,6 +409,7 @@ export default {
       this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
       this.form.description = this.event.description
       this.form.participants = this.event.participants
+      console.log(this.event.participants)
 
       this.form.color = this.colors.find(item => item.value === this.event.colorName)
     }
@@ -453,8 +474,14 @@ export default {
         }
       }
     },
+    async showPart (evt) {
+      console.log(`Here: ${evt}`)
+    },
     removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
+      // this.$forceUpdate()
+      // console.log(this.form.participants)
+      // console.log(this.allClients)
     },
     async createEvent () {
       this.$v.$touch()

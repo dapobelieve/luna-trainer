@@ -66,14 +66,10 @@ export const actions = {
         return response
       })
   },
-  sendInvoice ({ commit }, sendDetails) {
-    return this.$axios
-      .$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}`, {
-        recipients: [sendDetails.recipient]
-      })
-      .then((response) => {
-        return response
-      })
+  async sendInvoice ({ commit }, sendDetails) {
+    return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}}`, {
+      recipients: [sendDetails.recipient]
+    })
   },
   async resendInvoice ({ commit }, invoiceDetails) {
     return await this.$axios

@@ -8,7 +8,7 @@
 export default {
   props: ['color'],
   computed: {
-    borderColor() {
+    borderColor () {
       return `border-color: ${this.color} !important`
     }
   }

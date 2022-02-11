@@ -4,7 +4,7 @@
   </div>
 </template>
 <script>
-import ReportCard from "~/components/report/Card"
+import ReportCard from '~/components/report/Card'
 export default {
   components: {
     ReportCard

@@ -6,10 +6,10 @@
       </template>
     </PageHeader>
     <div class="bg-white sticky top-[56px] z-10 flex items-center border border-t-0 border-l-0 border-r-0 pl-5">
-      <nuxt-link :to="{name: 'reports-financials'}" :class="[currentRoute.includes('financials') ? 'active' : '']" @click="tab = 'financial'" class="py-3 cursor-pointer font-medium relative flex mr-7">
+      <nuxt-link :to="{name: 'reports-financials'}" :class="[currentRoute.includes('financials') ? 'active' : '']" class="py-3 cursor-pointer font-medium relative flex mr-7" @click="tab = 'financial'">
         Financial
       </nuxt-link>
-      <nuxt-link :to="{name: 'reports-client'}" :class="[currentRoute.includes('client') ? 'active' : '']" @click="tab = 'client'" class="py-3 cursor-pointer relative flsex font-medium text-gray-500">
+      <nuxt-link :to="{name: 'reports-client'}" :class="[currentRoute.includes('client') ? 'active' : '']" class="py-3 cursor-pointer relative flsex font-medium text-gray-500" @click="tab = 'client'">
         Client
       </nuxt-link>
     </div>
@@ -21,16 +21,16 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       tab: 'financial'
     }
   },
   computed: {
-    currentRoute() {
+    currentRoute () {
       return this.$route.path
     }
-  },
+  }
 }
 </script>
 

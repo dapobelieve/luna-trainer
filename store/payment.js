@@ -13,6 +13,10 @@ export const mutations = {
 }
 
 export const actions = {
+  async getPaymentMethods () {
+    const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/payment-method`)
+    return res.data.map(m => m._id)
+  },
   createBankAccount ({ commit }, accountDetails) {
     console.log('sent deatils', accountDetails)
     return this.$axios
