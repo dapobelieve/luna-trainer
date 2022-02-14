@@ -15,7 +15,6 @@
   @apply bg-blue-500;
 }
 
-
 .btn-size {
   width: 100%;
   height: 40px;
@@ -28,7 +27,7 @@
 
 .base-button {
   &:hover {
-    @apply bg-blue-600
+    @apply bg-blue-600;
   }
   &:focus {
     outline: none;
@@ -52,13 +51,13 @@
 }
 
 .sec-color {
-  color: #172942;;
+  color: #172942;
 }
 
 .profile-form-size {
   width: 748px;
 }
-.bg-gray{
+.bg-gray {
   background-color: #e5e5e5;
 }
 .add-icon-color {
@@ -71,38 +70,38 @@
 
 .multiselect__spinner:after,
 .multiselect__spinner:before {
-    @apply bg-blue-500 
+  @apply bg-blue-500;
 }
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-   @apply bg-blue-500 
+  @apply bg-blue-500;
 }
 
 .multiselect__tag,
 .multiselect__option--highlight,
-.multiselect__option--highlight:after{
-  @apply bg-blue-500 
+.multiselect__option--highlight:after {
+  @apply bg-blue-500;
 }
 
-.vue-tel-input{
-  margin:5px 0 0 3px;
-  border-radius: 0.375rem !important; 
-  border-left:0 !important;
-  input.vti__input{
+.vue-tel-input {
+  margin: 5px 0 0 3px;
+  border-radius: 0.375rem !important;
+  border-left: 0 !important;
+  input.vti__input {
     font-size: 0.875rem;
-    line-height: 2.6rem;;
+    line-height: 2.6rem;
   }
 }
-.fixed-content{
+.fixed-content {
   min-width: 334px;
   min-height: 280px;
 }
 
 /** v-select***/
-.v-select{
+.v-select {
   border-radius: 5px;
   border-width: 1px;
-  @apply border-blue-600
+  @apply border-blue-600;
 }
 .v-select .vs__search::placeholder,
 .v-select .vs__dropdown-toggle,
@@ -111,15 +110,15 @@
   @apply text-gray-500;
 }
 .v-select .vs__dropdown-menu {
-  padding-top:10px;
+  padding-top: 10px;
   border-radius: 0 0 10px 10px;
   //overflow: hidden;
   border: 1px solid rgb(189 185 185 / 26%);
 }
-.v-select .vs__dropdown-option .check{
+.v-select .vs__dropdown-option .check {
   display: none;
 }
-.v-select .vs__dropdown-option--selected .check{
+.v-select .vs__dropdown-option--selected .check {
   display: block;
 }
 .v-select .vs__selected-options {
@@ -127,43 +126,98 @@
 }
 .v-select .vs__dropdown-option:hover,
 .v-select .vs__dropdown-option--selected,
-.v-select .vs__dropdown-option--highlight{
-  background: #F0F9FF;
+.v-select .vs__dropdown-option--highlight {
+  background: #f0f9ff;
 }
-.v-select .vs__dropdown-option{
+.v-select .vs__dropdown-option {
   @apply text-gray-500;
 }
-.v-select .vs__selected{
-  background: #3b82f6;;
+.v-select .vs__selected {
+  background: #3b82f6;
   padding: 0 0.5rem;
-  border:0;
+  border: 0;
 }
-.v-select .vs__selected{
-  background: #3b82f6;;
+.v-select .vs__selected {
+  background: #3b82f6;
   padding: 0 0.5rem;
   min-width: 20px;
   min-height: 24px;
-  border:0;
+  border: 0;
 }
-.v-select.vs--multiple .vs__selected{
+.v-select.vs--multiple .vs__selected {
   color: white !important;
 }
-.v-select .vs__deselected{
+.v-select .vs__deselected {
   font-size: 0.9rem;
   color: white !important;
 }
 
 /**vue modal**/
-.vm--modal{
+.vm--modal {
   border-radius: 15px !important;
 }
 #no-border {
-  .vm--modal{
+  .vm--modal {
     border-radius: 0 !important;
   }
 }
 #use-border {
-  .vm--modal{
+  .vm--modal {
     border-radius: 15px !important;
   }
+}
+
+// toast styles
+.toasted-container {
+  width: 320px !important;
+  .toasted {
+    justify-content: flex-start;
+    font-size: 16px !important;
+    font-weight: 400 !important;
+    color: #334155 !important;
+    background: white !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5) !important;
+    border-radius: 12px !important;
+    i {
+      font-size: 20px !important;
+      padding: 11px !important;
+      border-radius: 1000px !important;
+      margin-right: 12px !important;
+    }
+  }
+}
+
+.toast-success {
+  i {
+    background: #f0fdfa !important;
+    color: #14b8a6 !important;
+  }
+}
+.toast-info {
+  i {
+    background: #f0f9ff !important;
+    color: #0ea5e9 !important;
+  }
+}
+.toast-error {
+  i {
+    background: #fff1f2 !important;
+    color: #f43f5e !important;
+  }
+}
+.toast-success {
+  i {
+    background: #fffbeb !important;
+    color: #f59e0b !important;
+  }
+}
+.toast-close {
+  margin-left: auto !important;
+  color: #3b82f6;
+  height: 10px;
+  width: 10px;
+  border-radius: 9999999;
+  padding: 17px;
+  @apply hover:bg-red-500 text-lg;
 }
