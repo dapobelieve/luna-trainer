@@ -67,7 +67,7 @@ export const actions = {
       })
   },
   async sendInvoice ({ commit }, sendDetails) {
-    return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}}`, {
+    return this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}`, {
       recipients: [sendDetails.recipient]
     })
   },

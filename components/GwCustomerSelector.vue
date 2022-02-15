@@ -7,7 +7,7 @@
       class="v-select"
       :options="clients"
       :placeholder="placeholder"
-      label="firstName"
+      :label="label"
     >
       <template v-slot:selected-option="selectedOption">
         <slot name="selectedOption" :selected="selectedOption"></slot>
@@ -37,6 +37,7 @@
   </div>
 </template>
 <script>
+let label = 0
 export default {
   name: 'GwCustomerSelector',
   model: {
@@ -44,8 +45,6 @@ export default {
     event: 'change'
   },
   props: {
-    label: {
-    },
     multiple: {
       type: Boolean,
       default: false
@@ -63,6 +62,7 @@ export default {
   },
   data () {
     return {
+      label: `label-${label++}`,
       selected: this.value,
       clientInfo: {},
       dropdowIndicatorattributes: {
@@ -74,7 +74,6 @@ export default {
   },
   watch: {
     selected (newValue) {
-      console.log(newValue)
       this.$emit('change', newValue)
     }
   }
