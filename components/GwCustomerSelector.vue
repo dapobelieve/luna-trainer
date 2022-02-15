@@ -7,7 +7,7 @@
       class="v-select"
       :options="clients"
       :placeholder="placeholder"
-      :label="label"
+      label="label"
     >
       <template v-slot:selected-option="selectedOption">
         <slot name="selectedOption" :selected="selectedOption"></slot>
