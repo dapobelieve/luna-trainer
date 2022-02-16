@@ -24,7 +24,7 @@
             <ClientAvatar
               :width="3"
               :height="3"
-              :client-info="{ firstName: client.name, ...client }"
+              :client-info="{ firstName: client.name || '?', ...client }"
             />
             <div class="ml-2">
               <p class="capitalize font-medium text-md  text-gray-700">
