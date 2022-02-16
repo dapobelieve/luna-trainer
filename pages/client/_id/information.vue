@@ -198,4 +198,5 @@ select {
     @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-0.5;
   }
 }
+
 </style>

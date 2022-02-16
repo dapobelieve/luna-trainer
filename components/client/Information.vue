@@ -24,60 +24,62 @@
         </div>
       </div>
     </div>
-    <div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-        <div>
-          <PhoneComponent v-model="clientInfo.phoneNumber" label="Telephone" @input="focusField" />
-        </div>
-        <div class="place-self-auto mt-1">
-          <dt class="input-text-label">
-            Email Address
-          </dt>
-          <dd class="truncate information_box">
-            {{ clientInfo && clientInfo.email }}
-          </dd>
-        </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-        <div class="w-full">
-          <dt class="input-text-label">
-            Country
-          </dt>
-          <div class="information_box">
-            <select v-model="clientInfo.location" autocomplete="country" @input="focusField">
-              <option :value="null" selected disabled>
-                click here
-              </option>
-              <option v-for="country in countries" :key="country.numericCode">
-                {{ country.name }}
-              </option>
-            </select>
+    <div class="content">
+      <div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
+          <div class="place-self-auto mt-1">
+            <dt class="input-text-label">
+              Email Address
+            </dt>
+            <dd class="truncate information_box">
+              {{ clientInfo && clientInfo.email }}
+            </dd>
+          </div>
+          <div>
+            <PhoneComponent v-model="clientInfo.phoneNumber" label="Telephone" @input="focusField" />
           </div>
         </div>
-        <div>
-          <GwInputField
-            v-model="clientInfo.city"
-            placeholder="Type here"
-            type="text"
-            label="City"
-            autocomplete="text"
-            class-name="information_box"
-            class="w-full"
-            @input="focusField"
-          />
+        <div class="grid grid-cols-1 w-full mt-6">
+          <div class="w-full">
+            <dt class="input-text-label">
+              Country
+            </dt>
+            <div class="information_box">
+              <select v-model="clientInfo.location" class="w-full" autocomplete="country" @input="focusField">
+                <option :value="null" selected disabled>
+                  click here
+                </option>
+                <option v-for="country in countries" :key="country.numericCode">
+                  {{ country.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <GwInputField
+              v-model="clientInfo.city"
+              placeholder="Type here"
+              type="text"
+              label="City"
+              autocomplete="text"
+              class-name="information_box"
+              class="w-full"
+              @input="focusField"
+            />
+          </div>
         </div>
-      </div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
-        <div>
-          <GwInputField
-            v-model="clientInfo.zip"
-            placeholder="Type here"
-            type="text"
-            autocomplete="text"
-            label="Post Code/ Zip Code"
-            class-name="information_box"
-            @input="focusField"
-          />
+        <div class="grid grid-cols-1 w-full mt-6">
+          <div>
+            <GwInputField
+              v-model="clientInfo.zip"
+              placeholder="Type here"
+              type="text"
+              autocomplete="text"
+              label="Post Code/ Zip Code"
+              class-name="information_box"
+              @input="focusField"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -111,3 +113,10 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.content {
+  @apply mx-auto;
+  width: 512px;
+}
+</style>

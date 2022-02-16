@@ -33,6 +33,63 @@
         </div>
       </div>
       <div class="flex flex-col gap-1.5">
+        <label for="businessName" class="required" :class="{'text-red-500' : $v.businessName.$error}">What’s your business’s name?</label>
+        <input
+          id="businessName"
+          v-model="businessName"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          :class="{'border-red-500' : $v.businessName.$error}"
+        />
+      </div>
+      <div class="flex flex-col gap-1.5 relative mb-1">
+        <label for="websiteURL" class="required" :class="{'text-red-500' : $v.websiteUrl.$error}">What’s your website url?</label>
+        <input
+          id="website"
+          v-model="websiteUrl"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          :class="{'border-red-500' : $v.websiteUrl.$error}"
+          @input="change($event)"
+          @change="change($event)"
+        />
+        <small v-if="isValid" class="text-red-500 text-sm absolute -bottom-5">url is invalid</small>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <label for="country" class="required" :class="{'text-red-500' : $v.location.$error}">Where are you based?</label>
+        <select
+          v-model="location"
+          autocomplete="country"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          :class="{'border-red-500' : $v.location.$error}"
+        >
+          <option v-for="country in countries" :key="country.numericCode">
+            {{ country.name }}
+          </option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <label for="currency" class="required" :class="{'text-red-400' : $v.currency.$error}">Select your currency</label>
+        <select
+          id="currency"
+          v-model="currency"
+          autocomplete="currency"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          :class="{'border-red-400' : $v.currency.$error}"
+        >
+          <option value="AUD">
+            AUD ($)
+          </option>
+          <option value="CAD">
+            CAD ($)
+          </option>
+          <option value="GBP">
+            GBP (£)
+          </option>
+          <option value="USD">
+            USD ($)
+          </option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-1.5">
         <PhoneComponent v-model="phone" />
       </div>
       <div class="flex flex-col gap-1.5">

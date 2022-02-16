@@ -1,11 +1,13 @@
 <template>
   <div class="cursor-pointer flex gap-4 py-4 px-3 rounded-lg hover:bg-gray-100 mb-2" :class="[notification.status ==='UNREAD' ? 'bg-gray-100' : '']" @click.stop="userProfile">
     <div class="flex-shrink-0">
-      <UserAvatar :client-info="notification.data" />
+      <UserAvatar v-if="notification.type === 'INVITE_REQUEST_ACCEPTED'" :client-info="notification.data" />
+      <UserAvatar v-if="notification.type === 'PAYMENT_ACCEPTED'" :client-info="{ firstName: notification.data.vendorId.name }" />
     </div>
     <div>
       <div class="flex flex-col gap-1">
-        <span class="font-medium text-gray-700">{{ notification.data.firstName }} has just registered!</span>
+        <span v-if="notification.type === 'INVITE_REQUEST_ACCEPTED'" class="font-medium text-gray-700">{{ notification.data.firstName }} has just registered!</span>
+        <span v-if="notification.type === 'PAYMENT_ACCEPTED'" class="font-medium text-gray-700">{{ notification.data.vendorId.name }} has just paid you!</span>
         <span class="text-sm">{{ notification.createdAt | howLongAgo }}</span>
       </div>
     </div>

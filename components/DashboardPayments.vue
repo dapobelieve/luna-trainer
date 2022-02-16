@@ -1,7 +1,7 @@
 <template>
   <containers-summary-card-with-notifications
     :display-view-all-button="Boolean(paidInvoices.length)"
-    url="Invoices"
+    url="invoices-sent"
   >
     <template v-slot:icon>
       <i
