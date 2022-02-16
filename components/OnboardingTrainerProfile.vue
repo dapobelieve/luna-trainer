@@ -64,13 +64,13 @@ export default {
   name: 'OnboardingTrainerProfile',
   data () {
     return {
-      accreditations: [...this.$store.state.profile.trainerRegData.trainerProfile.accreditations],
-      specialization: [...this.$store.state.profile.trainerRegData.trainerProfile.specialization]
+      accreditations: [...this.$store.state.profile.user.accreditations],
+      specialization: [...this.$store.state.profile.user.specialization]
     }
   },
   computed: {
     ...mapState({
-      personalProfile: state => state.profile.trainerRegData.trainerProfile
+      personalProfile: state => state.profile.user
     }),
     usePositiveReinforce: {
       get () { return this.personalProfile.usePositiveReinforce },
@@ -83,13 +83,13 @@ export default {
     specialization (newValue, oldValue) {
       if (newValue) {
         const specials = [...this.specialization]
-        this.setProfileData({ parent: 'trainerProfile', key: 'specialization', value: specials })
+        this.setProfileData({ key: 'specialization', value: specials })
       }
     },
     accreditations (newValue, oldValue) {
       if (newValue) {
         const creds = [...this.accreditations]
-        this.setProfileData({ parent: 'trainerProfile', key: 'accreditations', value: creds })
+        this.setProfileData({ key: 'accreditations', value: creds })
       }
     },
     '$v.$invalid' (newValue, oldValue) {

@@ -8,7 +8,11 @@
       </h1>
       <form class="flex flex-col gap-4" @submit.prevent="signUp">
         <div class="flex flex-col gap-1.5 relative mb-3">
-          <label for="email" class="required" :class="{'text-red-500' : $v.userInfo.email.$error}">Email address</label>
+          <label
+            for="email"
+            class="required"
+            :class="{ 'text-red-500': $v.userInfo.email.$error }"
+          >Email address</label>
 
           <input
             v-model="$v.userInfo.email.$model"
@@ -16,7 +20,7 @@
             tabindex="1"
             type="email"
             class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-            :class="{'border-red-500' : $v.userInfo.email.$error}"
+            :class="{ 'border-red-500': $v.userInfo.email.$error }"
           />
           <div v-if="$v.userInfo.email.$error" class="absolute -bottom-5">
             <small
@@ -26,19 +30,31 @@
           </div>
         </div>
         <div class="flex flex-col gap-1.5 relative mb-3">
-          <label for="password" class="required" :class="{'text-red-500' : $v.userInfo.password.$error}">Password</label>
+          <label
+            for="password"
+            class="required"
+            :class="{ 'text-red-500': $v.userInfo.password.$error }"
+          >Password</label>
           <div class="flex justify-between items-center relative">
             <input
               v-model.trim="$v.userInfo.password.$model"
               :type="showPassword ? 'text' : 'password'"
               tabindex="2"
               class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500 pr-8"
-              :class="{'shadow-md border-red-500' : $v.userInfo.password.$error}"
+              :class="{
+                'shadow-md border-red-500': $v.userInfo.password.$error,
+              }"
             />
-            <password-toggle v-model="showPassword" class="absolute right-0 p-3" />
+            <password-toggle
+              v-model="showPassword"
+              class="absolute right-0 p-3"
+            />
           </div>
           <div v-if="$v.userInfo.password.$error" class="absolute -bottom-5">
-            <small v-if="!$v.userInfo.password.minLength" class="error text-red-500">
+            <small
+              v-if="!$v.userInfo.password.minLength"
+              class="error text-red-500"
+            >
               Password must have at least
               {{ $v.userInfo.password.$params.minLength.min }} characters.
             </small>
@@ -69,15 +85,22 @@
         Sign in
       </NuxtLink>
     </div>
-    <modal name="welcome-modal" height="auto" :adaptive="true" :max-width="450" :click-to-close="false">
+    <modal
+      name="welcome-modal"
+      height="auto"
+      :adaptive="true"
+      :max-width="450"
+      :click-to-close="false"
+    >
       <div class="text-left mx-6 mt-8 mb-4">
         <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">
           Welcome to GetWelp!
         </h2>
-        <p
-          class="text-base text-gray-700 mb-6 leading-relaxed"
-        >
-          So, you’ve made it this far! We want to give you the best chance of getting most out of the platform so we’re going to run you through an onboarding process which will integrate and automate various elements of your business right from the word go!
+        <p class="text-base text-gray-700 mb-6 leading-relaxed">
+          So, you’ve made it this far! We want to give you the best chance of
+          getting most out of the platform so we’re going to run you through an
+          onboarding process which will integrate and automate various elements
+          of your business right from the word go!
         </p>
         <div class="flex justify-start py-4">
           <a
@@ -93,7 +116,7 @@
   </div>
 </template>
 <script>
-import { mapActions } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 
 export default {
@@ -131,83 +154,59 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      signUpUser: 'authorize/signUpUser'
+    ...mapMutations({
+      setProfile: 'profile/SET_PROFILE'
     }),
-    signUp () {
+    ...mapActions('authorize', {
+      signUpUser: 'signUpUser',
+      setToken: 'setToken'
+    }),
+    ...mapActions({
+      getUserProfile: 'profile/getUserProfile'
+    }),
+    async signUp () {
       this.isLoading = true
-      this.userInfo.userName = `${this.userInfo.email.split('@')[1]}_${new Date().getTime()}`
-      return this.signUpUser(this.userInfo)
-        .then((result) => {
-          if (result === 'success') {
-            try {
-              this.$auth
-                .login({
-                  data: {
-                    email: this.userInfo.email,
-                    password: this.userInfo.password,
-                    domain: 'getwelp-trainer-ui'
-                  }
-                })
-                .then((response) => {
-                  this.$gwtoast.success('Signup Successful', {
-                    position: 'bottom-right'
-                  })
-                  this.isLoading = false
-                  this.signUpText = 'please wait...'
-                  const tokens = {
-                    token: response.data.data.accessToken,
-                    refreshToken: response.data.data.refreshToken
-                  }
-                  // set necessary tokens
-                  this.$store.dispatch('authorize/setToken', tokens)
-                  // fetch user profile
-                  this.$store
-                    .dispatch('profile/getUserProfile')
-                    .then((response) => {
-                      console.log(response)
-                      this.$modal.show('welcome-modal')
-                    })
-                })
-            } catch (error) {
-              if (error.response) {
-                this.$gwtoast.error(
-                  `Something went wrong: ${error.response.data.message}`,
-                  { position: 'bottom-right' }
-                )
-              } else if (error.request) {
-                this.$gwtoast.error('Something went wrong. Try again', {
-                  position: 'bottom-right'
-                })
-              } else {
-                this.$gwtoast.error(`Something went wrong: ${error.message}`, {
-                  position: 'bottom-right'
-                })
-              }
-            }
+      this.userInfo.userName = `${
+        this.userInfo.email.split('@')[1]
+      }_${new Date().getTime()}`
+      try {
+        await this.signUpUser(this.userInfo)
+        this.$gwtoast.success('Signup Successful', {
+          position: 'bottom-right'
+        })
+        this.signUpText = 'please wait...'
+        const { data } = await this.$auth.login({
+          data: {
+            email: this.userInfo.email,
+            password: this.userInfo.password,
+            domain: 'getwelp-trainer-ui'
           }
         })
-        .catch((err) => {
-          this.isLoading = false
-          this.signUpText = 'get started'
-          if (err.response) {
-            this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.message}`,
-              { position: 'bottom-right' }
-            )
-          } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again', {
-              position: 'bottom-right'
-            })
-          } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`, {
-              position: 'bottom-right'
-            })
-          }
-        })
-        .finally(() => {
-          this.isLoading = false
-        })
+        const tokens = {
+          token: data.data.accessToken,
+          refreshToken: data.data.refreshToken
+        }
+        this.setToken(tokens)
+        const profile = await this.getUserProfile()
+        this.setProfile(profile)
+        this.$modal.show('welcome-modal')
+      } catch (err) {
+        if (err.response) {
+          this.$gwtoast.error(
+            `Something went wrong: ${err.response.data.message}`,
+            { position: 'bottom-right' }
+          )
+        } else if (err.request) {
+          this.$gwtoast.error('Something went wrong. Try again', {
+            position: 'bottom-right'
+          })
+        } else {
+          this.$gwtoast.error(`Something went wrong: ${err.message}`, {
+            position: 'bottom-right'
+          })
+        }
+      }
+      this.isLoading = false
     }
   }
 }

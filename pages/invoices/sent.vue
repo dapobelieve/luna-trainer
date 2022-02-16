@@ -154,13 +154,14 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import InvoiceStatusComponent from '~/components/InvoiceStatusComponent'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
-import PaymentConnection from '~/components/invoices/paymentConnection'
+// import PaymentConnection from '~/components/invoices/paymentConnection'
 import PaymentConnectionStatus from '~/components/invoices/paymentConnectionStatus'
 export default {
   name: 'SentInvoice',
-  components: { PaymentConnectionStatus, PaymentConnection, SearchDropdown, InvoiceStatusComponent },
+  components: { PaymentConnectionStatus, SearchDropdown, InvoiceStatusComponent },
   data () {
     return {
       searchField: 'Name',
@@ -210,7 +211,13 @@ export default {
     }
   },
   async mounted (ctx) {
-    this.$modal.show('connection')
+    const getTime = localStorage.getItem('invoiceFirstVisit')
+    if (!getTime) {
+      this.$modal.show('connection')
+      localStorage.setItem('invoiceFirstVisit', Date.now())
+    } else {
+      this.$modal.show('connectionStatus')
+    }
     try {
       const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
       this.invoices = res
@@ -221,6 +228,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      checkConnectedPaymentMethods: 'payment/checkConnectedPaymentMethods'
+    }),
     async searchInvoice (option) {
       try {
         let res

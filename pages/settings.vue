@@ -61,6 +61,12 @@ export default {
           route: 'settings-services'
         },
         {
+          name: 'payment',
+          icon: 'fi-rr-credit-card',
+          details: 'Integrate with mu;tiple services platforms',
+          route: 'settings-payment'
+        },
+        {
           name: 'security',
           icon: 'fi-rr-shield',
           details: 'We keep your data as secure as possible',
