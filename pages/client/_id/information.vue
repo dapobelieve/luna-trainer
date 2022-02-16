@@ -6,7 +6,7 @@
           <h2 class="text-xl py-4 px-3.5">
             Information
           </h2>
-          <div v-if="showButtons" class="flex space-x-2 ml-auto">
+          <div v-if="showButtons" class="sm:absolute right-4 flex space-x-2 justify-end mr-4">
             <button
               :disabled="cancelLoading"
               type="button"
@@ -41,10 +41,10 @@
             </ul>
             <!-- Tab contents -->
             <div class="my-6 mx-4">
-              <client-information v-if="tab === 1" v-model="clientInfo" />
-              <client-dog-information v-if="tab === 2" v-model="clientInfo" />
+              <client-information v-if="tab === 1" v-model="clientInfo" @showButtons="showButtons = true" />
+              <client-dog-information v-if="tab === 2" v-model="clientInfo" @showButtons="showButtons = true" />
               <div v-if="tab === 3">
-                <client-health-information v-if="tab === 3" v-model="clientInfo" />
+                <client-health-information v-if="tab === 3" v-model="clientInfo" @showButtons="showButtons = true" />
               </div>
             </div>
           </section>
@@ -198,4 +198,5 @@ select {
     @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-0.5;
   }
 }
+
 </style>

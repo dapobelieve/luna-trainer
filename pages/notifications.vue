@@ -34,7 +34,7 @@
           </div>
           <div v-if="notifications && notifications.length" class="px-1 pb-20 lg:pb-1">
             <div v-for="n in notifications" :key="n.index" class="mb-2 last:mb-0">
-              <NewClient v-if="n.type === 'INVITE_REQUEST_ACCEPTED'" :notification="n" />
+              <NewClient :notification="n" />
             </div>
           </div>
           <div v-else class="text-center py-8 px-4 flex w-full justify-center">

@@ -55,7 +55,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" @click.prevent="$router.push({ name: `myFiles-dropbox-category`, params: { category: data.type } })">
+              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer">
                 <td class="py-4 text-left px-6 w-3/6">
                   <div class="flex items-center">
                     <i class="fi-rr-folder"></i>
@@ -87,7 +87,8 @@
                   </span>
                 </td>
                 <td class="py-4 pr-6">
-                  <files-drop-down @click.stop="" @sending="$modal.show('sending-options')" @moving="$modal.show('moving-options')" />
+                  <util-drop-down @click.stop="">
+                  </util-drop-down>
                 </td>
               </tr>
             </tbody>
@@ -183,10 +184,20 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    sending () {
+      this.$modal.show('sending-options')
+    },
+    moving () {
+      this.$modal.show('moving-options')
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.dropdown-button {
+  @apply text-gray-700 font-normal block px-4 py-2 text-sm hover:bg-gray-100 w-full text-left;
+}
 </style>

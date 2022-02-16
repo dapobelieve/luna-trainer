@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
       <div>
         <GwInputField
@@ -83,8 +83,15 @@ export default {
   },
   methods: {
     focusField () {
-      this.showButtons = true
+      this.$emit('showButtons', true)
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.content {
+  @apply mx-auto;
+  width: 512px;
+}
+</style>

@@ -160,22 +160,22 @@
           <p class="text-xl font-normal text-black mb-4">
             Payment Option
           </p>
-          <div class="flex justify-between items-center mb-6">
+          <div v-if="defaultPayment.length" class="flex justify-between items-center mb-6">
             <p class="text-base text-gray-700 font-normal">
-              Pay with<span>
+              Pay with<span v-if="defaultPayment === 'stripe'">
                 <img
                   class="h-6 inline-block"
                   src="~/assets/img/stripe.png"
                   alt="stripe logo"
                 />
-              </span>
+              </span> <span v-if="defaultPayment === 'bank'"> bank</span>
             </p>
             <span class="bg-blue-50 p-1 px-2 rounded-full text-sm text-blue-400">
               Default
             </span>
           </div>
           <p class="cursor-pointer text-blue-500 text-base font-normal" @click="showPaymentOptions">
-            Choose another payment method
+            {{ defaultPayment.length ? 'Choose a different payment method' : 'Select a default payment' }}
           </p>
         </div>
         <div class="flex justify-end space-x-6 lg:space-x-0">
@@ -293,7 +293,8 @@ export default {
       isLoading: false,
       showDropDown: false,
       serviceObject: null,
-      selectedServiceProps: null
+      selectedServiceProps: null,
+      defaultPayment: ''
     }
   },
   computed: {
@@ -303,7 +304,7 @@ export default {
     allowCreating () {
       return (
         !!this.invoiceDetails.customerId &&
-        Boolean(this.invoiceDetails.services && this.invoiceDetails.services.length)
+        Boolean(this.invoiceDetails.services && this.invoiceDetails.services.length) && this.defaultPayment.length
       )
     },
     invoiceToBeSent () {
@@ -410,7 +411,10 @@ export default {
       this.invoiceDetails.services.splice(serviceItemIndex, 1)
     },
     showPaymentOptions () {
-      this.$modal.show('payment-options')
+      // this.$modal.show('payment-options')
+      this.$router.push({
+        name: 'settings-payment'
+      })
     },
     paymentModal (e) {
       this.$modal.hide('payment-options')
@@ -423,6 +427,7 @@ export default {
     }
   },
   async mounted () {
+    this.defaultPayment = localStorage.getItem('dp') || ''
     if (this.invoiceDetails.items && this.invoiceDetails.items.length) {
       const items = this.invoiceDetails.items.map((item) => {
         return this.$auth.user.services.filter(service => service._id === item.serviceId)[0]

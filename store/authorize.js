@@ -57,10 +57,17 @@ export const actions = {
         return response
       })
   },
-  signUpUser ({ commit }, payload) {
-    return this.$axios.$post(
-      `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
-    )
+  async signUpUser ({ commit }, payload) {
+    try {
+      await this.$axios
+        .$post(`${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload)
+        .then(({ status }) => status)
+    } catch (error) {
+      return error
+    }
+    // return this.$axios.$post(
+    //   `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
+    // )
   },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
