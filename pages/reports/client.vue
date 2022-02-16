@@ -7,7 +7,9 @@
             <i class="fi-rr-arrow-up text-2xl text-teal-500 font-bold"></i>
           </div>
           <div class="ml-3">
-            <p class="text-lg">Total Clients</p>
+            <p class="text-lg">
+              Total Clients
+            </p>
             <span class="text-2xl font-bold">1200</span>
           </div>
           <div class="ml-auto cursor-pointer">
@@ -20,7 +22,9 @@
               <i class="fi-rr-arrow-up text-2xl text-teal-500 font-bold"></i>
             </div>
             <div class="ml-3">
-              <p class="text-lg">Registered Clients</p>
+              <p class="text-lg">
+                Registered Clients
+              </p>
               <span class="text-2xl font-bold">1189</span>
             </div>
             <div class="ml-auto cursor-pointer">
@@ -32,7 +36,9 @@
               <i class="fi-rr-arrow-down text-2xl text-red-500 font-bold"></i>
             </div>
             <div class="ml-3">
-              <p class="text-lg">Unregistered Clients</p>
+              <p class="text-lg">
+                Unregistered Clients
+              </p>
               <span class="text-2xl font-bold">12</span>
             </div>
             <div class="ml-auto cursor-pointer">
@@ -46,10 +52,18 @@
               Total Clients <i class="ml-1 mt-1 fi-rr-caret-down"></i>
             </div>
             <div class="text-sm">
-              <button class="text-primary-color">Year</button>
-              <button class="ml-2">Month</button>
-              <button class="ml-2">Week</button>
-              <button class="ml-2">More <i class="fi-rr-caret-down"></i></button>
+              <button class="text-primary-color">
+                Year
+              </button>
+              <button class="ml-2">
+                Month
+              </button>
+              <button class="ml-2">
+                Week
+              </button>
+              <button class="ml-2">
+                More <i class="fi-rr-caret-down"></i>
+              </button>
             </div>
           </div>
           <div>
@@ -59,11 +73,15 @@
       </div>
       <div class="flex flex-col gap-4">
         <ReportCard class="py-2">
-          <p class="text-lg">Total Dogs</p>
+          <p class="text-lg">
+            Total Dogs
+          </p>
           <span class="text-2xl font-bold">1200</span>
         </ReportCard>
         <ReportCard class="flex-grow">
-          <h4 class="font-bold text-lg">Dogs Age Bracket</h4>
+          <h4 class="font-bold text-lg">
+            Dogs Age Bracket
+          </h4>
           <div class="p-8">
             <canvas id="dog-breeds"></canvas>
           </div>
@@ -71,7 +89,9 @@
       </div>
     </div>
     <div class="w-full">
-      <h4 class="text-lg text-gray-700 font-bold mb-3">Breeds (24)</h4>
+      <h4 class="text-lg text-gray-700 font-bold mb-3">
+        Breeds (24)
+      </h4>
       <div class="lg:flex gap-4 w-full">
         <ReportCard v-for="x in 4" :key="x" class="flex items-center">
           <div class="bg-blue-100 h-14 w-14 rounded-full inline-flex justify-center items-center mr-3">
@@ -88,102 +108,101 @@
 </template>
 
 <script>
-import { Chart, registerables } from "chart.js"
+import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 export default {
- mounted() {
-   const clientsData = {
-     type: "line",
-     data: {
-       labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-       datasets: [
-         {
-           data: [ 40, 140, 110, 230, 592, 385,82, 214, 90, 140, 410, 230 ],
-           backgroundColor: ["rgba(37, 99, 235, 0.11)", "rgba(255, 255, 255, 0)"],
-           borderColor: "#3B82F6",
-           borderWidth: 2
-         }
-       ]
-     },
-     options: {
-       events: ['mousemove', 'mouseout', 'click'],
-       hover: {
-         
-       },
-       interaction: {
-         intersect: false,
-         axis: 'y',
-         mode: 'index'
-       },
-       elements: {
-         line: {
-           tension: 0.5
-         },
-         point: {
-           radius: 0
-         }
-       },
-       plugins: {
-         legend: {
-           display: false
-         }
-       },
-       responsive: true,
-       scales: {
-         xAxis: {
-           grid: {
-             display: false
-           },
-           ticks: {
-             beginAtZero: true,
-             padding: 10
-           }
-         },
-         yAxis:{
-           tickColor: 'red',
+  mounted () {
+    const clientsData = {
+      type: 'line',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [
+          {
+            data: [40, 140, 110, 230, 592, 385, 82, 214, 90, 140, 410, 230],
+            backgroundColor: ['rgba(37, 99, 235, 0.11)', 'rgba(255, 255, 255, 0)'],
+            borderColor: '#3B82F6',
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        events: ['mousemove', 'mouseout', 'click'],
+        hover: {
+
+        },
+        interaction: {
+          intersect: false,
+          axis: 'y',
+          mode: 'index'
+        },
+        elements: {
+          line: {
+            tension: 0.5
+          },
+          point: {
+            radius: 0
+          }
+        },
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        responsive: true,
+        scales: {
+          xAxis: {
+            grid: {
+              display: false
+            },
+            ticks: {
+              beginAtZero: true,
+              padding: 10
+            }
+          },
+          yAxis: {
+            tickColor: 'red',
             grid: {
               display: 'false'
             },
             ticks: {
               beginAtZero: true,
-                 padding: 10
+              padding: 10
             }
-         }
+          }
         }
       }
     }
-   const breedsData = {
-     type: "doughnut",
-     data: {
-       labels: ['Rot', 'Wolf', 'Teddy', 'Billy', 'Jane', 'Believe'],
-       datasets: [
-         {
-           fill: {
-             target: 'origin',
-           },
-           data: [ 40, 90, 140, 410, 230, 64 ],
-           backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
-           borderWidth: 2
-         }
-       ]
-     },
-     options: {
-       plugins: {
-         legend: {
-           display: false
-         }
-       },
-       responsive: true
-     }
-   }
-    
-   const clientsCtx = document.getElementById('client-chart').getContext('2d');
-   this.clientChart = new Chart(clientsCtx, clientsData);
-   
-   const breedCtx = document.getElementById('dog-breeds').getContext('2d');
-   new Chart(breedCtx, breedsData);
-   
- }
+    const breedsData = {
+      type: 'doughnut',
+      data: {
+        labels: ['Rot', 'Wolf', 'Teddy', 'Billy', 'Jane', 'Believe'],
+        datasets: [
+          {
+            fill: {
+              target: 'origin'
+            },
+            data: [40, 90, 140, 410, 230, 64],
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        },
+        responsive: true
+      }
+    }
+
+    const clientsCtx = document.getElementById('client-chart').getContext('2d')
+    this.clientChart = new Chart(clientsCtx, clientsData)
+
+    const breedCtx = document.getElementById('dog-breeds').getContext('2d')
+    new Chart(breedCtx, breedsData)
+  }
 }
 </script>
 

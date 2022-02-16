@@ -40,27 +40,16 @@
           >
             <div v-if="openCalendarSelector" class="dropup w-full z-10 absolute bg-white bottom-[60px] border py-2 rounded-[8px]">
               <div class="bg-white w-full">
-                <SchedulerSelectCalendarItem>
-                  <span class="calendar flex items-center cursor-pointer">
-                    <span class="select-none"> All </span>
-                  </span>
-                </SchedulerSelectCalendarItem>
-                <SchedulerSelectCalendarItem>
+                <SchedulerSelectCalendarItem v-model="active" value="local">
                   <span class="calendar flex items-center cursor-pointer">
                     <img src="~/assets/img/getwelp.svg" class="mr-3">
                     <span class="select-none"> GetWelp calendar</span>
                   </span>
                 </SchedulerSelectCalendarItem>
-                <SchedulerSelectCalendarItem>
+                <SchedulerSelectCalendarItem v-model="active" value="gmailx">
                   <span class="calendar text-gray-700 flex items-center cursor-pointer">
                     <img src="~/assets/img/google-cal.svg" class="mr-3">
                     <span class="select-none">Google Calendar</span>
-                  </span>
-                </SchedulerSelectCalendarItem>
-                <SchedulerSelectCalendarItem>
-                  <span class="calendar flex items-center cursor-pointer select-none">
-                    <img src="~/assets/img/apple-13.svg" class="mr-3">
-                    <span class="select-none">Apple Calendar</span>
                   </span>
                 </SchedulerSelectCalendarItem>
               </div>
@@ -111,10 +100,18 @@ export default {
   props: ['events', 'activeCalendar'],
   data () {
     return {
-      show: false,
+      active: 'gmailx',
+      show: true,
       openCalendarSelector: false,
       loading: false,
       todayAndTomorrowsEvents: []
+    }
+  },
+  watch: {
+    active: {
+      handler (newVal) {
+        this.openCalendarSelector = false
+      }
     }
   },
   async mounted () {
