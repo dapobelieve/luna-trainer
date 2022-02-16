@@ -3,10 +3,11 @@ export class ToastService {
     this.$toast = $toast
     this.options = {
       position: 'top-right',
-      duration: 6000,
+      duration: 106000,
       keepOnHover: true,
       iconPack: 'custom-class',
       action: {
+        iconPack: 'custom-class',
         icon: 'fi-rr-cross',
         class: 'toast-close',
         onClick: (e, toastObject) => {
@@ -25,8 +26,8 @@ export class ToastService {
     })
   }
 
-  show (message, options) {
-    this.$toast.show(message, {
+  info (message, options) {
+    this.$toast.info(message, {
       icon: 'fi-rr-info',
       className: 'toast-info',
       ...this.options,
@@ -52,10 +53,10 @@ export class ToastService {
   //   })
   // }
 
-  // note (message, options) {
-  //   this.$toast.note(message, {
-  //     ...this.options,
-  //     ...options
-  //   })
-  // }
+  show (message, options) {
+    this.$toast.show(message, {
+      ...this.options,
+      ...options
+    })
+  }
 }
