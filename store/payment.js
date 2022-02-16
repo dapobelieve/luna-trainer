@@ -22,7 +22,6 @@ export const actions = {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/payments/bank-account`, accountDetails)
       .then((result) => {
-        console.log('result from putting bank', result)
         if (result.status === 'success') {
           commit('SET_BANK_STATUS', result.data)
         }

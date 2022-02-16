@@ -475,7 +475,7 @@ export default {
       }
     },
     showPart (evt) {
-      console.log(`Here: ${evt}`)
+      
     },
     removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)

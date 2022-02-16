@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-select
-      v-model="selected"
+      :value="value"
+      @input="$emit('change', $event)"
       :disabled="disabled"
       :multiple="multiple"
       class="v-select"
@@ -62,8 +63,6 @@ export default {
   },
   data () {
     return {
-      label: `label-${label++}`,
-      selected: this.value,
       clientInfo: {},
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
@@ -73,8 +72,9 @@ export default {
     }
   },
   watch: {
-    selected (newValue) {
-      this.$emit('change', newValue)
+    "value": {
+      immediate: true,
+      handler(newVal, oldVal) {}
     }
   }
 }

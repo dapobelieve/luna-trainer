@@ -100,7 +100,6 @@ export const actions = {
         this.$gwtoast.error(`Error getting user status', ${error}`)
       }
     })
-    console.log('calling')
     return connectionStatus[0].connectionStatus
   },
   setCurrentViewingClient ({ commit }) {

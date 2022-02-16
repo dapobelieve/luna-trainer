@@ -386,7 +386,7 @@ export default {
         this.isLoading = true
         const sending = await this.$store.dispatch('invoice/sendInvoice', { id: this.invoiceId, recipient: this.invoiceDetails.customerId.email })
         this.$gwtoast.success('Invoice sending successful')
-        
+        this.$router.push({ name: 'invoices-sent' })
       } catch (e) {
         this.$gwtoast.error(`Error: ${e.message}`)
       }finally {
