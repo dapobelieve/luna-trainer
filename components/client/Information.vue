@@ -108,7 +108,7 @@ export default {
   },
   methods: {
     focusField () {
-      this.showButtons = true
+      this.$emit('showButtons', true)
     }
   }
 }
