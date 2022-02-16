@@ -9,7 +9,7 @@
         <circle-step-navigation
           class="flex items-center h-16 lg:h-auto"
           :step-count="step"
-          :disabled="[profile, trainerProfile, addedServices, firstClient]"
+          :disabled="[profile, businessDetails, trainerProfile, addedServices]"
           @stepper="move($event)"
         />
 
@@ -50,23 +50,23 @@
                   <onboarding-profile @validity="profile.isDisabled = $event" />
                 </template>
                 <template v-else-if="step === 1">
+                  <business-details @validity="businessDetails.isDisabled = $event" />
+                </template>
+                <template v-else-if="step === 2">
                   <onboarding-trainer-profile
                     @validity="trainerProfile.isDisabled = $event"
                   />
                 </template>
-                <template v-else-if="step === 2">
+                <template v-else-if="step === 3">
                   <onboarding-services
                     :selected-service-index="selectedServiceProps"
                     @clearSelectedServiceIndex="selectedServiceProps = $event"
                     @validity="allow($event)"
                   />
                 </template>
-                <template v-else-if="step === 3">
-                  <onboarding-clients @validity="firstClient.isDisabled" />
-                </template>
               </div>
               <!-- Service items for mobile screen -->
-              <template v-if="step === 2">
+              <template v-if="step === 3">
                 <div class="xl:hidden py-6">
                   <onboarding-service-cards
                     @editservice="selectedServiceProps = $event"
@@ -77,13 +77,6 @@
             <div
               class="flex items-center justify-end gap-2"
             >
-              <button
-                class="text-blue-500 mr-auto"
-                :class="{'hidden' : step !== 3 }"
-                @click.prevent="saveProfile"
-              >
-                Skip
-              </button>
               <button
                 v-if="step"
                 :disabled="isLoading"
@@ -96,6 +89,7 @@
               <button-spinner
                 v-if="step === 3"
                 :loading="isLoading"
+                :disabled="addedServices.isDisabled"
                 type="button"
                 style="width:fit-content"
                 @click="saveProfile"
@@ -108,10 +102,10 @@
                   step === 0
                     ? profile.isDisabled
                     : step === 1
-                      ? trainerProfile.isDisabled
+                      ? businessDetails.isDisabled
                       : step === 2
-                        ? addedServices.isDisabled
-                        : firstClient.isDisabled
+                        ? trainerProfile.isDisabled
+                        : addedServices.isDisabled
                 "
                 type="button"
                 class="button-fill"
@@ -126,7 +120,7 @@
         <div
           class="hidden xl:block w-full lg:max-w-sm 2xl:max-w-xl"
         >
-          <template v-if="step === 2">
+          <template v-if="step === 3">
             <div
               class="h-screen border-l overflow-y-auto xl:p-10"
             >
@@ -146,9 +140,10 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
+import BusinessDetails from '~/components/onboarding-auth/BusinessDetails.vue'
 export default {
   name: 'Onboarding',
-  components: { OnboardingCompleteModal },
+  components: { OnboardingCompleteModal, BusinessDetails },
   layout: 'authOnboarding',
   data () {
     return {
@@ -159,15 +154,15 @@ export default {
         id: 0,
         isDisabled: true
       },
-      trainerProfile: {
+      businessDetails: {
         id: 1,
         isDisabled: true
       },
-      addedServices: {
+      trainerProfile: {
         id: 2,
         isDisabled: true
       },
-      firstClient: {
+      addedServices: {
         id: 3,
         isDisabled: true
       },
@@ -180,12 +175,18 @@ export default {
         },
         {
           id: 1,
-          title: 'You as a Trainer...',
+          title: 'Your Business Information',
           subTitle:
             'We want to get to know you as a Trainer, in this section. It’s important because it gives us a good understanding of the types of Trainers using GetWelp and how we can help 🙂'
         },
         {
           id: 2,
+          title: 'You as a Trainer...',
+          type: 'html',
+          subTitle: 'We want to get to know you as a Trainer, in this section. It’s important because it gives us a good understanding of the types of Trainers using GetWelp and how we can help 🙂'
+        },
+        {
+          id: 3,
           title: 'Your services',
           type: 'html',
           subTitle:
@@ -195,22 +196,14 @@ export default {
             "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         },
         {
-          id: 3,
-          title: 'Add your first client',
-          type: 'html',
-          subTitle:
-            '<p class="mb-6">To make things really simple for you, if you add a client at this stage, a template profile will be created in your Clients section in the platform and it’s super easy to navigate. </p>' +
-            '<p class="mb-6">Add your client’s name, email address, dog’s breed and dog’s name to get going. </p>' +
-            '<p class="mb-6">A client invitation will not be sent just yet until you tell us when you’d like to send it. You can edit this too later. </p>' +
-            '<p>If you’d just like to skip this section and head on into the platform then feel free to do so too!</p>'
-        },
-        {
           id: 4,
-          title: 'Stripe',
+          title: 'Your services',
           type: 'html',
           subTitle:
-            '<p class="mb-6">If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier. </p>' +
-            '<p>But, we also appreciate you’re new here so if you want to skip this section and head on into the rest of the onboarding process, you can do so and come back to setting up Stripe later! ✌️</p>'
+            '<p class="mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
+            '<p class="mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
+            'For example:<br/><ul class="list-disc list-inside mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
+            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         }
       ]
     }
@@ -218,14 +211,8 @@ export default {
   computed: {
     ...mapState({
       trainerRegInfo: state => state.profile.user,
-      clientInfo: state => state.profile.user.client,
       editingService: state => state.profile.editingServiceCard
-    }),
-    isClientFormFilled () {
-      return (
-        Object.values(this.clientInfo).length && this.clientInfo.firstName && this.clientInfo.email
-      )
-    }
+    })
   },
   created () {
     console.log('ok')
@@ -265,8 +252,7 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions({
-      updateOnboardingProfile: 'profile/updateOnboardingProfile',
-      addClient: 'client/inviteClient'
+      updateOnboardingProfile: 'profile/updateOnboardingProfile'
     }),
     move (e) {
       this.setTempState({ editingServiceCard: false })
@@ -274,7 +260,7 @@ export default {
     },
     allow (e) {
       this.addedServices.isDisabled = e
-      this.firstClient.isDisabled = e
+      this.businessDetails.isDisabled = e
     },
     increaseStep () {
       if (this.editingService) {
@@ -292,45 +278,18 @@ export default {
     },
     async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
-        console.log('authing')
         this.$router.replace({ name: 'auth-signin' })
         this.$gwtoast.error('Session Expired. Please login')
       } else {
         this.isLoading = true
         try {
-          // if (this.isClientFormFilled) {
-          //   await this.addClient(this.clientInfo)
-          //   console.log('inside client adding', this.clientInfo)
-          // }
           await this.updateOnboardingProfile()
           localStorage.setItem('profileCompleted', 'true')
-          console.log('updateing')
-          console.log('outside here')
           this.$modal.show('done')
         } catch (error) {
           this.$gwtoast.error(
                     `Something went wrong: ${error}`)
         }
-        // return this.updateOnboardingProfile().then((result) => {
-        //   localStorage.setItem('profileCompleted', 'true')
-        //   if (result.status === 'success') {
-        //     // set currency in store
-        //     this.setTempState({ currency: this.trainerRegInfo.currency })
-        //     if (this.isClientFormFilled) {
-        //       return this.addClient(this.clientInfo).then((result) => {
-        //         if (result.response !== undefined) {
-        //           this.isLoading = false
-        //           this.$gwtoast.error(
-        //             `Something went wrong: ${result.response.data.message}`)
-        //         } else {
-        //           this.$modal.show('done')
-        //         }
-        //       })
-        //     } else {
-        //       this.$modal.show('done')
-        //     }
-        //   }
-        // })
       }
     },
     finishedSetUp () {
