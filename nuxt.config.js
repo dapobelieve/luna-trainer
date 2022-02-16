@@ -1,8 +1,6 @@
 import webpack from 'webpack'
 require('./config')
 
-console.log(process.env)
-
 export default {
   ssr: false,
   head: {
@@ -71,7 +69,7 @@ export default {
   },
 
   buildModules: [
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],

@@ -19,10 +19,10 @@
         <div class="flex">
           <SearchDropdown :fields="searchFields" :options="options" @field-selected="searchField=$event" @selected="searchInvoice">
             <template v-slot:selected-option="{selected}">
-              <span v-if="searchField === 'Name'">
-                <ClientAvatar :height="1" :width="1" :client-info="selected" />
+              <span v-if="searchField === 'Name'" class="flex">
+                <ClientAvatar :height="1" :width="1" :client-info="{firstName: selected.name.split(' ')[0], lastName: selected.name.split(' ')[1]}" />
                 <span class="text-xs text-gray-700 ml-2">
-                  {{ selected.firstName }}  {{ selected.lastName }}
+                  {{ selected.name.split(' ')[0] }}  {{ selected.name.split(' ')[1] }}
                 </span>
               </span>
               <span v-else>
@@ -31,10 +31,10 @@
             </template>
             <template v-slot:option="{option}">
               <div class="flex client items-center client py-2 px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
-                <div v-if="searchField === 'Name'" class="d-flex">
-                  <ClientAvatar :height="1" :width="1" :client-info="option" />
+                <div v-if="searchField === 'Name'" class="flex">
+                  <ClientAvatar :height="1" :width="1" :client-info="{firstName: option.name.split(' ')[0], lastName: option.name.split(' ')[1]}" />
                   <span class="text-xs text-gray-700 ml-2">
-                    {{ option.firstName }}  {{ option.lastName }}
+                    {{ option.name.split(' ')[0] }}  {{ option.name.split(' ')[1] }}
                   </span>
                 </div>
                 <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
@@ -80,10 +80,10 @@
                 </td>
                 <td class="py-4 text-left px-6 w-3/6">
                   <div class="flex items-center">
-                    <ClientAvatar :client-info="data.customerId" />
+                    <ClientAvatar :client-info="{firstName:data.customerId.name.split(' ')[0], lastName: data.customerId.name.split(' ')[1] }" />
                     <div class="ml-4">
                       <h6 class="text-base text-gray-700 text-capitalize">
-                        {{ data.customerId.firstName }}  {{ data.customerId.lastName }}
+                        {{ data.customerId.name.split(' ')[0] }}  {{ data.customerId.name.split(' ')[1] }}
                       </h6>
                       <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
                     </div>
@@ -232,6 +232,7 @@ export default {
       checkConnectedPaymentMethods: 'payment/checkConnectedPaymentMethods'
     }),
     async searchInvoice (option) {
+      console.log(option)
       try {
         let res
         if (this.searchField === 'Name') {

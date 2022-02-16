@@ -101,7 +101,7 @@ export default {
   data () {
     return {
       active: 'gmailx',
-      show: true,
+      show: false,
       openCalendarSelector: false,
       loading: false,
       todayAndTomorrowsEvents: []

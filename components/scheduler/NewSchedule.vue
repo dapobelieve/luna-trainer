@@ -37,12 +37,12 @@
                 <GwCustomerSelector v-model="form.from" placeholder="Time" class="w-full repeat-selector" :clients="time">
                   <template v-slot:selectedOption="{selected}">
                     <div class="flex items-center">
-                      <span class="text-gray-700">{{ selected.firstName }}</span>
+                      <span class="text-gray-700">{{ selected.label }}</span>
                     </div>
                   </template>
                   <template v-slot:dropdownOption="{ optionObject }" class="p-4">
                     <div class="flex items-center py-2">
-                      <span class="text-gray-700">{{ optionObject.firstName }}</span>
+                      <span class="text-gray-700">{{ optionObject.label }}</span>
                     </div>
                   </template>
                 </GwCustomerSelector>
@@ -54,12 +54,12 @@
                 <GwCustomerSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :clients="computeToTime">
                   <template v-slot:selectedOption="{selected}">
                     <div class="flex items-center">
-                      <span class="text-gray-700">{{ selected.firstName }}</span>
+                      <span class="text-gray-700">{{ selected.label }}</span>
                     </div>
                   </template>
                   <template v-slot:dropdownOption="{ optionObject }" class="p-4">
                     <div class="flex items-center py-2">
-                      <span class="text-gray-700">{{ optionObject.firstName }}</span>
+                      <span class="text-gray-700">{{ optionObject.label }}</span>
                     </div>
                   </template>
                 </GwCustomerSelector>
@@ -97,12 +97,12 @@
               <GwCustomerSelector v-model="form.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :clients="timezoneArr">
                 <template v-slot:selectedOption="{selected}">
                   <div class="flex items-center">
-                    <span class="text-gray-700">{{ selected.firstName }}</span>
+                    <span class="text-gray-700">{{ selected.label }}</span>
                   </div>
                 </template>
                 <template v-slot:dropdownOption="{ optionObject }" class="p-4">
                   <div class="flex items-center py-2">
-                    <span class="text-gray-700">{{ optionObject.firstName }}</span>
+                    <span class="text-gray-700">{{ optionObject.label }}</span>
                   </div>
                 </template>
               </GwCustomerSelector>
@@ -474,14 +474,12 @@ export default {
         }
       }
     },
-    async showPart (evt) {
-      console.log(`Here: ${evt}`)
+    showPart (evt) {
+      
     },
     removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
       // this.$forceUpdate()
-      // console.log(this.form.participants)
-      // console.log(this.allClients)
     },
     async createEvent () {
       this.$v.$touch()

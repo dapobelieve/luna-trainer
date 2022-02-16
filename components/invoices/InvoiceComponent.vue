@@ -20,7 +20,12 @@
           <label class="input-text-label">
             Choose
           </label>
-          <gw-customer-selector v-model="invoiceDetails.customerId" :clients="allClients">
+          <GwCustomerSelector v-model="invoiceDetails.customerId" :clients="allClients">
+            <template v-slot:selectedOption="{selected}">
+              <div>
+                {{selected.name || selected.firstName}}
+              </div>
+            </template>
             <template v-slot:dropdownOption="{ optionObject }">
               <div class="flex justify-between min-w-full items-center">
                 <div class="flex items-center content-center py-1">
@@ -30,7 +35,7 @@
                     :client-info="optionObject"
                   />
                   <p class="capitalize text-gray-700 ml-4">
-                    {{ optionObject.firstName }} {{ $utils.optional(optionObject.lastName) }}
+                    {{ optionObject.firstName }}
                   </p>
                 </div>
                 <div class="check">
@@ -52,7 +57,7 @@
                 </div>
               </button>
             </template>
-          </gw-customer-selector>
+          </GwCustomerSelector>
         </div>
         <div class="flex items-center justify-between">
           <p class="capitalize text-xl font-normal">
@@ -145,7 +150,6 @@
             ></date-picker>
           </div>
         </div>
-
         <div>
           <input type="checkbox" class="p-2" />
           <span class="font-light">Value Added Tax (VAT)</span>
@@ -265,9 +269,10 @@ import DatePicker from 'vue2-datepicker'
 import isEmpty from 'lodash.isempty'
 import debounce from 'lodash.debounce'
 import ServiceDisplay from '~/components/invoices/ServiceDisplay'
+import GwCustomerSelector from "~/components/GwCustomerSelector";
 export default {
   name: 'Invoice',
-  components: { ServiceDisplay, DatePicker },
+  components: {GwCustomerSelector, ServiceDisplay, DatePicker },
   layout: 'invoice',
   props: {
     invoiceData: {
@@ -365,7 +370,6 @@ export default {
     },
     ...mapActions('invoice', {
       createNewInvoice: 'createInvoice',
-      sendInvoice: 'sendInvoice',
       fetchInvoices: 'getInvoices'
     }),
     async createInvoice () {
@@ -381,27 +385,18 @@ export default {
     async send () {
       try {
         this.isLoading = true
-        const sending = await this.sendInvoice({ id: this.invoiceId })
-        if (sending.status === 'success') {
-          this.$gwtoast.success('Invoice sending successful')
-          this.$router.push({ name: 'invoices-sent' })
-        }
-      } catch (error) {
+        const sending = await this.$store.dispatch('invoice/sendInvoice', { id: this.invoiceId, recipient: this.invoiceDetails.customerId.email })
+        this.$gwtoast.success('Invoice sending successful')
+        this.$router.push({ name: 'invoices-sent' })
+      } catch (e) {
+        this.$gwtoast.error(`Error: ${e.message}`)
+      }finally {
         this.isLoading = false
-        if (error.response) {
-          this.$gwtoast.error(
-            `Something went wrong: ${error.response.data.message}`)
-        } else if (error.request) {
-          this.$gwtoast.error('Something went wrong. Try again')
-        } else {
-          this.$gwtoast.error(`Something went wrong: ${error.message}`)
-        }
       }
     },
     updateInvoice: debounce(async function () {
       try {
         this.$nuxt.$emit('autosaving-invoice')
-        console.log(this.invoiceToBeSent)
         await this.$axios.$put(`${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
       } catch (error) {
         console.error(error)
