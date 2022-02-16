@@ -20,7 +20,7 @@
             </p>
           </div>
           <div>
-            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="text-primary-color font-medium text-sm" @click="$modal.show('change-password-modal')">
+            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="button-outline" @click="$modal.show('change-password-modal')">
               Change Password
             </button>
           </div>
@@ -40,13 +40,13 @@
             </p>
           </div>
           <div>
-            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="text-primary-color font-medium text-sm" @click="$modal.show('change-email-modal')">
+            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="button-outline" @click="$modal.show('change-email-modal')">
               Change Email
             </button>
           </div>
         </div>
       </div>
-      <div v-show="secondaryEmail">
+      <div v-show="secondaryEmail" class="mb-6">
         <div class="flex justify-between items-center">
           <div>
             <h6 class="text-grey-700 font-medium text-lg mb-1">
@@ -58,17 +58,70 @@
             </p>
           </div>
           <div>
-            <button class="text-primary-color font-medium text-sm" @click="cancelChange">
+            <button class="button-outline" @click="cancelChange">
               Cancel
             </button>
           </div>
         </div>
       </div>
+      <div class="mb-6">
+        <p class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
+          connection access
+        </p>
+        <div class="flex justify-between items-center">
+          <div>
+            <h6 class="text-grey-700 font-medium text-lg mb-1">
+              {{ connectedDevices ? 'Linked devices' : 'Connect to a device' }}
+              <p class="text-gray-500 text-sm">
+                {{ connectedDevices ? 'Tap a device to disconnect' : 'Connect to a device or login to your mobile app using QR code' }}
+              </p>
+            </h6>
+          </div>
+          <div>
+            <button class="button-outline" @click="deviceConnection">
+              {{ connectedDevices ? 'Link A Device' : 'Connect Device' }}
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
+    <button v-if="connectedDevices" class="flex items-center justify-start w-full mt-4 px-4 py-1 hover:bg-gray-50 focus:outline-none" @click="showDeleteModal = true">
+      <i class="fi-rr-mobile text-gray-500"></i>
+      <div class="ml-4">
+        <p class="text-lg font-medium text-gray-700 mb-1">
+          Samsung A31.678867
+        </p>
+        <p class="text-sm font-normal text-gray-500">
+          Last Active today at 09:31
+        </p>
+      </div>
+    </button>
     <ChangeEmailComponent
       @display-cancel-change="cancelEmailChange = true"
     />
     <ChangePasswordComponent />
+
+    <modal
+      name="link-device"
+      height="535px"
+      width="512px"
+      :adaptive="true"
+    >
+      <settings-link-device @close="$modal.hide('link-device')" />
+    </modal>
+
+    <delete-modal v-model="showDeleteModal" title="Disconnect Device">
+      <template v-slot:subTitle>
+        <p class="text-base font-normal text-gray-700">
+          Are you syre you want to disconnect device <span class="font-medium">Samsung A31.678867</span>.
+        </p>
+      </template>
+      <template v-slot:confirm>
+        <button class="button-fill" @click.prevent="disconnectDevice">
+          Yes, Disconnect
+        </button>
+      </template>
+    </delete-modal>
   </div>
 </template>
 
@@ -76,8 +129,15 @@
 import { mapActions, mapGetters } from 'vuex'
 import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent'
 import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
+import DeleteModal from '~/components/util/modals/deleteModal.vue'
 export default {
-  components: { ChangeEmailComponent, ChangePasswordComponent },
+  components: { ChangeEmailComponent, ChangePasswordComponent, DeleteModal },
+  data () {
+    return {
+      connectedDevices: false,
+      showDeleteModal: false
+    }
+  },
   computed: {
     ...mapGetters({
       getUser: 'profile/getUser'
@@ -93,7 +153,7 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile'
     }),
-    async  cancelChange () {
+    async cancelChange () {
       this.isLoading = true
       try {
         await this.$store.dispatch('authorize/cancelChangeEmail', { ...this.form })
@@ -102,6 +162,14 @@ export default {
       } catch (e) {
         this.$gwtoast.error(e.response.data.message)
       }
+    },
+    deviceConnection () {
+      this.$modal.show('link-device')
+      this.connectedDevices = !this.connectedDevices
+    },
+    disconnectDevice () {
+      this.connectedDevices = false
+      this.showDeleteModal = false
     }
   }
 }

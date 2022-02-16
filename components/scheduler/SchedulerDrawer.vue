@@ -1,5 +1,5 @@
 <template>
-  <div class="drawer bg-white h-full md:w-96 w-full shadow px-3 pt-2 fixed right-0 top-0 z-[11] overflow-y-auto">
+  <div class="drawer bg-white h-full md:w-96 w-full shadow fixed right-0 top-0 z-[11] overflow-y-auto">
     <NewSchedule
       v-if="activePage === pages.NEW_SCHEDULE"
       :event="event"
@@ -46,7 +46,9 @@ export default {
     }
   },
   methods: {
-    reschedule (event) {
+    async reschedule (event) {
+      const _event = await this.$store.dispatch('scheduler/getSingleAppointment', { id: event.id })
+      // console.log(_event)
       this.$emit('active-page', this.pages.NEW_SCHEDULE)
       this.event = event
     }

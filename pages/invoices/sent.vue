@@ -129,15 +129,15 @@
     </div>
 
     <!-- modals -->
-    <modal
-      name="connection"
-      height="auto"
-      width="500px"
-      :adaptive="true"
-      :click-to-close="false"
-    >
-      <invoices-payment-connection @closeModal="closeConnectionModal($event)" />
-    </modal>
+    <!--    <modal-->
+    <!--      name="connection"-->
+    <!--      height="auto"-->
+    <!--      width="500px"-->
+    <!--      :adaptive="true"-->
+    <!--      :click-to-close="false"-->
+    <!--    >-->
+    <!--      <PaymentConnection @closeModal="closeConnectionModal($event)" />-->
+    <!--    </modal>-->
 
     <modal
       name="connectionStatus"
@@ -148,7 +148,7 @@
       :shift-y="0.93"
       :click-to-close="false"
     >
-      <invoices-payment-connection-status @closeModal="closeConnectionStatusModal" />
+      <PaymentConnectionStatus @closeModal="closeConnectionStatusModal" />
     </modal>
   </div>
 </template>
@@ -157,10 +157,11 @@
 import { mapActions } from 'vuex'
 import InvoiceStatusComponent from '~/components/InvoiceStatusComponent'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
-
+// import PaymentConnection from '~/components/invoices/paymentConnection'
+import PaymentConnectionStatus from '~/components/invoices/paymentConnectionStatus'
 export default {
   name: 'SentInvoice',
-  components: { SearchDropdown, InvoiceStatusComponent },
+  components: { PaymentConnectionStatus, SearchDropdown, InvoiceStatusComponent },
   data () {
     return {
       searchField: 'Name',

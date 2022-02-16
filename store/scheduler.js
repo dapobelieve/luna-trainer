@@ -18,16 +18,24 @@ export const mutations = {
 }
 export const actions = {
   async getCalendars ({ commit }) {
+    console.log(process.env.SCHEDULER_HOST)
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
+    console.log(res)
     commit('setCalendar', res[0])
     return res
   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
     if (payload.data.conferencing) {
       delete payload.data.conferencing.type
+      console.log(payload)
+      console.log({ ...payload.data })
       return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment?conferencing=automatic`, { ...payload.data })
     }
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
+  },
+  async getSingleAppointment ({ state }, payload) {
+    const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
+    return await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
   },
   async updateAppointment ({ commit, dispatch }, payload, calendar) {
     payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id

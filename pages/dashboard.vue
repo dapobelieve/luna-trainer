@@ -126,6 +126,7 @@ export default {
     }
   },
   mounted () {
+    this.$gwtoast.note('Chat')
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 

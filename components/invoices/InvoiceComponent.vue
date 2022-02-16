@@ -280,6 +280,7 @@ export default {
   },
   data () {
     return {
+      paymentMethods: null,
       invoiceId: null,
       invoiceDetails: {
         services: []
@@ -312,10 +313,10 @@ export default {
               description: service.description
             }
           }),
-          customerId: this.invoiceDetails.customerId ? this.invoiceDetails.customerId._id : null,
+          customerUserId: this.invoiceDetails.customerId ? this.invoiceDetails.customerId.userId : null,
           dueDate: this.invoiceDetails.dueDate || new Date(),
           dueDateEpoch: new Date(this.invoiceDetails.dueDate).getTime() / 1000 || new Date().getTime() / 1000,
-          client: this.invoiceDetails.customerId
+          supportedPaymentMethods: [...this.paymentMethods]
         }
       } else {
         return {}
@@ -400,6 +401,7 @@ export default {
     updateInvoice: debounce(async function () {
       try {
         this.$nuxt.$emit('autosaving-invoice')
+        console.log(this.invoiceToBeSent)
         await this.$axios.$put(`${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
       } catch (error) {
         console.error(error)
@@ -429,7 +431,7 @@ export default {
       this.$modal.hide('connectionStatus')
     }
   },
-  mounted () {
+  async mounted () {
     this.defaultPayment = localStorage.getItem('dp') || ''
     if (this.invoiceDetails.items && this.invoiceDetails.items.length) {
       const items = this.invoiceDetails.items.map((item) => {
@@ -437,6 +439,7 @@ export default {
       })
       this.$set(this.invoiceDetails, 'services', items)
     }
+    this.paymentMethods = await this.$store.dispatch('payment/getPaymentMethods')
   },
   beforeMount () {
     if (!isEmpty(this.invoiceData)) {
