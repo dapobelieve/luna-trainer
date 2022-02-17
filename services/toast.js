@@ -3,7 +3,7 @@ export class ToastService {
     this.$toast = $toast
     this.options = {
       position: 'top-right',
-      duration: 106000,
+      duration: 6000,
       keepOnHover: true,
       iconPack: 'custom-class',
       action: {
