@@ -107,28 +107,28 @@
           Enter your bank account information integration with your getwelp account
         </p>
         <div class="flex flex-col gap-1.5">
-          <label for="businessName" class="required">Account Name</label>
+          <label class="required">Sort Code</label>
           <input
             v-model="bankForm.accountHolderName"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
         <div class="flex flex-col gap-1.5">
-          <label for="businessName" class="required">Sort Code Name</label>
+          <label class="required">Account Number</label>
           <input
             v-model="bankForm.accountRoutingNo"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
         <div class="flex flex-col gap-1.5">
-          <label for="businessName" class="required">Account Number</label>
+          <label class="required">Account Name</label>
           <input
             v-model="bankForm.accountNo"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
         <div class="flex flex-col gap-1.5">
-          <label for="businessName" class="required">Bank Name</label>
+          <label class="required">Bank Name</label>
           <input
             v-model="bankForm.accountBankName"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
