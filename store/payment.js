@@ -22,10 +22,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async getPaymentMethods() {
-    let res =  await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/payment-method`);
+  async getPaymentMethods () {
+    const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/payment-method`)
     return res.data.map(m => m._id)
-    console.log(res)
   },
   async enablePayment ({ state, commit }, paymentName) {
     try {

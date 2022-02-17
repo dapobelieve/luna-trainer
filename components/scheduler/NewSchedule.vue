@@ -475,7 +475,7 @@ export default {
       }
     },
     showPart (evt) {
-      
+
     },
     removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
