@@ -55,7 +55,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" @click.prevent="$router.push({ name: `myFiles-localStorage-folder`, params: { folder: data.type } })">
+              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer">
                 <td class="py-4 text-left px-6 w-3/6">
                   <div class="flex items-center">
                     <i class="fi-rr-folder"></i>
@@ -87,7 +87,41 @@
                   </span>
                 </td>
                 <td class="py-4 pr-6">
-                  <files-drop-down @click.stop="" @sending="$modal.show('sending-options')" @moving="$modal.show('moving-options')" />
+                  <drop-down-menu @click.stop="">
+                    <button type="button" class="dropdown-button" @click="$modal.show('sending-options')">
+                      <i class="fi-rr-share mr-2"></i>
+                      Send to
+                    </button>
+                    <button
+                      type="button"
+                      class="dropdown-button"
+                      @click="$modal.show('moving-options')"
+                    >
+                      <i class="fi-rr-redo-alt mr-2"></i>
+                      Move to
+                    </button>
+                    <button
+                      type="button"
+                      class="dropdown-button"
+                    >
+                      <i class="fi-rr-pencil mr-2"></i>
+                      Rename
+                    </button>
+                    <button
+                      type="button"
+                      class="dropdown-button"
+                    >
+                      <i class="fi-rr-download mr-2"></i>
+                      Download
+                    </button>
+                    <button
+                      type="button"
+                      class="dropdown-button"
+                    >
+                      <i class="fi-rr-trash mr-2"></i>
+                      Delete
+                    </button>
+                  </drop-down-menu>
                 </td>
               </tr>
             </tbody>
