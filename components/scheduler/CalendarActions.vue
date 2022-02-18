@@ -5,14 +5,20 @@
         <button type="button" @click="showDropdown = !showDropdown">
           <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
         </button>
-        <div v-show="showDropdown" class="origin-top-right top-[1] absolute right-0 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
+        <div
+          v-show="showDropdown"
+          class="origin-top-right top-[1] absolute right-0 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
         >
           <div class="py-2 flex flex-col" role="none">
-            <button type="button" class="dropdown-button" @click="">
+            <button type="button" class="dropdown-button">
               Make Default
             </button>
-            <button type="button" class="dropdown-button"> Disable </button>
-            <button type="button" class="dropdown-button"> Disconnect </button>
+            <button type="button" class="dropdown-button">
+              Disable
+            </button>
+            <button type="button" class="dropdown-button">
+              Disconnect
+            </button>
           </div>
         </div>
       </div>

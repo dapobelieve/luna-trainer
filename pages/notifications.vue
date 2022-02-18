@@ -60,10 +60,10 @@
 <script>
 import { mapGetters } from 'vuex'
 import NewClient from '~/components/notifications/NewClient'
-import CalendarSync from "~/components/notifications/CalendarSync";
+import CalendarSync from '~/components/notifications/CalendarSync'
 export default {
   name: 'NavigationSubMenu',
-  components: {CalendarSync, NewClient },
+  components: { CalendarSync, NewClient },
   props: {
     value: Boolean
   },

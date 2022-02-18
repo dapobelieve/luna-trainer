@@ -36,12 +36,12 @@
 </template>
 
 <script>
-import SchedulerSyncCalendarItem from "~/components/scheduler/SchedulerSyncCalendarItem";
-import CalendarActions from "~/components/scheduler/CalendarActions";
+import SchedulerSyncCalendarItem from '~/components/scheduler/SchedulerSyncCalendarItem'
+import CalendarActions from '~/components/scheduler/CalendarActions'
 
 export default {
   name: 'Calendar',
-  components: {CalendarActions, SchedulerSyncCalendarItem},
+  components: { CalendarActions, SchedulerSyncCalendarItem },
   data () {
     return {
     }

@@ -337,7 +337,7 @@ export default {
       }
       this.$store.commit('notifications/setNotification', data)
     })
-    
+
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
