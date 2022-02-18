@@ -109,21 +109,21 @@
         <div class="flex flex-col gap-1.5">
           <label class="required">Sort Code</label>
           <input
-            v-model="bankForm.accountHolderName"
+            v-model="bankForm.accountRoutingNo"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
         <div class="flex flex-col gap-1.5">
           <label class="required">Account Number</label>
           <input
-            v-model="bankForm.accountRoutingNo"
+            v-model="bankForm.accountNo"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
         <div class="flex flex-col gap-1.5">
           <label class="required">Account Name</label>
           <input
-            v-model="bankForm.accountNo"
+            v-model="bankForm.accountHolderName"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
@@ -162,11 +162,11 @@ export default {
       isStripeLoading: false,
       currentDisplay: this.selectDisplay,
       bankForm: {
-        accountHolderName: this.isBankConnected ? this.bankDetails.accountHolderName : '',
-        accountHolderType: this.isBankConnected ? this.bankDetails.accountHolderType : 'individual',
-        accountNo: this.isBankConnected ? this.bankDetails.accountNo : '',
-        accountRoutingNo: this.isBankConnected ? this.bankDetails.accountRoutingNo : '',
-        accountBankName: this.isBankConnected ? this.bankDetails.accountBankName : ''
+        accountHolderName: '',
+        accountHolderType: 'individual',
+        accountNo: '',
+        accountRoutingNo: '',
+        accountBankName: ''
       }
     }
   },
@@ -183,6 +183,15 @@ export default {
         return true
       }
       return false
+    }
+  },
+  mounted () {
+    if (this.isBankConnected) {
+      this.bankForm.accountHolderName = this.bankDetails.accountHolderName
+      this.bankForm.accountHolderType = this.bankDetails.accountHolderType
+      this.bankForm.accountNo = this.bankDetails.accountNo
+      this.bankForm.accountRoutingNo = this.bankDetails.accountRoutingNo
+      this.bankForm.accountBankName = this.bankDetails.accountBankName
     }
   },
   methods: {

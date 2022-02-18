@@ -54,7 +54,7 @@ export const actions = {
       await dispatch('checkConnectedPaymentMethods')
       return true
     } catch (error) {
-      throw error
+      return error
     }
   },
   async updateBankAccount ({ state, commit }, details) {
@@ -66,6 +66,7 @@ export const actions = {
       )
       commit('SET_ACCOUNT_DETAILS', data)
     } catch (error) {
+      console.log('th error ', error)
       throw error
     }
   },

@@ -153,6 +153,7 @@
                 <button
                   type="button"
                   class="dropdown-button"
+                  @click="$modal.show('payment-options')"
                 >
                   Edit
                 </button>
