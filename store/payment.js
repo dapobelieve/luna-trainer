@@ -22,52 +22,9 @@ export const mutations = {
 }
 
 export const actions = {
-  async checkConnectedPaymentMethods ({ commit, dispatch }) {
-    dispatch('loader/startProcess', null, { root: true })
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const { data } = await this.$axios.get(
-        `${process.env.PAYMENT_HOST_URL}/payment-method`
-      )
-      if (data.data.length) {
-        data.data.forEach((element) => {
-          if (element.type === 'bank') {
-            commit('SET_ACCOUNT_DETAILS', { key: 'bank', value: element })
-          } else if (element.type === 'stripe') {
-            commit('SET_ACCOUNT_DETAILS', { key: 'stripe', value: element })
-          }
-        })
-      }
-    } catch (error) {
-      dispatch('loader/endProcess', null, { root: true })
-      return error
-    }
-    dispatch('loader/endProcess', null, { root: true })
-  },
-  async createBankAccount ({ commit, dispatch }, accountDetails) {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      await this.$axios.$post(
-        `${process.env.PAYMENT_HOST_URL}/bank/account`,
-        accountDetails
-      )
-      await dispatch('checkConnectedPaymentMethods')
-      return true
-    } catch (error) {
-      throw error
-    }
-  },
-  async updateBankAccount ({ state, commit }, details) {
-    // eslint-disable-next-line no-useless-catch
-    try {
-      const { data } = await this.$axios.$patch(
-        `${process.env.PAYMENT_HOST_URL}/payments/bank-account/${state.accountDetails.bank._id}`,
-        details
-      )
-      commit('SET_ACCOUNT_DETAILS', data)
-    } catch (error) {
-      throw error
-    }
+  async getPaymentMethods () {
+    const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/payment-method`)
+    return res.data.map(m => m._id)
   },
   async enablePayment ({ state, commit }, paymentName) {
     try {

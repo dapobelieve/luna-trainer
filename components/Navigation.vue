@@ -337,6 +337,8 @@ export default {
       }
       this.$store.commit('notifications/setNotification', data)
     })
+
+    socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
     ...mapMutations({
@@ -351,7 +353,6 @@ export default {
         window && window.Intercom('update', {
           hide_default_launcher: false
         })
-        // window.Intercom('show')
       } else {
         this.toggleIntercom = false
         window && window.Intercom('update', {

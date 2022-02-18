@@ -2,13 +2,13 @@
   <div>
     <v-select
       :value="value"
-      @input="$emit('change', $event)"
       :disabled="disabled"
       :multiple="multiple"
       class="v-select"
       :options="clients"
       :placeholder="placeholder"
       label="label"
+      @input="$emit('change', $event)"
     >
       <template v-slot:selected-option="selectedOption">
         <slot name="selectedOption" :selected="selectedOption"></slot>
@@ -38,7 +38,6 @@
   </div>
 </template>
 <script>
-let label = 0
 export default {
   name: 'GwCustomerSelector',
   model: {
@@ -72,9 +71,9 @@ export default {
     }
   },
   watch: {
-    "value": {
+    value: {
       immediate: true,
-      handler(newVal, oldVal) {}
+      handler (newVal, oldVal) {}
     }
   }
 }
