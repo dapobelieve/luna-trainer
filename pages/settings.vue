@@ -67,6 +67,12 @@ export default {
           route: 'settings-payment'
         },
         {
+          name: 'calendar',
+          icon: 'fi-rr-calendar',
+          details: 'Integrate with multiple other services platforms',
+          route: 'settings-calendar'
+        },
+        {
           name: 'security',
           icon: 'fi-rr-shield',
           details: 'We keep your data as secure as possible',

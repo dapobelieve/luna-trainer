@@ -43,7 +43,7 @@
               'bg-indigo-500 rounded-full p-2 h-8 w-8 flex shadow-sm flex-shrink'
             ]"
           >
-            <i class="fi-rr-refresh text-white"></i>
+            <i class="fi-rr-refresh text-white mt-1"></i>
           </button>
           <p class="font-medium whitespace-nowrap">
             Stripe account in review
