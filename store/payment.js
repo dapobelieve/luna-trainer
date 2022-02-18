@@ -48,7 +48,7 @@ export const actions = {
     // eslint-disable-next-line no-useless-catch
     try {
       await this.$axios.$post(
-        `${process.env.PAYMENT_HOST_URL}/bank/account`,
+        `${process.env.PAYMENT_HOST_URL}/bank-account`,
         accountDetails
       )
       await dispatch('checkConnectedPaymentMethods')
@@ -69,6 +69,10 @@ export const actions = {
       console.log('th error ', error)
       throw error
     }
+  },
+  async getPaymentMethods () {
+    const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/payment-method`)
+    return res.data.map(m => m._id)
   },
   async enablePayment ({ state, commit }, paymentName) {
     try {

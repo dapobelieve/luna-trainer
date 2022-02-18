@@ -53,9 +53,6 @@ export default {
       default: false
     }
   },
-  mounted () {
-    console.log(process.env.SCHEDULER_HOST)
-  },
   methods: {
     connectToCalendar (provider) {
       window.location = new URL(`${process.env.SCHEDULER_HOST}/calendar/connect/${provider}/?userId=${this.$auth.user.userId}&timezone=Africa/Lagos`)

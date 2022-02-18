@@ -23,7 +23,7 @@
           <GwCustomerSelector v-model="invoiceDetails.customerId" :clients="allClients">
             <template v-slot:selectedOption="{selected}">
               <div>
-                {{selected.name || selected.firstName}}
+                {{ selected.name || selected.firstName }}
               </div>
             </template>
             <template v-slot:dropdownOption="{ optionObject }">
@@ -269,10 +269,10 @@ import DatePicker from 'vue2-datepicker'
 import isEmpty from 'lodash.isempty'
 import debounce from 'lodash.debounce'
 import ServiceDisplay from '~/components/invoices/ServiceDisplay'
-import GwCustomerSelector from "~/components/GwCustomerSelector";
+import GwCustomerSelector from '~/components/GwCustomerSelector'
 export default {
   name: 'Invoice',
-  components: {GwCustomerSelector, ServiceDisplay, DatePicker },
+  components: { GwCustomerSelector, ServiceDisplay, DatePicker },
   layout: 'invoice',
   props: {
     invoiceData: {
@@ -385,12 +385,12 @@ export default {
     async send () {
       try {
         this.isLoading = true
-        const sending = await this.$store.dispatch('invoice/sendInvoice', { id: this.invoiceId, recipient: this.invoiceDetails.customerId.email })
+        await this.$store.dispatch('invoice/sendInvoice', { id: this.invoiceId, recipient: this.invoiceDetails.customerId.email })
         this.$gwtoast.success('Invoice sending successful')
         this.$router.push({ name: 'invoices-sent' })
       } catch (e) {
         this.$gwtoast.error(`Error: ${e.message}`)
-      }finally {
+      } finally {
         this.isLoading = false
       }
     },

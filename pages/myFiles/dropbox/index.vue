@@ -55,7 +55,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer">
+              <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" @click.prevent="$router.push({ name: `myFiles-dropbox-category`, params: { category: data.type } })">
                 <td class="py-4 text-left px-6 w-3/6">
                   <div class="flex items-center">
                     <i class="fi-rr-folder"></i>
@@ -87,8 +87,6 @@
                   </span>
                 </td>
                 <td class="py-4 pr-6">
-                  <util-drop-down @click.stop="">
-                  </util-drop-down>
                 </td>
               </tr>
             </tbody>
