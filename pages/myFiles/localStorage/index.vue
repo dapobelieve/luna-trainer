@@ -87,7 +87,6 @@
                   </span>
                 </td>
                 <td class="py-4 pr-6">
-                  <files-drop-down @click.stop="" @sending="$modal.show('sending-options')" @moving="$modal.show('moving-options')" />
                 </td>
               </tr>
             </tbody>
