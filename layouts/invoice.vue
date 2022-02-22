@@ -18,14 +18,36 @@
     <Nuxt
       class="m-4 lg:m-0 lg:pt-12 flex justify-center"
     />
+    <!-- modals -->
+    <modal
+      name="connection"
+      height="auto"
+      width="500px"
+      :adaptive="true"
+      :click-to-close="false"
+    >
+      <PaymentConnection @closeModal="$modal.hide('connection')" />
+    </modal>
   </div>
 </template>
 <script>
+import PaymentConnection from '~/components/invoices/paymentConnectionStatus'
 export default {
   name: 'InvoiceLayout',
+  components: { PaymentConnection },
   provide () {
     return {
       sharedPage: this.sharedPage
+    }
+  },
+  middleware ({ store, redirect, $gwtoast, $modal }) {
+    const isBankAvailable = Boolean(Object.keys(store.state.payment.accountDetails.bank).length)
+    const isStripeAvailable = Boolean(Object.keys(store.state.payment.accountDetails.stripe).length)
+    console.log('hey')
+    if (!isBankAvailable || !isStripeAvailable) {
+      $gwtoast.success('Please connect a payment method')
+      // return redirect('/settings/payment')
+      $modal.show('connectionStatus')
     }
   },
   data () {

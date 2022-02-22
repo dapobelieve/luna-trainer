@@ -61,13 +61,13 @@ export const actions = {
     // eslint-disable-next-line no-useless-catch
     try {
       const { data } = await this.$axios.$patch(
-        `${process.env.PAYMENT_HOST_URL}/payments/bank-account/${state.accountDetails.bank._id}`,
+        `${process.env.PAYMENT_HOST_URL}/bank-account/${state.accountDetails.bank._id}`,
         details
       )
       commit('SET_ACCOUNT_DETAILS', data)
     } catch (error) {
       console.log('th error ', error)
-      throw error
+      return error
     }
   },
   async getPaymentMethods () {
