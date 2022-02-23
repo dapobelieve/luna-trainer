@@ -167,7 +167,6 @@
                 </GwCustomerSelector>
               </div>
             </div>
-            <small v-if="$v.form.participants.$error" class="text-red-600">Select one or more participants</small>
           </div>
           <div>
             <div v-if="form.participants">
@@ -311,10 +310,9 @@ export default {
     }
   },
   validations: {
-    form: {
+    form: { 
       title: { required },
       from: { required },
-      participants: { required },
       description: { required },
       timezone: { required },
       date: { required },

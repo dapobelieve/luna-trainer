@@ -338,6 +338,11 @@ export default {
       this.$store.commit('notifications/setNotification', data)
     })
 
+    this.$gwtoast.success('Google Calendar Connected', {
+      position: 'bottom-right',
+      duration: 0
+    })
+
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {

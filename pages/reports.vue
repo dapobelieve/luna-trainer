@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-blue-50 h-full">
+  <div class="bg-gray-100 h-full">
     <PageHeader>
       <template v-slot:title>
         <span class="font-normal">Reporting</span>
