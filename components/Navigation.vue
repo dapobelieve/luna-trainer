@@ -6,11 +6,16 @@
     <!-- main navigation -->
     <nav aria-label="Sidebar" class="w-full">
       <div class="relative">
-        <div class="px-1 pb-1 pt-1 lg:pt-0 lg:pb-6 overflow-y-auto h-screen max-h-screen">
+        <div
+          class="px-1 pb-1 pt-1 lg:pt-0 lg:pb-6 overflow-y-auto h-screen max-h-screen"
+        >
           <div class="px-3 py-4">
             <label for="search" class="sr-only">Search</label>
             <div class="relative flex items-center h-8">
-              <i class="fi-rr-search absolute left-2 text-gray-400" aria-hidden="true"></i>
+              <i
+                class="fi-rr-search absolute left-2 text-gray-400"
+                aria-hidden="true"
+              ></i>
               <input
                 type="text"
                 name="search"
@@ -20,7 +25,11 @@
             </div>
           </div>
           <div>
-            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebarMenu">
+            <div
+              v-for="menu in menus.menu"
+              :key="menu.index"
+              @click.prevent="hideSidebarMenu"
+            >
               <NuxtLink
                 v-if="
                   menu.path &&
@@ -34,13 +43,18 @@
                       'comingNext',
                       'getHelp',
                       'schedules',
-                      'courses'
+                      'courses',
                     ].includes(menu.path)
                 "
                 :id="menu.id || ''"
                 :to="{ name: menu.path, params: menu.params }"
                 exact-active-class="active"
-                :class="[$route.path.includes(menu.title) || $route.path.includes(menu.group) ? 'active': '']"
+                :class="[
+                  $route.path.includes(menu.title) ||
+                    $route.path.includes(menu.group)
+                    ? 'active'
+                    : '',
+                ]"
                 class="flex items-center relative navItems"
               >
                 <div
@@ -73,10 +87,18 @@
               </button>
               <div v-else-if="menu.path === 'addSession'">
                 <div class="p-4 flex justify-between items-center">
-                  <span class="uppercase tracking-wider font-medium text-xs">SCHEDULE</span>
+                  <span
+                    class="uppercase tracking-wider font-medium text-xs"
+                  >SCHEDULE</span>
                 </div>
-                <nuxt-link :class="[$route.path.includes('schedule') ? 'active': '']" to="/schedule" class="flex items-center relative navItems">
-                  <div class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4">
+                <nuxt-link
+                  :class="[$route.path.includes('schedule') ? 'active' : '']"
+                  to="/schedule"
+                  class="flex items-center relative navItems"
+                >
+                  <div
+                    class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
+                  >
                     <i class="fi-rr-calendar" />
                     <span class="truncate">My Schedule</span>
                   </div>
@@ -90,9 +112,14 @@
                   <span class="truncate">New Session</span>
                 </button>
               </div>
-              <div v-else-if="menu.path === 'newCourse'" class="bg-gray-50 border rounded-lg mt-2">
+              <div
+                v-else-if="menu.path === 'newCourse'"
+                class="bg-gray-50 border rounded-lg mt-2"
+              >
                 <div class="p-4 flex justify-between items-center">
-                  <span class="uppercase tracking-wider font-medium text-xs">COURSES</span>
+                  <span
+                    class="uppercase tracking-wider font-medium text-xs"
+                  >COURSES</span>
                   <span
                     class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
                   >Coming soon</span>
@@ -113,37 +140,31 @@
                   <i class="fi-rr-plus" />
                   <span class="truncate">New Course</span>
                 </button>
-                <p
-                  class="text-gray-400 px-4 py-3 text-sm"
-                >
+                <p class="text-gray-400 px-4 py-3 text-sm">
                   We’re still developing this, so bear with us!
                 </p>
               </div>
-              <div v-else-if="menu.path === 'getHelp'" class="bg-blue-50 border rounded-lg">
+              <div
+                v-else-if="menu.path === 'getHelp'"
+                class="bg-blue-50 border rounded-lg"
+              >
                 <div class="flex items-center justify-between p-2">
                   <div>
                     <h5 class="text-gray-400 px-2 py-2 text-base">
-                      Need Help?
+                      Turn {{ showAlert ? 'off' : 'on' }} alerts?
                     </h5>
-                    <p
-                      class="text-gray-400 px-2 py-2 text-sm"
-                    >
-                      Activate the switch button to send a message to us
+                    <p class="text-gray-400 px-2 py-2 text-sm">
+                      Activate the switch button to turn {{ showAlert ? 'off' : 'on' }} alerts
                     </p>
                   </div>
-                  <Toggle
-                    small-size
-                    :value="toggleIntercom"
-                    class="toggle"
-                    @input="allowIntercom"
-                  />
+                  <NotificationsToggleNotifications @toggle-state="showAlert = $event" />
                 </div>
               </div>
               <button
                 v-else-if="menu.path === 'notifications'"
-                :class="[$route.path.includes(menu.title) ? 'active': '']"
+                :class="[$route.path.includes(menu.title) ? 'active' : '']"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="$router.push({name: 'notifications'})"
+                @click="$router.push({ name: 'notifications' })"
               >
                 <i :class="[menu.icon ? menu.icon : '']" />
                 <div class="flex items-center flex-grow justify-between">
@@ -157,9 +178,9 @@
               <button
                 v-else-if="menu.path === 'messages'"
                 :id="menu.id || ''"
-                :class="[$route.path.includes(menu.title) ? 'active': '']"
+                :class="[$route.path.includes(menu.title) ? 'active' : '']"
                 class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="$router.push({name: 'messages'})"
+                @click="$router.push({ name: 'messages' })"
               >
                 <i :class="[menu.icon ? menu.icon : '']" />
                 <div class="flex items-center flex-grow justify-between">
@@ -178,8 +199,13 @@
                 <i class="fi-rr-power" />
                 <span class="truncate">Sign out</span>
               </button>
-              <div v-if="menu.section" class="p-4 flex justify-between items-center">
-                <span class="uppercase tracking-wider font-medium text-xs">{{ menu.section }}</span>
+              <div
+                v-if="menu.section"
+                class="p-4 flex justify-between items-center"
+              >
+                <span class="uppercase tracking-wider font-medium text-xs">{{
+                  menu.section
+                }}</span>
                 <span
                   v-if="menu.dev"
                   class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
@@ -219,7 +245,10 @@
       </template>
       <CreateNewInvoice @close="openModal = $event" />
     </GwModal>
-    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
+    <NotificationsModal
+      :visible="showNotification"
+      @close="showNotification = $event"
+    >
       <template v-slot:title>
         {{
           !acceptedClients.length
@@ -270,7 +299,7 @@ export default {
       showMessagesMenu: false,
       addSession: false,
       newCourse: false,
-      toggleIntercom: true
+      showAlert: true
     }
   },
   computed: {
@@ -281,15 +310,6 @@ export default {
     }),
     unreadnotifications () {
       return this.notifications.filter(n => n.status === 'UNREAD')
-    },
-    toggleIntercomCheck () {
-      let isToggled = null
-      if (this.$route.path.includes('messages')) {
-        isToggled = false
-      } else {
-        isToggled = true
-      }
-      return isToggled
     },
     firstName (string) {
       if (string) {
@@ -306,11 +326,7 @@ export default {
       return 'welp'
     }
   },
-  watch: {
-    toggleIntercomCheck: 'isMessagesRoute'
-  },
   async mounted () {
-    this.isMessagesRoute(this.toggleIntercomCheck)
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
@@ -319,19 +335,37 @@ export default {
 
     const url = new URL(process.env.BASEURL_HOST)
     // eslint-disable-next-line
-    const socket = io(`${url.origin}`,
-      {
-        path: `${url.pathname}/socket.io`,
-        query: {
-          accessToken: localStorage.getItem('auth._token.local').split('Bearer ')[1]
-        }
-      })
+    const socket = io(`${url.origin}`, {
+      path: `${url.pathname}/socket.io`,
+      query: {
+        accessToken: localStorage
+          .getItem('auth._token.local')
+          .split('Bearer ')[1]
+      }
+    })
 
     socket.on('connect', () => {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
       const { type } = data
+      const isNotificationOn = sessionStorage.getItem('notificationOn')
+      if (isNotificationOn) {
+        switch (type) {
+          case 'INVITE_REQUEST_ACCEPTED':
+            this.$gwtoast.show(`${data.firstName} just accepted your invite`)
+            break
+          case 'PAYMENT_ACCEPTED':
+            this.$gwtoast.show('payment made')
+            break
+          case 'STRIPE_CONNECTION_SUCCESSFUL':
+            this.$gwtoast.show('Stripe has just connected successful')
+            break
+          default:
+            this.$gwtoast.show('You have a new notification')
+            break
+        }
+      }
       if (type === 'INVITE_REQUEST_ACCEPTED') {
         this.localUpdateClient(data.data)
       }
@@ -347,23 +381,6 @@ export default {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
-    isMessagesRoute (value) {
-      if (value) {
-        this.toggleIntercom = true
-        window && window.Intercom('update', {
-          hide_default_launcher: false
-        })
-      } else {
-        this.toggleIntercom = false
-        window && window.Intercom('update', {
-          hide_default_launcher: true
-        })
-      }
-    },
-    allowIntercom () {
-      this.toggleIntercom = !this.toggleIntercom
-      window.Intercom(this.toggleIntercom ? 'show' : 'hide')
-    },
     createInvoice () {
       if (!this.acceptedClients.length || !this.$auth.user.services.length) {
         this.showNotification = true

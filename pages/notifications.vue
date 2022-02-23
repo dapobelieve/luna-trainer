@@ -35,7 +35,7 @@
           <div v-if="notifications && notifications.length" class="px-1 pb-20 lg:pb-1">
             <div v-for="n in notifications" :key="n.index" class="mb-2 last:mb-0">
               <CalendarSync v-if="n.type === 'CALENDAR_SYNC'" :notification="n" />
-              <NewClient v-else :notification="n" />
+              <NewNotifications v-else :notification="n" />
             </div>
             <div class="mb-2 last:mb-0">
               <CalendarSync />
@@ -59,11 +59,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import NewClient from '~/components/notifications/NewClient'
+import NewNotifications from '~/components/notifications/NewNotifications'
 import CalendarSync from '~/components/notifications/CalendarSync'
 export default {
   name: 'NavigationSubMenu',
-  components: { CalendarSync, NewClient },
+  components: { CalendarSync, NewNotifications },
   props: {
     value: Boolean
   },
