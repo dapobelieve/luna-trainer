@@ -157,7 +157,14 @@ export const actions = {
     return await this.$axios.$delete(
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
     )
-  }
+  },
+  async clientReportSummary () {
+    // day, month, week quarter
+    const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/reporting/client/summary?q=month`)
+    return res.data[0]
+  },
+  async clientReport () {},
+  async reportPreference () {}
 }
 export const getters = {
   getUser: state => state.user,
