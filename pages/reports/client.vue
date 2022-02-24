@@ -10,7 +10,7 @@
             <p class="text-lg">
               Total Clients
             </p>
-            <span class="text-2xl font-bold">1200</span>
+            <span class="text-2xl font-bold">{{ summary.totalPendingClients + summary.totalAcceptedClients }}</span>
           </div>
           <div class="ml-auto cursor-pointer">
             <i class="fi-rr-angle-right font-bold text-xs"></i>
@@ -25,7 +25,7 @@
               <p class="text-lg">
                 Registered Clients
               </p>
-              <span class="text-2xl font-bold">1189</span>
+              <span class="text-2xl font-bold">{{ summary.totalAcceptedClients }}</span>
             </div>
             <div class="ml-auto cursor-pointer">
               <i class="fi-rr-angle-right font-bold text-xs"></i>
@@ -39,7 +39,7 @@
               <p class="text-lg">
                 Unregistered Clients
               </p>
-              <span class="text-2xl font-bold">12</span>
+              <span class="text-2xl font-bold">{{ summary.totalPendingClients }}</span>
             </div>
             <div class="ml-auto cursor-pointer">
               <i class="fi-rr-angle-right font-bold text-xs"></i>
