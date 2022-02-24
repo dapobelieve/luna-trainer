@@ -77,12 +77,6 @@ export default {
           icon: 'fi-rr-shield',
           details: 'We keep your data as secure as possible',
           route: 'settings-security'
-        },
-        {
-          name: 'connections',
-          icon: 'fi-rr-data-transfer',
-          details: 'Integrate with multiple other services platforms',
-          route: 'settings-connections'
         }
       ]
     }
