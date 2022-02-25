@@ -157,7 +157,7 @@
 
         <!-- payment options -->
         <div class="mb-8">
-          <p class="text-xl font-normal text-black mb-4">
+          <p class="text-xl font-normal text-gray-700 mb-4">
             Payment Option
           </p>
           <div v-if="defaultPayment.length" class="flex justify-between items-center mb-6">
@@ -236,29 +236,6 @@
         :due-date="invoiceDetails.dueDate"
         @close="$modal.hide('preview-invoice')"
       />
-    </modal>
-
-    <!-- payment options -->
-    <modal
-      name="payment-options"
-      height="auto"
-      :adaptive="true"
-      width="500px"
-      :click-to-close="false"
-    >
-      <invoices-payment-connection :select-display="2" @closeModal="paymentModal($event)" />
-    </modal>
-
-    <modal
-      name="connectionStatus"
-      height="auto"
-      width="30%"
-      :adaptive="true"
-      :shift-x="0.92"
-      :shift-y="0.93"
-      :click-to-close="false"
-    >
-      <invoices-payment-connection-status @closeModal="closeConnectionStatusModal" />
     </modal>
   </div>
 </template>
@@ -415,15 +392,6 @@ export default {
       this.$router.push({
         name: 'settings-payment'
       })
-    },
-    paymentModal (e) {
-      this.$modal.hide('payment-options')
-      if (e) {
-        this.$modal.show('connectionStatus')
-      }
-    },
-    closeConnectionStatusModal () {
-      this.$modal.hide('connectionStatus')
     }
   },
   async mounted () {

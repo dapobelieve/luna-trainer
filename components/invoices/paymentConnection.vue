@@ -226,6 +226,7 @@ export default {
         } else {
           await this.updateBankAccount(this.bankForm)
         }
+        this.$emit('paymentConnected')
         this.closeModal()
         this.$gwtoast.success('Bank details saved')
       } catch (error) {
