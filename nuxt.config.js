@@ -4,8 +4,8 @@ require('./config')
 export default {
   ssr: false,
   head: {
-    title: 'Getwelp',
-    titleTemplate: 'Getwelp | %s',
+    title: 'Luna',
+    titleTemplate: 'Luna | %s',
     htmlAttrs: {
       lang: 'en'
     },
@@ -65,7 +65,8 @@ export default {
     SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     paymentHostUrl: process.env.PAYMENT_HOST_URL,
-    sendBirdAppId: process.env.SENDBIRD_APP_ID
+    sendBirdAppId: process.env.SENDBIRD_APP_ID,
+    REPORTING_HOST: process.env.REPORTING_HOST
   },
 
   buildModules: [
@@ -132,10 +133,6 @@ export default {
   },
   build: {
     transpile: /@fullcalendar.*/,
-    // extend(config) {
-    //   config.resolve.plugins.push(PnpWebpackPlugin);
-    //   config.resolveLoader.plugins.push(PnpWebpackPlugin.moduleLoader(module));
-    // },
     postcss: {
       plugins: {
         cssnano: {

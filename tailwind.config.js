@@ -13,7 +13,9 @@ module.exports = {
     extend: {
       colors: {
         cyan: colors.cyan,
-        teal: colors.teal
+        teal: colors.teal,
+        lime: colors.lime,
+        amber: colors.amber
       },
       zIndex: {
         '-10': '-10'
