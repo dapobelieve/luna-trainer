@@ -203,6 +203,7 @@ import CircularKey from '~/components/report/CircularKey'
 import ClickOutside from '~/components/util/ClickOutside'
 Chart.register(...registerables)
 export default {
+  name: 'Financials',
   components: {
     ClickOutside,
     CircularKey,
@@ -211,6 +212,7 @@ export default {
   },
   data () {
     return {
+      financials: {},
       showMore: false,
       showStatus: false,
       moreValue: null,
@@ -282,6 +284,9 @@ export default {
 
     const clientsCtx = document.getElementById('performance-chart').getContext('2d')
     this.clientChart = new Chart(clientsCtx, clientsData)
+  },
+  async beforeMount () {
+    this.financials = await this.$store.dispatch('profile/userFinancials')
   }
 }
 </script>

@@ -164,6 +164,10 @@ export const actions = {
     return res.data[0]
   },
   async clientReport () {},
+  async userFinancials () {
+    const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/invoice`)
+    return res.data
+  },
   async reportPreference () {}
 }
 export const getters = {

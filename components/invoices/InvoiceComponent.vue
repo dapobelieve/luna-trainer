@@ -397,7 +397,8 @@ export default {
     updateInvoice: debounce(async function () {
       try {
         this.$nuxt.$emit('autosaving-invoice')
-        await this.$axios.$put(`${process.env.BASEURL_HOST}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
+        console.log('updatng from component')
+        await this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/invoice/${this.invoiceId}`, this.invoiceToBeSent)
       } catch (error) {
         console.error(error)
       }

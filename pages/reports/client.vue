@@ -120,7 +120,7 @@
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 export default {
-  name: 'Reporting-Client',
+  name: 'ReportingClient',
   data () {
     return {
       summary: {},
@@ -132,9 +132,10 @@ export default {
       ]
     }
   },
-  async mounted () {
+  async beforeMount () {
     this.summary = await this.$store.dispatch('profile/clientReportSummary')
-    console.log(this.summary)
+  },
+  mounted () {
     const clientsData = {
       type: 'line',
       data: {
