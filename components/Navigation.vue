@@ -348,7 +348,11 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
+      console.log('new socket ', data)
       const { type } = data
+      // if (type === '') {
+      //   this.$nuxt.$emit('device-paired')
+      // }
       const isNotificationOn = sessionStorage.getItem('notificationOn')
       if (isNotificationOn) {
         switch (type) {
