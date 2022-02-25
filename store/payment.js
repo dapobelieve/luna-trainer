@@ -38,11 +38,12 @@ export const actions = {
           }
         })
       }
+      dispatch('loader/endProcess', null, { root: true })
+      return data.data.length
     } catch (error) {
       dispatch('loader/endProcess', null, { root: true })
       return error
     }
-    dispatch('loader/endProcess', null, { root: true })
   },
   async createBankAccount ({ commit, dispatch }, accountDetails) {
     // eslint-disable-next-line no-useless-catch
@@ -66,7 +67,6 @@ export const actions = {
       )
       commit('SET_ACCOUNT_DETAILS', data)
     } catch (error) {
-      console.log('th error ', error)
       return error
     }
   },
