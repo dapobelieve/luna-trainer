@@ -10,7 +10,7 @@
             <p class="text-lg">
               Total Clients
             </p>
-            <span class="text-2xl font-bold">1200</span>
+            <span class="text-2xl font-bold">{{ summary.totalPendingClients + summary.totalAcceptedClients }}</span>
           </div>
           <div class="ml-auto cursor-pointer">
             <i class="fi-rr-angle-right font-bold text-xs"></i>
@@ -25,7 +25,7 @@
               <p class="text-lg">
                 Registered Clients
               </p>
-              <span class="text-2xl font-bold">1189</span>
+              <span class="text-2xl font-bold">{{ summary.totalAcceptedClients }}</span>
             </div>
             <div class="ml-auto cursor-pointer">
               <i class="fi-rr-angle-right font-bold text-xs"></i>
@@ -39,7 +39,7 @@
               <p class="text-lg">
                 Unregistered Clients
               </p>
-              <span class="text-2xl font-bold">12</span>
+              <span class="text-2xl font-bold">{{ summary.totalPendingClients }}</span>
             </div>
             <div class="ml-auto cursor-pointer">
               <i class="fi-rr-angle-right font-bold text-xs"></i>
@@ -85,6 +85,15 @@
           <div class="p-8">
             <canvas id="dog-breeds"></canvas>
           </div>
+          <div>
+            <div v-for="(x, xIndex) in 4" :key="xIndex" class="flex items-center font-bold text-black mb-4">
+              <div class="inline-flex items-center">
+                <div :class="breedColors[xIndex]" class="h-4 w-4 rounded-full mr-4"></div>
+                <div>0 - 6 months</div>
+              </div>
+              <span class="ml-auto">5%</span>
+            </div>
+          </div>
         </ReportCard>
       </div>
     </div>
@@ -111,6 +120,21 @@
 import { Chart, registerables } from 'chart.js'
 Chart.register(...registerables)
 export default {
+  name: 'ReportingClient',
+  data () {
+    return {
+      summary: {},
+      breedColors: [
+        'bg-teal-400',
+        'bg-amber-400',
+        'bg-pink-400',
+        'bg-blue-400'
+      ]
+    }
+  },
+  async beforeMount () {
+    this.summary = await this.$store.dispatch('profile/clientReportSummary')
+  },
   mounted () {
     const clientsData = {
       type: 'line',
@@ -118,7 +142,7 @@ export default {
         labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
         datasets: [
           {
-            data: [40, 140, 110, 230, 592, 385, 82, 214, 90, 140, 410, 230],
+            data: [40, 140, 110, 230, 592, 385, 82, 214, 90, 140, 410, 230, 0],
             backgroundColor: ['rgba(37, 99, 235, 0.11)', 'rgba(255, 255, 255, 0)'],
             borderColor: '#3B82F6',
             borderWidth: 2
@@ -181,8 +205,8 @@ export default {
             fill: {
               target: 'origin'
             },
-            data: [40, 90, 140, 410, 230, 64],
-            backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 159, 64)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)', 'rgb(153, 102, 255)'],
+            data: [40, 140, 410, 230],
+            backgroundColor: ['rgb(255, 99, 132)', 'rgb(255, 205, 86)', 'rgb(75, 192, 192)', 'rgb(54, 162, 235)'],
             borderWidth: 2
           }
         ]
@@ -201,13 +225,12 @@ export default {
     this.clientChart = new Chart(clientsCtx, clientsData)
 
     const breedCtx = document.getElementById('dog-breeds').getContext('2d')
+    /* eslint-disable no-new */
     new Chart(breedCtx, breedsData)
   }
 }
 </script>
 
 <style scoped>
- /** {*/
- /*  border: 1px solid red;*/
- /*}*/
+
 </style>
