@@ -7,7 +7,9 @@
     </div>
     <div class="px-4">
       <div class="mb-4">
-        <p class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
+        <p
+          class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8"
+        >
           Password
         </p>
         <div class="flex justify-between items-center">
@@ -20,14 +22,21 @@
             </p>
           </div>
           <div>
-            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="button-outline" @click="$modal.show('change-password-modal')">
+            <button
+              :disabled="isAuthLocal"
+              :class="{ 'cursor-not-allowed': isAuthLocal }"
+              class="button-outline"
+              @click="$modal.show('change-password-modal')"
+            >
               Change Password
             </button>
           </div>
         </div>
       </div>
       <div class="mb-6">
-        <p class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
+        <p
+          class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8"
+        >
           Email
         </p>
         <div class="flex justify-between items-center">
@@ -40,7 +49,12 @@
             </p>
           </div>
           <div>
-            <button :disabled="isAuthLocal" :class="{ 'cursor-not-allowed' : isAuthLocal }" class="button-outline" @click="$modal.show('change-email-modal')">
+            <button
+              :disabled="isAuthLocal"
+              :class="{ 'cursor-not-allowed': isAuthLocal }"
+              class="button-outline"
+              @click="$modal.show('change-email-modal')"
+            >
               Change Email
             </button>
           </div>
@@ -53,7 +67,7 @@
               Your Email
             </h6>
             <p class="text-gray-500 text-sm">
-              We have sent a verification link to {{ secondaryEmail }}. <br>
+              We have sent a verification link to {{ secondaryEmail }}. <br />
               Please confirm your email to complete the setup.
             </p>
           </div>
@@ -65,32 +79,49 @@
         </div>
       </div>
       <div class="mb-6">
-        <p class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
+        <p
+          class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8"
+        >
           connection access
         </p>
         <div class="flex justify-between items-center">
           <div>
             <h6 class="text-grey-700 font-medium text-lg mb-1">
-              {{ connectedDevices ? 'Linked devices' : 'Connect to a device' }}
+              {{ connectedDevices ? "Linked devices" : "Connect to a device" }}
               <p class="text-gray-500 text-sm">
-                {{ connectedDevices ? 'Tap a device to disconnect' : 'Connect to a device or login to your mobile app using QR code' }}
+                {{
+                  connectedDevices
+                    ? "Tap a device to disconnect"
+                    : "Connect to a device or login to your mobile app using QR code"
+                }}
               </p>
             </h6>
           </div>
           <div>
             <button class="button-outline" @click="deviceConnection">
-              {{ connectedDevices ? 'Link A Device' : generatingQr ? 'Generating qr...' : 'Connect Device' }}
+              {{
+                connectedDevices
+                  ? "Link A Device"
+                  : generatingQr
+                    ? "Generating qr..."
+                    : "Connect Device"
+              }}
             </button>
           </div>
         </div>
       </div>
     </div>
     <template v-if="connectedDevices.length">
-      <button v-for="device in connectedDevices" :key="device.id" class="flex items-center justify-start w-full mt-4 px-4 py-1 hover:bg-gray-50 focus:outline-none" @click="deleteModal(device.id)">
+      <button
+        v-for="device in connectedDevices"
+        :key="device.id"
+        class="flex items-center justify-start w-full mt-4 px-4 py-1 hover:bg-gray-50 focus:outline-none"
+        @click="deleteModal(device)"
+      >
         <i class="fi-rr-mobile text-gray-500"></i>
         <div class="ml-4">
           <p class="text-lg font-medium text-gray-700 mb-1">
-            {{ device.model }} {{ device.qrCodeId }}
+            {{ device.model }} {{ device.version }}
           </p>
           <p class="text-sm text-left font-normal text-gray-500">
             Last Active {{ device.updatedAt | howLongAgo }}
@@ -98,24 +129,23 @@
         </div>
       </button>
     </template>
-    <ChangeEmailComponent
-      @display-cancel-change="cancelEmailChange = true"
-    />
+    <ChangeEmailComponent @display-cancel-change="cancelEmailChange = true" />
     <ChangePasswordComponent />
 
-    <modal
-      name="link-device"
-      height="535px"
-      width="512px"
-      :adaptive="true"
-    >
-      <settings-link-device :img-src="qrCode" @close="$modal.hide('link-device')" />
+    <modal name="link-device" height="535px" width="512px" :adaptive="true">
+      <settings-link-device
+        :img-src="qrCode"
+        @close="$modal.hide('link-device')"
+      />
     </modal>
 
     <delete-modal v-model="showDeleteModal" title="Disconnect Device">
       <template v-slot:subTitle>
         <p class="text-base font-normal text-gray-700">
-          Are you syre you want to disconnect device <span class="font-medium">{{ currentId }}</span>.
+          Are you sure you want to disconnect device
+          <span
+            class="font-medium"
+          >{{ currentDevice.model }}{{ currentDevice.version }}</span>.
         </p>
       </template>
       <template v-slot:confirm>
@@ -139,7 +169,7 @@ export default {
       showDeleteModal: false,
       qrCode: '',
       generatingQr: false,
-      currentId: ''
+      currentDevice: ''
     }
   },
   computed: {
@@ -155,13 +185,12 @@ export default {
     }
   },
   created () {
-    // this.$nuxt.$on('device-paired', () => {
-    //   console.log('listened ')
-    //   this.$modal.hide('link-device')
-    // })
+    this.$nuxt.$on('device-paired', () => {
+      this.$modal.hide('link-device')
+      this.$gwtoast.success('Device pairing successful')
+    })
   },
   mounted () {
-    // this.connectedDevices()
     this.getConnectedDevices()
   },
   beforeDestroy () {
@@ -177,7 +206,9 @@ export default {
     async cancelChange () {
       this.isLoading = true
       try {
-        await this.$store.dispatch('authorize/cancelChangeEmail', { ...this.form })
+        await this.$store.dispatch('authorize/cancelChangeEmail', {
+          ...this.form
+        })
         this.$gwtoast.success('Successfully cancelled ')
         await this.fetchUserProfile()
       } catch (e) {
@@ -195,20 +226,18 @@ export default {
       this.generatingQr = false
       this.connectedDevices = !this.connectedDevices
     },
-    deleteModal (id) {
-      this.currentId = id
+    deleteModal (device) {
+      this.currentDevice = device
       this.showDeleteModal = true
-      console.log('id ', this.currentId)
+      console.log('id ', this.currentDevice)
     },
     disconnect () {
       // this.connectedDevices = false
-      this.disconnectDevice(this.currentId)
+      this.disconnectDevice(this.currentDevice.deviceId)
       this.showDeleteModal = false
     }
   }
 }
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
