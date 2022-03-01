@@ -11,7 +11,7 @@
     </p>
     <img
       class="mx-auto"
-      src="~/assets/img/frame.png"
+      :src="imgSrc"
       alt="qr code"
     />
   </div>
@@ -19,7 +19,13 @@
 
 <script>
 export default {
-  name: 'LinkDevice'
+  name: 'LinkDevice',
+  props: {
+    imgSrc: {
+      type: String,
+      required: true
+    }
+  }
 }
 </script>
 

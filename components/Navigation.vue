@@ -349,6 +349,9 @@ export default {
     })
     socket.on('new-notification', (data) => {
       const { type } = data
+      if (type === 'LOGIN_WITH_QR') {
+        this.$nuxt.$emit('device-paired')
+      }
       const isNotificationOn = sessionStorage.getItem('notificationOn')
       if (isNotificationOn) {
         switch (type) {
