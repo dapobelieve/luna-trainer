@@ -18,14 +18,18 @@ export const actions = {
     return qrCode
   },
 
-  async getConnectedDevices ({ commit }) {
+  async getConnectedDevices ({ commit, dispatch }) {
+    dispatch('loader/startProcess', null, { root: true })
     const { data } = await this.$axios.$get(`${process.env.ACCOUNT_HOST_URL}/auth/device/connected`)
     commit('setStates', { connectedDevices: data })
+    dispatch('loader/endProcess', null, { root: true })
   },
 
-  async disconnectDevice ({ commit }, deviceId) {
-    const data = await this.$axios.$delete(`${process.env.ACCOUNT_HOST_URL}/auth/device/${deviceId}`)
-    console.log('disconnected ', data)
+  async disconnectDevice ({ commit, dispatch }, deviceId) {
+    dispatch('loader/startProcess', null, { root: true })
+    await this.$axios.$delete(`${process.env.ACCOUNT_HOST_URL}/auth/device/${deviceId}`)
+    await dispatch('getConnectedDevices')
+    dispatch('loader/endProcess', null, { root: true })
   }
 }
 
