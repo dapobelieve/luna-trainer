@@ -57,7 +57,9 @@ export default {
     profile: {
       handler (newValue) {
         this.$emit('change', newValue)
+        this.$emit('validation', this.$v.$invalid)
       },
+      immediate: true,
       deep: true
     }
   }

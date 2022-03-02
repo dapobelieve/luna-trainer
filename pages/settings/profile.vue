@@ -6,15 +6,15 @@
     <tabbed-items :links="['About You', 'Business Info', 'As a trainer', 'Localization']">
       <template v-slot:tabviews="{ tab }">
         <div class="mx-auto" style="max-width: 448px">
-          <profile-settings-about-you v-if="tab === 1" v-model="profile" @change="profile = $event" />
-          <profile-settings-business-info v-if="tab === 2" v-model="profile" @change="profile = $event" />
-          <profile-settings-trainer-info v-if="tab === 3" v-model="profile" @change="profile = $event" />
-          <profile-settings-localization-info v-if="tab === 4" v-model="profile" @change="profile = $event" />
+          <profile-settings-about-you v-if="tab === 1" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
+          <profile-settings-business-info v-if="tab === 2" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
+          <profile-settings-trainer-info v-if="tab === 3" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
+          <profile-settings-localization-info v-if="tab === 4" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
 
           <div class="flex justify-end mt-6">
             <button-spinner
               style="width:fit-content"
-              :disabled="$v.$invalid"
+              :disabled="disableButton"
               :loading="isLoading"
               @click="update"
             >
@@ -33,7 +33,8 @@ export default {
   data () {
     return {
       profile: JSON.parse(JSON.stringify(this.$auth.user)),
-      isLoading: false
+      isLoading: false,
+      disableButton: true
     }
   },
   methods: {
