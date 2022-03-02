@@ -42,7 +42,7 @@
         <div class="flex flex-row gap-2">
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : gender }"
+            :class="{ 'bg-blue-50' : gender === 'male' }"
           >
             <input
               v-model="gender"
@@ -58,7 +58,7 @@
           </label>
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : !gender }"
+            :class="{ 'bg-blue-50' : gender === 'female' }"
           >
             <input
               v-model="gender"
