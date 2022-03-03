@@ -1,6 +1,6 @@
 export default function ({ $axios, redirect, $toast, store, $modal }) {
   $axios.onRequest(() => {
-    store.commit("profile/SET_STATE", {loading: true})
+    store.commit('profile/SET_STATE', { loading: true })
   })
   $axios.onError((error) => {
     if (error.response.status === 401) {
@@ -10,6 +10,6 @@ export default function ({ $axios, redirect, $toast, store, $modal }) {
     }
   })
   $axios.onResponse(() => {
-    store.commit("profile/SET_STATE", {loading: false})
+    store.commit('profile/SET_STATE', { loading: false })
   })
 }

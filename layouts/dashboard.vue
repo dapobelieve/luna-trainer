@@ -3,7 +3,7 @@
     <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
       <div class="inline-flex flex-col items-center">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
-        <SingleLoader height="40px" width="40px" />
+        <SingleLoader height="20px" width="20px" />
       </div>
     </div>
     <GwHeader />
@@ -23,16 +23,16 @@
   </async-view>
 </template>
 <script>
-import {mapState, mapActions, mapGetters} from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
-import SingleLoader from "~/components/util/SingleLoader";
+import SingleLoader from '~/components/util/SingleLoader'
 export default {
-  components: {SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -46,7 +46,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loading: 'profile/getLoadingl'
+      loading: 'profile/getLoading'
     }),
     ...mapState({
       connectedChannels: state => state.sendBird.connectedChannels,

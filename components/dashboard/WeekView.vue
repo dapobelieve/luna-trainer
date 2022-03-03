@@ -1,9 +1,9 @@
 <template>
   <div class="flex justify-between">
-    <label :key="wkIndex" v-for="(wkObj, wkIndex) in computeWeek" class="inline-flex cursor-pointer w-8 flex-col items-center">
+    <label v-for="(wkObj, wkIndex) in computeWeek" :key="wkIndex" class="inline-flex cursor-pointer w-8 flex-col items-center">
       <h3 class="font-bold mb-4">{{ wkObj.day }}</h3>
       <div :class="[today.getDate() === wkObj.date ? 'isToday' : '']" class="w-8 h-8 inline-flex justify-center items-center">
-        <span class="text-gray-500">{{wkObj.date}}</span>
+        <span class="text-gray-500">{{ wkObj.date }}</span>
       </div>
     </label>
   </div>
@@ -14,14 +14,15 @@ export default {
   data () {
     return {
       weekDays: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-      today: new Date(),
+      today: new Date()
     }
   },
   computed: {
-    computeWeek() {
-      let that = this
-      Date.prototype.getWeek = function() {
-        let weekBegins = new Date(this.setDate(this.getDate() - (this.getDay() - 1)))
+    computeWeek () {
+      const that = this
+      // eslint-disable-next-line no-extend-native
+      Date.prototype.getWeek = function () {
+        const weekBegins = new Date(this.setDate(this.getDate() - (this.getDay() - 1)))
         return [
           {
             day: that.weekDays[weekBegins.getDay()],
@@ -30,8 +31,8 @@ export default {
         ]
           .concat(
             String(Array(6)).split(',')
-              .map (() => {
-                let x =new Date(this.setDate(this.getDate()+1))
+              .map(() => {
+                const x = new Date(this.setDate(this.getDate() + 1))
                 return {
                   day: that.weekDays[x.getDay()],
                   date: x.getDate()
@@ -41,7 +42,7 @@ export default {
       }
 
       return new Date(Date.now()).getWeek()
-    },
+    }
   }
 }
 </script>

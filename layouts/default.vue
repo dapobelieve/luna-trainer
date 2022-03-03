@@ -3,7 +3,7 @@
     <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
       <div class="inline-flex flex-col items-center">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
-        <SingleLoader height="40px" width="40px" />
+        <SingleLoader height="20px" width="20px" />
       </div>
     </div>
     <div class="min-h-screen">

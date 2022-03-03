@@ -2,8 +2,6 @@
   <div
     class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
-    <!-- Sidebar Search -->
-    <!-- main navigation -->
     <nav aria-label="Sidebar" class="w-full">
       <div class="relative">
         <div class="px-1 pb-1 pt-3 lg:pt-3 lg:pb-6 overflow-y-auto h-screen max-h-screen">
@@ -15,7 +13,7 @@
               <div class="flex-shrink h-8 w-8 mr-3">
                 <img class="object-cover rounded-full" :src="$auth.user.imgURL">
               </div>
-              <span class="text-gray-800 text-lg">Dapo Believe</span>
+              <span class="text-gray-800 text-lg">{{$auth.user.firstName}} {{$auth.user.lastName}}</span>
             </div>
           </div>
           <div class="py-4">
@@ -39,18 +37,26 @@
             <div class="flex-grow">
               <NuxtLink
                 v-for="(menu, menuIndex) in menus"
-                :class="[$route.name === menu.path ? 'active' : '']" :key="menuIndex"
+                :key="menuIndex"
+                :class="[$route.name === menu.path ? 'active' : '']"
                 :to="{name: menu.path}"
-                class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg">
+                class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg"
+              >
                 <i :class="menu.icon" class="mr-4 mt-0.5"></i>
-                <h3 class="">{{ menu.title }}</h3>
+                <h3 class="">
+                  {{ menu.title }}
+                </h3>
               </NuxtLink>
             </div>
             <div class="bottom-nav">
-              <div class="pl-2 mb-4">Help</div>
+              <div class="pl-2 mb-4">
+                Help
+              </div>
               <div class="bg-gray-700 flex items-center justify-between px-3 py-3 rounded-2xl">
                 <div class="text-white">
-                  <h3 class="font-bold text-white mb-2">Need Help?</h3>
+                  <h3 class="font-bold text-white mb-2">
+                    Need Help?
+                  </h3>
                   <span class="text-sm">
                     Activate the switch button to send a message to us
                   </span>
@@ -61,12 +67,16 @@
               </div>
               <NuxtLink to="/" class="flex hover:bg-blue-50 mb-1 items-center pl-4 text-gray-600 py-1 rounded-lg">
                 <i class="fi-rr-time-half-past mr-4 mt-0.5"></i>
-                <h3 class="">What's coming next...</h3>
+                <h3 class="">
+                  What's coming next...
+                </h3>
               </NuxtLink>
-              <NuxtLink to="/" class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg">
+              <button class="flex hover:bg-blue-50 mb-1 w-full justify-start px-3 pl-4 text-gray-600 py-1 rounded-lg" @click="signOut">
                 <i class="fi-rr-power mr-4 mt-0.5"></i>
-                <h3 class="">Sign out</h3>
-              </NuxtLink>
+                <h3 class="">
+                  Sign out
+                </h3>
+              </button>
             </div>
           </div>
         </div>
@@ -149,46 +159,46 @@ export default {
     return {
       menus: [
         {
-          "icon": "fi-rr-home",
-          "title": "Home",
-          "path": "dashboard"
+          icon: 'fi-rr-home',
+          title: 'Home',
+          path: 'dashboard'
         },
         {
-          "icon": "fi-rr-following",
-          "title": "Clients",
-          "path": "clients"
+          icon: 'fi-rr-following',
+          title: 'Clients',
+          path: 'clients'
         },
         {
-          "icon": "fi-rr-calendar",
-          "title": "Schedule",
-          "path": "schedule"
+          icon: 'fi-rr-calendar',
+          title: 'Schedule',
+          path: 'schedule'
         },
         {
-          "icon": "fi-rr-receipt",
-          "title": "Invoices",
-          "path": "invoices-sent"
+          icon: 'fi-rr-receipt',
+          title: 'Invoices',
+          path: 'invoices-sent'
         },
         {
-          "icon": "fi-rr-comment-alt",
-          "id": "introjs-step-5",
-          "title": "Messages",
-          "path": "messages"
+          icon: 'fi-rr-comment-alt',
+          id: 'introjs-step-5',
+          title: 'Messages',
+          path: 'messages'
         },
         {
-          "icon": "fi-rr-bell-ring",
-          "title": "Notifications",
-          "path": "notifications"
+          icon: 'fi-rr-bell-ring',
+          title: 'Notifications',
+          path: 'notifications'
         },
         {
-          "icon": "fi-rr-chart-histogram",
-          "title": "Report",
-          "path": "reports-financials"
+          icon: 'fi-rr-chart-histogram',
+          title: 'Report',
+          path: 'reports-financials'
         },
         {
-          "icon": "fi-rr-settings",
-          "title": "Settings",
-          "path": "settings-profile"
-        },
+          icon: 'fi-rr-settings',
+          title: 'Settings',
+          path: 'settings-profile'
+        }
       ],
       showNotification: false,
       openModal: false,

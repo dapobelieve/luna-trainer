@@ -310,7 +310,7 @@ export default {
     }
   },
   validations: {
-    form: { 
+    form: {
       title: { required },
       from: { required },
       description: { required },

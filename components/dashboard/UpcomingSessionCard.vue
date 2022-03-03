@@ -5,7 +5,9 @@
         <ClientAvatar />
       </div>
       <div class="flex flex-col">
-        <h3 class="font-bold">Dog aggression training with James Blanco</h3>
+        <h3 class="font-bold">
+          Dog aggression training with James Blanco
+        </h3>
         <small class="text-sm">7:30 - 8:30AM</small>
         <span class="text-gray-400 text-sm">Remote</span>
       </div>
@@ -25,7 +27,7 @@ export default {
       default: 'pink'
     }
   },
-  data() {
+  data () {
     return {
       scard: scard++
     }
