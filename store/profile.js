@@ -38,7 +38,6 @@ export const state = () => ({
 
 export const mutations = {
   SET_PROFILE (state, user) {
-    console.log('incoming user ', user)
     state.user = {
       firstName: '',
       lastName: '',
@@ -48,7 +47,8 @@ export const mutations = {
       usePositiveReinforce: false,
       gender: 'male',
       ...user,
-      location: 'Nigeria'
+      location: 'Nigeria',
+      currency: 'GBP'
     }
   },
   SET_STATE (state, data) {
