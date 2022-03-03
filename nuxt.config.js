@@ -64,13 +64,12 @@ export default {
     SCHEDULER_HOST: process.env.SCHEDULER_HOST,
     SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
-    paymentHostUrl: process.env.PAYMENT_HOST_URL,
     sendBirdAppId: process.env.SENDBIRD_APP_ID,
     REPORTING_HOST: process.env.REPORTING_HOST
   },
-
+  loading: '~/components/loading.vue',
   buildModules: [
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],

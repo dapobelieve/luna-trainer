@@ -1,33 +1,47 @@
 <template>
   <main>
-    <article>
-      <div class="grid gap-4">
-        <!-- dashboard intro -->
-        <div class="rounded-xl border bg-white shadow-sm overflow-hidden">
-          <div class="font-normal p-4 pt-5 flex flex-col space-y-2">
-            <h1 class="capitalize text-3xl">
-              hey {{ $auth.user.firstName }}!
-            </h1>
-            <p class="text-gray-500">
-              Welcome back! If you need the GetWelp Team’s help with anything, just pop us a message in the live chat below!
-            </p>
-          </div>
-          <dashboard-status-card />
+    <section class="mt-2">
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-xl">
+          <DashboardCard class="p-0">
+            <div class="mb-5">
+              <img class="w-full" src="~/assets/img/home.svg">
+            </div>
+            <div class="mb-6">
+              <div class="flex items-center px-3 mb-10">
+                <div class="flex items-center">
+                  <span class="fi-rr-calendar text-purple-500 mr-3 mt-1"></span>
+                  <h3 class="font-bold">My Sessions</h3>
+                </div>
+                <button class="ml-auto text-primary-color border rounded-lg px-4 py-2">
+                  Upcoming
+                  <i class="fi-rr-caret-down mt-1 ml-2"></i>
+                </button>
+              </div>
+              <div class="flex px-3 items-center mb-4">
+                <div class="font-medium text-sm">March 2, Wednesday</div>
+                <span class="ml-auto text-gray-500 mr-1">3 upcoming</span>
+              </div>
+              <div class="px-3">
+                <WeekView />
+              </div>
+            </div>
+            <div class="px-3">
+              <CurrentSessionCard class="mb-4" />
+              <div>
+                <UpcomingSessionCard class="mb-2" />
+                <UpcomingSessionCard color="blue" class="" />
+              </div>
+            </div>
+          </DashboardCard>
         </div>
-
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="grid gap-4">
-            <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" class="h-72" />
-            <!-- new messages -->
-            <dashboard-messages />
-          </div>
-          <!-- invoices -->
+        <div class="grid gap-4">
           <dashboard-payments :paid-invoices="paidInvoices" />
+          <dashboard-messages />
         </div>
       </div>
-    </article>
-
+      <Client
+    </section>
     <!-- modals -->
     <NotificationsModal :visible="true">
       <template v-slot:title>
@@ -80,9 +94,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import DashboardClients from '~/components/DashboardClients.vue'
+import DashboardCard from "~/components/dashboard/DashboardCard";
+import WeekView from "~/components/dashboard/WeekView";
+import CurrentSessionCard from "~/components/dashboard/CurrentSessionCard";
+import UpcomingSessionCard from "~/components/dashboard/UpcomingSessionCard";
 export default {
   name: 'Dashboard',
-  components: { DashboardClients },
+  components: {UpcomingSessionCard, CurrentSessionCard, WeekView, DashboardCard, DashboardClients },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
@@ -151,6 +169,9 @@ export default {
     })
   },
   methods: {
+    do() {
+      console.log('doing...')
+    },
     tour () {
       this.$modal.hide('welcome-modal')
       this.$intro()
@@ -204,7 +225,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .introjs-tooltip {
   background-color: #3B82F6;
   border-radius: 12px;

@@ -34,6 +34,11 @@ export default {
     },
     clientInfo: {
       type: Object,
+      default: function() {
+        return {
+          imgURL: 'https://res.cloudinary.com/rohing/image/upload/v1646190983/gitProfile_qje88s.png'
+        }
+      },
       required: true
     }
   },

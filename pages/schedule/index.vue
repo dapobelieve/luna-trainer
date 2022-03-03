@@ -161,7 +161,6 @@ export default {
     })
   },
   async mounted () {
-    // setup calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
     // fetch local calendar
