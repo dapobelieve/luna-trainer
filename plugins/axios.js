@@ -6,4 +6,7 @@ export default function ({ $axios, redirect, $toast, store, $modal }) {
       throw error.response.data
     }
   })
+  $axios.onResponse(() => {
+    // store.commit('profile/SET_STATE', { loading: false })
+  })
 }

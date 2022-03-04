@@ -4,6 +4,7 @@ export const state = () => ({
   isStripeConnected: false,
   editingServiceCard: false,
   user: {},
+  loading: false,
   currency: 'GBP',
   trainerRegData: {
     personalProfile: {
@@ -162,12 +163,14 @@ export const actions = {
   },
   async clientReport () {},
   async userFinancials () {
+    return {}
     const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/invoice`)
     return res.data
   },
   async reportPreference () {}
 }
 export const getters = {
+  getLoading: state => state.loading,
   getUser: state => state.user,
   stripeConnection: state => state.user.stripe,
   isStripeConnected: state =>

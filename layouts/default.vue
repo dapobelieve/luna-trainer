@@ -1,5 +1,11 @@
 <template>
   <async-view loader-id="logout">
+    <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
+      <div class="inline-flex flex-col items-center">
+        <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
+        <SingleLoader height="20px" width="20px" />
+      </div>
+    </div>
     <div class="min-h-screen">
       <GwHeader
         :class="{
@@ -17,6 +23,16 @@
         <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
+        <transition
+          enter-active-class="transition-all ease-in-out duration-[500ms]"
+          leave-active-class="transition-all ease-in-out duration-[500ms]"
+          enter-class="transform translate-x-full"
+          leave-class="-translate-x-0"
+          enter-to-class="-translate-x-0"
+          leave-to-class="translate-x-full"
+        >
+          <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer.open" />
+        </transition>
       </div>
       <NotificationsModal
         :visible="showNotification"
@@ -118,8 +134,9 @@ import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
+import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
 export default {
-  components: { ExpiredSessionAuthModal, InviteNewClientModal },
+  components: {SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -137,10 +154,24 @@ export default {
       expandModal: state => state.notes.expandModal
     }),
     ...mapGetters({
+      schedulerDrawer: 'scheduler/drawer',
+      loading: 'profile/getLoading',
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
     })
   },
   watch: {
+    '$route': {
+      immediate: true,
+      handler(data) {
+        if(data.name === 'schedule') {
+          this.$store.commit('scheduler/setStates',{ drawer: {open: false, activePage: null}})
+        }else if(data.name === 'schedule-create') {
+          this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'new-session'}})
+        }else if(data.name === 'schedule-events-id') {
+          this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'schedule-details'}})
+        }
+      }
+    },
     sendBirdConnStatus (newValue, oldValue) {
       if (newValue || oldValue || !this.store.state.sendbirdId.sbUser) {
         this.$nextTick(() => {

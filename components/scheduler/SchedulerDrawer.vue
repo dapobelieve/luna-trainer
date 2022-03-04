@@ -4,7 +4,7 @@
       v-if="activePage === pages.NEW_SCHEDULE"
       :event="event"
       @back="event={};$emit('active-page', pages.SCHEDULE_DETAILS)"
-      @close="event={};$emit('close')"
+      @close="event={};closeDrawer()"
       @updated="$emit('process-event',$event)"
       @created="$emit('process-event',$event)"
       @recurring="$emit('recurring')"
@@ -14,7 +14,7 @@
       v-if="activePage === pages.SCHEDULE_DETAILS"
       @reschedule="reschedule"
       @remove-event="$emit('remove-event', $event)"
-      @close="$emit('close')"
+      @close="closeDrawer"
     />
   </div>
 </template>
@@ -46,11 +46,16 @@ export default {
     }
   },
   methods: {
+    closeDrawer() {
+      this.$store.commit('scheduler/setStates', { drawer: {open: false, activePage: ''}})
+      this.$router.push({
+        name: 'schedule'
+      })
+    },
     async reschedule (event) {
       const _event = await this.$store.dispatch('scheduler/getSingleAppointment', { id: event.id })
-      // console.log(_event)
-      this.$emit('active-page', this.pages.NEW_SCHEDULE)
       this.event = event
+      this.$store.commit('scheduler/setStates', {drawer: {open: true, activePage: this.pages.NEW_SCHEDULE}})
     }
   }
 }

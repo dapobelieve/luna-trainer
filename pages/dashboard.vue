@@ -1,88 +1,107 @@
 <template>
   <main>
-    <article>
-      <div class="grid gap-4">
-        <!-- dashboard intro -->
-        <div class="rounded-xl border bg-white shadow-sm overflow-hidden">
-          <div class="font-normal p-4 pt-5 flex flex-col space-y-2">
-            <h1 class="capitalize text-3xl">
-              hey {{ $auth.user.firstName }}!
-            </h1>
-            <p class="text-gray-500">
-              Welcome back! If you need the GetWelp Team’s help with anything, just pop us a message in the live chat below!
-            </p>
-          </div>
-          <dashboard-status-card />
+    <section class="mt-2">
+      <div class="grid gap-4 md:grid-cols-2">
+        <div class="rounded-xl">
+          <DashboardCard class="p-0">
+            <div class="mb-5">
+              <img class="w-full" src="~/assets/img/home.svg">
+            </div>
+            <div class="mb-6">
+              <div class="flex items-center px-3 mb-10">
+                <div class="flex items-center">
+                  <span class="fi-rr-calendar text-purple-500 mr-3 mt-1"></span>
+                  <h3 class="font-bold">
+                    My Sessions
+                  </h3>
+                </div>
+                <button class="ml-auto text-primary-color border rounded-lg px-4 py-2">
+                  Upcoming
+                  <i class="fi-rr-caret-down mt-1 ml-2"></i>
+                </button>
+              </div>
+              <div class="flex px-3 items-center mb-4">
+                <div class="font-medium text-sm">
+                  {{$dateFns.format(new Date(), 'MMMM d, EEEE')}}
+                </div>
+                <span class="ml-auto text-gray-500 mr-1">{{events.length}} upcoming</span>
+              </div>
+              <div class="px-3">
+                <WeekView :fetchEvents="fetchEventsForToday" @events="events = $event" />
+              </div>
+            </div>
+            <div class="px-3">
+              <CurrentSessionCard class="mb-4" />
+              <div>
+                <UpcomingSessionCard v-for="event in events" :event="event" :key="event.id" :color="event.color" class="mb-2" />
+              </div>
+            </div>
+          </DashboardCard>
         </div>
-
-        <div class="grid md:grid-cols-2 gap-4">
-          <div class="grid gap-4">
-            <!-- client registration -->
-            <dashboard-clients :accepted-clients="acceptedClients" class="h-72" />
-            <!-- new messages -->
-            <dashboard-messages />
-          </div>
-          <!-- invoices -->
+        <div class="grid gap-4">
           <dashboard-payments :paid-invoices="paidInvoices" />
+          <dashboard-messages />
         </div>
       </div>
-    </article>
-
-    <!-- modals -->
-    <NotificationsModal :visible="true">
-      <template v-slot:title>
-        Stripe Connect
-      </template>
-      <template v-slot:subtitle>
-        Account under review, please confirm all requirements have been met
-        before proceeding to creating invoices.
-      </template>
-    </NotificationsModal>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
-      <template v-slot:title>
-        Chat Connection Failed
-      </template>
-      <template v-slot:subtitle>
-        Reconnect chat to enjoy all of GetWelp's features
-      </template>
-      <template v-slot:actionButtons>
-        <button
-          class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
-          @click="retry"
-        >
-          retry
-        </button>
-      </template>
-    </NotificationsModal>
-    <modal name="welcome-modal">
-      <div class="grid m-6">
-        <div class="py-0">
-          <div class="text-center mb-10 font-medium text-2xl">
-            <h3>Welcome to your Getwelp Dashboard</h3>
-          </div>
-          <p class="text-center mb-8 w-50">
-            Some information about getwelp and things that <br> can be done on the dashboard
-          </p>
-          <div class="flex justify-center gap-5">
-            <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="tour()">
-              start tour
-            </button>
+      <!-- modals -->
+      <NotificationsModal :visible="true">
+        <template v-slot:title>
+          Stripe Connect
+        </template>
+        <template v-slot:subtitle>
+          Account under review, please confirm all requirements have been met
+          before proceeding to creating invoices.
+        </template>
+      </NotificationsModal>
+      <NotificationsModal
+        :visible="showNotification"
+        @close="showNotification = $event"
+      >
+        <template v-slot:title>
+          Chat Connection Failed
+        </template>
+        <template v-slot:subtitle>
+          Reconnect chat to enjoy all of GetWelp's features
+        </template>
+        <template v-slot:actionButtons>
+          <button
+            class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
+            @click="retry"
+          >
+            retry
+          </button>
+        </template>
+      </NotificationsModal>
+      <modal name="welcome-modal">
+        <div class="grid m-6">
+          <div class="py-0">
+            <div class="text-center mb-10 font-medium text-2xl">
+              <h3>Welcome to your Getwelp Dashboard</h3>
+            </div>
+            <p class="text-center mb-8 w-50">
+              Some information about getwelp and things that <br> can be done on the dashboard
+            </p>
+            <div class="flex justify-center gap-5">
+              <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="tour()">
+                start tour
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </modal>
+      </modal>
+    </section>
   </main>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import DashboardClients from '~/components/DashboardClients.vue'
+import DashboardCard from '~/components/dashboard/DashboardCard'
+import WeekView from '~/components/dashboard/WeekView'
+import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
+import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
 export default {
   name: 'Dashboard',
-  components: { DashboardClients },
+  components: { UpcomingSessionCard, CurrentSessionCard, WeekView, DashboardCard },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
@@ -93,6 +112,8 @@ export default {
   },
   data () {
     return {
+      fetchEventsForToday: false,
+      events: [],
       intro: null,
       openBankModal: false,
       showNotification: false,
@@ -126,6 +147,9 @@ export default {
     }
   },
   mounted () {
+    this.$nextTick(() => {
+      
+    })
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
@@ -143,6 +167,7 @@ export default {
   },
   updated () {
     this.$nextTick(() => {
+      this.fetchEventsForToday = true
       if (this.sendBirdConnStatus) {
         setTimeout(() => {
           this.showNotification = true
@@ -151,6 +176,9 @@ export default {
     })
   },
   methods: {
+    do () {
+      console.log('doing...')
+    },
     tour () {
       this.$modal.hide('welcome-modal')
       this.$intro()
@@ -204,7 +232,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .introjs-tooltip {
   background-color: #3B82F6;
   border-radius: 12px;

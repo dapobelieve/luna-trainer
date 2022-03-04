@@ -1,5 +1,11 @@
 <template>
   <async-view loader-id="logout">
+    <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
+      <div class="inline-flex flex-col items-center">
+        <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
+        <SingleLoader height="20px" width="20px" />
+      </div>
+    </div>
     <GwHeader />
     <div class="flex">
       <invite-new-client-modal redirect />
@@ -9,26 +15,25 @@
       </div>
       <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center">
         <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
-          <div class="text-right mb-4">
-            <span class="font-medium">{{ new Date().toDateString() }}</span>
-          </div>
           <Nuxt />
         </div>
       </div>
       <ExpiredSessionAuthModal />
+      <div class="bg-teal-500 bg-teal-50 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 bg-cyan-50"></div>
     </div>
   </async-view>
 </template>
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
+import SingleLoader from '~/components/util/SingleLoader'
 export default {
-  components: { ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -41,6 +46,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      loading: 'profile/getLoading'
+    }),
     ...mapState({
       connectedChannels: state => state.sendBird.connectedChannels,
       isStripeConnected: state => state.profile.isStripeConnected
@@ -93,9 +101,16 @@ export default {
       this.endFullPageLoad()
       this.fetchAllClients()
     }
+  },
+  async beforeMount() {
+    await this.$store.dispatch('scheduler/getCalendars')
   }
-
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.preloader {
+  background-color: #171616A6;
+  z-index: 999999;
+}
+</style>

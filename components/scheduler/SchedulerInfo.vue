@@ -1,33 +1,35 @@
 <template>
-  <div class=" overflow-scroll flex flex-col relative">
-    <div class="px-3 mb-4">
-      <MiniCalendar @date-clicked="fetchDateEvents" />
-    </div>
-    <div v-if="loading" class="px-3 flex-grow flex justify-center items-center">
-      <SingleLoader height="40px" width="40px" />
-    </div>
-    <div v-else class="px-3 mt-2">
-      <h3 class="mr-3 font-bold mb-4">
-        Upcoming sessions
-      </h3>
-      <div v-if="todayAndTomorrowsEvents && todayAndTomorrowsEvents.length" class="mb-8">
-        <div class="flex justify-between mb-4">
-          <div class="font-bold">
-            Today
+  <div class="flex flex-col h-full">
+    <div class="mb-auto">
+      <div class="px-3">
+        <MiniCalendar @date-clicked="fetchDateEvents" />
+      </div>
+      <div v-if="loading" class="px-3 flex justify-center items-center">
+        <SingleLoader height="40px" width="40px" />
+      </div>
+      <div v-else class="px-3 mt-2">
+        <h3 class="mr-3 font-bold mb-4">
+          Upcoming sessions
+        </h3>
+        <div v-if="todayAndTomorrowsEvents && todayAndTomorrowsEvents.length" class="mb-8">
+          <div class="flex justify-between mb-4">
+            <div class="font-bold">
+              Today
+            </div>
+            <div class="date text-gray-400">
+              17/12/2021
+            </div>
           </div>
-          <div class="date text-gray-400">
-            17/12/2021
-          </div>
+          <EventItem v-for="event in todayAndTomorrowsEvents.slice(0, 3)" :key="event.id" :event="event" class="mb-8" />
         </div>
-        <EventItem v-for="event in todayAndTomorrowsEvents.slice(0, 3)" :key="event.id" :event="event" class="mb-8" />
-      </div>
-      <div v-else class="text-gray-500">
-        Your schedule is free
-      </div>
-      <div>
+        <div v-else class="text-gray-500">
+          Your schedule is free
+        </div>
+        <div>
+        </div>
       </div>
     </div>
-    <div class="absolute w-full px-1" style="bottom: 10px">
+    <div class="w-full px-1">
       <ClickOutside v-if="show" :do="() => openCalendarSelector = false">
         <div class="relative">
           <transition
