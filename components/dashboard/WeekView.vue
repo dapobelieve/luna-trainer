@@ -61,9 +61,9 @@ export default {
   },
   methods: {
     selectDate(wkObj) {
-      // if(new Date().getDate() <= wkObj._date.getDate()) {
+      if(new Date().getDate() <= wkObj._date.getDate()) {
         this.selectedDate = wkObj._date
-      // }
+      }
     },
     async fetchSessions(data) {
       let res = await this.$store.dispatch('scheduler/getAllAppointments', {...data})
