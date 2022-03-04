@@ -2,9 +2,18 @@ import Vue from 'vue'
 export const state = () => ({
   calendar: null,
   activeEvent: {},
+  drawer: {
+    open: false,
+    activePage: null
+  },
   events: []
 })
 export const mutations = {
+  setStates (state, data) {
+    Object.keys(data).map((key) => {
+      Vue.set(state, key, data[key])
+    })
+  },
   setCalendar (state, data) {
     Vue.set(state, 'calendar', data)
   },
@@ -57,6 +66,7 @@ export const actions = {
   }
 }
 export const getters = {
+  drawer: state => state.drawer,
   getCalendar: state => state.calendar,
   getActiveEvent: state => state.activeEvent,
   getAllEvents: state => state.events

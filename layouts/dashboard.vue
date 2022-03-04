@@ -19,6 +19,7 @@
         </div>
       </div>
       <ExpiredSessionAuthModal />
+      <div class="bg-teal-500 bg-teal-50 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 bg-cyan-50"></div>
     </div>
   </async-view>
 </template>
@@ -100,6 +101,9 @@ export default {
       this.endFullPageLoad()
       this.fetchAllClients()
     }
+  },
+  async beforeMount() {
+    await this.$store.dispatch('scheduler/getCalendars')
   }
 }
 </script>

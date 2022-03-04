@@ -13,7 +13,7 @@
               <div class="flex-shrink h-8 w-8 mr-3">
                 <img class="object-cover rounded-full" :src="$auth.user.imgURL">
               </div>
-              <span class="text-gray-800 text-lg">{{$auth.user.firstName}} {{$auth.user.lastName}}</span>
+              <span class="text-gray-800 text-lg">{{ $auth.user.firstName }} {{ $auth.user.lastName }}</span>
             </div>
           </div>
           <div class="py-4">
@@ -233,7 +233,7 @@ export default {
       return 'welp'
     }
   },
-  async mounted () {
+  async beforeMount () {
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
@@ -256,6 +256,7 @@ export default {
     })
     socket.on('new-notification', (data) => {
       const { type } = data
+      console.log(data)
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
       }

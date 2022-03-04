@@ -5,21 +5,21 @@
         <i class="fi-rr-cross text-primary-color"></i>
       </span>
     </div>
-    <div v-if="loading" class="px-3 flex-grow flex justify-center items-center">
+    <div v-if="!eventObj" class="px-3 flex-grow flex justify-center items-center">
       <SingleLoader height="40px" width="40px" />
     </div>
     <div v-else class="flex-grow px-3">
       <h4 class="text-2xl mb-2 text-gray-700 mb-3">
-        {{ event.title }}
+        {{ eventObj.title }}
       </h4>
       <p class="mb-4">
-        {{ event.description }}
+Obj        {{ eventObj.description }}
       </p>
       <div class="mb-4">
         <EventItem :event="eventObj" />
       </div>
-      <div v-if="event.participants">
-        <div v-for="(client, clientIndex) in event.participants" :key="clientIndex">
+      <div v-if="eventObj.participants">
+        <div v-for="(client, clientIndex) in eventObj.participants" :key="clientIndex">
           <div class="flex items-center content-center py-1 mb-2.5">
             <ClientAvatar
               :width="3"
@@ -40,7 +40,7 @@
       <button class="text-primary-color" @click="$modal.show('scheduler-cancel-session')">
         Cancel
       </button>
-      <button class="button-fill" @click="$emit('reschedule', event)">
+      <button class="button-fill" @click="$emit('reschedule', eventObj)">
         Reschedule
       </button>
     </div>
@@ -61,10 +61,10 @@ export default {
     }
   },
   watch: {
-    event: {
+    '$route': {
       immediate: true,
-      async handler (newVal) {
-        await this.getEvent()
+      async handler(val) {
+        await this.getEvent(val.params.id)
       }
     }
   },
@@ -74,11 +74,9 @@ export default {
     })
   },
   methods: {
-    async getEvent () {
-      this.loading = true
+    async getEvent (id) {
       try {
-        const res = await this.$store.dispatch('scheduler/getSingleAppointment', { id: this.event.id })
-        this.eventObj = res
+        this.eventObj = await this.$store.dispatch('scheduler/getSingleAppointment', { id })
       } catch (e) {
 
       } finally {
@@ -88,9 +86,8 @@ export default {
     async deleteEvent () {
       this.loading = true
       try {
-        const id = this.event.id.includes('_') ? this.event.id.split('_')[0] : this.event.id
-        await this.$store.dispatch('scheduler/deleteAppointment', { id })
-        this.$emit('remove-event', this.event.id)
+        await this.$store.dispatch('scheduler/deleteAppointment', { id: this.eventObj.id })
+        this.$emit('remove-event', this.eventObj.id)
         this.closeModal()
         this.$gwtoast.success('Session Deleted')
         this.$emit('close')

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col h-full px-3 mt-2">
     <div class="flex items-center justify-between mb-3">
-      <span v-if="hasSchedule" class="cursor-pointer" @click="$emit('back')">
+      <span v-if="hasSchedule" class="cursor-pointer" @click="$emit('close')">
         <i class="fi-rr-arrow-left text-xl font-bold text-primary-color"></i>
       </span>
       <h4 class="text-xl mb-2 font-bold">
@@ -278,17 +278,17 @@ export default {
         {
           name: 'Amber',
           value: 'amber',
-          class: 'bg-yellow-500'
+          class: 'bg-amber-500'
         },
         {
           name: 'Rose',
           value: 'rose',
-          class: 'bg-red-500'
+          class: 'bg-rose-500'
         },
         {
           name: 'Sky',
           value: 'sky',
-          class: 'bg-cyan-400'
+          class: 'bg-cyan-500'
         }
       ],
       form: {
@@ -322,7 +322,6 @@ export default {
   computed: {
     repeat () {
       if (this.form.date) {
-        console.log(this.$dateFns.format(new Date(this.form.date), 'EEEEEE'))
         return [
           {
             name: 'Does not repeat',
@@ -395,9 +394,6 @@ export default {
       loading: false
     }
   },
-  mounted () {
-    console.log(this.activeCalendar)
-  },
   beforeMount () {
     if (this.event.id) {
       this.form.title = this.event.title
@@ -407,7 +403,6 @@ export default {
       this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
       this.form.description = this.event.description
       this.form.participants = this.event.participants
-      console.log(this.event.participants)
 
       this.form.color = this.colors.find(item => item.value === this.event.colorName)
     }
@@ -460,7 +455,7 @@ export default {
         if (res.recurrence?.length) {
           location.reload()
         }
-
+        this.$emit('close')
         this.$emit('updated', { ...res, updated: true })
         this.$gwtoast.success('Session updated')
       } catch (e) {
@@ -471,9 +466,6 @@ export default {
           loading: false
         }
       }
-    },
-    showPart (evt) {
-
     },
     removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
@@ -536,6 +528,7 @@ export default {
             location.reload()
           } else {
             this.$emit('created', res)
+            this.close()
           }
 
           this.$gwtoast.success('New  Appointment created')

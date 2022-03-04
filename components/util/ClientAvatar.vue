@@ -12,7 +12,7 @@
   <img
     v-else
     :class="{ 'user-is-online': onlineStatus === 'online' }"
-    :src="clientInfo.imgURL"
+    :src="clientInfo.imgURL || clientInfo.imgUrl"
     class="object-cover rounded-full h-10 w-10 inline-block"
     :style="altStyling"
     alt="client profile image"
@@ -35,9 +35,7 @@ export default {
     clientInfo: {
       type: Object,
       default () {
-        return {
-          imgURL: 'https://res.cloudinary.com/rohing/image/upload/v1646190983/gitProfile_qje88s.png'
-        }
+        return {}
       },
       required: true
     }
@@ -56,7 +54,7 @@ export default {
       isSendbirdConnected: state => state.sendBird.sendbirdConnected
     }),
     isImgAvailable () {
-      return 'imgURL' in this.clientInfo
+      return this.clientInfo?.imgURL || this.clientInfo.imgUrl
     },
     isSendbirdIdAvailable () {
       return 'sendbirdId' in this.clientInfo

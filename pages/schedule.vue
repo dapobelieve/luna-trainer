@@ -52,7 +52,7 @@
         <button
           id="schduler-step-1"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
-          @click="$router.push({name: 'schedule-create'})"
+          @click="$router.push({ name: 'schedule-create' })"
         >
           <i class="fi-rr-plus text-white text-xl mt-1"></i>
         </button>
@@ -67,18 +67,18 @@
           <div class="pt-1 bg-white max-h-screen top-0 relative">
             <div class="grid gap-3 h-full w-full max-h-screen">
               <keep-alive>
-                
-<!--                  <SchedulerDrawer-->
-<!--                    v-if="openDrawer"-->
-<!--                    v-model="activePage"-->
-<!--                    @remove-event="removeEvent($event)"-->
-<!--                    @process-event="processNewEvent"-->
-<!--                    @close="openDrawer = false"-->
-<!--                  />-->
-                  <SchedulerInfo :active-calendar="activeCalendar" :events="allEvents" />
-                
+
+                <!--                  <SchedulerDrawer-->
+                <!--                    v-if="openDrawer"-->
+                <!--                    v-model="activePage"-->
+                <!--                    @remove-event="removeEvent($event)"-->
+                <!--                    @process-event="processNewEvent"-->
+                <!--                    @close="openDrawer = false"-->
+                <!--                  />-->
+                <SchedulerInfo :active-calendar="activeCalendar" :events="allEvents" />
+
               </keep-alive>
-              <Nuxt-child></Nuxt-child>
+<!--              <Nuxt-child></Nuxt-child>-->
             </div>
           </div>
         </div>
@@ -209,9 +209,14 @@ export default {
       this.$intro().showHints()
     },
     handleCalendarEventClick (info) {
-      this.$store.commit('scheduler/setEvent', info.event)
-      // this.openDrawer = true
-      this.activePage = 'schedule-details'
+      let { id } = info.event
+      this.openDrawer({open: true, activePage: 'schedule-details'})
+      this.$router.push({
+        name: 'schedule-events-id',
+        params: {
+          id
+        }
+      })
     },
     changeView (viewname, display) {
       this.currentView = display
