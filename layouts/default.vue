@@ -169,6 +169,8 @@ export default {
           this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'new-session'}})
         }else if(data.name === 'schedule-events-id') {
           this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'schedule-details'}})
+        }else {
+          this.$store.commit('scheduler/setStates',{ drawer: {open: false, activePage: null}})
         }
       }
     },
