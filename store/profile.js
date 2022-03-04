@@ -38,7 +38,6 @@ export const state = () => ({
 
 export const mutations = {
   SET_PROFILE (state, user) {
-    console.log('incoming user ', user)
     state.user = {
       firstName: '',
       lastName: '',
@@ -48,7 +47,8 @@ export const mutations = {
       usePositiveReinforce: false,
       gender: 'male',
       ...user,
-      location: 'Nigeria'
+      location: 'United Kingdom',
+      currency: 'GBP'
     }
   },
   SET_STATE (state, data) {
@@ -88,9 +88,6 @@ export const mutations = {
     }
   },
   SET_USER (state, user) {
-    // const checkEmptiness = user &&
-    //   Object.keys(user).length === 0 && user.constructor === Object
-    // const gwuser = checkEmptiness ? {} : user
     this.$auth.setUser(user)
     Vue.set(state, 'user', user)
   }
