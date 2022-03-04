@@ -26,19 +26,6 @@
         <small v-if="isValid" class="text-red-500 text-sm absolute -bottom-5">url is invalid</small>
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="country" class="required" :class="{'text-red-500' : $v.location.$error}">Where is your business located registered?</label>
-        <select
-          v-model="location"
-          autocomplete="country"
-          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-          :class="{'border-red-500' : $v.location.$error}"
-        >
-          <option v-for="country in countries" :key="country.numericCode">
-            {{ country.name }}
-          </option>
-        </select>
-      </div>
-      <div class="flex flex-col gap-1.5">
         <label for="currency" class="required" :class="{'text-red-400' : $v.currency.$error}">Select your local currency</label>
         <select
           id="currency"
@@ -65,7 +52,7 @@
         </select>
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="vat" class="required">VAT/Local Tax Number (where applicable)</label>
+        <label for="vat" class="">VAT/Local Tax Number (where applicable)</label>
         <input
           id="vat"
           v-model="vat"
@@ -79,12 +66,10 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
-import countries from '~/countries.json'
 export default {
   name: 'BusinessDetails',
   data () {
     return {
-      countries,
       isValid: false,
       // eslint-disable-next-line
       regex: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
@@ -105,12 +90,6 @@ export default {
       get () { return this.personalProfile.websiteUrl },
       set (val) {
         this.setProfileData({ key: 'websiteUrl', value: val })
-      }
-    },
-    location: {
-      get () { return this.personalProfile.location },
-      set (val) {
-        this.setProfileData({ key: 'location', value: val })
       }
     },
     currency: {
@@ -135,9 +114,6 @@ export default {
       required
     },
     websiteUrl: {
-      required
-    },
-    location: {
       required
     },
     currency: {
