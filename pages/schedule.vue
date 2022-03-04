@@ -151,6 +151,8 @@ export default {
     })
   },
   async mounted () {
+    console.log("Fire this thing 🔥🔥🔥")
+    this.$store.commit('profile/SET_STATE', { loading: true })
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
     // fetch local calendar
@@ -163,6 +165,8 @@ export default {
       }
     } catch (e) {
       console.log(e)
+    }finally {
+      this.$store.commit('profile/SET_STATE', { loading: false })
     }
   },
   beforeMount () {

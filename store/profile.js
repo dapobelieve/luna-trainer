@@ -163,6 +163,7 @@ export const actions = {
   },
   async clientReport () {},
   async userFinancials () {
+    return {}
     const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/invoice`)
     return res.data
   },
