@@ -36,6 +36,19 @@
         <PhoneComponent v-model="phone" />
       </div>
       <div class="flex flex-col gap-1.5">
+        <label for="country" class="required" :class="{'text-red-500' : $v.location.$error}">Where are you based?</label>
+        <select
+          v-model="location"
+          autocomplete="country"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          :class="{'border-red-500' : $v.location.$error}"
+        >
+          <option v-for="country in countries" :key="country.numericCode">
+            {{ country.name }}
+          </option>
+        </select>
+      </div>
+      <div class="flex flex-col gap-1.5">
         <label
           for="gender"
         >Gender</label>
@@ -81,10 +94,16 @@
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
+import countries from '~/countries.json'
 import PhoneComponent from '~/components/util/PhoneComponent'
 export default {
   name: 'OnboardingProfileSetup',
   components: { PhoneComponent },
+  data () {
+    return {
+      countries
+    }
+  },
   computed: {
     ...mapState({
       personalProfile: state => state.profile.user
@@ -99,6 +118,12 @@ export default {
       get () { return this.personalProfile.lastName },
       set (val) {
         this.setProfileData({ key: 'lastName', value: val })
+      }
+    },
+    location: {
+      get () { return this.personalProfile.location },
+      set (val) {
+        this.setProfileData({ key: 'location', value: val })
       }
     },
     gender: {
@@ -129,6 +154,9 @@ export default {
       required
     },
     lastName: {
+      required
+    },
+    location: {
       required
     }
   },
