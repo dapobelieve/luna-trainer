@@ -1,7 +1,7 @@
 <template>
   <div>
     <template v-if="notification.type === 'INVITE_REQUEST_ACCEPTED'">
-      <notifications-client-invite-request :notification="notification" />
+      <notifications-client-invite :notification="notification" />
     </template>
 
     <template v-if="0">
