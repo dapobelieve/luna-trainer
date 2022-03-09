@@ -31,47 +31,47 @@
         </div>
         <div class="flex flex-col mb-3">
           <div class="flex items-center">
-            <div class="inline-flex items-center">
-              <i class="fi-rr-clock mt-1 text-md text-gray-500"></i>
-              <div class="ml-3 text-gray-500 w-24 flex">
-                <GwCustomerSelector v-model="form.from" placeholder="Time" class="w-full repeat-selector" :clients="time">
-                  <template v-slot:selectedOption="{selected}">
-                    <div class="flex items-center">
-                      <span class="text-gray-700">{{ selected.label }}</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                    <div class="flex items-center py-2">
-                      <span class="text-gray-700">{{ optionObject.label }}</span>
-                    </div>
-                  </template>
-                </GwCustomerSelector>
+            <div class="flex items-center w-full">
+              <div>
+                <i class="fi-rr-clock mt-1 text-md text-gray-500"></i>
               </div>
-            </div>
-            <div v-if="form.from" class="inline-flex items-center">
-              <i class="fi-rr-arrow-right ml-1 mt-1 mr-3 text-md text-gray-500"></i>
-              <div class="ml-3 text-gray-500 w-24 flex">
-                <GwCustomerSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :clients="computeToTime">
-                  <template v-slot:selectedOption="{selected}">
-                    <div class="flex items-center">
-                      <span class="text-gray-700">{{ selected.label }}</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                    <div class="flex items-center py-2">
-                      <span class="text-gray-700">{{ optionObject.label }}</span>
-                    </div>
-                  </template>
-                </GwCustomerSelector>
+              <div class="ml-3 items-center flex-grow flex text-gray-500 w-24">
+                <div class="w-1/3">
+                  <GwCustomerSelector v-model="form.from" placeholder="Time" class="repeat-selector" :clients="time">
+                    <template v-slot:selectedOption="{selected}">
+                      <div class="flex items-center">
+                        <span class="text-gray-700">{{ selected.label }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                      <div class="flex items-center py-2">
+                        <span class="text-gray-700">{{ optionObject.label }}</span>
+                      </div>
+                    </template>
+                  </GwCustomerSelector>
+                </div>
+                <div v-if="form.from" class="mt-2 mr-4">
+                  <i class="fi-rr-arrow-right ml-1 mt-1 mr-3 text-md text-gray-500"></i>
+                </div>
+                <div v-if="form.from" class="w-1/3">
+                  <GwCustomerSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :clients="computeToTime">
+                      <template v-slot:selectedOption="{selected}">
+                        <div class="flex items-center">
+                          <span class="text-gray-700">{{ selected.label }}</span>
+                        </div>
+                      </template>
+                      <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                        <div class="flex items-center py-2">
+                          <span class="text-gray-700">{{ optionObject.label }}</span>
+                        </div>
+                      </template>
+                    </GwCustomerSelector>
+                </div>
               </div>
             </div>
           </div>
           <small v-if="$v.form.from.$error" class="text-red-600">select a time for the meeting</small>
         </div>
-        <!--          <div class="flex items-center mb-3">-->
-        <!--            <span class="text-gray-500 mr-2">All Day?</span>-->
-        <!--            <Toggle2 v-model="form.allDay" />-->
-        <!--          </div>-->
         <div v-if="!hasSchedule" class="flex items-center mb-3">
           <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
           <span class="ml-3 text-gray-500 w-full">
@@ -126,7 +126,6 @@
                   multiple
                   class="w-full clients-selector repeat-selector"
                   :clients="allClients"
-                  @change="showPart($event)"
                 >
                   <template>
                     <div class="flex items-center">
@@ -309,6 +308,20 @@ export default {
       }
     }
   },
+  watch: {
+    'form.from': {
+      // immediate: true,
+      deep: true,
+      handler(val) {
+        const pos = this.time.indexOf(val)
+        if(pos < ((this.time.length - 1) - 4)) {
+          this.form.to = this.time[this.time.indexOf(val) + 4]
+        }else {
+          this.form.to = this.time[this.time.length - 1]
+        }
+      }
+    }
+  },
   validations: {
     form: {
       title: { required },
@@ -408,6 +421,9 @@ export default {
     }
   },
   methods: {
+    close() {
+      this.$emit('close')
+    },
     attachConference (event) {
       this.form.conferencing = { ...event }
     },
@@ -455,8 +471,8 @@ export default {
         if (res.recurrence?.length) {
           location.reload()
         }
-        this.$emit('close')
-        this.$emit('updated', { ...res, updated: true })
+        this.close()
+        this.$nuxt.$emit('scheduler:event-created', { ...res, updated: true })
         this.$gwtoast.success('Session updated')
       } catch (e) {
         console.log({ e })
@@ -469,7 +485,6 @@ export default {
     },
     removeClient (client) {
       this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
-      // this.$forceUpdate()
     },
     async createEvent () {
       this.$v.$touch()
@@ -527,7 +542,7 @@ export default {
           if (payloadData.recurrence) {
             location.reload()
           } else {
-            this.$emit('created', res)
+            this.$nuxt.$emit('scheduler:event-created', res)
             this.close()
           }
 

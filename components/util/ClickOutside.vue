@@ -6,7 +6,7 @@ export default {
       if (e.target === this.$el || this.$el.contains(e.target)) {
         return
       }
-      this.do()
+      this.do(e)
     }
     document.addEventListener('click', listener)
     this.$once('hook:beforeDestroy', () => {

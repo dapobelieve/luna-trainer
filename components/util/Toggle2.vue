@@ -52,9 +52,9 @@ export default {
       transition: .4s;
     }
     &.round {
-      border-radius: 4px;
+      border-radius: 17px;
       &:before {
-        border-radius: 2px;
+        border-radius: 10px;
       }
     }
   }

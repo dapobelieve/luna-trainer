@@ -8,17 +8,15 @@
               <img class="w-full" src="~/assets/img/home.svg">
             </div>
             <div class="mb-6">
-              <div class="flex items-center px-3 mb-10">
+              <div class="flex items-center px-3 mb-5">
                 <div class="flex items-center">
-                  <span class="fi-rr-calendar text-purple-500 mr-3 mt-1"></span>
-                  <h3 class="font-bold">
+                  <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
+                    <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
+                  </div>
+                  <h3 class="font-medium">
                     My Sessions
                   </h3>
                 </div>
-                <button class="ml-auto text-primary-color border rounded-lg px-4 py-2">
-                  Upcoming
-                  <i class="fi-rr-caret-down mt-1 ml-2"></i>
-                </button>
               </div>
               <div class="flex px-3 items-center mb-4">
                 <div class="font-medium text-sm">
@@ -31,11 +29,22 @@
               </div>
             </div>
             <div class="px-3">
-              <CurrentSessionCard class="mb-4" />
-              <div>
-                <UpcomingSessionCard v-for="event in events" :event="event" :key="event.id" :color="event.color" class="mb-2" />
+              <div v-if="!events.length" class="flex items-center justify-center h-[30rem]">
+                <div class="flex flex-col items-center">
+                  <i class="fi-rr-calendar text-6xl text-fuchsia-500"></i>
+                  <h3 class="text-gray-700 text-xl">You have no appointment</h3>
+                  <small class="text-base text-gray-500">Your appointments would be displayed here</small>
+                  <button class="button-fill mt-3">Schedule a session</button>
+                </div>
+              </div>
+              <div v-else>
+                <CurrentSessionCard class="mb-4" />
+                <div>
+                  <UpcomingSessionCard v-for="event in events" :event="event" :key="event.id" :color="event.color" class="mb-2" />
+                </div>
               </div>
             </div>
+            
           </DashboardCard>
         </div>
         <div class="grid gap-4">

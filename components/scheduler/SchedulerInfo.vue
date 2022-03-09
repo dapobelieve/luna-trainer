@@ -17,7 +17,7 @@
               Today
             </div>
             <div class="date text-gray-400">
-              17/12/2021
+              {{$dateFns.format(new Date(), 'd/M/y')}}
             </div>
           </div>
           <EventItem v-for="event in todayAndTomorrowsEvents.slice(0, 3)" :key="event.id" :event="event" class="mb-8" />
@@ -68,7 +68,7 @@
         </div>
       </ClickOutside>
       <div v-else class="bg-blue-50 px-3 py-3 rounded-[12px] cursor-pointer items-center flex" @click="$modal.show('scheduler-connect-calendar')">
-        <div class="h-16 w-16 rounded-full bg-white flex items-center justify-center mr-5">
+        <div class="h-16 w-16 rounded-full bg-white flex flex-shrink items-center justify-center mr-5">
           <i class="fi-rr-calendar text-2xl text-primary-color mt-2"></i>
         </div>
         <h5 class="font-medium text-blue-500">

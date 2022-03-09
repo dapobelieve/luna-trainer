@@ -13,7 +13,7 @@
         {{ eventObj.title }}
       </h4>
       <p class="mb-4">
-Obj        {{ eventObj.description }}
+        {{ eventObj.description }}
       </p>
       <div class="mb-4">
         <EventItem :event="eventObj" />
