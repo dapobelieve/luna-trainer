@@ -34,8 +34,6 @@ export const actions = {
   async createAppointment ({ commit, dispatch }, payload, calendar) {
     if (payload.data.conferencing) {
       delete payload.data.conferencing.type
-      console.log(payload)
-      console.log({ ...payload.data })
       return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment?conferencing=automatic`, { ...payload.data })
     }
     return await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
@@ -49,6 +47,7 @@ export const actions = {
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {
+    if(!state.calendar) return [] // we are supposed to have a calendar before we can get appointments
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`)
     if (res.length > 0) {
       commit('setEvents', res)

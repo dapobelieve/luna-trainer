@@ -10,7 +10,6 @@
           <profile-settings-business-info v-if="tab === 2" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
           <profile-settings-trainer-info v-if="tab === 3" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
           <profile-settings-localization-info v-if="tab === 4" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
-
           <div class="flex justify-end mt-6">
             <button-spinner
               style="width:fit-content"

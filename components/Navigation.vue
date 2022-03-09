@@ -6,17 +6,20 @@
       <div class="">
         <div class="px-1 pt-3 lg:pt-3 flex flex-col border overflow-y-auto h-screen max-h-screen">
           <div class="mb-auto">
-            <div class="ml-3">
-              <div class="mb-8">
+            <div class="ml-1">
+              <div class="mb-8 mt-1">
                 <NuxtLink to="/" >
                   <img class="h-8" src="~/assets/img/logo-v2.svg">
                 </NuxtLink>
               </div>
               <div class="flex items-center">
-                <div class="flex-shrink h-8 w-8 mr-3">
+                <div class="flex-shrink h-9 w-9 mr-3 border  border-2 border-green-500 rounded-full avatar">
                   <img class="object-cover rounded-full" :src="$auth.user.imgURL">
                 </div>
-                <span class="text-gray-800 text-lg">{{ $auth.user.firstName }} {{ $auth.user.lastName }}</span>
+                <div class="flex flex-col">
+                  <span class="text-gray-800 text-sm font-light">{{ $auth.user.businessName }}</span>
+                  <span class="text-gray-800 text-md font-medium">Hi! {{ $auth.user.firstName }} {{ $auth.user.lastName }}</span>
+                </div>
               </div>
             </div>
             <div class="py-4">
@@ -85,7 +88,7 @@
             <div class="pl-2 mb-4">
               Help
             </div>
-            <div class="bg-gray-700 flex items-center justify-between px-3 py-3 rounded-2xl">
+            <div class="bg-gray-700 flex items-center justify-between px-3 py-3 rounded-lg">
               <div class="text-white">
                 <h3 class="font-bold text-white mb-2">
                   Need Help?
@@ -99,7 +102,7 @@
               </div>
             </div>
             <NuxtLink to="/" class="flex hover:bg-blue-50 mb-1 items-center pl-4 text-gray-600 py-1 rounded-lg">
-              <i class="fi-rr-time-half-past mr-4 mt-0.5"></i>
+              <i class="fi-rr-time-half-past mr-4 mt-4"></i>
               <h3 class="">
                 What's coming next...
               </h3>

@@ -133,7 +133,7 @@
 
     button {
 
-      @apply focus:outline-none font-medium capitalize inline-flex items-center justify-center transition-all whitespace-nowrap rounded-md;
+      @apply focus:outline-none font-medium inline-flex items-center justify-center transition-all whitespace-nowrap rounded-md;
 
       &.button-fill {
         @apply shadow-sm text-white bg-blue-500 border-blue-500  hover:bg-blue-600 hover:border-blue-600 px-4 py-1 h-10 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-none;

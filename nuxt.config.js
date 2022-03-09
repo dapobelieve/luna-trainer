@@ -37,22 +37,22 @@ export default {
     'vue2-datepicker/index.css'
   ],
   plugins: [
-    { src: '~plugins/services.js' },
-    { src: '~plugins/v-calendar.js', ssr: false },
-    { src: '~/plugins/vue-tel-input.js', ssr: false },
-    { src: '~/plugins/vue-select.js', ssr: false },
-    { src: '~/plugins/vuelidate.js', ssr: true },
-    { src: '~plugins/persistedState.client.js' },
+    { src: '~plugins/services' },
+    { src: '~plugins/v-calendar', ssr: false },
+    { src: '~/plugins/vue-tel-input', ssr: false },
+    { src: '~/plugins/vue-select', ssr: false },
+    { src: '~/plugins/vuelidate', ssr: true },
+    { src: '~plugins/persisted-state.client' },
     { src: '~plugins/intercom.js', ssr: false },
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/intro.js', ssr: false },
-    { src: '~/plugins/errorHandler.js' },
-    { src: '~/plugins/sendBird' },
-    { src: '~/plugins/vClickOutside', ssr: false },
-    { src: '~plugins/filters.js', ssr: false },
-    { src: '~plugins/v-tooltip.js', ssr: false },
-    { src: '~plugins/v-modal.js', ssr: true },
-    { src: '~plugins/utils.js', ssr: false }
+    { src: '~/plugins/error-handler' },
+    { src: '~/plugins/sendbird' },
+    { src: '~/plugins/v-click-outside', ssr: false },
+    { src: '~plugins/filters', ssr: false },
+    { src: '~plugins/v-tooltip', ssr: false },
+    { src: '~plugins/v-modal', ssr: true },
+    { src: '~plugins/utils', ssr: false }
   ],
   components: {
     dirs: ['~/components', '~/components/util']

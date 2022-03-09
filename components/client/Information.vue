@@ -55,7 +55,7 @@
               </select>
             </div>
           </div>
-          <div>
+          <div class="mt-4">
             <GwInputField
               v-model="clientInfo.city"
               placeholder="Type here"

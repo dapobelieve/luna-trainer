@@ -48,7 +48,7 @@
           style="object-fit: cover"
           :src="profileImageUrl"
         />
-        <div class="info">
+        <div class="info ml-2">
           <template v-if="!profileImageUrl">
             <p class="">
               Drop images here or <u>browse</u>

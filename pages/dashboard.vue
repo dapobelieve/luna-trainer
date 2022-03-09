@@ -29,22 +29,21 @@
               </div>
             </div>
             <div class="px-3">
-              <div v-if="!events.length" class="flex items-center justify-center h-[30rem]">
+              <div v-if="!events.length" class="flex items-center justify-center h-[27rem]">
                 <div class="flex flex-col items-center">
-                  <i class="fi-rr-calendar text-6xl text-fuchsia-500"></i>
-                  <h3 class="text-gray-700 text-xl">You have no appointment</h3>
+                  <i class="fi-rr-calendar text-3xl text-fuchsia-500"></i>
+                  <h3 class="text-gray-700 text-lg">You have no appointment</h3>
                   <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                  <button class="button-fill mt-3">Schedule a session</button>
+                  <button class="button-fill mt-3"> 
+                      Schedule a session
+                  </button>
                 </div>
               </div>
               <div v-else>
                 <CurrentSessionCard class="mb-4" />
-                <div>
-                  <UpcomingSessionCard v-for="event in events" :event="event" :key="event.id" :color="event.color" class="mb-2" />
-                </div>
+                <UpcomingSessionCard v-for="event in events" :event="event" :key="event.id" :color="event.color" class="mb-2" />
               </div>
             </div>
-            
           </DashboardCard>
         </div>
         <div class="grid gap-4">
@@ -156,9 +155,6 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      
-    })
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
@@ -185,9 +181,6 @@ export default {
     })
   },
   methods: {
-    do () {
-      console.log('doing...')
-    },
     tour () {
       this.$modal.hide('welcome-modal')
       this.$intro()
