@@ -6,7 +6,7 @@
     <tabbed-items :links="['About You', 'Business Info', 'As a trainer', 'Localization']">
       <template v-slot:tabviews="{ tab }">
         <div class="mx-auto" style="max-width: 448px">
-          <profile-settings-about-you v-if="tab === 1" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
+          <profile-settings-about-you v-if="tab === 1" v-model="profile" @change="profile = $event" @change-image="profileImage = $event" @validation="disableButton = $event" />
           <profile-settings-business-info v-if="tab === 2" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
           <profile-settings-trainer-info v-if="tab === 3" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
           <profile-settings-localization-info v-if="tab === 4" v-model="profile" @change="profile = $event" @validation="disableButton = $event" />
@@ -31,6 +31,7 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
+      profileImage:null,
       profile: JSON.parse(JSON.stringify(this.$auth.user)),
       isLoading: false,
       disableButton: true
@@ -41,20 +42,19 @@ export default {
       updateProfile: 'updateProfile',
       uploadPicture: 'uploadProfileImage'
     }),
-    async update () {
+    update () {
       this.isLoading = true
-      return await this.updateProfile(this.profile).then(async (response) => {
+      return this.updateProfile(this.profile).then(async (response) => {
         if (response.status === 'success') {
-          if (this.profileImageUrl !== this.profile.imgURL) {
-            await this.uploadProfileImage()
-            this.$gwtoast.success('Updated profile successfully')
-          } else {
-            this.$gwtoast.success('Updated profile successfully')
+          if (this.profileImage) {
+            await this.uploadPicture(this.profileImage)
           }
+          this.$gwtoast.success('Updated profile successfully')
         }
       }).catch((err) => {
-        if (err.response) {
-          this.$gwtoast.error(`Something went wrong: ${err.response.data.error || err.response.data.message}`, { position: 'bottom-right' })
+        console.error(err)
+        if (err.response || err.message || err.error) {
+          this.$gwtoast.error(`Something went wrong: ${err.error || err.response.data.error || err.response.data.message || err.message}`, { position: 'bottom-center' })
         }
       }).finally(() => {
         this.isLoading = false

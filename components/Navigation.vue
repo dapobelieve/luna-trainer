@@ -13,7 +13,7 @@
                 </NuxtLink>
               </div>
               <div class="flex items-center">
-                <div class="flex-shrink h-9 w-9 mr-3 border  border-2 border-green-500 rounded-full avatar">
+                <div class="flex-shrink h-9 w-9 mr-3 border overflow-hidden border-green-500 rounded-full avatar">
                   <img class="object-cover rounded-full" :src="$auth.user.imgURL">
                 </div>
                 <div class="flex flex-col">

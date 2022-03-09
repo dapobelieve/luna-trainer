@@ -187,7 +187,7 @@ export default {
       },
       immediate: true,
       deep: true
-    }
+    },
   },
   methods: {
     onDropImage (event) {
@@ -198,6 +198,7 @@ export default {
         this.profileImageData = files[0]
         reader.onload = (e) => {
           this.profileImageUrl = e.target.result
+          this.$emit('change-image', files[0])
         }
         reader.readAsDataURL(this.profileImageData)
       } else {
@@ -211,6 +212,7 @@ export default {
       this.profileImageData = files[0]
       reader.onload = (e) => {
         this.profileImageUrl = e.target.result
+        this.$emit('change-image', files[0])
       }
       reader.readAsDataURL(this.profileImageData)
     }

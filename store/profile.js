@@ -137,8 +137,10 @@ export const actions = {
     return res
   },
   uploadProfileImage ({ commit }, payload) {
+    let formdata = new FormData();
+    formdata.append('file', payload)
     return this.$axios
-      .$patch(`${process.env.BASEURL_HOST}/profile/upload-image`, payload, {
+      .$patch(`${process.env.BASEURL_HOST}/profile/upload-image`, formdata, {
         headers: { 'Content-Type': 'multipart/form-data' }
       })
       .then((response) => {
@@ -156,6 +158,7 @@ export const actions = {
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
     )
   },
+  // reporting should have its own store  
   async clientReportSummary () {
     // day, month, week quarter
     const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/reporting/client/summary?q=month`)
