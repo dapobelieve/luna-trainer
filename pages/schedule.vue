@@ -59,31 +59,19 @@
       </div>
     </div>
     <div class="">
-      <div class="min-h-screen">
-        <div class="grid md:grid-cols-4 2xl:grid-cols-5 schedule-section">
-          <div class="col-span-3 2xl:col-span-4 bg-blue-50">
-            <FullCalendar ref="fullCalendar" class="main-calendar" :options="calendarOptions" />
-          </div>
-          <div class="pt-1 bg-white max-h-screen top-0 relative">
-            <div class="grid gap-3 h-full w-full max-h-screen">
-              <keep-alive>
-
-                <!--                  <SchedulerDrawer-->
-                <!--                    v-if="openDrawer"-->
-                <!--                    v-model="activePage"-->
-                <!--                    @remove-event="removeEvent($event)"-->
-                <!--                    @process-event="processNewEvent"-->
-                <!--                    @close="openDrawer = false"-->
-                <!--                  />-->
-                <SchedulerInfo :active-calendar="activeCalendar" :events="allEvents" />
-
-              </keep-alive>
-<!--              <Nuxt-child></Nuxt-child>-->
-            </div>
+      <div class="grid md:grid-cols-4 2xl:grid-cols-5 schedule-section">
+        <div class="col-span-3 2xl:col-span-4 bg-blue-50">
+          <FullCalendar ref="fullCalendar" class="main-calendar" :options="calendarOptions" />
+        </div>
+        <div class="pt-1 bg-white max-h-screen top-0 relative">
+          <div class="grid gap-3 h-full w-full max-h-screen">
+            <keep-alive>
+              <SchedulerInfo :active-calendar="activeCalendar" :events="allEvents" />
+            </keep-alive>
           </div>
         </div>
-        <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
       </div>
+      <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
     </div>
   </div>
 </template>
@@ -125,6 +113,7 @@ export default {
       calendarOptions: {
         headerToolbar: false,
         eventClick: this.handleCalendarEventClick,
+        dayMaxEvents: true,
         plugins: [dayGridPlugin, interactionPlugin, timeGridPlugin, listPlugin],
         initialView: 'dayGridMonth',
         nowIndicator: false,
@@ -148,36 +137,6 @@ export default {
     ...mapGetters({
       activeCalendar: 'scheduler/getCalendar',
       allEvents: 'scheduler/getAllEvents'
-    })
-  },
-  async mounted () {
-    console.log("Fire this thing 🔥🔥🔥")
-    this.$store.commit('profile/SET_STATE', { loading: true })
-    this.calendarApi = this.$refs.fullCalendar.getApi()
-    this.updateDate()
-    // fetch local calendar
-    try {
-      if (!this.activeCalendar) {
-        this.$modal.show('scheduler-modal')
-        await this.$store.dispatch('scheduler/connectToLocalCalendar')
-      } else {
-        await this.loadEvents()
-      }
-    } catch (e) {
-      console.log(e)
-    }finally {
-      this.$store.commit('profile/SET_STATE', { loading: false })
-    }
-  },
-  beforeMount () {
-    document.addEventListener('keydown', (e) => {
-      // if (e.key === 'Escape' && this.openDrawer) {
-      //   this.openDrawer = false
-      // }
-    })
-
-    this.$once('hook:destroyed', () => {
-      document.removeEventListener('keydown', () => {})
     })
   },
   methods: {
@@ -260,7 +219,40 @@ export default {
       this.calendarApi.next()
       this.updateDate()
     }
-  }
+  },
+  async mounted () {
+    this.$store.commit('profile/SET_STATE', { loading: true })
+    this.calendarApi = this.$refs.fullCalendar.getApi()
+    this.updateDate()
+    try {
+      if (!this.activeCalendar) {
+        this.$modal.show('scheduler-modal')
+        await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      } else {
+        await this.loadEvents()
+      }
+    } catch (e) {
+      console.log(e)
+    }finally {
+      this.$store.commit('profile/SET_STATE', { loading: false })
+    }
+  },
+  beforeMount () {
+    document.addEventListener('keydown', (e) => {
+      // if (e.key === 'Escape' && this.openDrawer) {
+      //   this.openDrawer = false
+      // }
+    })
+
+    this.$once('hook:destroyed', () => {
+      document.removeEventListener('keydown', () => {})
+    })
+  },
+  created() {
+    this.$nuxt.$on('scheduler:event-created', (data) => {
+      this.processNewEvent(data)
+    })
+  } 
 }
 </script>
 

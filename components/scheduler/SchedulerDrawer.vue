@@ -5,8 +5,6 @@
       :event="event"
       @back="event={};$emit('active-page', pages.SCHEDULE_DETAILS)"
       @close="event={};closeDrawer()"
-      @updated="$emit('process-event',$event)"
-      @created="$emit('process-event',$event)"
       @recurring="$emit('recurring')"
     />
 
