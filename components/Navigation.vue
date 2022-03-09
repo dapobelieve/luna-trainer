@@ -14,7 +14,7 @@
               </div>
               <div class="flex items-center">
                 <div class="flex-shrink h-9 w-9 mr-3 border overflow-hidden border-green-500 rounded-full avatar">
-                  <img class="object-cover rounded-full" :src="$auth.user.imgURL">
+                  <img class="object-cover w-full h-full rounded-full" :src="$auth.user.imgURL">
                 </div>
                 <div class="flex flex-col">
                   <span class="text-gray-800 text-sm font-light">{{ $auth.user.businessName }}</span>
