@@ -15,7 +15,7 @@
       <div>
         <h3 class="text-black font-medium text-base">Welcome to luna</h3>
         <p class="text-gray-600">
-          Hey, Patrick Wayne! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.
+          Hey, {{ options.heading }}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.
         </p>
         <div class="actions mt-3">
           <button class="text-sm border text-md rounded-lg py-1 px-3 mr-3">Not Now</button>
@@ -36,7 +36,8 @@ export default {
     return {
       hover: false,
       timeoutId: null,
-      show: false
+      show: false,
+      options: {}
     }
   },
   computed: {
@@ -51,16 +52,17 @@ export default {
     }
   },
   mounted() {
-    this.$nuxt.$on('toast', () => {
+    this.$nuxt.$on('toast', (options) => {
+      this.options = options
       this.show = true
     })
   },
   updated() {
     clearTimeout(this.timeoutId)
     this.timeoutId = setTimeout(() => {
-      // if(!this.hover) {
-      //   this.show = false
-      // }
+      if(!this.hover) {
+        this.show = false
+      }
     }, 5000)
   }
 }

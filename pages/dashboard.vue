@@ -155,8 +155,9 @@ export default {
     }
   },
   mounted () {
-    console.log(this.$gwToast)
-    this.$gwToast.show()
+    this.$gwToast.show({
+      heading: `${this.$auth.user.firstName} ${this.$auth.user.lastName}`
+    })
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
