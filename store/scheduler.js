@@ -59,7 +59,7 @@ export const actions = {
     await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
     return true
   },
-  async connectToLocalCalendar ({ rootState, commit }) {
+  async connectToLocalCalendar ({ commit }) {
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/connect/local?timezone=Africa/Lagos`)
     commit('setCalendar', res[0])
   }

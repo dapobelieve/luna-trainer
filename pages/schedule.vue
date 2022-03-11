@@ -239,9 +239,9 @@ export default {
   },
   beforeMount () {
     document.addEventListener('keydown', (e) => {
-      // if (e.key === 'Escape' && this.openDrawer) {
-      //   this.openDrawer = false
-      // }
+      if (e.key === 'Escape' && this.openDrawer) {
+        this.openDrawer = false
+      }
     })
 
     this.$once('hook:destroyed', () => {

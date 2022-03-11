@@ -30,7 +30,7 @@
           leave-class="-translate-x-0"
           enter-to-class="-translate-x-0"
           leave-to-class="translate-x-full"
-        >
+        >          
           <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer.open" />
         </transition>
       </div>

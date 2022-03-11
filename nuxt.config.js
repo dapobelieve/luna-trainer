@@ -38,6 +38,7 @@ export default {
   ],
   plugins: [
     { src: '~plugins/services' },
+    { src: '~plugins/toast' },
     { src: '~plugins/v-calendar', ssr: false },
     { src: '~/plugins/vue-tel-input', ssr: false },
     { src: '~/plugins/vue-select', ssr: false },

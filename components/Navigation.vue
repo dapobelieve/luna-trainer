@@ -42,19 +42,19 @@
                 <ClickOutside :do="(e) => {handleClick(e)}">
                   <div v-show="showQuickMenu" class="absolute top-0 w-full z-40 right-0 rounded-lg bg-white ring-opacity-5 ring-1 ring-black shadow-lg">
                     <div class="flex flex-col text-black" role="none">
-                      <button class="hover:bg-blue-50 py-2 pl-3">
+                      <button @click="$modal.show('inviteClientModal')" class="hover:bg-blue-50 py-2 pl-3">
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-following mr-3 text-gray-500"></i>
                         Client
                         </span>
                       </button>
-                      <button class="hover:bg-blue-50 py-2 pl-3">
+                      <button @click="$router.push({ name: 'invoice'})" class="hover:bg-blue-50 py-2 pl-3">
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-receipt mr-3 text-gray-500"></i>
                         Invoice
                         </span>
                       </button>
-                      <button class="hover:bg-blue-50 py-2 pl-3">
+                      <button @click="openSession" class="hover:bg-blue-50 py-2 pl-3">
                         <span class="w-full flex mt-1 ">
                           <i class="fi-rr-calendar mr-3 text-gray-500"></i>
                         Session
@@ -117,13 +117,6 @@
         </div>
       </div>
     </nav>
-    <GwModal
-      :input-width="40"
-      @close="addSession = $event"
-      @closeBackDrop="openEditModal = $event"
-    >
-      <CreateSchedule @close="" />
-    </GwModal>
     <NotificationsModal
       :visible="showNotification"
       @close="showNotification = $event"
@@ -216,8 +209,6 @@ export default {
       ],
       showNotification: false,
       openModal: false,
-      showNotificationsMenu: false,
-      showMessagesMenu: false,
     }
   },
   computed: {
@@ -294,14 +285,13 @@ export default {
       this.$store.commit('notifications/setNotification', data)
     })
 
-    // this.$gwtoast.success('Google Calendar Connected', {
-    //   position: 'bottom-right',
-    //   duration: 0
-    // })
 
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
+    openSession() {
+      this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'new-session'}})
+    },
     handleClick(e) {
       if(!e.target.closest('.new-button')) {
         this.showQuickMenu = false
@@ -310,13 +300,6 @@ export default {
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
-    createInvoice () {
-      if (!this.acceptedClients.length || !this.$auth.user.services.length) {
-        this.showNotification = true
-      } else {
-        this.openModal = true
-      }
-    },
     inviteClient () {
       this.$modal.show('inviteClientModal')
     },
