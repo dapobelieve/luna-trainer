@@ -67,66 +67,66 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from "vuex";
-import Helpers from "~/mixins/helpers";
+import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
+import Helpers from '~/mixins/helpers'
 export default {
-  name: "Client",
+  name: 'Client',
   mixins: [Helpers],
   data() {
     return {
       showDropDown: false,
       clientInfo: null,
       id: this.$route.params.id,
-    };
+    }
   },
   computed: {
     ...mapState({
       thisUser: (state) => state.sendBird.tempClient,
     }),
     ...mapGetters({
-      isOnline: "sendBird/isUserOnline",
+      isOnline: 'sendBird/isUserOnline',
     }),
     firstName() {
-      return (this.clientInfo && this.clientInfo.firstName) || "";
+      return (this.clientInfo && this.clientInfo.firstName) || ''
     },
     lastName() {
-      return (this.clientInfo && this.clientInfo.lastName) || "";
+      return (this.clientInfo && this.clientInfo.lastName) || ''
     },
     petName() {
-      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].name) || "";
+      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].name) || ''
     },
     petAge() {
-      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].age) || "";
+      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].age) || ''
     },
     petBreed() {
-      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].breed) || "";
+      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].breed) || ''
     },
   },
   mounted() {
     this.getClientProfile(this.id)
       .then((response) => {
-        this.clientInfo = response;
-        if (response.status === "invited" && "sendbirdId" in response) {
-          this.isUserOnline(response.sendbirdId);
-          this.setCurrentClient(response.sendbirdId);
+        this.clientInfo = response
+        if (response.status === 'invited' && 'sendbirdId' in response) {
+          this.isUserOnline(response.sendbirdId)
+          this.setCurrentClient(response.sendbirdId)
         }
       })
-      .catch((err) => console.log("error fetching client", err));
+      .catch((err) => console.log('error fetching client', err))
   },
   methods: {
     ...mapMutations({
-      setCurrentClient: "sendBird/SET_CURRENT_VIEWING_CLIENT",
+      setCurrentClient: 'sendBird/SET_CURRENT_VIEWING_CLIENT',
     }),
     ...mapActions({
-      getClientProfile: "client/getSingleClientById",
-      getSendbirdUser: "sendBird/getUser",
-      isUserOnline: "sendBird/isUserOnline",
+      getClientProfile: 'client/getSingleClientById',
+      getSendbirdUser: 'sendBird/getUser',
+      isUserOnline: 'sendBird/isUserOnline',
     }),
     showDropdown() {
-      this.showDropDown = !this.showDropDown;
+      this.showDropDown = !this.showDropDown
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>

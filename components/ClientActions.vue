@@ -2,7 +2,7 @@
   <ClickOutside
     :do="
       () => {
-        showDropdown = false;
+        showDropdown = false
       }
     "
   >
@@ -48,9 +48,9 @@ export default {
   data() {
     return {
       showDropdown: false,
-    };
+    }
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
