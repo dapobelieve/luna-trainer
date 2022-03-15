@@ -70,10 +70,10 @@
 </template>
 
 <script>
-import "vue2-datepicker/index.css";
-import { mapActions } from "vuex";
+import 'vue2-datepicker/index.css'
+import { mapActions } from 'vuex'
 export default {
-  name: "Information",
+  name: 'Information',
   data() {
     return {
       hasAnyInputChanged: false,
@@ -84,20 +84,20 @@ export default {
       tempClientInfo: {},
       showButtons: false,
       tab: 1,
-      links: ["client", "dog"],
-    };
+      links: ['client', 'dog'],
+    }
   },
   computed: {
     firstName() {
-      return this.clientInfo ? this.clientInfo.firstName : "";
+      return this.clientInfo ? this.clientInfo.firstName : ''
     },
     lastName() {
       return this.clientInfo && this.clientInfo.lastName !== undefined
         ? this.clientInfo.lastName
-        : "";
+        : ''
     },
     fullName() {
-      return this.firstName + " " + this.lastName;
+      return this.firstName + ' ' + this.lastName
     },
   },
   mounted() {
@@ -106,22 +106,22 @@ export default {
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
-            pet: [{ name: "", age: "", breed: "" }],
-          };
+            pet: [{ name: '', age: '', breed: '' }],
+          }
         } else {
-          this.clientInfo = response;
+          this.clientInfo = response
         }
-        this.tempClientInfo = { ...this.clientInfo };
+        this.tempClientInfo = { ...this.clientInfo }
       })
-      .catch((err) => console.log("error fetching client", err));
+      .catch((err) => console.log('error fetching client', err))
   },
   methods: {
-    ...mapActions("client", {
-      getClientProfile: "getSingleClientById",
-      updateClient: "updateClientProfile",
+    ...mapActions('client', {
+      getClientProfile: 'getSingleClientById',
+      updateClient: 'updateClientProfile',
     }),
     updateProfile() {
-      this.isLoading = true;
+      this.isLoading = true
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
@@ -142,39 +142,39 @@ export default {
         },
       })
         .then((response) => {
-          this.showButtons = false;
-          if (response.status === "success") {
-            this.clientInfo = response.data;
-            this.isLoading = false;
-            this.$gwtoast.success("Updated profile successfully");
+          this.showButtons = false
+          if (response.status === 'success') {
+            this.clientInfo = response.data
+            this.isLoading = false
+            this.$gwtoast.success('Updated profile successfully')
           }
         })
         .catch((err) => {
-          this.showButtons = false;
-          this.isLoading = false;
+          this.showButtons = false
+          this.isLoading = false
           if (err.response) {
             this.$gwtoast.error(
               `Something went wrong: ${
                 err.response.data.error || err.response.data.message
               }`,
-              { position: "bottom-right" }
-            );
+              { position: 'bottom-right' }
+            )
           }
         })
         .finally(() => {
-          this.isLoading = false;
-        });
+          this.isLoading = false
+        })
     },
     cancelEditField() {
-      this.cancelLoading = false;
-      this.clientInfo = this.tempClientInfo;
-      this.showButtons = false;
+      this.cancelLoading = false
+      this.clientInfo = this.tempClientInfo
+      this.showButtons = false
     },
     switchTabs(tabNumber) {
-      this.tab = tabNumber;
+      this.tab = tabNumber
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -210,7 +210,7 @@ select {
 .tabs button.active {
   @apply text-gray-700;
   &::after {
-    content: "";
+    content: '';
     @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-0.5;
   }
 }
