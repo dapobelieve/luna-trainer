@@ -1,12 +1,16 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="grid pb-4 bg-white border rounded-xl w-full min-h-screen">
+    <div
+      v-if="clientInfo"
+      class="grid pb-4 bg-white border rounded-xl w-full min-h-screen"
+    >
       <form>
         <div class="bg-white sticky top-14 rounded-xl" style="z-index: 1">
-          <h2 class="text-xl py-4 px-3.5">
-            Information
-          </h2>
-          <div v-if="showButtons" class="sm:absolute right-4 flex space-x-2 justify-end mr-4">
+          <h2 class="text-xl py-4 px-3.5">Information</h2>
+          <div
+            v-if="showButtons"
+            class="sm:absolute right-4 flex space-x-2 justify-end mr-4"
+          >
             <button
               :disabled="cancelLoading"
               type="button"
@@ -33,7 +37,10 @@
               <button
                 v-for="(link, index) in links"
                 :key="link.index"
-                :class="[{ active: tab === index + 1 }, 'capitalize py-2.5 px-3']"
+                :class="[
+                  { active: tab === index + 1 },
+                  'capitalize py-2.5 px-3',
+                ]"
                 @click.prevent="switchTabs(index + 1)"
               >
                 {{ link }}
@@ -41,11 +48,19 @@
             </ul>
             <!-- Tab contents -->
             <div class="my-6 mx-4">
-              <client-information v-if="tab === 1" v-model="clientInfo" @showButtons="showButtons = true" />
-              <client-dog-information v-if="tab === 2" v-model="clientInfo" @showButtons="showButtons = true" />
-              <div v-if="tab === 3">
+              <client-information
+                v-if="tab === 1"
+                v-model="clientInfo"
+                @showButtons="showButtons = true"
+              />
+              <client-dog-information
+                v-if="tab === 2"
+                v-model="clientInfo"
+                @showButtons="showButtons = true"
+              />
+              <!-- <div v-if="tab === 3">
                 <client-health-information v-if="tab === 3" v-model="clientInfo" @showButtons="showButtons = true" />
-              </div>
+              </div> -->
             </div>
           </section>
         </div>
@@ -59,7 +74,7 @@ import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
 export default {
   name: 'Information',
-  data () {
+  data() {
     return {
       hasAnyInputChanged: false,
       isLoading: false,
@@ -69,43 +84,43 @@ export default {
       tempClientInfo: {},
       showButtons: false,
       tab: 1,
-      links: ['client', 'dog', 'health']
+      links: ['client', 'dog'],
     }
   },
   computed: {
-    firstName () {
+    firstName() {
       return this.clientInfo ? this.clientInfo.firstName : ''
     },
-    lastName () {
+    lastName() {
       return this.clientInfo && this.clientInfo.lastName !== undefined
         ? this.clientInfo.lastName
         : ''
     },
-    fullName () {
+    fullName() {
       return this.firstName + ' ' + this.lastName
-    }
+    },
   },
-  mounted () {
+  mounted() {
     this.getClientProfile(this.id)
       .then((response) => {
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
-            pet: [{ name: '', age: '', breed: '' }]
+            pet: [{ name: '', age: '', breed: '' }],
           }
         } else {
           this.clientInfo = response
         }
         this.tempClientInfo = { ...this.clientInfo }
       })
-      .catch(err => console.log('error fetching client', err))
+      .catch((err) => console.log('error fetching client', err))
   },
   methods: {
     ...mapActions('client', {
       getClientProfile: 'getSingleClientById',
-      updateClient: 'updateClientProfile'
+      updateClient: 'updateClientProfile',
     }),
-    updateProfile () {
+    updateProfile() {
       this.isLoading = true
       return this.updateClient({
         id: this.clientInfo._id,
@@ -120,11 +135,11 @@ export default {
             {
               name: this.clientInfo.pet[0].name,
               age: this.clientInfo.pet[0].age,
-              breed: this.clientInfo.pet[0].breed
-            }
+              breed: this.clientInfo.pet[0].breed,
+            },
           ],
-          notes: this.clientInfo.notes
-        }
+          notes: this.clientInfo.notes,
+        },
       })
         .then((response) => {
           this.showButtons = false
@@ -139,8 +154,9 @@ export default {
           this.isLoading = false
           if (err.response) {
             this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.error ||
-                err.response.data.message}`,
+              `Something went wrong: ${
+                err.response.data.error || err.response.data.message
+              }`,
               { position: 'bottom-right' }
             )
           }
@@ -149,15 +165,15 @@ export default {
           this.isLoading = false
         })
     },
-    cancelEditField () {
+    cancelEditField() {
       this.cancelLoading = false
       this.clientInfo = this.tempClientInfo
       this.showButtons = false
     },
-    switchTabs (tabNumber) {
+    switchTabs(tabNumber) {
       this.tab = tabNumber
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -194,9 +210,8 @@ select {
 .tabs button.active {
   @apply text-gray-700;
   &::after {
-    content: "";
+    content: '';
     @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-0.5;
   }
 }
-
 </style>
