@@ -1,5 +1,11 @@
 <template>
-  <ClickOutside :do="() => { showDropdown = false}">
+  <ClickOutside
+    :do="
+      () => {
+        showDropdown = false;
+      }
+    "
+  >
     <div class="flex items-center space-x-2">
       <div class="relative pt-2">
         <button type="button" @click="showDropdown = !showDropdown">
@@ -11,15 +17,19 @@
           class="origin-top-right top-[1] absolute right-0 w-32 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
         >
           <div class="py-2 flex flex-col" role="none">
-            <button type="button" class="dropdown-button" @click="$router.push({ name: 'invoice', params: { pushedClient: client } })">
-              Create Invoice
-            </button>
             <button
               type="button"
               class="dropdown-button"
+              @click="
+                $router.push({
+                  name: 'invoice',
+                  params: { pushedClient: client },
+                })
+              "
             >
-              Archive
+              Create Invoice
             </button>
+            <button type="button" class="dropdown-button">Archive</button>
           </div>
         </div>
       </div>
@@ -32,16 +42,15 @@ export default {
   props: {
     clientInfo: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
-  data () {
+  data() {
     return {
-      showDropdown: false
-    }
-  }
-
-}
+      showDropdown: false,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>
