@@ -81,12 +81,12 @@ export default {
       this.isLoading = true
       try {
         await this.$store.dispatch('authorize/changeEmail', { ...this.form })
-        this.$gwtoast.success(`We have sent a verification link to ${this.form.email}.`)
+        this.$lunaToast.success(`We have sent a verification link to ${this.form.email}.`)
         await this.fetchUserProfile()
         this.$modal.hide('change-email-modal')
         this.$emit('display-cancel-change')
       } catch (e) {
-        this.$gwtoast.error(e.response.data.message)
+        this.$lunaToast.error(e.response.data.message)
       } finally {
         this.isLoading = false
         this.form = { email: null }

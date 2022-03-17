@@ -52,7 +52,7 @@
         <button
           id="schduler-step-1"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
-          @click="$router.push({ name: 'schedule-create' })"
+          @click="openDrawer({ open: true, activePage: 'new-session' })"
         >
           <i class="fi-rr-plus text-white text-xl mt-1"></i>
         </button>
@@ -86,11 +86,9 @@ import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
 import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
-import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'Scheduler',
   components: {
-    SchedulerDrawer,
     SchedulerInfo,
     SchedulerWelcome,
     FullCalendar
@@ -139,9 +137,42 @@ export default {
       allEvents: 'scheduler/getAllEvents'
     })
   },
+  async mounted () {
+    this.$store.commit('profile/SET_STATE', { loading: true })
+    this.calendarApi = this.$refs.fullCalendar.getApi()
+    this.updateDate()
+    try {
+      if (!this.activeCalendar) {
+        this.$modal.show('scheduler-modal')
+        await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      } else {
+        await this.loadEvents()
+      }
+    } catch (e) {
+      console.log(e)
+    } finally {
+      this.$store.commit('profile/SET_STATE', { loading: false })
+    }
+  },
+  beforeMount () {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && this.openDrawer) {
+        this.openDrawer = false
+      }
+    })
+
+    this.$once('hook:destroyed', () => {
+      document.removeEventListener('keydown', () => {})
+    })
+  },
+  created () {
+    this.$nuxt.$on('scheduler:event-created', (data) => {
+      this.processNewEvent(data)
+    })
+  },
   methods: {
-    openDrawer(data) {
-      this.$store.commit('scheduler/setStates', {drawer: data})
+    openDrawer (data) {
+      this.$store.commit('scheduler/setStates', { drawer: data })
     },
     async loadEvents () {
       this.calendarApi.refetchEvents()
@@ -172,8 +203,8 @@ export default {
       this.$intro().showHints()
     },
     handleCalendarEventClick (info) {
-      let { id } = info.event
-      this.openDrawer({open: true, activePage: 'schedule-details'})
+      const { id } = info.event
+      this.openDrawer({ open: true, activePage: 'schedule-details' })
       this.$router.push({
         name: 'schedule-events-id',
         params: {
@@ -219,40 +250,7 @@ export default {
       this.calendarApi.next()
       this.updateDate()
     }
-  },
-  async mounted () {
-    this.$store.commit('profile/SET_STATE', { loading: true })
-    this.calendarApi = this.$refs.fullCalendar.getApi()
-    this.updateDate()
-    try {
-      if (!this.activeCalendar) {
-        this.$modal.show('scheduler-modal')
-        await this.$store.dispatch('scheduler/connectToLocalCalendar')
-      } else {
-        await this.loadEvents()
-      }
-    } catch (e) {
-      console.log(e)
-    }finally {
-      this.$store.commit('profile/SET_STATE', { loading: false })
-    }
-  },
-  beforeMount () {
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && this.openDrawer) {
-        this.openDrawer = false
-      }
-    })
-
-    this.$once('hook:destroyed', () => {
-      document.removeEventListener('keydown', () => {})
-    })
-  },
-  created() {
-    this.$nuxt.$on('scheduler:event-created', (data) => {
-      this.processNewEvent(data)
-    })
-  } 
+  }
 }
 </script>
 

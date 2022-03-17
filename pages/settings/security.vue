@@ -119,10 +119,10 @@ export default {
         await this.$store.dispatch('authorize/cancelChangeEmail', {
           ...this.form
         })
-        this.$gwtoast.success('Successfully cancelled ')
+        this.$lunaToast.success('Successfully cancelled ')
         await this.fetchUserProfile()
       } catch (e) {
-        this.$gwtoast.error(e.response.data.message)
+        this.$lunaToast.error(e.response.data.message)
       }
     }
   }

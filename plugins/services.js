@@ -1,7 +1,6 @@
-import { ToastService } from '~/services/toast'
+import { LunaToast } from '~/services/LunaToast'
 
 export default (context, inject) => {
-  const gwtoast = new ToastService(context.$toast)
-
-  inject('gwtoast', gwtoast)
+  const lunaToast = new LunaToast()
+  inject('lunaToast', lunaToast)
 }

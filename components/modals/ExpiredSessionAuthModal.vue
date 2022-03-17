@@ -71,7 +71,7 @@ export default {
           password: this.form.password,
           domain: 'getwelp-trainer-ui'
         })
-        this.$gwtoast.success('Login Successful')
+        this.$lunaToast.success('Login Successful')
         this.$modal.hide('auth-modal')
       } catch (e) {
         console.log(e)

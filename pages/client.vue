@@ -15,9 +15,9 @@
           </button>
         </template>
         <template v-slot:title>
-          <span class="hidden lg:block capitalize ml-5 font-medium text-lg"
-            >{{ firstName }} {{ lastName }}</span
-          >
+          <span
+            class="hidden lg:block capitalize ml-5 font-medium text-lg"
+          >{{ firstName }} {{ lastName }}</span>
         </template>
         <template v-slot:buttons>
           <ClientActions :client-info="clientInfo" />
@@ -72,37 +72,37 @@ import Helpers from '~/mixins/helpers'
 export default {
   name: 'Client',
   mixins: [Helpers],
-  data() {
+  data () {
     return {
       showDropDown: false,
       clientInfo: null,
-      id: this.$route.params.id,
+      id: this.$route.params.id
     }
   },
   computed: {
     ...mapState({
-      thisUser: (state) => state.sendBird.tempClient,
+      thisUser: state => state.sendBird.tempClient
     }),
     ...mapGetters({
-      isOnline: 'sendBird/isUserOnline',
+      isOnline: 'sendBird/isUserOnline'
     }),
-    firstName() {
+    firstName () {
       return (this.clientInfo && this.clientInfo.firstName) || ''
     },
-    lastName() {
+    lastName () {
       return (this.clientInfo && this.clientInfo.lastName) || ''
     },
-    petName() {
+    petName () {
       return (this.clientInfo.pet[0] && this.clientInfo.pet[0].name) || ''
     },
-    petAge() {
+    petAge () {
       return (this.clientInfo.pet[0] && this.clientInfo.pet[0].age) || ''
     },
-    petBreed() {
+    petBreed () {
       return (this.clientInfo.pet[0] && this.clientInfo.pet[0].breed) || ''
-    },
+    }
   },
-  mounted() {
+  mounted () {
     this.getClientProfile(this.id)
       .then((response) => {
         this.clientInfo = response
@@ -111,21 +111,21 @@ export default {
           this.setCurrentClient(response.sendbirdId)
         }
       })
-      .catch((err) => console.log('error fetching client', err))
+      .catch(err => console.log('error fetching client', err))
   },
   methods: {
     ...mapMutations({
-      setCurrentClient: 'sendBird/SET_CURRENT_VIEWING_CLIENT',
+      setCurrentClient: 'sendBird/SET_CURRENT_VIEWING_CLIENT'
     }),
     ...mapActions({
       getClientProfile: 'client/getSingleClientById',
       getSendbirdUser: 'sendBird/getUser',
-      isUserOnline: 'sendBird/isUserOnline',
+      isUserOnline: 'sendBird/isUserOnline'
     }),
-    showDropdown() {
+    showDropdown () {
       this.showDropDown = !this.showDropDown
-    },
-  },
+    }
+  }
 }
 </script>
 

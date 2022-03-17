@@ -99,7 +99,7 @@ export default {
       return this.deleteInvoices(this.tempTrashId)
         .then((response) => {
           if (response.status === 'success') {
-            this.$gwtoast.success('Invoice deleted successfully')
+            this.$lunaToast.success('Invoice deleted successfully')
             this.getInvoices()
             this.deleteClient = false
             this.trash = false
@@ -107,14 +107,14 @@ export default {
         })
         .catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(
+            this.$lunaToast.error(
               `Something went wrong: ${err.response.data.message}`)
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again', {
+            this.$lunaToast.error('Something went wrong. Try again', {
               position: 'bottom-right'
             })
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`Something went wrong: ${err.message}`)
           }
         })
     },

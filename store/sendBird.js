@@ -80,7 +80,7 @@ export const actions = {
   async connect_to_sb_server_with_userid ({ commit }, sendbirdId) {
     return await this.$sb.connect(sendbirdId, (user, error) => {
       if (error) {
-        this.$gwtoast.error('Messaging not connected.')
+        this.$lunaToast.error('Messaging not connected.')
         return false
       }
       commit('CHANGE_SENDBIRD_CONNECTION_STATUS', true)
@@ -97,7 +97,7 @@ export const actions = {
 
     const connectionStatus = await listQuery.next((users, error) => {
       if (error) {
-        this.$gwtoast.error(`Error getting user status', ${error}`)
+        this.$lunaToast.error(`Error getting user status', ${error}`)
       }
     })
     return connectionStatus[0].connectionStatus
@@ -120,7 +120,7 @@ export const actions = {
       params,
       (groupChannel, error) => {
         if (error) {
-          this.$gwtoast.error(error.message)
+          this.$lunaToast.error(error.message)
           return error
         }
         if (groupChannel) {
@@ -142,7 +142,7 @@ export const actions = {
     if (listQuery.hasNext) {
       await listQuery.next((groupChannels, error) => {
         if (error) {
-          this.$gwtoast.error('Error fetching messages')
+          this.$lunaToast.error('Error fetching messages')
           return
         }
         const channels = new Map()
@@ -161,12 +161,12 @@ export const actions = {
       async (groupChannel, error) => {
         // get channel
         if (error) {
-          this.$gwtoast.error('Error finding channel')
+          this.$lunaToast.error('Error finding channel')
           return
         }
         await groupChannel.delete((response, error) => {
           if (error) {
-            this.$gwtoast.error('Error deleting channel')
+            this.$lunaToast.error('Error deleting channel')
             return
           }
           commit('DELETE_CHANNEL_LOCALLY', CHANNEL_URL)

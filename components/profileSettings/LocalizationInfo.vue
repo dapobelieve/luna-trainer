@@ -2,16 +2,18 @@
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-1.5">
       <label for="timezone" class="required">Time zone</label>
-      <select
-        id="timezone"
-        v-model="profile.timezone"
-        class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-        :class="{'border-red-500' : $v.profile.timezone.$invalid}"
-      >
-        <option v-for="time in timezones" :key="time.index">
-          {{ time.text }}
-        </option>
-      </select>
+      <GwCustomerSelector v-model="profile.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :clients="timezoneArr">
+        <template v-slot:selectedOption="{selected}">
+          <div class="flex items-center">
+            <span class="text-gray-700">{{ selected.label }}</span>
+          </div>
+        </template>
+        <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+          <div class="flex items-center py-2">
+            <span class="text-gray-700">{{ optionObject.label }}</span>
+          </div>
+        </template>
+      </GwCustomerSelector>
     </div>
     <div class="flex flex-col gap-1.5">
       <label for="dateformat">Date format</label>
@@ -39,8 +41,16 @@ export default {
   props: ['value'],
   data () {
     return {
+      form: {},
       timezones,
       profile: this.value
+    }
+  },
+  computed: {
+    timezoneArr () {
+      return Array.from(new Set(this.timezones.reduce((acc, curr) => {
+        return [...acc, ...curr.utc]
+      }, [])))
     }
   },
   validations: {

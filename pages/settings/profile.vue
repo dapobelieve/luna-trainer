@@ -31,7 +31,7 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      profileImage:null,
+      profileImage: null,
       profile: JSON.parse(JSON.stringify(this.$auth.user)),
       isLoading: false,
       disableButton: true
@@ -49,12 +49,12 @@ export default {
           if (this.profileImage) {
             await this.uploadPicture(this.profileImage)
           }
-          this.$gwtoast.success('Updated profile successfully')
+          this.$lunaToast.success('Updated profile successfully')
         }
       }).catch((err) => {
         console.error(err)
         if (err.response || err.message || err.error) {
-          this.$gwtoast.error(`Something went wrong: ${err.error || err.response.data.error || err.response.data.message || err.message}`, { position: 'bottom-center' })
+          this.$lunaToast.error(`Something went wrong: ${err.error || err.response.data.error || err.response.data.message || err.message}`, { position: 'bottom-center' })
         }
       }).finally(() => {
         this.isLoading = false

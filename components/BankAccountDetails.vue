@@ -72,15 +72,15 @@ export default {
     submit () {
       return this.createAccount(this.details).then((response) => {
         if (response.status === 'success') {
-          this.$gwtoast.success('Account registration successful')
+          this.$lunaToast.success('Account registration successful')
         }
       }).catch((err) => {
         if (err.response) {
-          this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`)
+          this.$lunaToast.error(`Something went wrong: ${err.response.data.message}`)
         } else if (err.request) {
-          this.$gwtoast.error('Something went wrong. Try again')
+          this.$lunaToast.error('Something went wrong. Try again')
         } else {
-          this.$gwtoast.error(`Something went wrong: ${err.message}`)
+          this.$lunaToast.error(`Something went wrong: ${err.message}`)
         }
       })
     }

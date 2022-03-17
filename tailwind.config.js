@@ -13,6 +13,7 @@ module.exports = {
     extend: {
       colors: {
         cyan: colors.cyan,
+        sky: colors.sky,
         fuchsia: colors.fuchsia,
         rose: colors.rose,
         teal: colors.teal,
