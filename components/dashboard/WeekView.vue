@@ -72,7 +72,7 @@ export default {
       this.$emit('fetching-events')
       const res = await this.$store.dispatch('scheduler/getAllAppointments', { ...data })
       this.$emit('stop-fetching-events')
-      this.$emit('events', res)
+      this.$emit('events', res.slice(0, 2))
     }
   }
 }
