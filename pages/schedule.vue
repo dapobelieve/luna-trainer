@@ -52,8 +52,7 @@
         <button
           id="schduler-step-1"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
-          @click="$router.push({ name: 'schedule-create' })"
-        >
+          @click="openDrawer({ open: true, activePage: 'new-session' })">
           <i class="fi-rr-plus text-white text-xl mt-1"></i>
         </button>
       </div>

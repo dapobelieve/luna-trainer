@@ -20,7 +20,7 @@
         </div>
       </div>
       <ExpiredSessionAuthModal />
-      <div class="bg-teal-500 bg-teal-50 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 bg-cyan-50"></div>
+      <div class="bg-teal-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
       <transition
         enter-active-class="transition-all ease-in-out duration-[500ms]"
         leave-active-class="transition-all ease-in-out duration-[500ms]"
@@ -29,10 +29,9 @@
         enter-to-class="-translate-x-0"
         leave-to-class="translate-x-full"
       >
-      <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer.open" />
+      <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer && schedulerDrawer.open" />
       </transition>
     </div>
-    
   </async-view>
 </template>
 <script>

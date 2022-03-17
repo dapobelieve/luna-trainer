@@ -133,7 +133,7 @@ export default {
         const connect = await this.stripeConnect()
         window.location.href = connect
       } catch (error) {
-        this.$gwtoast.error('Stripe Connect Failed!')
+        this.$lunaToast.error('Stripe Connect Failed!')
       }
       this.isLoading = false
     },

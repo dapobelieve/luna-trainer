@@ -308,16 +308,16 @@ export default {
       if (isNotificationOn) {
         switch (type) {
           case "INVITE_REQUEST_ACCEPTED":
-            this.$gwtoast.show(`${data.firstName} just accepted your invite`);
+            this.$lunaToast.show(`${data.firstName} just accepted your invite`);
             break;
           case "PAYMENT_ACCEPTED":
-            this.$gwtoast.show("payment made");
+            this.$lunaToast.show("payment made");
             break;
           case "STRIPE_CONNECTION_SUCCESSFUL":
-            this.$gwtoast.show("Stripe has just connected successful");
+            this.$lunaToast.show("Stripe has just connected successful");
             break;
           default:
-            this.$gwtoast.show("You have a new notification");
+            this.$lunaToast.show("You have a new notification");
             break;
         }
       }

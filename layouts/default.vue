@@ -1,5 +1,6 @@
 <template>
   <async-view loader-id="logout">
+    <Toast />
     <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
       <div class="inline-flex flex-col items-center">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
@@ -135,8 +136,9 @@ import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
+import Toast from "~/components/toasts/toast"
 export default {
-  components: {SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: {Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -259,7 +261,7 @@ export default {
       this.showNotification = false
       return this.connectToSendBird(this.$auth.user.sendbirdId).then((result) => {
         if (result !== 'error') {
-          this.$gwtoast.success('Chat connection successful')
+          this.$lunaToast.success('Chat connection successful')
         }
       })
     }

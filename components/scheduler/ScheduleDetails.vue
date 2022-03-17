@@ -89,7 +89,7 @@ export default {
         await this.$store.dispatch('scheduler/deleteAppointment', { id: this.eventObj.id })
         this.$emit('remove-event', this.eventObj.id)
         this.closeModal()
-        this.$gwtoast.success('Session Deleted')
+        this.$lunaToast.success('Session Deleted')
         this.$emit('close')
       } catch (e) {
         console.log(e)

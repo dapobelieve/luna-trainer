@@ -224,7 +224,7 @@ export default {
     try {
       await this.checkConnectedPaymentMethods()
     } catch (error) {
-      this.$gwtoast.error('No connected payment method')
+      this.$lunaToast.error('No connected payment method')
     }
   },
   methods: {
@@ -241,7 +241,7 @@ export default {
         const connect = await this.stripeConnect()
         window.location.href = connect
       } catch (error) {
-        this.$gwtoast.error(`Stripe ${this.isStripeConnected ? 'Disconnect' : 'Connect'} Failed!`)
+        this.$lunaToast.error(`Stripe ${this.isStripeConnected ? 'Disconnect' : 'Connect'} Failed!`)
       }
       this.isLoading = false
     },
@@ -250,14 +250,14 @@ export default {
       try {
         await this.disconnectStripe()
         this.$store.commit('payment/DISCONNECT_STRIPE')
-        this.$gwtoast.success('Stripe disconnected!')
+        this.$lunaToast.success('Stripe disconnected!')
         if (this.defaultPayment === 'stripe') {
           localStorage.removeItem('dp')
           this.defaultPayment = ''
-          this.$gwtoast.show('Strip is no longer default!')
+          this.$lunaToast.show('Strip is no longer default!')
         }
       } catch (error) {
-        this.$gwtoast.error('Stripe Disconnect failed!')
+        this.$lunaToast.error('Stripe Disconnect failed!')
       }
       this.isLoading = false
     },
@@ -268,53 +268,53 @@ export default {
       localStorage.setItem('dp', paymentMethod)
       this.defaultPayment = paymentMethod
       this.showDropdown = false
-      this.$gwtoast.success(`${paymentMethod} is set as your default payment`)
+      this.$lunaToast.success(`${paymentMethod} is set as your default payment`)
     },
     async togglePaymentMethod (e) {
       try {
         if (e === 'stripe' && this.isStripeConnected && this.stripeDetails.disabled) {
           await this.enablePayment(e)
-          this.$gwtoast.success('Stripe enabled')
+          this.$lunaToast.success('Stripe enabled')
           return
         } else if (e === 'stripe' && this.isStripeConnected && !this.stripeDetails.disabled) {
           await this.disablePayment(e)
-          this.$gwtoast.error('Stripe disabled')
+          this.$lunaToast.error('Stripe disabled')
           if (this.defaultPayment === 'stripe') {
             localStorage.removeItem('dp')
             this.defaultPayment = ''
-            this.$gwtoast.show('Strip is no longer default!')
+            this.$lunaToast.show('Strip is no longer default!')
           }
           return
         } else if (e === 'bank' && this.isBankConnected && this.bankConnectionDetails.disabled) {
           await this.enablePayment(e)
-          this.$gwtoast.success('Bank enabled')
+          this.$lunaToast.success('Bank enabled')
           return
         } else if (e === 'bank' && this.isStripeConnected && !this.bankConnectionDetails.disabled) {
           await this.disablePayment(e)
-          this.$gwtoast.error('Bank disabled')
+          this.$lunaToast.error('Bank disabled')
           if (this.defaultPayment === 'bank') {
             localStorage.removeItem('dp')
             this.defaultPayment = ''
-            this.$gwtoast.show('Bank is no longer default!')
+            this.$lunaToast.show('Bank is no longer default!')
           }
           return
         }
       } catch (error) {
-        this.$gwtoast.error('Something went wrong: ', error)
+        this.$lunaToast.error('Something went wrong: ', error)
       }
     },
     async enablePaymentMethod (e) {
       try {
         await this.disablePayment(e)
       } catch (error) {
-        this.$gwtoast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to disable payment')
       }
     },
     async disablePaymentMethod (e) {
       try {
         await this.disablePayment(e)
       } catch (error) {
-        this.$gwtoast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to disable payment')
       }
     }
   }

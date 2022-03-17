@@ -202,7 +202,7 @@ export default {
         }
         reader.readAsDataURL(this.profileImageData)
       } else {
-        this.$gwtoast.error('File is not an image')
+        this.$lunaToast.error('File is not an image')
       }
       this.dragging = false
     },

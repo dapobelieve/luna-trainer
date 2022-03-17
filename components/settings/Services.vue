@@ -141,7 +141,7 @@ export default {
       return this.updateProfile({ services: this.updatedServices }).then((response) => {
         if (response.status === 'success') {
           this.resetSelectedService()
-          this.$gwtoast.success('Services updated')
+          this.$lunaToast.success('Services updated')
         }
       }).catch().finally(() => {
         this.isLoading = false

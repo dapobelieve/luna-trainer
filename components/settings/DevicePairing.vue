@@ -98,7 +98,7 @@ export default {
     this.$nuxt.$on('device-paired', async () => {
       await this.$store.dispatch('qrCode/getConnectedDevices')
       this.$modal.hide('link-device')
-      this.$gwtoast.success('Device pairing successful')
+      this.$lunaToast.success('Device pairing successful')
     })
   },
   beforeDestroy () {
@@ -114,7 +114,7 @@ export default {
       try {
         this.qrCode = await this.generateQrCode()
       } catch (error) {
-        this.$gwtoast.error(error.response.data.message)
+        this.$lunaToast.error(error.response.data.message)
       }
       this.$modal.show('link-device')
       this.generatingQr = false

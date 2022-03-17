@@ -120,7 +120,7 @@ export default {
       this.isLoading = true
       return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
         if (response && response.data.status === true) {
-          this.$gwtoast.success(
+          this.$lunaToast.success(
       `${this.clientInfo.firstName} has been sent an invite.`
           )
           this.$emit('close', false)
@@ -133,15 +133,15 @@ export default {
             })
           }
         } else {
-          this.$gwtoast.error('Error sending client invite')
+          this.$lunaToast.error('Error sending client invite')
         }
       }).catch((err) => {
         if (err.response) {
-          this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`)
+          this.$lunaToast.error(`Something went wrong: ${err.response.data.message}`)
         } else if (err.request) {
-          this.$gwtoast.error('Something went wrong. Try again')
+          this.$lunaToast.error('Something went wrong. Try again')
         } else {
-          this.$gwtoast.error(`Something went wrong: ${err.message}`)
+          this.$lunaToast.error(`Something went wrong: ${err.message}`)
         }
       }).finally(() => {
         this.isLoading = false

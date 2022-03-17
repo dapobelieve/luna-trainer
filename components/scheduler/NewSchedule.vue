@@ -294,7 +294,7 @@ export default {
         title: null,
         from: '',
         details: null,
-        timezone: null,
+        timezone: this.$auth.user.timezone,
         participants: [],
         to: null,
         when: {},
@@ -408,6 +408,7 @@ export default {
     }
   },
   beforeMount () {
+    console.log(this.$auth.user.timezone)
     if (this.event.id) {
       this.form.title = this.event.title
       this.form.date = new Date(this.event.when.startTime * 1000)
@@ -416,6 +417,8 @@ export default {
       this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
       this.form.description = this.event.description
       this.form.participants = this.event.participants
+      
+      
 
       this.form.color = this.colors.find(item => item.value === this.event.colorName)
     }
@@ -473,7 +476,7 @@ export default {
         }
         this.close()
         this.$nuxt.$emit('scheduler:event-created', { ...res, updated: true })
-        this.$gwtoast.success('Session updated')
+        this.$lunaToast.success('Session updated')
       } catch (e) {
         console.log({ e })
       } finally {
@@ -544,9 +547,14 @@ export default {
           } else {
             this.$nuxt.$emit('scheduler:event-created', res)
             this.close()
+            this.$router.push({
+              name: 'schedule-events-id', 
+              params: {
+                id: res.id 
+              }
+            })
           }
-
-          this.$gwtoast.success('New  Appointment created')
+          this.$lunaToast.success('New Appointment created')
         } catch (e) {
           console.log({ e })
         } finally {

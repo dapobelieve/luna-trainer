@@ -363,10 +363,10 @@ export default {
       try {
         this.isLoading = true
         await this.$store.dispatch('invoice/sendInvoice', { id: this.invoiceId, recipient: this.invoiceDetails.customerId.email })
-        this.$gwtoast.success('Invoice sending successful')
+        this.$lunaToast.success('Invoice sending successful')
         this.$router.push({ name: 'invoices-sent' })
       } catch (e) {
-        this.$gwtoast.error(`Error: ${e.message}`)
+        this.$lunaToast.error(`Error: ${e.message}`)
       } finally {
         this.isLoading = false
       }
