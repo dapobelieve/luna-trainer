@@ -28,12 +28,12 @@
                 <WeekView @fetching-events="fetching=true" @stop-fetching-events="fetching=false" :fetch-events="fetchEventsForToday" @events="events = $event" />
               </div>
             </div>
-            <div class="px-3">
-              <div v-if="fetching" class="flex items-center justify-center h-[19rem]">
+            <div class="px-3 h-[19rem]">
+              <div v-if="fetching" class="flex items-center justify-center h-full">
                 <SingleLoader height="40px" width="40px" />
               </div>
               <template v-else>
-                <div v-if="!events.length" class="flex items-center justify-center h-[27rem]">
+                <div v-if="!events.length" class="flex items-center h-full justify-center">
                   <div class="flex flex-col items-center">
                     <i class="fi-rr-calendar text-3xl text-fuchsia-500"></i>
                     <h3 class="text-gray-700 text-lg">
