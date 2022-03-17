@@ -20,28 +20,30 @@
               </div>
               <div class="flex px-3 items-center mb-4">
                 <div class="font-medium text-sm">
-                  {{$dateFns.format(new Date(), 'MMMM d, EEEE')}}
+                  {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
                 </div>
-                <span class="ml-auto text-gray-500 mr-1">{{events.length}} upcoming</span>
+                <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
               </div>
               <div class="px-3">
-                <WeekView :fetchEvents="fetchEventsForToday" @events="events = $event" />
+                <WeekView :fetch-events="fetchEventsForToday" @events="events = $event" />
               </div>
             </div>
             <div class="px-3">
               <div v-if="!events.length" class="flex items-center justify-center h-[27rem]">
                 <div class="flex flex-col items-center">
                   <i class="fi-rr-calendar text-3xl text-fuchsia-500"></i>
-                  <h3 class="text-gray-700 text-lg">You have no appointment</h3>
+                  <h3 class="text-gray-700 text-lg">
+                    You have no appointment
+                  </h3>
                   <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                  <button class="button-fill mt-3"> 
-                      Schedule a session
+                  <button class="button-fill mt-3">
+                    Schedule a session
                   </button>
                 </div>
               </div>
               <div v-else>
                 <CurrentSessionCard class="mb-4" />
-                <UpcomingSessionCard v-for="event in events" :event="event" :key="event.id" :color="event.color" class="mb-2" />
+                <UpcomingSessionCard v-for="event in events" :key="event.id" :event="event" :color="event.color" class="mb-2" />
               </div>
             </div>
           </DashboardCard>
@@ -157,18 +159,18 @@ export default {
   mounted () {
     this.$lunaToast.show(
       `Hey, ${this.$auth.user.firstName}
-                    ${this.$auth.user.lastName }! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`,{
-      position: 'bottom-right',
-      timeout: 10000,
-      actions: true,
-      confirm: {
-        resolver: async () => {},
-      },
-      cancel: {
-        text: 'Not Now',
-        resolver: async () => {},
-      }
-    })
+                    ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
+        position: 'bottom-right',
+        timeout: 10000,
+        actions: true,
+        confirm: {
+          resolver: async () => {}
+        },
+        cancel: {
+          text: 'Not Now',
+          resolver: async () => {}
+        }
+      })
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
@@ -183,7 +185,6 @@ export default {
         this.paidInvoices = r
       })
       .catch(e => console.error(e))
-    
   },
   updated () {
     this.$nextTick(() => {

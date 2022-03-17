@@ -31,8 +31,8 @@
           leave-class="-translate-x-0"
           enter-to-class="-translate-x-0"
           leave-to-class="translate-x-full"
-        >          
-          <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer.open" />
+        >
+          <SchedulerDrawer v-if="schedulerDrawer.open" v-model="schedulerDrawer.activePage" />
         </transition>
       </div>
       <NotificationsModal
@@ -135,10 +135,10 @@ import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
-import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
-import Toast from "~/components/toasts/toast"
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
+import Toast from '~/components/toasts/toast'
 export default {
-  components: {Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -162,17 +162,17 @@ export default {
     })
   },
   watch: {
-    '$route': {
+    $route: {
       immediate: true,
-      handler(data) {
-        if(data.name === 'schedule') {
-          this.$store.commit('scheduler/setStates',{ drawer: {open: false, activePage: null}})
-        }else if(data.name === 'schedule-create') {
-          this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'new-session'}})
-        }else if(data.name === 'schedule-events-id') {
-          this.$store.commit('scheduler/setStates',{ drawer: {open: true, activePage: 'schedule-details'}})
-        }else {
-          this.$store.commit('scheduler/setStates',{ drawer: {open: false, activePage: null}})
+      handler (data) {
+        if (data.name === 'schedule') {
+          this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+        } else if (data.name === 'schedule-create') {
+          this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: 'new-session' } })
+        } else if (data.name === 'schedule-events-id') {
+          this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: 'schedule-details' } })
+        } else {
+          this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
         }
       }
     },

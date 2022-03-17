@@ -31,7 +31,7 @@ import { mapActions } from 'vuex'
 export default {
   data () {
     return {
-      profileImage:null,
+      profileImage: null,
       profile: JSON.parse(JSON.stringify(this.$auth.user)),
       isLoading: false,
       disableButton: true

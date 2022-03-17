@@ -29,7 +29,9 @@
             >
               Create Invoice
             </button>
-            <button type="button" class="dropdown-button">Archive</button>
+            <button type="button" class="dropdown-button">
+              Archive
+            </button>
           </div>
         </div>
       </div>
@@ -42,14 +44,14 @@ export default {
   props: {
     clientInfo: {
       type: Object,
-      required: true,
-    },
-  },
-  data() {
-    return {
-      showDropdown: false,
+      required: true
     }
   },
+  data () {
+    return {
+      showDropdown: false
+    }
+  }
 }
 </script>
 

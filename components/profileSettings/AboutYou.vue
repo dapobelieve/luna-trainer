@@ -187,7 +187,7 @@ export default {
       },
       immediate: true,
       deep: true
-    },
+    }
   },
   methods: {
     onDropImage (event) {

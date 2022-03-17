@@ -15,15 +15,13 @@
       <div class="ml-auto">
         <i class="fi-rr-angle-small-right"></i>
       </div>
-      
     </div>
   </nuxt-link>
 </template>
 
 <script>
-import {format, fromUnixTime} from "date-fns";
+import { format, fromUnixTime } from 'date-fns'
 
-let scard = 0
 export default {
   props: {
     event: {

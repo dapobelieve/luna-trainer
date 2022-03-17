@@ -63,9 +63,9 @@
   </main>
 </template>
 <script>
-import Toast from "~/components/toasts/toast"; 
+import Toast from '~/components/toasts/toast'
 export default {
-  components: {Toast},
+  components: { Toast },
   data () {
     return {
       letsGetStarted: true

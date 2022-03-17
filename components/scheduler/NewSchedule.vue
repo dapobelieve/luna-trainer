@@ -55,17 +55,17 @@
                 </div>
                 <div v-if="form.from" class="w-1/3">
                   <GwCustomerSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :clients="computeToTime">
-                      <template v-slot:selectedOption="{selected}">
-                        <div class="flex items-center">
-                          <span class="text-gray-700">{{ selected.label }}</span>
-                        </div>
-                      </template>
-                      <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                        <div class="flex items-center py-2">
-                          <span class="text-gray-700">{{ optionObject.label }}</span>
-                        </div>
-                      </template>
-                    </GwCustomerSelector>
+                    <template v-slot:selectedOption="{selected}">
+                      <div class="flex items-center">
+                        <span class="text-gray-700">{{ selected.label }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                      <div class="flex items-center py-2">
+                        <span class="text-gray-700">{{ optionObject.label }}</span>
+                      </div>
+                    </template>
+                  </GwCustomerSelector>
                 </div>
               </div>
             </div>
@@ -312,11 +312,11 @@ export default {
     'form.from': {
       // immediate: true,
       deep: true,
-      handler(val) {
+      handler (val) {
         const pos = this.time.indexOf(val)
-        if(pos < ((this.time.length - 1) - 4)) {
+        if (pos < ((this.time.length - 1) - 4)) {
           this.form.to = this.time[this.time.indexOf(val) + 4]
-        }else {
+        } else {
           this.form.to = this.time[this.time.length - 1]
         }
       }
@@ -417,14 +417,12 @@ export default {
       this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
       this.form.description = this.event.description
       this.form.participants = this.event.participants
-      
-      
 
       this.form.color = this.colors.find(item => item.value === this.event.colorName)
     }
   },
   methods: {
-    close() {
+    close () {
       this.$emit('close')
     },
     attachConference (event) {
@@ -548,9 +546,9 @@ export default {
             this.$nuxt.$emit('scheduler:event-created', res)
             this.close()
             this.$router.push({
-              name: 'schedule-events-id', 
+              name: 'schedule-events-id',
               params: {
-                id: res.id 
+                id: res.id
               }
             })
           }

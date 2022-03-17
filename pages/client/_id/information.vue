@@ -1,12 +1,18 @@
 <template>
   <async-view>
-    <div v-if="clientInfo" class="grid pb-4 bg-white border rounded-xl w-full min-h-screen">
+    <div
+      v-if="clientInfo"
+      class="grid pb-4 bg-white border rounded-xl w-full min-h-screen"
+    >
       <form>
         <div class="bg-white sticky top-14 rounded-xl" style="z-index: 1">
           <h2 class="text-xl py-4 px-3.5">
             Information
           </h2>
-          <div v-if="showButtons" class="sm:absolute right-4 flex space-x-2 justify-end mr-4">
+          <div
+            v-if="showButtons"
+            class="sm:absolute right-4 flex space-x-2 justify-end mr-4"
+          >
             <button
               :disabled="cancelLoading"
               type="button"
@@ -33,7 +39,10 @@
               <button
                 v-for="(link, index) in links"
                 :key="link.index"
-                :class="[{ active: tab === index + 1 }, 'capitalize py-2.5 px-3']"
+                :class="[
+                  { active: tab === index + 1 },
+                  'capitalize py-2.5 px-3',
+                ]"
                 @click.prevent="switchTabs(index + 1)"
               >
                 {{ link }}
@@ -41,11 +50,19 @@
             </ul>
             <!-- Tab contents -->
             <div class="my-6 mx-4">
-              <client-information v-if="tab === 1" v-model="clientInfo" @showButtons="showButtons = true" />
-              <client-dog-information v-if="tab === 2" v-model="clientInfo" @showButtons="showButtons = true" />
-              <div v-if="tab === 3">
+              <client-information
+                v-if="tab === 1"
+                v-model="clientInfo"
+                @showButtons="showButtons = true"
+              />
+              <client-dog-information
+                v-if="tab === 2"
+                v-model="clientInfo"
+                @showButtons="showButtons = true"
+              />
+              <!-- <div v-if="tab === 3">
                 <client-health-information v-if="tab === 3" v-model="clientInfo" @showButtons="showButtons = true" />
-              </div>
+              </div> -->
             </div>
           </section>
         </div>
@@ -69,7 +86,7 @@ export default {
       tempClientInfo: {},
       showButtons: false,
       tab: 1,
-      links: ['client', 'dog', 'health']
+      links: ['client', 'dog']
     }
   },
   computed: {
@@ -139,8 +156,9 @@ export default {
           this.isLoading = false
           if (err.response) {
             this.$lunaToast.error(
-              `Something went wrong: ${err.response.data.error ||
-                err.response.data.message}`,
+              `Something went wrong: ${
+                err.response.data.error || err.response.data.message
+              }`,
               { position: 'bottom-right' }
             )
           }
@@ -194,9 +212,8 @@ select {
 .tabs button.active {
   @apply text-gray-700;
   &::after {
-    content: "";
+    content: '';
     @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-0.5;
   }
 }
-
 </style>

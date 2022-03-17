@@ -29,7 +29,7 @@
         enter-to-class="-translate-x-0"
         leave-to-class="translate-x-full"
       >
-      <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer && schedulerDrawer.open" />
+        <SchedulerDrawer v-if="schedulerDrawer && schedulerDrawer.open" v-model="schedulerDrawer.activePage" />
       </transition>
     </div>
   </async-view>
@@ -43,10 +43,10 @@ import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
-import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
-import Toast from "@/components/toasts/toast"
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
+import Toast from '@/components/toasts/toast'
 export default {
-  components: {SchedulerDrawer, Toast, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SchedulerDrawer, Toast, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -116,7 +116,7 @@ export default {
       this.fetchAllClients()
     }
   },
-  async beforeMount() {
+  async beforeMount () {
     await this.$store.dispatch('scheduler/getCalendars')
   }
 }

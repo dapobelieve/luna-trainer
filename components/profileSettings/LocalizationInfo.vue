@@ -51,7 +51,7 @@ export default {
       return Array.from(new Set(this.timezones.reduce((acc, curr) => {
         return [...acc, ...curr.utc]
       }, [])))
-    },
+    }
   },
   validations: {
     profile: {

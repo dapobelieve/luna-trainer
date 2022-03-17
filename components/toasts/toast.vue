@@ -7,31 +7,36 @@
     enter-to-class="-translate-x-0"
     leave-to-class="translate-x-96"
   >
-    <div :class="[toastPosition]" @mouseover="hover = true" @mouseleave="hover = false" v-if="show" class="w-80 absolute z-50">
+    <div v-if="show" :class="[toastPosition]" class="w-80 absolute z-50" @mouseover="hover = true" @mouseleave="hover = false">
       <div class="flex items-start bg-white border p-4 rounded-xl">
-      <div class="flex-shrink-0">
-        <div v-if="icon" :class="[iconBg]" class="h-8 w-8 inline-flex items-center justify-center rounded-full">
-          <i :class="[icon, iconColor]" class="mt-1"></i>
+        <div class="flex-shrink-0">
+          <div v-if="icon" :class="[iconBg]" class="h-8 w-8 inline-flex items-center justify-center rounded-full">
+            <i :class="[icon, iconColor]" class="mt-1"></i>
+          </div>
+          <img v-else class="h-8 w-8" src="~/assets/img/2.svg">
         </div>
-        <img v-else class="h-8 w-8" src="~/assets/img/2.svg">
-      </div>
-      <div class="flex-grow ml-2">
-        <h3 v-if="options.heading" class="text-black font-medium text-base">{{options.heading}}</h3>
-        <p class="text-gray-600">
-          {{options.message}}
-        </p>
-        <div class="actions mt-3" v-if="options.actions">
-          <button @click="cancel" v-if="options.cancel" class="text-sm border text-md rounded-lg py-1 px-3 mr-3">{{
-              cancelText
-            }}</button>
-          <button @click="confirm" v-if="options.confirm" class="text-sm text-md rounded-lg text-white bg-blue-500 px-3 py-1">
-            {{ confirmText }}</button>
+        <div class="flex-grow ml-2">
+          <h3 v-if="options.heading" class="text-black font-medium text-base">
+            {{ options.heading }}
+          </h3>
+          <p class="text-gray-600">
+            {{ options.message }}
+          </p>
+          <div v-if="options.actions" class="actions mt-3">
+            <button v-if="options.cancel" class="text-sm border text-md rounded-lg py-1 px-3 mr-3" @click="cancel">
+              {{
+                cancelText
+              }}
+            </button>
+            <button v-if="options.confirm" class="text-sm text-md rounded-lg text-white bg-blue-500 px-3 py-1" @click="confirm">
+              {{ confirmText }}
+            </button>
+          </div>
+        </div>
+        <div class="ml-2" @click="close">
+          <i style="font-size: 12px" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>
         </div>
       </div>
-      <div class="ml-2" @click="close">
-        <i style="font-size: 12px" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>
-      </div>
-    </div>
     </div>
   </transition>
 </template>
@@ -51,59 +56,58 @@ export default {
     }
   },
   computed: {
-    icon() {
+    icon () {
       return this.options.icon || undefined
     },
-    iconBg() {
+    iconBg () {
       return this.options.iconBg
     },
-    iconColor() {
+    iconColor () {
       return this.options.iconColor
     },
-    isHtmlStr() {
-      let doc = new DOMParser().parseFromString(this.options.message, "text/html");
-      return Array.from(doc.body.childNodes).some(node => node.nodeType === 1);
+    isHtmlStr () {
+      const doc = new DOMParser().parseFromString(this.options.message, 'text/html')
+      return Array.from(doc.body.childNodes).some(node => node.nodeType === 1)
     },
-    cancelText() {
+    cancelText () {
       return this.options.cancel.text
     },
-    confirmText() {
+    confirmText () {
       return this.options.confirm.text
     },
-    toastPosition() {
-      if(this.options)
-        return `${this.options.position.split('-')[0]} ${this.options.position}`
+    toastPosition () {
+      if (this.options) { return `${this.options.position.split('-')[0]} ${this.options.position}` } else { return '' }
     }
   },
-  methods: {
-    async confirm() {
-      await this.options.confirm.resolver()
-      this.close()
-    },
-    async cancel() {
-      await this.options.cancel.resolver()
-      this.close()
-    },
-    close() {
-      clearTimeout(this.timeoutId)
-      this.show = false
-    }
-  },
-  mounted() {
+  mounted () {
     this.$nuxt.$on('toast', (options) => {
       this.options = options
       this.show = true
     })
   },
-  updated() {
+  updated () {
     clearTimeout(this.timeoutId)
     this.timeoutId = setTimeout(() => {
-      if(!this.hover) {
+      if (!this.hover) {
         setInterval(() => {
         }, this.options.timeout)
         this.show = false
       }
     }, this.options.timeout)
+  },
+  methods: {
+    async confirm () {
+      await this.options.confirm.resolver()
+      this.close()
+    },
+    async cancel () {
+      await this.options.cancel.resolver()
+      this.close()
+    },
+    close () {
+      clearTimeout(this.timeoutId)
+      this.show = false
+    }
   }
 }
 </script>

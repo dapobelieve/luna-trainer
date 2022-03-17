@@ -61,9 +61,9 @@ export default {
     }
   },
   watch: {
-    '$route': {
+    $route: {
       immediate: true,
-      async handler(val) {
+      async handler (val) {
         await this.getEvent(val.params.id)
       }
     }
