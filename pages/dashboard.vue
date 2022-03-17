@@ -25,26 +25,31 @@
                 <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
               </div>
               <div class="px-3">
-                <WeekView :fetch-events="fetchEventsForToday" @events="events = $event" />
+                <WeekView @fetching-events="fetching=true" @stop-fetching-events="fetching=false" :fetch-events="fetchEventsForToday" @events="events = $event" />
               </div>
             </div>
             <div class="px-3">
-              <div v-if="!events.length" class="flex items-center justify-center h-[27rem]">
-                <div class="flex flex-col items-center">
-                  <i class="fi-rr-calendar text-3xl text-fuchsia-500"></i>
-                  <h3 class="text-gray-700 text-lg">
-                    You have no appointment
-                  </h3>
-                  <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                  <button class="button-fill mt-3">
-                    Schedule a session
-                  </button>
+              <div v-if="fetching" class="flex items-center justify-center h-[19rem]">
+                <SingleLoader height="40px" width="40px" />
+              </div>
+              <template v-else>
+                <div v-if="!events.length" class="flex items-center justify-center h-[27rem]">
+                  <div class="flex flex-col items-center">
+                    <i class="fi-rr-calendar text-3xl text-fuchsia-500"></i>
+                    <h3 class="text-gray-700 text-lg">
+                      You have no appointment
+                    </h3>
+                    <small class="text-base text-gray-500">Your appointments would be displayed here</small>
+                    <button class="button-fill mt-3">
+                      Schedule a session
+                    </button>
+                  </div>
                 </div>
-              </div>
-              <div v-else>
-                <CurrentSessionCard class="mb-4" />
-                <UpcomingSessionCard v-for="event in events" :key="event.id" :event="event" :color="event.color" class="mb-2" />
-              </div>
+                <div v-else>
+                  <!--                <CurrentSessionCard class="mb-4" />-->
+                  <UpcomingSessionCard v-for="event in events" :key="event.id" :event="event" :color="event.color" class="mb-2" />
+                </div>
+              </template>
             </div>
           </DashboardCard>
         </div>
@@ -107,11 +112,11 @@
 import { mapActions, mapGetters } from 'vuex'
 import DashboardCard from '~/components/dashboard/DashboardCard'
 import WeekView from '~/components/dashboard/WeekView'
-import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
+// import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
 import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
 export default {
   name: 'Dashboard',
-  components: { UpcomingSessionCard, CurrentSessionCard, WeekView, DashboardCard },
+  components: { UpcomingSessionCard, WeekView, DashboardCard },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
@@ -122,6 +127,7 @@ export default {
   },
   data () {
     return {
+      fetching: false,
       fetchEventsForToday: false,
       events: [],
       intro: null,

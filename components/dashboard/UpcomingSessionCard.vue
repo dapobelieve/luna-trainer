@@ -2,7 +2,7 @@
   <nuxt-link :to="{name: 'schedule-events-id', params: {id: event.id }}" class="session-card flex justify-between cursor-pointer">
     <div class="bar h-auto w-[3px] rounded-xl" :class="[`bg-${color}-500`]"></div>
     <div class="px-4 py-5 flex-grow rounded-2xl flex items-center rounded-xl lg:ml-2" :class="[`bg-${color}-50`]">
-      <div class="mr-3">
+      <div v-if="event.participants[0]" class="mr-3">
         <ClientAvatar :client-info="event.participants[0]" />
       </div>
       <div class="flex flex-col">

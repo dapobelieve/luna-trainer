@@ -165,14 +165,13 @@ export default {
     $route: {
       immediate: true,
       handler (data) {
+        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
         if (data.name === 'schedule') {
           this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
         } else if (data.name === 'schedule-create') {
           this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: 'new-session' } })
         } else if (data.name === 'schedule-events-id') {
           this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: 'schedule-details' } })
-        } else {
-          this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
         }
       }
     },

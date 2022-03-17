@@ -58,6 +58,14 @@ export default {
       showSidebarMenu: false
     }
   },
+  watch: {
+    $route: {
+      immediate: true,
+      handler () {
+        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+      }
+    }
+  },
   computed: {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
