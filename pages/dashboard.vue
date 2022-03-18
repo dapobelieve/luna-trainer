@@ -52,8 +52,8 @@
             </div>
           </DashboardCard>
         <div class="grid gap-4">
-          <MessageWidget class="h-full" />
-          <InvoiceWidget />
+          <MessageWidget class="h-[20rem]" />
+          <InvoiceWidget  />
 <!--          <dashboard-payments :paid-invoices="paidInvoices" />-->
         </div>
       </div>
