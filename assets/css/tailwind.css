@@ -155,17 +155,18 @@
       &.button-sm {
         @apply  px-2 py-1 h-8 text-sm;
       }
+    }
 
+    .tag{
+      @apply bg-blue-50 p-1 px-2 rounded-full text-sm  text-blue-400;
+      &.disabled{
+        @apply bg-gray-100 text-gray-400 !important;
+      } 
     }
 
     input {
       @apply placeholder-gray-400;
     }
-
-    /* form input styles */
-    /* .form-input {
-      @apply block w-full pr-10 border-red-300 text-red-900 placeholder-red-300 focus:outline-none focus:ring-red-500 focus:border-red-500 sm:text-sm rounded-md;
-    } */
 
   }
 

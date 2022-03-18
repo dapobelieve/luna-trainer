@@ -88,14 +88,6 @@
       </div>
     </div>
 
-    <modal
-      name="payment-options"
-      height="auto"
-      :adaptive="true"
-      width="500px"
-    >
-      <invoices-payment-connection :select-display="3" @closeModal="closeModal" />
-    </modal>
   </async-view>
 </template>
 

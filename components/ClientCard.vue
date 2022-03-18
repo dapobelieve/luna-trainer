@@ -69,11 +69,11 @@ export default {
         .catch((err) => {
           if (err.response) {
             this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.message}`)
+              `${err.response.data.message}`)
           } else if (err.request) {
             this.$gwtoast.error('Something went wrong. Try again')
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`)
+            this.$gwtoast.error(`${err.message}`)
           }
         })
     },

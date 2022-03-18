@@ -64,7 +64,7 @@ export default {
           name: 'payment',
           icon: 'fi-rr-credit-card',
           details: 'Integrate with mu;tiple services platforms',
-          route: 'settings-payment'
+          route: 'settings-payment-methods'
         },
         {
           name: 'calendar',

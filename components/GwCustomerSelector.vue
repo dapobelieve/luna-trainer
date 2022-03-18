@@ -4,11 +4,12 @@
       :value="value"
       :disabled="disabled"
       :multiple="multiple"
-      class="v-select"
       :options="clients"
       :placeholder="placeholder"
+      class="v-select"
       label="label"
       @input="$emit('change', $event)"
+      taggable
     >
       <template v-slot:selected-option="selectedOption">
         <slot name="selectedOption" :selected="selectedOption"></slot>
@@ -29,7 +30,7 @@
         </div>
       </template>
       <template v-slot:option="option">
-        <slot name="dropdownOption" :optionObject="option"></slot>
+        <slot name="dropdownOption" :optionObject="option" :option="option"></slot>
       </template>
       <template v-slot:list-footer>
         <slot name="footer"></slot>

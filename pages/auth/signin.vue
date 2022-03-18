@@ -192,7 +192,7 @@ export default {
         } catch (err) {
           if (err.response) {
             this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.message}`,
+              `${err.response.data.message}`,
               { position: 'bottom-right' }
             )
           } else if (err.request) {
@@ -200,7 +200,7 @@ export default {
               position: 'bottom-right'
             })
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`, {
+            this.$gwtoast.error(`${err.message}`, {
               position: 'bottom-right'
             })
           }

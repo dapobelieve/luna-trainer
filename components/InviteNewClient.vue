@@ -1,6 +1,6 @@
 <template>
-  <div class="grid m-6">
-    <div class="py-0">
+  <div class="grid m-6 ">
+    <div class="py-0 mb-5">
       <div class="flex justify-between items-center mb-2">
         <h2 class="text-2xl font-normal text-gray-700 mb-1">
           Invite New Client
@@ -68,7 +68,7 @@
               :disabled="$v.$invalid"
               :loading="isLoading"
             >
-              send
+              Send Invite
             </button-spinner>
           </div>
         </form>
@@ -112,41 +112,30 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      fetchAllClients: 'client/fetchAllClients',
-      saveClient: 'client/inviteClient'
+    ...mapActions('client', {
+      fetchAllClients: 'fetchAllClients',
+      inviteClient: 'inviteClient'
     }),
-    save () {
+    async save () {
       this.isLoading = true
-      return this.$axios.post(`${process.env.BASEURL_HOST}/client/invite`, this.clientInfo).then((response) => {
-        if (response && response.data.status === true) {
-          this.$gwtoast.success(
-      `${this.clientInfo.firstName} has been sent an invite.`
-          )
-          this.$emit('close', false)
-          if (this.redirect) {
-            this.$router.push({
-              name: 'client-id-information',
-              params: {
-                id: response.data.data._id
-              }
-            })
-          }
-        } else {
-          this.$gwtoast.error('Error sending client invite')
+      const response = await this.inviteClient(this.clientInfo)
+      if (response && response.data) {
+        this.$gwtoast.success( `${this.clientInfo.firstName} has been sent an invite.`)
+        this.$emit('close', false)
+        this.$nuxt.$emit("new-client-invite",response.data)
+        if (this.redirect) {
+          this.$router.push({
+            name: 'client-id-information',
+            params: {
+              id: response.data.data._id
+            }
+          })
         }
-      }).catch((err) => {
-        if (err.response) {
-          this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`)
-        } else if (err.request) {
-          this.$gwtoast.error('Something went wrong. Try again')
-        } else {
-          this.$gwtoast.error(`Something went wrong: ${err.message}`)
-        }
-      }).finally(() => {
-        this.isLoading = false
         this.fetchAllClients()
-      })
+      } else {
+        this.$gwtoast.error(response.message)
+      } 
+      this.isLoading = false  
     }
   }
 }

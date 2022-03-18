@@ -52,16 +52,7 @@ export const actions = {
     return res
   },
   updateInvoice ({ commit }, payload) {
-    const { items } = payload
-    payload.items = items.reduce((acc, item) => {
-      acc.push({ serviceId: item._id, price: item.pricing.amount })
-      return acc
-    }, [])
-
-    return this.$axios
-      .$put(`${process.env.PAYMENT_HOST_URL}/invoice/${payload._id}`, {
-        items: [...payload.items]
-      })
+    return this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/invoice/${payload._id}`,payload)
       .then((response) => {
         return response
       })

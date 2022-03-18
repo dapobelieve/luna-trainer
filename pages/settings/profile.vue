@@ -54,7 +54,7 @@ export default {
       }).catch((err) => {
         console.error(err)
         if (err.response || err.message || err.error) {
-          this.$gwtoast.error(`Something went wrong: ${err.error || err.response.data.error || err.response.data.message || err.message}`, { position: 'bottom-center' })
+          this.$gwtoast.error(`${err.error || err.response.data.error || err.response.data.message || err.message}`, { position: 'bottom-center' })
         }
       }).finally(() => {
         this.isLoading = false

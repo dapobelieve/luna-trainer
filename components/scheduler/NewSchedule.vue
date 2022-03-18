@@ -226,9 +226,7 @@
         </div>
       </div>
     </div>
-    <modal name="inviteClientModal" height="auto" :adaptive="true">
-      <InviteNewClient class="m-6" @close="$modal.hide('inviteClientModal')" />
-    </modal>
+
     <div class="schedule-footer mb-10">
       <button v-if="!event.id" :disabled="btn.loading" class="button-fill w-full" @click="createEvent">
         {{ btn.text }}

@@ -52,7 +52,7 @@ export default {
     { src: '~/plugins/v-click-outside', ssr: false },
     { src: '~plugins/filters', ssr: false },
     { src: '~plugins/v-tooltip', ssr: false },
-    { src: '~plugins/v-modal', ssr: true },
+    { src: '~plugins/v-modal'},
     { src: '~plugins/utils', ssr: false }
   ],
   components: {

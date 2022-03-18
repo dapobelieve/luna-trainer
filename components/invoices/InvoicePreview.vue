@@ -64,22 +64,22 @@
               </div>
             </div>
             <div>
-              <div v-if="services && services.length" class="space-y-5">
+              <div v-if="items && items.length" class="space-y-5">
                 <div
-                  v-for="service in services"
-                  :key="service._id"
+                  v-for="item in items"
+                  :key="item._id"
                   class="flex justify-between items-center last:border-b last:pb-5"
                 >
                   <div>
                     <p class="text-gray-700 font-medium capitalize">
-                      {{ service.description }}
+                      {{ item.description }}
                     </p>
                     <p class="text-gray-500 text-sm">
                       Qty 1
                     </p>
                   </div>
                   <span class="text-gray-700 font-medium">{{
-                    service.pricing.amount | amount
+                    item.price | amount
                   }}</span>
                 </div>
               </div>
@@ -166,14 +166,14 @@
                     amount
                   </p>
                 </div>
-                <template v-if="services && services.length">
+                <template v-if="items && items.length">
                   <div
-                    v-for="service in services"
-                    :key="service._id"
+                    v-for="item in items"
+                    :key="item._id"
                     class="grid grid-cols-4 last:border-b last:pb-5"
                   >
                     <p class="text-gray-500 text-sm capitalize">
-                      {{ service.description }}
+                      {{ item.description }}
                     </p>
                     <p
                       class="text-gray-500 text-sm justify-self-end"
@@ -183,12 +183,7 @@
                     <p
                       class="text-gray-500 text-sm justify-self-end"
                     >
-                      {{ service.pricing.amount | amount }}
-                    </p>
-                    <p
-                      class="text-gray-500 text-sm justify-self-end"
-                    >
-                      {{ service.pricing.amount | amount }}
+                      {{ item.price | amount }}
                     </p>
                   </div>
                 </template>
@@ -218,15 +213,15 @@
 export default {
   name: 'InvoicePreview',
   props: {
-    services: Array,
+    items: Array,
     dueDate: [Date, String],
     client: Object
   },
   computed: {
     getTotal () {
-      if (this.services && this.services.length) {
-        return this.services.reduce(
-          (accumulator, current) => accumulator + current.pricing.amount, 0
+      if (this.items && this.items.length) {
+        return this.items.reduce(
+          (accumulator, current) => accumulator + current.price, 0
         )
       }
       return 0

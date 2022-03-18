@@ -1,6 +1,7 @@
 <template>
-  <click-outside :do="() => { showDropdown = false}">
-    <div class="">
+  <ClickOutside :do="() => { showDropdown = false}">
+    <div class="flex items-center space-x-2">
+      <span> {{ item.price | amount }} </span>
       <div class="relative pt-2">
         <button type="button" @click="showDropdown = !showDropdown">
           <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
@@ -11,21 +12,34 @@
           class="origin-top-right top-[1] absolute right-0 w-32 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
         >
           <div class="py-2 flex flex-col" role="none">
-            <slot />
+            <button type="button" class="dropdown-button" v-if="item.serviceId" @click="$emit('edit-item',item)">
+              Edit
+            </button>
+            <button
+              type="button"
+              class="dropdown-button"
+              @click="$emit('delete-item',item)"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </div>
     </div>
-  </click-outside>
+  </ClickOutside>
 </template>
 
 <script>
+import ClickOutside from '~/components/util/ClickOutside'
 export default {
+  components: { ClickOutside },
+  props: ['item'],
   data () {
     return {
       showDropdown: false
     }
   }
+
 }
 </script>
 

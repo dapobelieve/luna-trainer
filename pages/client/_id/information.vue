@@ -139,7 +139,7 @@ export default {
           this.isLoading = false
           if (err.response) {
             this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.error ||
+              `${err.response.data.error ||
                 err.response.data.message}`,
               { position: 'bottom-right' }
             )

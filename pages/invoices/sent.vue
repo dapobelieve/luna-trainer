@@ -8,11 +8,11 @@
               <i class="fi-rr-archive mr-1"></i>
               <span>Archive</span>
             </span>
-            <span v-if="!exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
+            <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
               <i class="fi-rr-download mr-1"></i>
               <span>Export</span>
             </span>
-            <span v-else class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
+            <span v-else-if="exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
               <i class="fi-rr-download mr-1"></i>
               <span>Exporting...</span>
             </span>
@@ -129,27 +129,15 @@
         </div>
       </div>
     </async-view>
-    <modal
-      name="connectionStatus"
-      height="auto"
-      width="30%"
-      :adaptive="true"
-      :shift-x="0.97"
-      :shift-y="0.93"
-      :click-to-close="false"
-    >
-      <invoices-payment-connection-status @closeModal="closeConnectionStatusModal" />
-    </modal>
   </div>
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import InvoiceStatusComponent from '~/components/InvoiceStatusComponent'
+import { mapActions, mapGetters} from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
 export default {
   name: 'SentInvoice',
-  components: { SearchDropdown, InvoiceStatusComponent },
+  components: { SearchDropdown },
   data () {
     return {
       searchField: 'Name',
@@ -163,6 +151,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters({
+      "hasActivePaymentMethods":"payment-methods/hasActivePaymentMethods",
+    }),
     filteredRecords () {
       let records = this.invoices
       if (records && records.length > 0) {
@@ -199,12 +190,8 @@ export default {
     }
   },
   async mounted (ctx) {
-    this.$modal.show('connectionStatus')
-    const connectionLength = await this.checkConnectedPaymentMethods()
-    if (connectionLength < 2) {
-      this.$modal.show('connectionStatus')
-    }
     try {
+      this.checkPaymentMethods()
       const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
       this.invoices = res
 
@@ -214,11 +201,14 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      checkConnectedPaymentMethods: 'payment/checkConnectedPaymentMethods'
-    }),
+    ...mapActions({"getPaymentMethods":"payment-methods/getPaymentMethods"}),
+    async checkPaymentMethods(){
+      // if the user does not have any payment method we show a welcome and then
+      // take this to a middleware 
+      await this.getPaymentMethods();
+      if(!this.hasActivePaymentMethods) this.$modal.show("payment-method-status")
+    },
     async searchInvoice (option) {
-      console.log(option)
       try {
         let res
         if (this.searchField === 'Name') {
@@ -232,20 +222,11 @@ export default {
         console.log({ e })
       }
     },
-    downloadDocument (response) {
-      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
-      const link = document.createElement('a')
-
-      link.href = url
-      link.setAttribute('download', 'Sent_Invoices.csv')
-      document.body.appendChild(link)
-      link.click()
-    },
     async archive () {
       try {
         if (this.checkedItems.length) {
           await this.$store.dispatch('invoice/archive', [...this.checkedItems])
-          this.$gwtoast.success('Records archived')
+          this.$gwtoast.success('Inv archived')
         } else {
           this.$gwtoast.error('No record selected')
         }
@@ -266,15 +247,15 @@ export default {
         this.exporting = false
       }
     },
-    closeConnectionModal (e) {
-      this.$modal.hide('connection')
-      if (e) {
-        this.$modal.show('connectionStatus')
-      }
+    downloadDocument (response) {
+      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
+      const link = document.createElement('a')
+
+      link.href = url
+      link.setAttribute('download', 'Sent_Invoices.csv')
+      document.body.appendChild(link)
+      link.click()
     },
-    closeConnectionStatusModal () {
-      this.$modal.hide('connectionStatus')
-    }
   }
 }
 </script>

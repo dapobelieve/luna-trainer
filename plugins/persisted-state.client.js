@@ -10,7 +10,9 @@ export default ({ store }) => {
       'auth',
       'sendBird.connectedChannels',
       'sendBird.tempClient',
-      'client.clients'
+      'client.clients',
+      'payment-methods',
+      'services.services'
     ],
     storage: localStorage
   })(store)

@@ -11,13 +11,6 @@
           <button
             type="button"
             class="nav-button"
-          >
-            <i class="ns-edit-alt text-blue-500 text-xl pr-1.5"></i>
-            Edit
-          </button>
-          <button
-            type="button"
-            class="nav-button"
             @click="resend"
           >
             <i class="ns-paper-plane text-blue-500 text-xl pr-1.5"></i>
@@ -34,13 +27,13 @@
         </div>
       </template>
     </PageHeader>
-    <div class="parent-container">
+    <div class="parent-container" v-if="invoice">
       <div class="flex items-center header">
         <p class="font-normal text-2xl text-gray-700 mr-auto">
           {{ $auth.user.businessName }}
         </p>
         <span class="inline-flex items-center px-3 py-0.5 rounded-full capitalize text-sm font-normal bg-blue-50 text-blue-500">
-          {{ client && client.workflowStatus }}
+          {{ invoice && invoice.workflowStatus }}
         </span>
       </div>
       <div class="grid grid-cols-2 gap-x-4 invoice-label">
@@ -49,7 +42,7 @@
             Tel:
           </p>
           <p class="info">
-            {{ client && client.ownerId.phoneNumber ? client.ownerId.phoneNumber : 'N/A' }}
+            {{ invoice && invoice.createdBy.phoneNumber ? invoice.createdBy.phoneNumber : 'N/A' }}
           </p>
         </div>
         <div>
@@ -57,7 +50,7 @@
             Invoice no.
           </p>
           <p class="info">
-            {{ client && client.invoiceNo }}
+            {{ invoice && invoice.invoiceNo }}
           </p>
         </div>
       </div>
@@ -66,17 +59,17 @@
           Bill to
         </p>
         <div class="flex items-center">
-          <template v-if="client">
+          <template v-if="invoice && invoice.customerId">
             <ClientAvatar
-              :client-info="client && client.customerId"
+              :invoice-info="invoice && invoice.customerId"
             />
           </template>
           <div class="ml-3 font-normal">
             <p class="capitalize text-gray-700 text-base">
-              {{ client && client.customerId.firstName }} {{ client && client.customerId.lastName }}
+              {{ invoice && invoice.customerId.firstName }} {{ invoice && invoice.customerId.lastName }}
             </p>
             <p class="text-sm text-gray-500">
-              {{ client && client.customerId.email }}
+              {{ invoice && invoice.customerId.email }}
             </p>
           </div>
         </div>
@@ -88,7 +81,7 @@
             Date of Issue:
           </p>
           <p class="text-gray-700 text-base font-normal">
-            {{ client && client.createdAt | date }}
+            {{ invoice && invoice.createdAt | date }}
           </p>
         </div>
         <div>
@@ -96,7 +89,7 @@
             Date Due:
           </p>
           <p class="text-gray-700 text-base font-normal">
-            {{ client && client.dueDate | date }}
+            {{ invoice && invoice.dueDate | date }}
           </p>
         </div>
       </div>
@@ -110,25 +103,19 @@
             QTY
           </div>
           <div class="table-head">
-            UNIT PRICE
-          </div>
-          <div class="table-head">
             AMOUNT
           </div>
         </div>
-        <div v-if="client && client.items.length" class="mt-2">
-          <div v-for="items in client && client.items" :key="items" class="grid grid-cols-6 gap-x-4 gap-y-4">
+        <div v-if="invoice && invoice.items.length" class="mt-2">
+          <div v-for="item in invoice.items" :key="item" class="grid grid-cols-6 gap-x-4 gap-y-4">
             <div class="table-items col-span-3 truncate">
-              {{ items.description }}
+              {{ item.description }}
             </div>
             <div class="table-items">
-              {{ items.qty }}
+              {{ item.qty }}
             </div>
             <div class="table-items">
-              {{ items.price | amount }}
-            </div>
-            <div class="table-items">
-              {{ items.price * items.qty | amount }}
+              {{ item.price * item.qty | amount }}
             </div>
           </div>
         </div>
@@ -167,26 +154,28 @@ export default {
   },
   data () {
     return {
-      client: null,
+      invoice: {
+        createdBy:{},
+        customerId:{},
+        items:[]
+      },
       isLoading: false
     }
   },
   computed: {
     totalServiceAmount () {
-      if (this.client && this.client.items.length) {
-        return this.client.items.reduce((acc, item) => item.price + acc, 0)
+      if (this.invoice && this.invoice.items.length) {
+        return this.invoice.items.reduce((acc, item) => item.price + acc, 0)
       }
       return 0
     }
   },
-  mounted () {
-    this.getSingleInvoice(this.id)
-      .then((response) => {
-        this.client = response.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async mounted () {
+    const response = await this.getSingleInvoice(this.id) .catch((err) => {
+      $gwtoast.error("Invoice could not be retrieved")
+    })
+    if(response) this.invoice = response.data
+    console.log(this.invoice)
   },
   methods: {
     ...mapActions('invoice', {
