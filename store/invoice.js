@@ -20,7 +20,7 @@ export const actions = {
   async getFetchCustomerInvoice ({ commit }, payload) {
     const q = {
       status: '',
-      workflowStatus: 'sent',
+      workflowStatus: '',
       limit: 10,
       page: 1
     }

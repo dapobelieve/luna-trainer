@@ -222,7 +222,7 @@ export default {
       try {
         let res
         if (this.searchField === 'Name') {
-          res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { customerId: option._id })
+          res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { workflowStatus: 'sent', customerId: option._id })
           this.invoices = [...res.data]
         } else {
           res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: option.toLowerCase() })

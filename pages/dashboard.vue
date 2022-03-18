@@ -2,8 +2,7 @@
   <main>
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
-        <div class="rounded-xl">
-          <DashboardCard class="p-0">
+        <DashboardCard :view-all="events.length > 0" class="p-0">
             <div class="mb-5">
               <img class="w-full" src="~/assets/img/home.svg">
             </div>
@@ -25,7 +24,7 @@
                 <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
               </div>
               <div class="px-3">
-                <WeekView @fetching-events="fetching=true" @stop-fetching-events="fetching=false" :fetch-events="fetchEventsForToday" @events="events = $event" />
+                <WeekView @fetching-events="fetching=true" @stop-fetching-events="fetching=false" fetch-events @events="events = $event" />
               </div>
             </div>
             <div class="px-3 h-[19rem]">
@@ -35,7 +34,7 @@
               <template v-else>
                 <div v-if="!events.length" class="flex items-center h-full justify-center">
                   <div class="flex flex-col items-center">
-                    <i class="fi-rr-calendar text-3xl text-fuchsia-500"></i>
+                    <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
                     <h3 class="text-gray-700 text-lg">
                       You have no appointment
                     </h3>
@@ -52,10 +51,10 @@
               </template>
             </div>
           </DashboardCard>
-        </div>
         <div class="grid gap-4">
-          <dashboard-payments :paid-invoices="paidInvoices" />
-          <dashboard-messages />
+          <MessageWidget class="h-full" />
+          <InvoiceWidget />
+<!--          <dashboard-payments :paid-invoices="paidInvoices" />-->
         </div>
       </div>
       <!-- modals -->
@@ -114,9 +113,11 @@ import DashboardCard from '~/components/dashboard/DashboardCard'
 import WeekView from '~/components/dashboard/WeekView'
 // import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
 import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
+import InvoiceWidget from "~/components/dashboard/InvoiceWidget";
+import MessageWidget from "~/components/dashboard/MessageWidget";
 export default {
   name: 'Dashboard',
-  components: { UpcomingSessionCard, WeekView, DashboardCard },
+  components: {MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
@@ -163,20 +164,20 @@ export default {
     }
   },
   mounted () {
-    this.$lunaToast.show(
-      `Hey, ${this.$auth.user.firstName}
-                    ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
-        position: 'bottom-right',
-        timeout: 10000,
-        actions: true,
-        confirm: {
-          resolver: async () => {}
-        },
-        cancel: {
-          text: 'Not Now',
-          resolver: async () => {}
-        }
-      })
+    // this.$lunaToast.show(
+    //   `Hey, ${this.$auth.user.firstName}
+    //                 ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
+    //     position: 'bottom-right',
+    //     timeout: 10000,
+    //     actions: true,
+    //     confirm: {
+    //       resolver: async () => {}
+    //     },
+    //     cancel: {
+    //       text: 'Not Now',
+    //       resolver: async () => {}
+    //     }
+    //   })
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
