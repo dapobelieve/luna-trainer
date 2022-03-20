@@ -214,7 +214,7 @@ export default {
           window.location.href = connect
         }
       } catch (error) {
-        this.$gwtoast.error(`Stripe ${this.isStripeConnected ? 'Disconnect' : 'Connect'} Failed!`)
+        this.$lunaToast.error(`Stripe ${this.isStripeConnected ? 'Disconnect' : 'Connect'} Failed!`)
       }
       this.isStripeLoading = false
     },
@@ -228,9 +228,9 @@ export default {
         }
         this.$emit('paymentConnected')
         this.closeModal()
-        this.$gwtoast.success('Bank details saved')
+        this.$lunaToast.success('Bank details saved')
       } catch (error) {
-        this.$gwtoast.error(`Something went wrong: ${error.response.data.message}`)
+        this.$lunaToast.error(`Something went wrong: ${error.response.data.message}`)
       }
       this.isLoading = false
     },

@@ -201,9 +201,9 @@ export default {
         try {
           const invoiceStatus = await this.resendInvoice({ id: this.id })
           console.log('resent invoice ', invoiceStatus)
-          this.$gwtoast.success('Invoice sent successfully')
+          this.$lunaToast.success('Invoice sent successfully')
         } catch (error) {
-          this.$gwtoast.error(`Error sending invoice: ${error}`)
+          this.$lunaToast.error(`Error sending invoice: ${error}`)
         }
       }
     }

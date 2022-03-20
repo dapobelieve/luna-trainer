@@ -116,7 +116,7 @@ export default {
   },
   methods: {
     selectFolder (folder) {
-      this.$gwtoast.success(`Moved to ${folder}`)
+      this.$lunaToast.success(`Moved to ${folder}`)
       this.$emit('close')
     }
   }

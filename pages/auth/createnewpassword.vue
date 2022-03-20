@@ -127,16 +127,16 @@ export default {
         await this.$store.dispatch('authorize/resetpassword', this.userInfo).then((response) => {
           if (response.status === 'successful') {
             this.$auth.strategy.token.reset()
-            this.$gwtoast.success('Reset successful')
+            this.$lunaToast.success('Reset successful')
             this.$router.push({ name: 'auth-signin' })
           }
         }).catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`)
+            this.$lunaToast.error(`Something went wrong: ${err.response.data.message}`)
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again')
+            this.$lunaToast.error('Something went wrong. Try again')
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`Something went wrong: ${err.message}`)
           }
         }).finally(() => {
           this.isLoading = false

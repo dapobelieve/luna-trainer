@@ -58,29 +58,29 @@ export default {
         )
         .then((response) => {
           if (response && response.status === true) {
-            this.$gwtoast.success(
+            this.$lunaToast.success(
               `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
             )
             this.$emit('close', false)
           } else {
-            this.$gwtoast.error('Error resending invite. Retry!!!')
+            this.$lunaToast.error('Error resending invite. Retry!!!')
           }
         })
         .catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(
+            this.$lunaToast.error(
               `Something went wrong: ${err.response.data.message}`)
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again')
+            this.$lunaToast.error('Something went wrong. Try again')
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`Something went wrong: ${err.message}`)
           }
         })
     },
     async archiveClient () {
       try {
         await this.$store.dispatch('client/archive', { ...this.client })
-        this.$gwtoast.success('Client Archived')
+        this.$lunaToast.success('Client Archived')
       } catch (e) {
         console.log({ e })
       }

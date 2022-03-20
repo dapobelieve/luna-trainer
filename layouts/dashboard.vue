@@ -20,7 +20,7 @@
         </div>
       </div>
       <ExpiredSessionAuthModal />
-      <div class="bg-teal-500 bg-teal-50 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 bg-cyan-50"></div>
+      <div class="bg-teal-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
       <transition
         enter-active-class="transition-all ease-in-out duration-[500ms]"
         leave-active-class="transition-all ease-in-out duration-[500ms]"
@@ -29,10 +29,9 @@
         enter-to-class="-translate-x-0"
         leave-to-class="translate-x-full"
       >
-      <SchedulerDrawer v-model="schedulerDrawer.activePage" v-if="schedulerDrawer.open" />
+        <SchedulerDrawer v-if="schedulerDrawer && schedulerDrawer.open" v-model="schedulerDrawer.activePage" />
       </transition>
     </div>
-    
   </async-view>
 </template>
 <script>
@@ -44,10 +43,10 @@ import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
-import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
-import Toast from "@/components/toasts/toast"
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
+import Toast from '@/components/toasts/toast'
 export default {
-  components: {SchedulerDrawer, Toast, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SchedulerDrawer, Toast, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -57,6 +56,14 @@ export default {
       },
       page: this.$route.name,
       showSidebarMenu: false
+    }
+  },
+  watch: {
+    $route: {
+      immediate: true,
+      handler () {
+        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+      }
     }
   },
   computed: {
@@ -117,7 +124,7 @@ export default {
       this.fetchAllClients()
     }
   },
-  async beforeMount() {
+  async beforeMount () {
     await this.$store.dispatch('scheduler/getCalendars')
   }
 }

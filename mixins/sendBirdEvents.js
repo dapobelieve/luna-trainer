@@ -84,7 +84,7 @@ export default {
             channelUrl
           )
         } catch (error) {
-          this.$gwtoast.error('An error occured, please reload')
+          this.$lunaToast.error('An error occured, please reload')
           console.log(error)
         }
       }

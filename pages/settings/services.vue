@@ -82,9 +82,9 @@ export default {
       try {
         await this.$store.dispatch('profile/deleteService', service._id)
         this.services.splice(this.services.indexOf(service), 1)
-        this.$gwtoast.success('Service deleted')
+        this.$lunaToast.success('Service deleted')
       } catch (e) {
-        this.$gwtoast.error(e)
+        this.$lunaToast.error(e)
         console.log('Unable to delete service')
       }
     }

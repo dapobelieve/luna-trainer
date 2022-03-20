@@ -161,7 +161,7 @@ export default {
           this.$router.push({ name: 'dashboard' })
         }
       } catch (err) {
-        this.$gwtoast.error('Something went wrong', {
+        this.$lunaToast.error('Something went wrong', {
           position: 'bottom-right'
         })
       }
@@ -177,7 +177,7 @@ export default {
               domain: 'getwelp-trainer-ui'
             }
           })
-          this.$gwtoast.success('Login Successful')
+          this.$lunaToast.success('Login Successful')
           const forceResetPassword = data.data.forceResetPassword
           this.setToken({
             token: data.data.accessToken,
@@ -185,22 +185,21 @@ export default {
           })
           if (forceResetPassword) {
             this.$router.push({ name: 'auth-createnewpassword' })
-            this.$gwtoast.show('Please Create A New Password')
+            this.$lunaToast.show('Please Create A New Password')
           } else {
             this.authenticate()
           }
         } catch (err) {
           if (err.response) {
-            this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.message}`,
+            this.$lunaToast.error(`Something went wrong: ${err.response.data.message}`,
               { position: 'bottom-right' }
             )
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again', {
+            this.$lunaToast.error('Something went wrong. Try again', {
               position: 'bottom-right'
             })
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`, {
+            this.$lunaToast.error(`Something went wrong: ${err.message}`, {
               position: 'bottom-right'
             })
           }

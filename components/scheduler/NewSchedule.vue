@@ -55,17 +55,17 @@
                 </div>
                 <div v-if="form.from" class="w-1/3">
                   <GwCustomerSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :clients="computeToTime">
-                      <template v-slot:selectedOption="{selected}">
-                        <div class="flex items-center">
-                          <span class="text-gray-700">{{ selected.label }}</span>
-                        </div>
-                      </template>
-                      <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                        <div class="flex items-center py-2">
-                          <span class="text-gray-700">{{ optionObject.label }}</span>
-                        </div>
-                      </template>
-                    </GwCustomerSelector>
+                    <template v-slot:selectedOption="{selected}">
+                      <div class="flex items-center">
+                        <span class="text-gray-700">{{ selected.label }}</span>
+                      </div>
+                    </template>
+                    <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                      <div class="flex items-center py-2">
+                        <span class="text-gray-700">{{ optionObject.label }}</span>
+                      </div>
+                    </template>
+                  </GwCustomerSelector>
                 </div>
               </div>
             </div>
@@ -294,7 +294,7 @@ export default {
         title: null,
         from: '',
         details: null,
-        timezone: null,
+        timezone: this.$auth.user.timezone,
         participants: [],
         to: null,
         when: {},
@@ -312,11 +312,11 @@ export default {
     'form.from': {
       // immediate: true,
       deep: true,
-      handler(val) {
+      handler (val) {
         const pos = this.time.indexOf(val)
-        if(pos < ((this.time.length - 1) - 4)) {
+        if (pos < ((this.time.length - 1) - 4)) {
           this.form.to = this.time[this.time.indexOf(val) + 4]
-        }else {
+        } else {
           this.form.to = this.time[this.time.length - 1]
         }
       }
@@ -408,6 +408,7 @@ export default {
     }
   },
   beforeMount () {
+    console.log(this.$auth.user.timezone)
     if (this.event.id) {
       this.form.title = this.event.title
       this.form.date = new Date(this.event.when.startTime * 1000)
@@ -421,7 +422,7 @@ export default {
     }
   },
   methods: {
-    close() {
+    close () {
       this.$emit('close')
     },
     attachConference (event) {
@@ -473,7 +474,7 @@ export default {
         }
         this.close()
         this.$nuxt.$emit('scheduler:event-created', { ...res, updated: true })
-        this.$gwtoast.success('Session updated')
+        this.$lunaToast.success('Session updated')
       } catch (e) {
         console.log({ e })
       } finally {
@@ -544,9 +545,14 @@ export default {
           } else {
             this.$nuxt.$emit('scheduler:event-created', res)
             this.close()
+            this.$router.push({
+              name: 'schedule-events-id',
+              params: {
+                id: res.id
+              }
+            })
           }
-
-          this.$gwtoast.success('New  Appointment created')
+          this.$lunaToast.success('New Appointment created')
         } catch (e) {
           console.log({ e })
         } finally {

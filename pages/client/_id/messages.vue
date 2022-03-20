@@ -479,7 +479,7 @@ export default {
       // Retrieving previous messages.
       listQuery.load((messages, error) => {
         if (error) {
-          this.$gwtoast.error('Error fetching messages', error)
+          this.$lunaToast.error('Error fetching messages', error)
         }
         if (messages) {
           console.log('message history ', messages)
@@ -518,7 +518,7 @@ export default {
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
             // Handle error.
-            this.$gwtoast.error('Message not sent: ', error)
+            this.$lunaToast.error('Message not sent: ', error)
             return
           }
           const createdDate = new Date(userMessage.createdAt).toLocaleDateString()
@@ -563,7 +563,7 @@ export default {
       this.channel.sendFileMessage(params, (fileMessage, error) => {
         if (error) {
           // Handle error.
-          this.$gwtoast.error('Error uploading image')
+          this.$lunaToast.error('Error uploading image')
           console.log(error)
           this.uploadingFileToSb = false
         }
@@ -618,7 +618,7 @@ export default {
         this.fileToBeSent = files[0]
         this.createImage(files[0])
       } else {
-        this.$gwtoast.error('File is not an image')
+        this.$lunaToast.error('File is not an image')
       }
       this.dragging = false
     },

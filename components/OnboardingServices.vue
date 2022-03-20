@@ -178,7 +178,7 @@ export default {
     }),
     addNewService () {
       if (!this.disabled) {
-        this.$gwtoast.error('All form fields are required')
+        this.$lunaToast.error('All form fields are required')
       } else if (
         this.servicesFromStore.length &&
         this.servicesFromStore.some(
@@ -187,7 +187,7 @@ export default {
             this.services.description.toLowerCase()
         )
       ) {
-        this.$gwtoast.error(
+        this.$lunaToast.error(
           `${this.services.description} service already exist`)
       } else {
         this.createService({
@@ -205,7 +205,7 @@ export default {
     },
     saveEdit () {
       if (this.disableUpdate && this.services.pricing.amount === this.selectedService.pricing.amount) {
-        this.$gwtoast.error('You have not made any change to the service')
+        this.$lunaToast.error('You have not made any change to the service')
       } else {
         this.createService({
           parent: 'services',
@@ -214,7 +214,7 @@ export default {
           value: { ...this.services }
         })
         this.cancelEdit()
-        this.$gwtoast.success('Service Updated')
+        this.$lunaToast.success('Service Updated')
       }
     },
     cancelEdit () {
