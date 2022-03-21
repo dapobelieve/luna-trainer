@@ -85,10 +85,11 @@ export default {
       try {
         if (!this.bankAccount._id) {
           await this.createBankAccount(this.bankAccount)
+          this.$nuxt.$emit("new-bank-account-added")
         } else {
           await this.updateBankAccount(this.bankAccount)
         }
-        this.$emit("close-modal")
+        this.$emit("close")
         this.$lunaToast.success('Bank account setup successful')
       } catch (error) {
         console.log(error)

@@ -17,7 +17,7 @@
       <template v-if="currentDisplay === 2">
         <div class="flex justify-between items-center mb-5">
           <p class="text-2xl font-normal text-gray-700">
-            Choose payment option
+            Setup payment method
           </p>
         </div>
         <div>
@@ -106,6 +106,11 @@ export default {
       }
       this.isStripeLoading = false
     }
+  },
+  mounted(){
+    this.$nuxt.$on("new-bank-account-added",()=>{
+      this.$modal.hide("payment-method-status")
+    })
   }
 }
 </script>

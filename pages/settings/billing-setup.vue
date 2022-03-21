@@ -5,7 +5,7 @@
       style="min-height: calc(100vh - 96px)"
     >
       <h1 class="text-xl font-normal text-gray-700 mb-8">  Billing Setup </h1>
-      <h3 class="text-md font-light text-gray-400 mb-4">  Payment methods </h3>
+      <h3 class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">  Payment methods </h3>
       <StripePaymentMethod :paymentMethod="stripe"/>
       <BankAccountPaymentMethod :paymentMethod="bankAccount"/>
     </div>
