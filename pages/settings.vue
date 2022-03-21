@@ -63,7 +63,7 @@ export default {
         {
           name: 'payment',
           icon: 'fi-rr-credit-card',
-          details: 'Integrate with mu;tiple services platforms',
+          details: 'Integrate with mutiple services platforms',
           route: 'settings-billing-setup'
         },
         {

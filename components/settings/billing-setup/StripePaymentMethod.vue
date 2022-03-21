@@ -57,21 +57,21 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import Dropdown from "./Dropdown.vue";
 
 export default {
   components: { Dropdown },
   name: "StripePaymentMethod",
-  props: {
-    paymentMethod: {},
-  },
   data() {
     return {
       loading: false,
     };
   },
   computed: {
+    ...mapGetters('payment-methods', {
+      paymentMethod: 'getStripePaymentMethod',
+    }),
     connected() {
       return !!this.paymentMethod.stripe && this.paymentMethod.stripe.connected;
     },

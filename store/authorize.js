@@ -65,9 +65,6 @@ export const actions = {
     } catch (error) {
       return error
     }
-    // return this.$axios.$post(
-    //   `${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload).then(({ status }) => status
-    // )
   },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
@@ -82,7 +79,9 @@ export const actions = {
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
     dispatch('sendBird/setCurrentViewingClient', {}, { root: true })
+    
     commit('CLEAR_LOCAL_STORAGE')
+    commit('payment-methods/setPaymentMethods',[], { root:true })
     dispatch('loader/endProcess', 'logout', { root: true })
   }
 }

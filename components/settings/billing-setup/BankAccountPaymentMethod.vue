@@ -42,22 +42,24 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions,mapGetters } from "vuex";
 import Dropdown from './Dropdown.vue';
 
 export default {
   components: { Dropdown },
   name: "BankAccountPaymentMethod",
-  props: {
-    paymentMethod: {},
-  },
   data() {
     return {
-      loading: false,
-      bankAccount: this.paymentMethod.bank || {}
+      loading: false
     };
   },
   computed: {
+    ...mapGetters('payment-methods', {
+      paymentMethod: 'getBankAccountPaymentMethod',
+    }),
+    bankAccount() {
+      return this.paymentMethod.bank || {};
+    },
     connected() {
       return this.bankAccount.accountNo;
     },
