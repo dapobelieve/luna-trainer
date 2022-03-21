@@ -20,7 +20,6 @@ export const actions = {
   },
   async updateBankAccount ({ commit, dispatch }, payload) {
     const id = payload._id
-    delete payload.__id
     delete payload._id
     delete payload.disabled
     await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/bank-account/${id}`,payload)
@@ -66,17 +65,19 @@ export const getters = {
   getBankAccount: state => {
     const bankAccount = state.paymentMethods.find(paymentMethod => paymentMethod.type == "bank") || {
       accountHolderName:'',
-      accountHolderType:'individual',
-      accountNo:0,
-      accountRoutingNo:0,
+      accountNo:'',
+      sortCode:'',
       accountBankName:''
     }
-    return bankAccount.bank ? { ...bankAccount.bank, __id: bankAccount._id } : bankAccount
+    return bankAccount.bank ? bankAccount.bank : bankAccount
   },
   getBankAccountPaymentMethod: state => {
-    return state.paymentMethods.find(paymentMethod => paymentMethod.type == "bank") 
+    return state.paymentMethods.find(paymentMethod => paymentMethod.type == "bank")  || {}
   },
   getStripePaymentMethod: state => {
-    return state.paymentMethods.find(paymentMethod => paymentMethod.type == "stripe")
+    return state.paymentMethods.find(paymentMethod => paymentMethod.type == "stripe") || {}
+  },
+  getDefaultPaymentMethod: state => {
+    return state.paymentMethods.find(paymentMethod => paymentMethod.isDefault)
   } 
 }

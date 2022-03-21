@@ -8,6 +8,9 @@ export const mutations = {
   setServices(state, services){
     Vue.set(state,'services', services)
   },
+  addService(state, newService){
+    state.services.push(newService)
+  },
   updateServices(state, updatedService){
     let services = state.services.map(service=>service._id == updatedService._id ? updatedService : service)
     Vue.set(state,'services', services)
@@ -26,9 +29,11 @@ export const actions = {
       `${process.env.BASEURL_HOST}/services/${service._id}`,service)
     if(response.data) commit("updateServices",response.data)
   },
-  async addService ({ state, commit }, serviceId) {
+  async createService ({ state, commit }, service) {
     const response = await this.$axios.$post(
-      `${process.env.BASEURL_HOST}/services`)
+      `${process.env.BASEURL_HOST}/services`,service)
+    if(response.data) commit("addService",response.data)
+
   },
   async deleteService ({ state, commit }, serviceId) {
     const response = await this.$axios.$delete(

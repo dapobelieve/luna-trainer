@@ -171,7 +171,7 @@ export default {
       }_${new Date().getTime()}`
       try {
         await this.signUpUser(this.userInfo)
-        this.$gwtoast.success('Signup Successful', {
+        this.$lunaToast.success('Signup Successful', {
           position: 'bottom-right'
         })
         this.signUpText = 'please wait...'
@@ -192,16 +192,16 @@ export default {
         this.$modal.show('welcome-modal')
       } catch (err) {
         if (err.response) {
-          this.$gwtoast.error(
+          this.$lunaToast.error(
             `${err.response.data.message}`,
             { position: 'bottom-right' }
           )
         } else if (err.request) {
-          this.$gwtoast.error('Something went wrong. Try again', {
+          this.$lunaToast.error('Something went wrong. Try again', {
             position: 'bottom-right'
           })
         } else {
-          this.$gwtoast.error(`${err.message}`, {
+          this.$lunaToast.error(`${err.message}`, {
             position: 'bottom-right'
           })
         }

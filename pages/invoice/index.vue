@@ -23,7 +23,7 @@ export default {
   methods: {
     closeConnection () {
       if (!this.connectedPayments) {
-        this.$gwtoast.show('Please setup a payment')
+        this.$lunaToast.show('Please setup a payment')
       } else {
         this.$modal.hide('connection')
       }

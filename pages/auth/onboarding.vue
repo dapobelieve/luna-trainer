@@ -230,7 +230,7 @@ export default {
       this.$router.replace({ name: 'auth-signin' }).then(() => {
         this.endFullPageLoad()
       })
-      this.$gwtoast.error('Session Expired. Please login')
+      this.$lunaToast.error('Session Expired. Please login')
     } else if (
       this.$auth.strategy.token.status().valid() &&
       'jumpto' in this.$route.query
@@ -264,14 +264,14 @@ export default {
     },
     increaseStep () {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service')
+        this.$lunaToast.error('You are currently editing a service')
       } else {
         this.step++
       }
     },
     decreaseStep () {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service')
+        this.$lunaToast.error('You are currently editing a service')
       } else {
         this.step--
       }
@@ -279,7 +279,7 @@ export default {
     async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
         this.$router.replace({ name: 'auth-signin' })
-        this.$gwtoast.error('Session Expired. Please login')
+        this.$lunaToast.error('Session Expired. Please login')
       } else {
         this.isLoading = true
         try {
@@ -287,7 +287,7 @@ export default {
           localStorage.setItem('profileCompleted', 'true')
           this.$modal.show('done')
         } catch (error) {
-          this.$gwtoast.error(
+          this.$lunaToast.error(
                     `${error}`)
         }
       }
@@ -295,7 +295,7 @@ export default {
     finishedSetUp () {
       // this.cleartrainerRegData()
       this.$router.replace({ name: 'dashboard' }).then(() => {
-        this.$gwtoast.success('Welcome')
+        this.$lunaToast.success('Welcome')
       })
     }
   }

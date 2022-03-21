@@ -74,15 +74,15 @@ export default {
     ...mapActions({ resetPassword: 'authorize/resetPassword' }),
     submit () {
       if (this.password.oldPassword === this.password.newPassword) {
-        this.$gwtoast.error('Please choose a new password')
+        this.$lunaToast.error('Please choose a new password')
       } else {
         this.loading = true
         this.resetPassword(this.password).then((response) => {
           this.password.oldPassword = ''
           this.password.newPassword = ''
-          this.$gwtoast.success('Password changed successfully')
+          this.$lunaToast.success('Password changed successfully')
         }).catch((error) => {
-          this.$gwtoast.error(error.response.data.message)
+          this.$lunaToast.error(error.response.data.message)
         }).finally(() => {
           this.loading = false
         })

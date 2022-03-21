@@ -44,16 +44,15 @@ export default {
     }
   },
   methods: {
-    closeDrawer() {
-      this.$store.commit('scheduler/setStates', { drawer: {open: false, activePage: ''}})
+    closeDrawer () {
+      this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: '' } })
       this.$router.push({
         name: 'schedule'
       })
     },
     async reschedule (event) {
-      const _event = await this.$store.dispatch('scheduler/getSingleAppointment', { id: event.id })
       this.event = event
-      this.$store.commit('scheduler/setStates', {drawer: {open: true, activePage: this.pages.NEW_SCHEDULE}})
+      await this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: this.pages.NEW_SCHEDULE } })
     }
   }
 }

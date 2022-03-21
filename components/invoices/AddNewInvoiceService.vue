@@ -189,7 +189,7 @@ export default {
     },
     addNewService () {
       if (!this.disabled) {
-        this.$gwtoast.error('All form fields are required')
+        this.$lunaToast.error('All form fields are required')
       } else if (
         this.servicesFromStore.length &&
         this.servicesFromStore.some(
@@ -198,8 +198,8 @@ export default {
             this.service.description.toLowerCase()
         )
       ) {
-        this.$gwtoast.error(
-          `${this.service.description} service already exist`)
+        this.$lunaToast.error(
+          `${this.services.description} service already exist`)
       } else {
         this.isLoading = true
         return this.updateService({
@@ -211,7 +211,7 @@ export default {
             if (response.status === 'success') {
               this.$emit('close-modal', { ...response.data.services[0] })
               this.resetSelectedService()
-              this.$gwtoast.success('Services updated')
+              this.$lunaToast.success('Services updated')
             }
           })
           .catch()
@@ -237,7 +237,7 @@ export default {
           if (response.status === 'success') {
             this.cancelAndSave()
             this.$emit('edited', response.data.services)
-            this.$gwtoast.success('Service Updated')
+            this.$lunaToast.success('Service Updated')
           }
         })
         .catch()

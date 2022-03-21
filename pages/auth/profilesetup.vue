@@ -162,7 +162,7 @@ export default {
     }
   },
   mounted () {
-    this.$gwtoast.show('Please complete your profile.')
+    this.$lunaToast.show('Please complete your profile.')
   },
   auth: false,
   validations: {
@@ -192,25 +192,25 @@ export default {
         this.isLoading = true
         return this.createTrainerProfile(this.profileInfo).then(async (response) => {
           if (response.status === 'success') {
-            this.$gwtoast.show('Profile creations successfully')
+            this.$lunaToast.show('Profile creations successfully')
 
             if (this.profilePic) {
-              this.$gwtoast.show('Uploading Profile Picture')
+              this.$lunaToast.show('Uploading Profile Picture')
               response = await this.uploadProfileImage()
               if (response.success === true) {
-                this.$gwtoast.show('Profile picture upload successfully')
+                this.$lunaToast.show('Profile picture upload successfully')
               }
             }
-            this.$gwtoast.success('Welcome')
+            this.$lunaToast.success('Welcome')
             this.$router.push({ name: 'dashboard' })
           }
         }).catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(`${err.response.data.message}`)
+            this.$lunaToast.error(`${err.response.data.message}`)
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again')
+            this.$lunaToast.error('Something went wrong. Try again')
           } else {
-            this.$gwtoast.error(`${err.message}`)
+            this.$lunaToast.error(`${err.message}`)
           }
         }).finally(() => {
           this.isLoading = false

@@ -4,7 +4,8 @@
       class="rounded-lg p-4 bg-white parent-container"
       style="min-height: calc(100vh - 96px)"
     >
-      <h3 class="text-xl font-normal text-gray-700 mb-8">  Payments configuration </h3>
+      <h1 class="text-xl font-normal text-gray-700 mb-8">  Billing Setup </h1>
+      <h3 class="text-md font-light text-gray-400 mb-4">  Payment methods </h3>
       <StripePaymentMethod :paymentMethod="stripe"/>
       <BankAccountPaymentMethod :paymentMethod="bankAccount"/>
     </div>
@@ -13,8 +14,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import BankAccountPaymentMethod from '../../components/settings/payments-methods/BankAccountPaymentMethod'
-import StripePaymentMethod from '../../components/settings/payments-methods/StripePaymentMethod'
+import BankAccountPaymentMethod from '../../components/settings/billing-setup/BankAccountPaymentMethod'
+import StripePaymentMethod from '../../components/settings/billing-setup/StripePaymentMethod'
 
 export default {
   components: { BankAccountPaymentMethod,StripePaymentMethod },
@@ -30,7 +31,7 @@ export default {
       await this.getPaymentMethods() 
       console.log(this.stripe)
     } catch (error) {
-      this.$gwtoast.error('No connected payment method')
+      this.$lunaToast.error('No connected payment method')
     }
   },
   methods: {

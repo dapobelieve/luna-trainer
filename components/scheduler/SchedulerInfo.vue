@@ -17,7 +17,7 @@
               Today
             </div>
             <div class="date text-gray-400">
-              {{$dateFns.format(new Date(), 'd/M/y')}}
+              {{ $dateFns.format(new Date(), 'd/M/y') }}
             </div>
           </div>
           <EventItem v-for="event in todayAndTomorrowsEvents.slice(0, 3)" :key="event.id" :event="event" class="mb-8" />

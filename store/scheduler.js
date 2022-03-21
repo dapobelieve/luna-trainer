@@ -10,7 +10,7 @@ export const state = () => ({
 })
 export const mutations = {
   setStates (state, data) {
-    Object.keys(data).map((key) => {
+    Object.keys(data).forEach((key) => {
       Vue.set(state, key, data[key])
     })
   },
@@ -47,7 +47,7 @@ export const actions = {
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {
-    if(!state.calendar) return [] // we are supposed to have a calendar before we can get appointments
+    if (!state.calendar) { return [] } // we are supposed to have a calendar before we can get appointments
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`)
     if (res.length > 0) {
       commit('setEvents', res)

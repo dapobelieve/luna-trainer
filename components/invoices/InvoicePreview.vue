@@ -1,20 +1,20 @@
 <template>
-  <div class="hidden lg:block lg:min-w-[448px] space-y-8">
+  <div class="lg:block lg:min-w-[448px] space-y-8">
     <p class="capitalize text-lg font-medium">
       preview
     </p>
-    <section class="lg:w-[448px]">
+    <section class="lg:w-[448px]" ref="preview">
       <ul
         class="tabs flex space-x-8 mb-6 pb-4 pl-4 border-b"
       >
         <button
-          id="defaultOpen"
+          ref="emailBtn"
           class="tablinks"
           @click.prevent="switchTabs($event, 'Email')"
         >
           Email
         </button>
-        <button class="tablinks" @click.prevent="switchTabs($event, 'PDF')">
+        <button class="tablinks" ref="pdfBtn" @click.prevent="switchTabs($event, 'PDF')">
           Invoice PDF
         </button>
       </ul>
@@ -228,29 +228,17 @@ export default {
     }
   },
   mounted () {
-    document.getElementById('defaultOpen').click()
+    this.$refs.emailBtn.click()
   },
   methods: {
-    switchTabs (evt, cityName) {
-      // Declare all variables
-      let i, tabcontent, tablinks
+    switchTabs (evt, tabId) {
+      this.$refs.preview.children.Email.style.display = 'none'
+      this.$refs.preview.children.PDF.style.display = 'none'
 
-      // Get all elements with class="tabcontent" and hide them
-      // eslint-disable-next-line prefer-const
-      tabcontent = document.getElementsByClassName('tabcontent')
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = 'none'
-      }
-
-      // Get all elements with class="tablinks" and remove the class "active"
-      // eslint-disable-next-line prefer-const
-      tablinks = document.getElementsByClassName('tablinks')
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(' active', '')
-      }
-
-      // Show the current tab, and add an "active" class to the button that opened the tab
-      document.getElementById(cityName).style.display = 'block'
+      this.$refs.emailBtn.classList.remove("active")
+      this.$refs.pdfBtn.classList.remove("active")
+      
+      this.$refs.preview.children[tabId].style.display = 'block'
       evt.currentTarget.className += ' active'
     }
   }
@@ -277,9 +265,5 @@ button {
       @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-4;
     }
   }
-}
-
-.tabcontent {
-  display: none;
 }
 </style>

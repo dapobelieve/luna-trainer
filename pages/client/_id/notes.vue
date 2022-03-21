@@ -106,7 +106,7 @@ export default {
     }),
     addNote () {
       if (!this.inviteStatus) {
-        this.$gwtoast.error('Client invite still pending')
+        this.$lunaToast.error('Client invite still pending')
         return
       }
       this.toggleModal({ status: true, addingMode: true, note: {} })

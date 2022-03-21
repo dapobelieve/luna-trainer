@@ -1,10 +1,11 @@
 <template>
   <div class="flex justify-between">
-    <label @click="selectDate(wkObj)" v-for="(wkObj, wkIndex) in computeWeek" :key="wkIndex" class="inline-flex cursor-pointer w-8 flex-col items-center">
+    <label v-for="(wkObj, wkIndex) in computeWeek" :key="wkIndex" class="inline-flex cursor-pointer w-8 flex-col items-center" @click="selectDate(wkObj)">
       <h3 class="font-bold mb-4">{{ wkObj.day }}</h3>
-      <div 
-        :class="[today.getDate() === wkObj.date ? 'isToday' : '', selectedDate === wkObj._date ? 'selectedDay' : '']" 
-        class="w-8 h-8 inline-flex justify-center items-center">
+      <div
+        :class="[today.getDate() === wkObj.date ? 'isToday' : '', selectedDate === wkObj._date ? 'selectedDay' : '']"
+        class="w-8 h-8 inline-flex justify-center items-center"
+      >
         <span class="text-gray-500">{{ wkObj.date }}</span>
       </div>
     </label>
@@ -45,31 +46,33 @@ export default {
     }
   },
   watch: {
-    'fetchEvents': {
-      async handler() {
-        const startDateTime = new Date(this.today.setHours(0,0))/1000
-        const endDateTime = new Date(this.today.setHours(23, 59))/1000
-        await this.fetchSessions({startDateTime, endDateTime})
+    fetchEvents: {
+      async handler () {
+        const startDateTime = new Date(this.today.setHours(0, 0)) / 1000
+        const endDateTime = new Date(this.today.setHours(23, 59)) / 1000
+        await this.fetchSessions({ startDateTime, endDateTime })
       }
     },
-    'selectedDate': {
-      async handler(val) {
+    selectedDate: {
+      async handler (val) {
         const date = val
-        const startDateTime = new Date(date.setHours(0,0))/1000
-        const endDateTime = new Date(date.setHours(23, 59))/1000
-        await this.fetchSessions({startDateTime, endDateTime})
+        const startDateTime = new Date(date.setHours(0, 0)) / 1000
+        const endDateTime = new Date(date.setHours(23, 59)) / 1000
+        await this.fetchSessions({ startDateTime, endDateTime })
       }
-    },
+    }
   },
   methods: {
-    selectDate(wkObj) {
-      if(new Date().getDate() <= wkObj._date.getDate()) {
+    selectDate (wkObj) {
+      if (new Date().getDate() <= wkObj._date.getDate()) {
         this.selectedDate = wkObj._date
       }
     },
-    async fetchSessions(data) {
-      let res = await this.$store.dispatch('scheduler/getAllAppointments', {...data})
-      this.$emit('events', res)
+    async fetchSessions (data) {
+      this.$emit('fetching-events')
+      const res = await this.$store.dispatch('scheduler/getAllAppointments', { ...data })
+      this.$emit('stop-fetching-events')
+      this.$emit('events', res.slice(0, 2))
     }
   }
 }

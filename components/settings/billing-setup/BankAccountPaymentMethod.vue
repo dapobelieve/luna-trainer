@@ -15,7 +15,7 @@
       <button
         v-if="!connected"
         class="button-outline flex items-center"
-        @click.prevent="$modal.show('payment-options')"
+        @click.prevent="$modal.show('payment-method-bank-account')"
       >
         <i role="button" class="fi-rr-bank mr-2 text-blue-500 h-5 w-5"></i>
         <span class="text-base font-medium">{{
@@ -59,7 +59,7 @@ export default {
   },
   computed: {
     connected() {
-      return this.paymentMethod;
+      return this.bankAccount.accountNo;
     },
     isDefault() {
       return this.paymentMethod.isDefault;
@@ -79,7 +79,7 @@ export default {
         this.loading = true
         await this.enablePaymentMethod(this.paymentMethod._id);
       } catch (error) {
-        this.$gwtoast.error("Unable to disable payment");
+        this.$lunaToast.error("Unable to disable payment");
       }
       this.loading = false
     },
@@ -89,7 +89,7 @@ export default {
         await this.setDefaultPaymentMethod(this.paymentMethod._id);
       } catch (error) {
         console.log(error);
-        this.$gwtoast.error("Unable to disable payment");
+        this.$lunaToast.error("Unable to disable payment");
       }
       this.loading = false
     },
@@ -98,7 +98,7 @@ export default {
         this.loading = true
         await this.disablePaymentMethod(this.paymentMethod._id);
       } catch (error) {
-        this.$gwtoast.error("Unable to disable payment");
+        this.$lunaToast.error("Unable to disable payment");
       }
        this.loading = false
     }

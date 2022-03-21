@@ -137,7 +137,7 @@ export const actions = {
     return res
   },
   uploadProfileImage ({ commit }, payload) {
-    let formdata = new FormData();
+    const formdata = new FormData()
     formdata.append('file', payload)
     return this.$axios
       .$patch(`${process.env.BASEURL_HOST}/profile/upload-image`, formdata, {
@@ -158,17 +158,17 @@ export const actions = {
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
     )
   },
-  // reporting should have its own store  
+  // reporting should have its own store
   async clientReportSummary () {
     // day, month, week quarter
     const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/reporting/client/summary?q=month`)
     return res.data[0]
   },
   async clientReport () {},
-  async userFinancials () {
+  userFinancials () {
     return {}
-    const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/invoice`)
-    return res.data
+    // const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/invoice`)
+    // return res.data
   },
   async reportPreference () {}
 }

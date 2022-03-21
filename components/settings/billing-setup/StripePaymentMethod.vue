@@ -100,7 +100,7 @@ export default {
         const connectionUrl = await this.connectToStripe();
         window.open(connectionUrl);
       } catch (error) {
-        this.$gwtoast.error("Stripe connection failed");
+        this.$lunaToast.error("Stripe connection failed");
       }
       this.loading = false;
     },
@@ -110,7 +110,7 @@ export default {
         this.loading = true;
         await this.enablePaymentMethod(this.paymentMethod._id);
       } catch (error) {
-        this.$gwtoast.error("Unable to disable payment");
+        this.$lunaToast.error("Unable to disable payment");
       }
       this.loading = false;
     },
@@ -120,7 +120,7 @@ export default {
         await this.setDefaultPaymentMethod(this.paymentMethod._id);
       } catch (error) {
         console.log(error);
-        this.$gwtoast.error("Unable to disable payment");
+        this.$lunaToast.error("Unable to disable payment");
       }
       this.loading = false;
     },
@@ -129,7 +129,7 @@ export default {
         this.loading = true;
         await this.disablePaymentMethod(this.paymentMethod._id);
       } catch (error) {
-        this.$gwtoast.error("Unable to disable payment");
+        this.$lunaToast.error("Unable to disable payment");
       }
       this.loading = false;
     },

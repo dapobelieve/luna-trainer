@@ -172,7 +172,7 @@ export default {
   },
   async mounted () {
     const response = await this.getSingleInvoice(this.id) .catch((err) => {
-      $gwtoast.error("Invoice could not be retrieved")
+      $lunaToast.error("Invoice could not be retrieved")
     })
     if(response) this.invoice = response.data
     console.log(this.invoice)
@@ -190,9 +190,9 @@ export default {
         try {
           const invoiceStatus = await this.resendInvoice({ id: this.id })
           console.log('resent invoice ', invoiceStatus)
-          this.$gwtoast.success('Invoice sent successfully')
+          this.$lunaToast.success('Invoice sent successfully')
         } catch (error) {
-          this.$gwtoast.error(`Error sending invoice: ${error}`)
+          this.$lunaToast.error(`Error sending invoice: ${error}`)
         }
       }
     }

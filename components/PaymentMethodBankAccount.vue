@@ -17,7 +17,7 @@
         <div class="flex flex-col gap-1.5">
           <label class="required">Sort Code</label>
           <input
-            v-model="bankAccount.accountRoutingNo"
+            v-model="bankAccount.sortCode"
             class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
           />
         </div>
@@ -59,19 +59,20 @@ export default {
   data () {
     return {
       isLoading: false,
+      bankAccount: this.getBankAccount || {}
     }
   },
   validations: {
     bankAccount:{
-      accountHolderName:{required},
-      accountNo:{required},
-      accountRoutingNo:{required},
-      accountBankName:{required}
+      accountHolderName:{ required },
+      accountNo:{ required },
+      sortCode:{ required },
+      accountBankName:{ required }
     }
   },
   computed:{
     ...mapGetters({
-      bankAccount: 'payment-methods/getBankAccount'
+      getBankAccount: 'payment-methods/getBankAccount'
     }),
   },
   methods: {
@@ -88,9 +89,10 @@ export default {
           await this.updateBankAccount(this.bankAccount)
         }
         this.$emit("close-modal")
-        this.$gwtoast.success('Bank account setup successful')
+        this.$lunaToast.success('Bank account setup successful')
       } catch (error) {
-        this.$gwtoast.error(`${error.response.message}`)
+        console.log(error)
+        this.$lunaToast.error(`${error.message}`)
       }finally{
         this.isLoading = false
       }

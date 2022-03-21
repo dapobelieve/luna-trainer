@@ -1,204 +1,250 @@
 <template>
-  <div class="flex flex-col lg:flex-row lg:space-x-10">
-    <!-- invoice builder -->
-    <container-with-title class="lg:min-w-[500px] lg:max-w-[510px]">
-      <template v-slot:headerbox>
-        <p class="capitalize text-lg mt-2 font-medium">
-          <i class="mr-4 mt-0.5 fi-rr-receipt"> </i
-          >{{ invoice._id ? "Edit" : "Create" }} your invoice
-        </p>
-      </template>
-      <template v-slot:content>
-        <div id="customer">
-          <h2 class="mb-2 required">Select a client </h2>
-          <LunaSelector
-            v-model="invoice.customer"
-            :options="allClients"
-            index="userId"
-            label="firstName"
-            taggable
-            @option:created="openInviteClientModal($event)"
-          >
-            <template v-slot:selectedOption="{ selected }">
-              <div>
-                {{ selected.firstName }}
-              </div>
-            </template>
-            <template v-slot:dropdownOption="{ optionObject }">
-              <div
-                v-if="optionObject.userId"
-                class="flex justify-between min-w-full items-center"
-              >
-                <div class="flex items-center content-center py-1">
-                  <ClientAvatar
-                    :width="2.3"
-                    :height="2.3"
-                    :client-info="optionObject"
-                  />
-                  <p class="capitalize text-gray-700 ml-4">
-                    {{ optionObject.firstName }}
-                  </p>
-                </div>
-              </div>
-              <div
-                v-else
-                class="flex justify-between min-w-full items-center py-2"
-              >
-                Invite {{ optionObject.firstName }}
-              </div>
-            </template>
-          </LunaSelector>
-        </div>
-        <div id="invoice-service-item" class="flex flex-col justify-between">
-          <h2 class="mb-2 required">Select Invoice service &amp; items</h2>
-          <div class="flex flex-col space-y-2">
+  <div class="sm:flex-col sm:flex-grow sm:flex-shrink lg:flex-grow-0 lg:flex-shrink-0 flex lg:flex-row lg:space-x-10">
+    <!--  invoice builder -->
+    <form @change="saveForm" method="post"  action="/invoice">
+      <container-with-title class="lg:min-w-[500px] lg:max-w-[510px]">
+        <template v-slot:headerbox>
+          <p class="capitalize text-lg mt-2 font-medium">
+            <i class="mr-4 mt-0.5 fi-rr-receipt"> </i
+            >{{ invoice._id ? "Edit" : "Create" }} your invoice
+          </p>
+        </template>
+        <template v-slot:content>
+         
+          <div id="customer">
+            <h2 class="mb-2 required">Select a client </h2>
             <LunaSelector
-              v-model="items"
-              :disabled="!invoice.customer"
-              :options="services"
-              index="serviceId"
-              label="description"
-              @change="selectItem"
-              @option:created="openEditItemModal($event)"
-              multiple
+              v-model="invoice.customer"
+              :options="allClients"
+              index="userId"
+              label="firstName"
+              taggable
+              @option:created="openInviteClientModal($event)"
             >
-              <template v-slot:dropdownOption="{ option }">
-                <div class="flex justify-between min-w-full items-center" v-if="option.serviceId">
-                  <div class="flex content-center py-1">
-                    <div class="flex flex-col ml-1 text-gray-700">
-                      <p class="capitalize mb-2">
-                        {{ option.description }}
-                      </p>
-                      <small class="text-gray-700 text-sm">
-                        {{ option.price || 0  | amount }}</small
-                      >
+              <template v-slot:selectedOption="{ selected }">
+                <div>
+                  {{ selected.firstName }}
+                </div>
+              </template>
+               <template v-slot:footer>
+                <button
+                    type="button hover:bg-black"
+                    class="py-2 w-full"
+                    @click.prevent="openInviteClientModal({ firstName:'' })"
+                  >
+                    <div class="px-2 ml-1 text-primary-color">
+                      <small>
+                        <i class="fi-rr-plus rounded-full pt-4 pr-2" />
+                        Add new client
+                      </small>
                     </div>
+                  </button>
+                </template>
+              <template v-slot:dropdownOption="{ option }">
+                <div
+                  v-if="option.userId"
+                  class="flex justify-between min-w-full items-center"
+                >
+                  <div class="flex items-center content-center py-1">
+                    <ClientAvatar
+                      :width="2.3"
+                      :height="2.3"
+                      :client-info="option"
+                    />
+                    <p class="capitalize text-gray-700 ml-4">
+                      {{ option.firstName }}
+                    </p>
                   </div>
                 </div>
                 <div
                   v-else
                   class="flex justify-between min-w-full items-center py-2"
-                  >
-                  <i
-                      class="
-                        ff-rr-plus
-                        text-base
-                        rounded-full
-                        text-blue-500
-                        p-1
-                      "
-                    />
-                  Add {{ option.description }} as new service
+                >
+                  Invite {{ option.firstName }}
                 </div>
               </template>
             </LunaSelector>
-            <div
-              v-if="invoice.items &&  invoice.items.length"
-              class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
-            >
-              <div
-                v-for="item in invoice.items"
-                :key="item._id"
-                class="flex justify-between items-center"
+          </div>
+          <div id="invoice-service-item" class="flex flex-col justify-between">
+            <h2 class="mb-2 required">Select Invoice service &amp; items</h2>
+            <div class="flex flex-col space-y-2">
+              <LunaSelector
+                :disabled="!invoice.customer"
+                :options="services"
+                @change="selectItem"
+                @option:created="openEditItemModal($event)"
+                index="serviceId"
+                label="description"
+                v-model="items"
+                multiple
               >
-                <div class="max-w-[180px] md:max-w-[500px] lg:max-w-[300px]">
-                  <p class="font-medium capitalize" :class="{'invoice-one-time-item':!item.serviceId}">
-                    {{ item.description }}
-                  </p>
-                </div>
-                <ItemDisplay
-                  :item="item"
-                  @delete-item="deleteItem($event)"
-                  @edit-item="editItem($event)"
+                <template v-slot:dropdownOption="{ option }">
+                  <div class="flex justify-between min-w-full items-center" v-if="option.serviceId">
+                    <div class="flex content-center py-1">
+                      <div class="flex flex-col ml-1 text-gray-700">
+                        <p class="capitalize mb-2">
+                          {{ option.description }}
+                        </p>
+                        <small class="text-gray-700 text-sm">
+                          {{ option.price || 0  | amount }}</small
+                        >
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    v-else
+                    class="flex justify-between min-w-full items-center py-2"
+                    >
+                    <i
+                        class="
+                          ff-rr-plus
+                          text-base
+                          rounded-full
+                          text-blue-500
+                          p-1
+                        "
+                      />
+                    Add {{ option.description }} as new service
+                  </div>
+                </template>
+                <template v-slot:footer>
+                  <button
+                    type="button hover:bg-black"
+                    class="py-2 w-full"
+                    @click.prevent="openEditItemModal({ description:'' })"
+                  >
+                    <div class="px-2 ml-1 text-primary-color">
+                      <small>
+                        <i class="fi-rr-plus rounded-full pt-4 pr-2" />
+                        Add new service
+                      </small>
+                    </div>
+                  </button>
+                </template>
+              </LunaSelector>
+                  
+              <div
+                v-if="invoice.items &&  invoice.items.length"
+                class="rounded-xl border bg-gray-50 py-4 px-3 space-y-3"
+              >
+                <div
+                  v-for="item in invoice.items"
+                  :key="item._id"
+                  class="flex justify-between items-center"
                 >
-                </ItemDisplay>
+                  <div class="max-w-[180px] md:max-w-[500px] lg:max-w-[300px]">
+                    <p class="font-medium capitalize" :class="{'invoice-one-time-item':!item.serviceId}">
+                      {{ item.description }}
+                    </p>
+                  </div>
+                  <ItemDisplay
+                    :item="item"
+                    @delete-item="deleteItem($event)"
+                    @edit-item="editItem($event)"
+                  >
+                  </ItemDisplay>
+                </div>
               </div>
+              <small class="mt-3 block"
+              ><button
+                @click.prevent="addOneTime"
+                class="text-primary-color"
+                >Add one-time invoice item</button></small>
             </div>
-             <small class="mt-3 block"
-            ><button
-              @click="addOneTime"
-              class="text-primary-color"
-              >Add one-time invoice item</button></small>
           </div>
-        </div>
-        <div id="due-date">
-          <h2 class="mb-2 required">Invoice due date</h2>
-          <date-picker
-            v-model="invoice.dueDate"
-            style="width: 100% !important"
-            class="w-full"
-            :disabled="!invoice.customer"
-            :disabled-date="(date) => date < new Date()"
-            value-type="format"
-            placeholder="Select a due date for this invoice"
-          ></date-picker>
-        </div>
-        <div id="payment-method">
-          <h2 class="mb-2">Allowed payment methods</h2>
-          <div
-            class="mt-2 flex items-center align-left justify-between"
-            v-for="activePaymentMethod in activePaymentMethods"
-            :key="activePaymentMethod._id"
-          >
-            <div class="flex item-stretch">
-              <AppCheckboxComponent
-                :id="activePaymentMethod._id"
-                class="mr-2"
-                v-model="invoice.supportedPaymentMethods"
-                :value="activePaymentMethod._id"
-                :checked="activePaymentMethod.isDefault"
-              />
-              <span class="font-light"
-                >Payment with
-                <i
-                  v-if="activePaymentMethod.type == 'bank'"
-                  class="fi-rr-bank"
-                ></i>
-                <img
-                  v-else-if="activePaymentMethod.type == 'stripe'"
-                  class="h-6 inline-block"
-                  src="~/assets/img/stripe.png"
-                  alt="stripe logo"
-                />
-              </span>
+          <div id="due-date">
+            <h2 class="mb-2 required">Invoice due date</h2>
+            <date-picker
+              v-model="invoice.dueDate"
+              style="width: 100% !important"
+              class="w-full"
+              :disabled="!invoice.customer"
+              :disabled-date="(date) => date < new Date()"
+              value-type="format"
+              placeholder="Select a due date for this invoice"
+            ></date-picker>
+          </div>
+          <div id="memo" class="flex flex-col justify-between">
+            <h2 class="mb-2">Memo</h2>
+            <div class="flex flex-col space-y-2">
+              <textarea v-model="invoice.note" class="lg:min-h-[3rem] rounded lg:rounded-l border border-gray-30 0 focus:border-blue-500 focus:outline-none p-2 "> </textarea>
             </div>
-            <span class="font-light tag" v-if="activePaymentMethod.isDefault"
-              >Default</span
+          </div>
+          <div id="payment-method">
+            <h2 class="mb-2 required">Allowed payment methods</h2>
+            <div
+              class="mt-2 flex items-center align-left justify-between"
+              v-for="activePaymentMethod in activePaymentMethods"
+              :key="activePaymentMethod._id"
             >
+              <div class="flex item-stretch">
+                <AppCheckboxComponent
+                  :id="activePaymentMethod._id"
+                  class="mr-2"
+                  v-model="invoice.supportedPaymentMethods"
+                  :value="activePaymentMethod._id"
+                />
+                <span class="font-light"
+                  >Payment with
+                  <i
+                    v-if="activePaymentMethod.type == 'bank'"
+                    class="fi-rr-bank"
+                  ></i>
+                  <img
+                    v-else-if="activePaymentMethod.type == 'stripe'"
+                    class="h-6 inline-block"
+                    src="~/assets/img/stripe.png"
+                    alt="stripe logo"
+                  />
+                </span>
+              </div>
+              <span class="font-light tag" v-if="activePaymentMethod.isDefault"
+                >Default</span
+              >
+            </div>
+            <small class="mt-3 block"
+              ><router-link
+                to="/settings/billing-setup"
+                class="text-primary-color"
+                >Add another payment method <i class="fi-rr-link" /></router-link
+            ></small>
           </div>
-          <small class="mt-3 block"
-            ><router-link
-              to="/settings/payment-methods"
-              class="text-primary-color"
-              >Add another payment method <i class="fi-rr-link" /></router-link
-          ></small>
-        </div>
-        <div class="flex justify-end space-x-6 lg:space-x-0">
-          <button
-            type="button"
-            class="button-outline lg:hidden"
-            @click="$modal.show('preview-invoice')"
-          >
-            Preview
-          </button>
-          <button-spinner
-            :loading="isLoading"
-            :disabled="!valid"
-            type="button"
-            style="width: fit-content"
-            @click="send"
-          >
-            Send invoice
-          </button-spinner>
-        </div>
-      </template>
-    </container-with-title>
-
+          <div class="flex justify-end space-x-6 lg:space-x-0">
+            <button Add one-time invoice item
+              type="button"
+              class="button-outline lg:hidden"
+              @click.prevent="$modal.show('preview-invoice')"
+            >
+              Preview
+            </button>
+            <button-spinner
+              class="button-outline"
+              :loading="autoSaving"
+              :disabled="!valid"
+              type="button"
+              style="width: fit-content; margin-right:1em"
+              @click.prevent="saveForm"
+            >
+            {{ autoSaving ? 'Saving' : 'Save' }}
+            </button-spinner>
+            <button-spinner
+              :loading="isLoading"
+              :disabled="!valid"
+              type="button"
+              style="width: fit-content"
+              @click.prevent="send"
+            >
+              Send invoice
+            </button-spinner>
+          </div>
+        </template>
+      </container-with-title>
+    </form>
     <!-- divider -->
     <span class="divider"></span>
-
     <!-- invoice previews -->
     <invoices-invoice-preview
+      class="md:hidden"
       :client="invoice.customer"
       :items="invoice.items"
       :due-date="invoice.dueDate"
@@ -207,8 +253,8 @@
       <modal name="preview-invoice" height="100%" width="100%" :adaptive="true">
         <invoices-invoice-preview
           class="m-6"
-          :client="invoice.client"
-          :services="invoice.services"
+          :client="invoice.customer"
+          :items="invoice.items"
           :due-date="invoice.dueDate"
           @close="$modal.hide('preview-invoice')"
         />
@@ -221,12 +267,12 @@
 import { mapActions, mapGetters } from "vuex";
 import DatePicker from "vue2-datepicker";
 import isEmpty from "lodash.isempty";
-import debounce from "lodash.debounce";
 import ItemDisplay from "~/components/invoices/ItemDisplay";
 import GwCustomerSelector from "~/components/GwCustomerSelector";
 import ContainerWithTitle from "../Containers/ContainerWithTitle";
 import InviteNewClient from "../InviteNewClient";
 import EditInvoiceItem from './EditInvoiceItem';
+import OnetimeInvoiceItem from './OnetimeInvoiceItem';
 export default {
   name: "Invoice",
   components: {
@@ -252,8 +298,9 @@ export default {
       invoiceId: null,
       invoice: {
         items: [],
-        supportedPaymentMethods: [],
+        supportedPaymentMethods: []
       },
+      autoSaving:false,
       isLoading: false,
       showDropDown: false
     };
@@ -263,45 +310,34 @@ export default {
       allClients: "client/getAllClients",
       allServices: "services/allServices",
       activePaymentMethods: "payment-methods/getActivePaymentMethods",
+      defaultPaymentMethod: "payment-methods/getDefaultPaymentMethod",
     }),
     valid() {
       return (
         !!this.invoice.customer &&
-        this.invoice.items &&
-        this.invoice.items.length &&
-        this.invoice.supportedPaymentMethods &&
-        this.invoice.supportedPaymentMethods.length
+        (this.invoice.items && this.invoice.items.length ) &&
+        (this.invoice.supportedPaymentMethods && this.invoice.supportedPaymentMethods.length)
       );
     },
     services() {
       return this.allServices.map((service) => ({
-        serviceId: service._id,
-        description: service.description,
-        price: service.pricing.amount,
-        qty: 1,
-      }));
+          serviceId: service._id,
+          description: service.description,
+          price: service.pricing.amount,
+          idx:null,
+          qty: 1
+      })
+      )
     },
     items() {
       return this.invoice.items.map((item) => ({
         serviceId: item.serviceId,
         description: item.description,
         price: item.price,
-        qty: 1,
+        idx:item.serviceId ? null : this.getUniqueId(),
+        qty: 1
       }));
-    },
-  },
-  watch: {
-    invoice: {
-      handler(newValue) {
-        if (this.invoiceId === null && this.invoice.customer) {
-          this.createInvoice();
-        } else if (this.invoiceId) {
-          this.updateInvoice();
-        }
-      },
-      immediate: true,
-      deep: true,
-    },
+    }
   },
   methods: {
     ...mapActions("invoice", {
@@ -309,11 +345,23 @@ export default {
       fetchInvoices: "getInvoices"
     }),
     ...mapActions({getServices: "services/getServices"}),
+    async saveForm(){
+      if (this.valid) {
+        this.autoSaving = true
+        this.$nuxt.$emit("autosaving-invoice");
+        if (this.invoiceId === null && this.invoice.customer) {
+         await this.createInvoice();
+        } else if (this.invoiceId) {
+         await this.updateInvoice();
+        }
+         this.$nuxt.$emit("autosaving-invoice-completed");
+        this.autoSaving = false
+      }
+    },
     addOneTime(){
         this.$modal.show(
-        EditInvoiceItem,
+        OnetimeInvoiceItem,
         {
-          oneTime:true,
           item: { 
             description:"",
             price:0
@@ -326,9 +374,10 @@ export default {
       this.invoice.items.push({
         description: item.description,
         price: item.pricing.amount,
+        idx:this.getUniqueId(),
         qty: 1,
       })
-      this.$gwtoast.success("Invoice item added")
+      this.$lunaToast.success("Invoice item added")
     },
     selectItem(data) {
       this.$set(this.invoice, "items", data);
@@ -346,7 +395,8 @@ export default {
     openEditItemModal($event) {
       this.$modal.show(
         EditInvoiceItem,
-        { item: { 
+        { oneTime:false,
+          item: { 
             description: $event.description,
             appointmentTypes:["in-person","remote"],
             price:0
@@ -362,12 +412,16 @@ export default {
         firstName: customer && customer.firstName.trim(),
       };
     },
+    getUniqueId(){
+      return Math.floor(Math.random() * 100)
+    },
     getInvoicePayload() {
       return {
         _id:this.invoice._id,
         customerUserId: this.invoice.customer.userId,
         dueDate: this.invoice.dueDate || new Date(),
         items: this.invoice.items,
+        note: this.invoice.note,
         dueDateEpoch:
           new Date(this.invoice.dueDate).getTime() / 1000 ||
           new Date().getTime() / 1000,
@@ -375,8 +429,6 @@ export default {
       };
     },
     async createInvoice() {
-      if (this.valid) {
-        this.$nuxt.$emit("autosaving-invoice");
         const res = await this.createNewInvoice(this.getInvoicePayload());
         this.invoiceId = res.data._id;
         this.$router.replace({
@@ -385,7 +437,7 @@ export default {
             id: res.data._id,
           },
         });
-      }
+      
     },
     async send() {
       try {
@@ -394,24 +446,21 @@ export default {
           id: this.invoiceId,
           recipient: this.invoice.customer.email,
         });
-        this.$gwtoast.success("Invoice sending successful");
+        this.$lunaToast.success("Invoice sending successful");
         this.$router.push({ name: "invoices-sent" });
       } catch (e) {
-        this.$gwtoast.error(`Error: ${e.message}`);
+        this.$lunaToast.error(`Error: ${e.message}`);
       } finally {
         this.isLoading = false;
       }
     },
-    updateInvoice: debounce(async function () {
+    updateInvoice: async function () {
       try {
-        if (this.valid) {
-          this.$nuxt.$emit("autosaving-invoice");
-          await this.$store.dispatch("invoice/updateInvoice", this.getInvoicePayload())
-        }
+        await this.$store.dispatch("invoice/updateInvoice", this.getInvoicePayload())
       } catch (error) {
         console.error(error);
       }
-    }, 1000),
+    },
     editItem(item) {
       this.$modal.show(
         EditInvoiceItem,
@@ -420,24 +469,31 @@ export default {
       );
     },
     deleteItem(e) {
-      const itemIdx = this.invoice.items.findIndex((s) => s._id === e._id);
+      const itemIdx = this.invoice.items.findIndex((i) => i.serviceId ? i.serviceId === e.serviceId : i.idx === e.idx);
       this.invoice.items.splice(itemIdx, 1);
     },
   },
   async mounted() {
     await this.getServices();    // this will be revmove once we can enusre the global state of the application is consistent
-    this.$set(
-      this.invoice,
-      "customer",
-      this.getCustomerSelectOption(this.invoice.customerId)
-    );
-    this.$set(
-      this.invoice,
-      "supportedPaymentMethods",
-      this.invoice.supportedPaymentMethods.map(
-        (supportedPaymentMethod) => supportedPaymentMethod._id
-      )
-    );
+    if(this.invoice._id){
+      this.$set(
+        this.invoice,
+        "customer",
+        this.getCustomerSelectOption(this.invoice.customerId)
+      );
+      this.$set(
+        this.invoice,
+        "supportedPaymentMethods",
+        this.invoice.supportedPaymentMethods.map(
+          (supportedPaymentMethod) => supportedPaymentMethod._id
+        )
+      );
+    }else{
+         this.defaultPaymentMethod && this.invoice.supportedPaymentMethods.push(
+           this.defaultPaymentMethod._id
+         )
+    }
+    
     this.$nuxt.$on('new-client-invite', (client) => {
       this.invoice.customer = this.getCustomerSelectOption(client)
     })

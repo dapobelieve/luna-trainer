@@ -56,17 +56,17 @@ export default {
       }
       this.send(details).then((result) => {
         if (result.status === 'success') {
-          this.$gwtoast.success('Invoice sent')
+          this.$lunaToast.success('Invoice sent')
           this.fetchInvoices()
           this.$emit('close', false)
         }
       }).catch((err) => {
         if (err.response) {
-          this.$gwtoast.error(`${err.response.data.message}`)
+          this.$lunaToast.error(`${err.response.data.message}`)
         } else if (err.request) {
-          this.$gwtoast.error('Something went wrong. Try again')
+          this.$lunaToast.error('Something went wrong. Try again')
         } else {
-          this.$gwtoast.error(`${err.message}`)
+          this.$lunaToast.error(`${err.message}`)
         }
       }).finally(() => {
         this.isLoading = false

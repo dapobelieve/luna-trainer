@@ -3,8 +3,15 @@
     <transition name="fadeIn">
       <PageHeader v-if="clientInfo">
         <template v-slot:back-button>
-          <button type="button" class="button-text w-10" @click="$router.push({ name: 'clients' })">
-            <i class="fi-rr-arrow-left font-bold text-blue-500 text-lg"></i>
+          <button
+            type="button"
+            class="button-text w-10"
+            @click="$router.push({ name: 'clients' })"
+          >
+            <i
+              class="fi-rr-arrow-left font-bold text-blue-500 text-lg"
+              style="margin-top: 5px"
+            ></i>
           </button>
         </template>
         <template v-slot:title>
@@ -19,7 +26,9 @@
     </transition>
     <!-- start here -->
     <div class="p-4 md:w-full bg-gray-100 flex justify-center">
-      <div class="flex lg:space-x-4 w-full max-w-2xl lg:max-w-7xl flex-col lg:flex-row">
+      <div
+        class="flex lg:space-x-4 w-full max-w-2xl lg:max-w-7xl flex-col lg:flex-row"
+      >
         <!-- left menu -->
         <aside
           class="w-full lg:max-w-[18rem] xl:max-w-sm 2xl:max-w-md w-full flex-shrink-0 order-1 lg:order-first"
@@ -42,7 +51,12 @@
         >
           <button
             class="button-fill w-full"
-            @click="$router.push({name: 'Client-id-messages', params: {id: $route.params.id }})"
+            @click="
+              $router.push({
+                name: 'Client-id-messages',
+                params: { id: $route.params.id },
+              })
+            "
           >
             <i class="ns-comment-alt mr-2"></i> send message
           </button>
