@@ -9,40 +9,42 @@
           class="max-w-full lg:max-w-sm w-full flex-shrink-0 flex flex-col text-center lg:text-left self-start"
         >
           <img
-            class="lg:mr-auto lg:m-0 m-auto h-8 md:h-10 2xl:h-auto"
+            class="lg:mr-auto lg:m-0 m-auto h-16 md:h-16 2xl:h-16"
             src="~/assets/img/svgs/logomark.svg"
             alt="getWelp logo"
           />
           <div class="mt-6 lg:mt-10">
-            <h1
-              class="text-2xl md:text-3xl lg:text-4xl"
-            >
+            <h1 class="text-2xl md:text-3xl lg:text-4xl">
               We’re here to make dog trainers’ lives easier
             </h1>
-            <div class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6">
-              <p
-                v-if="routeName === 'auth-signup'"
-                class="text-gray-500"
-              >
+            <div
+              class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6"
+            >
+              <p v-if="routeName === 'auth-signup'" class="text-gray-500">
                 You can sign in with your Google account below to sign up.
               </p>
-              <p
-                v-else
-                class="text-gray-500"
-              >
-                You can sign in with your Google account below which will sync everything you need at once
+              <p v-else class="text-gray-500">
+                You can sign in with your Google account below which will sync
+                everything you need at once
               </p>
             </div>
             <div class="mt-6">
               <button
                 type="button"
                 class="bg-white border border-gray-400 w-100 flex items-center justify-center py-3 h-12 lg:m-0 m-auto rounded-md w-full lg:w-max px-3 lg:px-12 hover:bg-gray-50 shadow-sm"
-                @click="routeName === 'auth-signin' ? handleOnClickGoogleSignIn() : handleOnClickGoogleSignUp()"
+                @click="
+                  routeName === 'auth-signin'
+                    ? handleOnClickGoogleSignIn()
+                    : handleOnClickGoogleSignUp()
+                "
               >
                 <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
-                <span
-                  class="ml-3"
-                >{{ routeName === 'auth-signin' ? 'Sign in' : 'Sign up' }} With Google</span>
+                <span class="ml-3"
+                  >{{
+                    routeName === 'auth-signin' ? 'Sign in' : 'Sign up'
+                  }}
+                  With Google</span
+                >
               </button>
             </div>
           </div>
@@ -68,24 +70,23 @@ export default {
   components: { Toast },
   data () {
     return {
-      letsGetStarted: true
+      letsGetStarted: true,
     }
   },
   computed: {
-    routeName () {
+    routeName() {
       return this.$route.name
-    }
+    },
   },
   methods: {
-    handleOnClickGoogleSignUp () {
+    handleOnClickGoogleSignUp() {
       const { host, protocol } = window.location
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${protocol}//${host}/Auth/SignIn%3FredirectClient%3Dgoogle`
     },
-    handleOnClickGoogleSignIn () {
+    handleOnClickGoogleSignIn() {
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
-    }
-  }
+    },
+  },
 }
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
