@@ -97,7 +97,7 @@ export default {
     async connectToStripeAndRedirect() {
       try {
         this.loading = true;
-        const connectionUrl = await this.connectToStripe();
+        const connectionUrl = await this.connectToStripe(location.href);
         window.open(connectionUrl);
       } catch (error) {
         this.$lunaToast.error("Stripe connection failed");
