@@ -25,8 +25,8 @@ export const actions = {
     await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/bank-account/${id}`,payload)
     dispatch('getPaymentMethods')
   },
-  async connectToStripe ({ commit, dispatch }) {
-    const { data } = await this.$axios.get(`${process.env.PAYMENT_HOST_URL}/stripe/connect/url?returnurl=${process.env.STRIPE_RETURN}`)
+  async connectToStripe ({ commit, dispatch },redirectUrl) {
+    const { data } = await this.$axios.get(`${process.env.PAYMENT_HOST_URL}/stripe/connect/url?returnurl=${redirectUrl}`)
     return data.url
   },
   async disconnectFromStripe ({ commit, dispatch }) {
