@@ -54,7 +54,6 @@
         <div class="grid gap-4">
           <MessageWidget class="h-[20rem]" />
           <InvoiceWidget class="h-[31rem]" />
-          <!--          <dashboard-payments :paid-invoices="paidInvoices" />-->
         </div>
       </div>
       <!-- modals -->
