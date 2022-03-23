@@ -53,7 +53,7 @@
           </DashboardCard>
         <div class="grid gap-4">
           <MessageWidget class="h-[20rem]" />
-          <InvoiceWidget  />
+          <InvoiceWidget class="h-[31rem]"  />
 <!--          <dashboard-payments :paid-invoices="paidInvoices" />-->
         </div>
       </div>
@@ -164,20 +164,20 @@ export default {
     }
   },
   mounted () {
-    // this.$lunaToast.show(
-    //   `Hey, ${this.$auth.user.firstName}
-    //                 ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
-    //     position: 'bottom-right',
-    //     timeout: 10000,
-    //     actions: true,
-    //     confirm: {
-    //       resolver: async () => {}
-    //     },
-    //     cancel: {
-    //       text: 'Not Now',
-    //       resolver: async () => {}
-    //     }
-    //   })
+    this.$lunaToast.show(
+      `Hey, ${this.$auth.user.firstName}
+                    ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
+        position: 'bottom-right',
+        timeout: 10000,
+        actions: true,
+        confirm: {
+          resolver: async () => {}
+        },
+        cancel: {
+          text: 'Not Now',
+          resolver: async () => {}
+        }
+      })
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 

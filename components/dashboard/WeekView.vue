@@ -32,7 +32,8 @@ export default {
       const that = this
       // eslint-disable-next-line no-extend-native
       Date.prototype.getWeek = function () {
-        const weekBegins = new Date(this.setDate(this.getDate() - (this.getDay() - 1)))
+        const weekBegins = new Date(this.setDate(this.getDate() - this.getDay()))
+        console.log(weekBegins)
         return [{ day: that.weekDays[weekBegins.getDay()], _date: weekBegins, date: weekBegins.getDate() }]
           .concat(
             String(Array(6)).split(',')

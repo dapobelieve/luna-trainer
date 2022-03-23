@@ -86,7 +86,7 @@ export default {
         this.invoices = await this.$store.dispatch('invoice/getFetchCustomerInvoice', {
           workflowStatus: data ? 'sent' : null,
           status: data || null,
-          limit: 4
+          limit: 3
         })
       }catch (e) {
 
