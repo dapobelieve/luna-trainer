@@ -46,7 +46,7 @@ export default {
     }
   },
   watch: {
-    "fetchEvents": {
+    fetchEvents: {
       immediate: true,
       async handler () {
         const startDateTime = new Date(this.today.setHours(0, 0)) / 1000

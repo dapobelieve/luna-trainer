@@ -51,7 +51,7 @@ export default {
     { src: '~/plugins/v-click-outside', ssr: false },
     { src: '~plugins/filters', ssr: false },
     { src: '~plugins/v-tooltip', ssr: false },
-    { src: '~plugins/v-modal'},
+    { src: '~plugins/v-modal' },
     { src: '~plugins/utils', ssr: false }
   ],
   components: {
@@ -69,7 +69,7 @@ export default {
   },
   loading: '~/components/loading.vue',
   buildModules: [
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],

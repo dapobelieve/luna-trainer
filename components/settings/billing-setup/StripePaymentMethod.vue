@@ -43,8 +43,8 @@
         <span v-if="disabled" class="tag disabled"> Disabled </span>
         <SingleLoader v-if="loading" />
         <Dropdown
-          v-if="!loading"   
-          :primaryActionText="connected ? 'Disconnect' : 'Connnect'"
+          v-if="!loading"
+          :primary-action-text="connected ? 'Disconnect' : 'Connnect'"
           :disabled="disabled"
           @action="toggleStripeConnection"
           @enable="enable"
@@ -57,84 +57,83 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import Dropdown from "./Dropdown.vue";
+import { mapActions, mapGetters } from 'vuex'
+import Dropdown from './Dropdown.vue'
 
 export default {
+  name: 'StripePaymentMethod',
   components: { Dropdown },
-  name: "StripePaymentMethod",
-  data() {
+  data () {
     return {
-      loading: false,
-    };
+      loading: false
+    }
   },
   computed: {
     ...mapGetters('payment-methods', {
-      paymentMethod: 'getStripePaymentMethod',
+      paymentMethod: 'getStripePaymentMethod'
     }),
-    connected() {
-      return !!this.paymentMethod.stripe && this.paymentMethod.stripe.connected;
+    connected () {
+      return !!this.paymentMethod.stripe && this.paymentMethod.stripe.connected
     },
-    disabled() {
-      return this.paymentMethod && this.paymentMethod.disabled;
+    disabled () {
+      return this.paymentMethod && this.paymentMethod.disabled
     },
-    isDefault() {
-      return this.paymentMethod && this.paymentMethod.isDefault;
-    },
+    isDefault () {
+      return this.paymentMethod && this.paymentMethod.isDefault
+    }
   },
   methods: {
-    ...mapActions("payment-methods", {
-      connectToStripe: "connectToStripe",
-      disconnectFromStripe: "disconnectFromStripe",
-      enablePaymentMethod: "enablePaymentMethod",
-      disablePaymentMethod: "disablePaymentMethod",
-      setDefaultPaymentMethod: "setDefaultPaymentMethod",
+    ...mapActions('payment-methods', {
+      connectToStripe: 'connectToStripe',
+      disconnectFromStripe: 'disconnectFromStripe',
+      enablePaymentMethod: 'enablePaymentMethod',
+      disablePaymentMethod: 'disablePaymentMethod',
+      setDefaultPaymentMethod: 'setDefaultPaymentMethod'
     }),
-    async toggleStripeConnection() {
-      if (!this.connected) this.connectToStripeAndRedirect();
-      else this.disconnectFromStripe();
+    async toggleStripeConnection () {
+      if (!this.connected) { this.connectToStripeAndRedirect() } else { this.disconnectFromStripe() }
     },
-    async connectToStripeAndRedirect() {
+    async connectToStripeAndRedirect () {
       try {
-        this.loading = true;
-        const connectionUrl = await this.connectToStripe(location.href);
-        window.open(connectionUrl);
+        this.loading = true
+        const connectionUrl = await this.connectToStripe(location.href)
+        window.open(connectionUrl)
       } catch (error) {
-        this.$lunaToast.error("Stripe connection failed");
+        this.$lunaToast.error('Stripe connection failed')
       }
-      this.loading = false;
+      this.loading = false
     },
 
-    async enable(e) {
+    async enable (e) {
       try {
-        this.loading = true;
-        await this.enablePaymentMethod(this.paymentMethod._id);
+        this.loading = true
+        await this.enablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error("Unable to disable payment");
+        this.$lunaToast.error('Unable to disable payment')
       }
-      this.loading = false;
+      this.loading = false
     },
-    async setAsDefault() {
+    async setAsDefault () {
       try {
-        this.loading = true;
-        await this.setDefaultPaymentMethod(this.paymentMethod._id);
+        this.loading = true
+        await this.setDefaultPaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        console.log(error);
-        this.$lunaToast.error("Unable to disable payment");
+        console.log(error)
+        this.$lunaToast.error('Unable to disable payment')
       }
-      this.loading = false;
+      this.loading = false
     },
-    async disable() {
+    async disable () {
       try {
-        this.loading = true;
-        await this.disablePaymentMethod(this.paymentMethod._id);
+        this.loading = true
+        await this.disablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error("Unable to disable payment");
+        this.$lunaToast.error('Unable to disable payment')
       }
-      this.loading = false;
-    },
-  },
-};
+      this.loading = false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

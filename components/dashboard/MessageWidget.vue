@@ -5,7 +5,9 @@
         <div class="h-12 mr-2 w-12 bg-sky-50 rounded-full inline-flex justify-center items-center">
           <i class="fi-rr-comment-alt text-xl text-sky-500 mt-1"></i>
         </div>
-        <h3 class="text-black text-xl">Messages</h3>
+        <h3 class="text-black text-xl">
+          Messages
+        </h3>
       </div>
       <div class="ml-auto ">
         <span class="text-gray-500">0 new messages</span>
@@ -26,7 +28,7 @@
 </template>
 
 <script>
-import DashboardCard from "~/components/dashboard/DashboardCard";
+import DashboardCard from '~/components/dashboard/DashboardCard'
 export default {
   components: { DashboardCard }
 

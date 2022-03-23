@@ -3,58 +3,58 @@
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
         <DashboardCard :view-all="events.length > 0" class="p-0">
-            <div class="mb-5">
-              <img class="w-full" src="~/assets/img/home.svg">
+          <div class="mb-5">
+            <img class="w-full" src="~/assets/img/home.svg">
+          </div>
+          <div class="mb-6">
+            <div class="flex items-center px-3 mb-5">
+              <div class="flex items-center">
+                <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
+                  <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
+                </div>
+                <h3 class="font-medium">
+                  My Sessions
+                </h3>
+              </div>
             </div>
-            <div class="mb-6">
-              <div class="flex items-center px-3 mb-5">
-                <div class="flex items-center">
-                  <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
-                    <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
-                  </div>
-                  <h3 class="font-medium">
-                    My Sessions
+            <div class="flex px-3 items-center mb-4">
+              <div class="font-medium text-sm">
+                {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
+              </div>
+              <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
+            </div>
+            <div class="px-3">
+              <WeekView fetch-events @fetching-events="fetching=true" @stop-fetching-events="fetching=false" @events="events = $event" />
+            </div>
+          </div>
+          <div class="px-3 h-[19rem]">
+            <div v-if="fetching" class="flex items-center justify-center h-full">
+              <SingleLoader height="40px" width="40px" />
+            </div>
+            <template v-else>
+              <div v-if="!events.length" class="flex items-center h-full justify-center">
+                <div class="flex flex-col items-center">
+                  <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
+                  <h3 class="text-gray-700 text-lg">
+                    You have no appointment
                   </h3>
+                  <small class="text-base text-gray-500">Your appointments would be displayed here</small>
+                  <button class="button-fill mt-3">
+                    Schedule a session
+                  </button>
                 </div>
               </div>
-              <div class="flex px-3 items-center mb-4">
-                <div class="font-medium text-sm">
-                  {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
-                </div>
-                <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
+              <div v-else>
+                <!--                <CurrentSessionCard class="mb-4" />-->
+                <UpcomingSessionCard v-for="event in events" :key="event.id" :event="event" :color="event.color" class="mb-2" />
               </div>
-              <div class="px-3">
-                <WeekView @fetching-events="fetching=true" @stop-fetching-events="fetching=false" fetch-events @events="events = $event" />
-              </div>
-            </div>
-            <div class="px-3 h-[19rem]">
-              <div v-if="fetching" class="flex items-center justify-center h-full">
-                <SingleLoader height="40px" width="40px" />
-              </div>
-              <template v-else>
-                <div v-if="!events.length" class="flex items-center h-full justify-center">
-                  <div class="flex flex-col items-center">
-                    <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
-                    <h3 class="text-gray-700 text-lg">
-                      You have no appointment
-                    </h3>
-                    <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                    <button class="button-fill mt-3">
-                      Schedule a session
-                    </button>
-                  </div>
-                </div>
-                <div v-else>
-                  <!--                <CurrentSessionCard class="mb-4" />-->
-                  <UpcomingSessionCard v-for="event in events" :key="event.id" :event="event" :color="event.color" class="mb-2" />
-                </div>
-              </template>
-            </div>
-          </DashboardCard>
+            </template>
+          </div>
+        </DashboardCard>
         <div class="grid gap-4">
           <MessageWidget class="h-[20rem]" />
-          <InvoiceWidget class="h-[31rem]"  />
-<!--          <dashboard-payments :paid-invoices="paidInvoices" />-->
+          <InvoiceWidget class="h-[31rem]" />
+          <!--          <dashboard-payments :paid-invoices="paidInvoices" />-->
         </div>
       </div>
       <!-- modals -->
@@ -113,11 +113,11 @@ import DashboardCard from '~/components/dashboard/DashboardCard'
 import WeekView from '~/components/dashboard/WeekView'
 // import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
 import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
-import InvoiceWidget from "~/components/dashboard/InvoiceWidget";
-import MessageWidget from "~/components/dashboard/MessageWidget";
+import InvoiceWidget from '~/components/dashboard/InvoiceWidget'
+import MessageWidget from '~/components/dashboard/MessageWidget'
 export default {
   name: 'Dashboard',
-  components: {MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard },
+  components: { MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {

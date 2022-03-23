@@ -52,7 +52,7 @@ export const actions = {
     return res
   },
   updateInvoice ({ commit }, payload) {
-    return this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/invoice/${payload._id}`,payload)
+    return this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/invoice/${payload._id}`, payload)
       .then((response) => {
         return response
       })
@@ -61,6 +61,9 @@ export const actions = {
     return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}`, {
       recipients: [sendDetails.recipient]
     })
+  },
+  async notify ({ commit }, payload) {
+    return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/${payload.id}/notify`, { note: 'note' })
   },
   async resendInvoice ({ commit }, invoiceDetails) {
     return await this.$axios

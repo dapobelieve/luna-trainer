@@ -174,5 +174,5 @@ export const actions = {
 }
 export const getters = {
   getLoading: state => state.loading,
-  getUser: state => state.user,
+  getUser: state => state.user
 }

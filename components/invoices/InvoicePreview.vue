@@ -3,7 +3,7 @@
     <p class="capitalize text-lg font-medium">
       preview
     </p>
-    <section class="lg:w-[448px]" ref="preview">
+    <section ref="preview" class="lg:w-[448px]">
       <ul
         class="tabs flex space-x-8 mb-6 pb-4 pl-4 border-b"
       >
@@ -14,7 +14,7 @@
         >
           Email
         </button>
-        <button class="tablinks" ref="pdfBtn" @click.prevent="switchTabs($event, 'PDF')">
+        <button ref="pdfBtn" class="tablinks" @click.prevent="switchTabs($event, 'PDF')">
           Invoice PDF
         </button>
       </ul>
@@ -235,9 +235,9 @@ export default {
       this.$refs.preview.children.Email.style.display = 'none'
       this.$refs.preview.children.PDF.style.display = 'none'
 
-      this.$refs.emailBtn.classList.remove("active")
-      this.$refs.pdfBtn.classList.remove("active")
-      
+      this.$refs.emailBtn.classList.remove('active')
+      this.$refs.pdfBtn.classList.remove('active')
+
       this.$refs.preview.children[tabId].style.display = 'block'
       evt.currentTarget.className += ' active'
     }

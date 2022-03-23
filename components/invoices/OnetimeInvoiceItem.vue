@@ -3,7 +3,7 @@
     <div class="flex justify-between items-center">
       <h5 class="text-2xl text-gray-700">
         <slot name="title">
-          {{'Add one-time item' }}
+          {{ 'Add one-time item' }}
         </slot>
       </h5>
       <button type="button" @click="$emit('close')">
@@ -21,7 +21,7 @@
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
       </div>
- 
+
       <div class="flex flex-col gap-1.5">
         <label for="currency" class="required">Price</label>
         <div class="relative flex">
@@ -46,7 +46,7 @@
           style="width:fit-content"
           @click="saveItem"
         >
-          {{ 'Add new item' }} 
+          {{ 'Add new item' }}
         </button-spinner>
       </div>
     </form>
@@ -55,50 +55,50 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { required, numeric, minValue, minLength} from 'vuelidate/lib/validators'
+import { required, numeric, minValue, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'OnetimeInvoiceItem',
   props: {
     item: {
-      _id:'',
-      description:'',
-      price:0
+      _id: '',
+      description: '',
+      price: 0
     }
   },
-  validations:{
-   service: {
-      description: { required, minLength: minLength(4)},
+  validations: {
+    service: {
+      description: { required, minLength: minLength(4) },
       pricing: {
-        amount: { required, numeric, minValue: minValue(1) },
+        amount: { required, numeric, minValue: minValue(1) }
       }
-    },
+    }
   },
-  data(){
+  data () {
     return {
-      service:{
+      service: {
         _id: this.item._id,
         description: this.item.description,
-        pricing:{
-          amount:this.item.price
+        pricing: {
+          amount: this.item.price
         }
       },
-      loading:false
+      loading: false
     }
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      isMaxServicesAmountReached: "services/isMaxServicesAmountReached"
+      isMaxServicesAmountReached: 'services/isMaxServicesAmountReached'
     })
   },
-  methods:{
-    async saveItem(){
-      this.$nuxt.$emit("new-invoice-item",this.service)
-      this.$emit("close")
+  methods: {
+    async saveItem () {
+      this.$nuxt.$emit('new-invoice-item', this.service)
+      this.$emit('close')
     },
-    cancel(){
-      this.$emit("close")
-    },
-  },
+    cancel () {
+      this.$emit('close')
+    }
+  }
 }
 </script>
 

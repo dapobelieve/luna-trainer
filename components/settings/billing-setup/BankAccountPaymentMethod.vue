@@ -30,82 +30,85 @@
           Disabled
         </span>
         <SingleLoader v-if="loading" />
-        <dropdown v-if="!loading" :primaryActionText="connected ? 'Edit' : 'Add'" 
+        <dropdown
+          v-if="!loading"
+          :primary-action-text="connected ? 'Edit' : 'Add'"
           :disabled="disabled"
           @action="$modal.show('payment-method-bank-account')"
-          @enable="enable" 
+          @enable="enable"
           @disable="disable"
-          @default="setAsDefault" />
+          @default="setAsDefault"
+        />
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import { mapActions,mapGetters } from "vuex";
-import Dropdown from './Dropdown.vue';
+import { mapActions, mapGetters } from 'vuex'
+import Dropdown from './Dropdown.vue'
 
 export default {
+  name: 'BankAccountPaymentMethod',
   components: { Dropdown },
-  name: "BankAccountPaymentMethod",
-  data() {
+  data () {
     return {
       loading: false
-    };
+    }
   },
   computed: {
     ...mapGetters('payment-methods', {
-      paymentMethod: 'getBankAccountPaymentMethod',
+      paymentMethod: 'getBankAccountPaymentMethod'
     }),
-    bankAccount() {
-      return this.paymentMethod.bank || {};
+    bankAccount () {
+      return this.paymentMethod.bank || {}
     },
-    connected() {
-      return this.bankAccount.accountNo;
+    connected () {
+      return this.bankAccount.accountNo
     },
-    isDefault() {
-      return this.paymentMethod.isDefault;
+    isDefault () {
+      return this.paymentMethod.isDefault
     },
-    disabled() {
-      return this.paymentMethod.disabled;
-    },
+    disabled () {
+      return this.paymentMethod.disabled
+    }
   },
   methods: {
     ...mapActions({
-      enablePaymentMethod: "payment-methods/enablePaymentMethod",
-      disablePaymentMethod: "payment-methods/disablePaymentMethod",
-      setDefaultPaymentMethod: "payment-methods/setDefaultPaymentMethod",
+      enablePaymentMethod: 'payment-methods/enablePaymentMethod',
+      disablePaymentMethod: 'payment-methods/disablePaymentMethod',
+      setDefaultPaymentMethod: 'payment-methods/setDefaultPaymentMethod'
     }),
-     async enable(e) {
+    async enable (e) {
       try {
         this.loading = true
-        await this.enablePaymentMethod(this.paymentMethod._id);
+        await this.enablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error("Unable to disable payment");
+        this.$lunaToast.error('Unable to disable payment')
       }
       this.loading = false
     },
-    async setAsDefault() {
+    async setAsDefault () {
       try {
         this.loading = true
-        await this.setDefaultPaymentMethod(this.paymentMethod._id);
+        await this.setDefaultPaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        console.log(error);
-        this.$lunaToast.error("Unable to disable payment");
+        console.log(error)
+        this.$lunaToast.error('Unable to disable payment')
       }
       this.loading = false
     },
-    async disable() {
+    async disable () {
       try {
         this.loading = true
-        await this.disablePaymentMethod(this.paymentMethod._id);
+        await this.disablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error("Unable to disable payment");
+        this.$lunaToast.error('Unable to disable payment')
       }
-       this.loading = false
+      this.loading = false
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>

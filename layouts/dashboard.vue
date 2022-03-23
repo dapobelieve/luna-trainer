@@ -127,7 +127,7 @@ export default {
   async beforeMount () {
     try {
       await this.$store.dispatch('scheduler/connectToLocalCalendar')
-    }catch (e) {
+    } catch (e) {
       await this.$store.dispatch('scheduler/getCalendars')
     }
   }

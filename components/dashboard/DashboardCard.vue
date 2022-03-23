@@ -8,13 +8,13 @@
 </template>
 <script>
 export default {
+  components: {
+  },
   props: {
     viewAll: {
       type: Boolean,
       default: false
     }
-  },
-  components: {
   }
 }
 </script>
