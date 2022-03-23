@@ -244,7 +244,7 @@ export default {
           }
         }).catch((err) => {
           if (err.response) {
-            this.$lunaToast.error(`Something went wrong: ${err.response.data.error || err.response.data.message}`)
+            this.$lunaToast.error(`${err.response.data.error || err.response.data.message}`)
           }
         }).finally(() => {
           this.loading = false

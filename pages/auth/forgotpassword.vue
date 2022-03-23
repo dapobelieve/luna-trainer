@@ -98,11 +98,11 @@ export default {
           }
         }).catch((err) => {
           if (err.response) {
-            this.$lunaToast.error(`Something went wrong: ${err.response.data.message}`)
+            this.$lunaToast.error(`${err.response.data.message}`)
           } else if (err.request) {
             this.$lunaToast.error('Something went wrong. Try again')
           } else {
-            this.$lunaToast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`${err.message}`)
           }
         }).finally(() => {
           this.isLoading = false

@@ -7,7 +7,7 @@
     enter-to-class="-translate-x-0"
     leave-to-class="translate-x-96"
   >
-    <div v-if="show" :class="[toastPosition]" class="w-80 absolute z-50" @mouseover="hover = true" @mouseleave="hover = false">
+    <div v-if="show" :class="[toastPosition]" class="w-80 absolute z-1000" @mouseover="hover = true" @mouseleave="hover = false">
       <div class="flex items-start bg-white border p-4 rounded-xl">
         <div class="flex-shrink-0">
           <div v-if="icon" :class="[iconBg]" class="h-8 w-8 inline-flex items-center justify-center rounded-full">
@@ -15,7 +15,7 @@
           </div>
           <img v-else class="h-8 w-8" src="~/assets/img/2.svg">
         </div>
-        <div class="flex-grow ml-2">
+        <div class="flex-grow ml-2 mt-1">
           <h3 v-if="options.heading" class="text-black font-medium text-base">
             {{ options.heading }}
           </h3>
@@ -33,7 +33,7 @@
             </button>
           </div>
         </div>
-        <div class="ml-2" @click="close">
+        <div class="ml-2 mt-1" @click="close">
           <i style="font-size: 12px" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>
         </div>
       </div>

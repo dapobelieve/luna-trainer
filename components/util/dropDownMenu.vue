@@ -26,7 +26,6 @@ export default {
       showDropdown: false
     }
   }
-
 }
 </script>
 

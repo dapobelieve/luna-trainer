@@ -175,13 +175,4 @@ export const actions = {
 export const getters = {
   getLoading: state => state.loading,
   getUser: state => state.user,
-  stripeConnection: state => state.user.stripe,
-  isStripeConnected: state =>
-    state.user.stripe && state.user.stripe.connected,
-  isStripeReady: state =>
-    state.user.stripe &&
-    state.user.stripe.capabilities &&
-    state.user.stripe.capabilities.card_payments === 'active' &&
-    state.user.stripe.capabilities.transfers === 'active' &&
-    state.user.stripe.capabilities.bacs_debit_payments === 'active'
 }

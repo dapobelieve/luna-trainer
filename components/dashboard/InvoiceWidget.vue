@@ -31,25 +31,9 @@
             </button>
           </div>
         </div>
-        <div v-else class="px-4 flex items-center mb-4 mt-6" v-for="x in getInvoices">
-          <div class="flex items-start">
-            <div class="relative w-12 mr-4 flex-shrink-0">
-              <img :src="imgUrl" class="h-12 w-12 rounded-full">
-              <img class="absolute rounded-full shadow-md bottom-0 right-0" src="~/assets/img/billing/paypal.svg">
-            </div>
-            <div>
-              <h3>Overdue bank transfer of <span class="font-medium">£800</span> from <span class="font-medium">Abi Carpenter</span></h3>
-              <p class="text-sm mt-">Last sent: 6th June</p>
-              <p class="text-sm text-gray-400">6th June</p>
-            </div>
-          </div>
-          <div class="ml-auto">
-            <button class="border px-2">
-              <i class="fi-rr-bell-ring text-primary-color mt-1"></i>
-            </button>
-          </div>
-        </div>
-        
+        <template v-else>
+          <InvoiceWidgetCard v-for="(invoice, invoiceIndex) in getInvoices" :invoice="invoice" />
+        </template>
       </template>
     </div>
   </DashboardCard>
@@ -57,6 +41,7 @@
 
 <script>
 import DashboardCard from "~/components/dashboard/DashboardCard";
+import InvoiceWidgetCard from "~/components/dashboard/InvoiceWidgetCard";
 export default {
   data() {
     return {
@@ -78,7 +63,7 @@ export default {
       return this.invoices.data || []
     }
   },
-  components: { DashboardCard },
+  components: {InvoiceWidgetCard, DashboardCard },
   methods: {
     async fetchInvoices(data) {
       this.fetching = true

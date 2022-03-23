@@ -191,7 +191,7 @@ export default {
           }
         } catch (err) {
           if (err.response) {
-            this.$lunaToast.error(`Something went wrong: ${err.response.data.message}`,
+            this.$lunaToast.error(`${err.response.data.message}`,
               { position: 'bottom-right' }
             )
           } else if (err.request) {
@@ -199,7 +199,7 @@ export default {
               position: 'bottom-right'
             })
           } else {
-            this.$lunaToast.error(`Something went wrong: ${err.message}`, {
+            this.$lunaToast.error(`${err.message}`, {
               position: 'bottom-right'
             })
           }

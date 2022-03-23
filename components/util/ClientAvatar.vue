@@ -61,10 +61,10 @@ export default {
     },
     displayInitials () {
       let initials = ''
-      const values = [this.clientInfo.firstName, this.clientInfo.lastName]
+      const values = [this.clientInfo.firstName, this.clientInfo && this.clientInfo.lastName]
       if (values.length) {
         values.forEach((element) => {
-          if (element !== undefined) {
+          if (element) {
             initials += element.charAt(0).toUpperCase()
           }
         })

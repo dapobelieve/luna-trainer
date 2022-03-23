@@ -2,9 +2,9 @@
   <label>
     <input
       :id="id"
-      class="cursor-pointer h-5 w-5 border-grey-500"
+      class="cursor-pointer h-4 w-4 border-grey-500"
       :value="value"
-      :checked="items.includes(value)"
+      :checked="checked || items.includes(value)"
       type="checkbox"
       @click="$event.stopPropagation()"
       @change="check"
@@ -28,6 +28,7 @@ export default {
     id: {
       type: [String, Number]
     },
+    checked:Boolean,
     value: {
       type: [String, Number, Boolean]
     }

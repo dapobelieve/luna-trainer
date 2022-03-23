@@ -12,7 +12,7 @@
         <div class="border w-full rounded flex justify-between p-4">
           <div class="flex justify-between items-center">
             <div>
-              <img class="h-6" src="~/assets/img/strip.png" alt="google logo">
+              <img class="h-6" src="~/assets/img/stripe.png" alt="google logo">
             </div>
           </div>
 

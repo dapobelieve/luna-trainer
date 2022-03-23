@@ -59,7 +59,7 @@ export default {
         .then((response) => {
           if (response && response.status === true) {
             this.$lunaToast.success(
-              `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
+              `Client invitation resent to ${this.client.email}`
             )
             this.$emit('close', false)
           } else {
@@ -69,11 +69,11 @@ export default {
         .catch((err) => {
           if (err.response) {
             this.$lunaToast.error(
-              `Something went wrong: ${err.response.data.message}`)
+              `${err.response.data.message}`)
           } else if (err.request) {
             this.$lunaToast.error('Something went wrong. Try again')
           } else {
-            this.$lunaToast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`${err.message}`)
           }
         })
     },

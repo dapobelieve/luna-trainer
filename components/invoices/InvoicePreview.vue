@@ -1,20 +1,20 @@
 <template>
-  <div class="hidden lg:block lg:min-w-[448px] space-y-8">
+  <div class="lg:block lg:min-w-[448px] space-y-8">
     <p class="capitalize text-lg font-medium">
       preview
     </p>
-    <section class="lg:w-[448px]">
+    <section class="lg:w-[448px]" ref="preview">
       <ul
         class="tabs flex space-x-8 mb-6 pb-4 pl-4 border-b"
       >
         <button
-          id="defaultOpen"
+          ref="emailBtn"
           class="tablinks"
           @click.prevent="switchTabs($event, 'Email')"
         >
           Email
         </button>
-        <button class="tablinks" @click.prevent="switchTabs($event, 'PDF')">
+        <button class="tablinks" ref="pdfBtn" @click.prevent="switchTabs($event, 'PDF')">
           Invoice PDF
         </button>
       </ul>
@@ -64,22 +64,22 @@
               </div>
             </div>
             <div>
-              <div v-if="services && services.length" class="space-y-5">
+              <div v-if="items && items.length" class="space-y-5">
                 <div
-                  v-for="service in services"
-                  :key="service._id"
+                  v-for="item in items"
+                  :key="item._id"
                   class="flex justify-between items-center last:border-b last:pb-5"
                 >
                   <div>
                     <p class="text-gray-700 font-medium capitalize">
-                      {{ service.description }}
+                      {{ item.description }}
                     </p>
                     <p class="text-gray-500 text-sm">
                       Qty 1
                     </p>
                   </div>
                   <span class="text-gray-700 font-medium">{{
-                    service.pricing.amount | amount
+                    item.price | amount
                   }}</span>
                 </div>
               </div>
@@ -166,14 +166,14 @@
                     amount
                   </p>
                 </div>
-                <template v-if="services && services.length">
+                <template v-if="items && items.length">
                   <div
-                    v-for="service in services"
-                    :key="service._id"
+                    v-for="item in items"
+                    :key="item._id"
                     class="grid grid-cols-4 last:border-b last:pb-5"
                   >
                     <p class="text-gray-500 text-sm capitalize">
-                      {{ service.description }}
+                      {{ item.description }}
                     </p>
                     <p
                       class="text-gray-500 text-sm justify-self-end"
@@ -183,12 +183,7 @@
                     <p
                       class="text-gray-500 text-sm justify-self-end"
                     >
-                      {{ service.pricing.amount | amount }}
-                    </p>
-                    <p
-                      class="text-gray-500 text-sm justify-self-end"
-                    >
-                      {{ service.pricing.amount | amount }}
+                      {{ item.price | amount }}
                     </p>
                   </div>
                 </template>
@@ -218,44 +213,32 @@
 export default {
   name: 'InvoicePreview',
   props: {
-    services: Array,
+    items: Array,
     dueDate: [Date, String],
     client: Object
   },
   computed: {
     getTotal () {
-      if (this.services && this.services.length) {
-        return this.services.reduce(
-          (accumulator, current) => accumulator + current.pricing.amount, 0
+      if (this.items && this.items.length) {
+        return this.items.reduce(
+          (accumulator, current) => accumulator + current.price, 0
         )
       }
       return 0
     }
   },
   mounted () {
-    document.getElementById('defaultOpen').click()
+    this.$refs.emailBtn.click()
   },
   methods: {
-    switchTabs (evt, cityName) {
-      // Declare all variables
-      let i, tabcontent, tablinks
+    switchTabs (evt, tabId) {
+      this.$refs.preview.children.Email.style.display = 'none'
+      this.$refs.preview.children.PDF.style.display = 'none'
 
-      // Get all elements with class="tabcontent" and hide them
-      // eslint-disable-next-line prefer-const
-      tabcontent = document.getElementsByClassName('tabcontent')
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = 'none'
-      }
-
-      // Get all elements with class="tablinks" and remove the class "active"
-      // eslint-disable-next-line prefer-const
-      tablinks = document.getElementsByClassName('tablinks')
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(' active', '')
-      }
-
-      // Show the current tab, and add an "active" class to the button that opened the tab
-      document.getElementById(cityName).style.display = 'block'
+      this.$refs.emailBtn.classList.remove("active")
+      this.$refs.pdfBtn.classList.remove("active")
+      
+      this.$refs.preview.children[tabId].style.display = 'block'
       evt.currentTarget.className += ' active'
     }
   }
@@ -282,9 +265,5 @@ button {
       @apply bg-blue-500 h-1 w-full rounded-sm shadow-md absolute -bottom-4;
     }
   }
-}
-
-.tabcontent {
-  display: none;
 }
 </style>

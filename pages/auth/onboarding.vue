@@ -288,7 +288,7 @@ export default {
           this.$modal.show('done')
         } catch (error) {
           this.$lunaToast.error(
-                    `Something went wrong: ${error}`)
+                    `${error}`)
         }
       }
     },

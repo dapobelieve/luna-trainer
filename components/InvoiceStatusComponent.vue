@@ -1,7 +1,7 @@
 <template>
-  <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.text}`, `${computedStatus.bg}`]">
-    {{ `${status.charAt(0).toUpperCase()}${status.substring(1)}` }}
-  </div>
+    <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.text}`, `${computedStatus.bg}`]">
+      {{ `${status.charAt(0).toUpperCase()}${status.substring(1)}` }}
+    </div>
 </template>
 
 <script>

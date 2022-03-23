@@ -16,7 +16,6 @@
         }"
       />
       <div class="flex">
-        <invite-new-client-modal />
         <Navigation class="hidden lg:block" />
         <div v-if="showSidebarMenu" class="block lg:hidden">
           <Navigation />
@@ -35,27 +34,8 @@
           <SchedulerDrawer v-if="schedulerDrawer.open" v-model="schedulerDrawer.activePage" />
         </transition>
       </div>
-      <NotificationsModal
-        :visible="showNotification"
-        @close="showNotification = $event"
-      >
-        <template v-slot:title>
-          Chat Connection Failed
-        </template>
-        <template v-slot:subtitle>
-          Reconnect chat to enjoy all of GetWelp's features
-        </template>
-        <template v-slot:actionButtons>
-          <button
-            class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
-            @click="retry"
-          >
-            retry
-          </button>
-        </template>
-      </NotificationsModal>
     </div>
-
+  
     <!-- modal -->
     <modal
       name="view-image"
@@ -96,6 +76,7 @@
         </div>
       </div>
     </modal>
+
     <!-- adding notes -->
     <div id="no-border">
       <modal
@@ -123,7 +104,10 @@
         <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
       </modal>
     </div>
-
+    
+    <PaymentMethodStatusModal />
+    <PaymentMethodBankAccountModal/>
+    <InviteNewClientModal/>
     <ExpiredSessionAuthModal />
   </async-view>
 </template>
@@ -135,10 +119,13 @@ import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
-import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
+
 import Toast from '~/components/toasts/toast'
+import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
+import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
+import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
 export default {
-  components: { Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: {Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal,PaymentMethodBankAccountModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {

@@ -157,7 +157,7 @@ export default {
 
 <style lang="scss">
 .tooltip {
-  z-index: 10000;
+  z-index: 1000;
   &.info {
     $color: #fff;
     top: 100px !important;

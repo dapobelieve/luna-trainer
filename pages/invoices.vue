@@ -36,7 +36,7 @@
             exact-active-class="active"
             class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
-            <i class="fi-rr-plus text-base text-white"></i>
+            <i class="fi-rr-plus mt-1 text-base text-white"></i>
           </NuxtLink>
         </div>
       </template>
@@ -108,13 +108,13 @@ export default {
         .catch((err) => {
           if (err.response) {
             this.$lunaToast.error(
-              `Something went wrong: ${err.response.data.message}`)
+              `${err.response.data.message}`)
           } else if (err.request) {
             this.$lunaToast.error('Something went wrong. Try again', {
               position: 'bottom-right'
             })
           } else {
-            this.$lunaToast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`${err.message}`)
           }
         })
     },
