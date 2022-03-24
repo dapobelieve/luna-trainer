@@ -66,6 +66,13 @@ export default {
       }
     }
   },
+  async beforeMount () {
+    try {
+      await this.store.dispatch('scheduler/connectToLocalCalendar')
+    } catch (error) {
+      await this.store.dispatch('scheduler/getCalendars')
+    }
+  },
   computed: {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',

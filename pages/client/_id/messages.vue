@@ -1,7 +1,7 @@
 <template>
   <div class="messages">
     <MessagesChannelLoading v-if="channelIsLoading" />
-    <MessagesInvitePending v-else-if="client === null" />
+    <MessagesInvitePending v-else-if="clientInviteStatus === 'invited'" />
     <div v-else>
       two
     </div>
@@ -16,7 +16,8 @@ export default {
       const res = await store.dispatch('client/getSingleClientById', params.id)
       return {
         client: res,
-        channelIsLoading: false
+        channelIsLoading: false,
+        clientInviteStatus: res.status
       }
     } catch (error) {
       lunaToast.error('An error occured. Please reload page!')
@@ -25,7 +26,8 @@ export default {
   data () {
     return {
       channelIsLoading: true,
-      client: null
+      client: null,
+      clientInviteStatus: null
     }
   },
   methods: {
