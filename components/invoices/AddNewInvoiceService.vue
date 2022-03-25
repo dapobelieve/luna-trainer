@@ -130,8 +130,8 @@ export default {
   name: 'CreatingInvoiceNewService',
   props: {
     serviceObject: {
-      description:'',
-      type: Object,
+      description: '',
+      type: Object
 
     }
   },

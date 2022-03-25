@@ -120,9 +120,9 @@ export default {
       this.isLoading = true
       const response = await this.inviteClient(this.clientInfo).catch()
       if (response && response.data) {
-        this.$lunaToast.success( `${this.clientInfo.firstName} has been sent an invite.`)
+        this.$lunaToast.success(`${this.clientInfo.firstName} has been sent an invite.`)
         this.$emit('close', false)
-        this.$nuxt.$emit("new-client-invite",response.data)
+        this.$nuxt.$emit('new-client-invite', response.data)
         if (this.redirect) {
           this.$router.push({
             name: 'client-id-information',
@@ -134,8 +134,8 @@ export default {
         this.fetchAllClients()
       } else {
         this.$lunaToast.error(response.message)
-      } 
-      this.isLoading = false  
+      }
+      this.isLoading = false
     }
   }
 }

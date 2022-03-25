@@ -32,18 +32,18 @@
 
 <script>
 export default {
-  name: "PaymentMethodDropdown",
+  name: 'PaymentMethodDropdown',
   props: {
-    primaryActionText: "",
+    primaryActionText: '',
     isDefault: false,
-    disabled: false,
+    disabled: false
   },
   methods: {
-    emitAndHideDropdown(event){
-        this.$emit(event)
-    } 
+    emitAndHideDropdown (event) {
+      this.$emit(event)
+    }
   }
-};
+}
 </script>
 
 <style lang="scss" scoped></style>

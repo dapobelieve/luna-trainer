@@ -19,14 +19,13 @@
     <Nuxt
       class="md:m-4 lg:m-0 lg:pt-10 flex justify-center"
     />
-
   </div>
 </template>
 <script>
 import Toast from '../components/toasts/toast.vue'
 export default {
-  components: { Toast },
   name: 'InvoiceLayout',
+  components: { Toast },
   provide () {
     return {
       sharedPage: this.sharedPage

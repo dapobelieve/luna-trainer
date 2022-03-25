@@ -32,7 +32,7 @@ export default {
       const that = this
       // eslint-disable-next-line no-extend-native
       Date.prototype.getWeek = function () {
-        const weekBegins = new Date(this.setDate(this.getDate() - (this.getDay() - 1)))
+        const weekBegins = new Date(this.setDate(this.getDate() - this.getDay()))
         return [{ day: that.weekDays[weekBegins.getDay()], _date: weekBegins, date: weekBegins.getDate() }]
           .concat(
             String(Array(6)).split(',')
@@ -47,6 +47,7 @@ export default {
   },
   watch: {
     fetchEvents: {
+      immediate: true,
       async handler () {
         const startDateTime = new Date(this.today.setHours(0, 0)) / 1000
         const endDateTime = new Date(this.today.setHours(23, 59)) / 1000
