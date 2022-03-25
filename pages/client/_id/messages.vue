@@ -16,8 +16,8 @@ export default {
       const res = await store.dispatch('client/getSingleClientById', params.id)
       return {
         client: res,
-        channelIsLoading: false,
-        clientInviteStatus: res.status
+        clientInviteStatus: res.status,
+        channelIsLoading: false
       }
     } catch (error) {
       lunaToast.error('An error occured. Please reload page!')

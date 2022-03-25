@@ -48,8 +48,14 @@
           </containers-summary-information-with-avatar>
         </li>
       </ul>
-      <div v-else class="text-center pt-8 pb-12 px-4 text-gray-500 text-sm">
-        New messages will appear here.
+      <div v-else class="text-center pt-12 pb-12 px-4 text-gray-500 text-sm">
+        <img src="~/assets/img/svgs/messagesIcon.svg" alt="messages icon" class="inline-block text-center mb-4">
+        <p class="text-gray-700 text-lg font-normal mb-1">
+          You have no new messages
+        </p>
+        <p class="text-sm text-gray-500 font-normal">
+          Your messages would be displayed here.
+        </p>
       </div>
     </template>
     <template v-slot:button>

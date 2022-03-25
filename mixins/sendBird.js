@@ -3,22 +3,18 @@ export default {
     console.log('+1')
     // connect user to sendbird server
     try {
-      await this.connectToSendBird(this.$auth.user.sendbirdId).then(async (sendbirdUser) => {
-        const { userId } = sendbirdUser
-        if (userId === this.$auth.user.sendbirdId) {
-          // fetch connected channels
-          await this.$store
-            .dispatch('sendBird/listOfConnectedChannels')
-            .then(() =>
-              this.$store.commit(
-                'sendBird/CHANGE_SENDBIRD_CHANNEL_STATUS',
-                'not fetching'
-              )
-            )
-        }
-      })
+      const { userId } = await this.connectToSendBird(this.$auth.user.sendbirdId)
+      if (userId === this.$auth.user.sendbirdId) {
+        // fetch connected channels
+        await this.$store.dispatch('sendBird/listOfConnectedChannels')
+        this.$store.commit(
+          'sendBird/CHANGE_SENDBIRD_CHANNEL_STATUS',
+          'not fetching'
+        )
+        console.log('Sendbird Connected 🚀')
+      }
     } catch (error) {
-      console.log('errors in await ', error)
+      this.$lunaToast.error('An error occured. Please contact support.')
     }
   }
 }
