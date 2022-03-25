@@ -75,7 +75,9 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'invoice-id-view', params: {id: data._id}})">
+                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" 
+                    :class="[checkedItems.includes(data._id) ? 'active' : '']" 
+                    @click="activeRecord= data,$modal.show('invoice-details')">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -102,7 +104,7 @@
                   </td>
                   <td class="py-4 px-6">
                     <div class="text-sm md:text-base text-gray-700">
-                      {{ "\uFFE1" }}{{ data.total }}
+                      {{ "\uFFE1" }}{{ new Intl.NumberFormat().format(data.total) }}
                     </div>
                   </td>
                   <td class="py-4 px-6">
@@ -128,6 +130,7 @@
           </button>
         </div>
       </div>
+      <InvoiceDetailModal :invoice="activeRecord" id="invoice-details" @close="$modal.hide('invoice-details')"  />
     </async-view>
   </div>
 </template>
@@ -135,11 +138,13 @@
 <script>
 import { mapActions, mapGetters} from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
+import InvoiceDetailModal from "~/components/invoices/InvoiceDetailModal";
 export default {
   name: 'SentInvoice',
-  components: { SearchDropdown },
+  components: {InvoiceDetailModal, SearchDropdown },
   data () {
     return {
+      activeRecord: null,
       searchField: 'Name',
       searchFields: ['Name', 'Status'],
       selectAll: false,
