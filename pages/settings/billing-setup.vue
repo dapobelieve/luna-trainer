@@ -4,10 +4,14 @@
       class="rounded-lg p-4 bg-white parent-container"
       style="min-height: calc(100vh - 96px)"
     >
-      <h1 class="text-xl font-normal text-gray-700 mb-8">  Billing Setup </h1>
-      <h3 class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">  Payment methods </h3>
-      <StripePaymentMethod/>
-      <BankAccountPaymentMethod/>
+      <h1 class="text-xl font-normal text-gray-700 mb-8">
+        Billing Setup
+      </h1>
+      <h3 class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
+        Payment methods
+      </h3>
+      <StripePaymentMethod />
+      <BankAccountPaymentMethod />
     </div>
   </async-view>
 </template>
@@ -18,11 +22,11 @@ import BankAccountPaymentMethod from '../../components/settings/billing-setup/Ba
 import StripePaymentMethod from '../../components/settings/billing-setup/StripePaymentMethod'
 
 export default {
-  components: { BankAccountPaymentMethod,StripePaymentMethod },
   name: 'PaymentMethods',
+  components: { BankAccountPaymentMethod, StripePaymentMethod },
   async mounted () {
     try {
-      await this.getPaymentMethods() 
+      await this.getPaymentMethods()
       console.log(this.stripe)
     } catch (error) {
       this.$lunaToast.error('No connected payment method')
@@ -30,7 +34,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPaymentMethods: 'payment-methods/getPaymentMethods',
+      getPaymentMethods: 'payment-methods/getPaymentMethods'
     })
   }
 }

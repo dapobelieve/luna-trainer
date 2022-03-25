@@ -11,16 +11,16 @@
       :index="index"
       :label="label"
       :taggable="taggable"
+      class="v-select"
       @search="search || _search"
       @input="$emit('change', $event)"
       @option:created="$emit('option:created', $event)"
-      class="v-select"
     >
       <template v-slot:selected-option="selectedOption">
         <slot name="selectedOption" :selected="selectedOption"></slot>
       </template>
       <template v-if="multiple" v-slot:selected-option-container="{ option }">
-        <div style="display: flex; align-items: baseline" v-if="option[index]">
+        <div v-if="option[index]" style="display: flex; align-items: baseline">
           <div class="vs__selected">
             {{ option.description }}
           </div>
@@ -49,10 +49,10 @@
 </template>
 <script>
 export default {
-  name: "LunaSelector",
+  name: 'LunaSelector',
   model: {
-    prop: "value",
-    event: "change",
+    prop: 'value',
+    event: 'change'
   },
   props: {
     createOption: Function,
@@ -61,36 +61,36 @@ export default {
     taggable: Boolean,
     multiple: {
       type: Boolean,
-      default: false,
+      default: false
     },
     label: String,
     index: String,
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     placeholder: {
       type: String,
-      default: "",
+      default: ''
     },
     options: Array,
-    value: [Object, Array, String],
+    value: [Object, Array, String]
   },
-  methods: {
-    _search(search, setLoading) {},
-  },
-  data() {
+  data () {
     return {
       clientInfo: {},
       dropdowIndicatorattributes: {
-        ref: "openIndicator",
-        role: "presentation",
+        ref: 'openIndicator',
+        role: 'presentation',
         class:
-          "fi-rr-angle-down font-bold text-base cursor-pointer absolute right-0 p-3",
-      },
-    };
+          'fi-rr-angle-down font-bold text-base cursor-pointer absolute right-0 p-3'
+      }
+    }
   },
-};
+  methods: {
+    _search (search, setLoading) {}
+  }
+}
 </script>
 <style scoped lang="scss">
 ::v-deep .v-select {

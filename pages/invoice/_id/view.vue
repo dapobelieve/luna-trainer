@@ -27,7 +27,7 @@
         </div>
       </template>
     </PageHeader>
-    <div class="parent-container" v-if="invoice">
+    <div v-if="invoice" class="parent-container">
       <div class="flex items-center header">
         <p class="font-normal text-2xl text-gray-700 mr-auto">
           {{ $auth.user.businessName }}
@@ -155,9 +155,9 @@ export default {
   data () {
     return {
       invoice: {
-        createdBy:{},
-        customerId:{},
-        items:[]
+        createdBy: {},
+        customerId: {},
+        items: []
       },
       isLoading: false
     }
@@ -171,10 +171,10 @@ export default {
     }
   },
   async mounted () {
-    const response = await this.getSingleInvoice(this.id) .catch((err) => {
-      $lunaToast.error("Invoice could not be retrieved")
+    const response = await this.getSingleInvoice(this.id).catch((err) => {
+      $lunaToast.error('Invoice could not be retrieved')
     })
-    if(response) this.invoice = response.data
+    if (response) { this.invoice = response.data }
     console.log(this.invoice)
   },
   methods: {

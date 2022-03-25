@@ -39,12 +39,12 @@
                 "
               >
                 <img src="~/assets/img/googleLogoImg.png" alt="google logo" />
-                <span class="ml-3"
-                  >{{
-                    routeName === 'auth-signin' ? 'Sign in' : 'Sign up'
-                  }}
-                  With Google</span
-                >
+                <span
+                  class="ml-3"
+                >{{
+                  routeName === 'auth-signin' ? 'Sign in' : 'Sign up'
+                }}
+                  With Google</span>
               </button>
             </div>
           </div>
@@ -70,23 +70,23 @@ export default {
   components: { Toast },
   data () {
     return {
-      letsGetStarted: true,
+      letsGetStarted: true
     }
   },
   computed: {
-    routeName() {
+    routeName () {
       return this.$route.name
-    },
+    }
   },
   methods: {
-    handleOnClickGoogleSignUp() {
+    handleOnClickGoogleSignUp () {
       const { host, protocol } = window.location
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${protocol}//${host}/Auth/SignIn%3FredirectClient%3Dgoogle`
     },
-    handleOnClickGoogleSignIn() {
+    handleOnClickGoogleSignIn () {
       window.location = `${process.env.ACCOUNT_HOST_URL}/auth/google?redirectUrl=${window.location.href}%3FredirectClient%3Dgoogle`
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss" scoped></style>

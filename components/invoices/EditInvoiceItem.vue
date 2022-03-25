@@ -34,9 +34,10 @@
         />
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="reinforcement" class="required"
-          >Type of appointment (you can tick both options)</label
-        >
+        <label
+          for="reinforcement"
+          class="required"
+        >Type of appointment (you can tick both options)</label>
         <div
           class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2"
         >
@@ -71,9 +72,10 @@
               value="remote"
               class="h-5 w-5 rounded"
             />
-            <span id="reinforcement-0-label" class="ml-2 font-medium"
-              >Remote</span
-            >
+            <span
+              id="reinforcement-0-label"
+              class="ml-2 font-medium"
+            >Remote</span>
           </label>
           <label
             class="
@@ -106,9 +108,10 @@
               value="in-person"
               class="h-5 w-5"
             />
-            <span id="reinforcement-0-label" class="ml-2 font-medium"
-              >In-person (1-2-1)</span
-            >
+            <span
+              id="reinforcement-0-label"
+              class="ml-2 font-medium"
+            >In-person (1-2-1)</span>
           </label>
         </div>
       </div>
@@ -178,7 +181,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { required, numeric, minValue, minLength} from 'vuelidate/lib/validators'
+import { required, numeric, minValue, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'EditInvoiceItem',
   props: {
@@ -186,32 +189,32 @@ export default {
       _id: '',
       description: '',
       serviceId: '',
-      price: 0,
-    },
+      price: 0
+    }
   },
   validations: {
     service: {
-      description: { required, minLength: minLength(4)},
+      description: { required, minLength: minLength(4) },
       pricing: {
-        amount: { required, numeric, minValue: minValue(1) },
+        amount: { required, numeric, minValue: minValue(1) }
       },
-      appointmentTypes: { required },
-    },
+      appointmentTypes: { required }
+    }
   },
-  data() {
+  data () {
     return {
       service: {
         _id: this.item._id,
         description: this.item.description,
         appointmentTypes: [],
         pricing: {
-          amount: this.item.price,
-        },
+          amount: this.item.price
+        }
       },
-      loading: false,
+      loading: false
     }
   },
-  async mounted() {
+  async mounted () {
     if (this.item.serviceId) {
       this.service = JSON.parse(
         JSON.stringify(this.getServiceById(this.item.serviceId))
@@ -221,22 +224,21 @@ export default {
   computed: {
     ...mapGetters({
       getServiceById: 'services/getServiceById',
-      isMaxServicesAmountReached: 'services/isMaxServicesAmountReached',
+      isMaxServicesAmountReached: 'services/isMaxServicesAmountReached'
     }),
-    disableUpdate() {
+    disableUpdate () {
       return false
-    },
+    }
   },
   methods: {
     ...mapActions({
       updateService: 'services/updateService',
-      createService: 'services/createService',
+      createService: 'services/createService'
     }),
-    async saveItem() {
+    async saveItem () {
       try {
         this.loading = true
-        if (this.service._id) await this.updateService(this.service)
-        else await this.createService(this.service)
+        if (this.service._id) { await this.updateService(this.service) } else { await this.createService(this.service) }
         this.$lunaToast.success('Item updated successfully')
         this.$emit('close')
       } catch (error) {
@@ -245,10 +247,10 @@ export default {
       }
       this.loading = false
     },
-    cancel() {
+    cancel () {
       this.$emit('close')
-    },
-  },
+    }
+  }
 }
 </script>
 

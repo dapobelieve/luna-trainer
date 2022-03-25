@@ -36,7 +36,7 @@
             exact-active-class="active"
             class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
-            <i class="fi-rr-plus text-base text-white"></i>
+            <i class="fi-rr-plus mt-1 text-base text-white"></i>
           </NuxtLink>
         </div>
       </template>

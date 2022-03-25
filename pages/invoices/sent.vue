@@ -133,7 +133,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters} from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
 export default {
   name: 'SentInvoice',
@@ -152,7 +152,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      "hasActivePaymentMethods":"payment-methods/hasActivePaymentMethods",
+      hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods'
     }),
     filteredRecords () {
       let records = this.invoices
@@ -201,18 +201,18 @@ export default {
     }
   },
   methods: {
-    ...mapActions({"getPaymentMethods":"payment-methods/getPaymentMethods"}),
-    async checkPaymentMethods(){
+    ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
+    async checkPaymentMethods () {
       // if the user does not have any payment method we show a welcome and then
-      // take this to a middleware 
-      await this.getPaymentMethods();
-      if(!this.hasActivePaymentMethods) this.$modal.show("payment-method-status")
+      // take this to a middleware
+      await this.getPaymentMethods()
+      if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
     },
     async searchInvoice (option) {
       try {
         let res
         if (this.searchField === 'Name') {
-          res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { customerId: option._id })
+          res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { workflowStatus: 'sent', customerId: option._id })
           this.invoices = [...res.data]
         } else {
           res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: option.toLowerCase() })
@@ -255,7 +255,7 @@ export default {
       link.setAttribute('download', 'Sent_Invoices.csv')
       document.body.appendChild(link)
       link.click()
-    },
+    }
   }
 }
 </script>

@@ -8,8 +8,8 @@
       :placeholder="placeholder"
       class="v-select"
       label="label"
-      @input="$emit('change', $event)"
       taggable
+      @input="$emit('change', $event)"
     >
       <template v-slot:selected-option="selectedOption">
         <slot name="selectedOption" :selected="selectedOption"></slot>
