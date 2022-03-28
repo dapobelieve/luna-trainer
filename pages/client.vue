@@ -103,15 +103,15 @@ export default {
     }
   },
   mounted () {
-    // this.getClientProfile(this.id)
-    //   .then((response) => {
-    //     this.clientInfo = response
-    //     if (response.status === 'invited' && 'sendbirdId' in response) {
-    //       this.isUserOnline(response.sendbirdId)
-    //       this.setCurrentClient(response.sendbirdId)
-    //     }
-    //   })
-    //   .catch(err => console.log('error fetching clienteeeee', err))
+    this.getClientProfile(this.id)
+      .then((response) => {
+        this.clientInfo = response
+        if (response.status === 'invited' && 'sendbirdId' in response) {
+          this.isUserOnline(response.sendbirdId)
+          this.setCurrentClient(response.sendbirdId)
+        }
+      })
+      .catch(err => console.log('error fetching clienteeeee', err))
   },
   methods: {
     ...mapMutations({
