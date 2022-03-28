@@ -18,6 +18,7 @@ export default {
   methods: {
     // events for sendbird
     onMessageReceived (channel, message) {
+      console.log('incoming message ', [channel, message])
       const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png']
       const { messageType: incomingMessageType } = message
       const { type: incomingFileType } = message

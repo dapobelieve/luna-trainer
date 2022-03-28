@@ -38,7 +38,10 @@ export const mutations = {
   // messages
   ADD_NEW_CHANNEL (state, channelDetails) {
     state.connectedChannels = Object.assign(
-      new Map([[channelDetails.channel.url, channelDetails.channel]])
+      new Map([
+        ...state.connectedChannels,
+        [channelDetails.channel.url, channelDetails.channel]
+      ])
     )
   },
   UPDATE_CONNECTED_CHANNEL (state, msgDetails) {
@@ -219,5 +222,11 @@ export const getters = {
     }
     return []
   },
-  getCurrentClient: state => state.tempClient
+  getCurrentClient: state => state.tempClient,
+  listOfChannels: (state) => {
+    const a = Array.from(state.connectedChannels.values())
+    return a.sort((a, b) => {
+      return b.createdAt - a.createdAt
+    })
+  }
 }

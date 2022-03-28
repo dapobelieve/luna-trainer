@@ -55,7 +55,7 @@
         </div>
         <div class="grid gap-4">
           <dashboard-payments :paid-invoices="paidInvoices" />
-          <dashboard-messages />
+          <Messages />
         </div>
       </div>
       <!-- modals -->
@@ -114,9 +114,10 @@ import DashboardCard from '~/components/dashboard/DashboardCard'
 import WeekView from '~/components/dashboard/WeekView'
 // import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
 import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
+import Messages from '~/components/dashboard/DashboardMessages.vue'
 export default {
   name: 'Dashboard',
-  components: { UpcomingSessionCard, WeekView, DashboardCard },
+  components: { UpcomingSessionCard, WeekView, DashboardCard, Messages },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {

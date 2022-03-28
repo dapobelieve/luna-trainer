@@ -205,7 +205,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'Navigation',
   data () {
@@ -308,29 +308,23 @@ export default {
     })
     socket.on('new-notification', (data) => {
       const { type } = data
-      console.log(data)
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
       }
-      const isNotificationOn = sessionStorage.getItem('notificationOn')
-      if (isNotificationOn) {
-        switch (type) {
-          case 'INVITE_REQUEST_ACCEPTED':
-            this.$lunaToast.show(`${data.firstName} just accepted your invite`)
-            break
-          case 'PAYMENT_ACCEPTED':
-            this.$lunaToast.show('payment made')
-            break
-          case 'STRIPE_CONNECTION_SUCCESSFUL':
-            this.$lunaToast.show('Stripe has just connected successful')
-            break
-          default:
-            this.$lunaToast.show('You have a new notification')
-            break
-        }
-      }
-      if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.localUpdateClient(data.data)
+      switch (type) {
+        case 'INVITE_REQUEST_ACCEPTED':
+          this.localUpdateClient(data.data)
+          this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
+          break
+        case 'PAYMENT_ACCEPTED':
+          this.$lunaToast.show('payment made')
+          break
+        case 'STRIPE_CONNECTION_SUCCESSFUL':
+          this.$lunaToast.show('Stripe has just connected successful')
+          break
+        default:
+          this.$lunaToast.show('You have a new notification')
+          break
       }
       this.$store.commit('notifications/setNotification', data)
     })
@@ -338,6 +332,9 @@ export default {
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
+    ...mapMutations({
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
+    }),
     openSession () {
       this.$store.commit('scheduler/setStates', {
         drawer: { open: true, activePage: 'new-session' }
