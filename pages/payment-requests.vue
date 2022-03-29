@@ -2,7 +2,7 @@
   <div class="h-full">
     <PageHeader>
       <template v-slot:title>
-        <span class="font-normal">Invoices</span>
+        <span class="font-normal">Payment Requests</span>
       </template>
       <template v-slot:buttons>
         <div class="flex items-center">
@@ -19,12 +19,12 @@
                 <div class="py-1" role="none">
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'invoices-sent'}); showDrop=false"
+                    @click.prevent="$router.push({name: 'payment-requests-sent'}); showDrop=false"
                   >Sent
                   </a>
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'invoices-drafts'}); showDrop=false"
+                    @click.prevent="$router.push({name: 'payment-requests-drafts'}); showDrop=false"
                   >Drafts
                   </a>
                 </div>
@@ -32,7 +32,7 @@
             </div>
           </ClickOutside>
           <NuxtLink
-            :to="{ name: 'invoice'}"
+            :to="{ name: 'payment-request'}"
             exact-active-class="active"
             class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
@@ -52,7 +52,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Invoices',
+  name: 'Payment Requests',
   data () {
     return {
       showDrop: false,
@@ -68,7 +68,7 @@ export default {
   },
   head () {
     return {
-      title: 'Invoices'
+      title: 'Payment Requests'
     }
   },
   computed: {
