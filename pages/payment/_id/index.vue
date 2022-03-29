@@ -86,7 +86,7 @@
                   <button
                     @click="openModal('paypal')"
                     v-if="supportedPaymentMethods.includes('paypal')"
-                    class=" mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
+                    class="mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with </span>
                     <img
@@ -98,7 +98,7 @@
                   <button
                     @click="openModal('bank')"
                     v-if="supportedPaymentMethods.includes('bank')"
-                    class=" mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
+                    class="mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with Bank</span>
                     <i
@@ -130,7 +130,8 @@
           <div
             class="bg-slate-50 py-2 my-4 px-5 shadow-sm rounded-lg"
             style="background-color: #eff6ff"
-            v-on:mouseover="showCopyButtons=!showCopyButtons"
+            v-on:mouseover="showCopyButtons = true"
+            @mouseleave="showCopyButtons = false"
           >
             <h1 class="my-5 font-bold text-1xl">Standard Bank</h1>
             <div class="flex flex-row flex-wrap justify-spacearound">
@@ -147,12 +148,12 @@
                   class="text-purple-500 justify-center align-center py-1 mx-8 flex flex-row cursor-pointer"
                   @click="copyToClipboard(v.value)"
                 >
-                  <img 
-                  v-if="showCopyButtons"
-                   class="w-5 h-5" src="~/assets/img/copy.png" alt="copy" />
-                  <div
-                  v-if="showCopyButtons"
-                   class="text-center text-blue-400 mx-3 text-xs">Copy</div>
+                  <img
+                    v-if="showCopyButtons"
+                    class="w-3 h-3"
+                    src="~/assets/img/copy.png"
+                    alt="copy"
+                  />
                 </div>
               </div>
             </div>
@@ -164,13 +165,11 @@
           <div class="flex justify-end text-xs">
             <button
               @click="closeModal"
-              class="text-xs text-md rounded-lg text-blue-500 border-slate-50 border px-5 py-3 mx-3"
+              class="border-slate-50 border py-2 px-4 text-blue mx-3" style="width:fit-content"
             >
               Pay Later
             </button>
-            <button
-              class="text-xs text-md rounded-lg text-white bg-blue-500 px-3 py-3"
-            >
+            <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content">
               Confirm Payment
             </button>
           </div>
@@ -182,13 +181,13 @@
 <style lang="scss" scoped></style>
 
 <script>
-import { mapActions } from 'vuex'
-import { format } from 'date-fns'
+import { mapActions } from "vuex";
+import { format } from "date-fns";
 
 export default {
-  name: 'InvoicePayment',
-  layout: 'empty',
-  middleware: ['validToken'],
+  name: "InvoicePayment",
+  layout: "empty",
+  middleware: ["validToken"],
   auth: false,
   data() {
     return {
@@ -197,102 +196,105 @@ export default {
       bankData: [],
       items: [],
       amount: 0,
-      currency: '',
-      from: '',
-      to: '',
-      dueDate: '',
+      currency: "",
+      from: "",
+      to: "",
+      dueDate: "",
       supportedPaymentMethods: [],
       total: 0,
       isPayable: false,
       invoiceDetails: {},
-    }
+    };
   },
   computed: {
     routeName() {
-      return this.$route.name
+      return this.$route.name;
     },
   },
   mounted() {
-    this.getDetailsOfInvoice(this.$route?.params?.id ?? '')
+    this.getDetailsOfInvoice(this.$route?.params?.id ?? "");
   },
   methods: {
     ...mapActions({
-      getPaymentLink: 'invoice/getPaymentLink',
+      getPaymentLink: "invoice/getPaymentLink",
     }),
     openModal(type) {
       switch (type) {
-        case 'bank':
-          this.isOpen = !this.isOpen
-          break
-        case 'stripe':
-          this.handleStripeClick()
-          break
-        case 'paypal':
-          this.handlePaypalClick()
-          break
+        case "bank":
+          this.isOpen = !this.isOpen;
+          break;
+        case "stripe":
+          this.handleStripeClick();
+          break;
+        case "paypal":
+          this.handlePaypalClick();
+          break;
       }
     },
     async copyToClipboard(text) {
-      await navigator?.clipboard?.writeText(text??"")
-      this.$gwtoast?.show(`${text??""} copied`)
+      await navigator?.clipboard?.writeText(text ?? "");
+      this.$gwtoast?.show(`${text ?? ""} copied`);
     },
     async getDetailsOfInvoice(id) {
-      const response = await this.getPaymentLink(id)
-      const { data } = response
-      this.from = data?.createdBy?.name
-      this.to = data?.customerId?.name
-      this.currency = data?.currency
-      this.invoiceDetails = data
-      this.total = this.formatNumber(data?.total, data?.currency)
+      const response = await this.getPaymentLink(id);
+      const { data } = response;
+      this.from = data?.createdBy?.name;
+      this.to = data?.customerId?.name;
+      this.currency = data?.currency;
+      this.invoiceDetails = data;
+      this.total = this.formatNumber(data?.total, data?.currency);
       this.dueDate = format(
         new Date(data?.dueDate ?? Date.now()),
-        'MMM dd yyyy'
-      )
-      this.isPayable = data?.status === 'pending'
+        "MMM dd yyyy"
+      );
+      this.isPayable = data?.status === "pending";
       this.supportedPaymentMethods = data?.supportedPaymentMethods?.map(
         (i) => i.type
-      )
-      this.items = data?.items
-      this.getBankDetails()
+      );
+      this.items = data?.items;
+      this.getBankDetails();
     },
     closeModal() {
-      this.isOpen = false
+      this.isOpen = false;
     },
-    formatNumber(num, currency = 'NGN') {
-      return new Intl.NumberFormat('en', {
-        style: 'currency',
+    formatNumber(num, currency = "NGN") {
+      return new Intl.NumberFormat("en", {
+        style: "currency",
         currency: currency,
-      }).format(num)
+      }).format(num);
     },
     handleStripeClick() {
       window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
-        this.$route?.params?.id ?? ''
-      }`
+        this.$route?.params?.id ?? ""
+      }`;
     },
     handlePaypalClick() {
       window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
-        this.$route?.params?.id ?? ''
-      }`
+        this.$route?.params?.id ?? ""
+      }`;
     },
     getBankDetails() {
       const data =
         this.invoiceDetails?.supportedPaymentMethods?.find(
-          (i) => i.type === 'bank'
-        )?.bank ?? {}
+          (i) => i.type === "bank"
+        )?.bank ?? {};
       this.bankData = [
-        { title: 'Account Number', value: data?.accountNo ?? '' },
-        { title: 'Sort Code', value: data?.sortCode ?? '' },
-        { title: 'Reference code', value: this?.invoiceDetails?.invoiceNo??'' },
-      ]
-      return data
+        { title: "Account Number", value: data?.accountNo ?? "" },
+        { title: "Sort Code", value: data?.sortCode ?? "" },
+        {
+          title: "Reference code",
+          value: this?.invoiceDetails?.invoiceNo ?? "",
+        },
+      ];
+      return data;
     },
   },
   head() {
     return {
-      title: 'InvoicePayment',
-    }
+      title: "InvoicePayment",
+    };
   },
-}
+};
 </script>
 <style lang="scss" scoped>
 .base-button {
@@ -307,7 +309,7 @@ export default {
   @apply border-red-500;
 }
 .required:after {
-  content: ' *';
+  content: " *";
   @apply text-red-500 text-sm;
 }
 </style>
