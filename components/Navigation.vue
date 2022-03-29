@@ -230,8 +230,8 @@ export default {
         },
         {
           icon: 'fi-rr-receipt',
-          title: 'Invoices',
-          path: 'invoices-sent'
+          title: 'Payment',
+          path: 'payment-requests-sent'
         },
         {
           icon: 'fi-rr-comment-alt',

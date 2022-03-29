@@ -13,7 +13,7 @@
       <i
         role="button"
         class="fi-rr-cross text-blue-500 text-md lg:justify-self-end"
-        @click.prevent="$router.push('/invoices/drafts')"
+        @click.prevent="$router.push('/payment-requests/drafts')"
       ></i>
     </div>
     <Nuxt
