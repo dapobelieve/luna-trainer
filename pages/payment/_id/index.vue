@@ -74,7 +74,7 @@
                   <button
                     @click="openModal('stripe')"
                     v-if="supportedPaymentMethods.includes('stripe')"
-                    class="py-2 mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 inline-flex justify-center align-center"
+                    class="mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center align-center"
                   >
                     <span class="text-xs font-bold"> Pay with </span>
                     <img
@@ -86,7 +86,7 @@
                   <button
                     @click="openModal('paypal')"
                     v-if="supportedPaymentMethods.includes('paypal')"
-                    class="py-2 mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 inline-flex justify-center"
+                    class=" mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with </span>
                     <img
@@ -98,7 +98,7 @@
                   <button
                     @click="openModal('bank')"
                     v-if="supportedPaymentMethods.includes('bank')"
-                    class="py-2 mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 inline-flex justify-center"
+                    class=" mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with Bank</span>
                     <i
@@ -130,6 +130,7 @@
           <div
             class="bg-slate-50 py-2 my-4 px-5 shadow-sm rounded-lg"
             style="background-color: #eff6ff"
+            v-on:mouseover="showCopyButtons=!showCopyButtons"
           >
             <h1 class="my-5 font-bold text-1xl">Standard Bank</h1>
             <div class="flex flex-row flex-wrap justify-spacearound">
@@ -146,8 +147,12 @@
                   class="text-purple-500 justify-center align-center py-1 mx-8 flex flex-row cursor-pointer"
                   @click="copyToClipboard(v.value)"
                 >
-                  <img class="w-5 h-5" src="~/assets/img/copy.png" alt="copy" />
-                  <div class="text-center text-blue-400 mx-3 text-xs">Copy</div>
+                  <img 
+                  v-if="showCopyButtons"
+                   class="w-5 h-5" src="~/assets/img/copy.png" alt="copy" />
+                  <div
+                  v-if="showCopyButtons"
+                   class="text-center text-blue-400 mx-3 text-xs">Copy</div>
                 </div>
               </div>
             </div>
@@ -187,6 +192,7 @@ export default {
   auth: false,
   data() {
     return {
+      showCopyButtons: false,
       isOpen: false,
       bankData: [],
       items: [],
@@ -276,7 +282,7 @@ export default {
       this.bankData = [
         { title: 'Account Number', value: data?.accountNo ?? '' },
         { title: 'Sort Code', value: data?.sortCode ?? '' },
-        { title: 'Reference code', value: '234567' },
+        { title: 'Reference code', value: this?.invoiceDetails?.invoiceNo??'' },
       ]
       return data
     },
