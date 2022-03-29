@@ -227,8 +227,8 @@ export default {
       }
     },
     async copyToClipboard(text) {
-      await navigator?.clipboard?.writeText(text)
-      this.$gwtoast?.show(`${text} copied`)
+      await navigator?.clipboard?.writeText(text??"")
+      this.$gwtoast?.show(`${text??""} copied`)
     },
     async getDetailsOfInvoice(id) {
       const response = await this.getPaymentLink(id)
