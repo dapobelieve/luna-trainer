@@ -58,7 +58,9 @@ export default {
     onMessageDeleted (channel, message) {},
 
     // something changes in the chat
-    onChannelChanged () {},
+    onChannelChanged (channel) {
+      console.log('channel changed ', channel)
+    },
 
     // message has been delivered
     onDeliveryReceiptUpdated (channel) {

@@ -8,17 +8,18 @@
     "
   >
     <!--  invoice builder -->
-    <form @change="saveForm" method="post" action="/invoice">
+    <form method="post" action="/invoice" @change="saveForm">
       <container-with-title class="lg:min-w-[500px] lg:max-w-[510px]">
         <template v-slot:headerbox>
           <p class="capitalize text-lg mt-2 font-medium">
-            <i class="mr-4 mt-0.5 fi-rr-receipt"> </i
-            >{{ invoice._id ? 'Edit' : 'Create' }} your invoice
+            <i class="mr-4 mt-0.5 fi-rr-receipt"> </i>{{ invoice._id ? 'Edit' : 'Create' }} your invoice
           </p>
         </template>
         <template v-slot:content>
           <div id="customer">
-            <h2 class="mb-2 required">Select a client</h2>
+            <h2 class="mb-2 required">
+              Select a client
+            </h2>
             <LunaSelector
               v-model="invoice.customer"
               :options="allClients"
@@ -72,22 +73,24 @@
             </LunaSelector>
           </div>
           <div id="invoice-service-item" class="flex flex-col justify-between">
-            <h2 class="mb-2 required">Select Invoice service &amp; items</h2>
+            <h2 class="mb-2 required">
+              Select Invoice service &amp; items
+            </h2>
             <div class="flex flex-col space-y-2">
               <LunaSelector
+                v-model="items"
                 :disabled="!invoice.customer"
                 :options="services"
-                @change="selectItem"
-                @option:created="openEditItemModal($event)"
                 index="serviceId"
                 label="description"
-                v-model="items"
                 multiple
+                @change="selectItem"
+                @option:created="openEditItemModal($event)"
               >
                 <template v-slot:dropdownOption="{ option }">
                   <div
-                    class="flex justify-between min-w-full items-center"
                     v-if="option.serviceId"
+                    class="flex justify-between min-w-full items-center"
                   >
                     <div class="flex content-center py-1">
                       <div class="flex flex-col ml-1 text-gray-700">
@@ -95,8 +98,7 @@
                           {{ option.description }}
                         </p>
                         <small class="text-gray-700 text-sm">
-                          {{ option.price || 0 | amount }}</small
-                        >
+                          {{ option.price || 0 | amount }}</small>
                       </div>
                     </div>
                   </div>
@@ -157,15 +159,17 @@
                   </ItemDisplay>
                 </div>
               </div>
-              <small class="mt-3 block"
-                ><button @click.prevent="addOneTime" class="text-primary-color">
-                  Add one-time invoice item
-                </button></small
-              >
+              <small
+                class="mt-3 block"
+              ><button class="text-primary-color" @click.prevent="addOneTime">
+                Add one-time invoice item
+              </button></small>
             </div>
           </div>
           <div id="due-date">
-            <h2 class="mb-2 required">Invoice due date</h2>
+            <h2 class="mb-2 required">
+              Invoice due date
+            </h2>
             <date-picker
               v-model="invoice.dueDate"
               style="width: 100% !important"
@@ -177,7 +181,9 @@
             ></date-picker>
           </div>
           <div id="memo" class="flex flex-col justify-between">
-            <h2 class="mb-2">Memo</h2>
+            <h2 class="mb-2">
+              Memo
+            </h2>
             <div class="flex flex-col space-y-2">
               <textarea
                 v-model="invoice.note"
@@ -195,21 +201,24 @@
             </div>
           </div>
           <div id="payment-method">
-            <h2 class="mb-2 required">Allowed payment methods</h2>
+            <h2 class="mb-2 required">
+              Allowed payment methods
+            </h2>
             <div
-              class="mt-2 flex items-center align-left justify-between"
               v-for="activePaymentMethod in activePaymentMethods"
               :key="activePaymentMethod._id"
+              class="mt-2 flex items-center align-left justify-between"
             >
               <div class="flex item-stretch">
                 <AppCheckboxComponent
                   :id="activePaymentMethod._id"
-                  class="mr-2"
                   v-model="invoice.supportedPaymentMethods"
+                  class="mr-2"
                   :value="activePaymentMethod._id"
                 />
-                <span class="font-light"
-                  >Payment with
+                <span
+                  class="font-light"
+                >Payment with
                   <i
                     v-if="activePaymentMethod.type == 'bank'"
                     class="fi-rr-bank"
@@ -222,17 +231,18 @@
                   />
                 </span>
               </div>
-              <span class="font-light tag" v-if="activePaymentMethod.isDefault"
-                >Default</span
-              >
+              <span
+                v-if="activePaymentMethod.isDefault"
+                class="font-light tag"
+              >Default</span>
             </div>
-            <small class="mt-3 block"
-              ><router-link
-                to="/settings/billing-setup"
-                class="text-primary-color"
-                >Add another payment method
-                <i class="fi-rr-link" /></router-link
-            ></small>
+            <small
+              class="mt-3 block"
+            ><router-link
+              to="/settings/billing-setup"
+              class="text-primary-color"
+            >Add another payment method
+              <i class="fi-rr-link" /></router-link></small>
           </div>
           <div class="flex justify-end space-x-6 lg:space-x-0">
             <button
@@ -296,12 +306,12 @@
 import { mapActions, mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
 import isEmpty from 'lodash.isempty'
-import ItemDisplay from '~/components/invoices/ItemDisplay'
-import GwCustomerSelector from '~/components/GwCustomerSelector'
 import ContainerWithTitle from '../Containers/ContainerWithTitle'
 import InviteNewClient from '../InviteNewClient'
 import EditInvoiceItem from './EditInvoiceItem'
 import OnetimeInvoiceItem from './OnetimeInvoiceItem'
+import GwCustomerSelector from '~/components/GwCustomerSelector'
+import ItemDisplay from '~/components/invoices/ItemDisplay'
 export default {
   name: 'Invoice',
   components: {
@@ -310,28 +320,28 @@ export default {
     DatePicker,
     ContainerWithTitle,
     InviteNewClient,
-    EditInvoiceItem,
+    EditInvoiceItem
   },
   layout: 'invoice',
   props: {
     invoiceData: {
-      type: Object,
+      type: Object
     },
     mode: {
       type: String,
-      default: 'create',
-    },
+      default: 'create'
+    }
   },
-  data() {
+  data () {
     return {
       invoiceId: null,
       invoice: {
         items: [],
-        supportedPaymentMethods: [],
+        supportedPaymentMethods: []
       },
       autoSaving: false,
       isLoading: false,
-      showDropDown: false,
+      showDropDown: false
     }
   },
   computed: {
@@ -339,9 +349,9 @@ export default {
       allClients: 'client/getAllClients',
       allServices: 'services/allServices',
       activePaymentMethods: 'payment-methods/getActivePaymentMethods',
-      defaultPaymentMethod: 'payment-methods/getDefaultPaymentMethod',
+      defaultPaymentMethod: 'payment-methods/getDefaultPaymentMethod'
     }),
-    valid() {
+    valid () {
       return (
         !!this.invoice.customer &&
         this.invoice.items &&
@@ -350,32 +360,32 @@ export default {
         this.invoice.supportedPaymentMethods.length
       )
     },
-    services() {
-      return this.allServices.map((service) => ({
+    services () {
+      return this.allServices.map(service => ({
         serviceId: service._id,
         description: service.description,
         price: service.pricing.amount,
         idx: null,
-        qty: 1,
+        qty: 1
       }))
     },
-    items() {
-      return this.invoice.items.map((item) => ({
+    items () {
+      return this.invoice.items.map(item => ({
         serviceId: item.serviceId,
         description: item.description,
         price: item.price,
         idx: item.serviceId ? null : this.getUniqueId(),
-        qty: 1,
+        qty: 1
       }))
-    },
+    }
   },
   methods: {
     ...mapActions('invoice', {
       createNewInvoice: 'createInvoice',
-      fetchInvoices: 'getInvoices',
+      fetchInvoices: 'getInvoices'
     }),
     ...mapActions({ getServices: 'services/getServices' }),
-    async saveForm() {
+    async saveForm () {
       if (this.valid) {
         this.autoSaving = true
         this.$nuxt.$emit('autosaving-invoice')
@@ -388,31 +398,31 @@ export default {
         this.autoSaving = false
       }
     },
-    addOneTime() {
+    addOneTime () {
       this.$modal.show(
         OnetimeInvoiceItem,
         {
           item: {
             description: '',
-            price: 0,
-          },
+            price: 0
+          }
         },
         { adaptive: true, height: 350 }
       )
     },
-    appendOneTimeItem(item) {
+    appendOneTimeItem (item) {
       this.invoice.items.push({
         description: item.description,
         price: item.pricing.amount,
         idx: this.getUniqueId(),
-        qty: 1,
+        qty: 1
       })
       this.$lunaToast.success('Invoice item added')
     },
-    selectItem(data) {
+    selectItem (data) {
       this.$set(this.invoice, 'items', data)
     },
-    openInviteClientModal($event) {
+    openInviteClientModal ($event) {
       this.$nextTick(() => {
         this.invoice.customer = null
       })
@@ -422,7 +432,7 @@ export default {
         { adaptive: true, height: 390 }
       )
     },
-    openEditItemModal($event) {
+    openEditItemModal ($event) {
       this.$modal.show(
         EditInvoiceItem,
         {
@@ -430,23 +440,23 @@ export default {
           item: {
             description: $event.description,
             appointmentTypes: ['in-person', 'remote'],
-            price: 0,
-          },
+            price: 0
+          }
         },
         { adaptive: true, height: 450 }
       )
     },
-    getCustomerSelectOption(customer) {
+    getCustomerSelectOption (customer) {
       return {
         userId: customer && customer.userId,
         email: customer && customer.email,
-        firstName: customer && customer.firstName.trim(),
+        firstName: customer && customer.firstName.trim()
       }
     },
-    getUniqueId() {
+    getUniqueId () {
       return Math.floor(Math.random() * 100)
     },
-    getInvoicePayload() {
+    getInvoicePayload () {
       return {
         _id: this.invoice._id,
         customerUserId: this.invoice.customer.userId,
@@ -456,25 +466,25 @@ export default {
         dueDateEpoch:
           new Date(this.invoice.dueDate).getTime() / 1000 ||
           new Date().getTime() / 1000,
-        supportedPaymentMethods: this.invoice.supportedPaymentMethods,
+        supportedPaymentMethods: this.invoice.supportedPaymentMethods
       }
     },
-    async createInvoice() {
+    async createInvoice () {
       const res = await this.createNewInvoice(this.getInvoicePayload())
       this.invoiceId = res.data._id
       this.$router.replace({
         name: 'invoice-id',
         params: {
-          id: res.data._id,
-        },
+          id: res.data._id
+        }
       })
     },
-    async send() {
+    async send () {
       try {
         this.isLoading = true
         await this.$store.dispatch('invoice/sendInvoice', {
           id: this.invoiceId,
-          recipient: this.invoice.customer.email,
+          recipient: this.invoice.customer.email
         })
         this.$lunaToast.success('Invoice sending successful')
         this.$router.push({ name: 'invoices-sent' })
@@ -484,7 +494,7 @@ export default {
         this.isLoading = false
       }
     },
-    updateInvoice: async function () {
+    async updateInvoice () {
       try {
         await this.$store.dispatch(
           'invoice/updateInvoice',
@@ -494,21 +504,21 @@ export default {
         console.error(error)
       }
     },
-    editItem(item) {
+    editItem (item) {
       this.$modal.show(
         EditInvoiceItem,
         { item },
         { adaptive: true, height: 450 }
       )
     },
-    deleteItem(e) {
-      const itemIdx = this.invoice.items.findIndex((i) =>
+    deleteItem (e) {
+      const itemIdx = this.invoice.items.findIndex(i =>
         i.serviceId ? i.serviceId === e.serviceId : i.idx === e.idx
       )
       this.invoice.items.splice(itemIdx, 1)
-    },
+    }
   },
-  async mounted() {
+  async mounted () {
     await this.getServices() // this will be revmove once we can enusre the global state of the application is consistent
     if (this.invoice._id) {
       this.$set(
@@ -520,7 +530,7 @@ export default {
         this.invoice,
         'supportedPaymentMethods',
         this.invoice.supportedPaymentMethods.map(
-          (supportedPaymentMethod) => supportedPaymentMethod._id
+          supportedPaymentMethod => supportedPaymentMethod._id
         )
       )
     } else {
@@ -533,12 +543,12 @@ export default {
     })
     this.$nuxt.$on('new-invoice-item', this.appendOneTimeItem)
   },
-  beforeMount() {
+  beforeMount () {
     if (!isEmpty(this.invoiceData)) {
       this.invoice = { ...this.invoiceData }
       this.invoiceId = this.invoice._id
     }
-  },
+  }
 }
 </script>
 

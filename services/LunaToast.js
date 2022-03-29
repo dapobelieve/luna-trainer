@@ -21,7 +21,6 @@ export class LunaToast {
   }
 
   success (message, options) {
-    console.log('called')
     options = options || {}
     options.icon = 'fi-rr-check'
     options.iconColor = 'text-teal-500'

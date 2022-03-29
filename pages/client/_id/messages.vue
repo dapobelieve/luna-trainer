@@ -21,6 +21,7 @@ export default {
     try {
       const res = await store
         .dispatch('client/getSingleClientById', params.id)
+      console.log('loggin res ', res)
       return { sendbirdId: res.sendbirdId }
     } catch (error) {
       console.log('error fetching client profile ', error)

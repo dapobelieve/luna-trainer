@@ -35,7 +35,7 @@
         </transition>
       </div>
     </div>
-  
+
     <!-- modal -->
     <modal
       name="view-image"
@@ -104,10 +104,10 @@
         <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
       </modal>
     </div>
-    
+
     <PaymentMethodStatusModal />
-    <PaymentMethodBankAccountModal/>
-    <InviteNewClientModal/>
+    <PaymentMethodBankAccountModal />
+    <InviteNewClientModal />
     <ExpiredSessionAuthModal />
   </async-view>
 </template>
@@ -117,15 +117,15 @@ import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import sendBird from '../mixins/sendBird'
 import sendBirdEvents from '../mixins/sendBirdEvents'
 import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
+import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
+import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 
 import Toast from '~/components/toasts/toast'
-import SchedulerDrawer from "~/components/scheduler/SchedulerDrawer";
-import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
-import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  components: {Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal,PaymentMethodBankAccountModal },
+  components: { Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {

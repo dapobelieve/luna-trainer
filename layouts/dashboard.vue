@@ -132,7 +132,11 @@ export default {
     }
   },
   async beforeMount () {
-    await this.$store.dispatch('scheduler/getCalendars')
+    try {
+      await this.$store.dispatch('scheduler/connectToLocalCalendar')
+    } catch (e) {
+      await this.$store.dispatch('scheduler/getCalendars')
+    }
   }
 }
 </script>

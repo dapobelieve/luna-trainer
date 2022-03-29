@@ -107,9 +107,9 @@ export default {
       this.isStripeLoading = false
     }
   },
-  mounted(){
-    this.$nuxt.$on("new-bank-account-added",()=>{
-      this.$modal.hide("payment-method-status")
+  mounted () {
+    this.$nuxt.$on('new-bank-account-added', () => {
+      this.$modal.hide('payment-method-status')
     })
   }
 }

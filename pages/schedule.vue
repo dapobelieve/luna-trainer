@@ -221,7 +221,6 @@ export default {
       if (event?.updated) {
         this.removeEvent(event.id)
       }
-
       if (event) {
         this.calendarApi.addEvent({
           id: event.id,

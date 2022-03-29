@@ -32,9 +32,17 @@ export const mutations = {
 
   // messages
   ADD_NEW_CHANNEL (state, channelDetails) {
+    if (state.connectedChannels.size) {
+      state.connectedChannels = Object.assign(
+        new Map([
+          ...state.connectedChannels,
+          [channelDetails.channel.url, channelDetails.channel]
+        ])
+      )
+      return
+    }
     state.connectedChannels = Object.assign(
       new Map([
-        ...state.connectedChannels,
         [channelDetails.channel.url, channelDetails.channel]
       ])
     )
@@ -174,6 +182,7 @@ export const actions = {
     }
     commit('ADD_NEW_CHANNEL', messageDetails)
   },
+
   async checkIfConversationExits ({ state, dispatch, commit }, userId) {
     await dispatch('listOfConnectedChannels', '', { root: false })
     const channels = state.connectedChannels
@@ -246,9 +255,12 @@ export const getters = {
   },
   getCurrentClient: state => state.tempClient,
   listOfChannels: (state) => {
-    const a = Array.from(state.connectedChannels.values())
-    return a.sort((a, b) => {
-      return b.createdAt - a.createdAt
-    })
+    if (state.connectedChannels.size) {
+      const a = Array.from(state.connectedChannels.values())
+      return a.sort((a, b) => {
+        return b.createdAt - a.createdAt
+      })
+    }
+    return []
   }
 }
