@@ -88,15 +88,17 @@
       <modal name="welcome-modal">
         <div class="grid m-6">
           <div class="py-0">
-            <div class="text-center mb-10 font-medium text-2xl">
-              <h3>Welcome to your Getwelp Dashboard</h3>
+             <div class="text-center mb-10 font-medium text-2xl">
+              <h3>Welcome to Luna</h3>
             </div>
             <p class="text-center mb-8 w-50">
-              Some information about getwelp and things that <br> can be done on the dashboard
+              Start the tour to discover how easy it is to do everything in Luna
+              - with tips and tricks on how to save yourself time on basic
+              business admin, so you can focus on doing what you love.
             </p>
             <div class="flex justify-center gap-5">
               <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="tour()">
-                start tour
+                Start the tour
               </button>
             </div>
           </div>
