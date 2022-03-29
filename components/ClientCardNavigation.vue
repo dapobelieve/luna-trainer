@@ -79,8 +79,8 @@ export default {
       return `client-id-${menu.pathName}` === this.$route.name
     },
     gotoRoute (menu) {
+      const id = this.$route.params.id
       if (menu.pathName === 'messages') {
-        const id = this.$route.params.id
         const status = this.clients.find(c => c._id === id).status
         if (status === 'invited') {
           this.$lunaToast.info('You can only message clients who have accepted your invite.')
@@ -89,7 +89,7 @@ export default {
           this.$router.push({ name: `client-id-${menu.pathName}`, params: { id } })
         }
       }
-      this.$router.push({ name: `client-id-${menu.pathName}` })
+      this.$router.push({ name: `client-id-${menu.pathName}`, params: { id } })
     }
   }
 }
