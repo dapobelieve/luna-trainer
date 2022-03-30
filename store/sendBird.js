@@ -75,7 +75,6 @@ export const mutations = {
 }
 
 export const actions = {
-  // connection
   async connect_to_sb_server_with_userid ({ commit }, sendbirdId) {
     return await this.$sb.connect(sendbirdId, (user, error) => {
       if (error) {
@@ -85,9 +84,11 @@ export const actions = {
       commit('SET_STATES', { sendbirdConnected: true })
     })
   },
+
   disconnectFromSendbirdServer ({ commit }) {
     this.$sb.disconnect(() => commit('DISCONNECT_USER_FROM_SENDBIRD'))
   },
+
   async isUserOnline ({ commit }, ids) {
     const sb = SendBird.getInstance()
     const listQuery = sb.createApplicationUserListQuery()
@@ -100,6 +101,7 @@ export const actions = {
     })
     return connectionStatus[0].connectionStatus
   },
+
   setCurrentViewingClient ({ commit }) {
     commit('SET_CURRENT_VIEWING_CLIENT', {})
   },
@@ -129,6 +131,7 @@ export const actions = {
 
     return channel
   },
+
   async listOfConnectedChannels ({ commit }) {
     const listQuery = this.$sb.GroupChannel.createMyGroupChannelListQuery()
     listQuery.includeEmpty = true
@@ -153,6 +156,7 @@ export const actions = {
       })
     }
   },
+
   async deleteChannel ({ commit }, CHANNEL_URL) {
     await this.$sb.GroupChannel.getChannel(
       CHANNEL_URL,
@@ -190,45 +194,11 @@ export const actions = {
       const channel = Array.from(state.connectedChannels.values()).find(c =>
         c.memberMap[userId]
       )
-      await dispatch('existingChannel', channel, { root: false })
       return channel
     }
     return false
   },
 
-  async existingChannel ({ dispatch }, groupChannel) {
-    await dispatch('fetchMessageHistory', groupChannel, { root: false })
-  },
-
-  fetchMessageHistory ({ commit }, channel) {
-    const listQuery = channel.createPreviousMessageListQuery()
-    listQuery.limit = 100
-
-    // Retrieving previous messages.
-    listQuery.load((messages, error) => {
-      if (error) {
-        // this.$lunaToast.error('Error fetching messages', error)
-        console.log('error fetching message history: ', error)
-      }
-      if (messages) {
-        console.log('message history ', messages)
-        const msgHistory = messages.reduce((groupedDates, message) => {
-          const date = new Date(message.createdAt).toLocaleDateString()
-          if (!groupedDates[date]) {
-            groupedDates[date] = []
-          }
-          groupedDates[date].push(message)
-          return groupedDates
-        }, {})
-        commit('SET_STATES', { msgHistory })
-        // this.isChannelLoading = false
-        // this.markMessagesAsRead(channel)
-        // this.$nextTick(() => {
-        //   this.scrollFeedToBottom()
-        // })
-      }
-    })
-  },
   markMessageAsRead ({ commit, dispatch }, channel) {
     channel.markAsRead()
     commit('REMOVE_MARKED_MESSAGE', channel.url)
@@ -237,6 +207,7 @@ export const actions = {
 
 export const getters = {
   connectingToSendbirdServerWithUserStatus: state => state.connectingStatus,
+
   getUnreadMessages: (state, getters, rootState) => {
     const unread = []
     if (state.connectedChannels.size) {
@@ -253,6 +224,7 @@ export const getters = {
     }
     return []
   },
+
   getCurrentClient: state => state.tempClient,
   listOfChannels: (state) => {
     if (state.connectedChannels.size) {

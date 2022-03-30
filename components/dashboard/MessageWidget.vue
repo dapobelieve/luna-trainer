@@ -26,7 +26,7 @@
         </div>
       </template>
       <ul
-        v-else-if="unreadMessages.length"
+        v-else-if="listOfChannels.length"
         role="list"
         class="relative z-0 px-1"
       >
@@ -134,10 +134,10 @@ export default {
       return this.opponentUser(userObj).nickname
     },
     userId (userObj) {
-      const { _id } = this.getAllClients.find(
+      const client = this.getAllClients.find(
         c => c.sendbirdId === this.opponentUser(userObj).userId
       )
-      return _id
+      return client && client._id
     }
   }
 }

@@ -1,7 +1,6 @@
 <template>
   <div
-    v-show="isUploading"
-    class="flex flex-col justify-between h-full bg-black absolute right-0 left-0 z-10"
+    class="flex flex-col justify-between h-full bg-black absolute inset-0 z-50"
   >
     <div class="flex justify-between bg-white pt-5 px-4 pb-2">
       <p class="text-gray-700 text-xl font-normal">
@@ -13,8 +12,7 @@
     </div>
     <div class="flex justify-center">
       <img
-        style="max-width: 568px; max-height: 568px"
-        class="w-full"
+        class="imgSize"
         :src="fileImage"
       />
     </div>
@@ -39,9 +37,9 @@
       <button
         class="button-fill button-sm w-11"
         style="height: 40px"
-        @click="sendFile"
+        @click="send"
       >
-        <i class="fi-rr-paper-plane text-xl"></i>
+        <i class="fi-rr-paper-plane h-6 text-xl"></i>
       </button>
     </div>
   </div>
@@ -49,10 +47,28 @@
 
 <script>
 export default {
-  name: 'PreviewImage'
+  name: 'PreviewImage',
+  props: {
+    fileImage: {
+      type: String,
+      required: true
+    }
+  },
+  methods: {
+    removeImage () {
+      this.$emit('removeImage')
+    },
+    send () {
+      this.$emit('sendFile')
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-
+.imgSize {
+  @apply object-contain;
+  max-width: 568px;
+  max-height: 568px;
+}
 </style>

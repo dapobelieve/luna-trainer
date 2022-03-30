@@ -2,7 +2,7 @@
   <div class="messages">
     <MessagesChannelLoading v-if="channelIsLoading" />
     <ErrorCreatingChannel v-else-if="ErrorCreatingChannel" />
-    <Chats v-else :channel="channel" />
+    <Chats v-else :channel="channel" :channel-url="channelUrl" />
   </div>
 </template>
 
@@ -21,7 +21,6 @@ export default {
     try {
       const res = await store
         .dispatch('client/getSingleClientById', params.id)
-      console.log('loggin res ', res)
       return { sendbirdId: res.sendbirdId }
     } catch (error) {
       console.log('error fetching client profile ', error)
@@ -45,19 +44,16 @@ export default {
         vm => [vm.sendbirdConnected, vm.fetchingMessages],
         async (val) => {
           if (val[0] && !val[1]) {
-            console.log('send bird id ', this.sendbirdId)
-            const channel = await this.checkIfConversationExits(
+            let channel = await this.checkIfConversationExits(
               this.sendbirdId
             )
             if (!channel) {
-              // eslint-disable-next-line no-unused-vars
-              const channel = await this.createPrivateChannel(
+              channel = await this.createPrivateChannel(
                 this.sendbirdId
               )
             }
             this.channelUrl = channel.url
             this.channel = channel
-            console.log('here ', channel)
             this.channelIsLoading = false
           }
         },

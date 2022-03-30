@@ -1,5 +1,12 @@
 <template>
+  <PreviewImage
+    v-if="isUploading"
+    :file-image="fileImage"
+    @removeImage="removeImage"
+    @sendFile="sendFile()"
+  />
   <div
+    v-else
     class="flex flex-col justify-between h-full"
     @dragenter.prevent="dragging = true"
     @dragend.prevent="dragging = false"
@@ -7,7 +14,11 @@
     @drop.prevent="onDropImage($event)"
   >
     <!-- when dragEntered is true -->
-    <div v-show="dragging" class="dragEnter" @dragleave.prevent="dragging = false">
+    <div
+      v-show="dragging"
+      class="dragEnter"
+      @dragleave.prevent="dragging = false"
+    >
       Drop Image Here
     </div>
     <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none">
@@ -15,7 +26,7 @@
         <div v-for="(msgs, propertyName) in msgHistory" :key="msgs.index">
           <div class="text-center my-2 z-10 sticky top-0">
             <span class="bg-gray-500 p-1.5 text-xs text-white rounded">
-              {{ formatGroupDate(propertyName) }}
+              {{ formatGroupDateToDaysOfWeek(propertyName) }}
             </span>
           </div>
           <div v-for="msg in msgs" :key="msg.index">
@@ -61,10 +72,7 @@
                 {{ msg.message }}
               </div>
             </li>
-            <li
-              v-else
-              class="you flex items-end pr-6"
-            >
+            <li v-else class="you flex items-end pr-6">
               <ClientAvatar
                 v-if="msg._sender.profileUrl"
                 class="mr-2 flex-shrink-0"
@@ -89,10 +97,7 @@
                   :src="msg.url"
                 />
               </span>
-              <div
-                v-else
-                class="msg p-2 max-w-lg break-all"
-              >
+              <div v-else class="msg p-2 max-w-lg break-all">
                 {{ msg.message }}
               </div>
               <small class="ml-2 text-xs">{{
@@ -136,8 +141,8 @@
             placeholder="Type a message"
             @keyup.enter="sendChat"
             @input="
-              emitValue($event);
-              resize();
+              emitValue($event)
+              resize()
             "
             @keydown.enter.exact="emitEnter"
           />
@@ -160,6 +165,13 @@
               accept="image/*"
               @change="onChange"
             />
+            <button
+              class="button-text button-sm w-8 ml-2"
+              type="button"
+              @click="showUpload = !showUpload"
+            >
+              <i class="fi-rr-link text-blue-500"></i>
+            </button>
           </div>
           <button
             class="button-fill flex items-center button-sm w-8 ml-2"
@@ -167,7 +179,7 @@
             :class="{ 'opacity-50 cursor-default': message === '' }"
             :disabled="message === ''"
           >
-            <i class="fi-rr-paper-plane"></i>
+            <i class="fi-rr-paper-plane h-4"></i>
           </button>
         </div>
       </form>
@@ -176,14 +188,23 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions } from 'vuex'
 import sendBirdEvents from '../../mixins/sendBirdEvents'
+import PreviewImage from '~/components/messages/PreviewImage.vue'
+
 export default {
   name: 'Chats',
+  components: {
+    PreviewImage
+  },
   mixins: [sendBirdEvents],
   props: {
     channel: {
       type: Object,
+      required: true
+    },
+    channelUrl: {
+      type: String,
       required: true
     }
   },
@@ -193,11 +214,14 @@ export default {
       messageReadReceipt: false,
       uploadingFileToSb: false,
       message: '',
-      showUpload: false
+      showUpload: false,
+      msgHistory: {},
+      isUploading: false,
+      fileImage: null,
+      fileToBeSent: null
     }
   },
   computed: {
-    ...mapState('sendBird', ['msgHistory']),
     sender () {
       return this.$auth.user.sendbirdId
     },
@@ -208,9 +232,50 @@ export default {
       )
     }
   },
+  mounted () {
+    this.fetchMessageHistory()
+  },
   methods: {
-    formatGroupDate (d) {
-      const weekDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+    ...mapActions('sendBird', {
+      markMessagesAsRead: 'markMessageAsRead'
+    }),
+    // fetch message history
+    fetchMessageHistory () {
+      const listQuery = this.channel.createPreviousMessageListQuery()
+      listQuery.limit = 100
+      // Retrieving previous messages.
+      listQuery.load((messages, error) => {
+        if (error) {
+          this.$lunaToast.error('Error fetching messages', error)
+        }
+        if (messages) {
+          console.log('message history ', messages)
+          this.msgHistory = messages.reduce((groupedDates, message) => {
+            const date = new Date(message.createdAt).toDateString()
+            if (!groupedDates[date]) {
+              groupedDates[date] = []
+            }
+            groupedDates[date].push(message)
+            return groupedDates
+          }, {})
+          this.isChannelLoading = false
+          this.markMessagesAsRead(this.channel)
+          this.$nextTick(() => {
+            this.scrollFeedToBottom()
+          })
+        }
+      })
+    },
+    formatGroupDateToDaysOfWeek (d) {
+      const weekDays = [
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ]
       const currentDate = new Date()
       const groupDate = new Date(d)
       const diff = (currentDate.getTime() - groupDate.getTime()) / (1000 * 3600 * 24)
@@ -221,7 +286,8 @@ export default {
     },
     onDropImage (event) {
       const files = event.dataTransfer.files
-      const fileType = event.dataTransfer.files[0].type.split('/')[0] === 'image'
+      const fileType =
+        event.dataTransfer.files[0].type.split('/')[0] === 'image'
       if (fileType) {
         this.fileToBeSent = files[0]
         this.createImage(files[0])
@@ -284,6 +350,12 @@ export default {
       }
       reader.readAsDataURL(file)
     },
+    removeImage () {
+      this.isUploading = false
+      this.fileImage = null
+      this.fileToBeSent = null
+      // this.$refs.fileUpload.value = ''
+    },
 
     sendChat () {
       if (this.message) {
@@ -291,19 +363,24 @@ export default {
         const params = new this.$sb.UserMessageParams()
         params.parentMessageId = parseInt(this.parentMessageId)
         params.message = this.message
-        params.mentionType = 'users' // Either 'users' or 'channel'
-        params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
+        params.mentionType = 'users'
+        params.pushNotificationDeliveryOption = 'default'
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
             // Handle error.
             this.$lunaToast.error('Message not sent: ', error)
             return
           }
-          const createdDate = new Date(userMessage.createdAt).toLocaleDateString()
+          const createdDate = new Date(
+            userMessage.createdAt
+          ).toDateString()
           if (createdDate in this.msgHistory) {
             this.msgHistory[createdDate].push(userMessage)
           } else {
-            console.log('here working ', [this.msgHistory[createdDate], userMessage])
+            console.log('here working ', [
+              this.msgHistory[createdDate],
+              userMessage
+            ])
             this.msgHistory[createdDate] = userMessage
           }
           this.$nextTick(() => {
@@ -319,16 +396,13 @@ export default {
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
       params.parentMessageId = parseInt(this.parentMessageId)
-      params.file = this.fileToBeSent // Or .fileUrl  = FILE_URL (You can also send a file message with a file URL.)
+      params.file = this.fileToBeSent
       params.fileName = this.fileToBeSent.name
       params.fileSize = this.fileToBeSent.size
-      params.mentionType = 'users' // Either 'users' or 'channel'
-      params.mentionedUserIds = [this.receiver] // Or mentionedUsers = Array<User>;
-      params.pushNotificationDeliveryOption = 'default' // Either 'default' or 'suppress'
+      params.mentionType = 'users'
+      params.mentionedUserIds = [this.receiver]
+      params.pushNotificationDeliveryOption = 'default'
       this.isUploading = false
-      // this.$nextTick(() => {
-      //   this.scrollFeedToBottom()
-      // })
       this.uploadingFileToSb = true
       this.channel.sendFileMessage(params, (fileMessage, error) => {
         if (error) {
