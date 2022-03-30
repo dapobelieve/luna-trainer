@@ -36,8 +36,8 @@
               You have no billing items
             </h3>
             <small class="text-base text-gray-500">Your invoices would be displayed here</small>
-            <button class="button-fill mt-3" @click="$router.push({ name: 'invoice' })">
-              Create an invoice
+            <button class="button-fill mt-3" @click="$router.push({ name: 'payment-request' })">
+              Create a Payment Request
             </button>
           </div>
         </div>

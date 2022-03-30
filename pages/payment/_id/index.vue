@@ -74,7 +74,7 @@
                   <button
                     @click="openModal('stripe')"
                     v-if="supportedPaymentMethods.includes('stripe')"
-                    class="mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center align-center"
+                    class="button-outline my-2"
                   >
                     <span class="text-xs font-bold"> Pay with </span>
                     <img
@@ -86,7 +86,7 @@
                   <button
                     @click="openModal('paypal')"
                     v-if="supportedPaymentMethods.includes('paypal')"
-                    class="mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
+                    class="button-outline my-2"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with </span>
                     <img
@@ -96,9 +96,9 @@
                     />
                   </button>
                   <button
+                    class="button-outline my-2"
                     @click="openModal('bank')"
                     v-if="supportedPaymentMethods.includes('bank')"
-                    class="mb-4 text-base border border-gray-300 font-medium text-slate-700 rounded-lg px-14 py-3 inline-flex justify-center"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with Bank</span>
                     <i

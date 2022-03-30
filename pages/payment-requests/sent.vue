@@ -117,14 +117,14 @@
       <div v-else class="flex justify-around">
         <div class="mt-5 text-center">
           <h4 class="font-bold text-gray-700 mb-1">
-            No Sent Invoices yet
+            No Sent Payment Request yet
           </h4>
           <p class="text-sm text-gray-500 mb-4">
-            We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
+            We want to make your world easier by connecting and <br> managing your payment requests and payments systems.
           </p>
-          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payment-request-id-view', })">
+          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payment-request', })">
             <i class="fi-rr-plus text-white"></i>
-            <span class="text-font-medium text-white text-base ml-2">New Invoice</span>
+            <span class="text-font-medium text-white text-base ml-2">New Payment Request</span>
           </button>
         </div>
       </div>

@@ -83,11 +83,11 @@
                       </button>
                       <button
                         class="hover:bg-blue-50 py-2 pl-3"
-                        @click="$router.push({ name: 'invoice' })"
+                        @click="$router.push({ name: 'payment-request' })"
                       >
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-receipt mr-3 text-gray-500"></i>
-                          Invoice
+                          Payment Request
                         </span>
                       </button>
                       <button

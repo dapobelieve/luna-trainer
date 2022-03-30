@@ -73,7 +73,8 @@ export default {
   },
   computed: {
     currentInvoice () {
-      return `${this.$route.name.split('-')[1].charAt(0).toUpperCase()}${this.$route.name.split('-')[1].slice(1)}`
+      const t = this.$route.name.split('payment-requests-')?.[1] ?? ''
+      return `${String(t).split('').map((_, i) => (i === 0 ) ? _.toUpperCase() : _).join('')}`
     },
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
