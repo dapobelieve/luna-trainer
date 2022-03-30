@@ -65,7 +65,7 @@ export default {
         @apply text-gray-700;
         &::after {
           content: "";
-          @apply bg-blue-500 h-1 w-14 rounded-full shadow-md absolute -bottom-0;
+          @apply bg-blue-500 h-1 w-full rounded-full shadow-md absolute -bottom-0;
         }
       }
     }
