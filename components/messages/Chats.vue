@@ -59,9 +59,8 @@
                 @click="viewImage(msg)"
               >
                 <img
-                  class="bg-white cursor-pointer"
+                  class="bg-white cursor-pointer imgSize"
                   :src="msg.imaging || msg.url"
-                  style="max-width: 250px"
                 />
               </span>
               <div
@@ -477,6 +476,12 @@ export default {
     .msg {
       @apply bg-gray-100 text-gray-700 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm;
     }
+  }
+
+  .imgSize {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
   }
 }
 .fadeIn-enter-active,
