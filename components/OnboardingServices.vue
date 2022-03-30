@@ -1,12 +1,14 @@
 <template>
   <div>
-    <h5 class="text-lg font-bold">Add your core services.</h5>
+    <h5 class="text-lg font-bold">
+      Add your core services.
+    </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
         <label for="service" class="required">Type of service </label>
-        <span class="text-gray-400 my-2"
-          >For example: Puppy Class or Behaviour Consultation</span
-        >
+        <span
+          class="text-gray-400 my-2"
+        >For example: Puppy Class or Behaviour Consultation</span>
         <input
           id="service"
           v-model="services.description"
@@ -15,9 +17,10 @@
         />
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="reinforcement" class="required"
-          >Type of appointment (you can click more than one)</label
-        >
+        <label
+          for="reinforcement"
+          class="required"
+        >Type of appointment (you can click more than one)</label>
         <div
           class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2"
         >

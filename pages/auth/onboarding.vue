@@ -168,21 +168,21 @@ export default {
       },
       pageIntro: [
         {
-           id: 0,
+          id: 0,
           title: 'Setting up your account',
-          subTitle: 'Starting with the basics...',
-          },
+          subTitle: 'Starting with the basics...'
+        },
         {
           id: 1,
           title: 'Setting up your business profile',
-          subTitle: 'We only need a couple of details',
+          subTitle: 'We only need a couple of details'
         },
         {
           id: 2,
           title: 'Next your trainer profile.',
           type: 'html',
           subTitle:
-            'Tell us about your qualifications, accreditations and specialisms.',
+            'Tell us about your qualifications, accreditations and specialisms.'
         },
         {
           id: 3,
@@ -190,7 +190,7 @@ export default {
           type: 'html',
           subTitle:
             '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
-            "<p>Please don't worry, you can change this in the settings section of the platform.</p>",
+            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         },
         {
           id: 4,
@@ -198,8 +198,8 @@ export default {
           type: 'html',
           subTitle:
             '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
-            "<p>Please don't worry, you can change this in the settings section of the platform.</p>",
-        },
+            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
+        }
       ]
     }
   },

@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Helpers from '~/mixins/helpers'
 export default {
   name: 'Client',
@@ -102,24 +102,17 @@ export default {
       return (this.clientInfo.pet[0] && this.clientInfo.pet[0].breed) || ''
     }
   },
-  mounted () {
-    this.getClientProfile(this.id)
-      .then((response) => {
-        this.clientInfo = response
-        if (response.status === 'invited' && 'sendbirdId' in response) {
-          this.isUserOnline(response.sendbirdId)
-          this.setCurrentClient(response.sendbirdId)
-        }
-      })
-      .catch(err => console.log('error fetching client', err))
+  async mounted () {
+    try {
+      console.log('this is running nw: ', this.$route.params.id)
+      this.clientInfo = await this.getSingleClientById(this.$route.params.id)
+    } catch (error) {
+      this.$lunaToast.error('an error occured')
+    }
   },
   methods: {
-    ...mapMutations({
-      setCurrentClient: 'sendBird/SET_CURRENT_VIEWING_CLIENT'
-    }),
     ...mapActions({
-      getClientProfile: 'client/getSingleClientById',
-      getSendbirdUser: 'sendBird/getUser',
+      getSingleClientById: 'client/getSingleClientById',
       isUserOnline: 'sendBird/isUserOnline'
     }),
     showDropdown () {

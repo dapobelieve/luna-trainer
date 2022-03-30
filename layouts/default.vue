@@ -36,47 +36,6 @@
       </div>
     </div>
 
-    <!-- modal -->
-    <modal
-      name="view-image"
-      height="100%"
-      width="100%"
-      :click-to-close="false"
-    >
-      <div v-if="isImageOpen">
-        <div class="bg-black flex items-center justify-between px-4 py-2 text-white">
-          <div class="flex items-center">
-            <ClientAvatar
-              :client-info="{
-                firstName: imageDetails.nickname,
-                imgUrl: imageDetails.profileImg
-              }"
-            />
-            <div class="ml-4">
-              <p class="capitalize mb-0">
-                {{ imageDetails.nickname }}
-              </p>
-              <small>
-                {{ new Date(imageDetails.dateTime).toDateString() }}
-              </small>
-            </div>
-          </div>
-          <div class="space-x-3 text-xl cursor-pointer">
-            <i class="ns-comment-alt"></i>
-            <i class="ns-download"></i>
-            <i class="ns-share"></i>
-            <i class="ns-cross" @click="closeImage"></i>
-          </div>
-        </div>
-        <div class="flex justify-center bg-black" style="height: calc(100vh - 64px)">
-          <img
-            class="w-full h-full object-contain"
-            :src="imageDetails.url"
-          />
-        </div>
-      </div>
-    </modal>
-
     <!-- adding notes -->
     <div id="no-border">
       <modal
@@ -109,6 +68,7 @@
     <PaymentMethodBankAccountModal />
     <InviteNewClientModal />
     <ExpiredSessionAuthModal />
+    <ViewImageModal />
   </async-view>
 </template>
 <script>
@@ -121,11 +81,12 @@ import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusMo
 import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
+import ViewImageModal from '~/components/messages/ViewImageModal.vue'
 
 import Toast from '~/components/toasts/toast'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  components: { Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal },
+  components: { Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -137,8 +98,6 @@ export default {
   computed: {
     ...mapState({
       connectedChannels: state => state.sendBird.connectedChannels,
-      isImageOpen: state => state.sendBird.openImage,
-      imageDetails: state => state.sendBird.imageDetails,
       addNoteModal: state => state.notes.addNoteModal,
       expandModal: state => state.notes.expandModal
     }),
@@ -169,13 +128,6 @@ export default {
             this.showNotification = true
           }, 2000)
         })
-      }
-    },
-    isImageOpen (newValue) {
-      if (newValue) {
-        this.$modal.show('view-image')
-      } else if (!newValue) {
-        this.$modal.hide('view-image')
       }
     },
     addNoteModal (newValue) {
@@ -224,9 +176,6 @@ export default {
     })
   },
   methods: {
-    closeImage () {
-      this.$store.commit('sendBird/VIEW_IMAGE', { imageDetails: null, status: false })
-    },
     toggleSidebarMenu () {
       this.showSidebarMenu = !this.showSidebarMenu
     },
@@ -238,7 +187,7 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions('sendBird', {
-      connectToSendBird: 'connect_to_sb_server_with_userid',
+      connectToSendBird: 'connectToSBWithUserid',
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),

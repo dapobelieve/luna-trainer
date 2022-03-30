@@ -92,9 +92,9 @@
               😩 Client not found.
             </div>
           </template>
-          <div v-else-if="unreadMessages.length && !search.length">
+          <div v-else-if="listOfChannels.length && !search.length">
             <div
-              v-for="n in unreadMessages"
+              v-for="n in listOfChannels"
               :key="n.url"
               role="button"
               class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
@@ -169,7 +169,8 @@ export default {
     ...mapGetters({
       allClients: 'client/getAllClients',
       unreadMessages: 'sendBird/getUnreadMessages',
-      acceptedClients: 'client/acceptedClients'
+      acceptedClients: 'client/acceptedClients',
+      listOfChannels: 'sendBird/listOfChannels'
     }),
     acceptedImageTypes (file) {
       const allowableImageTypes = ['image/gif', 'image/jpeg', 'image/png']
@@ -186,13 +187,10 @@ export default {
   },
   methods: {
     gotoMessage (arr) {
-      console.log('the array ', arr)
       const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
-      console.log('the user ', user)
       const client = this.acceptedClients.find(
         c => c.sendbirdId === user.userId
       )
-      console.log('the client ', client)
       this.$router.push({
         name: 'client-id-messages',
         params: { id: client._id }
