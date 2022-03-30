@@ -55,12 +55,12 @@ export default {
     return {
       menuItems: [
         {
-          pathName: 'messages',
-          icon: 'fi-rr-comment-alt'
-        },
-        {
           pathName: 'information',
           icon: 'fi-rr-user'
+        },
+        {
+          pathName: 'messages',
+          icon: 'fi-rr-comment-alt'
         },
         {
           pathName: 'notes',
