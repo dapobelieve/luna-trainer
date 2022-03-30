@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Helpers from '~/mixins/helpers'
 export default {
   name: 'Client',
@@ -111,9 +111,6 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
-      setCurrentClient: 'sendBird/SET_CURRENT_VIEWING_CLIENT'
-    }),
     ...mapActions({
       getSingleClientById: 'client/getSingleClientById',
       isUserOnline: 'sendBird/isUserOnline'

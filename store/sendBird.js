@@ -3,7 +3,6 @@ export const state = () => ({
   sendbirdConnected: false,
   connectedChannels: new Map(),
   fetchingMessages: true,
-  tempClient: null,
   connectingStatus: false,
   openImage: false,
   imageDetails: null,
@@ -16,9 +15,6 @@ export const mutations = {
     Object.keys(data).map((key) => {
       state[key] = data[key]
     })
-  },
-  SET_CURRENT_VIEWING_CLIENT (state, clientSendbirdId) {
-    state.tempClient = clientSendbirdId
   },
   DELETE_CHANNEL_LOCALLY (state, channelUrl) {
     state.connectedChannels.delete(channelUrl)
@@ -75,7 +71,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async connect_to_sb_server_with_userid ({ commit }, sendbirdId) {
+  async connectToSBWithUserid ({ commit }, sendbirdId) {
     return await this.$sb.connect(sendbirdId, (user, error) => {
       if (error) {
         this.$lunaToast.error('Messaging not connected.')
@@ -100,10 +96,6 @@ export const actions = {
       }
     })
     return connectionStatus[0].connectionStatus
-  },
-
-  setCurrentViewingClient ({ commit }) {
-    commit('SET_CURRENT_VIEWING_CLIENT', {})
   },
 
   // creation of channels

@@ -241,7 +241,7 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
-      connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
+      connectToSendBird: 'sendBird/connectToSBWithUserid'
     }),
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)

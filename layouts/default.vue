@@ -187,7 +187,7 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions('sendBird', {
-      connectToSendBird: 'connect_to_sb_server_with_userid',
+      connectToSendBird: 'connectToSBWithUserid',
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
