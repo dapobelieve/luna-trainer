@@ -18,7 +18,6 @@
         </p>
       </div>
     </div>
-
     <div class="ml-auto">
       <button v-if="invoiceStatus === 'overdue'" class="border px-2" @click="sendNotification">
         <i class="fi-rr-bell-ring text-primary-color mt-1"></i>

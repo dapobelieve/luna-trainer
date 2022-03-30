@@ -4,41 +4,62 @@
     class="p-0"
     :width="512"
     height="auto"
+    :click-to-close="false"
     :adaptive="true"
   >
-    <div v-if="invoice" class="grid m-5">
-      <div class="py-0">
+    <div v-if="!markAsPaid" class="grid py-5 m-5">
+      <div v-if="invoice" class="py-0">
         <div class="flex items-center mb-6">
-          <h3 class="text-2xl">Invoice</h3>
+          <h3 class="text-2xl">
+            Invoice
+          </h3>
           <span class="ml-auto">
-            <i class="fi-rr-cross cursor-pointer mt-1 text-green-500" @click="$emit('close')"></i>
+            <i class="fi-rr-cross cursor-pointer mt-1 text-green-500" @click="close"></i>
           </span>
         </div>
         <div class="mb-5">
           <p>To</p>
-          <h3 class="font-medium text-xl">{{ invoiceCustomer }}</h3>
+          <h3 class="font-medium text-xl">
+            {{ invoiceCustomer }}
+          </h3>
         </div>
         <div class="mb-10">
           <div v-if="invoiceStatus !== 'paid'" class="bg-gray-100 ring-1 ring-gray-200 rounded-md px-3 py-2">
             <table class="table-auto mb-6 table w-full bottom-border">
               <thead>
                 <tr class="uppercase tracking-wide text- text-gray-500">
-                  <th class="font-medium text-xs w-2/4 text-left">description</th>
-                  <th class="font-medium text-xs w-1/4">quantity</th>
-                  <th class="font-medium text-xs text-right w-1/4">amount</th>
+                  <th class="font-medium text-xs w-2/4 text-left">
+                    description
+                  </th>
+                  <th class="font-medium text-xs w-1/4">
+                    quantity
+                  </th>
+                  <th class="font-medium text-xs text-right w-1/4">
+                    amount
+                  </th>
                 </tr>
               </thead>
               <tbody>
-              <tr v-for="item in invoiceServices">
-                <td class="py-2 text-left font-bold">{{item.description}}</td>
-                <td class="py-2 text-center">{{item.qty}}</td>
-                <td class="py-2 text-right">£{{new Intl.NumberFormat().format(item.price)}}</td>
-              </tr>
+                <tr v-for="item in invoiceServices">
+                  <td class="py-2 text-left font-bold">
+                    {{ item.description }}
+                  </td>
+                  <td class="py-2 text-center">
+                    {{ item.qty }}
+                  </td>
+                  <td class="py-2 text-right">
+                    £{{ new Intl.NumberFormat().format(item.price) }}
+                  </td>
+                </tr>
               </tbody>
             </table>
             <div class="flex h-20 mb-5 items-center text-2xl font-medium">
-              <h3 class="">Total</h3>
-              <h3 class="ml-auto font-bold">£{{invoiceTotal}}</h3>
+              <h3 class="">
+                Total
+              </h3>
+              <h3 class="ml-auto font-bold">
+                £{{ invoiceTotal }}
+              </h3>
             </div>
             <div class="text-sm flex items-center">
               <div class="h-1 w-1 bg-red-500 rounded-full mr-2"></div>
@@ -47,46 +68,103 @@
           </div>
           <div v-else>
             <div class="mb-5 items-center bg-gray-100 ring-1 ring-gray-200 rounded-md px-3 py-2">
-              <h3 class="font-light">Amount</h3>
-              <h3 class="ml-auto font-bold text-3xl">£{{invoiceTotal}}</h3>
+              <h3 class="font-light">
+                Amount
+              </h3>
+              <h3 class="ml-auto font-bold text-3xl">
+                £{{ invoiceTotal }}
+              </h3>
             </div>
           </div>
         </div>
         <div class="flex mb-8 bottom-border">
           <h3>Status</h3>
-          <InvoiceStatusComponent class="ml-auto" status="paid" /> 
+          <InvoiceStatusComponent class="ml-auto" :status="status" />
         </div>
         <div class="flex mb-8 bottom-border">
           <h3>Date Issued</h3>
-          <h3 class="ml-auto">{{ issuedDate }}</h3>
+          <h3 class="ml-auto">
+            {{ issuedDate }}
+          </h3>
         </div>
         <div class="flex mb-8 bottom-border">
           <h3>Paid Date</h3>
-          <h3 class="ml-auto">{{ issuedDate }}</h3>
+          <h3 class="ml-auto">
+            {{ issuedDate }}
+          </h3>
         </div>
         <template v-if="invoiceStatus === 'paid'">
           <div class="flex mb-8 bottom-border">
             <h3>Payment for</h3>
-            <h3 class="ml-auto">???</h3>
+            <h3 class="ml-auto">
+              ???
+            </h3>
           </div>
           <div class="flex mb-8 bottom-border">
             <h3>Payment Method</h3>
-            <h3 class="ml-auto">{{ paymentMethod.type.toUpperCase() }}</h3>
+            <h3 class="ml-auto">
+              {{ paymentMethod.type.toUpperCase() }}
+            </h3>
           </div>
         </template>
         <div class="flex mb-8 bottom-border">
           <h3>Invoice No</h3>
-          <h3 class="ml-auto">{{invoiceNo}}</h3>
+          <h3 class="ml-auto">
+            {{ invoiceNo }}
+          </h3>
         </div>
-        <div  class="flex justify-end">
+        <div class="flex justify-end">
           <template v-if="invoiceStatus !== 'paid'">
-            <button class="text-green-900 px-4 py-2 border mr-2">Cancel</button>
-            <button class="text-green-900 px-4 py-2 border mr-2">Send Nudge</button>
-            <button class="text-green-900 px-4 py-2 border">Mark as Paid</button>
+            <button @click="close" class="text-green-900 px-4 py-2 border mr-2">
+              Cancel
+            </button>
+            <button ref="nudge" @click="sendNudge" class="text-green-900 px-4 py-2 border mr-2 w-[7.9rem]">
+              <SingleLoader v-if="nudging" />
+              <span v-else >Send Nudge</span>
+            </button>
+            
+            <button @click="markAsPaid = true" class="text-green-900 px-4 py-2 border">
+              Mark as Paid
+            </button>
           </template>
           <template v-else>
-            <button class="text-green-900 px-4 py-2 border">Mark as unpaid</button>
+            <button class="text-green-900 px-4 py-2 border">
+              Mark as unpaid
+            </button>
           </template>
+        </div>
+      </div>
+    </div>
+    <div v-else class="grid m-5 py-5">
+      <div class="flex items-center mb-7">
+        <i @click="markAsPaid = false" class="fi-rr-angle-left mr-4 cursor-pointer"></i>
+        <span>Back</span>
+      </div>
+      <div>
+        <h3 class="text-sm mb-6">Ensure your entries matches the actual payment information</h3>
+        <div class="mb-6">
+          <label class="">Payment Date</label>
+          <div class="border rounded-md relative pl-4 mt-3">
+            <DatePicker style="width: 100%" v-model="paidObj.paymentDate" class="date-picker relative" format="ddd MMM D" placeholder="Date" @change=""></DatePicker>
+          </div>
+        </div>
+        <div class="mb-6">
+          <label class="">Payment Method</label>
+          <GwCustomerSelector v-model="paidObj.paymentType" placeholder="Select payment method" class="w-full repeat-selector" :clients="paymentMethods">
+            <template v-slot:selectedOption="{selected}">
+              <div class="flex items-center">
+                <span class="text-gray-700">{{ selected.label }}</span>
+              </div>
+            </template>
+            <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+              <div class="flex items-center py-2">
+                <span class="text-gray-700">{{ optionObject.label }}</span>
+              </div>
+            </template>
+          </GwCustomerSelector>
+        </div>
+        <div class="flex">
+          <button @click="createReceipt" class="button-fill ml-auto">Mark as Paid</button>
         </div>
       </div>
     </div>
@@ -94,57 +172,134 @@
 </template>
 
 <script>
+import DatePicker from 'vue2-datepicker'
 export default {
   props: {
     invoice: {
       type: Object
-    },
-    loading: {
-      type: Boolean,
-      default: false
     }
   },
-  methods: {},
+  components: {
+    DatePicker
+  },
+  data() {
+    return {
+      markAsPaid: true,
+      paymentMethods: [
+        {
+          type: 'bank',
+          label: 'Bank'
+        },
+        {
+          type: 'stripe',
+          label: 'Stripe'
+        },
+        {
+          type: 'paypal',
+          label: 'Paypal'
+        }
+      ],
+      paidObj: {
+        date: null,
+        paymentType: null,
+        paymentDate: null,
+        isPaid: true
+      },
+      nudging: false
+    }
+  },
   computed: {
-    invoiceServices() {
+    invoiceServices () {
       return this.invoice.items
     },
-    invoiceTotal() {
+    invoiceTotal () {
       const total = this.invoiceServices.reduce((acc, item) => {
         acc += item.qty * item.price
         return acc
       }, 0)
       return new Intl.NumberFormat().format(total)
     },
-    desc() {
+    desc () {
       // return this.invoice.d
     },
-    paymentMethod() {
+    paymentMethod () {
       return this.invoice.supportedPaymentMethods[0]
     },
-    status() {
+    status () {
       return this.invoice.status
     },
-    issuedDate() {
+    issuedDate () {
       return this.$dateFns.format(new Date(this.invoice.createdAt), 'd/M/yy')
     },
     invoiceStatus () {
       return this.invoice && this.invoice.status
     },
-    invoiceNo() {
+    invoiceNo () {
       return `#${this.invoice.invoiceNo}`
     },
-    dueDate() {
+    dueDate () {
       return this.$dateFns.format(new Date(this.invoice.dueDate), 'MMM d, y')
     },
     invoiceCustomer () {
       return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
+    }
+  },
+  methods: {
+    async createReceipt() {
+      try {
+        await this.$store.dispatch('payment/createPaymentReceipt', {
+          ...this.paidObj,
+          invoiceId: this.invoice._id,
+          amount: this.invoice.total,
+          currency: this.invoice.currency,
+        })
+      }catch (e) {
+        console.log(e)
+      }
     },
+    close() {
+      this.$emit('close')
+    },
+    async sendNudge() {
+      this.nudging = true
+      try {
+        await this.$store.dispatch("invoice/notify", { id: this.invoice._id })
+      }catch (e) {
+        
+      }finally {
+        this.nudging = false
+        this.close()
+      }
+    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+.vm--container {
+  ::v-deep .vm--modal {
+    overflow: visible;
+  }
+}
+.date-picker {
+  ::v-deep .mx-input-wrapper {
+    .mx-input {
+      border: none;
+      padding-left: 0px;
+      font-size: 16px;
+      font-weight: 400;
+      width: 100%;
+      color: #000;
+      box-shadow: none;
+    }
+    .mx-icon-clear {
+      display: none;
+    }
+    .mx-icon-calendar {
+      display: none;
+    }
+  }
+}
 .table-auto {
   thead tr {
     border-bottom: 15px solid transparent;

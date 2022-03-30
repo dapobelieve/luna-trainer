@@ -54,7 +54,7 @@
                 <tr class="uppercase tracking-wider text-gray-500">
                   <th class="w-12 py-4 font-medium pl-1">
                     <div class="pl-3">
-                      <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
+                      <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
                     </div>
                   </th>
                   <th class="py-4 font-medium text-left px-6 w-3/6">
@@ -75,9 +75,13 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" 
-                    :class="[checkedItems.includes(data._id) ? 'active' : '']" 
-                    @click="activeRecord= data,$modal.show('invoice-details')">
+                <tr
+                  v-for="(data) in filteredRecords"
+                  :key="data._id"
+                  class="text-center relative text-gray-500 hover-row hover:cursor-pointer"
+                  :class="[checkedItems.includes(data._id) ? 'active' : '']"
+                  @click="activeRecord= data,$modal.show('invoice-details')"
+                >
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -130,7 +134,7 @@
           </button>
         </div>
       </div>
-      <InvoiceDetailModal :invoice="activeRecord" id="invoice-details" @close="$modal.hide('invoice-details')"  />
+      <InvoiceDetailModal id="invoice-details" :invoice="activeRecord" @close="$modal.hide('invoice-details')" />
     </async-view>
   </div>
 </template>
@@ -138,10 +142,10 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
-import InvoiceDetailModal from "~/components/invoices/InvoiceDetailModal";
+import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 export default {
   name: 'SentInvoice',
-  components: {InvoiceDetailModal, SearchDropdown },
+  components: { InvoiceDetailModal, SearchDropdown },
   data () {
     return {
       activeRecord: null,
@@ -195,6 +199,7 @@ export default {
     }
   },
   async mounted (ctx) {
+    
     try {
       this.checkPaymentMethods()
       const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
@@ -204,6 +209,7 @@ export default {
     } catch (e) {
       console.log({ e })
     }
+    // this.$modal.show('invoice-details')
   },
   methods: {
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),

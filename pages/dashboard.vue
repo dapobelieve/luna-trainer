@@ -8,20 +8,18 @@
           </div>
           <div class="mb-6">
             <div class="flex items-center px-3 mb-5">
-              <div class="flex items-center">
-                <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
-                  <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
-                </div>
-                <h3 class="font-medium">
-                  My Sessions
-                </h3>
+              <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
+                <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
               </div>
+              <h3 class="font-medium">
+                My Sessions
+              </h3>
+              <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
             </div>
             <div class="flex px-3 items-center mb-4">
               <div class="font-medium text-sm">
                 {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
               </div>
-              <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
             </div>
             <div class="px-3">
               <WeekView fetch-events @fetching-events="fetching=true" @stop-fetching-events="fetching=false" @events="events = $event" />
@@ -163,13 +161,13 @@ export default {
     }
   },
   mounted () {
-    this.$lunaToast.show(
+    this.$lunaToast.error(
       `Hey, ${this.$auth.user.firstName}
                     ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
         position: 'bottom-right',
-        timeout: 10000,
         actions: true,
         confirm: {
+          text: 'Got it',
           resolver: async () => {}
         },
         cancel: {

@@ -167,6 +167,26 @@
   }
 }
 
+.top {
+  top: 1.5rem;
+  &-left {
+    left: 2.2rem;
+  }
+  &-right {
+    right: 2.2rem;
+  }
+}
+
+.bottom {
+  bottom: 1.5rem;
+  &-left {
+    left: 2.2rem;
+  }
+  &-right {
+    right: 2.2rem;
+  }
+}
+
 // toast styles
 .toasted-container {
   min-width: 320px !important;
