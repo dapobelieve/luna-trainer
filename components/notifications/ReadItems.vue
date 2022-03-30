@@ -14,11 +14,13 @@
 <script>
 import { mapGetters } from 'vuex'
 import NoNotifications from '~/components/notifications/NoNotifications.vue'
+import NewNotification from '~/components/notifications/NewNotification.vue'
 
 export default {
   name: 'ReadItems',
   components: {
-    NoNotifications
+    NoNotifications,
+    NewNotification
   },
   computed: {
     ...mapGetters({

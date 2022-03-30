@@ -76,7 +76,7 @@ export default {
   }
 
   .views {
-    @apply my-6 mx-4;
+    @apply my-6 mx-1;
   }
 
   .tabs::-webkit-scrollbar {

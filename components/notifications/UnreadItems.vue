@@ -13,12 +13,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import NoNotifications from '~/components/notifications/NoNotifications.vue'
 import NewNotification from '~/components/notifications/NewNotification.vue'
 
 export default {
   name: 'UnreadItems',
   components: {
-    NewNotification
+    NewNotification,
+    NoNotifications
   },
   computed: {
     ...mapGetters({
