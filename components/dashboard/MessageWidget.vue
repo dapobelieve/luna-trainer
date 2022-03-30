@@ -33,7 +33,7 @@
         <li v-for="value in listOfChannels.slice(0, 3)" :key="value.url">
           <nuxt-link
             :to="{ name: 'client-id-messages', params: { id: userId(value) } }"
-            :class="{ unread: Boolean(value.unreadMessageCount) }"
+            :class="{ 'unread-bg': Boolean(value.unreadMessageCount) }"
             class="rounded-md py-4 px-3 flex items-center space-x-0 w-full hover:bg-gray-100"
           >
             <span class="w-full flex items-center">
@@ -47,7 +47,7 @@
               <div class="flex-grow min-w-0 text-left">
                 <div class="focus:outline-none">
                   <span
-                    class="font-bold text-base capitalize text-base text-gray-700"
+                    class="font-bold text-base capitalize text-gray-700"
                   >{{ opponentUserName(value) }}</span>
                   <p
                     v-if="value.lastMessage.messageType === 'user'"
@@ -154,4 +154,5 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>
