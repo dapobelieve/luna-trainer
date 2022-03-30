@@ -27,7 +27,7 @@ export default {
       notifications: 'notifications/getAllNotifications'
     }),
     readNotifications () {
-      return this.notifications.filter(n => n.status === 'READ')
+      return this.notifications.filter(n => n.status === 'READ' && n.type !== 'LOGIN_WITH_QR')
     }
   }
 }
