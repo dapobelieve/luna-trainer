@@ -9,7 +9,7 @@
         >
           <template v-slot:title>
             <h2
-              class="px-4 pt-4 text-xl font-normal text-gray-700 sticky top-0 bg-white"
+              class="px-4 pt-4 text-xl font-normal text-gray-700 bg-white"
             >
               Notifications
             </h2>
@@ -68,6 +68,5 @@ export default {
 .notifications {
   @apply bg-white shadow-sm rounded-xl pb-4 lg:w-3/4 xl:w-[578.5px] mx-auto overflow-y-auto;
   height: 80vh;
-  // width: 576px;
 }
 </style>
