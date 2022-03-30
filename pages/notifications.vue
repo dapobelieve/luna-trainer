@@ -5,7 +5,7 @@
     >
       <div>
         <TabbedItems
-          :links="[{link: 'Read', count: 2}, {link: 'Unread', count: 10}]"
+          :links="[{link: 'Read', count: readNotifications.length}, {link: 'Unread', count: unreadNotifications.length}]"
         >
           <template v-slot:title>
             <h2
@@ -14,12 +14,10 @@
               Notifications
             </h2>
           </template>
-          <template v-slot:tabviews>
+          <template v-slot:tabviews="{ tab }">
             <AsyncView>
-              <Component
-                :is="
-                  activeComponent"
-              />
+              <ReadItems v-if="tab === 1" />
+              <UnreadItems v-if="tab === 2" />
             </AsyncView>
           </template>
         </TabbedItems>
@@ -31,24 +29,25 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-// import ReadItems from '~/components/notifications/ReadItems.vue'
+import ReadItems from '~/components/notifications/ReadItems.vue'
 import UnreadItems from '~/components/notifications/UnreadItems.vue'
 
 export default {
   name: 'Notifications',
   components: {
-    // UnreadItems,
-    // ReadItems
-  },
-  data () {
-    return {
-      activeComponent: UnreadItems
-    }
+    UnreadItems,
+    ReadItems
   },
   computed: {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
-    })
+    }),
+    unreadNotifications () {
+      return this.notifications.filter(n => n.status === 'UNREAD')
+    },
+    readNotifications () {
+      return this.notifications.filter(n => n.status === 'READ')
+    }
   },
   async mounted () {
     try {

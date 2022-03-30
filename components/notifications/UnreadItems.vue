@@ -1,28 +1,33 @@
 <template>
   <div>
-    <template v-if="notifications.length">
-      <notifications-new-notification
-        v-for="notification in notifications"
+    <template v-if="unreadNotifications.length">
+      <NewNotification
+        v-for="notification in unreadNotifications"
         :key="notification._id"
         :notification="notification"
       />
     </template>
-    <div v-else class="mt-16">
-      <p class="text-center">
-        No notifications at this time.
-      </p>
-    </div>
+    <NoNotifications v-else />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import NewNotification from '~/components/notifications/NewNotification.vue'
 
 export default {
   name: 'UnreadItems',
-  ...mapGetters({
-    notifications: 'notifications/getAllNotifications'
-  })
+  components: {
+    NewNotification
+  },
+  computed: {
+    ...mapGetters({
+      notifications: 'notifications/getAllNotifications'
+    }),
+    unreadNotifications () {
+      return this.notifications.filter(n => n.status === 'UNREAD')
+    }
+  }
 }
 </script>
 
