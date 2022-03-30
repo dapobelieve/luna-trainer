@@ -30,7 +30,7 @@
         role="list"
         class="relative z-0 px-1"
       >
-        <li v-for="value in listOfChannels" :key="value.url">
+        <li v-for="value in listOfChannels.slice(0, 3)" :key="value.url">
           <nuxt-link
             :to="{ name: 'client-id-messages', params: { id: userId(value) } }"
             :class="{ unread: Boolean(value.unreadMessageCount) }"
@@ -105,6 +105,17 @@
             class="text-base text-gray-500"
           >Your messages would be displayed here</small>
         </div>
+      </div>
+      <div v-if="listOfChannels.length > 2">
+        <button
+          type="button"
+          class="text-blue-500 h-10 w-full hover:bg-blue-50 p-1 rounded-md"
+          @click="$router.push({ name: 'messages' })"
+        >
+          <span>
+            View all
+          </span>
+        </button>
       </div>
     </div>
   </DashboardCard>
