@@ -106,7 +106,7 @@ export const actions = {
     params.isDistinct = true
     params.isSuper = false
     params.addUserIds([participant])
-    params.operatorUserIds = [this.$auth.user.sendbirdId] // Or .operators(Array<User>)
+    params.operatorUserIds = [this.$auth.user.sendbirdId]
 
     const channel = await this.$sb.GroupChannel.createChannel(
       params,
