@@ -3,28 +3,30 @@
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
         <DashboardCard :view-all="events.length > 0" class="p-0">
-          <div class="mb-5">
-            <img class="w-full" src="~/assets/img/home.svg">
-          </div>
-          <div class="mb-6">
-            <div class="flex items-center px-3 mb-5">
-              <div class="flex items-center">
-                <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
-                  <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
+          <div id="session-hint">
+            <div class="mb-5">
+              <img class="w-full" src="~/assets/img/home.svg">
+            </div>
+            <div class="mb-6">
+              <div class="flex items-center px-3 mb-5">
+                <div class="flex items-center">
+                  <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
+                    <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
+                  </div>
+                  <h3 class="font-medium">
+                    My Sessions
+                  </h3>
                 </div>
-                <h3 class="font-medium">
-                  My Sessions
-                </h3>
               </div>
-            </div>
-            <div class="flex px-3 items-center mb-4">
-              <div class="font-medium text-sm">
-                {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
+              <div class="flex px-3 items-center mb-4">
+                <div class="font-medium text-sm">
+                  {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
+                </div>
+                <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
               </div>
-              <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
-            </div>
-            <div class="px-3">
-              <WeekView fetch-events @fetching-events="fetching=true" @stop-fetching-events="fetching=false" @events="events = $event" />
+              <div class="px-3">
+                <WeekView fetch-events @fetching-events="fetching=true" @stop-fetching-events="fetching=false" @events="events = $event" />
+              </div>
             </div>
           </div>
           <div class="px-3 h-[19rem]">
@@ -221,10 +223,40 @@ export default {
     tourItems () {
       this.$intro()
         .setOptions({
-          hidePrev: true,
+          ...{
+            nextLabel: 'Next',
+            prevLabel: '',
+            skipLabel: '',
+            doneLabel: 'Done',
+            hidePrev: true,
+            hideNext: false,
+            nextToDone: true,
+            tooltipPosition: 'bottom',
+            tooltipClass: '',
+            highlightClass: '',
+            exitOnEsc: true,
+            exitOnOverlayClick: true,
+            showStepNumbers: false,
+            keyboardNavigation: true,
+            showButtons: true,
+            showBullets: true,
+            showProgress: false,
+            scrollToElement: true,
+            scrollTo: 'element',
+            scrollPadding: 30,
+            overlayOpacity: 0.5,
+            autoPosition: true,
+            positionPrecedence: ['bottom', 'top', 'right', 'left'],
+            disableInteraction: false,
+            helperElementPadding: 0,
+            hintPosition: 'top-middle',
+            hintAnimation: true,
+            buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
+            progressBarAdditionalClass: false
+          },
           steps: [
             {
-              element: document.querySelector('#introjs-step-1'),
+              element: document.querySelector('#session-hint'),
               intro: 'Click here to connect your stripe account'
             },
             {
@@ -275,6 +307,37 @@ export default {
 <style>
 .vm--overlay{
   background: rgba(241, 245, 249, 0.4);
+}
+.introjs-bullets{
+  text-align: left;
+  padding-left: 10px;
+}
+.introjs-bullets ul li a {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.05);
+  background: rgba(255,255,255,0.5);
+}
+.introjs-arrow.top {
+    border-bottom-color: #3B82F6;
+}
+.introjs-prevbutton{
+  opacity: 0;
+  visibility: 0;
+}
+.introjs-tooltip-title,
+.introjs-tooltip,.introjs-floating,
+introjs-tooltipbuttons,.introjs-tooltiptext,
+.introjs-skipbutton,.introjs-tooltip-header,.introjs-tooltipbuttons{
+  background: #3B82F6;
+  border-top: 0px;
+  color: #FFF;
+}
+.introjs-bullets li > a.active {
+    width: 6px;
+    background: #FFF;
+}
+.introjs-bullets ul li a.active {
+    width: 6px;
+    background: #FFF;
 }
 </style>
 <style lang="scss" scoped>
