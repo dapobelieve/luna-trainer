@@ -34,9 +34,7 @@ export default {
           this.$route.name === 'client-id-messages' &&
           channel.url === this.channelUrl
         ) {
-          const createdDate = new Date(
-            message.createdAt
-          ).toLocaleDateString()
+          const createdDate = new Date(message.createdAt).toDateString()
           if (createdDate in this.msgHistory) {
             this.msgHistory[createdDate].push(message)
           } else {
@@ -57,7 +55,7 @@ export default {
     onMessageDeleted (channel, message) {},
 
     // something changes in the chat
-    onChannelChanged () {},
+    onChannelChanged (channel) {},
 
     // message has been delivered
     onDeliveryReceiptUpdated (channel) {
