@@ -1,36 +1,50 @@
 <template>
-  <async-view>
-    <div class="min-h-screen pt-14">
-      <div
-        class="bg-white shadow-sm rounded-xl pb-4 lg:w-3/4 xl:w-4/6 mx-auto overflow-y-auto"
-        style="height: 80vh"
-      >
-        <h2
-          class="px-4 py-4 mb-4 text-xl font-normal text-gray-700 sticky top-0 bg-white z-30"
+  <div class="min-h-screen pt-14">
+    <div
+      class="notifications"
+    >
+      <div>
+        <TabbedItems
+          :links="['Read', 'Unread']"
         >
-          Notifications
-        </h2>
-        <template v-if="notifications.length">
-          <notifications-new-notification
-            v-for="notification in notifications"
-            :key="notification._id"
-            :notification="notification"
-          />
-        </template>
-        <div v-else class="mt-16">
-          <p class="text-center">
-            No notifications at this time.
-          </p>
-        </div>
+          <template v-slot:title>
+            <h2
+              class="px-4 text-xl font-normal text-gray-700 sticky top-0 bg-white"
+            >
+              Notifications
+            </h2>
+          </template>
+          <template v-slot:tabviews>
+            <AsyncView>
+              <Component
+                :is="
+                  activeComponent"
+              />
+            </AsyncView>
+          </template>
+        </TabbedItems>
       </div>
     </div>
-  </async-view>
+  </div>
+  </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+// import ReadItems from '~/components/notifications/ReadItems.vue'
+import UnreadItems from '~/components/notifications/UnreadItems.vue'
+
 export default {
   name: 'Notifications',
+  components: {
+    // UnreadItems,
+    // ReadItems
+  },
+  data () {
+    return {
+      activeComponent: UnreadItems
+    }
+  },
   computed: {
     ...mapGetters({
       notifications: 'notifications/getAllNotifications'
@@ -38,12 +52,23 @@ export default {
   },
   async mounted () {
     try {
-      await this.$store.dispatch('notifications/fetchNotifications')
+      await this.fetchNotifications()
     } catch (e) {
       console.log({ e })
     }
+  },
+  methods: {
+    ...mapActions({
+      fetchNotifications: 'notifications/fetchNotifications'
+    })
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.notifications {
+  @apply bg-white shadow-sm rounded-xl pb-4 lg:w-3/4 xl:w-[578.5px] mx-auto overflow-y-auto;
+  height: 80vh;
+  // width: 576px;
+}
+</style>

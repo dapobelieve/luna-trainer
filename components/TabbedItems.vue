@@ -3,6 +3,7 @@
     <ul
       class="tabs"
     >
+      <slot name="title" />
       <button
         v-for="(link, index) in links"
         :key="link.index"
@@ -42,7 +43,7 @@ export default {
 
 <style lang="scss" scoped>
 .tabs {
-  @apply text-base font-normal text-gray-500 overflow-y-hidden flex justify-between lg:justify-start md:space-x-[2rem] px-4 border-b border-gray-200 overflow-x-scroll;
+  @apply flex items-center text-base font-normal text-gray-500 overflow-y-hidden justify-between lg:justify-start md:space-x-[2rem] px-4 border-b border-gray-200 overflow-x-scroll z-30;
   overflow-x: overlay;
 }
 
