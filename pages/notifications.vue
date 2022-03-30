@@ -5,11 +5,11 @@
     >
       <div>
         <TabbedItems
-          :links="['Read', 'Unread']"
+          :links="[{link: 'Read', count: 2}, {link: 'Unread', count: 10}]"
         >
           <template v-slot:title>
             <h2
-              class="px-4 text-xl font-normal text-gray-700 sticky top-0 bg-white"
+              class="px-4 pt-4 text-xl font-normal text-gray-700 sticky top-0 bg-white"
             >
               Notifications
             </h2>
