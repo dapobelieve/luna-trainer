@@ -85,21 +85,27 @@
           </button>
         </template>
       </NotificationsModal>
-      <modal name="welcome-modal">
-        <div class="grid m-6">
-          <div class="py-0">
-             <div class="text-center mb-10 font-medium text-2xl">
-              <h3>Welcome to Luna</h3>
-            </div>
-            <p class="text-center mb-8 w-50">
-              Start the tour to discover how easy it is to do everything in Luna
-              - with tips and tricks on how to save yourself time on basic
-              business admin, so you can focus on doing what you love.
-            </p>
-            <div class="flex justify-center gap-5">
-              <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="tour()">
-                Start the tour
-              </button>
+      <modal @closed="tourItems()" name="welcome-modal" :height="500">
+        <div>
+          <div class="space"/>
+          <div class="grid m-6">
+            <div class="py-0 text-justify">
+              <div class="text-left mb-5 font-light text-2xl">
+                <h3>Welcome to Luna</h3>
+              </div>
+              <p class="mb-8 w-50 text-justify">
+                Start the tour to discover how easy it is to do everything in Luna with -
+                tips and tricks on how to save yourself time on basic
+                business admin, so you can focus on doing what you love.
+              </p>
+              <div class="flex justify-left gap-5">
+                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="closeModal()">
+                   Explore by myself
+                </button>
+                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="closeModal()">
+                  Start the tour
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -133,6 +139,7 @@ export default {
       fetchEventsForToday: false,
       events: [],
       intro: null,
+      escapeKeyPressedOnce: false,
       openBankModal: false,
       showNotification: false,
       paidInvoices: [],
@@ -165,27 +172,33 @@ export default {
     }
   },
   mounted () {
-    this.$lunaToast.show(
-      `Hey, ${this.$auth.user.firstName}
-                    ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
-        position: 'bottom-right',
-        timeout: 10000,
-        actions: true,
-        confirm: {
-          resolver: async () => {}
-        },
-        cancel: {
-          text: 'Not Now',
-          resolver: async () => {}
-        }
-      })
+    const getTime = localStorage.getItem('dashboardFirstVisit')
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
-    const getTime = localStorage.getItem('dashboardFirstVisit')
     if (!getTime) {
       this.$modal.show('welcome-modal')
       localStorage.setItem('dashboardFirstVisit', Date.now())
+    } else {
+      this.$lunaToast.show(
+        'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
+        {
+          position: 'bottom-right',
+          timeout: 10000,
+          actions: true,
+          heading: 'Welcome to Luna',
+          confirm: {
+            text: 'Get started',
+            resolver: () => {
+              this.tourItems()
+            }
+          },
+          cancel: {
+            text: 'Not Now',
+            resolver: async () => {}
+          }
+        }
+      )
     }
 
     this.fetchPaidInvoices({ status: 'paid', limit: 5 })
@@ -205,8 +218,7 @@ export default {
     })
   },
   methods: {
-    tour () {
-      this.$modal.hide('welcome-modal')
+    tourItems () {
       this.$intro()
         .setOptions({
           hidePrev: true,
@@ -240,6 +252,9 @@ export default {
         .start()
       this.$intro().showHints()
     },
+    closeModal () {
+      this.$modal.hide('welcome-modal')
+    },
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
@@ -257,8 +272,17 @@ export default {
   }
 }
 </script>
-
+<style>
+.vm--overlay{
+  background: rgba(241, 245, 249, 0.4);
+}
+</style>
 <style lang="scss" scoped>
+.space{
+  width: 100%;
+  height: 250px;
+  background: rgba(59, 130, 246, 0.05);
+}
 .introjs-tooltip {
   background-color: #3B82F6;
   border-radius: 12px;
