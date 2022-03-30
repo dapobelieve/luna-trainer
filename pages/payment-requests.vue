@@ -52,7 +52,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Payment Requests',
+  name: 'PaymentRequests',
   data () {
     return {
       showDrop: false,

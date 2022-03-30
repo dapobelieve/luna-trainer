@@ -17,7 +17,7 @@ export default {
       connectedPayments: false
     }
   },
-  async mounted () {
+  mounted () {
     this.sharedPage.page = 'Create Invoice'
   },
   methods: {

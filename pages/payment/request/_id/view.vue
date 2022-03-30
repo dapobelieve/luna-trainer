@@ -171,11 +171,13 @@ export default {
     }
   },
   async mounted () {
-    const response = await this.getSingleInvoice(this.id).catch((err) => {
-      $lunaToast.error('Invoice could not be retrieved')
-    })
-    if (response) { this.invoice = response.data }
-    console.log(this.invoice)
+    try {
+      const response = await this.getSingleInvoice(this.id)
+      if (response) { this.invoice = response.data }
+      console.log(this.invoice)
+    } catch (error) {
+      this.$lunaToast.error('Invoice could not be retrieved')
+    }
   },
   methods: {
     ...mapActions('invoice', {
