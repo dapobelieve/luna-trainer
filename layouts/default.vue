@@ -1,6 +1,5 @@
 <template>
   <async-view loader-id="logout">
-    <Toast />
     <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
       <div class="inline-flex flex-col items-center">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
@@ -83,10 +82,9 @@ import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import ViewImageModal from '~/components/messages/ViewImageModal.vue'
 
-import Toast from '~/components/toasts/toast'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  components: { Toast, SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {

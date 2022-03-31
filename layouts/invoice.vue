@@ -1,6 +1,5 @@
 <template>
   <div class="bg-gray-100 w-full min-h-screen">
-    <Toast />
     <div
       class="flex justify-between  lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
     >
@@ -22,10 +21,8 @@
   </div>
 </template>
 <script>
-import Toast from '../components/toasts/toast.vue'
 export default {
   name: 'InvoiceLayout',
-  components: { Toast },
   provide () {
     return {
       sharedPage: this.sharedPage

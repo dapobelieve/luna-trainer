@@ -1,6 +1,5 @@
 <template>
   <async-view loader-id="logout">
-    <Toast />
     <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
       <div class="inline-flex flex-col items-center">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
@@ -20,7 +19,7 @@
         </div>
       </div>
       <ExpiredSessionAuthModal />
-      <div class="bg-teal-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
+      <div class="bg-teal-500 text-rose-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
       <transition
         enter-active-class="transition-all ease-in-out duration-[500ms]"
         leave-active-class="transition-all ease-in-out duration-[500ms]"
@@ -44,9 +43,8 @@ import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
-import Toast from '@/components/toasts/toast'
 export default {
-  components: { SchedulerDrawer, Toast, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {

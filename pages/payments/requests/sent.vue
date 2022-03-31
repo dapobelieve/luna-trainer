@@ -54,7 +54,7 @@
                 <tr class="uppercase tracking-wider text-gray-500">
                   <th class="w-12 py-4 font-medium pl-1">
                     <div class="pl-3">
-                      <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
+                      <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
                     </div>
                   </th>
                   <th class="py-4 font-medium text-left px-6 w-3/6">
@@ -102,7 +102,7 @@
                   </td>
                   <td class="py-4 px-6">
                     <div class="text-sm md:text-base text-gray-700">
-                      {{ "\uFFE1" }}{{ data.total }}
+                      {{ "\uFFE1" }}{{ new Intl.NumberFormat().format(data.total) }}
                     </div>
                   </td>
                   <td class="py-4 px-6">
@@ -128,6 +128,7 @@
           </button>
         </div>
       </div>
+      <InvoiceDetailModal id="invoice-details" :invoice="activeRecord" @close="$modal.hide('invoice-details')" />
     </async-view>
   </div>
 </template>
@@ -135,11 +136,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
+import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 export default {
   name: 'SentInvoice',
-  components: { SearchDropdown },
+  components: { InvoiceDetailModal, SearchDropdown },
   data () {
     return {
+      activeRecord: null,
       searchField: 'Name',
       searchFields: ['Name', 'Status'],
       selectAll: false,

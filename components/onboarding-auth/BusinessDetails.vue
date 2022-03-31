@@ -4,7 +4,7 @@
       Tell us a bit about your business
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
-       <div class="flex flex-col gap-1.5">
+      <div class="flex flex-col gap-1.5">
         <label
           for="businessName"
           class="required"
@@ -35,12 +35,11 @@
         <small v-if="isValid" class="text-red-500 text-sm absolute -bottom-5">url is invalid</small>
       </div>
       <div class="flex flex-col gap-1.5">
- <label
+        <label
           for="currency"
           class="required"
           :class="{ 'text-red-400': $v.currency.$error }"
-          >Default trading currency</label
-        >
+        >Default trading currency</label>
         <select
           id="currency"
           v-model="currency"

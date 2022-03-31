@@ -18,7 +18,6 @@
         </p>
       </div>
     </div>
-
     <div class="ml-auto">
       <button v-if="invoiceStatus === 'overdue'" class="border px-2" @click="sendNotification">
         <i class="fi-rr-bell-ring text-primary-color mt-1"></i>
@@ -38,7 +37,7 @@ export default {
       return this.invoice.createdAt
     },
     invoiceCustomerAvatar () {
-      return this.invoice.customerId.imageURL || `${this.invoice.customerId.firstName.charAt(0)} ${this.invoice.customerId.lastName?.charAt(0) || ''}`
+      return this.invoice.customerId?.imageURL || `${this.invoice.customerId.firstName?.charAt(0)} ${this.invoice.customerId.lastName?.charAt(0) || ''}`
     },
     invoiceAmount () {
       return new Intl.NumberFormat().format(this.invoice.total)
@@ -64,7 +63,7 @@ export default {
     async sendNotification () {
       try {
         await this.$store.dispatch('invoice/notify', { id: this.invoice._id })
-        this.$lunaToast.success('Reminder sent')
+        this.$lunaToast.show('Reminder sent')
       } catch (e) {
 
       }

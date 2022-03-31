@@ -1,6 +1,8 @@
 <template>
   <div>
-    <h5 class="text-lg font-bold">Basic contact information.</h5>
+    <h5 class="text-lg font-bold">
+      Basic contact information.
+    </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex gap-4">
         <div class="flex flex-col gap-1.5 flex-grow">
@@ -47,7 +49,7 @@
         </select>
       </div>
       <div class="flex flex-col gap-1.5">
-       <label for="gender">
+        <label for="gender">
           <div>
             <span class="text-sm md:gap-3">Preferred pronouns</span>
             <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>

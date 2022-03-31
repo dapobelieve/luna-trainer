@@ -92,8 +92,10 @@
       :max-width="450"
       :click-to-close="false"
     >
-       <div class="text-left mx-6 mt-8 mb-4">
-        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">Welcome to Luna!</h2>
+      <div class="text-left mx-6 mt-8 mb-4">
+        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">
+          Welcome to Luna!
+        </h2>
         <p class="text-base text-gray-700 mb-6 leading-relaxed">
           We want you to get the most out of the platform from day 1 - so we’re
           going to take you through a simple setup process to get you started.
