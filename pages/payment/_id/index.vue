@@ -163,13 +163,16 @@
             </div>
           </div>
           <div class="flex justify-end text-xs">
-            <button
+           <button
+              class="button-outline mx-2"
               @click="closeModal"
-              class="border-slate-50 border py-2 px-4 text-blue mx-3" style="width:fit-content"
             >
               Pay Later
             </button>
-            <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content">
+            <button 
+              class="button-fill"
+              @click="closeModal"
+              >
               Confirm Payment
             </button>
           </div>
