@@ -31,9 +31,9 @@
         class="relative z-0 px-1"
       >
         <li v-for="value in unreadMessages.slice(0, 3)" :key="value.url">
-          <nuxt-link
-            :to="{ name: 'client-id-messages', params: { id: userId(value) } }"
+          <button
             class="rounded-md py-4 px-3 flex items-center space-x-0 w-full hover:bg-gray-100 unread"
+            @click="gotoMessage(value)"
           >
             <span class="w-full flex items-center">
               <div class="flex-shrink-0 h-12 w-12 mr-4">
@@ -79,7 +79,7 @@
                 class="bg-blue-700 p-1 rounded-full"
               ></p>
             </span>
-          </nuxt-link>
+          </button>
         </li>
       </ul>
       <div v-else class="flex items-center h-full justify-center">
@@ -136,6 +136,16 @@ export default {
         c => c.sendbirdId === this.opponentUser(userObj).userId
       )
       return client && client._id
+    },
+    gotoMessage (val) {
+      try {
+        this.$router.push({
+          name: 'client-id-messages',
+          params: { id: this.userId(val) }
+        })
+      } catch (error) {
+        this.$lunaToast.error('Something went wrong, Please contact admin.')
+      }
     }
   }
 }
