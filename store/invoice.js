@@ -90,6 +90,10 @@ export const actions = {
     )
     console.log(res)
   },
+  async getPaymentLink({ commit }, id) {
+    return await this.$axios
+      .$get(`${process.env.PAYMENT_HOST_URL}/invoice/payment/${id}`)
+  },
   async getInvoices ({ commit, dispatch }, payload) {
     const q = {
       status: '',

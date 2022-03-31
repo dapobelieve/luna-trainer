@@ -12,7 +12,7 @@
       <container-with-title class="lg:min-w-[500px] lg:max-w-[510px]">
         <template v-slot:headerbox>
           <p class="capitalize text-lg mt-2 font-medium">
-            <i class="mr-4 mt-0.5 fi-rr-receipt"> </i>{{ invoice._id ? 'Edit' : 'Create' }} your invoice
+            <i class="mr-4 mt-0.5 fi-rr-receipt"> </i>{{ invoice._id ? 'Edit' : 'Create' }} your payment request
           </p>
         </template>
         <template v-slot:content>
@@ -273,7 +273,7 @@
               style="width: fit-content"
               @click.prevent="send"
             >
-              Send invoice
+              Send payment request
             </button-spinner>
           </div>
         </template>
@@ -473,7 +473,7 @@ export default {
       const res = await this.createNewInvoice(this.getInvoicePayload())
       this.invoiceId = res.data._id
       this.$router.replace({
-        name: 'invoice-id',
+        name: 'payments-request',
         params: {
           id: res.data._id
         }
@@ -487,7 +487,7 @@ export default {
           recipient: this.invoice.customer.email
         })
         this.$lunaToast.success('Invoice sending successful')
-        this.$router.push({ name: 'invoices-sent' })
+        this.$router.push({ name: 'payments-requests-sent' })
       } catch (e) {
         this.$lunaToast.error(`Error: ${e.message}`)
       } finally {

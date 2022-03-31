@@ -104,7 +104,6 @@ export default {
   },
   async mounted () {
     try {
-      console.log('this is running nw: ', this.$route.params.id)
       this.clientInfo = await this.getSingleClientById(this.$route.params.id)
     } catch (error) {
       this.$lunaToast.error('an error occured')
