@@ -22,12 +22,12 @@
               class="dropdown-button"
               @click="
                 $router.push({
-                  name: 'invoice',
+                  name: 'payments-request',
                   params: { pushedClient: client },
                 })
               "
             >
-              Create Invoice
+              Create Payment Request
             </button>
             <button type="button" class="dropdown-button">
               Archive
