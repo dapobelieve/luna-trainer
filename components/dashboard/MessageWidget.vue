@@ -26,15 +26,14 @@
         </div>
       </template>
       <ul
-        v-else-if="listOfChannels.length"
+        v-else-if="unreadMessages.length"
         role="list"
         class="relative z-0 px-1"
       >
-        <li v-for="value in listOfChannels.slice(0, 3)" :key="value.url">
+        <li v-for="value in unreadMessages.slice(0, 3)" :key="value.url">
           <nuxt-link
             :to="{ name: 'client-id-messages', params: { id: userId(value) } }"
-            :class="{ 'unread-bg': Boolean(value.unreadMessageCount) }"
-            class="rounded-md py-4 px-3 flex items-center space-x-0 w-full hover:bg-gray-100"
+            class="rounded-md py-4 px-3 flex items-center space-x-0 w-full hover:bg-gray-100 unread"
           >
             <span class="w-full flex items-center">
               <div class="flex-shrink-0 h-12 w-12 mr-4">
@@ -51,12 +50,7 @@
                   >{{ opponentUserName(value) }}</span>
                   <p
                     v-if="value.lastMessage.messageType === 'user'"
-                    class="truncate text-sm w-48 xl:w-80 normal-case"
-                    :class="[
-                      Boolean(value.unreadMessageCount)
-                        ? 'font-medium'
-                        : 'font-normal',
-                    ]"
+                    class="truncate text-sm w-48 xl:w-80 normal-case font-medium"
                   >
                     {{ value.lastMessage.message }}
                   </p>
@@ -73,12 +67,7 @@
                     <span class="ml-1 font-medium text-sm">Photo</span>
                   </p>
                   <p
-                    class="text-sm"
-                    :class="[
-                      Boolean(value.unreadMessageCount)
-                        ? 'font-medium text-blue-500'
-                        : 'text-gray-500 font-normal',
-                    ]"
+                    class="text-sm font-medium text-blue-500"
                   >
                     {{ value.lastMessage.createdAt | howLongAgo }}
                   </p>
@@ -87,10 +76,8 @@
             </span>
             <span class="text-xs text-gray-500 truncate">
               <p
-                v-if="Boolean(value.unreadMessageCount)"
                 class="bg-blue-700 p-1 rounded-full"
               ></p>
-              <i v-else class="fi-rr-angle-right text-blue-500"></i>
             </span>
           </nuxt-link>
         </li>
@@ -99,14 +86,14 @@
         <div class="flex flex-col items-center">
           <i class="fi-rr-comment-alt text-5xl text-sky-500"></i>
           <h3 class="text-gray-700 text-lg">
-            You have no messages
+            You have no new messages
           </h3>
           <small
             class="text-base text-gray-500"
-          >Your messages would be displayed here</small>
+          >New messages would be displayed here.</small>
         </div>
       </div>
-      <div v-if="listOfChannels.length > 2">
+      <div v-if="unreadMessages.length > 2">
         <button
           type="button"
           class="text-blue-500 h-10 w-full hover:bg-blue-50 p-1 rounded-md"
