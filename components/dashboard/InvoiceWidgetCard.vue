@@ -37,7 +37,7 @@ export default {
       return this.invoice.createdAt
     },
     invoiceCustomerAvatar () {
-      return this.invoice.customerId.imageURL || `${this.invoice.customerId.firstName.charAt(0)} ${this.invoice.customerId.lastName?.charAt(0) || ''}`
+      return this.invoice.customerId?.imageURL || `${this.invoice.customerId.firstName?.charAt(0)} ${this.invoice.customerId.lastName?.charAt(0) || ''}`
     },
     invoiceAmount () {
       return new Intl.NumberFormat().format(this.invoice.total)
@@ -63,7 +63,7 @@ export default {
     async sendNotification () {
       try {
         await this.$store.dispatch('invoice/notify', { id: this.invoice._id })
-        this.$lunaToast.success('Reminder sent')
+        this.$lunaToast.show('Reminder sent')
       } catch (e) {
 
       }

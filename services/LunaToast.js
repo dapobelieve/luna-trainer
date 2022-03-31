@@ -68,27 +68,27 @@ export class LunaToast {
 
     const currentOptions = _merge(_cloneDeep(this.#instanceOptions), options)
     currentOptions.message = message
-    
+
     const toast = this.#composeToast(currentOptions)
-    if(currentOptions.icon){
+    if (currentOptions.icon) {
       toast.append(this.#composeIcon(currentOptions))
-    }else {
+    } else {
       toast.append(this.#composeImage(currentOptions))
     }
-    
+
     toast.append(this.#composeBody(currentOptions))
     toast.append(this.#composeClose())
-    document.body.append(toast)
-    
+    document.body.appendChild(toast)
+
     const timeout = setTimeout(() => {
       toast.remove()
     }, currentOptions.timeout)
-    
+
     toast.addEventListener('mouseover', () => {
       clearTimeout(timeout)
-    })    
+    })
   }
-  
+
   #composeActions (options) {
     const actions = document.createElement('div')
     actions.classList.add('actions')
@@ -99,7 +99,7 @@ export class LunaToast {
       cancel.innerText = options.cancel.text
       cancel.addEventListener('click', () => {
         options.cancel.resolver()
-        actions.remove()
+        actions.parentNode.parentNode.remove()
       })
       actions.appendChild(cancel)
     }
@@ -109,25 +109,27 @@ export class LunaToast {
       confirm.innerText = options.confirm.text
       confirm.addEventListener('click', () => {
         options.confirm.resolver()
-        actions.remove()
+        actions.parentNode.parentNode.remove()
       })
       actions.appendChild(confirm)
     }
     return actions
   }
-  
-  #composeToast = options => {
+
+  #composeToast = (options) => {
     const toast = document.createElement('div')
-    let toastClasses = 'luna-toast w-80 absolute z-1000 flex items-start bg-white border p-4 rounded-xl shadow-lg'
+    let toastClasses = 'luna-toast fixed z-1000 flex items-start bg-white border p-4 rounded-xl shadow-lg'
     toastClasses += ' ' + options.position + ' ' + options.position.split('-')[0]
+    toast.style.width = '20rem'
+    toast.style.zIndex = '1000'
     toast.className = toastClasses
     return toast
   }
-  
-  #composeBody = options => {
+
+  #composeBody = (options) => {
     const body = document.createElement('div')
     body.className = 'flex-grow ml-2'
-    if(options.heading){
+    if (options.heading) {
       const h3 = this.#createElement('h3', 'text-black font-medium text-base')
       console.log(h3)
       h3.innerText = options.heading
@@ -136,23 +138,23 @@ export class LunaToast {
     const p = this.#createElement('p', 'text-gray-600')
     p.innerText = options.message
     body.appendChild(p)
-    if(options.actions){
+    if (options.actions) {
       body.appendChild(this.#composeActions(options))
     }
     return body
   }
-  
+
   #composeClose = () => {
     const close = this.#createElement('button', 'ml-2 mt-1')
-    close.innerHTML = `<i style="font-size: 12px; font-weight: 900" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>`
+    close.innerHTML = '<i style="font-size: 12px; font-weight: 900" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>'
     close.addEventListener('click', () => {
       close.parentNode.remove()
     })
-    
+
     return close
   }
 
-  #composeIcon = options => {
+  #composeIcon = (options) => {
     let iconClasses = 'flex-shrink-0 h-8 w-8 rounded-full inline-flex items-center justify-center'
     iconClasses += ' ' + options.iconBg
     const icon = this.#createElement('div', iconClasses)
@@ -160,17 +162,17 @@ export class LunaToast {
     icon.innerHTML = `<i class="${options.icon} ${options.iconColor} mt-1"></i>`
     return icon
   }
-  
-  #composeImage = options => {
+
+  #composeImage = (options) => {
     const image = this.#createElement('img', 'flex-shrink-0 h-6 w-6 rounded-full')
     image.src = options.image
     return image
   }
-  
+
   #createElement = (tag, classNames) => {
     const element = document.createElement(tag)
     const classes = classNames.split(' ')
-    classes.forEach(className => {
+    classes.forEach((className) => {
       element.classList.add(className)
     })
     return element

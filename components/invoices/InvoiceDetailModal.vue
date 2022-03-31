@@ -40,7 +40,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="item in invoiceServices">
+                <tr v-for="item in invoiceServices" :key="item._id">
                   <td class="py-2 text-left font-bold">
                     {{ item.description }}
                   </td>
@@ -115,15 +115,15 @@
         </div>
         <div class="flex justify-end">
           <template v-if="invoiceStatus !== 'paid'">
-            <button @click="close" class="text-green-900 px-4 py-2 border mr-2">
+            <button class="text-green-900 px-4 py-2 border mr-2" @click="close">
               Cancel
             </button>
-            <button ref="nudge" @click="sendNudge" class="text-green-900 px-4 py-2 border mr-2 w-[7.9rem]">
+            <button ref="nudge" class="text-green-900 px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
-              <span v-else >Send Nudge</span>
+              <span v-else>Send Nudge</span>
             </button>
-            
-            <button @click="markAsPaid = true" class="text-green-900 px-4 py-2 border">
+
+            <button class="text-green-900 px-4 py-2 border" @click="markAsPaid = true">
               Mark as Paid
             </button>
           </template>
@@ -137,15 +137,23 @@
     </div>
     <div v-else class="grid m-5 py-5">
       <div class="flex items-center mb-7">
-        <i @click="markAsPaid = false" class="fi-rr-angle-left mr-4 cursor-pointer"></i>
+        <i class="fi-rr-angle-left mr-4 cursor-pointer" @click="markAsPaid = false"></i>
         <span>Back</span>
       </div>
       <div>
-        <h3 class="text-sm mb-6">Ensure your entries matches the actual payment information</h3>
+        <h3 class="text-sm mb-6">
+          Ensure your entries matches the actual payment information
+        </h3>
         <div class="mb-6">
           <label class="">Payment Date</label>
           <div class="border rounded-md relative pl-4 mt-3">
-            <DatePicker style="width: 100%" v-model="paidObj.paymentDate" class="date-picker relative" format="ddd MMM D" placeholder="Date" @change=""></DatePicker>
+            <DatePicker
+              v-model="paidObj.paymentDate"
+              style="width: 100%"
+              class="date-picker relative"
+              format="ddd MMM D"
+              placeholder="Date"
+            ></DatePicker>
           </div>
         </div>
         <div class="mb-6">
@@ -164,7 +172,9 @@
           </GwCustomerSelector>
         </div>
         <div class="flex">
-          <button @click="createReceipt" class="button-fill ml-auto">Mark as Paid</button>
+          <button class="button-fill ml-auto" @click="createReceipt">
+            Mark as Paid
+          </button>
         </div>
       </div>
     </div>
@@ -174,17 +184,17 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 export default {
+  components: {
+    DatePicker
+  },
   props: {
     invoice: {
       type: Object
     }
   },
-  components: {
-    DatePicker
-  },
-  data() {
+  data () {
     return {
-      markAsPaid: true,
+      markAsPaid: false,
       paymentMethods: [
         {
           type: 'bank',
@@ -200,10 +210,8 @@ export default {
         }
       ],
       paidObj: {
-        date: null,
         paymentType: null,
-        paymentDate: null,
-        isPaid: true
+        paymentDate: null
       },
       nudging: false
     }
@@ -218,9 +226,6 @@ export default {
         return acc
       }, 0)
       return new Intl.NumberFormat().format(total)
-    },
-    desc () {
-      // return this.invoice.d
     },
     paymentMethod () {
       return this.invoice.supportedPaymentMethods[0]
@@ -245,28 +250,31 @@ export default {
     }
   },
   methods: {
-    async createReceipt() {
+    async createReceipt () {
       try {
         await this.$store.dispatch('payment/createPaymentReceipt', {
-          ...this.paidObj,
-          invoiceId: this.invoice._id,
-          amount: this.invoice.total,
-          currency: this.invoice.currency,
+          paymentDate: this.$dateFns.format(this.paidObj.paymentDate, 'yyyy-MM-dd'),
+          paymentType: this.paidObj.paymentType.type,
+          invoiceId: this.invoice._id
         })
-      }catch (e) {
+
+        this.$lunaToast.success('Invoice updated')
+        this.close()
+      } catch (e) {
         console.log(e)
       }
     },
-    close() {
+    close () {
       this.$emit('close')
     },
-    async sendNudge() {
+    async sendNudge () {
       this.nudging = true
       try {
-        await this.$store.dispatch("invoice/notify", { id: this.invoice._id })
-      }catch (e) {
-        
-      }finally {
+        await this.$store.dispatch('invoice/notify', { id: this.invoice._id })
+        this.$lunaToast.success('Reminder send')
+      } catch (e) {
+
+      } finally {
         this.nudging = false
         this.close()
       }

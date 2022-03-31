@@ -199,7 +199,6 @@ export default {
     }
   },
   async mounted (ctx) {
-    
     try {
       this.checkPaymentMethods()
       const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
@@ -209,7 +208,6 @@ export default {
     } catch (e) {
       console.log({ e })
     }
-    // this.$modal.show('invoice-details')
   },
   methods: {
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),

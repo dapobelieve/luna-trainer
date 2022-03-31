@@ -161,14 +161,15 @@ export default {
     }
   },
   mounted () {
-    this.$lunaToast.error(
+    this.$lunaToast.show(
       `Hey, ${this.$auth.user.firstName}
                     ${this.$auth.user.lastName}! We are glad to have you on our platform. We have built an all-in-one platform that’s solving all your dog training problems.`, {
         position: 'bottom-right',
         actions: true,
         confirm: {
           text: 'Got it',
-          resolver: async () => {}
+          resolver: async () => {
+          }
         },
         cancel: {
           text: 'Not Now',

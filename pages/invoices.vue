@@ -2,7 +2,7 @@
   <div class="h-full">
     <PageHeader>
       <template v-slot:title>
-        <span class="font-normal">Invoices</span>
+        <span class="font-normal">Billings</span>
       </template>
       <template v-slot:buttons>
         <div class="flex items-center">

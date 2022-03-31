@@ -102,11 +102,11 @@ export const actions = {
       return error
     }
   },
-  async createPaymentReceipt(_, receipt) {
+  async createPaymentReceipt (_, receipt) {
     console.log(receipt)
-      await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt`, receipt)
-      return true
-  },
+    await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt`, receipt)
+    return true
+  }
 }
 
 export const getters = {
