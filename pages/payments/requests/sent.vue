@@ -75,7 +75,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'payment-request-id-view', params: {id: data._id}})">
+                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'payments-request-id-view', params: {id: data._id}})">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -122,7 +122,7 @@
           <p class="text-sm text-gray-500 mb-4">
             We want to make your world easier by connecting and <br> managing your payment requests and payments systems.
           </p>
-          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payment-request', })">
+          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payments-request', })">
             <i class="fi-rr-plus text-white"></i>
             <span class="text-font-medium text-white text-base ml-2">New Payment Request</span>
           </button>

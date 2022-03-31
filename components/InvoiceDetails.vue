@@ -80,13 +80,13 @@
     </div>
     <div v-if="details.status === 'draft'" class="flex justify-center">
       <button class="base-button" @click.prevent="sendInvoice = true">
-        Send Invoice
+        Send Payment Request
       </button>
     </div>
     <GwModal :input-width="100" :is-open="sendInvoice" @close="sendInvoice = $event" @closeBackDrop="sendInvoice = $event">
       <template v-slot:status>
         <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
-          Send Invoice
+          Send Payment Request
         </div>
       </template>
       <SendInvoice :send-details="details" @close="closeAllModal($event)" />

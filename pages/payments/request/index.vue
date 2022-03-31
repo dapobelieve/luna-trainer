@@ -18,7 +18,7 @@ export default {
     }
   },
   mounted () {
-    this.sharedPage.page = 'Create Invoice'
+    this.sharedPage.page = 'Create Payment Request'
   },
   methods: {
     closeConnection () {

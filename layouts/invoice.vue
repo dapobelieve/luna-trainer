@@ -13,7 +13,7 @@
       <i
         role="button"
         class="fi-rr-cross text-blue-500 text-md lg:justify-self-end"
-        @click.prevent="$router.push('/payment-requests/drafts')"
+        @click.prevent="$router.back()"
       ></i>
     </div>
     <Nuxt
@@ -35,11 +35,12 @@ export default {
     return {
       showAutosavingText: false,
       sharedPage: {
-        page: 'Create Invoice'
+        page: 'Create Payment Request'
       }
     }
   },
   created () {
+    console.log(this.$router)
     this.$nuxt.$on('autosaving-invoice', () => {
       this.showAutosavingText = true
     })
