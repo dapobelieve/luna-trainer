@@ -86,7 +86,7 @@
       <modal name="welcome-modal">
         <div class="grid m-6">
           <div class="py-0">
-             <div class="text-center mb-10 font-medium text-2xl">
+            <div class="text-center mb-10 font-medium text-2xl">
               <h3>Welcome to Luna</h3>
             </div>
             <p class="text-center mb-8 w-50">
