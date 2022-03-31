@@ -248,7 +248,6 @@ export default {
           this.$lunaToast.error('Error fetching messages', error)
         }
         if (messages) {
-          console.log('message history ', messages)
           this.msgHistory = messages.reduce((groupedDates, message) => {
             const date = new Date(message.createdAt).toDateString()
             if (!groupedDates[date]) {

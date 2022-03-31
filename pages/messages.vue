@@ -52,7 +52,12 @@
               </div>
             </div>
           </div>
-          <template v-if="search">
+          <template v-if="fetchingMessages">
+            <div class="mt-20 flex justify-center">
+              <SingleLoader />
+            </div>
+          </template>
+          <template v-else-if="search">
             <template v-if="searchClient.length">
               <div
                 v-for="client in searchClient"
@@ -93,52 +98,71 @@
             </div>
           </template>
           <div v-else-if="listOfChannels.length && !search.length">
-            <div
+            <button
               v-for="n in listOfChannels"
               :key="n.url"
-              role="button"
-              class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
+              class="rounded-md py-4 px-3 flex items-center space-x-0 w-full hover:bg-gray-100"
+              :class="{ 'unread-bg': Boolean(n.unreadMessageCount) }"
               @click="gotoMessage(n.members)"
             >
-              <div class="flex-none w-12 mr-4">
-                <ClientAvatar
-                  :client-info="{
-                    sendbirdId: n.lastMessage._sender.userId,
-                    firstName: n.lastMessage._sender.nickname
-                  }"
-                />
-              </div>
-              <div class="truncate flex-grow">
-                <div class="flex items-center">
-                  <span
-                    class="text-base text-gray-700 font-medium capitalize mr-2 flex-grow truncate"
-                  >{{ n.lastMessage._sender.nickname }}</span>
-                  <span
-                    class="text-gray-500 text-sm font-normal normal-case flex-none w-18"
-                  >
-                    {{ n.lastMessage.createdAt | howLongAgo }}
-                  </span>
-                </div>
-                <div
-                  v-if="n.lastMessage.messageType === 'user'"
-                  class="text-gray-700 text-base font-normal normal-case truncate"
-                >
-                  {{ n.lastMessage.message }}
-                </div>
-                <div
-                  v-else-if="n.lastMessage.messageType === 'file'"
-                  class="text-gray-700 flex items-center"
-                >
-                  <img
-                    src="~/assets/img/image-outline.svg"
-                    class="w-5 h-5"
-                    alt=""
-                    srcset=""
+              <span class="w-full flex items-center">
+                <div class="flex-shrink-0 h-12 w-12 mr-4">
+                  <ClientAvatar
+                    :client-info="{
+                      sendbirdId: n.lastMessage._sender.userId,
+                      firstName: n.lastMessage._sender.nickname
+                    }"
                   />
-                  <span class="ml-1 font-medium text-sm">Photo</span>
                 </div>
-              </div>
-            </div>
+                <div class="flex-grow min-w-0 text-left">
+                  <div class="focus:outline-none">
+                    <span
+                      class="font-bold text-base capitalize text-gray-700"
+                    >{{ n.lastMessage._sender.nickname }}</span>
+                    <p
+                      v-if="n.lastMessage.messageType === 'user'"
+                      class="truncate text-sm w-48 xl:w-56 normal-case"
+                      :class="[
+                        Boolean(n.unreadMessageCount)
+                          ? 'font-medium'
+                          : 'font-normal',
+                      ]"
+                    >
+                      {{ n.lastMessage.message }}
+                    </p>
+                    <p
+                      v-else-if="n.lastMessage.messageType === 'file'"
+                      class="flex items-center"
+                    >
+                      <img
+                        src="~/assets/img/image-outline.svg"
+                        class="w-5 h-5"
+                        alt=""
+                        srcset=""
+                      />
+                      <span class="ml-1 font-medium text-sm">Photo</span>
+                    </p>
+                    <p
+                      class="text-sm"
+                      :class="[
+                        Boolean(n.unreadMessageCount)
+                          ? 'font-medium text-blue-500'
+                          : 'text-gray-500 font-normal',
+                      ]"
+                    >
+                      {{ n.lastMessage.createdAt | howLongAgo }}
+                    </p>
+                  </div>
+                </div>
+              </span>
+              <span class="text-xs text-gray-500 truncate">
+                <p
+                  v-if="Boolean(n.unreadMessageCount)"
+                  class="bg-blue-700 p-1 rounded-full"
+                ></p>
+                <i v-else class="fi-rr-angle-right text-blue-500"></i>
+              </span>
+            </button>
           </div>
           <div v-else class="text-center py-8 px-4 flex w-full justify-center">
             <div class="max-w-xs flex gap-3 flex-col">
@@ -157,7 +181,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'MessagesSubMenu',
   data () {
@@ -166,10 +190,9 @@ export default {
     }
   },
   computed: {
+    ...mapState('sendBird', ['fetchingMessages']),
     ...mapGetters({
       allClients: 'client/getAllClients',
-      unreadMessages: 'sendBird/getUnreadMessages',
-      acceptedClients: 'client/acceptedClients',
       listOfChannels: 'sendBird/listOfChannels'
     }),
     acceptedImageTypes (file) {
@@ -187,15 +210,25 @@ export default {
   },
   methods: {
     gotoMessage (arr) {
-      const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
-      const client = this.acceptedClients.find(
-        c => c.sendbirdId === user.userId
-      )
-      this.$router.push({
-        name: 'client-id-messages',
-        params: { id: client._id }
-      })
+      try {
+        const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
+        const client = this.allClients.find(
+          c => c.sendbirdId === user.userId
+        )
+        this.$router.push({
+          name: 'client-id-messages',
+          params: { id: client._id }
+        })
+      } catch (error) {
+        this.$lunaToast.error('Something went wrong, Please contact admin.')
+      }
     }
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.unread-bg {
+background-color: #F8FAFC;
+}
+</style>

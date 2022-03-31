@@ -217,14 +217,23 @@ export const getters = {
     return []
   },
 
-  getCurrentClient: state => state.tempClient,
-  listOfChannels: (state) => {
+  listOfChannels: (state, getters, rootState) => {
+    const allMessages = []
     if (state.connectedChannels.size) {
-      const a = Array.from(state.connectedChannels.values())
-      return a.sort((a, b) => {
+      // eslint-disable-next-line no-unused-vars
+      for (const [key, value] of state.connectedChannels.entries()) {
+        if (
+          value.lastMessage._sender.userId !== rootState.auth.user.sendbirdId
+        ) {
+          allMessages.push(value)
+        }
+      }
+    }
+    if (allMessages.length) {
+      return allMessages.sort((a, b) => {
         return b.createdAt - a.createdAt
       })
     }
-    return []
+    return allMessages
   }
 }
