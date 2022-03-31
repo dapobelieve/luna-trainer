@@ -100,6 +100,7 @@ export default {
     try {
       await this.$store.dispatch('scheduler/connectToLocalCalendar')
     } catch (e) {
+      console.log(e)
       await this.$store.dispatch('scheduler/getCalendars')
     }
   },
