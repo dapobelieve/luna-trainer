@@ -14,17 +14,17 @@
           />
           <div class="mt-6 lg:mt-10">
             <h1 class="text-2xl md:text-3xl lg:text-4xl">
-              We’re here to make dog trainers’ lives easier
+              A home for modern dog training businesses.
             </h1>
             <div
               class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6"
             >
-              <p v-if="routeName === 'auth-signup'" class="text-gray-500">
+               <p v-if="routeName === 'auth-signup'" class="text-gray-500">
                 You can sign in with your Google account below to sign up.
               </p>
               <p v-else class="text-gray-500">
-                You can sign in with your Google account below which will sync
-                everything you need at once
+                Sign in with your Google account to sync everything you need
+                instantly.
               </p>
             </div>
             <div class="mt-6">

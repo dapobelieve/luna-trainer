@@ -56,14 +56,6 @@ export default {
       showSidebarMenu: false
     }
   },
-  watch: {
-    $route: {
-      immediate: true,
-      handler () {
-        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
-      }
-    }
-  },
   computed: {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
@@ -74,30 +66,12 @@ export default {
       isStripeConnected: state => state.profile.isStripeConnected
     })
   },
-  methods: {
-    toggleSidebarMenu () {
-      this.showSidebarMenu = !this.showSidebarMenu
-    },
-    hideMobileMenu () {
-      this.showSidebarMenu = false
-    },
-    ...mapActions('sendBird', {
-      connectToSendBird: 'connect_to_sb_server_with_userid',
-      newMessage: 'updateConnectedChannels',
-      addChannel: 'addNewChannel'
-    }),
-    ...mapActions('authorize', {
-      startFullPageLoad: 'startFullPageLoading',
-      endFullPageLoad: 'endFullPageLoading'
-    }),
-    ...mapActions({
-      fetchAllClients: 'client/fetchAllClients'
-    }),
-    toggleSide () {
-      this.open = !this.open
-    },
-    hideSide () {
-      this.open = false
+  watch: {
+    $route: {
+      immediate: true,
+      handler () {
+        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+      }
     }
   },
   created () {
@@ -127,6 +101,32 @@ export default {
       await this.$store.dispatch('scheduler/connectToLocalCalendar')
     } catch (e) {
       await this.$store.dispatch('scheduler/getCalendars')
+    }
+  },
+  methods: {
+    toggleSidebarMenu () {
+      this.showSidebarMenu = !this.showSidebarMenu
+    },
+    hideMobileMenu () {
+      this.showSidebarMenu = false
+    },
+    ...mapActions('sendBird', {
+      connectToSendBird: 'connectToSBWithUserid',
+      newMessage: 'updateConnectedChannels',
+      addChannel: 'addNewChannel'
+    }),
+    ...mapActions('authorize', {
+      startFullPageLoad: 'startFullPageLoading',
+      endFullPageLoad: 'endFullPageLoading'
+    }),
+    ...mapActions({
+      fetchAllClients: 'client/fetchAllClients'
+    }),
+    toggleSide () {
+      this.open = !this.open
+    },
+    hideSide () {
+      this.open = false
     }
   }
 }

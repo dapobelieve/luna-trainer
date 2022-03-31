@@ -92,15 +92,11 @@
       :max-width="450"
       :click-to-close="false"
     >
-      <div class="text-left mx-6 mt-8 mb-4">
-        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">
-          Welcome to GetWelp!
-        </h2>
+       <div class="text-left mx-6 mt-8 mb-4">
+        <h2 class="text-2xl md:text-3xl lg:text-3xl mb-4">Welcome to Luna!</h2>
         <p class="text-base text-gray-700 mb-6 leading-relaxed">
-          So, you’ve made it this far! We want to give you the best chance of
-          getting most out of the platform so we’re going to run you through an
-          onboarding process which will integrate and automate various elements
-          of your business right from the word go!
+          We want you to get the most out of the platform from day 1 - so we’re
+          going to take you through a simple setup process to get you started.
         </p>
         <div class="flex justify-start py-4">
           <a
@@ -108,7 +104,7 @@
             style="width: fit-content"
             class="button-fill px-3 py-2 text-white bg-blue-500 rounded-md font-extrabold"
           >
-            Lets Get Started
+            Start now
           </a>
         </div>
       </div>

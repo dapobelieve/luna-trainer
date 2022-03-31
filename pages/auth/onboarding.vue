@@ -169,30 +169,27 @@ export default {
       pageIntro: [
         {
           id: 0,
-          title: 'We would like to get to know you personally.',
-          subTitle:
-            'This first stage is your personal profile. Pretty simple, right?'
+          title: 'Setting up your account',
+          subTitle: 'Starting with the basics...'
         },
         {
           id: 1,
-          title: 'Your Business Information',
-          subTitle:
-            'We want to get to know you as a Trainer, in this section. It’s important because it gives us a good understanding of the types of Trainers using GetWelp and how we can help 🙂'
+          title: 'Setting up your business profile',
+          subTitle: 'We only need a couple of details'
         },
         {
           id: 2,
-          title: 'You as a Trainer...',
+          title: 'Next your trainer profile.',
           type: 'html',
-          subTitle: 'We want to get to know you as a Trainer, in this section. It’s important because it gives us a good understanding of the types of Trainers using GetWelp and how we can help 🙂'
+          subTitle:
+            'Tell us about your qualifications, accreditations and specialisms.'
         },
         {
           id: 3,
-          title: 'Your services',
+          title: 'And finally, your services.',
           type: 'html',
           subTitle:
-            '<p class="mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
-            '<p class="mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
-            'For example:<br/><ul class="list-disc list-inside mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
+            '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
             "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         },
         {
@@ -200,9 +197,7 @@ export default {
           title: 'Your services',
           type: 'html',
           subTitle:
-            '<p class="mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
-            '<p class="mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
-            'For example:<br/><ul class="list-disc list-inside mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
+            '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
             "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         }
       ]
