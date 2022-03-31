@@ -55,12 +55,12 @@ export default {
     return {
       menuItems: [
         {
-          pathName: 'messages',
-          icon: 'fi-rr-comment-alt'
-        },
-        {
           pathName: 'information',
           icon: 'fi-rr-user'
+        },
+        {
+          pathName: 'messages',
+          icon: 'fi-rr-comment-alt'
         },
         {
           pathName: 'notes',
@@ -83,7 +83,7 @@ export default {
       if (menu.pathName === 'messages') {
         const status = this.clients.find(c => c._id === id).status
         if (status === 'invited') {
-          this.$lunaToast.info('You can only message clients who have accepted your invite.')
+          this.$lunaToast.warning('You can only message clients who have accepted your invite.')
           return
         } else {
           this.$router.push({ name: `client-id-${menu.pathName}`, params: { id } })
