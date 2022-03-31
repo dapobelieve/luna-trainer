@@ -472,12 +472,14 @@ export default {
     async createInvoice () {
       const res = await this.createNewInvoice(this.getInvoicePayload())
       this.invoiceId = res.data._id
-      this.$router.replace({
-        name: 'payments-request',
+      try {
+        this.$router.replace({
+        name: 'payments-request-id',
         params: {
           id: res.data._id
         }
       })
+      } catch{}
     },
     async send () {
       try {
