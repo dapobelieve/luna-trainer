@@ -271,7 +271,7 @@ export default {
       this.nudging = true
       try {
         await this.$store.dispatch('invoice/notify', { id: this.invoice._id })
-        this.$lunaToast.success('Reminder send')
+        this.$lunaToast.success('Reminder sent')
       } catch (e) {
 
       } finally {
