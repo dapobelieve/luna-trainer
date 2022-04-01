@@ -10,7 +10,7 @@
     <div class="flex">
       <invite-new-client-modal redirect />
       <Navigation class="hidden lg:block" />
-      <div v-if="showSidebarMenu" class="block lg:hidden">
+      <div v-if="showSidebarMenu" class="block lg:hidden absolute bg-fuchsia-500">
         <Navigation />
       </div>
       <div class="w-full p-4 bg-gray-100 flex justify-center">

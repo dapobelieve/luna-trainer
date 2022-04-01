@@ -1,4 +1,4 @@
-export default function ({ $axios, redirect, $toast, store, $modal }) {
+export default function ({ $axios, store }) {
   $axios.onError((error) => {
     if (error.response.status === 401) {
       store.commit('authorize/TOKEN_EXPIRED', true)

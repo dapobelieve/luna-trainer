@@ -44,7 +44,8 @@
                 <input
                   type="text"
                   name="search"
-                  class="focus:outline-none w-full sm:text-sm border rounded-md h-8 pl-3 bg-gray-50 shadow-sm focus:border-blue-500"
+                  @click.stop="$modal.show('luna-search-modal')"
+                  class="focus:outline-none w-full cursor-pointer sm:text-sm border rounded-md h-8 pl-3 bg-gray-50 shadow-sm"
                   placeholder="Search"
                 />
               </div>
@@ -121,12 +122,12 @@
               <h3 class="">
                 {{ menu.title }}
               </h3>
-              <div v-if="menu.path === 'messages'" class="ml-auto">
+              <div v-if="menu.path === 'messages' && unreadMessages.length" class="ml-auto">
                 <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
                   {{ unreadMessages.length }}
                 </div>
               </div>
-              <div v-else-if="menu.path === 'notifications'" class="ml-auto">
+              <div v-else-if="menu.path === 'notifications' && unReadNotifications.length" class="ml-auto">
                 <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
                   {{ unReadNotifications.length }}
                 </div>
@@ -174,13 +175,16 @@
         </div>
       </div>
     </nav>
+    <LunaSearch />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
+import LunaSearch from "~/components/LunaSearch";
 export default {
   name: 'Navigation',
+  components: {LunaSearch},
   data () {
     return {
       showQuickMenu: false,
@@ -345,6 +349,18 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        this.$modal.hide('luna-search-modal')
+      }
+    })
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 75 && e.metaKey) {
+        this.$modal.show('luna-search-modal')
+      }
+    })
   }
 }
 </script>

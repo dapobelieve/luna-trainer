@@ -124,6 +124,7 @@
                   v-model="form.participants"
                   placeholder="Participants"
                   multiple
+                  label="firstName"
                   class="w-full clients-selector repeat-selector"
                   :clients="allClients"
                 >
@@ -201,7 +202,7 @@
         </div>
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
-          <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
+          <GwCustomerSelector v-model="form.color" label="name" class="w-full color-selector" :clients="colors">
             <template v-slot:selectedOption="{selected}">
               <div class="flex items-center">
                 <span :class="selected.class" class="color-circle rounded-full mr-4"></span>

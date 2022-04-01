@@ -7,7 +7,7 @@
       :options="clients"
       :placeholder="placeholder"
       class="v-select"
-      label="label"
+      :label="label"
       taggable
       @input="$emit('change', $event)"
     >
@@ -46,6 +46,10 @@ export default {
     event: 'change'
   },
   props: {
+    label: {
+      type: String,
+      default: 'label'
+    },
     multiple: {
       type: Boolean,
       default: false

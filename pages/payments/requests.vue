@@ -74,7 +74,7 @@ export default {
   computed: {
     currentInvoice () {
       const t = this.$route.name.split('payments-requests-')?.[1] ?? ''
-      return `${String(t).split('').map((_, i) => (i === 0 ) ? _.toUpperCase() : _).join('')}`
+      return `${String(t).split('').map((_, i) => (i === 0) ? _.toUpperCase() : _).join('')}`
     },
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',

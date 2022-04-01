@@ -4,7 +4,7 @@ const _defaultOptions = {
   position: 'top-right',
   actions: false,
   timeout: 5000,
-  image: 'https://res.cloudinary.com/rohing/image/upload/v1587700139/photo-1542393545-10f5cde2c810_zvvwje.jpg',
+  image: 'https://getwelp-files.s3.us-west-2.amazonaws.com/logos/logo_icon_coloured.svg',
   cancel: {
     text: 'cancel',
     resolver: () => { console.log('cancel clicked') }
@@ -129,6 +129,7 @@ export class LunaToast {
   #composeBody = (options) => {
     const body = document.createElement('div')
     body.className = 'flex-grow ml-2'
+    body.style.wordBreak = 'break-all'
     if (options.heading) {
       const h3 = this.#createElement('h3', 'text-black font-medium text-base')
       console.log(h3)
@@ -164,7 +165,7 @@ export class LunaToast {
   }
 
   #composeImage = (options) => {
-    const image = this.#createElement('img', 'flex-shrink-0 h-6 w-6 rounded-full')
+    const image = this.#createElement('img', 'flex-shrink-0 h-6 w-6 rounded-full mt-1')
     image.src = options.image
     return image
   }
