@@ -2,7 +2,7 @@
   <main>
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
-        <DashboardCard :view-all="events.length > 0" class="p-0">
+        <DashboardCard :view-all="events.length > 0" class="p-0" id="session-st">
           <div id="session-hint">
             <div class="mb-5">
               <img class="w-full" src="~/assets/img/home.svg">
@@ -54,8 +54,8 @@
           </div>
         </DashboardCard>
         <div class="grid gap-4">
-          <MessageWidget class="h-[20rem]" />
-          <InvoiceWidget class="h-[31rem]" />
+          <MessageWidget class="h-[20rem]" id="message-hint" />
+          <InvoiceWidget class="h-[31rem]" id="billing-hint" />
         </div>
       </div>
       <!-- modals -->
@@ -225,9 +225,9 @@ export default {
         .setOptions({
           ...{
             nextLabel: 'Next',
-            prevLabel: '',
+            prevLabel: 'Back',
             skipLabel: '',
-            doneLabel: 'Done',
+            doneLabel: 'End tour',
             hidePrev: true,
             hideNext: false,
             nextToDone: true,
@@ -256,28 +256,36 @@ export default {
           },
           steps: [
             {
-              element: document.querySelector('#session-hint'),
-              intro: 'Click here to connect your stripe account'
+              element: document.querySelector('#new-action'),
+              intro: 'If you quickly want to add a new client, create a new payment request, or schedule a new session, you can do that in one click here.'
             },
             {
-              element: document.querySelector('#introjs-step-2'),
-              intro: 'Add your first client here',
-              position: 'left'
+              element: document.querySelector('#home-nav'),
+              intro: 'This is your home dashboard. You can see everything you need to action from here.'
             },
             {
-              element: document.querySelector('#introjs-step-3'),
-              intro: 'Click here to manage all your clients',
-              position: 'right'
+              element: document.querySelector('#home-nav'),
+              intro: 'Within your left navigation menu, you can easily jump into any of your main pages. '
             },
             {
-              element: document.querySelector('#introjs-step-4'),
-              intro: 'Click here generate new invoice for your clients',
-              position: 'right'
+              element: document.querySelector('#session-st'),
+              intro: 'From here you can see all your sessions for the day - schedule a new session, or click view all to jump into your full schedule. '
             },
             {
-              element: document.querySelector('#introjs-step-5'),
-              intro: 'Here you can manages messages received  from your clients',
-              position: 'right'
+              element: document.querySelector('#message-hint'),
+              intro: 'Here you will see all unread messages. Just click on an any message to jump into your clients profile to reply and see any relevant notes. '
+            },
+            {
+              element: document.querySelector('#billing-hint'),
+              intro: 'Here within payments, you can see all notifications on outstanding or recieved payments. You can quickly send a nudge to your clients to remind them to pay you. '
+            },
+            {
+              element: document.querySelector('#settings-hint'),
+              intro: 'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here. '
+            },
+            {
+              element: document.querySelector('#reporting-hint'),
+              intro: 'Within reporting you can see a simple overview of how your business is performing.'
             }
           ]
         })
@@ -319,9 +327,14 @@ export default {
 .introjs-arrow.top {
     border-bottom-color: #3B82F6;
 }
-.introjs-prevbutton{
-  opacity: 0;
-  visibility: 0;
+.introjs-arrow.bottom {
+    border-top-color: #3B82F6;
+}
+.introjs-arrow.left {
+    border-right-color: #3B82F6;
+}
+.introjs-arrow.right {
+    border-bottom-color: #3B82F6;
 }
 .introjs-tooltip-title,
 .introjs-tooltip,.introjs-floating,
