@@ -2,7 +2,7 @@
   <div
     class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
-    <nav aria-label="Sidebar" class="w-full">
+    <nav aria-label="Sidebar" id="home-nav" class="w-full">
       <div class="">
         <div
           class="px-1 pt-3 lg:pt-3 flex flex-col border overflow-y-auto h-screen max-h-screen"
@@ -49,7 +49,7 @@
                   placeholder="Search"
                 />
               </div>
-              <div class="relative">
+              <div class="relative" id="new-action">
                 <button
                   style="height: 35px; padding-bottom: 0"
                   class="rounded-lg px-0 pl-2 w-full button-fill h-4"
@@ -116,6 +116,7 @@
               :key="menuIndex"
               :class="[menu.path.includes(currentLink) ? 'active' : '']"
               :to="{ name: menu.path }"
+              :id="getId(menu.title)"
               class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg"
             >
               <i :class="menu.icon" class="mr-4 mt-0.5"></i>
@@ -309,6 +310,16 @@ export default {
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
+    getId (e) {
+      switch (e) {
+        case 'Report':
+          return 'reporting-hint'
+        case 'Settings':
+          return 'settings-hint'
+        default:
+          return ''
+      }
+    },
     ...mapMutations({
       localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
     }),

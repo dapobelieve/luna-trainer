@@ -125,7 +125,7 @@ export default {
   data () {
     return {
       showPassword: false,
-      signUpText: 'get started',
+      signUpText: 'Get started',
       isLoading: false,
       userInfo: {
         email: '',
