@@ -37,7 +37,7 @@
                     You have no appointment
                   </h3>
                   <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                  <button class="button-fill mt-3">
+                  <button @click="openSession" class="button-fill mt-3">
                     Schedule a session
                   </button>
                 </div>
@@ -204,6 +204,11 @@ export default {
     })
   },
   methods: {
+    openSession () {
+      this.$store.commit('scheduler/setStates', {
+        drawer: { open: true, activePage: 'new-session' }
+      })
+    },
     tour () {
       this.$modal.hide('welcome-modal')
       this.$intro()

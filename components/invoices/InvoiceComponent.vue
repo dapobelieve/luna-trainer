@@ -307,19 +307,15 @@ import { mapActions, mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
 import isEmpty from 'lodash.isempty'
 import ContainerWithTitle from '../Containers/ContainerWithTitle'
-import InviteNewClient from '../InviteNewClient'
 import EditInvoiceItem from './EditInvoiceItem'
 import OnetimeInvoiceItem from './OnetimeInvoiceItem'
-import GwCustomerSelector from '~/components/GwCustomerSelector'
 import ItemDisplay from '~/components/invoices/ItemDisplay'
 export default {
   name: 'Invoice',
   components: {
-    GwCustomerSelector,
     ItemDisplay,
     DatePicker,
     ContainerWithTitle,
-    InviteNewClient,
     EditInvoiceItem
   },
   layout: 'invoice',
