@@ -10,7 +10,7 @@
         </button>
       </template>
     </PageHeader>
-    <div class="flex justify-center p-4 pb-24 max-w-full md:max-w-4xl lg:max-w-full 2xl:max-w-7xl mx-auto">
+    <div class="flex justify-center p-4 max-w-full md:max-w-4xl lg:max-w-full 2xl:max-w-7xl mx-auto">
       <gw-pagination class="contain-default-pages" :visible="Boolean(size)" :total-items="size">
         <template v-slot:content="{ pageNumber }">
           <GwClients :status="filter" :page-number="pageNumber" />

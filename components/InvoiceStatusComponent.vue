@@ -9,7 +9,7 @@ export default {
   props: {
     status: {
       type: String,
-      default: 'overdue'
+      default: 'paid'
     }
   },
   data () {
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     computedStatus () {
-      return this.statuses[this.status.toLowerCase()]
+      return this.statuses[this.status?.toLowerCase()] || 'paid'
     }
   }
 }

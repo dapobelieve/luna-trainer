@@ -4,7 +4,9 @@
       class="bg-white rounded-xl border p-4 md:p-6 flex flex-col gap-4 md:gap-6"
     >
       <div>
-        <div class="text-xl font-bold">Hello.</div>
+        <div class="text-xl font-bold">
+          Hello.
+        </div>
         <span class="text-sm md:gap-3">Sign in with email</span>
       </div>
       <form class="flex flex-col gap-4" @submit.prevent="login">
@@ -84,7 +86,7 @@
         </div>
       </form>
     </div>
-     <div
+    <div
       class="text-center mt-4 bg-white rounded-xl border h-auto md:h-20 flex items-center justify-center px-4 py-6"
     >
       Don't have a Luna account?

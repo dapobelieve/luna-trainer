@@ -83,11 +83,11 @@
                       </button>
                       <button
                         class="hover:bg-blue-50 py-2 pl-3"
-                        @click="$router.push({ name: 'invoice' })"
+                        @click="$router.push({ name: 'payments-request' })"
                       >
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-receipt mr-3 text-gray-500"></i>
-                          Invoice
+                          Payment Request
                         </span>
                       </button>
                       <button
@@ -122,6 +122,16 @@
               <h3 class="">
                 {{ menu.title }}
               </h3>
+              <div v-if="menu.path === 'messages'" class="ml-auto">
+                <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
+                  {{ unreadMessages.length }}
+                </div>
+              </div>
+              <div v-else-if="menu.path === 'notifications'" class="ml-auto">
+                <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
+                  {{ unReadNotifications.length }}
+                </div>
+              </div>
             </NuxtLink>
           </div>
           <div class="bottom-nav">
@@ -165,48 +175,11 @@
         </div>
       </div>
     </nav>
-    <NotificationsModal
-      :visible="showNotification"
-      @close="showNotification = $event"
-    >
-      <template v-slot:title>
-        {{
-          !acceptedClients.length
-            ? "No Invited Clients"
-            : "Services Unavailable"
-        }}
-      </template>
-      <template v-slot:subtitle>
-        {{
-          !acceptedClients.length
-            ? "You need to invite a client before you can create an invoice."
-            : "You need to add at least one service before you can create an invoice."
-        }}
-      </template>
-      <template v-slot:actionButtons>
-        <button
-          v-if="!acceptedClients.length"
-          class="base-button normal-case"
-          style="width: fit-content"
-          @click="inviteClient"
-        >
-          Invite a client
-        </button>
-        <NuxtLink
-          v-else
-          to="/Settings#services"
-          class="base-button normal-case"
-          style="width: fit-content"
-        >
-          Add a service
-        </NuxtLink>
-      </template>
-    </NotificationsModal>
   </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapMutations, mapGetters } from 'vuex'
 export default {
   name: 'Navigation',
   data () {
@@ -218,6 +191,17 @@ export default {
           icon: 'fi-rr-home',
           title: 'Home',
           path: 'dashboard'
+        },
+        {
+          icon: 'fi-rr-comment-alt',
+          id: 'introjs-step-5',
+          title: 'Messages',
+          path: 'messages'
+        },
+        {
+          icon: 'fi-rr-bell-ring',
+          title: 'Notifications',
+          path: 'notifications'
         },
         {
           icon: 'fi-rr-following',
@@ -232,18 +216,7 @@ export default {
         {
           icon: 'fi-rr-receipt',
           title: 'Payment',
-          path: 'payment-requests-sent'
-        },
-        {
-          icon: 'fi-rr-comment-alt',
-          id: 'introjs-step-5',
-          title: 'Messages',
-          path: 'messages'
-        },
-        {
-          icon: 'fi-rr-bell-ring',
-          title: 'Notifications',
-          path: 'notifications'
+          path: 'payments-requests-sent'
         },
         {
           icon: 'fi-rr-chart-histogram',
@@ -266,7 +239,7 @@ export default {
       unreadMessages: 'sendBird/getUnreadMessages',
       notifications: 'notifications/getAllNotifications'
     }),
-    unreadnotifications () {
+    unReadNotifications () {
       return this.notifications.filter(n => n.status === 'UNREAD')
     },
     firstName (string) {
@@ -309,29 +282,23 @@ export default {
     })
     socket.on('new-notification', (data) => {
       const { type } = data
-      console.log(data)
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
       }
-      const isNotificationOn = sessionStorage.getItem('notificationOn')
-      if (isNotificationOn) {
-        switch (type) {
-          case 'INVITE_REQUEST_ACCEPTED':
-            this.$lunaToast.show(`${data.firstName} just accepted your invite`)
-            break
-          case 'PAYMENT_ACCEPTED':
-            this.$lunaToast.show('payment made')
-            break
-          case 'STRIPE_CONNECTION_SUCCESSFUL':
-            this.$lunaToast.show('Stripe has just connected successful')
-            break
-          default:
-            this.$lunaToast.show('You have a new notification')
-            break
-        }
-      }
-      if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.localUpdateClient(data.data)
+      switch (type) {
+        case 'INVITE_REQUEST_ACCEPTED':
+          this.localUpdateClient(data.data)
+          this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
+          break
+        case 'PAYMENT_ACCEPTED':
+          this.$lunaToast.show('payment made')
+          break
+        case 'STRIPE_CONNECTION_SUCCESSFUL':
+          this.$lunaToast.show('Stripe has just connected successful')
+          break
+        default:
+          this.$lunaToast.show('You have a new notification')
+          break
       }
       this.$store.commit('notifications/setNotification', data)
     })
@@ -349,6 +316,9 @@ export default {
           return ''
       }
     },
+    ...mapMutations({
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
+    }),
     openSession () {
       this.$store.commit('scheduler/setStates', {
         drawer: { open: true, activePage: 'new-session' }
@@ -382,7 +352,6 @@ export default {
   watch: {
     $route: {
       handler (newRouteValue) {
-        // put your code here
         this.getNav(newRouteValue)
       },
       deep: true

@@ -8,6 +8,10 @@
   body {
     font-family: 'DM Sans', sans-serif;
     @apply antialiased text-gray-700 bg-gray-100 transition-all;
+    .mx-datepicker-popup {
+      display: none;
+      position: relative !important;
+    }
   }
 
   ::selection {

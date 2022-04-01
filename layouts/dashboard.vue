@@ -1,6 +1,5 @@
 <template>
   <async-view loader-id="logout">
-    <Toast />
     <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
       <div class="inline-flex flex-col items-center">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
@@ -20,7 +19,7 @@
         </div>
       </div>
       <ExpiredSessionAuthModal />
-      <div class="bg-teal-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
+      <div class="bg-teal-500 text-rose-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
       <transition
         enter-active-class="transition-all ease-in-out duration-[500ms]"
         leave-active-class="transition-all ease-in-out duration-[500ms]"
@@ -44,9 +43,8 @@ import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
-import Toast from '@/components/toasts/toast'
 export default {
-  components: { SchedulerDrawer, Toast, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -56,14 +54,6 @@ export default {
       },
       page: this.$route.name,
       showSidebarMenu: false
-    }
-  },
-  watch: {
-    $route: {
-      immediate: true,
-      handler () {
-        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
-      }
     }
   },
   computed: {
@@ -76,30 +66,12 @@ export default {
       isStripeConnected: state => state.profile.isStripeConnected
     })
   },
-  methods: {
-    toggleSidebarMenu () {
-      this.showSidebarMenu = !this.showSidebarMenu
-    },
-    hideMobileMenu () {
-      this.showSidebarMenu = false
-    },
-    ...mapActions('sendBird', {
-      connectToSendBird: 'connect_to_sb_server_with_userid',
-      newMessage: 'updateConnectedChannels',
-      addChannel: 'addNewChannel'
-    }),
-    ...mapActions('authorize', {
-      startFullPageLoad: 'startFullPageLoading',
-      endFullPageLoad: 'endFullPageLoading'
-    }),
-    ...mapActions({
-      fetchAllClients: 'client/fetchAllClients'
-    }),
-    toggleSide () {
-      this.open = !this.open
-    },
-    hideSide () {
-      this.open = false
+  watch: {
+    $route: {
+      immediate: true,
+      handler () {
+        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+      }
     }
   },
   created () {
@@ -128,7 +100,34 @@ export default {
     try {
       await this.$store.dispatch('scheduler/connectToLocalCalendar')
     } catch (e) {
+      console.log(e)
       await this.$store.dispatch('scheduler/getCalendars')
+    }
+  },
+  methods: {
+    toggleSidebarMenu () {
+      this.showSidebarMenu = !this.showSidebarMenu
+    },
+    hideMobileMenu () {
+      this.showSidebarMenu = false
+    },
+    ...mapActions('sendBird', {
+      connectToSendBird: 'connectToSBWithUserid',
+      newMessage: 'updateConnectedChannels',
+      addChannel: 'addNewChannel'
+    }),
+    ...mapActions('authorize', {
+      startFullPageLoad: 'startFullPageLoading',
+      endFullPageLoad: 'endFullPageLoading'
+    }),
+    ...mapActions({
+      fetchAllClients: 'client/fetchAllClients'
+    }),
+    toggleSide () {
+      this.open = !this.open
+    },
+    hideSide () {
+      this.open = false
     }
   }
 }

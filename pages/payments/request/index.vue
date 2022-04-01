@@ -17,8 +17,8 @@ export default {
       connectedPayments: false
     }
   },
-  async mounted () {
-    this.sharedPage.page = 'Create Invoice'
+  mounted () {
+    this.sharedPage.page = 'Create Payment Request'
   },
   methods: {
     closeConnection () {

@@ -22,7 +22,7 @@
             <a
               class="text-gray-700 cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100"
               @click.prevent="$router.push({
-                name: 'invoice-id',
+                name: 'payments-request-id',
                 params: {
                   id: invoice._id
                 }

@@ -1,6 +1,5 @@
 <template>
   <main class="grid place-content-center min-h-screen">
-    <Toast />
     <div class="flex justify-center px-4 pb-28 lg:pb-0">
       <div
         class="flex flex-col lg:flex-row justify-center items-center max-w-lg lg:max-w-screen-xl w-full mt-10 lg:mt-12 2xl:mt-20 gap-4 lg:gap-9 xl:gap-12 relative"
@@ -20,7 +19,7 @@
             <div
               class="w-full md:w-10/12 flex flex-col mr-auto ml-auto lg:ml-0 mt-4 lg:mt-6"
             >
-               <p v-if="routeName === 'auth-signup'" class="text-gray-500">
+              <p v-if="routeName === 'auth-signup'" class="text-gray-500">
                 You can sign in with your Google account below to sign up.
               </p>
               <p v-else class="text-gray-500">
@@ -65,9 +64,7 @@
   </main>
 </template>
 <script>
-import Toast from '~/components/toasts/toast'
 export default {
-  components: { Toast },
   data () {
     return {
       letsGetStarted: true

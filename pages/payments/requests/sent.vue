@@ -54,7 +54,7 @@
                 <tr class="uppercase tracking-wider text-gray-500">
                   <th class="w-12 py-4 font-medium pl-1">
                     <div class="pl-3">
-                      <input v-model="selectAll" class="cursor-pointer h-5 w-5 border-grey-500" type="checkbox">
+                      <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
                     </div>
                   </th>
                   <th class="py-4 font-medium text-left px-6 w-3/6">
@@ -75,7 +75,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'payment-request-id-view', params: {id: data._id}})">
+                <tr v-for="(data) in filteredRecords" :key="data._id" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" :class="[checkedItems.includes(data._id) ? 'active' : '']" @click="$router.push({name: 'payments-request-id-view', params: {id: data._id}})">
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
@@ -102,7 +102,7 @@
                   </td>
                   <td class="py-4 px-6">
                     <div class="text-sm md:text-base text-gray-700">
-                      {{ "\uFFE1" }}{{ data.total }}
+                      {{ "\uFFE1" }}{{ new Intl.NumberFormat().format(data.total) }}
                     </div>
                   </td>
                   <td class="py-4 px-6">
@@ -117,17 +117,18 @@
       <div v-else class="flex justify-around">
         <div class="mt-5 text-center">
           <h4 class="font-bold text-gray-700 mb-1">
-            No Sent Invoices yet
+            No Sent Payment Request yet
           </h4>
           <p class="text-sm text-gray-500 mb-4">
-            We want to make your world easier by connecting and <br> managing your invoicing and payments systems.
+            We want to make your world easier by connecting and <br> managing your payment requests and payments systems.
           </p>
-          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payment-request-id-view', })">
+          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payments-request', })">
             <i class="fi-rr-plus text-white"></i>
-            <span class="text-font-medium text-white text-base ml-2">New Invoice</span>
+            <span class="text-font-medium text-white text-base ml-2">New Payment Request</span>
           </button>
         </div>
       </div>
+      <InvoiceDetailModal id="invoice-details" :invoice="activeRecord" @close="$modal.hide('invoice-details')" />
     </async-view>
   </div>
 </template>
@@ -135,11 +136,13 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
+import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 export default {
   name: 'SentInvoice',
-  components: { SearchDropdown },
+  components: { InvoiceDetailModal, SearchDropdown },
   data () {
     return {
+      activeRecord: null,
       searchField: 'Name',
       searchFields: ['Name', 'Status'],
       selectAll: false,

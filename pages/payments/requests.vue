@@ -2,7 +2,7 @@
   <div class="h-full">
     <PageHeader>
       <template v-slot:title>
-        <span class="font-normal">Payment Requests</span>
+        <span class="font-normal">Payments</span>
       </template>
       <template v-slot:buttons>
         <div class="flex items-center">
@@ -19,12 +19,12 @@
                 <div class="py-1" role="none">
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'payment-requests-sent'}); showDrop=false"
+                    @click.prevent="$router.push({name: 'payments-requests-sent'}); showDrop=false"
                   >Sent
                   </a>
                   <a
                     class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'payment-requests-drafts'}); showDrop=false"
+                    @click.prevent="$router.push({name: 'payments-requests-drafts'}); showDrop=false"
                   >Drafts
                   </a>
                 </div>
@@ -32,7 +32,7 @@
             </div>
           </ClickOutside>
           <NuxtLink
-            :to="{ name: 'payment-request'}"
+            :to="{ name: 'payments-request'}"
             exact-active-class="active"
             class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
@@ -52,7 +52,7 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'Payment Requests',
+  name: 'PaymentRequests',
   data () {
     return {
       showDrop: false,
@@ -73,7 +73,8 @@ export default {
   },
   computed: {
     currentInvoice () {
-      return `${this.$route.name.split('-')[1].charAt(0).toUpperCase()}${this.$route.name.split('-')[1].slice(1)}`
+      const t = this.$route.name.split('payments-requests-')?.[1] ?? ''
+      return `${String(t).split('').map((_, i) => (i === 0 ) ? _.toUpperCase() : _).join('')}`
     },
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',

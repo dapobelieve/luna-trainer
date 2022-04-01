@@ -144,9 +144,6 @@
                           {{ optionObject.firstName }} {{ $utils.optional(optionObject.lastName) }}
                         </p>
                       </div>
-                      <div class="check">
-                        <i class="ns-check text-blue-500 text-lg"></i>
-                      </div>
                     </div>
                   </template>
                   <template v-slot:footer @click.stop="">
@@ -406,7 +403,6 @@ export default {
     }
   },
   beforeMount () {
-    console.log(this.$auth.user.timezone)
     if (this.event.id) {
       this.form.title = this.event.title
       this.form.date = new Date(this.event.when.startTime * 1000)
@@ -507,7 +503,7 @@ export default {
 
           const participants = this.form.participants.reduce((acc, curr) => {
             acc.push({
-              userId: curr._id,
+              userId: curr.userId,
               email: curr.email,
               profileId: curr._id,
               imgUrl: curr.imgURL,

@@ -79,7 +79,6 @@ export const actions = {
     dispatch('loader/startProcess', 'logout', { root: true })
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
-    dispatch('sendBird/setCurrentViewingClient', {}, { root: true })
 
     commit('CLEAR_LOCAL_STORAGE')
     commit('payment-methods/setPaymentMethods', [], { root: true })

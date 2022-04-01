@@ -1,6 +1,5 @@
 <template>
   <div class="bg-gray-100 w-full min-h-screen">
-    <Toast />
     <div
       class="flex justify-between  lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
     >
@@ -13,7 +12,7 @@
       <i
         role="button"
         class="fi-rr-cross text-blue-500 text-md lg:justify-self-end"
-        @click.prevent="$router.push('/payment-requests/drafts')"
+        @click.prevent="$router.back()"
       ></i>
     </div>
     <Nuxt
@@ -22,10 +21,8 @@
   </div>
 </template>
 <script>
-import Toast from '../components/toasts/toast.vue'
 export default {
   name: 'InvoiceLayout',
-  components: { Toast },
   provide () {
     return {
       sharedPage: this.sharedPage
@@ -35,11 +32,12 @@ export default {
     return {
       showAutosavingText: false,
       sharedPage: {
-        page: 'Create Invoice'
+        page: 'Create Payment Request'
       }
     }
   },
   created () {
+    console.log(this.$router)
     this.$nuxt.$on('autosaving-invoice', () => {
       this.showAutosavingText = true
     })

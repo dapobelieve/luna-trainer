@@ -167,55 +167,25 @@
   }
 }
 
-// toast styles
-.toasted-container {
-  min-width: 320px !important;
-  .toasted {
-    min-height: 56px !important;
-    justify-content: flex-start;
-    font-size: 16px !important;
-    font-weight: 400 !important;
-    color: #334155 !important;
-    background: white !important;
-    border: 1px solid #e2e8f0 !important;
-    // box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.5) !important;
-    border-radius: 12px !important;
-    i {
-      font-size: 20px !important;
-      padding: 11px !important;
-      border-radius: 1000px !important;
-      margin-right: 12px !important;
-    }
+.top {
+  top: 1.5rem;
+  &-left {
+    left: 2.2rem;
+  }
+  &-right {
+    right: 2.2rem;
   }
 }
 
-.toast-success {
-  i {
-    background: #f0fdfa !important;
-    color: #14b8a6 !important;
+.bottom {
+  bottom: 1.5rem;
+  &-left {
+    left: 2.2rem;
+  }
+  &-right {
+    right: 2.2rem;
   }
 }
-.toast-info {
-  i {
-    background: #f0f9ff !important;
-    color: #0ea5e9 !important;
-  }
-}
-.toast-error {
-  i {
-    background: #fff1f2 !important;
-    color: #f43f5e !important;
-  }
-}
-.toast-warning {
-  i {
-    background: #fffbeb !important;
-    color: #f59e0b !important;
-  }
-}
-.toast-close {
-  margin-left: auto !important;
-  color: #3b82f6;
-  height: 10px;
-  width: 10px;
+.mx-datepicker-popup {
+  top: 500px !important;
 }

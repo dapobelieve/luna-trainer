@@ -20,6 +20,7 @@ export const mutations = {
 }
 
 export const actions = {
+  // eslint-disable-next-line no-empty-pattern
   async archive ({ }, payload) {
     return await this.$axios.post(`${process.env.BASEURL_HOST}/profile/${payload._id}/archive`)
   },

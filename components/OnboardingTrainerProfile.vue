@@ -16,13 +16,14 @@
         </div>
       </div>
       <div class="flex flex-col gap-1.5">
-        <label class="required"
-          >What are your training areas of specialism, or behavioural issue
+        <label
+          class="required"
+        >What are your training areas of specialism, or behavioural issue
           focuses? For example, Puppy Training, Separation Anxiety, Reactivity,
           Agility…
         </label>
         <settings-tag-input v-model="specialization" :block="false" />
-         <div class="text-gray-400">
+        <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>
       </div>

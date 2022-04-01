@@ -41,7 +41,7 @@
                     You have no appointment
                   </h3>
                   <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                  <button class="button-fill mt-3">
+                  <button @click="openSession" class="button-fill mt-3">
                     Schedule a session
                   </button>
                 </div>
@@ -101,7 +101,10 @@
                 business admin, so you can focus on doing what you love.
               </p>
               <div class="flex justify-left gap-5">
-                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="closeModal()">
+                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="() => {
+                   closeModal()
+                   this.doNotShowHints = true
+                   }">
                    Explore by myself
                 </button>
                 <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="closeModal()">
@@ -142,6 +145,7 @@ export default {
       events: [],
       intro: null,
       escapeKeyPressedOnce: false,
+      doNotShowHints: false,
       openBankModal: false,
       showNotification: false,
       paidInvoices: [],
@@ -220,7 +224,13 @@ export default {
     })
   },
   methods: {
+    openSession () {
+      this.$store.commit('scheduler/setStates', {
+        drawer: { open: true, activePage: 'new-session' }
+      })
+    },
     tourItems () {
+      if (this.doNotShowHints) return
       this.$intro()
         .setOptions({
           ...{
@@ -298,7 +308,7 @@ export default {
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
       fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
-      connectToSendBird: 'sendBird/connect_to_sb_server_with_userid'
+      connectToSendBird: 'sendBird/connectToSBWithUserid'
     }),
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
