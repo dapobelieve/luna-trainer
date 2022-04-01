@@ -470,12 +470,12 @@ export default {
       this.invoiceId = res.data._id
       try {
         this.$router.replace({
-        name: 'payments-request-id',
-        params: {
-          id: res.data._id
-        }
-      })
-      } catch{}
+          name: 'payments-request-id',
+          params: {
+            id: res.data._id
+          }
+        })
+      } catch {}
     },
     async send () {
       try {

@@ -41,7 +41,7 @@
                     You have no appointment
                   </h3>
                   <small class="text-base text-gray-500">Your appointments would be displayed here</small>
-                  <button @click="openSession" class="button-fill mt-3">
+                  <button class="button-fill mt-3" @click="openSession">
                     Schedule a session
                   </button>
                 </div>

@@ -1,5 +1,5 @@
 module.exports = {
   devServer: {
-    proxy: 'https://api.getwelp.com/',
-  },
+    proxy: 'https://api.getwelp.com/'
+  }
 }

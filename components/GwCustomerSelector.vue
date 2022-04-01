@@ -7,8 +7,7 @@
       :options="clients"
       :placeholder="placeholder"
       class="v-select"
-      label="label"
-      taggable
+      :label="label"
       @input="$emit('change', $event)"
     >
       <template v-slot:selected-option="selectedOption">
@@ -46,6 +45,10 @@ export default {
     event: 'change'
   },
   props: {
+    label: {
+      type: String,
+      default: 'label'
+    },
     multiple: {
       type: Boolean,
       default: false

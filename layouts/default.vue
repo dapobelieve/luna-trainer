@@ -16,8 +16,8 @@
       />
       <div class="flex">
         <Navigation class="hidden lg:block" />
-        <div v-if="showSidebarMenu" class="block lg:hidden">
-          <Navigation />
+        <div v-if="showSidebarMenu" class="block lg:hidden absolute">
+          <Navigation  />
         </div>
         <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
