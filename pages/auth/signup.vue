@@ -203,6 +203,8 @@ export default {
             position: 'bottom-right'
           })
         }
+        this.isLoading = false
+        this.signUpText = "Get started"
       }
       this.isLoading = false
     }

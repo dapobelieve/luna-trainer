@@ -206,6 +206,7 @@ export default {
               position: 'bottom-right'
             })
           }
+          this.isLoading = false
         }
         this.isLoading = false
       }
