@@ -49,6 +49,7 @@ export default {
     taggable: {
       type: Boolean,
       default: false
+    },
     label: {
       type: String,
       default: 'label'
