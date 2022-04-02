@@ -3,7 +3,7 @@
     <h2 class="heading text-xl text-gray-700 font-normal pb-4 p-4">
       Profile
     </h2>
-    <tabbed-items :links="[{link: 'About You'}, {link: 'Business Info'}, {link: 'As a trainer'}, {link: 'Localization'}]">
+    <TabbedItems :links="[{link: 'About You'}, {link: 'Business Info'}, {link: 'As a trainer'}, {link: 'Localization'}]">
       <template v-slot:tabviews="{ tab }">
         <div class="mx-auto" style="max-width: 448px">
           <profile-settings-about-you v-if="tab === 1" v-model="profile" @change="profile = $event" @change-image="profileImage = $event" @validation="disableButton = $event" />
@@ -22,7 +22,7 @@
           </div>
         </div>
       </template>
-    </tabbed-items>
+    </TabbedItems>
   </div>
 </template>
 

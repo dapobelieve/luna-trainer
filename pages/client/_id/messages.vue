@@ -47,10 +47,12 @@ export default {
             let channel = await this.checkIfConversationExits(
               this.sendbirdId
             )
+            console.log('existing channel ', channel)
             if (!channel) {
               channel = await this.createPrivateChannel(
                 this.sendbirdId
               )
+              console.log('created channel ', channel)
             }
             this.channelUrl = channel.url
             this.channel = channel

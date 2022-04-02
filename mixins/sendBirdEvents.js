@@ -18,9 +18,22 @@ export default {
   methods: {
     // events for sendbird
     onMessageReceived (channel, message) {
+      console.log('message sent ', [channel, message])
+    },
+
+    // message has been updated in chat
+    onMessageUpdated (channel, message) {
+      console.log([channel, message])
+    },
+
+    // user deletes message
+    onMessageDeleted (channel, message) {},
+
+    // something changes in the chat
+    onChannelChanged (channel) {
       const acceptedImageTypes = ['image/gif', 'image/jpeg', 'image/png']
-      const { messageType: incomingMessageType } = message
-      const { type: incomingFileType } = message
+      const { messageType: incomingMessageType } = channel.lastMessage
+      const { type: incomingFileType } = channel.lastMessage
       if (
         (incomingMessageType === 'file' &&
           acceptedImageTypes.includes(incomingFileType)) ||
@@ -28,17 +41,22 @@ export default {
       ) {
         this.$store.dispatch('sendBird/newMessageReceived', {
           channel,
-          message
+          message: channel.lastMessage
         })
         if (
           this.$route.name === 'client-id-messages' &&
           channel.url === this.channelUrl
         ) {
-          const createdDate = new Date(message.createdAt).toDateString()
-          if (createdDate in this.msgHistory) {
-            this.msgHistory[createdDate].push(message)
+          const createdDate = new Date(channel.lastMessage.createdAt).toDateString()
+          if (this.channel.lastMessage._sender.userId === this.sender) {
+            const sendbirdMsgDate = new Date(channel.lastMessage.createdAt).toDateString()
+            const messages = this.msgHistory[sendbirdMsgDate]
+            const messageIndex = messages.findIndex(m => m.data === channel.lastMessage.data)
+            this.msgHistory[sendbirdMsgDate].splice(messageIndex, 1, channel.lastMessage)
+          } else if (createdDate in this.msgHistory) {
+            this.msgHistory[createdDate].push(channel.lastMessage)
           } else {
-            this.msgHistory[createdDate] = message
+            this.msgHistory[createdDate] = [channel.lastMessage]
           }
           this.markMessagesAsRead(channel)
           this.$nextTick(() => {
@@ -48,15 +66,6 @@ export default {
       }
     },
 
-    // message has been updated in chat
-    onMessageUpdated () {},
-
-    // user deletes message
-    onMessageDeleted (channel, message) {},
-
-    // something changes in the chat
-    onChannelChanged (channel) {},
-
     // message has been delivered
     onDeliveryReceiptUpdated (channel) {
       console.log('this channels delivery is updated ', channel)
@@ -64,6 +73,7 @@ export default {
 
     // user reads a specific unread message in the chat
     onReadReceiptUpdated (groupChannel) {
+      console.log('updating read receipt ', groupChannel)
       if (this.channelUrl === groupChannel.url) {
         this.messageReadReceipt = true
       }

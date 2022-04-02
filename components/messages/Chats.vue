@@ -32,76 +32,11 @@
           <div v-for="msg in msgs" :key="msg.index">
             <li
               v-if="msg._sender.userId === sender"
-              class="me flex justify-end pl-6"
             >
-              <small class="self-end text-xs mr-1.5">
-                <img
-                  v-if="messageReadReceipt"
-                  class="text-center inline-block h-3"
-                  src="~/assets/img/svgs/checkmark-done-outline.svg"
-                  alt
-                  srcset
-                />
-                <img
-                  v-else
-                  class="text-center inline-block h-3"
-                  src="~/assets/img/svgs/checkmark-outline.svg"
-                  alt
-                  srcset
-                />
-                <span class="">{{
-                  new Date(msg.createdAt).toLocaleTimeString()
-                }}</span>
-              </small>
-              <span
-                v-if="msg.messageType === 'file'"
-                class="msg overflow-hidden"
-                @click="viewImage(msg)"
-              >
-                <img
-                  class="bg-white cursor-pointer imgSize"
-                  :src="msg.imaging || msg.url"
-                />
-              </span>
-              <div
-                v-else
-                class="msg p-2 max-w-lg break-all"
-                style="calc(100% - 2.5rem)"
-              >
-                {{ msg.message }}
-              </div>
+              <MyMessages :msg="msg" />
             </li>
-            <li v-else class="you flex items-end pr-6">
-              <ClientAvatar
-                v-if="msg._sender.profileUrl"
-                class="mr-2 flex-shrink-0"
-                :client-info="{ imgURL: msg._sender.profileUrl }"
-                :height="2"
-                :width="2"
-              />
-              <ClientAvatar
-                v-else
-                class="mr-2 flex-shrink-0"
-                :client-info="{ firstName: msg._sender.nickname }"
-                :height="2"
-                :width="2"
-              />
-              <span
-                v-if="msg.messageType === 'file'"
-                class="msg overflow-hidden border"
-                @click="viewImage(msg)"
-              >
-                <img
-                  class="bg-white max-w-[16rem] max-h-[13.4rem] cursor-pointer"
-                  :src="msg.url"
-                />
-              </span>
-              <div v-else class="msg p-2 max-w-lg break-all">
-                {{ msg.message }}
-              </div>
-              <small class="ml-2 text-xs">{{
-                new Date(msg.createdAt).toLocaleTimeString()
-              }}</small>
+            <li v-else>
+              <OpponentMessage :msg="msg" />
             </li>
           </div>
         </div>
@@ -110,24 +45,12 @@
         <div class="h-full grid place-content-center text-gray-500">
           <div class="flex items-center">
             <span class="mr-2">Start a conversation</span>
-            <img
-              class="text-center inline-block"
-              src="~/assets/img/svgs/paw.svg"
-              alt
-              srcset
-            />
+            <i class="fi-rr-paw font-bold h-5"></i>
           </div>
         </div>
       </template>
     </ul>
     <div class>
-      <div
-        v-if="uploadingFileToSb"
-        class="bg-black text-white px-4 py-2 z-50"
-        style="width: fit-content"
-      >
-        {{ fileToBeSent.name }} file is uploading...
-      </div>
       <form class="w-full" @submit.prevent="sendChat">
         <div
           class="border-t flex items-center justify-center bg-white rounded-b-xl shadow-sm px-4 py-2 h-auto"
@@ -139,11 +62,6 @@
             class="w-full focus:outline-none text-sm resize-none h-6 box-border"
             placeholder="Type a message"
             @keyup.enter="sendChat"
-            @input="
-              emitValue($event)
-              resize()
-            "
-            @keydown.enter.exact="emitEnter"
           />
           <div class="relative">
             <transition name="fadeIn">
@@ -190,11 +108,15 @@
 import { mapActions } from 'vuex'
 import sendBirdEvents from '../../mixins/sendBirdEvents'
 import PreviewImage from '~/components/messages/PreviewImage.vue'
+import OpponentMessage from '~/components/messages/OpponentMessage.vue'
+import MyMessages from '~/components/messages/MyMessages.vue'
 
 export default {
   name: 'Chats',
   components: {
-    PreviewImage
+    PreviewImage,
+    OpponentMessage,
+    MyMessages
   },
   mixins: [sendBirdEvents],
   props: {
@@ -211,7 +133,6 @@ export default {
     return {
       dragging: false,
       messageReadReceipt: false,
-      uploadingFileToSb: false,
       message: '',
       showUpload: false,
       msgHistory: {},
@@ -238,11 +159,9 @@ export default {
     ...mapActions('sendBird', {
       markMessagesAsRead: 'markMessageAsRead'
     }),
-    // fetch message history
     fetchMessageHistory () {
       const listQuery = this.channel.createPreviousMessageListQuery()
       listQuery.limit = 100
-      // Retrieving previous messages.
       listQuery.load((messages, error) => {
         if (error) {
           this.$lunaToast.error('Error fetching messages', error)
@@ -294,41 +213,6 @@ export default {
       }
       this.dragging = false
     },
-    viewImage (image) {
-      this.$store.commit('sendBird/VIEW_IMAGE', {
-        imageDetails: {
-          url: image.url,
-          nickname: image._sender.nickname,
-          profileImg: image._sender.plainProfileUrl,
-          dateTime: image.createdAt
-        },
-        status: true
-      })
-    },
-    emitEnter (e) {
-      e.preventDefault()
-      this.$emit('enter-pressed')
-    },
-    emitValue (e) {
-      this.$emit('input', e.target.value)
-    },
-    resize () {
-      if (this.$refs.chatArea.value === '') {
-        this.$refs.chatArea.style.height = '46px'
-      }
-      const h = parseInt(this.$refs.chatArea.scrollHeight, 10)
-      if (h < 150) {
-        if (h > 46) {
-          this.$refs.chatArea.style.maxHeight = 'none'
-        }
-        this.$refs.chatArea.style.height = 'auto'
-        this.$refs.chatArea.style.height = `${this.$refs.chatArea.scrollHeight}px`
-      } else if (h > 150) {
-        this.$refs.chatArea.style.height = '150px'
-      } else {
-        this.$refs.chatArea.style.height = 'auto'
-      }
-    },
 
     uploadPhoto () {
       this.$refs.fileUpload.click()
@@ -352,40 +236,43 @@ export default {
       this.isUploading = false
       this.fileImage = null
       this.fileToBeSent = null
-      // this.$refs.fileUpload.value = ''
     },
 
     sendChat () {
       if (this.message) {
-        console.log('treatment ', this.message)
         const params = new this.$sb.UserMessageParams()
         params.parentMessageId = parseInt(this.parentMessageId)
+        params.data = (Date.now() + Math.random()).toString(36)
         params.message = this.message
         params.mentionType = 'users'
         params.pushNotificationDeliveryOption = 'default'
+
+        const createdMessageDate = new Date().toDateString()
+        const baseMessage = {
+          ...params,
+          message: this.message,
+          messageType: 'user',
+          sendingStatus: 'pending',
+          createdAt: new Date(),
+          _sender: {
+            userId: this.sender
+          }
+        }
+        if (createdMessageDate in this.msgHistory) {
+          this.msgHistory[createdMessageDate].push(baseMessage)
+        } else {
+          this.msgHistory[createdMessageDate] = [baseMessage]
+        }
+
+        this.$nextTick(() => {
+          this.scrollFeedToBottom()
+        })
+        this.message = ''
+        // hitting sendbird server with message
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
-            // Handle error.
-            this.$lunaToast.error('Message not sent: ', error)
-            return
+            this.$lunaToast.error('Message not sent')
           }
-          const createdDate = new Date(
-            userMessage.createdAt
-          ).toDateString()
-          if (createdDate in this.msgHistory) {
-            this.msgHistory[createdDate].push(userMessage)
-          } else {
-            console.log('here working ', [
-              this.msgHistory[createdDate],
-              userMessage
-            ])
-            this.msgHistory[createdDate] = userMessage
-          }
-          this.$nextTick(() => {
-            this.scrollFeedToBottom()
-          })
-          this.message = ''
-          this.parentMessageId = 0
         })
       }
     },
@@ -394,57 +281,38 @@ export default {
       // Sending a file message with a raw file
       const params = new this.$sb.FileMessageParams()
       params.parentMessageId = parseInt(this.parentMessageId)
+      params.data = (Date.now() + Math.random()).toString(36)
       params.file = this.fileToBeSent
       params.fileName = this.fileToBeSent.name
       params.fileSize = this.fileToBeSent.size
       params.mentionType = 'users'
-      params.mentionedUserIds = [this.receiver]
       params.pushNotificationDeliveryOption = 'default'
       this.isUploading = false
-      this.uploadingFileToSb = true
+      const createdMessageDate = new Date().toDateString()
+      const baseMessage = {
+        imaging: this.fileImage,
+        messageType: 'file',
+        createdAt: new Date(),
+        sendingStatus: 'pending',
+        _sender: {
+          userId: this.sender
+        }
+      }
+
+      if (createdMessageDate in this.msgHistory) {
+        this.msgHistory[createdMessageDate].push(baseMessage)
+      } else {
+        this.msgHistory[createdMessageDate] = [baseMessage]
+      }
+      this.fileImage = null
+      this.fileToBeSent = null
+      this.$nextTick(() => {
+        this.scrollFeedToBottom()
+      })
+
       this.channel.sendFileMessage(params, (fileMessage, error) => {
         if (error) {
-          // Handle error.
           this.$lunaToast.error('Error uploading image')
-          console.log(error)
-          this.uploadingFileToSb = false
-        }
-        const messageId = fileMessage.messageId
-        if (messageId) {
-          this.uploadingFileToSb = false
-          const createdDate = new Date(
-            fileMessage.createdAt
-          ).toLocaleDateString()
-          if (createdDate in this.msgHistory) {
-            this.msgHistory[createdDate].push({
-              messageId,
-              imaging: this.fileImage,
-              messageType: 'file',
-              createdAt: fileMessage.createdAt,
-              sendingStatus: fileMessage.sendingStatus,
-              url: fileMessage.url,
-              _sender: {
-                userId: this.sender
-              }
-            })
-          } else {
-            this.msgHistory[createdDate] = {
-              messageId,
-              imaging: this.fileImage,
-              messageType: 'file',
-              createdAt: fileMessage.createdAt,
-              sendingStatus: fileMessage.sendingStatus,
-              url: fileMessage.url,
-              _sender: {
-                userId: this.sender
-              }
-            }
-          }
-          this.fileImage = null
-          this.fileToBeSent = null
-          this.$nextTick(() => {
-            this.scrollFeedToBottom()
-          })
         }
       })
     },
@@ -459,24 +327,6 @@ export default {
 
 <style lang="scss" scoped>
 #chatBody {
-  .me,
-  .you {
-    @apply pb-4;
-    div {
-      @apply p-2 shadow-sm;
-    }
-  }
-  .me {
-    .msg {
-      @apply bg-blue-500 text-white rounded-tl-2xl rounded-tr-2xl rounded-br-sm rounded-bl-2xl;
-    }
-  }
-  .you {
-    .msg {
-      @apply bg-gray-100 text-gray-700 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm;
-    }
-  }
-
   .imgSize {
     width: 200px;
     height: 200px;

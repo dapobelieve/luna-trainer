@@ -307,6 +307,7 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
+      console.log('socket enter ', data)
       const { type } = data
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
