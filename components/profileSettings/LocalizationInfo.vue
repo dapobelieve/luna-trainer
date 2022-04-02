@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-1.5">
       <label for="timezone" class="required">Time zone</label>
-      <GwCustomerSelector v-model="profile.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :clients="timezoneArr">
+      <GwSelector v-model="profile.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :options="timezoneArr">
         <template v-slot:selectedOption="{selected}">
           <div class="flex items-center">
             <span class="text-gray-700">{{ selected.label }}</span>
@@ -13,7 +13,7 @@
             <span class="text-gray-700">{{ optionObject.label }}</span>
           </div>
         </template>
-      </GwCustomerSelector>
+      </GwSelector>
     </div>
     <div class="flex flex-col gap-1.5">
       <label for="dateformat">Date format</label>

@@ -27,6 +27,7 @@ export const actions = {
   },
   async connectToStripe ({ commit, dispatch }, redirectUrl) {
     const { data } = await this.$axios.get(`${process.env.PAYMENT_HOST_URL}/stripe/connect/url?returnurl=${redirectUrl}`)
+    if (!data.url) throw new Error(data)
     return data.url
   },
   async disconnectFromStripe ({ commit, dispatch }) {

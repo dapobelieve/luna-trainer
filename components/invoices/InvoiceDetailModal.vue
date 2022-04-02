@@ -158,7 +158,7 @@
         </div>
         <div class="mb-6">
           <label class="">Payment Method</label>
-          <GwCustomerSelector v-model="paidObj.paymentType" placeholder="Select payment method" class="w-full repeat-selector" :clients="paymentMethods">
+          <GwSelector v-model="paidObj.paymentType" placeholder="Select payment method" class="w-full repeat-selector" :options="paymentMethods">
             <template v-slot:selectedOption="{selected}">
               <div class="flex items-center">
                 <span class="text-gray-700">{{ selected.label }}</span>
@@ -169,7 +169,7 @@
                 <span class="text-gray-700">{{ optionObject.label }}</span>
               </div>
             </template>
-          </GwCustomerSelector>
+          </GwSelector>
         </div>
         <div class="flex">
           <button class="button-fill ml-auto" @click="createReceipt">

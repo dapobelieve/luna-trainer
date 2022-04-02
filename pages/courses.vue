@@ -10,11 +10,7 @@
       </div>
       <template v-slot:buttons>
         <div>
-          <gw-select
-            :options="['Active', 'Draft']"
-            selected="active"
-            @selected="filterCard"
-          />
+     
         </div>
         <button
           type="button"

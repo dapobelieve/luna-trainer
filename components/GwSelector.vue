@@ -4,11 +4,11 @@
       :value="value"
       :disabled="disabled"
       :multiple="multiple"
-      :options="clients"
+      :options="options"
       :placeholder="placeholder"
       class="v-select"
-      label="label"
-      taggable
+      :label="label"
+      :taggable="taggable"
       @input="$emit('change', $event)"
     >
       <template v-slot:selected-option="selectedOption">
@@ -40,12 +40,16 @@
 </template>
 <script>
 export default {
-  name: 'GwCustomerSelector',
+  name: 'GwSelector',
   model: {
     prop: 'value',
     event: 'change'
   },
   props: {
+    taggable: {
+      type: Boolean,
+      default: false
+    },
     multiple: {
       type: Boolean,
       default: false
@@ -54,11 +58,15 @@ export default {
       type: Boolean,
       default: false
     },
+    label: {
+      type: String,
+      default: false
+    },
     placeholder: {
       type: String,
       default: ''
     },
-    clients: Array,
+    options: Array,
     value: [Object, Array, String]
   },
   data () {

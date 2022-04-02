@@ -99,7 +99,7 @@ export default {
         const connectionUrl = await this.connectToStripe(location.href)
         window.open(connectionUrl)
       } catch (error) {
-        this.$lunaToast.error('Stripe connection failed')
+        this.$lunaToast.error('Stripe connection failed '+ error.message)
       }
       this.loading = false
     },

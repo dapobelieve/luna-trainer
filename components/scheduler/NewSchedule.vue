@@ -37,7 +37,7 @@
               </div>
               <div class="ml-3 items-center flex-grow flex text-gray-500 w-24">
                 <div class="w-1/3">
-                  <GwCustomerSelector v-model="form.from" placeholder="Time" class="repeat-selector" :clients="time">
+                  <GwSelector v-model="form.from" placeholder="Time" class="repeat-selector" :options="time">
                     <template v-slot:selectedOption="{selected}">
                       <div class="flex items-center">
                         <span class="text-gray-700">{{ selected.label }}</span>
@@ -48,13 +48,13 @@
                         <span class="text-gray-700">{{ optionObject.label }}</span>
                       </div>
                     </template>
-                  </GwCustomerSelector>
+                  </GwSelector>
                 </div>
                 <div v-if="form.from" class="mt-2 mr-4">
                   <i class="fi-rr-arrow-right ml-1 mt-1 mr-3 text-md text-gray-500"></i>
                 </div>
                 <div v-if="form.from" class="w-1/3">
-                  <GwCustomerSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :clients="computeToTime">
+                  <GwSelector v-model="form.to" placeholder="Time" class="w-full repeat-selector" :options="computeToTime">
                     <template v-slot:selectedOption="{selected}">
                       <div class="flex items-center">
                         <span class="text-gray-700">{{ selected.label }}</span>
@@ -65,7 +65,7 @@
                         <span class="text-gray-700">{{ optionObject.label }}</span>
                       </div>
                     </template>
-                  </GwCustomerSelector>
+                  </GwSelector>
                 </div>
               </div>
             </div>
@@ -75,7 +75,7 @@
         <div v-if="!hasSchedule" class="flex items-center mb-3">
           <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
           <span class="ml-3 text-gray-500 w-full">
-            <GwCustomerSelector v-model="form.repeat" placeholder="Repeat" class="w-full repeat-selector" :clients="repeat">
+            <GwSelector v-model="form.repeat" placeholder="Repeat" class="w-full repeat-selector" :options="repeat">
               <template v-slot:selectedOption="{selected}">
                 <div class="flex items-center">
                   <span class="text-gray-700">{{ selected.name }}</span>
@@ -87,14 +87,14 @@
                   <span v-if="optionObject.name.includes('weekday')" class="ml-1"> Mon - Fri</span>
                 </div>
               </template>
-            </GwCustomerSelector>
+            </GwSelector>
           </span>
         </div>
         <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-globe mt-1 text-md text-gray-500"></i>
             <span class="ml-3 text-gray-500 w-full">
-              <GwCustomerSelector v-model="form.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :clients="timezoneArr">
+              <GwSelector v-model="form.timezone" placeholder="(GMT) Europe/london" class="w-full repeat-selector" :options="timezoneArr">
                 <template v-slot:selectedOption="{selected}">
                   <div class="flex items-center">
                     <span class="text-gray-700">{{ selected.label }}</span>
@@ -105,7 +105,7 @@
                     <span class="text-gray-700">{{ optionObject.label }}</span>
                   </div>
                 </template>
-              </GwCustomerSelector>
+              </GwSelector>
             </span>
           </div>
           <small v-if="$v.form.timezone.$error" class="text-red-600">select a timezone</small>
@@ -120,12 +120,12 @@
             <div class="flex items-center">
               <i class="fi-rr-user mt-1 text-md text-gray-500"></i>
               <div class="ml-3 text-gray-500 w-full">
-                <GwCustomerSelector
+                <GwSelector
                   v-model="form.participants"
                   placeholder="Participants"
                   multiple
                   class="w-full clients-selector repeat-selector"
-                  :clients="allClients"
+                  :options="allClients"
                 >
                   <template>
                     <div class="flex items-center">
@@ -160,7 +160,7 @@
                       </div>
                     </button>
                   </template>
-                </GwCustomerSelector>
+                </GwSelector>
               </div>
             </div>
           </div>
@@ -201,7 +201,7 @@
         </div>
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
-          <GwCustomerSelector v-model="form.color" class="w-full color-selector" :clients="colors">
+          <GwSelector v-model="form.color" class="w-full color-selector" :options="colors">
             <template v-slot:selectedOption="{selected}">
               <div class="flex items-center">
                 <span :class="selected.class" class="color-circle rounded-full mr-4"></span>
@@ -214,7 +214,7 @@
                 <span class="text-gray-700">{{ optionObject.name }}</span>
               </div>
             </template>
-          </GwCustomerSelector>
+          </GwSelector>
           <small v-if="$v.form.color.$error" class="text-red-600">select a color</small>
         </div>
         <div class="flex flex-col mb-3">
