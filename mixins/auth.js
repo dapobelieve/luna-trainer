@@ -2,7 +2,7 @@ import { mapState } from 'vuex'
 
 export default {
   watch: {
-    "tokenExpired": {
+    tokenExpired: {
       immediate: true,
       handler (val) {
         if (val) {

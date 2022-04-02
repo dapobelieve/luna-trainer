@@ -2,7 +2,7 @@
   <div
     class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
-    <nav aria-label="Sidebar" class="w-full">
+    <nav aria-label="Sidebar" id="home-nav" class="w-full">
       <div class="">
         <div
           class="px-1 pt-3 lg:pt-3 flex flex-col border overflow-y-auto h-screen max-h-screen"
@@ -44,11 +44,12 @@
                 <input
                   type="text"
                   name="search"
-                  class="focus:outline-none w-full sm:text-sm border rounded-md h-8 pl-3 bg-gray-50 shadow-sm focus:border-blue-500"
+                  @click.stop="$modal.show('luna-search-modal')"
+                  class="focus:outline-none w-full cursor-pointer sm:text-sm border rounded-md h-8 pl-3 bg-gray-50 shadow-sm"
                   placeholder="Search"
                 />
               </div>
-              <div class="relative">
+              <div class="relative" id="new-action">
                 <button
                   style="height: 35px; padding-bottom: 0"
                   class="rounded-lg px-0 pl-2 w-full button-fill h-4"
@@ -115,18 +116,19 @@
               :key="menuIndex"
               :class="[menu.path.includes(currentLink) ? 'active' : '']"
               :to="{ name: menu.path }"
+              :id="getId(menu.title)"
               class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg"
             >
               <i :class="menu.icon" class="mr-4 mt-0.5"></i>
               <h3 class="">
                 {{ menu.title }}
               </h3>
-              <div v-if="menu.path === 'messages'" class="ml-auto">
+              <div v-if="menu.path === 'messages' && unreadMessages.length" class="ml-auto">
                 <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
                   {{ unreadMessages.length }}
                 </div>
               </div>
-              <div v-else-if="menu.path === 'notifications'" class="ml-auto">
+              <div v-else-if="menu.path === 'notifications' && unReadNotifications.length" class="ml-auto">
                 <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
                   {{ unReadNotifications.length }}
                 </div>
@@ -174,13 +176,16 @@
         </div>
       </div>
     </nav>
+    <LunaSearch />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
+import LunaSearch from "~/components/LunaSearch";
 export default {
   name: 'Navigation',
+  components: {LunaSearch},
   data () {
     return {
       showQuickMenu: false,
@@ -305,6 +310,16 @@ export default {
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
+    getId (e) {
+      switch (e) {
+        case 'Report':
+          return 'reporting-hint'
+        case 'Settings':
+          return 'settings-hint'
+        default:
+          return ''
+      }
+    },
     ...mapMutations({
       localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
     }),
@@ -345,6 +360,18 @@ export default {
       },
       deep: true
     }
+  },
+  mounted() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        this.$modal.hide('luna-search-modal')
+      }
+    })
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 75 && e.metaKey) {
+        this.$modal.show('luna-search-modal')
+      }
+    })
   }
 }
 </script>

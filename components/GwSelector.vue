@@ -46,9 +46,15 @@ export default {
     event: 'change'
   },
   props: {
+<<<<<<< HEAD:components/GwSelector.vue
     taggable: {
       type: Boolean,
       default: false
+=======
+    label: {
+      type: String,
+      default: 'label'
+>>>>>>> af7c0b5ec8922acd1c1423804e44bf115671a4d9:components/GwCustomerSelector.vue
     },
     multiple: {
       type: Boolean,

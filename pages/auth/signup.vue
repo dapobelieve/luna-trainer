@@ -125,7 +125,7 @@ export default {
   data () {
     return {
       showPassword: false,
-      signUpText: 'get started',
+      signUpText: 'Get started',
       isLoading: false,
       userInfo: {
         email: '',
@@ -203,6 +203,8 @@ export default {
             position: 'bottom-right'
           })
         }
+        this.isLoading = false
+        this.signUpText = "Get started"
       }
       this.isLoading = false
     }

@@ -17,14 +17,22 @@
               </div>
               <div class="px-4 my-2 bg-white">
                 <div>
-                  <p class="text-1xl font-semibold text-gray-600">Invoice</p>
+                  <p class="text-1xl font-semibold text-gray-600">
+                    Invoice
+                  </p>
                   <div class="flex justify-between space-x-9">
                     <div class="mr-20 pr-20">
-                      <p class="text-xs py-4 text-slate-500">From</p>
-                      <p class="text-sm font-bold text-gray-900">{{ from }}</p>
+                      <p class="text-xs py-4 text-slate-500">
+                        From
+                      </p>
+                      <p class="text-sm font-bold text-gray-900">
+                        {{ from }}
+                      </p>
                     </div>
                     <div class="mr-20 pr-20">
-                      <p class="text-xs py-4 text-slate-500">To</p>
+                      <p class="text-xs py-4 text-slate-500">
+                        To
+                      </p>
                       <p class="text-sm font-bold font-100 text-gray-900">
                         {{ to }}
                       </p>
@@ -35,15 +43,18 @@
                   class="bg-slate-50 py-5 my-4 px-5 shadow-sm rounded-lg"
                   style="background-color: #e2e8f0"
                 >
-                  <p class="text-slate-500 text-sm">Amount</p>
-                  <p class="text-slate-700 text-2xl font-bold">{{ total }}</p>
+                  <p class="text-slate-500 text-sm">
+                    Amount
+                  </p>
+                  <p class="text-slate-700 text-2xl font-bold">
+                    {{ total }}
+                  </p>
                   <p class="text-xs text-slate-700">
                     <span
                       class="text-xl text-red-1000"
                       style="color: red; font-size: 50px"
                     >
-                      . </span
-                    >Due on {{ dueDate }}
+                      . </span>Due on {{ dueDate }}
                   </p>
                 </div>
 
@@ -53,7 +64,9 @@
                       {{ item.description }}
                     </p>
                     <div class="flex justify-between">
-                      <p class="text-sm text-slate-500">Qty {{ item.qty }}</p>
+                      <p class="text-sm text-slate-500">
+                        Qty {{ item.qty }}
+                      </p>
                       <p class="text-xs text-slate-700">
                         {{ formatNumber(item.price, currency) }}
                       </p>
@@ -62,19 +75,23 @@
                   <hr class="bg-lightgray" style="margin-bottom: 20px" />
 
                   <div class="flex justify-between">
-                    <div class="text-sm text-slate-700">Total</div>
+                    <div class="text-sm text-slate-700">
+                      Total
+                    </div>
                     <div class="text-sm text-slate-700 font-bold">
                       {{ total }}
                     </div>
                   </div>
                 </div>
 
-                <h4 class="mt-9 text-slate-700 text-xs">Payment Options</h4>
+                <h4 class="mt-9 text-slate-700 text-xs">
+                  Payment Options
+                </h4>
                 <div v-if="isPayable" class="flex flex-col mt-4">
                   <button
-                    @click="openModal('stripe')"
                     v-if="supportedPaymentMethods.includes('stripe')"
                     class="button-outline my-2"
+                    @click="openModal('stripe')"
                   >
                     <span class="text-xs font-bold"> Pay with </span>
                     <img
@@ -84,9 +101,9 @@
                     />
                   </button>
                   <button
-                    @click="openModal('paypal')"
                     v-if="supportedPaymentMethods.includes('paypal')"
                     class="button-outline my-2"
+                    @click="openModal('paypal')"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with </span>
                     <img
@@ -96,9 +113,9 @@
                     />
                   </button>
                   <button
+                    v-if="supportedPaymentMethods.includes('bank')"
                     class="button-outline my-2"
                     @click="openModal('bank')"
-                    v-if="supportedPaymentMethods.includes('bank')"
                   >
                     <span class="text-xs font-bold mr-1"> Pay with Bank</span>
                     <i
@@ -121,28 +138,36 @@
         @closeBackDrop="isOpen = $event"
       >
         <template v-slot:status>
-          <div class="text-1xl font-bold">Pay With Bank</div>
+          <div class="text-1xl font-bold">
+            Pay With Bank
+          </div>
         </template>
-        <template v-slot:default>
+        <template v-slot>
           <p class="text-sm text-slate-500 font-100 text-slate-700">
             Make your payment directly to the bank account provided below
           </p>
           <div
             class="bg-slate-50 py-2 my-4 px-5 shadow-sm rounded-lg"
             style="background-color: #eff6ff"
-            v-on:mouseover="showCopyButtons = true"
+            @mouseover="showCopyButtons = true"
             @mouseleave="showCopyButtons = false"
           >
-            <h1 class="my-5 font-bold text-1xl">Standard Bank</h1>
-            <div class="flex flex-row flex-wrap justify-spacearound">
+            <h1 class="my-5 font-bold text-1xl">
+              Standard Bank
+            </h1>
+            <div v-if="bankData" class="flex flex-row flex-wrap justify-spacearound">
               <div
-                class="flex flex-row my-4"
                 v-for="v in bankData"
                 :key="v.title"
+                class="flex flex-row my-4"
               >
                 <div style="">
-                  <div class="text-xs">{{ v.title }}</div>
-                  <div class="font-bold text-xs">{{ v.value }}</div>
+                  <div class="text-xs">
+                    {{ v.title }}
+                  </div>
+                  <div class="font-bold text-xs">
+                    {{ v.value }}
+                  </div>
                 </div>
                 <div
                   class="text-purple-500 justify-center align-center py-1 mx-8 flex flex-row cursor-pointer"
@@ -163,16 +188,16 @@
             </div>
           </div>
           <div class="flex justify-end text-xs">
-           <button
+            <button
               class="button-outline mx-2"
               @click="closeModal"
             >
               Pay Later
             </button>
-            <button 
+            <button
               class="button-fill"
               @click="closeModal"
-              >
+            >
               Confirm Payment
             </button>
           </div>
@@ -184,120 +209,129 @@
 <style lang="scss" scoped></style>
 
 <script>
-import { mapActions } from "vuex";
-import { format } from "date-fns";
+import { mapActions } from 'vuex'
+import { format } from 'date-fns'
 
 export default {
-  name: "InvoicePayment",
-  layout: "empty",
-  middleware: ["validToken"],
+  name: 'InvoicePayment',
+  layout: 'empty',
+  middleware: ['validToken'],
   auth: false,
-  data() {
+  data () {
     return {
       showCopyButtons: false,
       isOpen: false,
       bankData: [],
       items: [],
       amount: 0,
-      currency: "",
-      from: "",
-      to: "",
-      dueDate: "",
+      currency: '',
+      from: '',
+      to: '',
+      dueDate: '',
       supportedPaymentMethods: [],
       total: 0,
       isPayable: false,
-      invoiceDetails: {},
-    };
+      invoiceDetails: {}
+    }
   },
   computed: {
-    routeName() {
-      return this.$route.name;
-    },
+    routeName () {
+      return this.$route.name
+    }
   },
-  mounted() {
-    this.getDetailsOfInvoice(this.$route?.params?.id ?? "");
+  mounted () {
+    this.getDetailsOfInvoice(this.$route?.params?.id ?? '')
   },
   methods: {
     ...mapActions({
-      getPaymentLink: "invoice/getPaymentLink",
+      getPaymentLink: 'invoice/getPaymentLink'
     }),
-    openModal(type) {
+    openModal (type) {
       switch (type) {
-        case "bank":
-          this.isOpen = !this.isOpen;
-          break;
-        case "stripe":
-          this.handleStripeClick();
-          break;
-        case "paypal":
-          this.handlePaypalClick();
-          break;
+        case 'bank':
+          this.isOpen = !this.isOpen
+          break
+        case 'stripe':
+          this.handleStripeClick()
+          break
+        case 'paypal':
+          this.handlePaypalClick()
+          break
       }
     },
-    async copyToClipboard(text) {
-      await navigator?.clipboard?.writeText(text ?? "");
-      this.$gwtoast?.show(`${text ?? ""} copied`);
+    copyToClipboard (text) {
+      // copy to clipboard, works on chrome, firefox, edge, not on IE and Safari
+      const el = document.createElement('textarea')
+      el.value = text
+      el.setAttribute('readonly', '')
+      el.style.position = 'absolute'
+      el.style.left = '-9999px'
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      this.$lunaToast.show('copied to clipboard')
     },
-    async getDetailsOfInvoice(id) {
-      const response = await this.getPaymentLink(id);
-      const { data } = response;
-      this.from = data?.createdBy?.name;
-      this.to = data?.customerId?.name;
-      this.currency = data?.currency;
-      this.invoiceDetails = data;
-      this.total = this.formatNumber(data?.total, data?.currency);
+    async getDetailsOfInvoice (id) {
+      const response = await this.getPaymentLink(id)
+      const { data } = response
+      this.from = data?.createdBy?.name
+      this.to = data?.customerId?.name
+      this.currency = data?.currency
+      this.invoiceDetails = data
+      this.total = this.formatNumber(data?.total, data?.currency)
       this.dueDate = format(
         new Date(data?.dueDate ?? Date.now()),
-        "MMM dd yyyy"
-      );
-      this.isPayable = data?.status === "pending";
+        'MMM dd yyyy'
+      )
+      this.isPayable = data?.status === 'pending'
       this.supportedPaymentMethods = data?.supportedPaymentMethods?.map(
-        (i) => i.type
-      );
-      this.items = data?.items;
-      this.getBankDetails();
+        i => i.type
+      )
+      this.items = data?.items
+      this.getBankDetails()
     },
-    closeModal() {
-      this.isOpen = false;
+    closeModal () {
+      this.isOpen = false
     },
-    formatNumber(num, currency = "NGN") {
-      return new Intl.NumberFormat("en", {
-        style: "currency",
-        currency: currency,
-      }).format(num);
+    formatNumber (num, currency = 'NGN') {
+      return new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency
+      }).format(num)
     },
-    handleStripeClick() {
+    handleStripeClick () {
       window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
-        this.$route?.params?.id ?? ""
-      }`;
+        this.$route?.params?.id ?? ''
+      }`
     },
-    handlePaypalClick() {
+    handlePaypalClick () {
       window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
-        this.$route?.params?.id ?? ""
-      }`;
+        this.$route?.params?.id ?? ''
+      }`
     },
-    getBankDetails() {
+    getBankDetails () {
       const data =
         this.invoiceDetails?.supportedPaymentMethods?.find(
-          (i) => i.type === "bank"
-        )?.bank ?? {};
+          i => i.type === 'bank'
+        )?.bank ?? {}
       this.bankData = [
-        { title: "Account Number", value: data?.accountNo ?? "" },
-        { title: "Sort Code", value: data?.sortCode ?? "" },
+        { title: 'Account Number', value: data?.accountNo ?? '' },
+        { title: 'Sort Code', value: data?.sortCode ?? '' },
         {
-          title: "Reference code",
-          value: this?.invoiceDetails?.invoiceNo ?? "",
-        },
-      ];
-      return data;
-    },
+          title: 'Reference code',
+          value: this?.invoiceDetails?.invoiceNo ?? ''
+        }
+      ]
+      return data
+    }
   },
-  head() {
+  head () {
     return {
-      title: "InvoicePayment",
-    };
-  },
-};
+      title: 'InvoicePayment'
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .base-button {
