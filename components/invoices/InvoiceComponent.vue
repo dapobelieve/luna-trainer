@@ -33,11 +33,11 @@
                   {{ selected.firstName }}
                 </div>
               </template>
-              <template v-slot:footer>
+              <template v-slot:footer="{ search }">
                 <button
                   type="button hover:bg-black"
                   class="py-2 w-full"
-                  @click.prevent="openInviteClientModal({ firstName: '' })"
+                  @click.prevent="openInviteClientModal(search)"
                 >
                   <div class="px-2 ml-1 text-primary-color">
                     <small>
@@ -310,6 +310,7 @@ import ContainerWithTitle from '../Containers/ContainerWithTitle'
 import EditInvoiceItem from './EditInvoiceItem'
 import OnetimeInvoiceItem from './OnetimeInvoiceItem'
 import ItemDisplay from '~/components/invoices/ItemDisplay'
+import InviteNewClient from '../InviteNewClient.vue'
 export default {
   name: 'Invoice',
   components: {
@@ -419,12 +420,13 @@ export default {
       this.$set(this.invoice, 'items', data)
     },
     openInviteClientModal ($event) {
+      console.log('openInviteClientModal', $event)
       this.$nextTick(() => {
         this.invoice.customer = null
       })
       this.$modal.show(
         InviteNewClient,
-        { client: { firstName: $event.firstName } },
+        { client: { firstName: $event } },
         { adaptive: true, height: 390 }
       )
     },

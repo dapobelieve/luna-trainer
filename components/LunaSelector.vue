@@ -109,4 +109,8 @@ export default {
 ::v-deep .vs__clear {
   display: none;
 }
+
+::v-deep .vs__no-options{
+  @apply mt-[8px]
+}
 </style>
