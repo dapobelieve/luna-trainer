@@ -48,6 +48,7 @@ export default {
 
 <style lang="scss" scoped>
 .tabbedItems {
+  @apply flex-1 flex flex-col;
   .top {
     @apply sticky top-0 bg-white;
   }
@@ -76,7 +77,7 @@ export default {
   }
 
   .views {
-    @apply my-6 mx-1;
+    @apply my-6 mx-1 flex-1;
   }
 
   .tabs::-webkit-scrollbar {
