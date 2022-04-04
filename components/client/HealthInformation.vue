@@ -9,25 +9,38 @@
         <span>Add note</span>
       </button>
     </div>
-    <Note v-for="n in 10" :key="n" />
-    <NoNotes />
+    <AsyncView loader-id="health-notes">
+      <NoNotes v-if="!notes.length" />
+      <Note v-for="note in notes" v-else :key="note" />
+    </AsyncView>
   </div>
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 import NoNotes from '~/components/notes/NoNotes.vue'
 import Note from '~/components/notes/Note.vue'
+
 export default {
   name: 'HealthInformation',
   components: {
     NoNotes,
     Note
   },
-  data () {
-    return {
+  computed: {
+    ...mapState('notes', ['notes'])
+  },
+  async mounted () {
+    try {
+      await this.fetchNotes({ clientId: this.$route.params.id, tag: 'health' })
+    } catch (error) {
+      this.$lunaToast.error('An error occured while fetching notes')
     }
   },
   methods: {
+    ...mapActions({
+      fetchNotes: 'notes/fetchNotes'
+    })
   }
 }
 </script>

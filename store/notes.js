@@ -12,8 +12,11 @@ export const mutations = {
   isLoading (state, loadingStatus) {
     state.isLoading = loadingStatus
   },
-  setNotes (state, notes) {
-    state.notes = notes
+  SET_STATES (state, data) {
+    // eslint-disable-next-line array-callback-return
+    Object.keys(data).map((key) => {
+      state[key] = data[key]
+    })
   },
   toggleModal (state, payload) {
     state.addNoteModal = payload.status
@@ -42,23 +45,19 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchNotesWithStatusAndLimit ({ commit, dispatch }, payload) {
-    const currPage =
-      payload !== undefined && 'page' in payload ? payload.page : 1
-    const limit =
-      payload !== undefined && 'limit' in payload ? payload.limit : 5
-    const clientId = payload.clientId
-    dispatch('loader/startProcess', null, { root: true })
-    try {
-      const { data } = await this.$axios.$get(
-        `${process.env.BASEURL_HOST}/note?page=${currPage}&limit=${limit}&clientId=${clientId}`
-      )
-      commit('setNotes', data)
-    } catch (error) {
-      return error
+  async fetchNotes ({ commit, dispatch }, payload) {
+    const queries = {
+      page: 1,
+      limit: 5,
+      ...payload
     }
-    dispatch('loader/endProcess', null, { root: true })
+    dispatch('loader/startProcess', 'health-notes', { root: true })
+    const res = await this.$axios.$get(
+      `${process.env.BASEURL_HOST}/note`, { params: queries })
+    commit('SET_STATES', { notes: res.data })
+    dispatch('loader/endProcess', 'health-notes', { root: true })
   },
+
   async addNotes ({ state, commit }, details) {
     try {
       const { data } = await this.$axios.$post(
