@@ -99,7 +99,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchnotes: 'notes/fetchNotesWithStatusAndLimit'
+      fetchnotes: 'notes/fetchNotes'
     }),
     ...mapMutations({
       toggleModal: 'notes/toggleModal'

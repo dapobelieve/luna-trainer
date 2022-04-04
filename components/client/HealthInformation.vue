@@ -4,7 +4,7 @@
       <p class="mr-auto title">
         HEALTH NOTES
       </p>
-      <button class="action-btn">
+      <button class="action-btn" @click="addNote">
         <i class="fi-rr-plus h-5"></i>
         <span>Add note</span>
       </button>

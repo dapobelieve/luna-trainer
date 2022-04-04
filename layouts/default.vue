@@ -35,39 +35,12 @@
       </div>
     </div>
 
-    <!-- adding notes -->
-    <div id="no-border">
-      <modal
-        name="add-note"
-        height="100%"
-        :resizable="true"
-        :adaptive="true"
-        :shift-x="1"
-        width="25%"
-        :click-to-close="false"
-      >
-        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
-      </modal>
-    </div>
-
-    <!-- expanding notes modal -->
-    <div id="no-border">
-      <modal
-        name="expand-add-note"
-        height="100%"
-        width="100%"
-        :adaptive="true"
-        :click-to-close="false"
-      >
-        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
-      </modal>
-    </div>
-
     <PaymentMethodStatusModal />
     <PaymentMethodBankAccountModal />
     <InviteNewClientModal />
     <ExpiredSessionAuthModal />
     <ViewImageModal />
+    <AddingNote />
   </async-view>
 </template>
 <script>
@@ -81,10 +54,11 @@ import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBan
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import ViewImageModal from '~/components/messages/ViewImageModal.vue'
+import AddingNote from '~/components/notes/AddingNote.vue'
 
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal, AddingNote },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
@@ -95,9 +69,7 @@ export default {
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels,
-      addNoteModal: state => state.notes.addNoteModal,
-      expandModal: state => state.notes.expandModal
+      connectedChannels: state => state.sendBird.connectedChannels
     }),
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
@@ -126,20 +98,6 @@ export default {
             this.showNotification = true
           }, 2000)
         })
-      }
-    },
-    addNoteModal (newValue) {
-      if (newValue) {
-        this.$modal.show('add-note')
-      } else if (!newValue) {
-        this.$modal.hide('add-note')
-      }
-    },
-    expandModal (newValue) {
-      if (newValue) {
-        this.$modal.show('expand-add-note')
-      } else if (!newValue) {
-        this.$modal.hide('expand-add-note')
       }
     }
   },
