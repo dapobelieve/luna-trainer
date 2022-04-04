@@ -209,6 +209,7 @@ export default {
         const profile = await this.getUserProfile()
         this.setProfile(profile)
         this.$modal.show('welcome-modal')
+        window.localStorage.removeItem('dashboardFirstVisit')
 
       } catch (err) {
         return this.onError(err)
