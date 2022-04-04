@@ -7,7 +7,6 @@ export const mutations = {
   },
   CLEAR_LOCAL_STORAGE () {
     window.localStorage.clear()
-    window.localStorage.setItem('dashboardFirstVisit', Date.now())
   }
 }
 
