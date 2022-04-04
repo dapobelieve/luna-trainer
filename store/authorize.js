@@ -7,7 +7,6 @@ export const mutations = {
   },
   CLEAR_LOCAL_STORAGE () {
     window.localStorage.clear()
-    window.localStorage.setItem('dashboardFirstVisit', Date.now())
   }
 }
 
@@ -59,13 +58,9 @@ export const actions = {
       })
   },
   async signUpUser ({ commit }, payload) {
-    try {
-      await this.$axios
-        .$post(`${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload)
-        .then(({ status }) => status)
-    } catch (error) {
-      return error
-    }
+    await this.$axios
+    .$post(`${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload)
+    .then(({ status }) => status)
   },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)

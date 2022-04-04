@@ -178,13 +178,12 @@ export default {
     }
   },
   mounted () {
-    const getTime = localStorage.getItem('dashboardFirstVisit')
+    const newUser = (this.$route?.query?.new)
     this.fetchUserProfile()
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
-    if (!getTime) {
+    if (newUser) {
       this.$modal.show('welcome-modal')
-      localStorage.setItem('dashboardFirstVisit', Date.now())
     } else {
       this.$lunaToast.show(
         'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
@@ -229,8 +228,15 @@ export default {
         drawer: { open: true, activePage: 'new-session' }
       })
     },
+    removeQueryParams() {
+      let query = Object.assign({}, this.$route.query);
+      delete query.new;
+      this.$router.replace({ query });
+    },
     tourItems () {
       if (this.doNotShowHints) return
+    
+      const self = this;
       this.$intro()
         .setOptions({
           ...{
@@ -299,7 +305,14 @@ export default {
             }
           ]
         })
+        .oncomplete(function () {
+          self.removeQueryParams()
+        })
+        .onexit(function () {
+          self.removeQueryParams()
+        })
         .start()
+
       this.$intro().showHints()
     },
     closeModal () {
