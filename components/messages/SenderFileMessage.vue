@@ -28,7 +28,7 @@
 
 <script>
 export default {
-  name: 'MyFileMessage',
+  name: 'SenderFileMessage',
   props: {
     msg: {
       type: Object,

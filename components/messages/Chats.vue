@@ -33,7 +33,7 @@
             <li
               v-if="msg._sender.userId === sender"
             >
-              <MyMessages :msg="msg" />
+              <SenderMessages :msg="msg" />
             </li>
             <li v-else>
               <OpponentMessage :msg="msg" />
@@ -109,14 +109,14 @@ import { mapActions } from 'vuex'
 import sendBirdEvents from '../../mixins/sendBirdEvents'
 import PreviewImage from '~/components/messages/PreviewImage.vue'
 import OpponentMessage from '~/components/messages/OpponentMessage.vue'
-import MyMessages from '~/components/messages/MyMessages.vue'
+import SenderMessages from '~/components/messages/SenderMessages.vue'
 
 export default {
   name: 'Chats',
   components: {
     PreviewImage,
     OpponentMessage,
-    MyMessages
+    SenderMessages
   },
   mixins: [sendBirdEvents],
   props: {

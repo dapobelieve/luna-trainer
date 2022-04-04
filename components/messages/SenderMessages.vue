@@ -17,7 +17,7 @@
         new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
       }}</span>
     </small>
-    <MyFileMessage v-if="msg.messageType === 'file'" :msg="msg" />
+    <SenderFileMessage v-if="msg.messageType === 'file'" :msg="msg" />
     <div v-else class="msg p-2 max-w-lg break-all" style="calc(100% - 2.5rem)">
       {{ msg.message }}
     </div>
@@ -25,11 +25,11 @@
 </template>
 
 <script>
-import MyFileMessage from '~/components/messages/MyFileMessage.vue'
+import SenderFileMessage from '~/components/messages/SenderFileMessage.vue'
 export default {
-  name: 'MyMessages',
+  name: 'SenderMessages',
   components: {
-    MyFileMessage
+    SenderFileMessage
   },
   props: {
     msg: {
