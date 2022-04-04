@@ -6,9 +6,9 @@
       :multiple="multiple"
       :options="options"
       :placeholder="placeholder"
-      class="v-select"
-      :label="label"
+      :label="label || undefined"
       :taggable="taggable"
+      class="v-select"
       @input="$emit('change', $event)"
     >
       <template v-slot:selected-option="selectedOption">
@@ -45,6 +45,9 @@ export default {
     prop: 'value',
     event: 'change'
   },
+  mounted(){
+    console.log(this.options)
+  },
   props: {
     taggable: {
       type: Boolean,
@@ -52,7 +55,6 @@ export default {
     },
     label: {
       type: String,
-      default: 'label'
     },
     multiple: {
       type: Boolean,
@@ -75,18 +77,11 @@ export default {
   },
   data () {
     return {
-      clientInfo: {},
       dropdowIndicatorattributes: {
         ref: 'openIndicator',
         role: 'presentation',
         class: 'fi-rr-angle-down font-bold text-base cursor-pointer absolute right-0 p-3'
       }
-    }
-  },
-  watch: {
-    value: {
-      immediate: true,
-      handler (newVal, oldVal) {}
     }
   }
 }
