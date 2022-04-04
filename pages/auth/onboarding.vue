@@ -289,7 +289,7 @@ export default {
     },
     finishedSetUp () {
       // this.cleartrainerRegData()
-      this.$router.replace({ name: 'dashboard' }).then(() => {
+      this.$router.replace({ name: 'dashboard', query: {new: true} }).then(() => {
         this.$lunaToast.success('Welcome')
       })
     }
