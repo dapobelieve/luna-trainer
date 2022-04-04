@@ -1,5 +1,5 @@
 <template>
-  <async-view>
+  <AsyncView>
     <div
       v-if="clientInfo"
       class="grid pb-4 bg-white border rounded-xl w-full min-h-screen"
@@ -22,53 +22,37 @@
               Cancel
               <SingleLoader v-if="cancelLoading" class="mr-2" />
             </button>
-            <button-spinner
+            <ButtonSpinner
               :loading="isLoading"
               type="button"
               class="button-fill button-sm"
               @click="updateProfile"
             >
               Save
-            </button-spinner>
+            </ButtonSpinner>
           </div>
 
-          <section class="">
-            <ul
-              class="tabs flex justify-between md:justify-start md:space-x-[2rem] px-3.5 border-b border-gray-200"
-            >
-              <button
-                v-for="(link, index) in links"
-                :key="link.index"
-                :class="[
-                  { active: tab === index + 1 },
-                  'capitalize py-2.5 px-3',
-                ]"
-                @click.prevent="switchTabs(index + 1)"
-              >
-                {{ link }}
-              </button>
-            </ul>
-            <!-- Tab contents -->
-            <div class="my-6 mx-4">
-              <client-information
+          <TabbedItems :links="links">
+            <template v-slot:tabviews="{ tab }">
+              <ClientInformation
                 v-if="tab === 1"
                 v-model="clientInfo"
                 @showButtons="showButtons = true"
               />
-              <client-dog-information
+              <ClientDogInformation
                 v-if="tab === 2"
                 v-model="clientInfo"
                 @showButtons="showButtons = true"
               />
-              <!-- <div v-if="tab === 3">
-                <client-health-information v-if="tab === 3" v-model="clientInfo" @showButtons="showButtons = true" />
-              </div> -->
-            </div>
-          </section>
+              <div v-if="tab === 3">
+                <ClientHealthInformation v-if="tab === 3" />
+              </div>
+            </template>
+          </TabbedItems>
         </div>
       </form>
     </div>
-  </async-view>
+  </AsyncView>
 </template>
 
 <script>
@@ -85,8 +69,7 @@ export default {
       id: this.$route.params.id,
       tempClientInfo: {},
       showButtons: false,
-      tab: 1,
-      links: ['client', 'dog']
+      links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }]
     }
   },
   computed: {
@@ -171,9 +154,6 @@ export default {
       this.cancelLoading = false
       this.clientInfo = this.tempClientInfo
       this.showButtons = false
-    },
-    switchTabs (tabNumber) {
-      this.tab = tabNumber
     }
   }
 }

@@ -6,7 +6,7 @@
       </template>
       <template v-slot:buttons>
         <button type="button" class="button-fill w-10" @click="inviteClient">
-          <i class="fi-rr-plus text-base"></i>
+          <i class="fi-rr-plus h-5"></i>
         </button>
       </template>
     </PageHeader>
