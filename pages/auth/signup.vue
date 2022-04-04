@@ -162,34 +162,8 @@ export default {
     ...mapActions({
       getUserProfile: 'profile/getUserProfile'
     }),
-    async signUp () {
-      this.isLoading = true
-      this.userInfo.userName = `${
-        this.userInfo.email.split('@')[1]
-      }_${new Date().getTime()}`
-      try {
-        await this.signUpUser(this.userInfo)
-        this.$lunaToast.success('Signup Successful', {
-          position: 'bottom-right'
-        })
-        this.signUpText = 'please wait...'
-        const { data } = await this.$auth.login({
-          data: {
-            email: this.userInfo.email,
-            password: this.userInfo.password,
-            domain: 'getwelp-trainer-ui'
-          }
-        })
-        const tokens = {
-          token: data.data.accessToken,
-          refreshToken: data.data.refreshToken
-        }
-        this.setToken(tokens)
-        const profile = await this.getUserProfile()
-        this.setProfile(profile)
-        this.$modal.show('welcome-modal')
-      } catch (err) {
-        if (err.response) {
+    async onError (err) {
+      if (err.response) {
           this.$lunaToast.error(
             `${err.response.data.message}`,
             { position: 'bottom-right' }
@@ -205,7 +179,41 @@ export default {
         }
         this.isLoading = false
         this.signUpText = "Get started"
+        this.isLoading = false
+
+    },
+    async signUp () {
+      this.isLoading = true
+      this.userInfo.userName = `${
+        this.userInfo.email.split('@')[1]
+      }_${new Date().getTime()}`
+      try {
+        await this.signUpUser(this.userInfo)
+        this.$lunaToast.success('Signup Successful', {
+          position: 'bottom-right'
+        })
+        this.signUpText = 'please wait...'
+
+        const { data } = await this.$auth.login({
+          data: {
+            email: this.userInfo.email,
+            password: this.userInfo.password,
+            domain: 'getwelp-trainer-ui'
+          }
+        })
+        const tokens = {
+          token: data.data.accessToken,
+          refreshToken: data.data.refreshToken
+        }
+        this.setToken(tokens)
+        const profile = await this.getUserProfile()
+        this.setProfile(profile)
+        this.$modal.show('welcome-modal')
+
+      } catch (err) {
+        return this.onError(err)
       }
+
       this.isLoading = false
     }
   }
