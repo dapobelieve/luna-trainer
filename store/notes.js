@@ -38,8 +38,8 @@ export const mutations = {
     const noteIndex = state.notes.findIndex(n => n._id === noteDetails._id)
     state.notes.splice(noteIndex, 1, noteDetails)
   },
-  deleteSingleNote (state, noteId) {
-    const noteIndex = state.notes.findIndex(n => n.id === noteId)
+  DELETE_NOTE (state, noteId) {
+    const noteIndex = state.notes.findIndex(n => n._id === noteId)
     state.notes.splice(noteIndex, 1)
   }
 }
@@ -78,16 +78,11 @@ export const actions = {
       console.log('error updating notes ', error)
     }
   },
-  async deleteSingleNote ({ commit }, noteId) {
-    console.log('deleting note id ', noteId)
-    try {
-      await this.$axios.$delete(
+  async deleteNote ({ commit }, noteId) {
+    await this.$axios.$delete(
         `${process.env.BASEURL_HOST}/note/${noteId}`)
-      commit('deleteSingleNote', noteId)
-      return true
-    } catch (error) {
-      console.log('error deleting notes ', error)
-    }
+    commit('DELETE_NOTE', noteId)
+    return true
   }
 }
 

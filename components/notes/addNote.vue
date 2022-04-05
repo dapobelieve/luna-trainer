@@ -76,7 +76,7 @@
             <button class="button-outline" @click.prevent="$modal.hide('delete-note')">
               No, don't
             </button>
-            <button class="button-fill" @click.prevent="deleteNote">
+            <button class="button-fill" @click.prevent="deleteSingleNote">
               Yes, Delete
             </button>
           </div>
@@ -129,7 +129,7 @@ export default {
     ...mapActions({
       createNote: 'notes/addNotes',
       updateNotes: 'notes/updateNotes',
-      deleteSingleNote: 'notes/deleteSingleNote'
+      deleteNote: 'notes/deleteNote'
     }),
     toggleWidth () {
       if (this.$store.state.notes.largeScreen) {
@@ -167,10 +167,13 @@ export default {
       this.updateNotes({ description: this.body, noteId: this.noteId })
       this.autoSave()
     }, 1000),
-    deleteNote () {
-      this.deleteSingleNote(this.noteId).then(() => {
+    async deleteSingleNote () {
+      try {
+        await this.deleteNote(this.noteId)
         this.closeModal()
-      })
+      } catch (error) {
+        this.$lunaToast.error('Something went wrong')
+      }
     },
     nextInput () {
       this.$refs['text-area'].focus()
