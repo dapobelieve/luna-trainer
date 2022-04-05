@@ -87,7 +87,7 @@
           </button>
         </template>
       </NotificationsModal>
-      <modal @closed="tourItems()" name="welcome-modal" :height="500">
+      <modal name="welcome-modal" :height="500">
         <div>
           <div class="space"/>
           <div class="grid m-6">
@@ -107,7 +107,10 @@
                    }">
                    Explore by myself
                 </button>
-                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="closeModal()">
+                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="() => {
+                   this.tourItems();
+                  closeModal()
+                  }">
                   Start the tour
                 </button>
               </div>

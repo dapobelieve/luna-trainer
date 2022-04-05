@@ -133,7 +133,7 @@
 
       <GwModal
         :is-open="isOpen"
-        :input-width="40"
+        :input-width="30"
         @close="isOpen = $event"
         @closeBackDrop="isOpen = $event"
       >
@@ -198,7 +198,7 @@
               class="button-fill"
               @click="closeModal"
             >
-              Confirm Payment
+              Notify trainer of payment
             </button>
           </div>
         </template>
