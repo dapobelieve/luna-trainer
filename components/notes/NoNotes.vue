@@ -8,7 +8,7 @@
       <p class="sub-title">
         Your clients dog health notes would be displayed here
       </p>
-      <button class="action-btn">
+      <button type="button" class="action-btn" @click="addNote">
         <i class="fi-rr-plus h-5"></i>
         <span>Create a health note</span>
       </button>
@@ -17,8 +17,18 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
-  name: 'NoNotes'
+  name: 'NoNotes',
+  methods: {
+    ...mapMutations({
+      toggleModal: 'notes/toggleModal'
+    }),
+    addNote () {
+      this.toggleModal({ status: true, addingMode: true, note: {} })
+    }
+  }
 }
 </script>
 

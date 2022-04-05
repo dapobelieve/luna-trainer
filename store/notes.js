@@ -59,16 +59,12 @@ export const actions = {
   },
 
   async addNotes ({ state, commit }, details) {
-    try {
-      const { data } = await this.$axios.$post(
+    const { data } = await this.$axios.$post(
         `${process.env.BASEURL_HOST}/note`,
         details
-      )
-      commit('addNotes', data)
-      return data._id
-    } catch (error) {
-      console.log('error creating notes ', error)
-    }
+    )
+    commit('addNotes', data)
+    return data._id
   },
   async updateNotes ({ commit }, payload) {
     const noteId = payload.noteId

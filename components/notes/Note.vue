@@ -2,12 +2,14 @@
   <div class="note" role="button">
     <div class="mr-auto">
       <p class="title">
-        note one
+        {{ note.title }}
       </p>
       <p class="body">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem itaque repudiandae error, a quae vel numquam hic voluptas provident soluta commodi nesciunt. Rerum dicta rem aliquid omnis deserunt iure nobis atque incidunt consequatur cum sint, accusantium exercitationem praesentium nemo ad voluptas recusandae sunt totam impedit maxime vel repudiandae libero hic.
+        {{ note.description }}
       </p>
-      <span class="date">date</span>
+      <span class="date">
+        {{ note.updatedAt | howLongAgo }}
+      </span>
     </div>
     <i class="fi-rr-angle-right text-blue-500"></i>
   </div>
@@ -15,7 +17,13 @@
 
 <script>
 export default {
-  name: 'Note'
+  name: 'Note',
+  props: {
+    note: {
+      type: Object,
+      required: true
+    }
+  }
 }
 </script>
 

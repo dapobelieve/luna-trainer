@@ -157,7 +157,7 @@ export default {
       }, 3500)
     },
     createNotes: debounce(function () {
-      this.createNote({ title: this.title, description: this.body, clientId: this.id }).then((result) => {
+      this.createNote({ title: this.title, description: this.body, clientId: this.id, tags: this.$route.name === 'client-id-information' ? 'health' : '' }).then((result) => {
         this.noteId = result
         this.mode = 'editing'
         this.autoSave()

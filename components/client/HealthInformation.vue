@@ -4,20 +4,20 @@
       <p class="mr-auto title">
         HEALTH NOTES
       </p>
-      <button class="action-btn" @click="addNote">
+      <button type="button" class="action-btn" @click="addNote">
         <i class="fi-rr-plus h-5"></i>
         <span>Add note</span>
       </button>
     </div>
     <AsyncView loader-id="health-notes">
       <NoNotes v-if="!notes.length" />
-      <Note v-for="note in notes" v-else :key="note" />
+      <Note v-for="note in notes" v-else :key="note._id" :note="note" />
     </AsyncView>
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 import NoNotes from '~/components/notes/NoNotes.vue'
 import Note from '~/components/notes/Note.vue'
 
@@ -28,7 +28,9 @@ export default {
     Note
   },
   computed: {
-    ...mapState('notes', ['notes'])
+    ...mapState({
+      notes: state => state.notes.notes.filter(note => note.tags[0] === 'health')
+    })
   },
   async mounted () {
     try {
@@ -38,9 +40,15 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      toggleModal: 'notes/toggleModal'
+    }),
     ...mapActions({
       fetchNotes: 'notes/fetchNotes'
-    })
+    }),
+    addNote () {
+      this.toggleModal({ status: true, addingMode: true, note: {} })
+    }
   }
 }
 </script>

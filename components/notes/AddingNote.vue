@@ -3,13 +3,12 @@
     <modal
       name="add-note"
       height="100%"
-      :resizable="true"
       :adaptive="true"
       :shift-x="1"
       width="25%"
       :click-to-close="false"
     >
-      <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      <NotesAddNote :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
     </modal>
 
     <!-- expanded view -->
@@ -20,7 +19,7 @@
       :adaptive="true"
       :click-to-close="false"
     >
-      <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      <NotesAddNote :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
     </modal>
   </div>
 </template>
