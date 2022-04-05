@@ -123,12 +123,12 @@ export default {
   },
   methods: {
     ...mapMutations('notes', {
-      toggleExpandModal: 'toggleExpandModal',
-      toggleModal: 'toggleModal'
+      toggleExpandModal: 'TOGGLE_EXPAND_MODAL',
+      toggleModal: 'TOGGLE_MODAL'
     }),
     ...mapActions({
       createNote: 'notes/addNotes',
-      updateNotes: 'notes/updateNotes',
+      updateNote: 'notes/updateNote',
       deleteNote: 'notes/deleteNote'
     }),
     toggleWidth () {
@@ -164,7 +164,7 @@ export default {
       })
     }, 1000),
     updateNote: debounce(function () {
-      this.updateNotes({ description: this.body, noteId: this.noteId })
+      this.updateNote({ description: this.body, noteId: this.noteId })
       this.autoSave()
     }, 1000),
     async deleteSingleNote () {

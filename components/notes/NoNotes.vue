@@ -23,7 +23,7 @@ export default {
   name: 'NoNotes',
   methods: {
     ...mapMutations({
-      toggleModal: 'notes/toggleModal'
+      toggleModal: 'notes/TOGGLE_MODAL'
     }),
     addNote () {
       this.toggleModal({ status: true, addingMode: true, note: {} })

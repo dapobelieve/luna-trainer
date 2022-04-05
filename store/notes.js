@@ -4,21 +4,17 @@ export const state = () => ({
   largeScreen: false,
   addNoteModal: false,
   addingMode: true,
-  noteInView: {},
-  isLoading: false
+  noteInView: {}
 })
 
 export const mutations = {
-  isLoading (state, loadingStatus) {
-    state.isLoading = loadingStatus
-  },
   SET_STATES (state, data) {
     // eslint-disable-next-line array-callback-return
     Object.keys(data).map((key) => {
       state[key] = data[key]
     })
   },
-  toggleModal (state, payload) {
+  TOGGLE_MODAL (state, payload) {
     state.addNoteModal = payload.status
     if ('addingMode' in payload) {
       state.addingMode = payload.addingMode
@@ -27,14 +23,14 @@ export const mutations = {
       state.noteInView = payload.note
     }
   },
-  toggleExpandModal (state, payload) {
+  TOGGLE_EXPAND_MODAL (state, payload) {
     state.largeScreen = !state.largeScreen
     state.expandModal = payload.status
   },
-  addNotes (state, details) {
+  ADD_NOTES (state, details) {
     state.notes.unshift(details)
   },
-  updateNotes (state, noteDetails) {
+  UPDATE_NOTE (state, noteDetails) {
     const noteIndex = state.notes.findIndex(n => n._id === noteDetails._id)
     state.notes.splice(noteIndex, 1, noteDetails)
   },
@@ -63,16 +59,16 @@ export const actions = {
         `${process.env.BASEURL_HOST}/note`,
         details
     )
-    commit('addNotes', data)
+    commit('ADD_NOTES', data)
     return data._id
   },
-  async updateNotes ({ commit }, payload) {
+  async updateNote ({ commit }, payload) {
     const noteId = payload.noteId
     const description = payload.description
     try {
       const { data } = await this.$axios.$patch(
         `${process.env.BASEURL_HOST}/note/${noteId}`, { description })
-      commit('updateNotes', data)
+      commit('UPDATE_NOTE', data)
       return data._id
     } catch (error) {
       console.log('error updating notes ', error)

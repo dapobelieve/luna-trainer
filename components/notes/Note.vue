@@ -11,7 +11,7 @@
         {{ note.updatedAt | howLongAgo }}
       </span>
     </div>
-    <i class="fi-rr-angle-right text-blue-500"></i>
+    <i class="fi-rr-angle-small-right text-blue-500 h-2 w-2"></i>
   </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toggleModal: 'notes/toggleModal'
+      toggleModal: 'notes/TOGGLE_MODAL'
     }),
     viewNote () {
       this.toggleModal({ status: true, addingMode: false, note: this.note })

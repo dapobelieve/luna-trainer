@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      toggleModal: 'notes/toggleModal'
+      toggleModal: 'notes/TOGGLE_MODAL'
     }),
     ...mapActions({
       fetchNotes: 'notes/fetchNotes'
