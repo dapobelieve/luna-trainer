@@ -117,8 +117,8 @@ export class LunaToast {
   }
 
   #composeToast = (options) => {
-    const toast = document.createElement('div')
-    let toastClasses = 'luna-toast fixed z-1000 flex items-start bg-white border p-4 rounded-xl shadow-lg'
+    let toastClasses = 'luna-toast fixed z-1000 flex items-start bg-white border p-4 rounded-xl shadow-lg slideIn'
+    const toast = this.#createElement('div', toastClasses)
     toastClasses += ' ' + options.position + ' ' + options.position.split('-')[0]
     toast.style.width = '20rem'
     toast.style.zIndex = '1000'
@@ -132,7 +132,6 @@ export class LunaToast {
     body.style.wordBreak = 'break-all'
     if (options.heading) {
       const h3 = this.#createElement('h3', 'text-black font-medium text-base')
-      console.log(h3)
       h3.innerText = options.heading
       body.appendChild(h3)
     }

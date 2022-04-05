@@ -186,6 +186,37 @@
     right: 2.2rem;
   }
 }
-//.mx-datepicker-popup {
-//  top: 500px !important;
-//}
+
+
+.luna-toast  {
+  animation: slideIn .5s forwards;
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(5px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  60% {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}

@@ -14,7 +14,7 @@
             Invoice
           </h3>
           <span class="ml-auto">
-            <i class="fi-rr-cross cursor-pointer mt-1 text-green-500" @click="close"></i>
+            <i class="fi-rr-cross cursor-pointer mt-1 text-primary-color" @click="close"></i>
           </span>
         </div>
         <div class="mb-5">
@@ -87,12 +87,12 @@
             {{ issuedDate }}
           </h3>
         </div>
-        <div class="flex mb-8 bottom-border">
-          <h3>Paid Date</h3>
-          <h3 class="ml-auto">
-            {{ issuedDate }}
-          </h3>
-        </div>
+<!--        <div class="flex mb-8 bottom-border">-->
+<!--          <h3>Paid Date</h3>-->
+<!--          <h3 class="ml-auto">-->
+<!--            {{ issuedDate }}-->
+<!--          </h3>-->
+<!--        </div>-->
         <template v-if="invoiceStatus === 'paid'">
           <div class="flex mb-8 bottom-border">
             <h3>Payment for</h3>
@@ -115,20 +115,20 @@
         </div>
         <div class="flex justify-end">
           <template v-if="invoiceStatus !== 'paid'">
-            <button class="text-green-900 px-4 py-2 border mr-2" @click="close">
+            <button class="text-red-500 px-4 py-2 border mr-2" @click="close">
               Cancel
             </button>
-            <button ref="nudge" class="text-green-900 px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
+            <button ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
               <span v-else>Send Nudge</span>
             </button>
 
-            <button class="text-green-900 px-4 py-2 border" @click="markAsPaid = true">
+            <button class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
               Mark as Paid
             </button>
           </template>
           <template v-else>
-            <button class="text-green-900 px-4 py-2 border">
+            <button class="text-primary-color px-4 py-2 border">
               Mark as unpaid
             </button>
           </template>
@@ -172,8 +172,9 @@
           </GwSelector>
         </div>
         <div class="flex">
-          <button class="button-fill ml-auto" @click="createReceipt">
-            Mark as Paid
+          <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="createReceipt">
+            <SingleLoader v-if="loading" />
+            <span v-else>Mark as Paid</span>
           </button>
         </div>
       </div>
@@ -194,6 +195,7 @@ export default {
   },
   data () {
     return {
+      loading: false,
       markAsPaid: false,
       paymentMethods: [
         {
@@ -251,8 +253,9 @@ export default {
   },
   methods: {
     async createReceipt () {
+      this.loading = true
       try {
-        await this.$store.dispatch('payment/createPaymentReceipt', {
+        await this.$store.dispatch('payment-methods/createPaymentReceipt', {
           paymentDate: this.$dateFns.format(this.paidObj.paymentDate, 'yyyy-MM-dd'),
           paymentType: this.paidObj.paymentType.type,
           invoiceId: this.invoice._id
@@ -262,9 +265,12 @@ export default {
         this.close()
       } catch (e) {
         console.log(e)
+      }finally {
+        this.loading = false
       }
     },
     close () {
+      this.markAsPaid = false
       this.$emit('close')
     },
     async sendNudge () {
