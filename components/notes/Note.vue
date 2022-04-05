@@ -1,5 +1,5 @@
 <template>
-  <div class="note" role="button">
+  <div class="note" role="button" @click="viewNote">
     <div class="mr-auto">
       <p class="title">
         {{ note.title }}
@@ -16,12 +16,22 @@
 </template>
 
 <script>
+import { mapMutations } from 'vuex'
+
 export default {
   name: 'Note',
   props: {
     note: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    ...mapMutations({
+      toggleModal: 'notes/toggleModal'
+    }),
+    viewNote () {
+      this.toggleModal({ status: true, addingMode: false, note: this.note })
     }
   }
 }
