@@ -222,11 +222,11 @@ export default {
           title: 'Payment',
           path: 'payments-requests-sent'
         },
-        {
-          icon: 'fi-rr-chart-histogram',
-          title: 'Report',
-          path: 'reports-financials'
-        },
+        // {
+        //   icon: 'fi-rr-chart-histogram',
+        //   title: 'Report',
+        //   path: 'reports-financials'
+        // },
         {
           icon: 'fi-rr-settings',
           title: 'Settings',
