@@ -177,6 +177,13 @@ export default {
     }
   },
   watch: {
+    "$route": {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        console.log(val)
+      }
+    },
     searchField: {
       handler (newVal) {
         if (newVal === 'Name') {
@@ -198,17 +205,6 @@ export default {
       }
     }
   },
-  async mounted (ctx) {
-    try {
-      this.checkPaymentMethods()
-      const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-      this.invoices = res
-
-      this.options = this.filteredRecords.map(invoice => invoice.customerId)
-    } catch (e) {
-      console.log({ e })
-    }
-  },
   methods: {
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
     async checkPaymentMethods () {
@@ -221,9 +217,11 @@ export default {
       try {
         let res
         if (this.searchField === 'Name') {
+          this.$router.push({ name: 'payments-requests-sent', query: { name: option._id } })
           res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { workflowStatus: 'sent', customerId: option._id })
           this.invoices = [...res.data]
         } else {
+          this.$router.push({ name: 'payments-requests-sent', query: { status: option.toLowerCase() } })
           res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: option.toLowerCase() })
           this.invoices = res
         }
@@ -265,7 +263,19 @@ export default {
       document.body.appendChild(link)
       link.click()
     }
+  },
+  async beforeMount (ctx) {
+    try {
+      this.checkPaymentMethods()
+      const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+      this.invoices = res
+
+      this.options = this.filteredRecords.map(invoice => invoice.customerId)
+    } catch (e) {
+      console.log({ e })
+    }
   }
+  
 }
 </script>
 
