@@ -323,7 +323,7 @@ export default {
     },
     ...mapActions({
       fetchUserProfile: 'profile/getUserProfile',
-      fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit',
+      fetchPaidInvoices: 'invoice/getInvoices',
       connectToSendBird: 'sendBird/connectToSBWithUserid'
     }),
     retry () {

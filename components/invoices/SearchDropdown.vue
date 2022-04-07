@@ -17,12 +17,15 @@
             </div>
           </div>
         </ClickOutside>
-        <div>
-          <div v-if="selectedOption" class="w-[156px] px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full " @click.exact.stop="clearSelection">
-            <slot :selected="selectedOption" name="selected-option"></slot>
+        <div class="w-[160px] flex items-center">
+          <div class="inline-flex items-center">
+            <div v-if="selectedOption" class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full"
+                 @click.exact.stop="clearSelection">
+              <slot :selected="selectedOption" name="selected-option"></slot>
+            </div>
           </div>
           <input
-            v-else
+            v-if="!selectedOption"
             ref="search"
             v-model="search"
             :disabled="!field"
@@ -30,6 +33,7 @@
             class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full "
             @focus="show = true"
           />
+          <button v-if="selectedOption || field" @click="selectedOption= null,close(),$emit('reset')" class="border ml-auto rounded-full h-4 w-4"><i style="font-size: 0.4rem" class="fi-rr-cross inline-flex items-center text-xs"></i></button>
         </div>
       </div>
       <div v-if="show" class="absolute right-0 bg-white mdy-1.5 w-40 border border-t-0 shadow z-40 rounded">
@@ -49,7 +53,12 @@
 </template>
 <script>
 export default {
+  model: {
+    prop: 'field',
+    event: 'change'
+  },
   props: {
+    field: {},
     fields: {
       type: Array
     },
@@ -59,7 +68,6 @@ export default {
   },
   data () {
     return {
-      field: null,
       showFieldDropdown: false,
       selectedField: null,
       selectedOption: null,
@@ -94,9 +102,6 @@ export default {
       }
     }
   },
-  mounted () {
-
-  },
   methods: {
     clearSelection () {
       this.selectedOption = null
@@ -106,8 +111,7 @@ export default {
       })
     },
     selectField (field) {
-      this.field = field
-      this.$emit('field-selected', this.field)
+      this.$emit('change', field)
       this.selectedOption = null
       this.showFieldDropdown = false
     },
@@ -127,7 +131,6 @@ export default {
     open () {
       this.show = true
     },
-
     close () {
       this.search = ''
       this.show = false

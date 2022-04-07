@@ -136,6 +136,7 @@ export class LunaToast {
       body.appendChild(h3)
     }
     const p = this.#createElement('p', 'text-gray-600')
+    p.style.wordBreak = 'break-all'
     p.innerText = options.message
     body.appendChild(p)
     if (options.actions) {

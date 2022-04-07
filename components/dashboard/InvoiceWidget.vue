@@ -1,5 +1,5 @@
 <template>
-  <DashboardCard :view-all="getInvoices.length > 0" class="pt-4" @action="$router.push({name: 'invoices-sent'})">
+  <DashboardCard :view-all="invoices.length > 0" class="pt-4" @action="$router.push({name: 'invoices-sent'})">
     <div class="flex items-center px-4">
       <div class="inline-flex items-center">
         <div class="h-12 mr-2 w-12 bg-amber-50 rounded-full inline-flex justify-center items-center">
@@ -29,7 +29,7 @@
         <SingleLoader height="40px" width="40px" />
       </div>
       <template v-else class="">
-        <div v-if="!getInvoices.length" class="flex items-center h-full justify-center">
+        <div v-if="!invoices.length" class="flex items-center h-full justify-center">
           <div class="flex flex-col items-center">
             <i class="fi-rr-receipt text-5xl text-amber-500"></i>
             <h3 class="text-gray-700 text-lg">
@@ -42,7 +42,7 @@
           </div>
         </div>
         <template v-else>
-          <InvoiceWidgetCard v-for="(invoice, invoiceIndex) in getInvoices" :invoice="invoice" />
+          <InvoiceWidgetCard v-for="(invoice, invoiceIndex) in invoices" :invoice="invoice" />
         </template>
       </template>
     </div>
@@ -52,20 +52,20 @@
 <script>
 import DashboardCard from '~/components/dashboard/DashboardCard'
 import InvoiceWidgetCard from '~/components/dashboard/InvoiceWidgetCard'
+import {mapGetters} from "vuex";
 export default {
   components: { InvoiceWidgetCard, DashboardCard },
   data () {
     return {
-      imgUrl: 'https://res.cloudinary.com/rohing/image/upload/v1646190983/gitProfile_qje88s.png',
+      imgUrl: null,
       fetching: false,
-      selectedOption: null,
-      invoices: []
+      selectedOption: null
     }
   },
   computed: {
-    getInvoices () {
-      return this.invoices.data || []
-    }
+    ...mapGetters({
+      invoices: 'invoice/getAllInvoices',
+    })
   },
   watch: {
     selectedOption: {
@@ -81,7 +81,7 @@ export default {
     async fetchInvoices (data) {
       this.fetching = true
       try {
-        this.invoices = await this.$store.dispatch('invoice/getFetchCustomerInvoice', {
+        await this.$store.dispatch('invoice/getInvoices', {
           workflowStatus: data ? 'sent' : null,
           status: data || null,
           limit: 3
