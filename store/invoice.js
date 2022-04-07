@@ -72,6 +72,10 @@ export const actions = {
     return await this.$axios
       .$get(`${process.env.PAYMENT_HOST_URL}/invoice/payment/${id}`)
   },
+  async clientCreatePaymentReceipt (_, payload) {
+    const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt`, payload)
+    return res
+  },
   async getInvoices ({ commit, dispatch }, payload) {
     const q = {
       status: '',

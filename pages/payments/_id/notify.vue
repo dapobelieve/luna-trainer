@@ -5,6 +5,7 @@
          <button
             slot="button"
             class="button-fill"
+            @click="goToHome()"
         >
             Done
         </button>
@@ -32,6 +33,9 @@ export default {
     }
   },
   methods: {
+    goToHome(){
+      this.$router?.replace({name: "auth"})
+    }
   },
   head () {
     return {
