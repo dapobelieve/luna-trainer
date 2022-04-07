@@ -84,7 +84,7 @@
                   </div>
                 </div>
 
-                <h4 class="mt-9 text-slate-700 text-xs">
+                <h4 v-if="isPayable" class="mt-9 text-slate-700 text-xs">
                   Payment Options
                 </h4>
                 <div v-if="isPayable" class="flex flex-col mt-4">
@@ -244,7 +244,8 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPaymentLink: 'invoice/getPaymentLink'
+      getPaymentLink: 'invoice/getPaymentLink',
+      notifyTrainer: 'invoice/clientCreatePaymentReceipt'
     }),
     openModal (type) {
       switch (type) {
@@ -300,9 +301,18 @@ export default {
         currency
       }).format(num)
     },
-    goToNotifyTrainerPage(){
-      this?.closeModal()
-      this?.$router?.push({name: "payments-id-notify", params: {id: this?.$route?.params?.id}})
+    async goToNotifyTrainerPage(){
+     try {
+        await this.notifyTrainer({
+          invoiceId: this.$route?.params?.id ?? '',
+          paymentDate: new Date(),
+          paymentType: "TRANSFER"
+        })
+        this?.closeModal()
+        this?.$router?.push({name: "payments-id-notify", params: {id: this?.$route?.params?.id}})
+      } catch{
+        this.$lunaToast.error('an error occured')
+      }
     },
     handleStripeClick () {
       window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
