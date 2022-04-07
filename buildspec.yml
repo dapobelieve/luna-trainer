@@ -29,7 +29,7 @@ phases:
     commands:
       ## Enable the below line if you want to create your DB and other secure parameters to the .env/config files. make sure to grant access to the SSM parameter store.
       ## - aws ssm get-parameter --with-decryption --name $WHATEVERTHEPARAMETERNAMR --region $REGION | jq '.Parameter.Value' > .env
-      - docker build -t $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION -t $DOCKER_USER/$IMAGE_REPO_NAME:lates .
+      - docker build -t $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION -t $DOCKER_USER/$IMAGE_REPO_NAME:latest .
 
   post_build:
     commands:
