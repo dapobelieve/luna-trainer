@@ -196,7 +196,7 @@
             </button>
             <button
               class="button-fill"
-              @click="closeModal"
+              @click="goToNotifyTrainerPage"
             >
               Notify trainer of payment
             </button>
@@ -299,6 +299,10 @@ export default {
         style: 'currency',
         currency
       }).format(num)
+    },
+    goToNotifyTrainerPage(){
+      this?.closeModal()
+      this?.$router?.push({name: "payments-id-notify", params: {id: this?.$route?.params?.id}})
     },
     handleStripeClick () {
       window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
