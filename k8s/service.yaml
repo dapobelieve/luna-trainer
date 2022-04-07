@@ -13,26 +13,4 @@ spec:
   selector:
     app: APPNAME
   sessionAffinity: None
-  type: ClusterIP
---- 
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: APPNAME
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /  
-    kubernetes.io/ingress.class: "nginx"
-    cert-manager.io/cluster-issuer: letsencrypt
-spec:
-  tls:
-    - hosts:
-      - app.getwelp.com
-      secretName: app-getwelp-com-tls-2
-  rules:
-  - host: app.getwelp.com
-    http:
-      paths:
-      - backend:
-          serviceName: APPNAME
-          servicePort: 80
-        path: /
+  type: NodePort
