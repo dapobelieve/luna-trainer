@@ -1,11 +1,14 @@
 <template>
   <div>
     <h5 class="text-lg font-bold">
-      Add Your services
+      Add your core services.
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
-        <label for="service" class="required">Service Title</label>
+        <label for="service" class="required">Type of service </label>
+        <span
+          class="text-gray-400 my-2"
+        >For example: Puppy Class or Behaviour Consultation</span>
         <input
           id="service"
           v-model="services.description"
@@ -14,7 +17,10 @@
         />
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="reinforcement" class="required">Type of appointment (you can tick both options)</label>
+        <label
+          for="reinforcement"
+          class="required"
+        >Type of appointment (you can click more than one)</label>
         <div
           class="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2"
         >
@@ -52,7 +58,7 @@
               value="in-person"
               class="h-5 w-5"
             />
-            <span id="reinforcement-0-label" class="ml-2 font-medium">In-person (1-2-1)</span>
+            <span id="reinforcement-0-label" class="ml-2 font-medium">In-person</span>
           </label>
         </div>
       </div>
@@ -62,7 +68,7 @@
           <div
             class="inset-y-0 left-0 pl-3 flex items-center pointer-events-none bg-white h-10 border shadow-sm rounded-l-md border-r-0"
           >
-            <span class="text-gray-500">{{ $store.state.profile.trainnerRegData.personalProfile.currency }}</span>
+            <span class="text-gray-500">{{ $store.state.profile.user.currency }}</span>
           </div>
           <input
             id="currency"
@@ -123,7 +129,7 @@ export default {
   },
   computed: {
     ...mapState({
-      servicesFromStore: state => state.profile.trainnerRegData.services,
+      servicesFromStore: state => state.profile.user.services,
       editing: state => state.profile.editingServiceCard
     }),
     disabled () {
@@ -173,12 +179,12 @@ export default {
   },
   methods: {
     ...mapMutations({
-      createService: 'profile/UPDATE_TRAINNER_REG_DATA',
+      createService: 'profile/UPDATE_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
     addNewService () {
       if (!this.disabled) {
-        this.$gwtoast.error('All form fields are required')
+        this.$lunaToast.error('All form fields are required')
       } else if (
         this.servicesFromStore.length &&
         this.servicesFromStore.some(
@@ -187,7 +193,7 @@ export default {
             this.services.description.toLowerCase()
         )
       ) {
-        this.$gwtoast.error(
+        this.$lunaToast.error(
           `${this.services.description} service already exist`)
       } else {
         this.createService({
@@ -205,7 +211,7 @@ export default {
     },
     saveEdit () {
       if (this.disableUpdate && this.services.pricing.amount === this.selectedService.pricing.amount) {
-        this.$gwtoast.error('You have not made any change to the service')
+        this.$lunaToast.error('You have not made any change to the service')
       } else {
         this.createService({
           parent: 'services',
@@ -214,7 +220,7 @@ export default {
           value: { ...this.services }
         })
         this.cancelEdit()
-        this.$gwtoast.success('Service Updated')
+        this.$lunaToast.success('Service Updated')
       }
     },
     cancelEdit () {

@@ -7,9 +7,12 @@
       <ClientAvatar :client-info="client" />
     </template>
     <template v-slot:content>
-      <span class="font-medium capitalize">
-        {{ client.firstName }} {{ $utils.optional(client.lastName) }}
-      </span>
+      <div class="font-medium capitalize">
+        <div>{{ client.firstName }} {{ $utils.optional(client.lastName) }}</div>
+        <div class="font-extralight text-md text-gray-500 dot normal-case">
+          {{ client.email }}
+        </div>
+      </div>
     </template>
     <template v-slot:button>
       <button
@@ -18,27 +21,11 @@
         class="button-text button-sm"
         @click="resendInvite"
       >
-        <i class="ns-refresh"></i>
+        <i class="fi-rr-refresh"></i>
         <span class="capitalize ml-2">resend invite</span>
       </button>
       <div v-else>
-        <button type="button" class="button-text button-sm w-8" @click="showDropdown">
-          <i class="ns-ellipsis text-lg"></i>
-        </button>
-        <div
-          v-show="showDropDown"
-          class="origin-top-right absolute right-0 mt-2 p-1 min-w-[6rem] w-48 rounded-xl border shadow-lg bg-white z-40"
-        >
-          <div role="none">
-            <nuxt-link
-              :to="{ name: 'invoice', params: { pushedClient: client } }"
-              class="block p-3 hover:bg-gray-100 rounded-md transition-all"
-            >
-              Create Invoice
-            </nuxt-link>
-            <a href="#" class="block p-3 hover:bg-gray-100 rounded-md transition-all" @click.prevent="archiveClient">Archive</a>
-          </div>
-        </div>
+        <ClientActions :client-info="client" />
       </div>
     </template>
   </containers-summary-information-with-avatar>
@@ -71,29 +58,29 @@ export default {
         )
         .then((response) => {
           if (response && response.status === true) {
-            this.$gwtoast.success(
-              `Client invitation resent to ${this.client.firstName} ${this.client.lastName}`
+            this.$lunaToast.success(
+              `Client invitation resent to ${this.client.email}`
             )
             this.$emit('close', false)
           } else {
-            this.$gwtoast.error('Error resending invite. Retry!!!')
+            this.$lunaToast.error('Error resending invite. Retry!!!')
           }
         })
         .catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(
-              `Something went wrong: ${err.response.data.message}`)
+            this.$lunaToast.error(
+              `${err.response.data.message}`)
           } else if (err.request) {
-            this.$gwtoast.error('Something went wrong. Try again')
+            this.$lunaToast.error('Something went wrong. Try again')
           } else {
-            this.$gwtoast.error(`Something went wrong: ${err.message}`)
+            this.$lunaToast.error(`${err.message}`)
           }
         })
     },
     async archiveClient () {
       try {
-        const res = await this.$store.dispatch('client/archive', { ...this.client })
-        this.$gwtoast.success('Client Archived')
+        await this.$store.dispatch('client/archive', { ...this.client })
+        this.$lunaToast.success('Client Archived')
       } catch (e) {
         console.log({ e })
       }
@@ -102,4 +89,18 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.dot {
+  position: relative;
+  &:after {
+    content: "";
+    position: absolute;
+    height: 2px !important;
+    width: 2px;
+    background: #334155;
+    border-radius: 50%;
+    bottom: 10px;
+    margin-left: 5px
+  }
+}
+</style>

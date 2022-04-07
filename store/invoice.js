@@ -20,12 +20,12 @@ export const actions = {
   async getFetchCustomerInvoice ({ commit }, payload) {
     const q = {
       status: '',
-      workflowStatus: 'sent',
+      workflowStatus: '',
       limit: 10,
       page: 1
     }
     const newQueryObj = queryString.stringify({ ...q, ...payload })
-    return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice?${newQueryObj}`)
+    return await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`)
   },
   fetchInvoiceWithStatusAndLimit ({ commit }, payload) {
     const stat =
@@ -37,7 +37,7 @@ export const actions = {
     commit('IS_LOADING', true)
     return this.$axios
       .$get(
-        `${process.env.BASEURL_HOST}/invoice${
+        `${process.env.PAYMENT_HOST_URL}/invoice${
           stat ? `?status=${stat}&` : '?'
         }limit=${limit}&page=${currPage}`
       )
@@ -47,58 +47,52 @@ export const actions = {
       })
   },
   async createInvoice ({ commit, dispatch }, payload) {
-    const res = await this.$axios.$post(`${process.env.BASEURL_HOST}/invoice`, payload)
+    const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice`, payload)
     dispatch('profile/getUserProfile', null, { root: true })
     return res
   },
   updateInvoice ({ commit }, payload) {
-    const { items } = payload
-    payload.items = items.reduce((acc, item) => {
-      acc.push({ serviceId: item._id, price: item.pricing.amount })
-      return acc
-    }, [])
-
-    return this.$axios
-      .$put(`${process.env.BASEURL_HOST}/invoice/${payload._id}`, {
-        items: [...payload.items]
-      })
+    return this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/invoice/${payload._id}`, payload)
       .then((response) => {
         return response
       })
   },
-  sendInvoice ({ commit }, sendDetails) {
-    return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/invoice/send/${sendDetails.id}`, {
-        recipients: [sendDetails.recipient]
-      })
-      .then((response) => {
-        return response
-      })
+  async sendInvoice ({ commit }, sendDetails) {
+    return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}`, {
+      recipients: [sendDetails.recipient]
+    })
+  },
+  async notify ({ commit }, payload) {
+    return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/${payload.id}/notify`, { note: 'note' })
   },
   async resendInvoice ({ commit }, invoiceDetails) {
     return await this.$axios
-      .$post(`${process.env.BASEURL_HOST}/invoice/resend/${invoiceDetails.id}`, {
+      .$post(`${process.env.PAYMENT_HOST_URL}/invoice/resend/${invoiceDetails.id}`, {
         recipients: [invoiceDetails.recipient]
       })
   },
   deleteInvoice ({ commit }, id) {
     return this.$axios
-      .$delete(`${process.env.BASEURL_HOST}/invoice/${id}`)
+      .$delete(`${process.env.PAYMENT_HOST_URL}/invoice/${id}`)
       .then((response) => {
         //  commit("DELETE_INVOICE", response.data);
         return response
       })
   },
   async archive ({ commit }, payload) {
-    return await this.$axios.$patch(`${process.env.BASEURL_HOST}/invoice/archive`, {
+    return await this.$axios.$patch(`${process.env.PAYMENT_HOST_URL}/invoice/archive`, {
       invoices: [...payload]
     })
   },
   async export ({ commit }) {
     const res = await this.$axios.get(
-      `${process.env.BASEURL_HOST}/invoice/export`
+      `${process.env.PAYMENT_HOST_URL}/invoice/export`
     )
     console.log(res)
+  },
+  async getPaymentLink ({ commit }, id) {
+    return await this.$axios
+      .$get(`${process.env.PAYMENT_HOST_URL}/invoice/payment/${id}`)
   },
   async getInvoices ({ commit, dispatch }, payload) {
     const q = {
@@ -112,7 +106,7 @@ export const actions = {
     dispatch('loader/startProcess', null, { root: true })
     try {
       const response = await this.$axios.$get(
-        `${process.env.BASEURL_HOST}/invoice?${newQueryObj}`
+        `${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`
       )
       // commit('SET_ALL_INVOICES', response)
       return response.data
@@ -125,7 +119,7 @@ export const actions = {
   async getSingleInvoice ({ commit, dispatch }, invoiceId) {
     try {
       dispatch('loader/startProcess', null, { root: true })
-      return await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/${invoiceId}`)
+      return await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/${invoiceId}`)
     } catch (error) {
       return error
     } finally {

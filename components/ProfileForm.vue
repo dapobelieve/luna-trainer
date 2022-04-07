@@ -237,14 +237,14 @@ export default {
               this.loading = true
               await this.uploadProfileImage()
               this.loading = false
-              this.$gwtoast.success('Updated profile successfully')
+              this.$lunaToast.success('Updated profile successfully')
             } else {
-              this.$gwtoast.success('Updated profile successfully')
+              this.$lunaToast.success('Updated profile successfully')
             }
           }
         }).catch((err) => {
           if (err.response) {
-            this.$gwtoast.error(`Something went wrong: ${err.response.data.error || err.response.data.message}`)
+            this.$lunaToast.error(`${err.response.data.error || err.response.data.message}`)
           }
         }).finally(() => {
           this.loading = false

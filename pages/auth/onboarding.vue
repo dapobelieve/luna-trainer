@@ -9,7 +9,7 @@
         <circle-step-navigation
           class="flex items-center h-16 lg:h-auto"
           :step-count="step"
-          :disabled="[profile, trainerProfile, addedServices, firstClient]"
+          :disabled="[profile, businessDetails, trainerProfile, addedServices]"
           @stepper="move($event)"
         />
 
@@ -50,23 +50,23 @@
                   <onboarding-profile @validity="profile.isDisabled = $event" />
                 </template>
                 <template v-else-if="step === 1">
+                  <business-details @validity="businessDetails.isDisabled = $event" />
+                </template>
+                <template v-else-if="step === 2">
                   <onboarding-trainer-profile
                     @validity="trainerProfile.isDisabled = $event"
                   />
                 </template>
-                <template v-else-if="step === 2">
+                <template v-else-if="step === 3">
                   <onboarding-services
                     :selected-service-index="selectedServiceProps"
                     @clearSelectedServiceIndex="selectedServiceProps = $event"
                     @validity="allow($event)"
                   />
                 </template>
-                <template v-else-if="step === 3">
-                  <onboarding-clients @validity="firstClient.isDisabled" />
-                </template>
               </div>
               <!-- Service items for mobile screen -->
-              <template v-if="step === 2">
+              <template v-if="step === 3">
                 <div class="xl:hidden py-6">
                   <onboarding-service-cards
                     @editservice="selectedServiceProps = $event"
@@ -77,13 +77,6 @@
             <div
               class="flex items-center justify-end gap-2"
             >
-              <button
-                class="text-blue-500 mr-auto"
-                :class="{'hidden' : step !== 3 }"
-                @click.prevent="saveProfile"
-              >
-                Skip
-              </button>
               <button
                 v-if="step"
                 :disabled="isLoading"
@@ -96,6 +89,7 @@
               <button-spinner
                 v-if="step === 3"
                 :loading="isLoading"
+                :disabled="addedServices.isDisabled"
                 type="button"
                 style="width:fit-content"
                 @click="saveProfile"
@@ -108,10 +102,10 @@
                   step === 0
                     ? profile.isDisabled
                     : step === 1
-                      ? trainerProfile.isDisabled
+                      ? businessDetails.isDisabled
                       : step === 2
-                        ? addedServices.isDisabled
-                        : firstClient.isDisabled
+                        ? trainerProfile.isDisabled
+                        : addedServices.isDisabled
                 "
                 type="button"
                 class="button-fill"
@@ -126,7 +120,7 @@
         <div
           class="hidden xl:block w-full lg:max-w-sm 2xl:max-w-xl"
         >
-          <template v-if="step === 2">
+          <template v-if="step === 3">
             <div
               class="h-screen border-l overflow-y-auto xl:p-10"
             >
@@ -146,9 +140,10 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
+import BusinessDetails from '~/components/onboarding-auth/BusinessDetails.vue'
 export default {
   name: 'Onboarding',
-  components: { OnboardingCompleteModal },
+  components: { OnboardingCompleteModal, BusinessDetails },
   layout: 'authOnboarding',
   data () {
     return {
@@ -159,82 +154,68 @@ export default {
         id: 0,
         isDisabled: true
       },
-      trainerProfile: {
+      businessDetails: {
         id: 1,
         isDisabled: true
       },
-      addedServices: {
+      trainerProfile: {
         id: 2,
         isDisabled: true
       },
-      firstClient: {
+      addedServices: {
         id: 3,
         isDisabled: true
       },
       pageIntro: [
         {
           id: 0,
-          title: 'We would like to get to know you personally.',
-          subTitle:
-            'This first stage is your personal profile. Pretty simple, right?'
+          title: 'Setting up your account',
+          subTitle: 'Starting with the basics...'
         },
         {
           id: 1,
-          title: 'You as a Trainer...',
-          subTitle:
-            'We want to get to know you as a Trainer, in this section. It’s important because it gives us a good understanding of the types of Trainers using GetWelp and how we can help 🙂'
+          title: 'Setting up your business profile',
+          subTitle: 'We only need a couple of details'
         },
         {
           id: 2,
-          title: 'Your services',
+          title: 'Next your trainer profile.',
           type: 'html',
           subTitle:
-            '<p class="mb-6">So, as you know we’ve built software for you to run your entire business in one place. </p>' +
-            '<p class="mb-6">For our invoicing and payments bit to work seamlessly, we’d like to know what services you provide your clients, what type of appointment it is, the currency you charge and what your price usually is.</p>' +
-            'For example:<br/><ul class="list-disc list-inside mb-6"><li>Puppy Classes</li><li>Remote</li><li>$50</li></ul>' +
-            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
+            'Tell us about your qualifications, accreditations and specialisms.'
         },
         {
           id: 3,
-          title: 'Add your first client',
+          title: 'And finally, your services.',
           type: 'html',
           subTitle:
-            '<p class="mb-6">To make things really simple for you, if you add a client at this stage, a template profile will be created in your Clients section in the platform and it’s super easy to navigate. </p>' +
-            '<p class="mb-6">Add your client’s name, email address, dog’s breed and dog’s name to get going. </p>' +
-            '<p class="mb-6">A client invitation will not be sent just yet until you tell us when you’d like to send it. You can edit this too later. </p>' +
-            '<p>If you’d just like to skip this section and head on into the platform then feel free to do so too!</p>'
+            '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
+            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         },
         {
           id: 4,
-          title: 'Stripe',
+          title: 'Your services',
           type: 'html',
           subTitle:
-            '<p class="mb-6">If you’re an existing Stripe user or have a verified account, you can connect to Stripe by click on the Stripe logo below. It’ll makes your whole experience easier. </p>' +
-            '<p>But, we also appreciate you’re new here so if you want to skip this section and head on into the rest of the onboarding process, you can do so and come back to setting up Stripe later! ✌️</p>'
+            '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
+            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
         }
       ]
     }
   },
   computed: {
     ...mapState({
-      trainerRegInfo: state => state.profile.trainnerRegData.personalProfile,
-      clientInfo: state => state.profile.trainnerRegData.client,
+      trainerRegInfo: state => state.profile.user,
       editingService: state => state.profile.editingServiceCard
-    }),
-    isClientFormFilled () {
-      return (
-        Object.values(this.clientInfo).length &&
-        (this.clientInfo.firstName || this.clientInfo.lastName) &&
-        this.clientInfo.email
-      )
-    }
+    })
   },
   created () {
+    console.log('ok')
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
       this.$auth.loggedIn &&
-      Object.entries(this.$auth.user).length !== 0 &&
+      Object.entries(this.$auth.user.services).length !== 0 &&
       tokenValidity
     ) {
       this.$router.replace({ name: 'dashboard' }).then(() => {
@@ -244,7 +225,7 @@ export default {
       this.$router.replace({ name: 'auth-signin' }).then(() => {
         this.endFullPageLoad()
       })
-      this.$gwtoast.error('Session Expired. Please login')
+      this.$lunaToast.error('Session Expired. Please login')
     } else if (
       this.$auth.strategy.token.status().valid() &&
       'jumpto' in this.$route.query
@@ -258,7 +239,7 @@ export default {
   },
   methods: {
     ...mapMutations({
-      clearTrainnerRegData: 'profile/SET_EMPTY_TRAINNER_REG_DATA',
+      cleartrainerRegData: 'profile/SET_EMPTY_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
     ...mapActions('authorize', {
@@ -266,8 +247,7 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions({
-      create: 'profile/createProfile',
-      addClient: 'client/inviteClient'
+      updateOnboardingProfile: 'profile/updateOnboardingProfile'
     }),
     move (e) {
       this.setTempState({ editingServiceCard: false })
@@ -275,54 +255,42 @@ export default {
     },
     allow (e) {
       this.addedServices.isDisabled = e
-      this.firstClient.isDisabled = e
+      this.businessDetails.isDisabled = e
     },
     increaseStep () {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service')
+        this.$lunaToast.error('You are currently editing a service')
       } else {
         this.step++
       }
     },
     decreaseStep () {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service')
+        this.$lunaToast.error('You are currently editing a service')
       } else {
         this.step--
       }
     },
-    saveProfile () {
+    async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
         this.$router.replace({ name: 'auth-signin' })
-        this.$gwtoast.error('Session Expired. Please login')
+        this.$lunaToast.error('Session Expired. Please login')
       } else {
         this.isLoading = true
-        return this.create().then((result) => {
+        try {
+          await this.updateOnboardingProfile()
           localStorage.setItem('profileCompleted', 'true')
-          if (result.status === 'success') {
-            // set currency in store
-            this.setTempState({ currency: this.trainerRegInfo.currency })
-            if (this.isClientFormFilled) {
-              return this.addClient(this.clientInfo).then((result) => {
-                if (result.response !== undefined) {
-                  this.isLoading = false
-                  this.$gwtoast.error(
-                    `Something went wrong: ${result.response.data.message}`)
-                } else {
-                  this.$modal.show('done')
-                }
-              })
-            } else {
-              this.$modal.show('done')
-            }
-          }
-        })
+          this.$modal.show('done')
+        } catch (error) {
+          this.$lunaToast.error(
+                    `${error}`)
+        }
       }
     },
     finishedSetUp () {
-      this.clearTrainnerRegData()
-      this.$router.replace({ name: 'dashboard' }).then(() => {
-        this.$gwtoast.success('Welcome')
+      // this.cleartrainerRegData()
+      this.$router.replace({ name: 'dashboard', query: {new: true} }).then(() => {
+        this.$lunaToast.success('Welcome')
       })
     }
   }

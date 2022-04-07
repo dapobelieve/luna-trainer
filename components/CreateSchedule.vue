@@ -10,7 +10,7 @@
     </div>
     <div class="flex mt-3.5">
       <div class=" mr-3">
-        <i class="ns-user text-gray-500 text-2xl"></i>
+        <i class="fi-rr-user text-gray-500 text-2xl"></i>
       </div>
       <div class="w-full">
         <label for="name" class="block font-light">Dog Owner</label>
@@ -23,7 +23,7 @@
     </div>
     <div class="flex mt-3.5">
       <div class="text-2xl mr-3">
-        <i class="ns-calendar text-gray-500"></i>
+        <i class="fi-rr-calendar text-gray-500"></i>
       </div>
       <div class="w-full">
         <label for="date" class="block font-light">Date</label>
@@ -32,7 +32,7 @@
     </div>
     <div class="flex mt-3.5">
       <div class="text-2xl mr-3">
-        <i class="ns-clock text-gray-500"></i>
+        <i class="fi-rr-clock text-gray-500"></i>
       </div>
       <div class="w-full">
         <div class="w-full flex items-center justify-between">
@@ -68,7 +68,7 @@
     </div>
     <div class="flex mt-3.5">
       <div class="text-2xl mr-3">
-        <i class="ns-location-alt text-gray-500"></i>
+        <i class="fi-rr-location-alt text-gray-500"></i>
       </div>
       <div class="w-full">
         <label
@@ -84,7 +84,7 @@
     </div>
     <div class="flex mt-3.5">
       <div class="text-2xl mr-3">
-        <i class="ns-notebook text-gray-500"></i>
+        <i class="fi-rr-notebook text-gray-500"></i>
       </div>
       <div class="w-full">
         <label for="notes" class="block font-light">Notes</label>

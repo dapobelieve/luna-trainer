@@ -1,287 +1,240 @@
 <template>
   <div
-    class="block lg:h-screen z-40 lg:w-56 xl:w-64 fixed lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
+    class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
-    <!-- Sidebar Search -->
-
-    <!-- main navigation -->
-    <nav aria-label="Sidebar" class="w-full">
-      <div class="relative">
-        <div class="px-1 pb-1 pt-1 lg:pt-0 lg:pb-6 overflow-y-auto h-screen max-h-screen">
-          <div class="px-3 py-4">
-            <label for="search" class="sr-only">Search</label>
-            <div class="relative flex items-center h-8">
-              <i class="ns-search absolute left-2 text-gray-400" aria-hidden="true"></i>
-              <input
-                type="text"
-                name="search"
-                class="focus:outline-none w-full sm:text-sm border rounded-md h-8 pl-7 shadow-sm focus:border-blue-500"
-                placeholder="Search"
-              />
-            </div>
-          </div>
-          <div>
-            <div v-for="menu in menus.menu" :key="menu.index" @click.prevent="hideSidebarMenu">
-              <NuxtLink
-                v-if="
-                  menu.path &&
-                    ![
-                      'signout',
-                      'messages',
-                      'notifications',
-                      'inviteClient',
-                      'addSession',
-                      'newCourse',
-                      'comingNext',
-                      'getHelp',
-                      'Schedules',
-                      'Courses'
-                    ].includes(menu.path)
-                "
-                :id="menu.id || ''"
-                :to="{ name: menu.path, params: menu.params }"
-                exact-active-class="active"
-                :class="[$route.path.includes(menu.title) ? 'active': '']"
-                class="flex items-center relative navItems"
-              >
+    <nav aria-label="Sidebar" id="home-nav" class="w-full">
+      <div class="">
+        <div
+          class="px-1 pt-3 lg:pt-3 flex flex-col border overflow-y-auto h-screen max-h-screen"
+        >
+          <div class="mb-auto">
+            <div class="ml-1">
+              <div class="mb-8 mt-1">
+                <NuxtLink to="/">
+                  <img class="h-8" src="~/assets/img/logo-v2.svg" />
+                </NuxtLink>
+              </div>
+              <div class="flex items-center">
                 <div
-                  class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
+                  class="flex-shrink h-9 w-9 mr-3 border overflow-hidden border-green-500 rounded-full avatar"
                 >
-                  <i :class="[menu.icon ? menu.icon : '']" />
-                  <span class="truncate">{{ menu.title }}</span>
-                </div>
-                <span
-                  v-if="menu.dev"
-                  class="inline-block rounded-full mx-3 text-indigo-50 text-xs px-2 float-right font-mono"
-                >Development</span>
-              </NuxtLink>
-              <a
-                v-else-if="menu.path === 'comingNext'"
-                href="https://getwelp.notion.site/Where-is-GetWelp-going-f6089a0568ff442ca6b825c422c45d08"
-                target="_blank"
-                class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-              >
-                <i class="ns-time-add" />
-                <span class="truncate">What’s coming next...</span>
-              </a>
-              <button
-                v-else-if="menu.path === 'inviteClient'"
-                class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="inviteClient"
-              >
-                <i class="ns-plus" />
-                <span class="truncate">Invite Client</span>
-              </button>
-              <div v-else-if="menu.path === 'addSession'" class="bg-gray-50 border rounded-lg">
-                <div class="p-4 flex justify-between items-center">
-                  <span class="uppercase tracking-wider font-medium text-xs">SCHEDULE</span>
-                  <span
-                    class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
-                  >Coming soon</span>
-                </div>
-                <button
-                  class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
-                  disabled
-                  @click="addSession = true"
-                >
-                  <i class="ns-calendar" />
-                  <span class="truncate">My Schedule</span>
-                </button>
-                <button
-                  class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
-                  disabled
-                  @click="addSession = true"
-                >
-                  <i class="ns-plus" />
-                  <span class="truncate">New Session</span>
-                </button>
-                <p
-                  class="text-gray-400 px-4 py-3 text-sm"
-                >
-                  We’re still developing this, so bear with us!
-                </p>
-              </div>
-              <div v-else-if="menu.path === 'newCourse'" class="bg-gray-50 border rounded-lg mt-2">
-                <div class="p-4 flex justify-between items-center">
-                  <span class="uppercase tracking-wider font-medium text-xs">COURSES</span>
-                  <span
-                    class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
-                  >Coming soon</span>
-                </div>
-                <button
-                  class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
-                  disabled
-                  @click="addSession = true"
-                >
-                  <img class="p-1 rounded-full" src="~/assets/img/svgs/course.svg" alt="course" />
-                  <span class="truncate">My Courses</span>
-                </button>
-                <button
-                  class="capitalize flex items-center justify-start gap-3 cursor-default w-full h-9 rounded-md px-4 disabled:opacity-50"
-                  disabled
-                  @click="newCourse = true"
-                >
-                  <i class="ns-plus" />
-                  <span class="truncate">New Course</span>
-                </button>
-                <p
-                  class="text-gray-400 px-4 py-3 text-sm"
-                >
-                  We’re still developing this, so bear with us!
-                </p>
-              </div>
-              <div v-else-if="menu.path === 'getHelp'" class="bg-blue-50 border rounded-lg">
-                <div class="flex items-center justify-between p-2">
-                  <div>
-                    <h5 class="text-gray-400 px-2 py-2 text-base">
-                      Need Help?
-                    </h5>
-                    <p
-                      class="text-gray-400 px-2 py-2 text-sm"
-                    >
-                      Activate the switch button to send a message to us
-                    </p>
-                  </div>
-                  <Toggle
-                    small-size
-                    :value="toggleIntercom"
-                    class="toggle"
-                    @input="allowIntercom"
+                  <img
+                    class="object-cover w-full h-full rounded-full"
+                    :src="$auth.user.imgURL"
                   />
                 </div>
-              </div>
-              <button
-                v-else-if="menu.path === 'notifications'"
-                :class="[$route.path.includes(menu.title) ? 'active': '']"
-                class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="$router.push({name: 'notifications'})"
-              >
-                <i :class="[menu.icon ? menu.icon : '']" />
-                <div class="flex items-center flex-grow justify-between">
-                  <span class="truncate">Notifications</span>
+                <div class="flex flex-col">
+                  <span class="text-gray-800 text-sm font-light">{{
+                    $auth.user.businessName
+                  }}</span>
                   <span
-                    v-if="unreadnotifications.length"
-                    class="inline-flex items-center justify-center bg-blue-500 rounded-full text-xs text-white ml-2 px-1 h-5 font-medium flex-shrink-0 min-w-[1.25rem]"
-                  >{{ unreadnotifications.length }}</span>
+                    class="text-gray-800 text-md font-medium"
+                  >Hi! {{ $auth.user.firstName }}
+                    {{ $auth.user.lastName }}</span>
                 </div>
-              </button>
-              <button
-                v-else-if="menu.path === 'messages'"
-                :id="menu.id || ''"
-                :class="[$route.path.includes(menu.title) ? 'active': '']"
-                class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="$router.push({name: 'messages'})"
-              >
-                <i :class="[menu.icon ? menu.icon : '']" />
-                <div class="flex items-center flex-grow justify-between">
-                  <span class="truncate">Messages</span>
-                  <span
-                    v-if="unreadMessages.length"
-                    class="inline-flex items-center justify-center bg-blue-500 rounded-full text-xs text-white ml-2 px-1 h-5 font-medium flex-shrink-0 min-w-[1.25rem]"
-                  >{{ unreadMessages.length }}</span>
-                </div>
-              </button>
-              <button
-                v-else-if="menu.path === 'signout'"
-                class="capitalize flex items-center justify-start gap-3 hover:bg-gray-100 w-full h-9 rounded-md px-4"
-                @click="signOut"
-              >
-                <i class="ns-power" />
-                <span class="truncate">Sign out</span>
-              </button>
-              <div v-if="menu.section" class="p-4 flex justify-between items-center">
-                <span class="uppercase tracking-wider font-medium text-xs">{{ menu.section }}</span>
-                <span
-                  v-if="menu.dev"
-                  class="inline-flex items-center rounded-full bg-indigo-50 text-indigo-500 text-xs p-1.5 h-6 normal-case font-medium"
-                >Coming soon</span>
               </div>
             </div>
+            <div class="py-4">
+              <label for="search" class="sr-only">Search</label>
+              <div class="relative mb-2 flex items-center h-8">
+                <i
+                  class="fi-rr-search top-1 absolute right-2 text-gray-400"
+                  aria-hidden="true"
+                ></i>
+                <input
+                  type="text"
+                  name="search"
+                  @click.stop="$modal.show('luna-search-modal')"
+                  class="focus:outline-none w-full cursor-pointer sm:text-sm border rounded-md h-8 pl-3 bg-gray-50 shadow-sm"
+                  placeholder="Search"
+                />
+              </div>
+              <div class="relative" id="new-action">
+                <button
+                  style="height: 35px; padding-bottom: 0"
+                  class="rounded-lg px-0 pl-2 w-full button-fill h-4"
+                  @click="showQuickMenu = true"
+                >
+                  <div
+                    class="w-full new-button flex justify-start items-center font-bold"
+                  >
+                    <i class="fi-rr-plus mr-4"></i> New
+                  </div>
+                </button>
+                <ClickOutside
+                  :do="
+                    (e) => {
+                      handleClick(e);
+                    }
+                  "
+                >
+                  <div
+                    v-show="showQuickMenu"
+                    class="absolute top-0 w-full z-40 right-0 rounded-lg bg-white ring-opacity-5 ring-1 ring-black shadow-lg"
+                  >
+                    <div class="flex flex-col text-black" role="none">
+                      <button
+                        class="hover:bg-blue-50 py-2 pl-3"
+                        @click="$modal.show('inviteClientModal')"
+                      >
+                        <span class="w-full flex mt-1">
+                          <i class="fi-rr-following mr-3 text-gray-500"></i>
+                          Client
+                        </span>
+                      </button>
+                      <button
+                        class="hover:bg-blue-50 py-2 pl-3"
+                        @click="$router.push({ name: 'payments-request' })"
+                      >
+                        <span class="w-full flex mt-1">
+                          <i class="fi-rr-receipt mr-3 text-gray-500"></i>
+                          Payment Request
+                        </span>
+                      </button>
+                      <button
+                        class="hover:bg-blue-50 py-2 pl-3"
+                        @click="openSession"
+                      >
+                        <span class="w-full flex mt-1">
+                          <i class="fi-rr-calendar mr-3 text-gray-500"></i>
+                          Session
+                        </span>
+                      </button>
+                      <button class="hover:bg-blue-50 py-2 pl-3">
+                        <span class="w-full flex mt-1">
+                          <i class="fi-rr-link mr-3 text-gray-500"></i>
+                          Payment Link
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </ClickOutside>
+              </div>
+            </div>
+            <NuxtLink
+              v-for="(menu, menuIndex) in menus"
+              :key="menuIndex"
+              :class="[menu.path.includes(currentLink) ? 'active' : '']"
+              :to="{ name: menu.path }"
+              :id="getId(menu.title)"
+              class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg"
+            >
+              <i :class="menu.icon" class="mr-4 mt-0.5"></i>
+              <h3 class="">
+                {{ menu.title }}
+              </h3>
+              <div v-if="menu.path === 'messages' && unreadMessages.length" class="ml-auto">
+                <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
+                  {{ unreadMessages.length }}
+                </div>
+              </div>
+              <div v-else-if="menu.path === 'notifications' && unReadNotifications.length" class="ml-auto">
+                <div class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full">
+                  {{ unReadNotifications.length }}
+                </div>
+              </div>
+            </NuxtLink>
+          </div>
+          <div class="bottom-nav">
+            <div class="pl-2 mb-4">
+              Help
+            </div>
+            <div
+              class="bg-gray-700 flex items-center justify-between px-3 py-3 rounded-lg"
+            >
+              <div class="text-white">
+                <h3 class="font-bold text-white mb-2">
+                  Need Help?
+                </h3>
+                <span class="text-sm">
+                  Activate the switch button to send a message to us
+                </span>
+              </div>
+              <div class="flex-shrink">
+                <Toggle2 />
+              </div>
+            </div>
+            <NuxtLink
+              to="/"
+              class="flex hover:bg-blue-50 mb-1 items-center pl-4 text-gray-600 py-1 rounded-lg"
+            >
+              <i class="fi-rr-time-half-past mr-4 mt-4"></i>
+              <h3 class="">
+                What's coming next...
+              </h3>
+            </NuxtLink>
+            <button
+              class="flex hover:bg-blue-50 mb-1 w-full justify-start px-3 pl-4 text-gray-600 py-1 rounded-lg"
+              @click="signOut"
+            >
+              <i class="fi-rr-power mr-4 mt-0.5"></i>
+              <h3 class="">
+                Sign out
+              </h3>
+            </button>
           </div>
         </div>
       </div>
     </nav>
-    <GwModal
-      :is-open="addSession"
-      :input-width="40"
-      @close="addSession = $event"
-      @closeBackDrop="openEditModal = $event"
-    >
-      <CreateSchedule @close="addSession = $event" />
-    </GwModal>
-    <GwModal
-      :is-open="newCourse"
-      :input-width="40"
-      @close="newCourse = $event"
-      @closeBackDrop="newCourse = $event"
-    >
-      <CreateCourse @close="newCourse = $event" />
-    </GwModal>
-    <GwModal
-      :input-width="30"
-      :is-open="openModal"
-      @close="openModal = $event"
-      @closeBackDrop="openModal = $event"
-    >
-      <template v-slot:status>
-        <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
-          Create New Invoice
-        </div>
-      </template>
-      <CreateNewInvoice @close="openModal = $event" />
-    </GwModal>
-    <NotificationsModal :visible="showNotification" @close="showNotification = $event">
-      <template v-slot:title>
-        {{
-          !acceptedClients.length
-            ? "No Invited Clients"
-            : "Services Unavailable"
-        }}
-      </template>
-      <template v-slot:subtitle>
-        {{
-          !acceptedClients.length
-            ? "You need to invite a client before you can create an invoice."
-            : "You need to add at least one service before you can create an invoice."
-        }}
-      </template>
-      <template v-slot:actionButtons>
-        <button
-          v-if="!acceptedClients.length"
-          class="base-button normal-case"
-          style="width: fit-content"
-          @click="inviteClient"
-        >
-          Invite a client
-        </button>
-        <NuxtLink
-          v-else
-          to="/Settings#services"
-          class="base-button normal-case"
-          style="width: fit-content"
-        >
-          Add a service
-        </NuxtLink>
-      </template>
-    </NotificationsModal>
+    <LunaSearch />
   </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-import menus from '~/navigation.json'
+import LunaSearch from "~/components/LunaSearch";
 export default {
   name: 'Navigation',
+  components: {LunaSearch},
   data () {
     return {
-      menus,
+      showQuickMenu: false,
+      currentLink: 'dashboard',
+      menus: [
+        {
+          icon: 'fi-rr-home',
+          title: 'Home',
+          path: 'dashboard'
+        },
+        {
+          icon: 'fi-rr-comment-alt',
+          id: 'introjs-step-5',
+          title: 'Messages',
+          path: 'messages'
+        },
+        {
+          icon: 'fi-rr-bell-ring',
+          title: 'Notifications',
+          path: 'notifications'
+        },
+        {
+          icon: 'fi-rr-following',
+          title: 'Clients',
+          path: 'clients'
+        },
+        {
+          icon: 'fi-rr-calendar',
+          title: 'Schedule',
+          path: 'schedule'
+        },
+        {
+          icon: 'fi-rr-receipt',
+          title: 'Payment',
+          path: 'payments-requests-sent'
+        },
+        // {
+        //   icon: 'fi-rr-chart-histogram',
+        //   title: 'Report',
+        //   path: 'reports-financials'
+        // },
+        {
+          icon: 'fi-rr-settings',
+          title: 'Settings',
+          path: 'settings-profile'
+        }
+      ],
       showNotification: false,
-      openModal: false,
-      showNotificationsMenu: false,
-      showMessagesMenu: false,
-      addSession: false,
-      newCourse: false,
-      toggleIntercom: true
+      openModal: false
     }
   },
   computed: {
@@ -290,17 +243,8 @@ export default {
       unreadMessages: 'sendBird/getUnreadMessages',
       notifications: 'notifications/getAllNotifications'
     }),
-    unreadnotifications () {
+    unReadNotifications () {
       return this.notifications.filter(n => n.status === 'UNREAD')
-    },
-    toggleIntercomCheck () {
-      let isToggled = null
-      if (this.$route.path.includes('Messages')) {
-        isToggled = false
-      } else {
-        isToggled = true
-      }
-      return isToggled
     },
     firstName (string) {
       if (string) {
@@ -317,80 +261,89 @@ export default {
       return 'welp'
     }
   },
-  watch: {
-    toggleIntercomCheck: 'isMessagesRoute'
-  },
-  async mounted () {
-    this.isMessagesRoute(this.toggleIntercomCheck)
+  async beforeMount () {
+    this.getNav(this.$route)
+
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
-      console.log()
+      console.log(e)
     }
 
     const url = new URL(process.env.BASEURL_HOST)
     // eslint-disable-next-line
-    const socket = io(`${url.origin}`,
-      {
-        path: `${url.pathname}/socket.io`,
-        query: {
-          accessToken: localStorage.getItem('auth._token.local').split('Bearer ')[1]
-        }
-      })
+    const socket = io(`${url.origin}`, {
+      path: `${url.pathname}/socket.io`,
+      query: {
+        accessToken: localStorage
+          .getItem('auth._token.local')
+          .split('Bearer ')[1]
+      }
+    })
 
     socket.on('connect', () => {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
+      console.log('socket enter ', data)
       const { type } = data
-      if (type === 'INVITE_REQUEST_ACCEPTED') {
-        this.localUpdateClient(data.data)
+      if (type === 'LOGIN_WITH_QR') {
+        this.$nuxt.$emit('device-paired')
+      }
+      switch (type) {
+        case 'INVITE_REQUEST_ACCEPTED':
+          this.localUpdateClient(data.data)
+          this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
+          break
+        case 'PAYMENT_ACCEPTED':
+          this.$lunaToast.show('payment made')
+          break
+        case 'STRIPE_CONNECTION_SUCCESSFUL':
+          this.$lunaToast.show('Stripe has just connected successful')
+          break
+        default:
+          this.$lunaToast.show('You have a new notification')
+          break
       }
       this.$store.commit('notifications/setNotification', data)
     })
+
+    socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
+    getId (e) {
+      switch (e) {
+        case 'Report':
+          return 'reporting-hint'
+        case 'Settings':
+          return 'settings-hint'
+        default:
+          return ''
+      }
+    },
     ...mapMutations({
       localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
     }),
+    openSession () {
+      this.$store.commit('scheduler/setStates', {
+        drawer: { open: true, activePage: 'new-session' }
+      })
+    },
+    handleClick (e) {
+      if (!e.target.closest('.new-button')) {
+        this.showQuickMenu = false
+      }
+    },
+    getNav (e) {
+      const paths = e.path?.split('/')
+
+      if (paths.length >= 1) {
+        this.currentLink = paths[1]
+      }
+    },
     ...mapActions({
       logOut: 'authorize/logOut'
     }),
-    isMessagesRoute (value) {
-      if (value) {
-        this.toggleIntercom = true
-        window && window.Intercom('update', {
-          hide_default_launcher: false
-        })
-        // window.Intercom('show')
-      } else {
-        this.toggleIntercom = false
-        window && window.Intercom('update', {
-          hide_default_launcher: true
-        })
-      }
-    },
-    allowIntercom () {
-      this.toggleIntercom = !this.toggleIntercom
-      window.Intercom(this.toggleIntercom ? 'show' : 'hide')
-    },
-    gotoMessage (arr) {
-      const user = arr.find(m => m.userId !== this.$auth.user.sendbirdId)
-      const client = this.acceptedClients.find(
-        c => c.sendbirdId === user.userId
-      )
-      this.$router.push({
-        name: 'client-id-Messages',
-        params: { id: client._id }
-      })
-    },
-    createInvoice () {
-      if (!this.acceptedClients.length || !this.$auth.user.services.length) {
-        this.showNotification = true
-      } else {
-        this.openModal = true
-      }
-    },
     inviteClient () {
       this.$modal.show('inviteClientModal')
     },
@@ -400,17 +353,34 @@ export default {
     hideSidebarMenu () {
       this.$nuxt.$emit('hideSidebarMenu')
     }
+  },
+  watch: {
+    $route: {
+      handler (newRouteValue) {
+        this.getNav(newRouteValue)
+      },
+      deep: true
+    }
+  },
+  mounted() {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        this.$modal.hide('luna-search-modal')
+      }
+    })
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 75 && e.metaKey) {
+        this.$modal.show('luna-search-modal')
+      }
+    })
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .active {
-  @apply text-gray-700 font-medium;
-  &::before {
-    @apply bg-blue-500 w-1 h-6 rounded-sm shadow-md absolute left-0;
-    content: "";
-  }
+  @apply bg-blue-50;
+  @apply font-bold;
 }
 button {
   @apply font-normal text-base;

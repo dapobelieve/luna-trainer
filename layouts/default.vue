@@ -1,44 +1,91 @@
 <template>
   <async-view loader-id="logout">
+    <div v-if="loading" class="fixed preloader top-0 h-full w-full flex items-center justify-center">
+      <div class="inline-flex flex-col items-center">
+        <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg">
+        <SingleLoader height="20px" width="20px" />
+      </div>
+    </div>
     <div class="min-h-screen">
-      <GwHeader :class="{ 'hidden': $route.name === 'client-id-information' || $route.name === 'client-id-Messages' }" />
+      <GwHeader
+        :class="{
+          hidden:
+            $route.name === 'client-id-information' ||
+            $route.name === 'client-id-messages'
+        }"
+      />
       <div class="flex">
-        <invite-new-client-modal />
         <Navigation class="hidden lg:block" />
-        <div v-if="showSidebarMenu" class="block lg:hidden">
-          <Navigation />
+        <div v-if="showSidebarMenu" class="block lg:hidden absolute">
+          <Navigation  />
         </div>
         <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
+        <transition
+          enter-active-class="transition-all ease-in-out duration-[500ms]"
+          leave-active-class="transition-all ease-in-out duration-[500ms]"
+          enter-class="transform translate-x-full"
+          leave-class="-translate-x-0"
+          enter-to-class="-translate-x-0"
+          leave-to-class="translate-x-full"
+        >
+          <SchedulerDrawer v-if="schedulerDrawer.open" v-model="schedulerDrawer.activePage" />
+        </transition>
       </div>
-      <NotificationsModal
-        :visible="showNotification"
-        @close="showNotification = $event"
-      >
-        <template v-slot:title>
-          Chat Connection Failed
-        </template>
-        <template v-slot:subtitle>
-          Reconnect chat to enjoy all of GetWelp's features
-        </template>
-        <template v-slot:actionButtons>
-          <button
-            class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
-            @click="retry"
-          >
-            retry
-          </button>
-        </template>
-      </NotificationsModal>
     </div>
+
+    <!-- adding notes -->
+    <div id="no-border">
+      <modal
+        name="add-note"
+        height="100%"
+        :resizable="true"
+        :adaptive="true"
+        :shift-x="1"
+        width="25%"
+        :click-to-close="false"
+      >
+        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      </modal>
+    </div>
+
+    <!-- expanding notes modal -->
+    <div id="no-border">
+      <modal
+        name="expand-add-note"
+        height="100%"
+        width="100%"
+        :adaptive="true"
+        :click-to-close="false"
+      >
+        <notes-add-note :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      </modal>
+    </div>
+
+    <PaymentMethodStatusModal />
+    <PaymentMethodBankAccountModal />
+    <InviteNewClientModal />
+    <ExpiredSessionAuthModal />
+    <ViewImageModal />
   </async-view>
 </template>
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
+import sendBird from '../mixins/sendBird'
+import sendBirdEvents from '../mixins/sendBirdEvents'
+import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
+import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
+import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
+import auth from '~/mixins/auth'
+import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
+import ViewImageModal from '~/components/messages/ViewImageModal.vue'
+
+import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
-  components: { InviteNewClientModal },
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
+  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {
       page: this.$route.name,
@@ -48,13 +95,30 @@ export default {
   },
   computed: {
     ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
+      connectedChannels: state => state.sendBird.connectedChannels,
+      addNoteModal: state => state.notes.addNoteModal,
+      expandModal: state => state.notes.expandModal
     }),
     ...mapGetters({
+      schedulerDrawer: 'scheduler/drawer',
+      loading: 'profile/getLoading',
       sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
     })
   },
   watch: {
+    $route: {
+      immediate: true,
+      handler (data) {
+        this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+        if (data.name === 'schedule') {
+          this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: null } })
+        } else if (data.name === 'schedule-create') {
+          this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: 'new-session' } })
+        } else if (data.name === 'schedule-events-id') {
+          this.$store.commit('scheduler/setStates', { drawer: { open: true, activePage: 'schedule-details' } })
+        }
+      }
+    },
     sendBirdConnStatus (newValue, oldValue) {
       if (newValue || oldValue || !this.store.state.sendbirdId.sbUser) {
         this.$nextTick(() => {
@@ -63,9 +127,23 @@ export default {
           }, 2000)
         })
       }
+    },
+    addNoteModal (newValue) {
+      if (newValue) {
+        this.$modal.show('add-note')
+      } else if (!newValue) {
+        this.$modal.hide('add-note')
+      }
+    },
+    expandModal (newValue) {
+      if (newValue) {
+        this.$modal.show('expand-add-note')
+      } else if (!newValue) {
+        this.$modal.hide('expand-add-note')
+      }
     }
   },
-  async created () {
+  created () {
     this.$nuxt.$on('displayPageSidebar', () => {
       this.toggleSidebarMenu()
     })
@@ -84,34 +162,6 @@ export default {
       })
     } else {
       this.endFullPageLoad()
-      // connect user to sendbird server
-      await this.connectToSendBird(this.$auth.user.sendbirdId)
-
-      // sendbird events
-      const channelHandler = new this.$sb.ChannelHandler()
-
-      channelHandler.onMessageReceived = this.onMessageReceived
-      channelHandler.onMessageUpdated = function (channel, message) {}
-      channelHandler.onMessageDeleted = function (channel, messageId) {}
-      channelHandler.onMentionReceived = function (channel, message) {}
-      channelHandler.onChannelChanged = function (channel) {}
-      channelHandler.onMetaDataCreated = function (channel, metaData) {}
-      channelHandler.onMetaDataUpdated = function (channel, metaData) {}
-      channelHandler.onMetaDataDeleted = function (channel, metaDataKeys) {}
-      channelHandler.onMetaCountersCreated = function (channel, metaCounter) {}
-      channelHandler.onMetaCountersUpdated = function (channel, metaCounter) {}
-      channelHandler.onMetaCountersDeleted = function (
-        channel,
-        metaCounterKeys
-      ) {}
-      channelHandler.onDeliveryReceiptUpdated = function (groupChannel) {}
-      channelHandler.onReadReceiptUpdated = function (groupChannel) {}
-      channelHandler.onTypingStatusUpdated = function (groupChannel) {}
-      channelHandler.onChannelMemberCountChanged = function (channels) {}
-      channelHandler.onChannelParticipantCountChanged = function (channels) {}
-
-      // Add this channel event handler to the `SendBird` instance.
-      this.$sb.addChannelHandler('deafultLayoutHandler', channelHandler)
     }
   },
   updated () {
@@ -135,7 +185,7 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions('sendBird', {
-      connectToSendBird: 'connect_to_sb_server_with_userid',
+      connectToSendBird: 'connectToSBWithUserid',
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
@@ -144,27 +194,9 @@ export default {
       this.showNotification = false
       return this.connectToSendBird(this.$auth.user.sendbirdId).then((result) => {
         if (result !== 'error') {
-          this.$gwtoast.success('Chat connection successful')
+          this.$lunaToast.success('Chat connection successful')
         }
       })
-    },
-
-    // events for sendbird
-    onMessageReceived (channel, message) {
-      if (this.$route.name !== 'dashboard') {
-        if (
-          Object.keys(this.connectedChannels).length === 0 &&
-          this.connectedChannels.constructor === Object &&
-          channel.memberMap[this.$auth.user.sendbirdId]
-        ) {
-          this.addChannel({ channel, message })
-        } else if (
-          this.connectedChannels.size &&
-          this.connectedChannels.has(channel.url)
-        ) {
-          this.newMessage({ channel, message })
-        }
-      }
     }
   }
 }
@@ -174,7 +206,7 @@ export default {
 @media print {
   .page-header,
   .navigation,
-  .gw-header{
+  .gw-header {
     display: none !important;
   }
 }

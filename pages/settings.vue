@@ -18,7 +18,7 @@
                 @click="$router.push({name: menu.route})"
               >
                 <div class="h-12 w-12 bg-gray-50 flex-shrink-0 flex items-center justify-center rounded-full">
-                  <i :class="[menu.icon, activeRoute.path.includes(menu.name) ? 'text-blue-500' : 'text-gray-500' ]" class=" text-2xl"></i>
+                  <i :class="[menu.icon, activeRoute.path.includes(menu.name) ? 'text-blue-500' : 'text-gray-500' ]" class=" text-lg"></i>
                 </div>
                 <div class="md:w-4/5 w-60 text-gray-500">
                   <h6 class="text-base">
@@ -29,7 +29,7 @@
                   </p>
                 </div>
                 <div>
-                  <i class="ns-angle-right text-xl text-blue-500"></i>
+                  <i class="fi-rr-angle-right text-base text-blue-500"></i>
                 </div>
               </div>
             </div>
@@ -50,7 +50,7 @@ export default {
       settingsMenu: [
         {
           name: 'profile',
-          icon: 'ns-user',
+          icon: 'fi-rr-user',
           details: 'Some of your information will be shown to your clients. Try and be as accurate as possible',
           route: 'settings-profile'
         },
@@ -61,16 +61,22 @@ export default {
           route: 'settings-services'
         },
         {
-          name: 'security',
-          icon: 'ns-shield',
-          details: 'We keep your data as secure as possible',
-          route: 'settings-security'
+          name: 'payment',
+          icon: 'fi-rr-credit-card',
+          details: 'Integrate with mutiple services platforms',
+          route: 'settings-billing-setup'
         },
         {
-          name: 'connections',
-          icon: 'ns-data-transfer',
+          name: 'calendar',
+          icon: 'fi-rr-calendar',
           details: 'Integrate with multiple other services platforms',
-          route: 'settings-connections'
+          route: 'settings-calendar'
+        },
+        {
+          name: 'security',
+          icon: 'fi-rr-shield',
+          details: 'We keep your data as secure as possible',
+          route: 'settings-security'
         }
       ]
     }

@@ -36,14 +36,12 @@ export const actions = {
       payload !== undefined && 'page' in payload ? payload.page : 1
     const limit =
       payload !== undefined && 'limit' in payload ? payload.limit : 10
-    commit('IS_LOADING', true)
     return this.$axios
       .$get(
         `${process.env.BASEURL_HOST}/client/invites${stat ? `?status=${stat}&` : '?'
         }limit=${limit}&page=${currPage}`
       )
       .then((response) => {
-        commit('IS_LOADING', false)
         return response.data
       })
   },

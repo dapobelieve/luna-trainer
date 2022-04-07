@@ -7,7 +7,7 @@ services:
       - PORT=5005
       - NUXT_HOST=0.0.0.0
       - NUXT_PORT=5005
-      - NODE_ENV=dev
+      - NODE_ENV=development
       - BASE_DOMAIN=http://localhost:5002/
     ports:
       - 5005:5005

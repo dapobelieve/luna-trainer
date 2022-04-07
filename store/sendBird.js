@@ -1,174 +1,214 @@
 import SendBird from 'sendbird'
 export const state = () => ({
-  sbUser: null,
-  mySendBirdUsers: [],
-  tempClient: null,
+  sendbirdConnected: false,
   connectedChannels: new Map(),
-  connectingToSendBird: true,
+  fetchingMessages: true,
   connectingStatus: false,
-  latestMessage: {},
-  isUserOnline: false
+  openImage: false,
+  imageDetails: null,
+  msgHistory: []
 })
 
 export const mutations = {
-  SET_CURRENT_VIEWING_CLIENT (state, clientSendbirdId) {
-    state.tempClient = clientSendbirdId
+  SET_STATES (state, data) {
+    // eslint-disable-next-line array-callback-return
+    Object.keys(data).map((key) => {
+      state[key] = data[key]
+    })
   },
-  SET_AVAILABILITY_STATUS (state, status) {
-    state.isUserOnline = status
+  DELETE_CHANNEL_LOCALLY (state, channelUrl) {
+    state.connectedChannels.delete(channelUrl)
   },
-  LATEST_MESSAGE (state, message) {
-    state.latestMessage = message
+  VIEW_IMAGE (state, payload) {
+    const { imageDetails } = payload
+    const { status } = payload
+    state.imageDetails = imageDetails
+    state.openImage = status
   },
-  ADD_CHANNEL (state, channel) {
-    state.connectedChannels = Object.assign(
-      new Map([[channel.channel.url, channel.channel]])
-    )
-  },
-  UPDATE_CONNECTED_CHANNEL (state, channel) {
+
+  // messages
+  ADD_NEW_CHANNEL (state, channelDetails) {
+    if (state.connectedChannels.size) {
+      state.connectedChannels = Object.assign(
+        new Map([
+          ...state.connectedChannels,
+          [channelDetails.channel.url, channelDetails.channel]
+        ])
+      )
+      return
+    }
     state.connectedChannels = Object.assign(
       new Map([
-        ...state.connectedChannels,
-        [channel.channel.url, channel.channel]
+        [channelDetails.channel.url, channelDetails.channel]
       ])
     )
   },
-  SET_SB_USER (state, user) {
-    state.sbUser = user
+  UPDATE_CONNECTED_CHANNEL (state, msgDetails) {
+    state.connectedChannels = Object.assign(
+      new Map([
+        ...state.connectedChannels,
+        [msgDetails.channel.url, msgDetails.channel]
+      ])
+    )
   },
-  SET_CHANNELS (state, channels) {
-    state.connectedChannels = channels
-  },
-  DISCONNECT_USER (state) {
-    state.sbUser = null
+  DISCONNECT_USER_FROM_SENDBIRD (state) {
     state.connectedChannels = new Map()
-    state.latestMessage = {}
-    state.isUserOnline = false
+    state.sendbirdConnected = false
   },
   CONNECTION_ERROR (state, status) {
     state.connectingStatus = status
   },
-  CONNECTING_TO_SENDBIRD (state, status) {
-    state.connectingToSendBird = status
+  REMOVE_MARKED_MESSAGE (state, channelUrl) {
+    const channel = state.connectedChannels.get(channelUrl)
+    channel.unreadMessageCount = 0
+    state.connectedChannels = Object.assign(
+      new Map([
+        ...state.connectedChannels,
+        [channel.url, channel]
+      ])
+    )
   }
 }
 
 export const actions = {
-  setCurrentViewingClient ({ commit }) {
-    commit('SET_CURRENT_VIEWING_CLIENT', {})
-  },
-  checkIfChannelExists ({ state, commit }, userId) {
-    if (state && state.connectedChannels.size) {
-      return Array.from(state.connectedChannels.values()).find(c =>
-        c.members.find(m => m.userId === userId)
-      )
-    }
-  },
-  markMessageAsRead ({ commit, dispatch }, channel) {
-    channel.markAsRead()
-
-    const channelHandler = new this.$sb.ChannelHandler()
-    dispatch('listOfConnectedChannels')
-
-    channelHandler.onReadReceiptUpdated = (groupChannel) => {
-      if (channel.url === groupChannel.url) {
-        console.log('read receipt checked ')
-        console.log('channel read receipt ', groupChannel)
-      }
-    }
-
-    this.$sb.addChannelHandler('markMessages', channelHandler)
-  },
-  isUserOnline ({ commit }, id) {
-    const sb = SendBird.getInstance()
-    const listQuery = sb.createApplicationUserListQuery()
-    listQuery.userIdsFilter = [id]
-
-    listQuery.next((users, error) => {
+  async connectToSBWithUserid ({ commit }, sendbirdId) {
+    return await this.$sb.connect(sendbirdId, (user, error) => {
       if (error) {
-        // Handle error.
-        console.log('error checking online status', error)
-        return
+        this.$lunaToast.error('Messaging not connected.')
+        return false
       }
-      commit('SET_AVAILABILITY_STATUS', users[0].connectionStatus)
+      commit('SET_STATES', { sendbirdConnected: true })
     })
   },
-  addNewChannel ({ commit }, msg) {
-    commit('ADD_CHANNEL', msg)
+
+  disconnectFromSendbirdServer ({ commit }) {
+    this.$sb.disconnect(() => commit('DISCONNECT_USER_FROM_SENDBIRD'))
   },
-  updateConnectedChannels ({ state, commit }, msg) {
-    if (
-      state.connectedChannels.size &&
-      state.connectedChannels.has(msg.channel.url)
-    ) {
-      commit('UPDATE_CONNECTED_CHANNEL', msg)
-    } else if (
-      state.connectedChannels.size &&
-      !state.connectedChannels.has(msg.channel.url)
-    ) {
-      commit('UPDATE_CONNECTED_CHANNEL', msg)
-    }
+
+  async isUserOnline ({ commit }, ids) {
+    const sb = SendBird.getInstance()
+    const listQuery = sb.createApplicationUserListQuery()
+    listQuery.userIdsFilter = ids
+
+    const connectionStatus = await listQuery.next((users, error) => {
+      if (error) {
+        this.$lunaToast.error(`Error getting user status', ${error}`)
+      }
+    })
+    return connectionStatus[0].connectionStatus
   },
-  async connect_to_sb_server_with_userid ({ commit, dispatch }, sendbirdId) {
-    try {
-      return await this.$sb.connect(sendbirdId, (user, error) => {
+
+  // creation of channels
+  async createPrivateChannel ({ commit }, participant) {
+    const params = new this.$sb.GroupChannelParams()
+    params.isPublic = false
+    params.isEphemeral = false
+    params.isDistinct = true
+    params.isSuper = false
+    params.addUserIds([participant])
+    params.operatorUserIds = [this.$auth.user.sendbirdId]
+
+    const channel = await this.$sb.GroupChannel.createChannel(
+      params,
+      (groupChannel, error) => {
         if (error) {
-          // Handle error.
-          commit('CONNECTING_TO_SENDBIRD', false)
-          commit('CONNECTION_ERROR', true)
-          return false
+          this.$lunaToast.error(error.message)
+          return error
         }
-        // The user is connected to Sendbird server.
-        commit('SET_SB_USER', user)
-        dispatch('listOfConnectedChannels')
-        commit('CONNECTING_TO_SENDBIRD', false)
-      })
-    } catch (error) {
-      commit('CONNECTION_ERROR', true)
-      return 'error'
-    }
+        if (groupChannel) {
+          commit('ADD_NEW_CHANNEL', { channel: groupChannel })
+        }
+      }
+    )
+
+    return channel
   },
+
   async listOfConnectedChannels ({ commit }) {
     const listQuery = this.$sb.GroupChannel.createMyGroupChannelListQuery()
     listQuery.includeEmpty = true
     listQuery.userIdsIncludeFilter = [this.$auth.user.sendbirdId]
     listQuery.memberStateFilter = 'joined_only'
     listQuery.order = 'latest_last_message' // 'chronological', 'latest_last_message', 'channel_name_alphabetical', and 'metadata_value_alphabetical'
-    listQuery.limit = 15
+    listQuery.limit = 100
 
     if (listQuery.hasNext) {
       await listQuery.next((groupChannels, error) => {
         if (error) {
-          // Handle error.
-          console.log('error fetching connected channels', error)
+          this.$lunaToast.error('Error fetching messages')
+          return
         }
         const channels = new Map()
         if (groupChannels.length) {
           groupChannels.forEach((channel) => {
             channels.set(channel.url, channel)
           })
-          commit('SET_CHANNELS', channels)
+          commit('SET_STATES', { connectedChannels: channels })
         }
       })
     }
   },
-  disconnectFromSendbirdServer ({ commit }) {
-    this.$sb.disconnect(() => {
-      // The current user is disconnected from Sendbird server.
-      commit('DISCONNECT_USER')
-    })
+
+  async deleteChannel ({ commit }, CHANNEL_URL) {
+    await this.$sb.GroupChannel.getChannel(
+      CHANNEL_URL,
+      async (groupChannel, error) => {
+        // get channel
+        if (error) {
+          this.$lunaToast.error('Error finding channel')
+          return
+        }
+        await groupChannel.delete((response, error) => {
+          if (error) {
+            this.$lunaToast.error('Error deleting channel')
+            return
+          }
+          commit('DELETE_CHANNEL_LOCALLY', CHANNEL_URL)
+        })
+      }
+    )
+  },
+
+  // messages
+  newMessageReceived ({ state, commit }, messageDetails) {
+    const { url } = messageDetails.channel
+    if (state.connectedChannels.size && state.connectedChannels.has(url)) {
+      commit('UPDATE_CONNECTED_CHANNEL', messageDetails)
+      return
+    }
+    commit('ADD_NEW_CHANNEL', messageDetails)
+  },
+
+  async checkIfConversationExits ({ state, dispatch, commit }, userId) {
+    await dispatch('listOfConnectedChannels', '', { root: false })
+    const channels = state.connectedChannels
+    if (channels.size) {
+      const channel = Array.from(state.connectedChannels.values()).find(c =>
+        c.memberMap[userId]
+      )
+      return channel
+    }
+    return false
+  },
+
+  markMessageAsRead ({ commit, dispatch }, channel) {
+    channel.markAsRead()
+    commit('REMOVE_MARKED_MESSAGE', channel.url)
   }
 }
 
 export const getters = {
   connectingToSendbirdServerWithUserStatus: state => state.connectingStatus,
-  getUser: id => state => state.mySendBirdUsers.find(u => u.userId === id),
-  getUnreadMessages: (state) => {
+
+  getUnreadMessages: (state, getters, rootState) => {
     const unread = []
     if (state.connectedChannels.size) {
       // eslint-disable-next-line no-unused-vars
       for (const [key, value] of state.connectedChannels.entries()) {
-        if (value.unreadMessageCount) {
+        if (
+          value.unreadMessageCount &&
+          value.lastMessage._sender.userId !== rootState.auth.user.sendbirdId
+        ) {
           unread.push(value)
         }
       }
@@ -176,13 +216,24 @@ export const getters = {
     }
     return []
   },
-  getUserUnreadMessageCount: (state, getters) => (id) => {
-    if (getters.getUnreadMessages.length) {
-      return getters.getUnreadMessages.find(m =>
-        m.members.find(m => m.userId === id)
-      )
+
+  listOfChannels: (state, getters, rootState) => {
+    const allMessages = []
+    if (state.connectedChannels.size) {
+      // eslint-disable-next-line no-unused-vars
+      for (const [key, value] of state.connectedChannels.entries()) {
+        if (
+          value.lastMessage._sender.userId !== rootState.auth.user.sendbirdId
+        ) {
+          allMessages.push(value)
+        }
+      }
     }
-  },
-  isUserOnline: state => state.isUserOnline,
-  getCurrentClient: state => state.tempClient
+    if (allMessages.length) {
+      return allMessages.sort((a, b) => {
+        return b.createdAt - a.createdAt
+      })
+    }
+    return allMessages
+  }
 }

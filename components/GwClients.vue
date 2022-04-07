@@ -12,30 +12,6 @@
         </ul>
       </div>
     </div>
-    <div v-else-if="firstTimeVisit" class="h-full flex">
-      <div
-        class="bg-white m-auto rounded-lg border border-gray-300 shadow-md overflow-hidden md:grid grid-cols-5 p-5 md:p-0 md:h-4/6 md:w-4/6"
-      >
-        <div class="hidden md:block h-full invite-client col-span-2"></div>
-        <div class="py-10 col-span-3 m-auto md:px-5 xl:px-0">
-          <div class="max-w-sm grid gap-5 md:gap-5">
-            <h2 class="text-3xl font-semibold">
-              Add Your Clients
-            </h2>
-            <p>
-              Here you can create, invite and onboard your new and existing
-              clients into GetWelp and manage the entire client process from one
-              end to another. Woof!
-            </p>
-            <div style="width: fit-content;">
-              <button type="button" class="base-button" @click="$modal.show('inviteClientModal')">
-                <span class>Get Started</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
     <div v-else class="my-16 px-5  grid gap-5 justify-center text-center">
       <div class="w-full">
         <img class="text-center inline-block" src="~/assets/img/low-dog.png" alt srcset />
@@ -49,8 +25,8 @@
         All your client list will appear here. Send an invite to a potential client to get started
       </p>
       <div class="w-max mx-auto">
-        <button class="base-button" type="button" @click.prevent="$modal.show('inviteClientModal')">
-          <i class="ns-add"></i>
+        <button class="base-button flex items-center" type="button" @click.prevent="$modal.show('inviteClientModal')">
+          <i class="fi-rr-add h-5 w-5 mr-2"></i>
           Add client now
         </button>
       </div>
@@ -71,8 +47,7 @@ export default {
   },
   data () {
     return {
-      addClient: false,
-      firstTimeVisit: false
+      addClient: false
     }
   },
   computed: {
@@ -102,13 +77,6 @@ export default {
   created () {
     this.fetchAllClients({ page: this.pageNumber })
   },
-  mounted () {
-    const getTime = localStorage.getItem('clientsPageFirstVisit')
-    if (!getTime) {
-      this.firstTimeVisit = true
-      localStorage.setItem('clientsPageFirstVisit', Date.now())
-    }
-  },
   methods: {
     ...mapActions({
       fetchAllClients: 'client/fetchAllClients'
@@ -118,10 +86,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invite-client {
-  background-image: url("~assets/img/black-dog.png");
-  background-repeat: no-repeat;
-  background-position: left bottom;
-  background-color: rgba(214, 233, 227, 1);
-}
 </style>

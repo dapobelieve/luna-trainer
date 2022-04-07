@@ -1,17 +1,26 @@
 <template>
-  <span v-if="!isImgAvailable" class="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-50" :style="altStyling">
-    <span class="text-xs font-medium leading-none text-indigo-500">{{ displayInitials }}</span>
+  <span
+    v-if="!isImgAvailable"
+    :style="altStyling"
+    :class="{ 'user-is-online': onlineStatus === 'online' }"
+    class="bg-green-white rounded-full flex items-center justify-center "
+  >
+    <span
+      class="h-full w-full bg-indigo-50 rounded-full grid place-content-center leading-none text-indigo-500 text-xs font-medium"
+    >{{ displayInitials }}</span>
   </span>
   <img
     v-else
-    :src="clientInfo.imgURL"
-    class="object-cover rounded-full h-10 w-10"
+    :class="{ 'user-is-online': onlineStatus === 'online' }"
+    :src="clientInfo.imgURL || clientInfo.imgUrl"
+    class="object-cover rounded-full h-10 w-10 inline-block"
     :style="altStyling"
     alt="client profile image"
   />
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'UserAvatar',
   props: {
@@ -25,11 +34,15 @@ export default {
     },
     clientInfo: {
       type: Object,
+      default () {
+        return {}
+      },
       required: true
     }
   },
   data () {
     return {
+      onlineStatus: 'offline',
       altStyling: {
         width: this.width + 'rem',
         height: this.height + 'rem'
@@ -37,23 +50,51 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      isSendbirdConnected: state => state.sendBird.sendbirdConnected
+    }),
     isImgAvailable () {
-      return 'imgURL' in this.clientInfo
+      return this.clientInfo?.imgURL || this.clientInfo.imgUrl
+    },
+    isSendbirdIdAvailable () {
+      return 'sendbirdId' in this.clientInfo
     },
     displayInitials () {
       let initials = ''
-      const values = [this.clientInfo.firstName, this.clientInfo.lastName]
+      const values = [this.clientInfo.firstName, this.clientInfo && this.clientInfo.lastName]
       if (values.length) {
         values.forEach((element) => {
-          if (element !== undefined) {
+          if (element) {
             initials += element.charAt(0).toUpperCase()
           }
         })
       }
       return initials
     }
+  },
+  watch: {
+    isSendbirdConnected: {
+      handler (newValue, oldValue) {
+        if ((newValue || oldValue) && this.isSendbirdIdAvailable) {
+          this.isUserOnline([this.clientInfo.sendbirdId]).then((res) => {
+            this.onlineStatus = res
+          })
+        }
+      },
+      immediate: true
+    }
+  },
+  methods: {
+    ...mapActions({
+      isUserOnline: 'sendBird/isUserOnline'
+    })
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.user-is-online {
+  @apply border-2 p-0.5;
+  border-color: #14b8a6;
+}
+</style>

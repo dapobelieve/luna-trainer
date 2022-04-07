@@ -32,7 +32,7 @@
           <div
             class="font-medium"
           >
-            {{ $store.state.profile.trainnerRegData.personalProfile.currency }}{{ n.pricing.amount }}.00
+            {{ $store.state.profile.user.currency }}{{ n.pricing.amount }}.00
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
@@ -40,13 +40,13 @@
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
             @click.prevent="editService(index)"
           >
-            <i class="ns-pencil"></i>
+            <i class="fi-rr-pencil"></i>
           </button>
           <button
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
             @click.prevent="deleteService(index)"
           >
-            <i class="ns-trash"></i>
+            <i class="fi-rr-trash"></i>
           </button>
         </div>
       </div>
@@ -60,19 +60,19 @@ export default {
   name: 'OnboardingServiceCards',
   computed: {
     ...mapState({
-      services: state => state.profile.trainnerRegData.services,
-      currency: state => state.profile.trainnerRegData.personalProfile.currency,
+      services: state => state.profile.user.services,
+      currency: state => state.profile.user.currency,
       editingService: state => state.profile.editingServiceCard
     })
   },
   methods: {
     ...mapMutations({
-      updateServices: 'profile/UPDATE_TRAINNER_REG_DATA',
+      updateServices: 'profile/UPDATE_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
     deleteService (index) {
       if (this.editingService) {
-        this.$gwtoast.error('You are currently editing a service')
+        this.$lunaToast.error('You are currently editing a service')
       } else {
         const updatedServices = [...this.services]
         updatedServices.splice(index, 1)

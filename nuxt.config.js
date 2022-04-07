@@ -1,10 +1,11 @@
 import webpack from 'webpack'
+require('./config')
+
 export default {
-  // Global page headers: https://go.nuxtjs.dev/config-head
   ssr: false,
   head: {
-    title: 'Getwelp',
-    titleTemplate: 'Getwelp | %s',
+    title: 'Luna',
+    titleTemplate: 'Luna | %s',
     htmlAttrs: {
       lang: 'en'
     },
@@ -19,11 +20,6 @@ export default {
         rel: 'stylesheet',
         href:
           'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
-      },
-      {
-        rel: 'stylesheet',
-        href:
-          'https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css'
       }
     ],
     script: [
@@ -33,33 +29,30 @@ export default {
       }
     ]
   },
-
-  // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
     '@/assets/css/theme.scss',
-    '@/assets/css/fonts.css',
+    '@/assets/css/new-fonts.css',
     'vue-popperjs/dist/vue-popper.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
     'vue2-datepicker/index.css'
   ],
-  // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~plugins/services.js' },
-    { src: '~plugins/v-calendar.js', ssr: false },
-    { src: '~/plugins/vue-tel-input.js', ssr: false },
-    { src: '~/plugins/vue-select.js', ssr: false },
-    { src: '~/plugins/vuelidate.js', ssr: true },
-    { src: '~plugins/persistedState.client.js' },
+    { src: '~plugins/services' },
+    { src: '~plugins/v-calendar', ssr: false },
+    { src: '~/plugins/vue-tel-input', ssr: false },
+    { src: '~/plugins/vue-select', ssr: false },
+    { src: '~/plugins/vuelidate', ssr: true },
+    { src: '~plugins/persisted-state.client' },
     { src: '~plugins/intercom.js', ssr: false },
     { src: '~/plugins/axios.js' },
     { src: '~/plugins/intro.js', ssr: false },
-    { src: '~/plugins/errorHandler.js' },
-    { src: '~/plugins/sendBird' },
-    { src: '~/plugins/vClickOutside', ssr: false },
-    { src: '~plugins/filters.js', ssr: false },
-    { src: '~plugins/v-tooltip.js', ssr: false },
-    { src: '~plugins/v-modal.js', ssr: true },
-    { src: '~plugins/utils.js', ssr: false }
+    { src: '~/plugins/error-handler' },
+    { src: '~/plugins/sendbird' },
+    { src: '~/plugins/v-click-outside', ssr: false },
+    { src: '~plugins/filters', ssr: false },
+    { src: '~plugins/v-tooltip', ssr: false },
+    { src: '~plugins/v-modal' },
+    { src: '~plugins/utils', ssr: false }
   ],
   components: {
     dirs: ['~/components', '~/components/util']
@@ -68,14 +61,15 @@ export default {
     BASEURL_HOST: process.env.BASEURL_HOST,
     ACCOUNT_HOST_URL: process.env.ACCOUNT_HOST_URL,
     STRIPE_RETURN: process.env.STRIPE_RETURN,
+    SCHEDULER_HOST: process.env.SCHEDULER_HOST,
     SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
-    paymentHostUrl: process.env.PAYMENT_HOST_URL,
-    sendBirdAppId: process.env.SENDBIRD_APP_ID
+    SENDBIRD_APP_ID: process.env.SENDBIRD_APP_ID,
+    REPORTING_HOST: process.env.REPORTING_HOST
   },
-
+  loading: '~/components/loading.vue',
   buildModules: [
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     '@nuxtjs/date-fns'
   ],

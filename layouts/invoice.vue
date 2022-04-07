@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 w-full min-h-screen">
     <div
-      class="flex justify-between lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
+      class="flex justify-between  lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
     >
       <span class="text-2xl to-gray-700 font-normal">
         {{ sharedPage.page }}
@@ -11,12 +11,12 @@
       </span>
       <i
         role="button"
-        class="ns-cross text-blue-500 text-lg lg:justify-self-end"
-        @click="$router.go(-1)"
+        class="fi-rr-cross text-blue-500 text-md lg:justify-self-end"
+        @click.prevent="$router.back()"
       ></i>
     </div>
     <Nuxt
-      class="m-4 lg:m-0 lg:pt-12 flex justify-center"
+      class="md:m-4 lg:m-0 lg:pt-10 flex justify-center"
     />
   </div>
 </template>
@@ -32,16 +32,17 @@ export default {
     return {
       showAutosavingText: false,
       sharedPage: {
-        page: 'Create Invoice'
+        page: 'Create Payment Request'
       }
     }
   },
   created () {
+    console.log(this.$router)
     this.$nuxt.$on('autosaving-invoice', () => {
       this.showAutosavingText = true
-      setTimeout(() => {
-        this.showAutosavingText = false
-      }, 3500)
+    })
+    this.$nuxt.$on('autosaving-invoice-completed', () => {
+      this.showAutosavingText = false
     })
   }
 }

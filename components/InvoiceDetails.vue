@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white grid gap-4">
     <div class="flex space-x-6">
-      <i class="text-gray-400 text-xl ns-receipt"></i>
+      <i class="text-gray-400 text-lg fi-rr-receipt"></i>
       <div>
         <p class="block text-sm">
           Invoice Number
@@ -12,7 +12,7 @@
       </div>
     </div>
     <div class="flex space-x-6">
-      <i class="text-gray-400 text-xl ns-time-check"></i>
+      <i class="text-gray-400 text-lg fi-rr-time-check"></i>
       <div>
         <p class="block text-sm">
           Created
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="flex space-x-6">
-      <i class="text-gray-400 text-xl ns-time-check"></i>
+      <i class="text-gray-400 text-lg fi-rr-time-check"></i>
       <div>
         <p class="block text-sm">
           Due Date
@@ -34,7 +34,7 @@
       </div>
     </div>
     <div class="flex space-x-6">
-      <i class="text-gray-400 text-xl ns-label"></i>
+      <i class="text-gray-400 text-lg fi-rr-label"></i>
       <div>
         <p class="block text-sm">
           Amount
@@ -45,7 +45,7 @@
       </div>
     </div>
     <div class="flex space-x-6">
-      <i class="text-gray-400 text-xl ns-envelope"></i>
+      <i class="text-gray-400 text-lg fi-rr-envelope"></i>
       <div>
         <p class="block text-sm">
           Email
@@ -56,7 +56,7 @@
       </div>
     </div>
     <div class="flex space-x-6">
-      <i class="text-gray-400 text-xl ns-user"></i>
+      <i class="text-gray-400 text-lg fi-rr-user"></i>
       <div>
         <p class="text-sm mb-3">
           Dog Owner
@@ -80,13 +80,13 @@
     </div>
     <div v-if="details.status === 'draft'" class="flex justify-center">
       <button class="base-button" @click.prevent="sendInvoice = true">
-        Send Invoice
+        Send Payment Request
       </button>
     </div>
     <GwModal :input-width="100" :is-open="sendInvoice" @close="sendInvoice = $event" @closeBackDrop="sendInvoice = $event">
       <template v-slot:status>
         <div class="bg-gray-100 text-gray-500 px-2 rounded-3xl">
-          Send Invoice
+          Send Payment Request
         </div>
       </template>
       <SendInvoice :send-details="details" @close="closeAllModal($event)" />

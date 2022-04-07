@@ -1,11 +1,11 @@
 <template>
   <containers-summary-card-with-notifications
     :display-view-all-button="Boolean(paidInvoices.length)"
-    url="Invoices"
+    url="invoices-sent"
   >
     <template v-slot:icon>
       <i
-        class="ns-receipt bg-indigo-50 p-1 rounded-full text-indigo-500 text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+        class="fi-rr-receipt bg-indigo-50 p-1 rounded-full text-indigo-500 text-lg h-12 w-12 flex items-center justify-center flex-shrink-0"
       ></i>
     </template>
     <template v-slot:title>

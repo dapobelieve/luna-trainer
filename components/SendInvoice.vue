@@ -2,10 +2,10 @@
   <div class="grid gap-4">
     <div>
       <span class="block text-sm">
-        Send invoice for {{ sendDetails.total | amount }} to {{ sendDetails.customerId.email }}?
+        Send Payment Request for {{ sendDetails.total | amount }} to {{ sendDetails.customerId.email }}?
       </span>
       <small class="text-gray-500">
-        Invoices can’t be edited after they’re sent.
+        Payment Requests can’t be edited after they’re sent.
       </small>
     </div>
     <div>
@@ -17,7 +17,7 @@
     <div class="flex justify-end">
       <button :disabled="isLoading" class="base-button" @click.prevent="sendInvoice">
         <SingleLoader v-if="isLoading" class="mr-2" />
-        {{ isLoading ? 'Sending Invoice...' : 'Send Invoice' }}
+        {{ isLoading ? 'Sending Payment Request...' : 'Send Payment Request' }}
       </button>
     </div>
   </div>
@@ -56,17 +56,17 @@ export default {
       }
       this.send(details).then((result) => {
         if (result.status === 'success') {
-          this.$gwtoast.success('Invoice sent')
+          this.$lunaToast.success('Invoice sent')
           this.fetchInvoices()
           this.$emit('close', false)
         }
       }).catch((err) => {
         if (err.response) {
-          this.$gwtoast.error(`Something went wrong: ${err.response.data.message}`)
+          this.$lunaToast.error(`${err.response.data.message}`)
         } else if (err.request) {
-          this.$gwtoast.error('Something went wrong. Try again')
+          this.$lunaToast.error('Something went wrong. Try again')
         } else {
-          this.$gwtoast.error(`Something went wrong: ${err.message}`)
+          this.$lunaToast.error(`${err.message}`)
         }
       }).finally(() => {
         this.isLoading = false

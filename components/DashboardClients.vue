@@ -1,16 +1,16 @@
 <template>
   <containers-summary-card-with-notifications
     :display-view-all-button="true"
-    url="Clients"
+    url="clients"
   >
     <template v-slot:icon>
       <i
         class="
-          ns-users
+          fi-rr-user-time
           bg-indigo-50
           p-1
           rounded-full
-          text-indigo-500 text-2xl
+          text-indigo-500 text-lg
           h-12
           w-12
           flex

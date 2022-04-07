@@ -4,132 +4,99 @@
     class="relative z-0 rounded-xl border bg-white overflow-hidden p-1 hidden lg:block"
   >
     <li v-for="menu in menuItems" :key="menu.index" class="w-full">
-      <containers-summary-information-with-avatar
-        :url="`client-id-${menu.pathName}`"
-        :parameter="{ id: $route.params.id }"
-        hover-color="bg-gray-100"
+      <button
+        :class="[matchedRoute(menu) ? 'active' : '' ,`relative py-4 flex items-center rounded-lg px-3 transition-all hover:bg-gray-100 w-full`]"
+        @click="gotoRoute(menu)"
       >
-        <template v-slot:avatar="{ matchedRoute }">
+        <span
+          class="flex items-center space-x-4 w-full"
+        >
+          <div class="flex items-center space-x-4">
+            <div class="flex-shrink-0 h-12 w-12">
+              <i
+                :class="[matchedRoute(menu) ? 'text-blue-500 bg-blue-50' : 'text-gray-500 bg-gray-100', `${menu.icon}` ]"
+                class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+              ></i>
+            </div>
+            <div class="flex-grow min-w-0">
+              <div class="focus:outline-none">
+                <span class="absolute inset-0" aria-hidden="true"></span>
+                <p
+                  class="text-base text-gray-700"
+                  :class="[matchedRoute(menu) ? 'font-bold' : 'font-extralight']"
+                >
+                  <span class="capitalize">
+                    {{
+                      menu.pathName
+                    }}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </span>
+        <div
+          class="relative"
+        >
           <i
-            :class="[matchedRoute ? 'text-blue-500 bg-blue-50' : 'text-gray-500 bg-gray-100', `${menu.icon}` ]"
-            class="p-1 rounded-full text-2xl h-12 w-12 flex items-center justify-center flex-shrink-0"
+            :class="[{'text-blue-500' : matchedRoute(menu)}, 'fi-rr-angle-right']"
           ></i>
-        </template>
-        <template v-slot:content>
-          <span class="capitalize">
-            {{
-              menu.pathName
-            }}
-          </span>
-        </template>
-        <template v-slot:button="{ matchedRoute }">
-          <div class="lg:hidden">
-            <svg
-              v-if="matchedRoute"
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon h-5 text-blue-500"
-              viewBox="0 0 512 512"
-            >
-              <title>Chevron Down</title>
-              <path
-                fill="none"
-                stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="48"
-                d="M112 184l144 144 144-144"
-              />
-            </svg>
-            <svg
-              v-else
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon h-5"
-              viewBox="0 0 512 512"
-            >
-              <title>Chevron Forward</title>
-              <path
-                fill="none"
-                stroke="#808080"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="48"
-                d="M184 112l144 144-144 144"
-              />
-            </svg>
-          </div>
-          <div class="hidden lg:block">
-            <svg
-              v-if="matchedRoute"
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon h-5"
-              viewBox="0 0 512 512"
-            >
-              <title>Chevron Forward</title>
-              <path
-                fill="none"
-                stroke="#3B82F6"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="48"
-                d="M184 112l144 144-144 144"
-              />
-            </svg>
-            <svg
-              v-else
-              xmlns="http://www.w3.org/2000/svg"
-              class="ionicon h-5"
-              viewBox="0 0 512 512"
-            >
-              <title>Chevron Forward</title>
-              <path
-                fill="none"
-                stroke="#808080"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="48"
-                d="M184 112l144 144-144 144"
-              />
-            </svg>
-          </div>
-        </template>
-      </containers-summary-information-with-avatar>
+        </div>
+      </button>
     </li>
   </ul>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   name: 'ClientCardNavigation',
   data () {
     return {
       menuItems: [
         {
-          pathName: 'messages',
-          icon: 'ns-comment-alt'
+          pathName: 'information',
+          icon: 'fi-rr-user'
         },
         {
-          pathName: 'information',
-          icon: 'ns-user'
+          pathName: 'messages',
+          icon: 'fi-rr-comment-alt'
+        },
+        {
+          pathName: 'notes',
+          icon: 'fi-rr-notebook'
         }
       ]
     }
   },
   computed: {
-    ...mapState({
-      thisUser: state => state.sendBird.tempClient
-    }),
     ...mapGetters({
-      unreadMessagesCount: 'sendBird/getUserUnreadMessageCount'
-    }),
-    unreadMessages () {
-      return this.unreadMessagesCount(this.thisUser)
-        ? this.unreadMessagesCount(this.thisUser).unreadMessageCount
-        : 0
+      clients: 'client/getAllClients'
+    })
+  },
+  methods: {
+    matchedRoute (menu) {
+      return `client-id-${menu.pathName}` === this.$route.name
+    },
+    gotoRoute (menu) {
+      const id = this.$route.params.id
+      if (menu.pathName === 'messages') {
+        const status = this.clients.find(c => c._id === id).status
+        if (status === 'invited') {
+          this.$lunaToast.warning('You can only message clients who have accepted your invite.')
+          return
+        } else {
+          this.$router.push({ name: `client-id-${menu.pathName}`, params: { id } })
+        }
+      }
+      this.$router.push({ name: `client-id-${menu.pathName}`, params: { id } })
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.active {
+  @apply bg-blue-50 border-none outline-none;
+}
 </style>
