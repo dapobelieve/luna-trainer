@@ -253,7 +253,7 @@ export default {
   },
   methods: {
     async markUnPaid() {
-      const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status !== 'accepted')
+      const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
       try {
         await this.$store.dispatch('payment-methods/markAsUnPaid', {
           id: acceptedInvoice._id
