@@ -1,3 +1,5 @@
+import Vue from "vue";
+
 const queryString = require('querystring')
 
 export const state = () => ({
@@ -7,6 +9,11 @@ export const state = () => ({
 })
 
 export const mutations = {
+  setStates (state, data) {
+    Object.keys(data).forEach((key) => {
+      Vue.set(state, key, data[key])
+    })
+  },
   SET_ALL_INVOICES (state, invoices) {
     state.invoices = invoices.data
     state.invoiceCount = invoices.size
@@ -17,35 +24,6 @@ export const mutations = {
 }
 
 export const actions = {
-  async getFetchCustomerInvoice ({ commit }, payload) {
-    const q = {
-      status: '',
-      workflowStatus: '',
-      limit: 10,
-      page: 1
-    }
-    const newQueryObj = queryString.stringify({ ...q, ...payload })
-    return await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`)
-  },
-  fetchInvoiceWithStatusAndLimit ({ commit }, payload) {
-    const stat =
-      payload !== undefined && 'status' in payload ? payload.status : ''
-    const currPage =
-      payload !== undefined && 'page' in payload ? payload.page : 1
-    const limit =
-      payload !== undefined && 'limit' in payload ? payload.limit : 10
-    commit('IS_LOADING', true)
-    return this.$axios
-      .$get(
-        `${process.env.PAYMENT_HOST_URL}/invoice${
-          stat ? `?status=${stat}&` : '?'
-        }limit=${limit}&page=${currPage}`
-      )
-      .then((response) => {
-        commit('IS_LOADING', false)
-        return response.data
-      })
-  },
   async createInvoice ({ commit, dispatch }, payload) {
     const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice`, payload)
     dispatch('profile/getUserProfile', null, { root: true })
@@ -102,14 +80,11 @@ export const actions = {
       page: 1
     }
     const newQueryObj = queryString.stringify({ ...q, ...payload })
-
-    dispatch('loader/startProcess', null, { root: true })
     try {
       const response = await this.$axios.$get(
         `${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`
       )
-      // commit('SET_ALL_INVOICES', response)
-      return response.data
+      commit('setStates', {invoices: response.data})
     } catch (e) {
       return e
     } finally {
@@ -143,7 +118,7 @@ export const actions = {
 }
 
 export const getters = {
-  getAllinvoices: state => state.invoices,
+  getAllInvoices: state => state.invoices,
   getAllDraftInvoices: state =>
     state.invoices.filter(i => i.status === 'draft'),
   getAllPaidInvoices: state => state.invoices.filter(i => i.status === 'paid'),

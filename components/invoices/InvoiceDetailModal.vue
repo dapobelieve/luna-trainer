@@ -123,7 +123,7 @@
               <span v-else>Send Nudge</span>
             </button>
 
-            <button class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
+            <button v-if="invoice.paymentReceipts.length > 0" class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
               Mark as Paid
             </button>
           </template>
@@ -203,12 +203,8 @@ export default {
           label: 'Bank'
         },
         {
-          type: 'stripe',
-          label: 'Stripe'
-        },
-        {
-          type: 'paypal',
-          label: 'Paypal'
+          type: 'cash',
+          label: 'Cash'
         }
       ],
       paidObj: {
@@ -257,9 +253,10 @@ export default {
   },
   methods: {
     async markUnPaid() {
+      const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status !== 'accepted')
       try {
         await this.$store.dispatch('payment-methods/markAsUnPaid', {
-          id: this.invoice._id
+          id: acceptedInvoice._id
         })
       }catch (e) {
         console.log(e)
