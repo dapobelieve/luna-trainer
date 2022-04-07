@@ -303,13 +303,17 @@ export default {
     },
     async goToNotifyTrainerPage(){
      try {
-        await this.notifyTrainer({
-          invoiceId: this.$route?.params?.id ?? '',
-          paymentDate: new Date(),
-          paymentType: "TRANSFER"
-        })
-        this?.closeModal()
-        this?.$router?.push({name: "payments-id-notify", params: {id: this?.$route?.params?.id}})
+       if (this.$route?.params?.id) {
+          await this.notifyTrainer({
+            invoiceId: this.$route.params.id,
+            paymentDate: new Date(),
+            paymentType: "TRANSFER"
+          })
+          this.closeModal()
+          this.$router.push({name: "payments-id-notify", params: {id: this.$route.params.id}})
+       } else {
+         this.$lunaToast.error('Id cannot be found')
+       }
       } catch{
         this.$lunaToast.error('an error occured')
       }
