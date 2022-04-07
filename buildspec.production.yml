@@ -5,41 +5,34 @@ phases:
     commands:
       # - echo Logging in to Amazon ECR...
       - aws --version
-      - rm -fr $(which aws)
+      - sudo rm -fr $(which aws)
       - curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
       - unzip -qq awscliv2.zip
-      - ./aws/install
+      - sudo ./aws/install
       - aws --version
-      - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
       - curl -sS -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/darwin/amd64/aws-iam-authenticator
       - curl -sS -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.18.9/2020-11-02/bin/linux/amd64/kubectl
       - chmod +x ./kubectl ./aws-iam-authenticator
       - export PATH=$PWD/:$PATH
   pre_build:
     commands:
-      - sed -i 's@CONTAINER_IMAGE@'"$DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION"'@' k8s/deployment.yaml
+      - sed -i 's@CONTAINER_IMAGE@'"$DOCKER_USER/$IMAGE_REPO_NAME:latest"'@' k8s/deployment.yaml
       - sed -i 's@APPNAME@'"$APPNAME"'@' k8s/deployment.yaml
+      - sed -i 's@ENV@'"$ENVIRONMENT"'@' k8s/deployment.yaml
       - sed -i 's@APPNAME@'"$APPNAME"'@' k8s/service.yaml
-
-      - cat k8s/deployment.yaml
-      - echo $DOCKER_PASSWORD | docker login --username $DOCKER_USER --password-stdin
-      - ls -las
+      - sed -i 's@ENV@'"$ENVIRONMENT"'@' k8s/service.yaml
       - export KUBECONFIG=$HOME/.kube/config
   build:
     commands:
       ## Enable the below line if you want to create your DB and other secure parameters to the .env/config files. make sure to grant access to the SSM parameter store.
       ## - aws ssm get-parameter --with-decryption --name $WHATEVERTHEPARAMETERNAMR --region $REGION | jq '.Parameter.Value' > .env
-      - docker build -t $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION -t $DOCKER_USER/$IMAGE_REPO_NAME:lates .
+      - echo  "Building...".
 
   post_build:
     commands:
-      - docker push $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION
-      - docker push $DOCKER_USER/$IMAGE_REPO_NAME:latest
-      
       - aws eks update-kubeconfig --name $EKS_CLUSTER_NAME --region $AWS_REGION
       - kubectl apply -f k8s/deployment.yaml
       - kubectl apply -f k8s/service.yaml
-
-      - printf '[{"name":"k8s-deployment","imageUri":"%s"}]' $DOCKER_USER/$IMAGE_REPO_NAME:$CODEBUILD_RESOLVED_SOURCE_VERSION > build.json
+      - printf '[{"name":"k8s-deployment","imageUri":"%s"}]' $DOCKER_USER/$IMAGE_REPO_NAME:latest > build.json
 artifacts:
   files: build.json
