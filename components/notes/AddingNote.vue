@@ -8,7 +8,7 @@
       width="25%"
       :click-to-close="false"
     >
-      <NotesAddNote :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" />
     </modal>
 
     <!-- expanded view -->
@@ -19,37 +19,41 @@
       :adaptive="true"
       :click-to-close="false"
     >
-      <NotesAddNote :adding-mode="$store.state.notes.addingMode" :note-in-view="$store.state.notes.noteInView" />
+      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" />
     </modal>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
-
 export default {
   name: 'AddingNotes',
-  computed: {
-    ...mapState({
-      addNoteModal: state => state.notes.addNoteModal,
-      expandModal: state => state.notes.expandModal
-    })
-  },
-  watch: {
-    addNoteModal (newValue) {
-      if (newValue) {
-        this.$modal.show('add-note')
-      } else if (!newValue) {
-        this.$modal.hide('add-note')
-      }
-    },
-    expandModal (newValue) {
-      if (newValue) {
-        this.$modal.show('expand-add-note')
-      } else if (!newValue) {
-        this.$modal.hide('expand-add-note')
-      }
+  data () {
+    return {
+      addingMode: true,
+      noteInView: {}
     }
+  },
+  created () {
+    this.$nuxt.$on('openNoteModalSm', ($event) => {
+      if ($event) {
+        this.addingMode = $event.addingMode
+        this.noteInView = $event.note
+      }
+      this.$modal.show('add-note')
+    })
+    this.$nuxt.$on('closeNoteModalSm', ($event) => {
+      if ($event) {
+        this.addingMode = $event.addingMode
+        this.noteInView = $event.noteInView
+      }
+      this.$modal.hide('add-note')
+    })
+    this.$nuxt.$on('openNoteModalLg', ($event) => {
+      this.$modal.show('expand-add-note')
+    })
+    this.$nuxt.$on('closeNoteModalLg', ($event) => {
+      this.$modal.hide('expand-add-note')
+    })
   }
 }
 </script>

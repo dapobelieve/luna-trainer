@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 import NoNotes from '~/components/notes/NoNotes.vue'
 import Note from '~/components/notes/Note.vue'
 
@@ -40,14 +40,11 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
-      toggleModal: 'notes/TOGGLE_MODAL'
-    }),
     ...mapActions({
       fetchNotes: 'notes/fetchNotes'
     }),
     addNote () {
-      this.toggleModal({ status: true, addingMode: true, note: {} })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
     }
   }
 }

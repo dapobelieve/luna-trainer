@@ -17,16 +17,12 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 
 export default {
   name: 'NoNotes',
   methods: {
-    ...mapMutations({
-      toggleModal: 'notes/TOGGLE_MODAL'
-    }),
     addNote () {
-      this.toggleModal({ status: true, addingMode: true, note: {} })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
     }
   }
 }

@@ -46,7 +46,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import Note from '~/components/notes/Note.vue'
 
 export default {
@@ -79,18 +79,15 @@ export default {
     ...mapActions({
       fetchnotes: 'notes/fetchNotes'
     }),
-    ...mapMutations({
-      toggleModal: 'notes/TOGGLE_MODAL'
-    }),
     addNote () {
       if (!this.inviteStatus) {
         this.$lunaToast.error('Client invite still pending')
         return
       }
-      this.toggleModal({ status: true, addingMode: true, note: {} })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
     },
     viewNote (note) {
-      this.toggleModal({ status: true, addingMode: false, note })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: false, note })
     }
   }
 }

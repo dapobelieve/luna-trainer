@@ -16,7 +16,6 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
 
 export default {
   name: 'Note',
@@ -27,11 +26,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
-      toggleModal: 'notes/TOGGLE_MODAL'
-    }),
     viewNote () {
-      this.toggleModal({ status: true, addingMode: false, note: this.note })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: false, note: this.note })
     }
   }
 }

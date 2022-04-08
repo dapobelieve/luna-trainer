@@ -88,7 +88,7 @@
 
 <script>
 import debounce from 'lodash.debounce'
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'AddNote',
   props: {
@@ -109,7 +109,8 @@ export default {
       title: this.addingMode ? '' : this.noteInView.title,
       body: this.addingMode ? '' : this.noteInView.description,
       autoSaving: false,
-      mode: this.addingMode ? 'create' : 'editing'
+      mode: this.addingMode ? 'create' : 'editing',
+      open: true
     }
   },
   watch: {
@@ -122,30 +123,24 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('notes', {
-      toggleExpandModal: 'TOGGLE_EXPAND_MODAL',
-      toggleModal: 'TOGGLE_MODAL'
-    }),
     ...mapActions({
       createNote: 'notes/addNotes',
-      updateNote: 'notes/updateNote',
+      updatingNote: 'notes/updateNote',
       deleteNote: 'notes/deleteNote'
     }),
     toggleWidth () {
-      if (this.$store.state.notes.largeScreen) {
-        this.toggleModal({ status: false })
-        this.toggleExpandModal({ status: true })
-        return
+      this.open = !this.open
+      if (!this.open) {
+        this.$nuxt.$emit('closeNoteModalSm')
+        this.$nuxt.$emit('openNoteModalLg')
+      } else {
+        this.$nuxt.$emit('closeNoteModalLg')
+        this.$nuxt.$emit('openNoteModalSm')
       }
-      this.toggleExpandModal({ status: false })
-      this.toggleModal({ status: true })
     },
     closeModal () {
-      if (this.$store.state.notes.addNoteModal) {
-        this.toggleModal({ status: false, addingMode: true, note: {} })
-        return
-      }
-      this.toggleExpandModal({ status: false, addingMode: true, note: {} })
+      this.$nuxt.$emit('closeNoteModalSm', { addingMode: true, note: {} })
+      this.$nuxt.$emit('closeNoteModalLg', { addingMode: true, note: {} })
     },
     cancel () {
       this.closeModal()
@@ -164,7 +159,7 @@ export default {
       })
     }, 1000),
     updateNote: debounce(function () {
-      this.updateNote({ description: this.body, noteId: this.noteId })
+      this.updatingNote({ description: this.body, noteId: this.noteId })
       this.autoSave()
     }, 1000),
     async deleteSingleNote () {
