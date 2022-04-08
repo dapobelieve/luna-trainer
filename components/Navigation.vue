@@ -318,18 +318,6 @@ export default {
 
     socket.on('CALENDAR_SYNC', () => {})
   },
-  mounted () {
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 27) {
-        this.$modal.hide('luna-search-modal')
-      }
-    })
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 75 && e.metaKey) {
-        this.$modal.show('luna-search-modal')
-      }
-    })
-  },
   methods: {
     getId (e) {
       switch (e) {

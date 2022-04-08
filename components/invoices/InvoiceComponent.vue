@@ -259,7 +259,7 @@
             <button-spinner
               class="button-outline"
               :loading="autoSaving"
-              :disabled="!valid"
+              :disabled="!invoice.customer"
               type="button"
               style="width: fit-content; margin-right: 1em"
               @click.prevent="saveForm"
@@ -351,6 +351,7 @@ export default {
     valid () {
       return (
         !!this.invoice.customer &&
+        this.invoice.id &&
         this.invoice.items &&
         this.invoice.items.length &&
         this.invoice.supportedPaymentMethods &&
@@ -383,7 +384,6 @@ export default {
     }),
     ...mapActions({ getServices: 'services/getServices' }),
     async saveForm () {
-      if (this.valid) {
         this.autoSaving = true
         this.$nuxt.$emit('autosaving-invoice')
         if (this.invoiceId === null && this.invoice.customer) {
@@ -393,7 +393,6 @@ export default {
         }
         this.$nuxt.$emit('autosaving-invoice-completed')
         this.autoSaving = false
-      }
     },
     addOneTime () {
       this.$modal.show(
@@ -482,6 +481,7 @@ export default {
     async send () {
       try {
         this.isLoading = true
+        await this.saveForm();
         await this.$store.dispatch('invoice/sendInvoice', {
           id: this.invoiceId,
           recipient: this.invoice.customer.email
