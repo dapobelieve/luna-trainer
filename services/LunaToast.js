@@ -85,7 +85,7 @@ export class LunaToast {
     }, currentOptions.timeout)
 
     toast.addEventListener('mouseover', () => {
-      clearTimeout(timeout)
+      // clearTimeout(timeout)
     })
   }
 

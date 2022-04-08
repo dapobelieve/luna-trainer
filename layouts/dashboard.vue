@@ -96,13 +96,20 @@ export default {
       this.fetchAllClients()
     }
   },
-  async beforeMount () {
-    try {
-      await this.$store.dispatch('scheduler/connectToLocalCalendar')
-    } catch (e) {
-      console.log(e)
-      await this.$store.dispatch('scheduler/getCalendars')
-    }
+  beforeMount () {
+    this.$store.dispatch('scheduler/connectToLocalCalendar')
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      console.log(err.statusCode)
+    })
+    // try {
+    //   // const res = await 
+    //   console.log(res)
+    // } catch (e) {
+    //   // await this.$store.dispatch('scheduler/getCalendars')
+    // }
   },
   methods: {
     toggleSidebarMenu () {
