@@ -2,7 +2,7 @@
   <div
     class="block lg:h-screen z-40 lg:w-56 xl:w-64 lg:border-r lg:shadow-sm bg-white lg:sticky lg:top-0 left-0 lg:rounded-none text-gray-500 flex-shrink-0 top-14 border rounded-xl shadow-xl h-full w-full md:w-1/2"
   >
-    <nav aria-label="Sidebar" id="home-nav" class="w-full">
+    <nav id="home-nav" aria-label="Sidebar" class="w-full">
       <div class="">
         <div
           class="px-1 pt-3 lg:pt-3 flex flex-col border overflow-y-auto h-screen max-h-screen"
@@ -44,12 +44,12 @@
                 <input
                   type="text"
                   name="search"
-                  @click.stop="$modal.show('luna-search-modal')"
                   class="focus:outline-none w-full cursor-pointer sm:text-sm border rounded-md h-8 pl-3 bg-gray-50 shadow-sm"
                   placeholder="Search"
+                  @click.stop="$modal.show('luna-search-modal')"
                 />
               </div>
-              <div class="relative" id="new-action">
+              <div id="new-action" class="relative">
                 <button
                   style="height: 35px; padding-bottom: 0"
                   class="rounded-lg px-0 pl-2 w-full button-fill h-4"
@@ -113,10 +113,10 @@
             </div>
             <NuxtLink
               v-for="(menu, menuIndex) in menus"
+              :id="getId(menu.title)"
               :key="menuIndex"
               :class="[menu.path.includes(currentLink) ? 'active' : '']"
               :to="{ name: menu.path }"
-              :id="getId(menu.title)"
               class="flex hover:bg-blue-50 mb-1 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg"
             >
               <i :class="menu.icon" class="mr-4 mt-0.5"></i>
@@ -182,10 +182,10 @@
 
 <script>
 import { mapActions, mapMutations, mapGetters } from 'vuex'
-import LunaSearch from "~/components/LunaSearch";
+import LunaSearch from '~/components/LunaSearch'
 export default {
   name: 'Navigation',
-  components: {LunaSearch},
+  components: { LunaSearch },
   data () {
     return {
       showQuickMenu: false,
@@ -261,6 +261,14 @@ export default {
       return 'welp'
     }
   },
+  watch: {
+    $route: {
+      handler (newRouteValue) {
+        this.getNav(newRouteValue)
+      },
+      deep: true
+    }
+  },
   async beforeMount () {
     this.getNav(this.$route)
 
@@ -285,7 +293,6 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', (data) => {
-      console.log('socket enter ', data)
       const { type } = data
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
@@ -295,8 +302,9 @@ export default {
           this.localUpdateClient(data.data)
           this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
           break
-        case 'PAYMENT_ACCEPTED':
-          this.$lunaToast.show('payment made')
+        case 'NEW_PAYMENT_RECEIPT':
+          this.$lunaToast.show(`${data.message}`)
+          this.getInvoices()
           break
         case 'STRIPE_CONNECTION_SUCCESSFUL':
           this.$lunaToast.show('Stripe has just connected successful')
@@ -309,6 +317,18 @@ export default {
     })
 
     socket.on('CALENDAR_SYNC', () => {})
+  },
+  mounted () {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        this.$modal.hide('luna-search-modal')
+      }
+    })
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 75 && e.metaKey) {
+        this.$modal.show('luna-search-modal')
+      }
+    })
   },
   methods: {
     getId (e) {
@@ -342,6 +362,7 @@ export default {
       }
     },
     ...mapActions({
+      getInvoices: 'invoice/getInvoices',
       logOut: 'authorize/logOut'
     }),
     inviteClient () {
@@ -353,26 +374,6 @@ export default {
     hideSidebarMenu () {
       this.$nuxt.$emit('hideSidebarMenu')
     }
-  },
-  watch: {
-    $route: {
-      handler (newRouteValue) {
-        this.getNav(newRouteValue)
-      },
-      deep: true
-    }
-  },
-  mounted() {
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 27) {
-        this.$modal.hide('luna-search-modal')
-      }
-    })
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 75 && e.metaKey) {
-        this.$modal.show('luna-search-modal')
-      }
-    })
   }
 }
 </script>

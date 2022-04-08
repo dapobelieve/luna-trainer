@@ -70,11 +70,11 @@ export default {
     }
   },
   mounted () {
-    this.fetchPaidInvoices({ status: 'paid', limit: 3 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
+    // this.fetchPaidInvoices({ status: 'paid', limit: 3 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
   },
   methods: {
     ...mapActions({
-      fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit'
+      // fetchPaidInvoices: 'invoice/fetchInvoiceWithStatusAndLimit'
     })
   }
 }

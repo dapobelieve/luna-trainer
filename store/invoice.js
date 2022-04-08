@@ -88,7 +88,7 @@ export const actions = {
       const response = await this.$axios.$get(
         `${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`
       )
-      commit('setStates', {invoices: response.data})
+      commit('setStates', { invoices: response.data })
     } catch (e) {
       return e
     } finally {
