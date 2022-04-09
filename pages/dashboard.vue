@@ -186,7 +186,15 @@ export default {
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
     if (newUser) {
-      this.$modal.show('welcome-modal')
+
+      window.localStorage.setItem("dashboard-tour", new Date())
+      window.localStorage.setItem("session-tour", new Date())
+      window.localStorage.setItem("client-tour", new Date())
+      window.localStorage.setItem("invoice-tour", new Date())
+
+      if (window.localStorage.getItem("dashboard-tour")) {
+        this.$modal.show('welcome-modal')
+      }
     } else {
       this.$lunaToast.show(
         'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
@@ -298,11 +306,11 @@ export default {
               position: 'right',
               intro: 'Here within payments, you can see all notifications on outstanding or recieved payments. You can quickly send a nudge to your clients to remind them to pay you. '
             },
-            {
-              element: document.querySelector('#reporting-hint'),
-              position: 'right',
-              intro: 'Within reporting you can see a simple overview of how your business is performing.'
-            },
+            // {
+            //   element: document.querySelector('#reporting-hint'),
+            //   position: 'right',
+            //   intro: 'Within reporting you can see a simple overview of how your business is performing.'
+            // },
             {
               element: document.querySelector('#settings-hint'),
               position: 'right',
@@ -433,21 +441,21 @@ introjs-tooltipbuttons,.introjs-tooltiptext,
 }
 .introjs-prevbutton {
   z-index: 20;
-  border-radius: 10px;
-  padding-top: 8px;
+  border-radius: 7px;
+  padding-top: 5px;
   color: #3B82F6;
   font-weight: 500;
-  padding-bottom: 8px;
+  padding-bottom: 5px;
   text-align: center;
   font-family: 'DM Sans';
 }
 .introjs-nextbutton {
   z-index: 200;
-  border-radius: 10px;
-  padding-top: 8px;
+  border-radius: 7px;
+  padding-top: 5px;
   color: #3B82F6;
   font-weight: 500;
-  padding-bottom: 8px;
+  padding-bottom: 5px;
   text-align: center;
   font-family: 'DM Sans';
 }
