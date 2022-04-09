@@ -258,6 +258,8 @@ export default {
         await this.$store.dispatch('payment-methods/markAsUnPaid', {
           id: acceptedInvoice._id
         })
+        this.$lunaToast.success('Invoice updated')
+        this.close()
       }catch (e) {
         console.log(e)
       }

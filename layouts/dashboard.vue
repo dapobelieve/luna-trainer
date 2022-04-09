@@ -44,6 +44,7 @@ import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal
 import SingleLoader from '~/components/util/SingleLoader'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
+  name: 'Dashboard',
   components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
@@ -96,13 +97,14 @@ export default {
       this.fetchAllClients()
     }
   },
-  async beforeMount () {
-    try {
-      await this.$store.dispatch('scheduler/connectToLocalCalendar')
-    } catch (e) {
-      console.log(e)
-      await this.$store.dispatch('scheduler/getCalendars')
-    }
+  beforeMount () {
+    this.$store.dispatch('scheduler/connectToLocalCalendar')
+    .then(res => {
+      console.log(res)
+    })
+    .catch(err => {
+      this.$store.dispatch('scheduler/getCalendars')
+    })
   },
   methods: {
     toggleSidebarMenu () {

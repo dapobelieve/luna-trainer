@@ -17,9 +17,9 @@
             </div>
           </div>
         </ClickOutside>
-        <div class="w-[160px] flex items-center">
-          <div class="inline-flex items-center">
-            <div v-if="selectedOption" class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full"
+        <div class="w-[160px] flex items-start justify-start">
+          <div  v-if="selectedOption" class="inline-flex items-center  w-full">
+            <div class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full"
                  @click.exact.stop="clearSelection">
               <slot :selected="selectedOption" name="selected-option"></slot>
             </div>

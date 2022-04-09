@@ -2,7 +2,7 @@
   <main>
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
-        <DashboardCard :view-all="events.length > 0" class="p-0" id="session-st">
+        <DashboardCard @action="$router.push({name: 'schedule'})" :view-all="events.length > 0" class="p-0" id="session-st">
           <div id="session-hint">
             <div class="mb-5">
               <img class="w-full" src="~/assets/img/home.svg">
