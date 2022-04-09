@@ -56,6 +56,8 @@ spec:
               value: https://api.quickblox.com
             - name: PAYMENT_HOST_URL
               value: https://api.getwelp.com/payments/v0
+            - name: SEARCH_HOST_URL
+              value: https://api.getwelp.com/search/v0
             - name: SENDBIRD_APP_ID
               value: F8F1D048-D132-4645-95FC-6B561F449FB4
 
