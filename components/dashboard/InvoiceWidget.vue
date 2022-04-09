@@ -1,5 +1,5 @@
 <template>
-  <DashboardCard :view-all="invoices.length > 0" class="pt-4" @action="$router.push({name: 'invoices-sent'})">
+  <DashboardCard :view-all="invoices.length > 0" class="pt-4" @action="$router.push({name: 'payments-requests-sent'})">
     <div class="flex items-center px-4">
       <div class="inline-flex items-center">
         <div class="h-12 mr-2 w-12 bg-amber-50 rounded-full inline-flex justify-center items-center">

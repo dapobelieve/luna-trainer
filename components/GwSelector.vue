@@ -60,7 +60,7 @@ export default {
     },
     label: {
       type: String,
-      default: false
+      default: ""
     },
     placeholder: {
       type: String,

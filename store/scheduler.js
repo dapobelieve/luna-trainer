@@ -62,6 +62,7 @@ export const actions = {
   async connectToLocalCalendar ({ commit }) {
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/connect/local?timezone=Africa/Lagos`)
     commit('setCalendar', res[0])
+    return res
   }
 }
 export const getters = {
