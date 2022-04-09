@@ -50,17 +50,19 @@
                 />
               </div>
               <div id="new-action" class="relative">
-                <button
-                  style="height: 35px; padding-bottom: 0"
-                  class="rounded-lg px-0 pl-2 w-full button-fill h-4"
-                  @click="showQuickMenu = true"
-                >
-                  <div
-                    class="w-full new-button flex justify-start items-center font-bold"
-                  >
-                    <i class="fi-rr-plus mr-4"></i> New
-                  </div>
-                </button>
+                <div>
+                   <button
+                      style="height: 35px; padding-bottom: 0"
+                      class="rounded-lg px-0 pl-2 w-full button-fill h-4"
+                      @click="showQuickMenu = true"
+                    >
+                      <div
+                        class="w-full new-button flex justify-start items-center font-bold"
+                      >
+                        <i class="fi-rr-plus mr-4"></i> New
+                      </div>
+                    </button>
+                </div>
                 <ClickOutside
                   :do="
                     (e) => {
@@ -337,6 +339,12 @@ export default {
           return 'reporting-hint'
         case 'Settings':
           return 'settings-hint'
+        case 'Messages':
+          return 'message-hint-nav'
+        case 'Schedule':
+          return 'session-st-nav'
+        case 'Payment':
+          return 'billing-hint-nav'
         default:
           return ''
       }

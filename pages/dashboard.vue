@@ -87,7 +87,7 @@
           </button>
         </template>
       </NotificationsModal>
-      <modal name="welcome-modal" :height="500">
+      <modal name="welcome-modal" :height="470" :width="500">
         <div>
           <div class="space"/>
           <div class="grid m-6">
@@ -267,7 +267,7 @@ export default {
             autoPosition: true,
             positionPrecedence: ['bottom', 'top', 'right', 'left'],
             disableInteraction: false,
-            helperElementPadding: 0,
+            helperElementPadding: 5,
             hintPosition: 'top-middle',
             hintAnimation: true,
             buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
@@ -275,37 +275,39 @@ export default {
           },
           steps: [
             {
-              element: document.querySelector('#new-action'),
-              intro: 'If you quickly want to add a new client, create a new payment request, or schedule a new session, you can do that in one click here.'
-            },
-            {
-              element: document.querySelector('#home-nav'),
+              element: document.querySelector('#t'),
               intro: 'This is your home dashboard. You can see everything you need to action from here.'
             },
             {
-              element: document.querySelector('#home-nav'),
-              intro: 'Within your left navigation menu, you can easily jump into any of your main pages. '
+              element: document.querySelector('#new-action'),
+              position: "right",
+              intro: 'If you quickly want to add a new client, create a new payment request, or schedule a new session, you can do that in one click here.'
             },
             {
-              element: document.querySelector('#session-st'),
-              intro: 'From here you can see all your sessions for the day - schedule a new session, or click view all to jump into your full schedule. '
-            },
-            {
-              element: document.querySelector('#message-hint'),
+              element: document.querySelector('#message-hint-nav'),
+              position: "right",
               intro: 'Here you will see all unread messages. Just click on an any message to jump into your clients profile to reply and see any relevant notes. '
             },
             {
-              element: document.querySelector('#billing-hint'),
+              element: document.querySelector('#session-st-nav'),
+              position: 'right',
+              intro: 'From here you can see all your sessions for the day - schedule a new session, or click view all to jump into your full schedule. '
+            },
+            {
+              element: document.querySelector('#billing-hint-nav'),
+              position: 'right',
               intro: 'Here within payments, you can see all notifications on outstanding or recieved payments. You can quickly send a nudge to your clients to remind them to pay you. '
             },
             {
-              element: document.querySelector('#settings-hint'),
-              intro: 'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here. '
+              element: document.querySelector('#reporting-hint'),
+              position: 'right',
+              intro: 'Within reporting you can see a simple overview of how your business is performing.'
             },
             {
-              element: document.querySelector('#reporting-hint'),
-              intro: 'Within reporting you can see a simple overview of how your business is performing.'
-            }
+              element: document.querySelector('#settings-hint'),
+              position: 'right',
+              intro: 'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here. '
+            },
           ]
         })
         .oncomplete(function () {
@@ -339,16 +341,43 @@ export default {
 }
 </script>
 <style>
+.introjs-tooltip-header {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 0px;
+    padding-top: 10px;
+}
+.introjs-tooltiptext {
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 0;
+}
 .vm--overlay{
   background: rgba(241, 245, 249, 0.4);
 }
 .introjs-bullets{
   text-align: left;
   padding-left: 10px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  top: 25px;
+  width: 100px;
+  height: 0px;
+  padding: 0px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  width: 100px;
+  font-family: "DM Sans";
+  left: 31%;
 }
 .introjs-bullets ul li a {
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.05);
   background: rgba(255,255,255,0.5);
+    font-family: "DM Sans";
 }
 .introjs-arrow.top {
     border-bottom-color: #3B82F6;
@@ -369,45 +398,102 @@ introjs-tooltipbuttons,.introjs-tooltiptext,
   background: #3B82F6;
   border-top: 0px;
   color: #FFF;
+    font-family: "DM Sans";
 }
 .introjs-bullets li > a.active {
     width: 6px;
     background: #FFF;
+    font-family: "DM Sans";
 }
 .introjs-bullets ul li a.active {
     width: 6px;
     background: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-tooltip .introjs-floating{
+  border-radius: 30px;
+}
+.introjs-tooltip {
+    border-radius: 10px;
+    position: absolute;
+    visibility: visible;
+    min-width: 340px;
+    max-width: 300px;
+    box-shadow: 0 3px 30px rgb(33 33 33 / 30%);
+    transition: opacity .1s ease-out;
+    font-family: "DM Sans";
+  }
+.introjs-tooltipbuttons{
+  border-radius: 30px;
+  font-family: "DM Sans";
+}
+.introjs-tooltip-header{
+  border-radius: 30px;
+  font-family: "DM Sans";
+}
+.introjs-prevbutton {
+  z-index: 20;
+  border-radius: 10px;
+  padding-top: 8px;
+  color: #3B82F6;
+  font-weight: 500;
+  padding-bottom: 8px;
+  text-align: center;
+  font-family: 'DM Sans';
+}
+.introjs-nextbutton {
+  z-index: 200;
+  border-radius: 10px;
+  padding-top: 8px;
+  color: #3B82F6;
+  font-weight: 500;
+  padding-bottom: 8px;
+  text-align: center;
+  font-family: 'DM Sans';
+}
+.introjs-tooltipbuttons {
+  z-index: 200
 }
 </style>
 <style lang="scss" scoped>
 .space{
   width: 100%;
-  height: 250px;
+  height: 200px;
   background: rgba(59, 130, 246, 0.05);
+}
+.introjs-tooltip .introjs-floating > .introjs-tooltiptext {
+  padding-bottom: 0px;
+  padding: 0px;
 }
 .introjs-tooltip {
   background-color: #3B82F6;
-  border-radius: 12px;
+  border-radius: 30px;
+  font-family: "DM Sans";
+  height: 200px;
   &-header  {
     display: none;
   }
   .introjs-tooltiptext {
     color: #fff;
-    padding: 16px;
+    padding: 0px;
     font-size: 14px;
     font-weight: 400;
+    padding-bottom: 0px;
   }
   .introjs-bullets {
     display: none;
   }
   .introjs-tooltipbuttons {
     border: none;
+    font-family: "DM Sans";
+    z-index: 200;
     a {
       padding: 6px 16px 6px 16px;
       color: #3B82F6;
       background: #fff;
       border: none;
-      border-radius: 6px;
+      font-family: "DM Sans";
+      border-radius: 30px;
       font-size: 10px;
       font-weight: 500;
       &:focus {
