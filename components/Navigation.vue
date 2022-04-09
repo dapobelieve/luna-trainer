@@ -176,7 +176,7 @@
         </div>
       </div>
     </nav>
-    <LunaSearch />
+    <LunaSearch @close="$modal.hide('luna-search-modal')" />
   </div>
 </template>
 

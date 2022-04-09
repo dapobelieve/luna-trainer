@@ -351,11 +351,11 @@ export default {
     valid () {
       return (
         !!this.invoice.customer &&
-        this.invoice.id &&
+        this.invoiceId &&
         this.invoice.items &&
         this.invoice.items.length &&
         this.invoice.supportedPaymentMethods &&
-        this.invoice.supportedPaymentMethods.length
+        this.invoice.supportedPaymentMethods.length 
       )
     },
     services () {
