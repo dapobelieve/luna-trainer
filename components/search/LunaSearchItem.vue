@@ -7,14 +7,14 @@
       <div>
         <h3 class="text-gray-700 mb-2 font-medium">{{result.firstName}}</h3>
         <div class="flex">
-          <nuxt-link :to="{name: 'payments-requests-sent'}" class="inline-flex items-center mr-4">
+          <a @click.stop="gotToPayments" class="inline-flex items-center mr-4 cursor-pointer">
             <img class="h-4 mr-2" src="~/assets/img/search-payments.svg">
             <span>payment requests</span>
-          </nuxt-link>
-          <nuxt-link :to="{name: 'schedule'}" class="inline-flex items-center">
+          </a>
+          <a v-if="false" :to="{name: 'schedule'}" class="inline-flex items-center">
             <img class="h-4 mr-2" src="~/assets/img/search-calendar.svg">
             <span>upcoming session</span>
-          </nuxt-link>
+          </a>
         </div>
       </div>
     </div>
@@ -29,6 +29,20 @@ export default {
       required: true
     }
   },
+  methods: {
+    close() {
+      this.$emit('close')
+    },
+    gotToPayments() {
+      this.$router.push({
+        name: 'payments-requests-sent',
+        query: {
+          name: this.result.userId
+        }
+      })
+      this.close()
+    }
+  }
 }
 </script>
 

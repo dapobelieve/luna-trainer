@@ -27,7 +27,7 @@
               <div class="mb-4 ml-4 text-sm uppercase leading-5">
                 Clients
               </div>
-              <LunaSearchItem v-for="result in results" :result="result" />
+              <LunaSearchItem @close="$emit('close')" v-for="result in results" :result="result" />
             </ul>
           </div>
           <div v-else class="h-28 flex items-center justify-center">
