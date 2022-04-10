@@ -42,7 +42,7 @@ export const actions = {
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
     return await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
   },
-  async updateAppointment ({ commit, dispatch }, payload, calendar) {
+  async updateAppointment ({ commit, dispatch }, payload) {
     payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },

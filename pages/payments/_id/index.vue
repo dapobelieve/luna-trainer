@@ -214,9 +214,6 @@ import { format } from "date-fns";
 
 export default {
   name: "InvoicePayment",
-  layout: "empty",
-  middleware: ["validToken"],
-  auth: false,
   data() {
     return {
       loading: false,
@@ -247,7 +244,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getPaymentLink: "invoice/getPaymentLink",
+      getInvoicePayment: "invoice/getInvoicePayment",
       notifyTrainer: "invoice/clientCreatePaymentReceipt",
     }),
     openModal(type) {
@@ -278,7 +275,7 @@ export default {
     },
     async getDetailsOfInvoice(id) {
       this.loading = true;
-      const response = await this.getPaymentLink(id);
+      const response = await this.getInvoicePayment(id);
       this.loading = false;
       const { data } = response;
       this.from = data?.createdBy?.name;

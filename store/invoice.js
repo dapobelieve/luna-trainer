@@ -26,7 +26,6 @@ export const mutations = {
 export const actions = {
   async createInvoice ({ commit, dispatch }, payload) {
     const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice`, payload)
-    dispatch('profile/getUserProfile', null, { root: true })
     return res
   },
   updateInvoice ({ commit }, payload) {
@@ -68,13 +67,23 @@ export const actions = {
     )
     console.log(res)
   },
-  async getPaymentLink ({ commit }, id) {
+  async getInvoicePayment ({ commit }, id) {
     return await this.$axios
       .$get(`${process.env.PAYMENT_HOST_URL}/invoice/payment/${id}`)
   },
   async clientCreatePaymentReceipt (_, payload) {
     const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt`, payload)
     return res
+  },
+  async getWidgetData ({ commit, dispatch }, status, limit=3) {
+    try {
+      const response = await this.$axios.$get(
+        `${process.env.PAYMENT_HOST_URL}/widget/payment?status=${status}&limit=${limit}`
+      )
+      return response.data
+    }catch(error){
+      console.error(error)
+    }
   },
   async getInvoices ({ commit, dispatch }, payload) {
     const q = {
@@ -104,20 +113,6 @@ export const actions = {
     } finally {
       dispatch('loader/endProcess', '', { root: true })
     }
-  },
-  stripeConnect ({ commit }) {
-    return this.$axios
-      .$get(
-        `${process.env.PAYMENT_HOST_URL}/connect/url?returnurl=${process.env.STRIPE_RETURN}&refreshurl=${process.env.STRIPE_RETURN}`
-      )
-      .then(({ url }) => {
-        return url
-      })
-  },
-  disconnectStripe ({ commit }) {
-    return this.$axios
-      .$delete(`${process.env.PAYMENT_HOST_URL}/stripe/disconnect`)
-      .then(response => response)
   }
 }
 

@@ -199,11 +199,11 @@ export default {
       markAsPaid: false,
       paymentMethods: [
         {
-          type: 'bank',
-          label: 'Bank'
+          type: 'TRANSFER',
+          label: 'Bank Transfer'
         },
         {
-          type: 'cash',
+          type: 'CASH',
           label: 'Cash'
         }
       ],

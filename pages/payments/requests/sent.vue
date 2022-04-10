@@ -57,19 +57,19 @@
                       <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
                     </div>
                   </th>
-                  <th class="py-4 font-medium text-left px-6 w-3/6">
+                  <th class="py-4 font-medium text-left px-6 w-5/12">
                     Name
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     INVOICE#
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     CREATED
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     AMOUNT
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     STATUS
                   </th>
                 </tr>
@@ -85,7 +85,7 @@
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
-                  <td class="py-4 text-left px-6 w-3/6">
+                  <td class="py-4 text-left px-6">
                     <div class="flex items-center">
                       <ClientAvatar :client-info="{firstName:data.customerId.name.split(' ')[0], lastName: data.customerId.name.split(' ')[1] }" />
                       <div class="ml-4">
@@ -96,22 +96,22 @@
                       </div>
                     </div>
                   </td>
-                  <td class="py-4  px-6">
+                  <td class="py-4 px-6 text-left">
                     <div class="text-base text-gray-700">
                       {{ data.invoiceNo }}
                     </div>
                   </td>
-                  <td class="py-4  px-6">
+                  <td class="py-4 px-6 text-left">
                     <div class="text-xs md:text-base text-gray-700">
                       {{ data.createdAt | date }}
                     </div>
                   </td>
-                  <td class="py-4 px-6">
+                  <td class="py-4 px-6 text-left">
                     <div class="text-sm md:text-base text-gray-700">
-                      {{ "\uFFE1" }}{{ new Intl.NumberFormat().format(data.total) }}
+                      {{ data.total | amount }}
                     </div>
                   </td>
-                  <td class="py-4 px-6">
+                  <td class="py-4 px-6 text-left">
                     <InvoiceStatusComponent :status="data.status" />
                   </td>
                 </tr>
@@ -190,10 +190,10 @@ export default {
           }else if(val.query.status) {
             await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', status: val.query.status})
             this.searchField = 'Status'
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding']
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Paid Awaiting Confirmation']
           }
         }else {
-          let res = await this.$store.dispatch('client/allClients')
+          let res = await this.$store.dispatch('client/allConciseClients')
           this.allClients = res.data
           this.options = this.allClients
           await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
@@ -227,8 +227,7 @@ export default {
   methods: {
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
     async checkPaymentMethods () {
-      // if the user does not have any payment method we show a welcome and then
-      // take this to a middleware
+      
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
     },

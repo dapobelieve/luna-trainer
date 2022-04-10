@@ -17,7 +17,7 @@
             </div>
           </div>
         </ClickOutside>
-        <div class="w-[160px] flex items-start justify-start">
+        <div class="w-[160px] flex items-center justify-start">
           <div  v-if="selectedOption" class="inline-flex items-center  w-full">
             <div class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full"
                  @click.exact.stop="clearSelection">

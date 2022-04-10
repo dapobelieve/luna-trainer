@@ -63,7 +63,7 @@ export const actions = {
         return response
       })
   },
-  allClients() {
+  allConciseClients() {
     return this.$axios.$get(`${process.env.BASEURL_HOST}/client/concise`)
   },
   fetchAllClients ({ commit, dispatch }, payload) {
