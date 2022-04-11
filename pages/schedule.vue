@@ -168,6 +168,13 @@ export default {
       this.$store.commit('profile/SET_STATE', { loading: false })
     }
 
+
+    const schedule = window.localStorage.getItem("session-tour")
+    if (schedule) {
+      this.$router?.push({query: {new: true}})
+    }
+  },
+  updated() {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
@@ -260,7 +267,7 @@ export default {
       let query = Object.assign({}, this.$route.query);
       delete query.new;
       this.$router.replace({ query });
-      window.localStorage.removeItem("client-tour")
+      window.localStorage.removeItem("session-tour")
 
     },
     tourItems () {

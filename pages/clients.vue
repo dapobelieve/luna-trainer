@@ -59,7 +59,8 @@ export default {
     if (client) {
       this.$router?.push({query: {new: true}})
     }
-
+  },
+  updated() {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
