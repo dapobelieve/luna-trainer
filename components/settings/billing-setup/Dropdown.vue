@@ -10,7 +10,7 @@
         class="dropdown-button"
         @click="emitAndHideDropdown('default')"
       >
-        Make default
+        Set as default
       </button>
       <button
         type="button"

@@ -5,7 +5,7 @@
     height="auto"
     :adaptive="true"
   >
-    <div class="">
+    <div class="pb-1">
       <div class="search-header rounded-t-lg  px-4 pt-4">
         <div class="border rounded-lg mb-5 px-3">
           <form @submit.prevent="" role="search" novalidate class="flex items-center justify-center">

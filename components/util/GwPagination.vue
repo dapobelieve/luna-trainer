@@ -20,7 +20,7 @@
           :class="[pageNumber >= numberOfPages ? 'disabled' : 'cursor-auto', '']"
           @click="changePageNumber(pageNumber + 1)"
         >
-          next
+          Next
         </button>
       </div>
     </div>

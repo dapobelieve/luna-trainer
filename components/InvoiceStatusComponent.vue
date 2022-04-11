@@ -1,6 +1,6 @@
 <template>
   <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.text}`, `${computedStatus.bg}`]">
-    {{ `${status.charAt(0).toUpperCase()}${status.substring(1)}` }}
+    {{ `${status.substring(0,1).toUpperCase()}${status.substring(1).toLowerCase().replaceAll('_',' ')}` }}
   </div>
 </template>
 
@@ -28,6 +28,10 @@ export default {
           bg: 'bg-red-50'
         },
         pending: {
+          text: 'text-yellow-500',
+          bg: 'bg-yellow-50'
+        },
+        paid_awaiting_confirmation: {
           text: 'text-yellow-500',
           bg: 'bg-yellow-50'
         }
