@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import AddNote from '~/components/notes/AddNote.vue'
+import AddingNote from '~/components/notes/AddingNote.vue'
 export default {
   name: 'Note',
   props: {
@@ -28,7 +28,7 @@ export default {
   methods: {
     viewNote () {
       this.$modal.show(
-        AddNote,
+        AddingNote,
         { addingMode: false, noteInView: this.note },
         {
           height: '100%',
