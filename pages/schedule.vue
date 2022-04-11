@@ -15,7 +15,7 @@
       </div>
       <div class="flex items-center">
         <ClickOutside :do="() => showDrop = false">
-          <div class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
+          <div id="monthly" class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
             <span class="font-medium flex items-center cursor-pointer text-primary-color " @click="showDrop = !showDrop">
               <span>{{ currentView }}</span>
               <i class="fi-rr-caret-down ml-2 text-lg"></i>
@@ -50,7 +50,7 @@
           </div>
         </ClickOutside>
         <button
-          id="schduler-step-1"
+          id="plus"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           @click="openDrawer({ open: true, activePage: 'new-session' })"
         >
@@ -71,8 +71,37 @@
           </div>
         </div>
       </div>
-      <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
     </div>
+
+    <modal name="welcome-modal" :height="470" :width="500">
+        <div>
+          <div class="space"/>
+          <div class="grid m-6">
+            <div class="py-0 text-justify">
+              <div class="text-left mb-5 font-light text-2xl">
+                <h3>Welcome to scheduling</h3>
+              </div>
+              <p class="mb-8 w-50 text-justify">
+                This is where you can manage all your session bookings. Take our short tour of the key features or explore yourself. 
+              </p>
+              <div class="flex justify-left gap-5">
+                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="() => {
+                   this.tourItems();
+                  closeModal()
+                  }">
+                  Take the tour
+                </button>
+                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="() => {
+                   closeModal()
+                   this.doNotShowHints = true
+                   }">
+                   Explore by myself
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </modal>
   </div>
 </template>
 
@@ -101,6 +130,7 @@ export default {
       activeEvent: {}, // event that was clicked
       currentView: 'Month',
       newSchedule: false,
+      openModal: false,
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       calendarApi: {},
       currentDate: {
@@ -153,6 +183,31 @@ export default {
     } finally {
       this.$store.commit('profile/SET_STATE', { loading: false })
     }
+
+    const newUser = (this.$route?.query?.new)
+    if (newUser) {
+      this.$modal.show('welcome-modal')
+    } else {
+        this.$lunaToast.show(
+          'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
+          {
+            position: 'bottom-right',
+            timeout: 10000,
+            actions: true,
+            heading: 'Welcome to Luna',
+            confirm: {
+              text: 'Get started',
+              resolver: () => {
+                this.tourItems()
+              }
+            },
+            cancel: {
+              text: 'Not Now',
+              resolver: async () => {}
+            }
+          }
+        )
+    }
   },
   beforeMount () {
     document.addEventListener('keydown', (e) => {
@@ -186,21 +241,6 @@ export default {
     removeEvent (eventId) {
       const event = this.calendarApi.getEventById(eventId)
       event.remove()
-    },
-    tour () {
-      this.$modal.hide('scheduler-modal')
-      this.$intro()
-        .setOptions({
-          hidePrev: true,
-          steps: [
-            {
-              element: document.querySelector('#schduler-step-1'),
-              intro: 'To create a  new session and add participants, click here'
-            }
-          ]
-        })
-        .start()
-      this.$intro().showHints()
     },
     handleCalendarEventClick (info) {
       const { id } = info.event
@@ -248,11 +288,113 @@ export default {
     mainNext () {
       this.calendarApi.next()
       this.updateDate()
-    }
+    },
+     closeModal () {
+      this.$modal.hide('welcome-modal')
+    },
+    removeQueryParams() {
+      let query = Object.assign({}, this.$route.query);
+      delete query.new;
+      this.$router.replace({ query });
+      window.localStorage.removeItem("client-tour")
+
+    },
+    tourItems () {
+      if (this.doNotShowHints) return
+      let t = 0;
+      this.$intro()
+        .setOptions({
+          ...{
+            nextLabel: 'Next',
+            prevLabel: 'Back',
+            skipLabel: '',
+            doneLabel: 'Got it!',
+            hidePrev: true,
+            hideNext: false,
+            nextToDone: true,
+            tooltipPosition: 'bottom',
+            tooltipClass: '',
+            highlightClass: '',
+            exitOnEsc: true,
+            exitOnOverlayClick: true,
+            showStepNumbers: false,
+            keyboardNavigation: true,
+            showButtons: true,
+            showBullets: true,
+            showProgress: false,
+            scrollToElement: true,
+            scrollTo: 'element',
+            scrollPadding: 30,
+            overlayOpacity: 0.5,
+            autoPosition: true,
+            positionPrecedence: ['bottom', 'top', 'right', 'left'],
+            disableInteraction: false,
+            helperElementPadding: 5,
+            hintPosition: 'top-middle',
+            hintAnimation: true,
+            buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
+            progressBarAdditionalClass: false
+          },
+          steps: [
+            {
+              element: document.querySelector('#sync'),
+              intro: 'You can connect your Google calendar or use one of Luna’s virtual calendars.'
+            },
+            {
+              element: document.querySelector('#monthly'),
+              position: "bottom",
+              intro: 'Filter your calendar down by month, week, day, or in list view here.'
+            },
+            {
+              element: document.querySelector('#plus'),
+              position: "bottom",
+              intro: 'To schedule a new session click here.'
+            },
+           {
+              element: document.querySelector('#clients'),
+              position: "bottom",
+              intro: 'By creating a new event, you can invite clients to the event. Make sure you quick add a client so they’re added to Luna'
+            },
+            // {
+            //   element: document.querySelector('#clientModalInvite'),
+            //   position: "bottom",
+            //   intro: 'Filter your calendar down by month, week, day, or in list view here.'
+            // },
+          ]
+        })
+        .onbeforechange(function(e){
+          const button = document.getElementById("plus")
+
+          if (t > 0) {
+            button.click()
+            intro?.goToStep(3)
+            t = 0;
+          }
+
+          if (e === button) {
+            t = t + 1;
+          }
+        })
+        .oncomplete(function () {
+          self.removeQueryParams()
+        })
+        .onexit(function () {
+          self.removeQueryParams()
+        })
+        .start()
+
+      this.$intro().showHints()
+    },
   }
 }
 </script>
-
+<style>
+@import '../assets/css/introtheme.css';
+/* .introjs-prevbutton {
+ height: 0%;
+ opacity: 0;
+} */
+</style>
 <style lang="scss" scoped>
 .schedule-section {
   height: calc(100vh - 61px);
