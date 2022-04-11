@@ -13,7 +13,7 @@
         <i
           role="button"
           class="text-blue-500 h-4 w-4"
-          :class="[$store.state.notes.expandModal ? 'fi-rr-compress' : 'fi-rr-expand']"
+          :class="[expanded ? 'fi-rr-compress' : 'fi-rr-expand']"
           @click.prevent="toggleWidth"
         ></i>
         <i
@@ -25,7 +25,7 @@
     </div>
     <div
       class="min-h-screen px-4 pt-3 flex flex-col relative"
-      :class="{'max-w-md mx-auto' : $store.state.notes.expandModal}"
+      :class="{'max-w-md mx-auto' : expanded}"
     >
       <div class="pb-8 pr-4">
         <input
@@ -99,6 +99,10 @@ export default {
     noteInView: {
       type: Object,
       default: () => {}
+    },
+    expanded: {
+      type: Boolean,
+      required: true
     }
   },
   data () {
@@ -109,8 +113,7 @@ export default {
       title: this.addingMode ? '' : this.noteInView.title,
       body: this.addingMode ? '' : this.noteInView.description,
       autoSaving: false,
-      mode: this.addingMode ? 'create' : 'editing',
-      open: true
+      mode: this.addingMode ? 'create' : 'editing'
     }
   },
   watch: {
@@ -129,18 +132,10 @@ export default {
       deleteNote: 'notes/deleteNote'
     }),
     toggleWidth () {
-      this.open = !this.open
-      if (!this.open) {
-        this.$nuxt.$emit('closeNoteModalSm')
-        this.$nuxt.$emit('openNoteModalLg')
-      } else {
-        this.$nuxt.$emit('closeNoteModalLg')
-        this.$nuxt.$emit('openNoteModalSm')
-      }
+      this.$emit('toggle')
     },
     closeModal () {
-      this.$nuxt.$emit('closeNoteModalSm', { addingMode: true, note: {} })
-      this.$nuxt.$emit('closeNoteModalLg', { addingMode: true, note: {} })
+      this.$emit('close')
     },
     cancel () {
       this.closeModal()

@@ -22,7 +22,7 @@ export default {
   name: 'NoNotes',
   methods: {
     addNote () {
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
+      this.$modal.show('add-note', { note: {}, addingMode: true })
     }
   }
 }

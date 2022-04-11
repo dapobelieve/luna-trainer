@@ -44,7 +44,7 @@ export default {
       fetchNotes: 'notes/fetchNotes'
     }),
     addNote () {
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
+      this.$modal.show('add-note', { note: {}, addingMode: true })
     }
   }
 }

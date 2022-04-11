@@ -8,7 +8,7 @@
       width="25%"
       :click-to-close="false"
     >
-      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" />
+      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" :expanded="expanded" @toggle="toggle" @close="closeModal" />
     </modal>
 
     <!-- expanded view -->
@@ -19,7 +19,7 @@
       :adaptive="true"
       :click-to-close="false"
     >
-      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" />
+      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" :expanded="expanded" @toggle="toggle" @close="closeModal" />
     </modal>
   </div>
 </template>
@@ -27,33 +27,37 @@
 <script>
 export default {
   name: 'AddingNotes',
-  data () {
-    return {
-      addingMode: true,
-      noteInView: {}
+  props: {
+    addingMode: {
+      type: Boolean,
+      default: true
+    },
+    noteInView: {
+      type: Object,
+      default: () => {}
     }
   },
-  created () {
-    this.$nuxt.$on('openNoteModalSm', ($event) => {
-      if ($event) {
-        this.addingMode = $event.addingMode
-        this.noteInView = $event.note
-      }
-      this.$modal.show('add-note')
-    })
-    this.$nuxt.$on('closeNoteModalSm', ($event) => {
-      if ($event) {
-        this.addingMode = $event.addingMode
-        this.noteInView = $event.noteInView
-      }
+  data () {
+    return {
+      expanded: false
+    }
+  },
+  methods: {
+    closeModal () {
       this.$modal.hide('add-note')
-    })
-    this.$nuxt.$on('openNoteModalLg', ($event) => {
-      this.$modal.show('expand-add-note')
-    })
-    this.$nuxt.$on('closeNoteModalLg', ($event) => {
       this.$modal.hide('expand-add-note')
-    })
+    },
+    toggle () {
+      console.log('toggle')
+      this.expanded = !this.expanded
+      if (!this.expanded) {
+        this.$modal.hide('expand-add-note')
+        this.$modal.show('add-note')
+      } else {
+        this.$modal.hide('add-note')
+        this.$modal.show('expand-add-note')
+      }
+    }
   }
 }
 </script>

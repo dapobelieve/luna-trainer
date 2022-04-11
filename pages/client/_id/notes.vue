@@ -5,11 +5,7 @@
         <p class="text-gray-700 font-normal text-xl">
           Notes
         </p>
-        <button
-          class="text-blue-500"
-          type="button"
-          @click.prevent="addNote"
-        >
+        <button class="text-blue-500" type="button" @click.prevent="addNote">
           <i class="fi-rr-plus h-4 w-4"></i>
         </button>
       </div>
@@ -62,7 +58,8 @@ export default {
   },
   computed: {
     ...mapState({
-      notes: state => state.notes.notes.filter(note => note.tags[0] !== 'health')
+      notes: state =>
+        state.notes.notes.filter(note => note.tags[0] !== 'health')
     }),
     ...mapGetters({
       allClients: 'client/getAllClients'
@@ -81,13 +78,13 @@ export default {
     }),
     addNote () {
       if (!this.inviteStatus) {
-        this.$lunaToast.error('Client invite still pending')
+        this.$lunaToast.warning('Client invite still pending')
         return
       }
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
-    },
-    viewNote (note) {
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: false, note })
+      this.$modal.show(
+        'add-note',
+        { addingMode: true }
+      )
     }
   }
 }
