@@ -5,15 +5,11 @@
         <p class="text-gray-700 font-normal text-xl">
           Notes
         </p>
-        <button
-          class="text-blue-500"
-          type="button"
-          @click.prevent="addNote"
-        >
+        <button class="text-blue-500" type="button" @click.prevent="addNote">
           <i class="fi-rr-plus h-4 w-4"></i>
         </button>
       </div>
-      <div class="mt-8">
+      <div class="mt-8 px-1">
         <div
           v-if="!notes.length"
           class="mb-4 px-5 grid gap-5 justify-center text-center"
@@ -39,45 +35,21 @@
             </p>
           </div>
         </div>
-        <div v-else>
-          <ul v-for="note in notes" :key="note.index">
-            <li
-              class="
-                py-4
-                flex
-                items-center
-                cursor-pointer
-                hover:bg-gray-100
-                rounded-lg
-                mx-1
-                px-4
-              "
-              @click="viewNote(note)"
-            >
-              <div class="mr-auto">
-                <h3 class="text-gray-700 text-base font-medium capitalize">
-                  {{ note.title }}
-                </h3>
-                <p class="font-normal text-sm text-gray-700">
-                  {{ note.description }}
-                </p>
-                <p class="text-gray-500 text-sm font-normal">
-                  {{ note.updatedAt | date }}
-                </p>
-              </div>
-              <i class="fi-rr-angle-small-right text-blue-500 h-2 w-2"></i>
-            </li>
-          </ul>
-        </div>
+        <Note v-for="note in notes" v-else :key="note._id" :note="note" />
       </div>
     </div>
   </async-view>
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import Note from '~/components/notes/Note.vue'
+
 export default {
   name: 'Notes',
+  components: {
+    Note
+  },
   data () {
     return {
       clientId: null,
@@ -85,8 +57,11 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      notes: state =>
+        state.notes.notes.filter(note => note.tags[0] !== 'health')
+    }),
     ...mapGetters({
-      notes: 'notes/notes',
       allClients: 'client/getAllClients'
     }),
     inviteStatus () {
@@ -99,20 +74,17 @@ export default {
   },
   methods: {
     ...mapActions({
-      fetchnotes: 'notes/fetchNotesWithStatusAndLimit'
-    }),
-    ...mapMutations({
-      toggleModal: 'notes/toggleModal'
+      fetchnotes: 'notes/fetchNotes'
     }),
     addNote () {
       if (!this.inviteStatus) {
-        this.$lunaToast.error('Client invite still pending')
+        this.$lunaToast.warning('Client invite still pending')
         return
       }
-      this.toggleModal({ status: true, addingMode: true, note: {} })
-    },
-    viewNote (note) {
-      this.toggleModal({ status: true, addingMode: false, note })
+      this.$modal.show(
+        'add-note',
+        { addingMode: true }
+      )
     }
   }
 }
