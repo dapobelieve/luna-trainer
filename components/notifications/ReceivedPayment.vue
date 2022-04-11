@@ -15,7 +15,7 @@
       <div class="mr-4 flex">
         <span class="relative inline-block">
           <ClientAvatar
-            :client-info="{ firstName: notification.data.vendorId.name }"
+            :client-info="{ firstName: notification.data.customerId.name }"
           />
           <span
             class="absolute -bottom-1 -right-1 bg-white rounded-full p-2 h-6 w-6 grid place-content-center flex-shrink"
@@ -26,10 +26,9 @@
       </div>
       <div class="text-gray-700 truncate">
         <p :class="[notification.status === 'UNREAD' ? 'font-bold' : 'font-normal', 'text-base truncate']">
-          Bank payment of {{ $store.state.profile.currency
-          }}{{ notification.data.amount }} from
+          Bank payment of {{ notification.data.currency }}{{ notification.data.total }} from
           <span class="capitalize font-medium">{{
-            notification.data.vendorId.name
+            notification.data.customerId.name
           }}</span>
         </p>
         <small :class="[notification.status === 'UNREAD' ? 'font-bold text-blue-500' : 'font-normal', 'block text-sm text-left']">{{

@@ -8,7 +8,7 @@
       <notifications-session-reminder />
     </template>
 
-    <template v-if="notification.type === 'PAYMENT_ACCEPTED'">
+    <template v-if="notification.type === 'NEW_PAYMENT_RECEIPT'">
       <notifications-received-payment :notification="notification" />
     </template>
   </div>
