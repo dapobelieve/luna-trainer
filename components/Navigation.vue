@@ -50,19 +50,17 @@
                 />
               </div>
               <div id="new-action" class="relative">
-                <div>
-                   <button
-                      style="height: 35px; padding-bottom: 0"
-                      class="rounded-lg px-0 pl-2 w-full button-fill h-4"
-                      @click="showQuickMenu = true"
-                    >
-                      <div
-                        class="w-full new-button flex justify-start items-center font-bold"
-                      >
-                        <i class="fi-rr-plus mr-4"></i> New
-                      </div>
-                    </button>
-                </div>
+                <button
+                  style="height: 35px; padding-bottom: 0"
+                  class="rounded-lg px-0 pl-2 w-full button-fill h-4"
+                  @click="showQuickMenu = true"
+                >
+                  <div
+                    class="w-full new-button flex justify-start items-center font-bold"
+                  >
+                    <i class="fi-rr-plus mr-4"></i> New
+                  </div>
+                </button>
                 <ClickOutside
                   :do="
                     (e) => {
@@ -100,6 +98,12 @@
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-calendar mr-3 text-gray-500"></i>
                           Session
+                        </span>
+                      </button>
+                      <button class="hover:bg-blue-50 py-2 pl-3">
+                        <span class="w-full flex mt-1">
+                          <i class="fi-rr-link mr-3 text-gray-500"></i>
+                          Payment Link
                         </span>
                       </button>
                     </div>
@@ -172,7 +176,7 @@
         </div>
       </div>
     </nav>
-    <LunaSearch @close="$modal.hide('luna-search-modal')" />
+    <LunaSearch />
   </div>
 </template>
 
@@ -218,11 +222,11 @@ export default {
           title: 'Payment',
           path: 'payments-requests-sent'
         },
-        // {
-        //   icon: 'fi-rr-chart-histogram',
-        //   title: 'Report',
-        //   path: 'reports-financials'
-        // },
+        {
+          icon: 'fi-rr-chart-histogram',
+          title: 'Report',
+          path: 'reports-financials'
+        },
         {
           icon: 'fi-rr-settings',
           title: 'Settings',
@@ -257,14 +261,6 @@ export default {
       return 'welp'
     }
   },
-  watch: {
-    $route: {
-      handler (newRouteValue) {
-        this.getNav(newRouteValue)
-      },
-      deep: true
-    }
-  },
   async beforeMount () {
     this.getNav(this.$route)
 
@@ -288,7 +284,8 @@ export default {
     socket.on('connect', () => {
       console.log('CONNECTED 🚀')
     })
-    socket.on('new-notification', (data) => {
+    socket.on('new-notification', async (data) => {
+      console.log('socket enter ', data)
       const { type } = data
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
@@ -298,11 +295,11 @@ export default {
           this.localUpdateClient(data.data)
           this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
           break
-        case 'NEW_PAYMENT_RECEIPT':
-          this.$lunaToast.show(`${data.message}`)
-          this.getInvoices()
+        case 'PAYMENT_ACCEPTED':
+          this.$lunaToast.show('payment made')
           break
         case 'STRIPE_CONNECTION_SUCCESSFUL':
+          await this.getPaymentMethods()
           this.$lunaToast.show('Stripe has just connected successful')
           break
         default:
@@ -321,12 +318,6 @@ export default {
           return 'reporting-hint'
         case 'Settings':
           return 'settings-hint'
-        case 'Messages':
-          return 'message-hint-nav'
-        case 'Schedule':
-          return 'session-st-nav'
-        case 'Payment':
-          return 'billing-hint-nav'
         default:
           return ''
       }
@@ -352,8 +343,8 @@ export default {
       }
     },
     ...mapActions({
-      getInvoices: 'invoice/getInvoices',
-      logOut: 'authorize/logOut'
+      logOut: 'authorize/logOut',
+      getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
     inviteClient () {
       this.$modal.show('inviteClientModal')
@@ -364,6 +355,26 @@ export default {
     hideSidebarMenu () {
       this.$nuxt.$emit('hideSidebarMenu')
     }
+  },
+  watch: {
+    $route: {
+      handler (newRouteValue) {
+        this.getNav(newRouteValue)
+      },
+      deep: true
+    }
+  },
+  mounted () {
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 27) {
+        this.$modal.hide('luna-search-modal')
+      }
+    })
+    document.addEventListener('keydown', (e) => {
+      if (e.keyCode === 75 && e.metaKey) {
+        this.$modal.show('luna-search-modal')
+      }
+    })
   }
 }
 </script>
