@@ -46,6 +46,7 @@ export default {
     closeModal () {
       this.$modal.hide('add-note')
       this.$modal.hide('expand-add-note')
+      this.expanded = false
     },
     toggle () {
       console.log('toggle')
