@@ -13,7 +13,7 @@
         <i
           role="button"
           class="text-blue-500 h-4 w-4"
-          :class="[$store.state.notes.expandModal ? 'fi-rr-compress' : 'fi-rr-expand']"
+          :class="[expanded ? 'fi-rr-compress' : 'fi-rr-expand']"
           @click.prevent="toggleWidth"
         ></i>
         <i
@@ -25,7 +25,7 @@
     </div>
     <div
       class="min-h-screen px-4 pt-3 flex flex-col relative"
-      :class="{'max-w-md mx-auto' : $store.state.notes.expandModal}"
+      :class="{'max-w-md mx-auto' : expanded}"
     >
       <div class="pb-8 pr-4">
         <input
@@ -76,7 +76,7 @@
             <button class="button-outline" @click.prevent="$modal.hide('delete-note')">
               No, don't
             </button>
-            <button class="button-fill" @click.prevent="deleteNote">
+            <button class="button-fill" @click.prevent="deleteSingleNote">
               Yes, Delete
             </button>
           </div>
@@ -88,7 +88,7 @@
 
 <script>
 import debounce from 'lodash.debounce'
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'AddNote',
   props: {
@@ -99,6 +99,10 @@ export default {
     noteInView: {
       type: Object,
       default: () => {}
+    },
+    expanded: {
+      type: Boolean,
+      required: true
     }
   },
   data () {
@@ -122,30 +126,16 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('notes', {
-      toggleExpandModal: 'toggleExpandModal',
-      toggleModal: 'toggleModal'
-    }),
     ...mapActions({
       createNote: 'notes/addNotes',
-      updateNotes: 'notes/updateNotes',
-      deleteSingleNote: 'notes/deleteSingleNote'
+      updatingNote: 'notes/updateNote',
+      deleteNote: 'notes/deleteNote'
     }),
     toggleWidth () {
-      if (this.$store.state.notes.largeScreen) {
-        this.toggleModal({ status: false })
-        this.toggleExpandModal({ status: true })
-        return
-      }
-      this.toggleExpandModal({ status: false })
-      this.toggleModal({ status: true })
+      this.$emit('toggle')
     },
     closeModal () {
-      if (this.$store.state.notes.addNoteModal) {
-        this.toggleModal({ status: false, addingMode: true, note: {} })
-        return
-      }
-      this.toggleExpandModal({ status: false, addingMode: true, note: {} })
+      this.$emit('close')
     },
     cancel () {
       this.closeModal()
@@ -157,20 +147,23 @@ export default {
       }, 3500)
     },
     createNotes: debounce(function () {
-      this.createNote({ title: this.title, description: this.body, clientId: this.id }).then((result) => {
+      this.createNote({ title: this.title, description: this.body, clientId: this.id, tags: this.$route.name === 'client-id-information' ? 'health' : '' }).then((result) => {
         this.noteId = result
         this.mode = 'editing'
         this.autoSave()
       })
     }, 1000),
     updateNote: debounce(function () {
-      this.updateNotes({ description: this.body, noteId: this.noteId })
+      this.updatingNote({ description: this.body, noteId: this.noteId })
       this.autoSave()
     }, 1000),
-    deleteNote () {
-      this.deleteSingleNote(this.noteId).then(() => {
+    async deleteSingleNote () {
+      try {
+        await this.deleteNote(this.noteId)
         this.closeModal()
-      })
+      } catch (error) {
+        this.$lunaToast.error('Something went wrong')
+      }
     },
     nextInput () {
       this.$refs['text-area'].focus()
