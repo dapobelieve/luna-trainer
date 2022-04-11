@@ -73,35 +73,16 @@
       </div>
     </div>
 
-    <modal name="welcome-modal" :height="470" :width="500">
-        <div>
-          <div class="space"/>
-          <div class="grid m-6">
-            <div class="py-0 text-justify">
-              <div class="text-left mb-5 font-light text-2xl">
-                <h3>Welcome to scheduling</h3>
-              </div>
-              <p class="mb-8 w-50 text-justify">
-                This is where you can manage all your session bookings. Take our short tour of the key features or explore yourself. 
-              </p>
-              <div class="flex justify-left gap-5">
-                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="() => {
-                   this.tourItems();
-                  closeModal()
-                  }">
-                  Take the tour
-                </button>
-                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="() => {
-                   closeModal()
-                   this.doNotShowHints = true
-                   }">
-                   Explore by myself
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </modal>
+    <ScheduleWelcomeModal
+      :exitTour="() => {
+          closeModal()
+          this.doNotShowHints = true
+        }"
+        :takeTour="() => {
+          this.tourItems();
+          closeModal()
+        }" 
+      />
   </div>
 </template>
 
@@ -113,12 +94,15 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
+import ScheduleWelcomeModal from '~/components/modals/PaymentWelcomeModal.vue'
+import {scheduleTourSteps} from '~/tour/ScheduleTourSteps'
 import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 export default {
   name: 'Scheduler',
   components: {
     SchedulerInfo,
+    ScheduleWelcomeModal,
     SchedulerWelcome,
     FullCalendar
   },
@@ -187,26 +171,6 @@ export default {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
-    } else {
-        this.$lunaToast.show(
-          'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
-          {
-            position: 'bottom-right',
-            timeout: 10000,
-            actions: true,
-            heading: 'Welcome to Luna',
-            confirm: {
-              text: 'Get started',
-              resolver: () => {
-                this.tourItems()
-              }
-            },
-            cancel: {
-              text: 'Not Now',
-              resolver: async () => {}
-            }
-          }
-        )
     }
   },
   beforeMount () {
@@ -289,7 +253,7 @@ export default {
       this.calendarApi.next()
       this.updateDate()
     },
-     closeModal () {
+    closeModal () {
       this.$modal.hide('welcome-modal')
     },
     removeQueryParams() {
@@ -302,84 +266,12 @@ export default {
     tourItems () {
       if (this.doNotShowHints) return
       let t = 0;
-      this.$intro()
-        .setOptions({
-          ...{
-            nextLabel: 'Next',
-            prevLabel: 'Back',
-            skipLabel: '',
-            doneLabel: 'Got it!',
-            hidePrev: true,
-            hideNext: false,
-            nextToDone: true,
-            tooltipPosition: 'bottom',
-            tooltipClass: '',
-            highlightClass: '',
-            exitOnEsc: true,
-            exitOnOverlayClick: true,
-            showStepNumbers: false,
-            keyboardNavigation: true,
-            showButtons: true,
-            showBullets: true,
-            showProgress: false,
-            scrollToElement: true,
-            scrollTo: 'element',
-            scrollPadding: 30,
-            overlayOpacity: 0.5,
-            autoPosition: true,
-            positionPrecedence: ['bottom', 'top', 'right', 'left'],
-            disableInteraction: false,
-            helperElementPadding: 5,
-            hintPosition: 'top-middle',
-            hintAnimation: true,
-            buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
-            progressBarAdditionalClass: false
-          },
-          steps: [
-            {
-              element: document.querySelector('#sync'),
-              intro: 'You can connect your Google calendar or use one of Luna’s virtual calendars.'
-            },
-            {
-              element: document.querySelector('#monthly'),
-              position: "bottom",
-              intro: 'Filter your calendar down by month, week, day, or in list view here.'
-            },
-            {
-              element: document.querySelector('#plus'),
-              position: "bottom",
-              intro: 'To schedule a new session click here.'
-            },
-           {
-              element: document.querySelector('#clients'),
-              position: "bottom",
-              intro: 'By creating a new event, you can invite clients to the event. Make sure you quick add a client so they’re added to Luna'
-            },
-            // {
-            //   element: document.querySelector('#clientModalInvite'),
-            //   position: "bottom",
-            //   intro: 'Filter your calendar down by month, week, day, or in list view here.'
-            // },
-          ]
+      scheduleTourSteps(this.$intro())
+        .oncomplete(() => {
+          this.removeQueryParams()
         })
-        .onbeforechange(function(e){
-          const button = document.getElementById("plus")
-
-          if (t > 0) {
-            button.click()
-            intro?.goToStep(3)
-            t = 0;
-          }
-
-          if (e === button) {
-            t = t + 1;
-          }
-        })
-        .oncomplete(function () {
-          self.removeQueryParams()
-        })
-        .onexit(function () {
-          self.removeQueryParams()
+        .onexit(() => {
+          this.removeQueryParams()
         })
         .start()
 

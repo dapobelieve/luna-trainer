@@ -87,37 +87,16 @@
           </button>
         </template>
       </NotificationsModal>
-      <modal name="welcome-modal" :height="470" :width="500">
-        <div>
-          <div class="space"/>
-          <div class="grid m-6">
-            <div class="py-0 text-justify">
-              <div class="text-left mb-5 font-light text-2xl">
-                <h3>Welcome to Luna</h3>
-              </div>
-              <p class="mb-8 w-50 text-justify">
-                Start the tour to discover how easy it is to do everything in Luna with -
-                tips and tricks on how to save yourself time on basic
-                business admin, so you can focus on doing what you love.
-              </p>
-              <div class="flex justify-left gap-5">
-                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="() => {
-                   closeModal()
-                   this.doNotShowHints = true
-                   }">
-                   Explore by myself
-                </button>
-                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="() => {
-                   this.tourItems();
-                  closeModal()
-                  }">
-                  Start the tour
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </modal>
+     <DashboardWelcomeModal
+      :exitTour="() => {
+          closeModal()
+          this.doNotShowHints = true
+        }"
+        :takeTour="() => {
+          this.tourItems();
+          closeModal()
+        }" 
+      />
     </section>
   </main>
 </template>
@@ -130,9 +109,11 @@ import WeekView from '~/components/dashboard/WeekView'
 import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
 import InvoiceWidget from '~/components/dashboard/InvoiceWidget'
 import MessageWidget from '~/components/dashboard/MessageWidget'
+import DashboardWelcomeModal from '~/components/modals/DashboardWelcomeModal.vue'
+import {dashboardTourSteps} from '~/tour/DashboardTourSteps'
 export default {
   name: 'Dashboard',
-  components: { MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard },
+  components: { MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard, DashboardWelcomeModal },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
@@ -247,82 +228,12 @@ export default {
     tourItems () {
       if (this.doNotShowHints) return
     
-      const self = this;
-      this.$intro()
-        .setOptions({
-          ...{
-            nextLabel: 'Next',
-            prevLabel: 'Back',
-            skipLabel: '',
-            doneLabel: 'End tour',
-            hidePrev: true,
-            hideNext: false,
-            nextToDone: true,
-            tooltipPosition: 'bottom',
-            tooltipClass: '',
-            highlightClass: '',
-            exitOnEsc: true,
-            exitOnOverlayClick: true,
-            showStepNumbers: false,
-            keyboardNavigation: true,
-            showButtons: true,
-            showBullets: true,
-            showProgress: false,
-            scrollToElement: true,
-            scrollTo: 'element',
-            scrollPadding: 30,
-            overlayOpacity: 0.5,
-            autoPosition: true,
-            positionPrecedence: ['bottom', 'top', 'right', 'left'],
-            disableInteraction: false,
-            helperElementPadding: 5,
-            hintPosition: 'top-middle',
-            hintAnimation: true,
-            buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
-            progressBarAdditionalClass: false
-          },
-          steps: [
-            {
-              element: document.querySelector('#t'),
-              intro: 'This is your home dashboard. You can see everything you need to action from here.'
-            },
-            {
-              element: document.querySelector('#new-action'),
-              position: "right",
-              intro: 'If you quickly want to add a new client, create a new payment request, or schedule a new session, you can do that in one click here.'
-            },
-            {
-              element: document.querySelector('#message-hint-nav'),
-              position: "right",
-              intro: 'Here you will see all unread messages. Just click on an any message to jump into your clients profile to reply and see any relevant notes. '
-            },
-            {
-              element: document.querySelector('#session-st-nav'),
-              position: 'right',
-              intro: 'From here you can see all your sessions for the day - schedule a new session, or click view all to jump into your full schedule. '
-            },
-            {
-              element: document.querySelector('#billing-hint-nav'),
-              position: 'right',
-              intro: 'Here within payments, you can see all notifications on outstanding or recieved payments. You can quickly send a nudge to your clients to remind them to pay you. '
-            },
-            // {
-            //   element: document.querySelector('#reporting-hint'),
-            //   position: 'right',
-            //   intro: 'Within reporting you can see a simple overview of how your business is performing.'
-            // },
-            {
-              element: document.querySelector('#settings-hint'),
-              position: 'right',
-              intro: 'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here. '
-            },
-          ]
+      dashboardTourSteps(this.$intro())
+        .oncomplete(()=> {
+          this.removeQueryParams()
         })
-        .oncomplete(function () {
-          self.removeQueryParams()
-        })
-        .onexit(function () {
-          self.removeQueryParams()
+        .onexit(() =>{
+          this.removeQueryParams()
         })
         .start()
 
@@ -350,12 +261,5 @@ export default {
 </script>
 
 <style>
-@import '../assets/css/introtheme.css';
-</style>
-<style lang="scss" scoped>
-.space{
-  width: 100%;
-  height: 200px;
-  background: rgba(59, 130, 246, 0.05);
-}
+  @import '../assets/css/introtheme.css';
 </style>

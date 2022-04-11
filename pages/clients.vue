@@ -17,42 +17,26 @@
         </template>
       </gw-pagination>
     </div>
-     <modal name="welcome-modal" :height="470" :width="500">
-        <div>
-          <div class="space"/>
-          <div class="grid m-6">
-            <div class="py-0 text-justify">
-              <div class="text-left mb-5 font-light text-2xl">
-                <h3>Welcome to Clients</h3>
-              </div>
-              <p class="mb-8 w-50 text-justify">
-                This is your client relationship management system or CRM.  You can see all your live clients and archived clients, plus easily invite a new client to join you on Luna. 
-              </p>
-              <div class="flex justify-left gap-5">
-                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="() => {
-                   this.tourItems();
-                  closeModal()
-                  }">
-                  Take the tour
-                </button>
-                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="() => {
-                   closeModal()
-                   this.doNotShowHints = true
-                   }">
-                   Explore by myself
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </modal>
+     <ClientWelcomeModal
+        :exitTour="() => {
+          closeModal()
+          this.doNotShowHints = true
+        }"
+        :takeTour="() => {
+          this.tourItems();
+          closeModal()
+        }" 
+      />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import ClientWelcomeModal from '~/components/modals/ClientWelcomeModal.vue'
+import {clientTourSteps} from '~/tour/ClientTourSteps'
 export default {
   name: 'Clients',
+  components: {ClientWelcomeModal},
   data () {
     return {
       clients: false,
@@ -79,26 +63,6 @@ export default {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
-    } else {
-        this.$lunaToast.show(
-          'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
-          {
-            position: 'bottom-right',
-            timeout: 10000,
-            actions: true,
-            heading: 'Welcome to Luna',
-            confirm: {
-              text: 'Get started',
-              resolver: () => {
-                this.tourItems()
-              }
-            },
-            cancel: {
-              text: 'Not Now',
-              resolver: async () => {}
-            }
-          }
-        )
     }
   },
   methods: {
@@ -120,62 +84,18 @@ export default {
     },
     tourItems () {
       if (this.doNotShowHints) return
-      const self = this;
-      this.$intro()
-        .setOptions({
-          ...{
-            nextLabel: 'Next',
-            prevLabel: 'Back',
-            skipLabel: '',
-            doneLabel: 'Got it!',
-            hidePrev: true,
-            hideNext: false,
-            nextToDone: true,
-            tooltipPosition: 'bottom',
-            tooltipClass: '',
-            highlightClass: '',
-            exitOnEsc: true,
-            exitOnOverlayClick: true,
-            showStepNumbers: false,
-            keyboardNavigation: true,
-            showButtons: true,
-            showBullets: true,
-            showProgress: false,
-            scrollToElement: true,
-            scrollTo: 'element',
-            scrollPadding: 30,
-            overlayOpacity: 0.5,
-            autoPosition: true,
-            positionPrecedence: ['bottom', 'top', 'right', 'left'],
-            disableInteraction: false,
-            helperElementPadding: 5,
-            hintPosition: 'top-middle',
-            hintAnimation: true,
-            buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
-            progressBarAdditionalClass: false
-          },
-          steps: [
-            {
-              element: document.querySelector('#plus'),
-              intro: 'This is your client CRM system, click here to add a new client' 
-            },
-            {
-              element: document.querySelector('#clientModalInvite'),
-              position: "right",
-              intro: 'Fill in their details, send them a note, and by clicking send they will be invited to join Luna and our App where you can message, they will receive payment links from you etc.'},
-          ]
-        })
-        .onchange(function(e){
+      clientTourSteps(this.$intro())
+        .onchange(e => {
           const button = document.getElementById("plus")
           if (e === button) {
             button.click()
           }
         })
-        .oncomplete(function () {
-          self.removeQueryParams()
+        .oncomplete(() => {
+          this.removeQueryParams()
         })
-        .onexit(function () {
-          self.removeQueryParams()
+        .onexit(() => {
+          this.removeQueryParams()
         })
         .start()
 
