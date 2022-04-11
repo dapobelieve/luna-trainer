@@ -15,7 +15,7 @@
       </div>
       <div class="flex items-center">
         <ClickOutside :do="() => showDrop = false">
-          <div class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
+          <div id="monthly" class="relative border mr-3 px-3 border-blue-500 rounded-lg py-1">
             <span class="font-medium flex items-center cursor-pointer text-primary-color " @click="showDrop = !showDrop">
               <span>{{ currentView }}</span>
               <i class="fi-rr-caret-down ml-2 text-lg"></i>
@@ -50,7 +50,7 @@
           </div>
         </ClickOutside>
         <button
-          id="schduler-step-1"
+          id="plus"
           class="inline-flex primary-color items-center justify-center h-9 w-9 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           @click="openDrawer({ open: true, activePage: 'new-session' })"
         >
@@ -71,8 +71,18 @@
           </div>
         </div>
       </div>
-      <SchedulerWelcome @close="$modal.hide('scheduler-modal')" @tour="tour()" />
     </div>
+
+    <ScheduleWelcomeModal
+      :exitTour="() => {
+          closeModal()
+          this.doNotShowHints = true
+        }"
+        :takeTour="() => {
+          this.tourItems();
+          closeModal()
+        }" 
+      />
   </div>
 </template>
 
@@ -84,12 +94,15 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
+import ScheduleWelcomeModal from '~/components/modals/PaymentWelcomeModal.vue'
+import {scheduleTourSteps} from '~/tour/ScheduleTourSteps'
 import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 export default {
   name: 'Scheduler',
   components: {
     SchedulerInfo,
+    ScheduleWelcomeModal,
     SchedulerWelcome,
     FullCalendar
   },
@@ -101,6 +114,7 @@ export default {
       activeEvent: {}, // event that was clicked
       currentView: 'Month',
       newSchedule: false,
+      openModal: false,
       months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
       calendarApi: {},
       currentDate: {
@@ -153,6 +167,11 @@ export default {
     } finally {
       this.$store.commit('profile/SET_STATE', { loading: false })
     }
+
+    const newUser = (this.$route?.query?.new)
+    if (newUser) {
+      this.$modal.show('welcome-modal')
+    }
   },
   beforeMount () {
     document.addEventListener('keydown', (e) => {
@@ -186,21 +205,6 @@ export default {
     removeEvent (eventId) {
       const event = this.calendarApi.getEventById(eventId)
       event.remove()
-    },
-    tour () {
-      this.$modal.hide('scheduler-modal')
-      this.$intro()
-        .setOptions({
-          hidePrev: true,
-          steps: [
-            {
-              element: document.querySelector('#schduler-step-1'),
-              intro: 'To create a  new session and add participants, click here'
-            }
-          ]
-        })
-        .start()
-      this.$intro().showHints()
     },
     handleCalendarEventClick (info) {
       const { id } = info.event
@@ -248,11 +252,41 @@ export default {
     mainNext () {
       this.calendarApi.next()
       this.updateDate()
-    }
+    },
+    closeModal () {
+      this.$modal.hide('welcome-modal')
+    },
+    removeQueryParams() {
+      let query = Object.assign({}, this.$route.query);
+      delete query.new;
+      this.$router.replace({ query });
+      window.localStorage.removeItem("client-tour")
+
+    },
+    tourItems () {
+      if (this.doNotShowHints) return
+      let t = 0;
+      scheduleTourSteps(this.$intro())
+        .oncomplete(() => {
+          this.removeQueryParams()
+        })
+        .onexit(() => {
+          this.removeQueryParams()
+        })
+        .start()
+
+      this.$intro().showHints()
+    },
   }
 }
 </script>
-
+<style>
+@import '../assets/css/introtheme.css';
+/* .introjs-prevbutton {
+ height: 0%;
+ opacity: 0;
+} */
+</style>
 <style lang="scss" scoped>
 .schedule-section {
   height: calc(100vh - 61px);

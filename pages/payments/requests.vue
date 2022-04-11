@@ -13,6 +13,7 @@
                 <i class="fi-rr-caret-down ml-2 text-lg"></i>
               </span>
               <div
+                id="sent"
                 v-show="showDrop"
                 class="origin-top-right cursor-pointer absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
               >
@@ -34,6 +35,7 @@
           <NuxtLink
             :to="{ name: 'payments-request'}"
             exact-active-class="active"
+            id="plus"
             class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
           >
             <i class="fi-rr-plus mt-1 text-base text-white"></i>
@@ -46,13 +48,28 @@
         <NuxtChild />
       </div>
     </div>
+  <PaymentWelcomeModal
+  
+  :exitTour="() => {
+          closeModal()
+          this.doNotShowHints = true
+        }"
+        :takeTour="() => {
+          this.tourItems();
+          closeModal()
+        }"  />
+
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import PaymentWelcomeModal from '~/components/modals/PaymentWelcomeModal.vue'
+import {paymentTourSteps} from '~/tour/PaymentTourSteps'
+
 export default {
   name: 'PaymentRequests',
+  components: {PaymentWelcomeModal},
   data () {
     return {
       showDrop: false,
@@ -128,6 +145,35 @@ export default {
       } else {
         this.openModal = true
       }
+    },
+    closeModal () {
+      this.$modal.hide('welcome-modal')
+    },
+    removeQueryParams() {
+      let query = Object.assign({}, this.$route.query);
+      delete query.new;
+      this.$router.replace({ query });
+      window.localStorage.removeItem("invoice-tour")
+
+    },
+    tourItems () {
+      if (this.doNotShowHints) return
+      paymentTourSteps(this.$intro())
+        .oncomplete(() => {
+          this.removeQueryParams()
+        })
+        .onexit(() => {
+          this.removeQueryParams()
+        })
+        .start()
+
+      this.$intro().showHints()
+    },
+  },
+  mounted() {
+    const newUser = (this.$route?.query?.new)
+    if (newUser) {
+      this.$modal.show('welcome-modal')
     }
   }
 }

@@ -1,0 +1,227 @@
+.introjs-tooltip-header {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 0px;
+    padding-top: 10px;
+}
+.introjs-tooltiptext {
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+.vm--overlay{
+  background: rgba(241, 245, 249, 0.4);
+}
+.introjs-bullets{
+  text-align: left;
+  padding-left: 10px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  top: 25px;
+  width: 100px;
+  height: 0px;
+  padding: 0px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  width: 100px;
+  font-family: "DM Sans";
+  left: 31%;
+}
+.introjs-bullets ul li a {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.05);
+  background: rgba(255,255,255,0.5);
+    font-family: "DM Sans";
+}
+.introjs-arrow.top {
+    border-bottom-color: #3B82F6;
+}
+.introjs-arrow.bottom {
+    border-top-color: #3B82F6;
+}
+.introjs-arrow.left {
+    border-right-color: #3B82F6;
+}
+.introjs-arrow.right {
+    border-bottom-color: #3B82F6;
+}
+.introjs-tooltip-title,
+.introjs-tooltip,.introjs-floating,
+introjs-tooltipbuttons,.introjs-tooltiptext,
+.introjs-skipbutton,.introjs-tooltip-header,.introjs-tooltipbuttons{
+  background: #3B82F6;
+  border-top: 0px;
+  color: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-bullets li > a.active {
+    width: 6px;
+    background: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-bullets ul li a.active {
+    width: 6px;
+    background: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-tooltip .introjs-floating{
+  border-radius: 30px;
+}
+.introjs-tooltip {
+    border-radius: 10px;
+    position: absolute;
+    visibility: visible;
+    min-width: 340px;
+    max-width: 300px;
+    box-shadow: 0 3px 30px rgb(33 33 33 / 30%);
+    transition: opacity .1s ease-out;
+    font-family: "DM Sans";
+  }
+.introjs-tooltipbuttons{
+  border-radius: 30px;
+  font-family: "DM Sans";
+}
+.introjs-tooltip-header{
+  border-radius: 30px;
+  font-family: "DM Sans";
+}
+.introjs-prevbutton {
+  z-index: 20;
+  border-radius: 7px;
+  padding-top: 5px;
+  color: #3B82F6;
+  font-weight: 500;
+  padding-bottom: 5px;
+  text-align: center;
+  font-family: 'DM Sans';
+}
+.introjs-nextbutton {
+  z-index: 200;
+  border-radius: 7px;
+  padding-top: 5px;
+  color: #3B82F6;
+  font-weight: 500;
+  padding-bottom: 5px;
+  text-align: center;
+  font-family: 'DM Sans';
+}
+.introjs-tooltipbuttons {
+  z-index: 200
+}
+
+
+
+.introjs-tooltip-header {
+    padding-left: 20px;
+    padding-right: 20px;
+    height: 0px;
+    padding-top: 10px;
+}
+.introjs-tooltiptext {
+    padding: 20px;
+    padding-top: 10px;
+    padding-bottom: 0;
+}
+.vm--overlay{
+  background: rgba(241, 245, 249, 0.4);
+}
+.introjs-bullets{
+  text-align: left;
+  padding-left: 10px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  top: 25px;
+  width: 100px;
+  height: 0px;
+  padding: 0px;
+  text-align: left;
+  padding-left: 10px;
+  display: flex;
+  position: relative;
+  width: 100px;
+  font-family: "DM Sans";
+  left: 31%;
+}
+.introjs-bullets ul li a {
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.05);
+  background: rgba(255,255,255,0.5);
+    font-family: "DM Sans";
+}
+.introjs-arrow.top {
+    border-bottom-color: #3B82F6;
+}
+.introjs-arrow.bottom {
+    border-top-color: #3B82F6;
+}
+.introjs-arrow.left {
+    border-right-color: #3B82F6;
+}
+.introjs-arrow.right {
+    border-bottom-color: #3B82F6;
+}
+.introjs-arrow.top-right {
+    border-bottom-color: #3B82F6;
+}
+.introjs-tooltip-title,
+.introjs-tooltip,.introjs-floating,
+introjs-tooltipbuttons,.introjs-tooltiptext,
+.introjs-skipbutton,.introjs-tooltip-header,.introjs-tooltipbuttons{
+  background: #3B82F6;
+  border-top: 0px;
+  color: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-bullets li > a.active {
+    width: 6px;
+    background: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-bullets ul li a.active {
+    width: 6px;
+    background: #FFF;
+    font-family: "DM Sans";
+}
+.introjs-tooltip .introjs-floating{
+  border-radius: 30px;
+}
+.introjs-tooltip {
+    border-radius: 10px;
+    position: absolute;
+    visibility: visible;
+    min-width: 340px;
+    max-width: 300px;
+    box-shadow: 0 3px 30px rgb(33 33 33 / 30%);
+    transition: opacity .1s ease-out;
+    font-family: "DM Sans";
+  }
+.introjs-tooltipbuttons{
+  border-radius: 30px;
+  font-family: "DM Sans";
+}
+.introjs-tooltip-header{
+  border-radius: 30px;
+  font-family: "DM Sans";
+}
+.introjs-nextbutton {
+  z-index: 200;
+  border-radius: 7px;
+  padding-top: 5px;
+  color: #3B82F6;
+  font-weight: 500;
+  padding-bottom: 5px;
+  text-align: center;
+  font-family: 'DM Sans';
+}
+.introjs-tooltipbuttons {
+  z-index: 200
+}
+.space{
+  width: 100%;
+  height: 200px;
+  background: rgba(59, 130, 246, 0.05);
+}
