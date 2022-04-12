@@ -2,9 +2,7 @@
   <div class="m-5">
     <div class="flex justify-between items-center">
       <h5 class="text-2xl text-gray-700">
-        <slot name="title">
-          {{ editing ? 'Editing a service' : 'Add new service' }}
-        </slot>
+        <slot name="title"></slot>
       </h5>
       <button type="button" @click="$emit('close-modal')">
         <i class="fi-rr-cross text-sm text-blue-500"></i>
@@ -17,6 +15,7 @@
           id="service"
           v-model="service.description"
           autofocus
+          ref="serviceDescription"
           placeholder="Separation Anxiety (Replace this description)"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
@@ -105,15 +104,16 @@
             style="width:fit-content"
             @click="saveEditedServiceItem"
           >
-            Edit Service
+            Update
           </button-spinner>
         </template>
         <button-spinner
           v-else
           :loading="isLoading"
+          :disabled="disableAdd"
           type="button"
           style="width:fit-content"
-          @click="addNewService"
+          @click.stop="addNewService"
         >
           Add service
         </button-spinner>
@@ -141,7 +141,7 @@ export default {
       isLoading: false,
       selectedService: null,
       service: {
-        description: this.serviceObject.description,
+        description: this.serviceObject?.description || '',
         appointmentTypes: [],
         pricing: {
           plan: 'hourly',
@@ -151,6 +151,9 @@ export default {
     }
   },
   computed: {
+    disableAdd  () {
+      return !this.service.appointmentTypes.length || !this.service.description || !this.service.pricing.amount
+    },
     ...mapState({
       servicesFromStore: state => state.auth.user.services
     }),
@@ -179,7 +182,7 @@ export default {
     ...mapActions({
       updateService: 'profile/updateProfile'
     }),
-    resetSelectedService () {
+    reset () {
       this.service.description = ''
       this.service.appointmentTypes = []
       this.service.pricing = {
@@ -187,63 +190,51 @@ export default {
         plan: 'hourly'
       }
     },
-    addNewService () {
-      if (!this.disabled) {
-        this.$lunaToast.error('All form fields are required')
-      } else if (
-        this.servicesFromStore.length &&
-        this.servicesFromStore.some(
-          s =>
-            s.description.toLowerCase() ===
-            this.service.description.toLowerCase()
-        )
+    async addNewService () {
+      if (this.servicesFromStore.length && this.servicesFromStore.filter(x => x.description.toLowerCase() === this.service.description.toLowerCase()).length
       ) {
         this.$lunaToast.error(
           `${this.services.description} service already exist`)
       } else {
         this.isLoading = true
-        return this.updateService({
-          service: [this.service, ...this.servicesFromStore]
-        })
-          .then((response) => {
-            this.isLoading = false
-
-            if (response.status === 'success') {
-              this.$emit('close-modal', { ...response.data.services[0] })
-              this.resetSelectedService()
-              this.$lunaToast.success('Services updated')
-            }
+        try {
+          const {services} = await this.$store.dispatch('profile/updateProfile', {
+            services: [this.service, ...this.servicesFromStore]
           })
-          .catch()
-          .finally(() => {
-            this.isLoading = false
-          })
+          
+          const [latestService] = services
+          this.reset()
+          this.$emit('close-modal', latestService)
+          this.$lunaToast.success(
+            `${latestService.description} service added`)
+        } catch (e) {
+          console.log(e)
+          this.$lunaToast.error(
+            `${this.service.description} service not added`)
+        }finally {
+          this.isLoading = false
+        }
       }
     },
-    saveEditedServiceItem () {
-      this.isLoading = true
-      const allServices = [...this.servicesFromStore].map((_service) => {
-        if (_service._id === this.service._id) {
-          _service = { ...this.service }
-        }
-        return _service
-      })
-
-      return this.updateService({
-        services: [...allServices]
-      })
-        .then((response) => {
-          this.isLoading = false
-          if (response.status === 'success') {
-            this.cancelAndSave()
-            this.$emit('edited', response.data.services)
-            this.$lunaToast.success('Service Updated')
+    async saveEditedServiceItem () {
+      try {
+        this.isLoading = true
+        const allServices = [...this.servicesFromStore].map((_service) => {
+          if (_service._id === this.service._id) {
+            _service = { ...this.service }
           }
+          return _service
         })
-        .catch()
-        .finally(() => {
-          this.isLoading = false
-        })
+
+        await this.$store.dispatch('profile/updateProfile', { services: [...allServices] })
+        this.reset()
+        await this.$store.dispatch('profile/getUserProfile')
+        this.$emit('close-modal')
+      }catch (e) {
+        console.log(e)
+      }finally{
+        this.isLoading = false
+      }
     },
     cancelAndSave () {
       this.editing = false
@@ -269,6 +260,9 @@ export default {
     }
   },
   mounted () {
+    this.$nextTick(() => {
+      this.$refs.serviceDescription.focus()
+    })
     if (this.serviceObject && Object.entries(this.serviceObject).length !== 0) {
       this.service = JSON.parse(JSON.stringify(this.serviceObject))
       this.editing = true

@@ -3,6 +3,7 @@
     name="luna-search-modal"
     class="luna-search"
     height="auto"
+    :click-to-close="false"
     :adaptive="true"
   >
     <div class="pb-1">
