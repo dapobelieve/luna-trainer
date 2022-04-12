@@ -8,7 +8,7 @@
       <h5 class="text-5xl font-bold">Privacy Policy</h5>
       <p class="text-sm text-grey mt-2">Last updated: April 08, 2022</p>
     </div>
-    <div class="w-[800px] mw-[90%] m-auto">
+    <div class="w-[800px] max-w-[90%] m-auto">
     
       <p class="text-lg mb-2">
         This Privacy Policy describes Our policies and procedures on the
@@ -513,5 +513,9 @@ h3{
 
 p{
     @apply mb-3;
+}
+
+*{
+  word-wrap: break-word;
 }
 </style>
