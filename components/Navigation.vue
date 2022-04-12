@@ -267,13 +267,11 @@ export default {
   },
   async beforeMount () {
     this.getNav(this.$route)
-
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
       console.log(e)
     }
-
     const url = new URL(process.env.BASEURL_HOST)
     // eslint-disable-next-line
     const socket = io(`${url.origin}`, {
@@ -284,11 +282,11 @@ export default {
           .split('Bearer ')[1]
       }
     })
-
     socket.on('connect', () => {
       console.log('CONNECTED 🚀')
     })
-    socket.on('new-notification', (data) => {
+    socket.on('new-notification', async (data) => {
+      console.log("NEW SOCKET MESSAGE >>>>", data)
       const { type } = data
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
@@ -298,11 +296,15 @@ export default {
           this.localUpdateClient(data.data)
           this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
           break
+        case 'PAYMENT_ACCEPTED':
+          this.$lunaToast.show(`${data.message}`)
+          break
         case 'NEW_PAYMENT_RECEIPT':
           this.$lunaToast.show(`${data.message}`)
           this.getInvoices()
           break
         case 'STRIPE_CONNECTION_SUCCESSFUL':
+          await this.getPaymentMethods()
           this.$lunaToast.show('Stripe has just connected successful')
           break
         default:
@@ -311,7 +313,6 @@ export default {
       }
       this.$store.commit('notifications/setNotification', data)
     })
-
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
@@ -346,14 +347,14 @@ export default {
     },
     getNav (e) {
       const paths = e.path?.split('/')
-
       if (paths.length >= 1) {
         this.currentLink = paths[1]
       }
     },
     ...mapActions({
       getInvoices: 'invoice/getInvoices',
-      logOut: 'authorize/logOut'
+      logOut: 'authorize/logOut',
+      getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
     inviteClient () {
       this.$modal.show('inviteClientModal')
@@ -367,7 +368,6 @@ export default {
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .active {
   @apply bg-blue-50;
