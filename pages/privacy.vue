@@ -4,7 +4,7 @@
       src="https://getwelp-files.s3.us-west-2.amazonaws.com/logos/v1/logo.png"
       class="w-20"
     />
-    <div class="text-center lg:p-12  sm:p-6 bg-green-100 rounded-lg my-5">
+    <div class="text-center p-10 md:p-6 bg-green-100 rounded-lg my-5">
       <h5 class="text-5xl font-bold">Privacy Policy</h5>
       <p class="text-sm text-grey mt-2">Last updated: April 08, 2022</p>
     </div>
