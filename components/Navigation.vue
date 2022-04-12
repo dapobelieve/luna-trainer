@@ -100,12 +100,12 @@
                           Session
                         </span>
                       </button>
-                      <button class="hover:bg-blue-50 py-2 pl-3">
+                      <!-- <button class="hover:bg-blue-50 py-2 pl-3">
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-link mr-3 text-gray-500"></i>
                           Payment Link
                         </span>
-                      </button>
+                      </button> -->
                     </div>
                   </div>
                 </ClickOutside>
@@ -222,11 +222,11 @@ export default {
           title: 'Payment',
           path: 'payments-requests-sent'
         },
-        {
-          icon: 'fi-rr-chart-histogram',
-          title: 'Report',
-          path: 'reports-financials'
-        },
+        // {
+        //   icon: 'fi-rr-chart-histogram',
+        //   title: 'Report',
+        //   path: 'reports-financials'
+        // },
         {
           icon: 'fi-rr-settings',
           title: 'Settings',
@@ -285,7 +285,6 @@ export default {
       console.log('CONNECTED 🚀')
     })
     socket.on('new-notification', async (data) => {
-      console.log('socket enter ', data)
       const { type } = data
       if (type === 'LOGIN_WITH_QR') {
         this.$nuxt.$emit('device-paired')
@@ -296,7 +295,7 @@ export default {
           this.$lunaToast.show(`${data.data.firstName} just accepted your invite`)
           break
         case 'PAYMENT_ACCEPTED':
-          this.$lunaToast.show('payment made')
+          this.$lunaToast.show(`${data.message}`)
           break
         case 'STRIPE_CONNECTION_SUCCESSFUL':
           await this.getPaymentMethods()
