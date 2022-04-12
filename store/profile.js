@@ -120,13 +120,10 @@ export const actions = {
         return response
       })
   },
-  updateProfile ({ commit }, payload) {
-    return this.$axios
-      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
-      .then((response) => {
-        commit('SET_USER', response.data)
-        return response
-      })
+  async updateProfile ({ dispatch, commit }, payload) {
+    let res = await this.$axios.$put(`${process.env.BASEURL_HOST}/profile`, payload)
+    await dispatch('getUserProfile')
+    return res.data
   },
   async getUserProfile ({ commit }) {
     const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/profile`)
@@ -153,10 +150,11 @@ export const actions = {
       `${process.env.BASEURL_HOST}/profile/services`
     )
   },
-  async deleteService ({ commit }, serviceId) {
-    return await this.$axios.$delete(
+  async deleteService ({ dispatch, commit }, serviceId) {
+    let res = await this.$axios.$delete(
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
     )
+    await dispatch('getUserProfile')
   },
   // reporting should have its own store
   async clientReportSummary () {
@@ -174,5 +172,6 @@ export const actions = {
 }
 export const getters = {
   getLoading: state => state.loading,
-  getUser: state => state.user
+  getUser: state => state.user,
+  getServices: state => state.user.services,
 }

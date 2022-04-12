@@ -84,6 +84,7 @@ import ViewImageModal from '~/components/messages/ViewImageModal.vue'
 
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
+  name: 'default',
   components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
