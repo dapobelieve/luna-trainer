@@ -45,16 +45,10 @@ export default {
     prop: 'value',
     event: 'change'
   },
-  mounted(){
-    console.log(this.options)
-  },
   props: {
     taggable: {
       type: Boolean,
       default: false
-    },
-    label: {
-      type: String,
     },
     multiple: {
       type: Boolean,
@@ -66,7 +60,7 @@ export default {
     },
     label: {
       type: String,
-      default: false
+      default: ""
     },
     placeholder: {
       type: String,

@@ -65,7 +65,8 @@ export default {
     SUCCESS_URL: process.env.SUCCESS_URL,
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     SENDBIRD_APP_ID: process.env.SENDBIRD_APP_ID,
-    REPORTING_HOST: process.env.REPORTING_HOST
+    REPORTING_HOST: process.env.REPORTING_HOST,
+    SEARCH_HOST: process.env.SEARCH_HOST,
   },
   loading: '~/components/loading.vue',
   buildModules: [

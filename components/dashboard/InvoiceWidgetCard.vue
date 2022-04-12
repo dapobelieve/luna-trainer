@@ -1,77 +1,137 @@
 <template>
-  <div class="px-4 cursor-pointer flex items-center mb-4 mt-6">
-    <div class="flex items-start">
-      <div class="relative w-12 mr-4 flex-shrink-0">
-        <template>
-          <div v-if="invoiceCustomerAvatar.indexOf('http')" class="h-12 w-12 rounded-full bg-green-50 inline-flex items-center justify-center font-medium">
-            {{ invoiceCustomerAvatar }}
-          </div>
-          <img v-else :src="invoiceCustomerAvatar" class="h-12 w-12 rounded-full">
-        </template>
-        <img class="absolute rounded-full shadow-md bottom-0 right-0" src="~/assets/img/billing/bank.svg">
+  <div
+    class="px-4 flex cursor-pointer contents-center justify-between mb-4 mt-6"
+  >
+    <div class="flex items-center justify-between">
+      <div class="mr-3">
+        <i
+          class="circled-icon bg-amber-100 fi-rr-bell-ring text-xl text-amber-500"
+          v-if="invoiceStatus == 'paid_awaiting_confirmation'"
+        ></i>
+        <i
+          class="circled-icon bg-red-50 fi-rr-time-past text-xl text-red-500"
+          v-if="invoiceStatus == 'overdue'"
+        ></i>
+        <i
+          class="circled-icon bg-blue-50 fi-rr-bank text-xl text-blue-500"
+          v-if="invoiceStatus == 'paid' && nonWirePaymentTypes.includes(paymentType)"
+        ></i>
+        <div
+          class="circled-icon bg-blue-50 p-1"
+          v-if="
+            invoiceStatus == 'paid' && !nonWirePaymentTypes.includes(paymentType)
+          "
+        >
+          <img
+            class="h-2 inline-block"
+            src="~/assets/img/stripe.png"
+            alt="stripe logo"
+          />
+        </div>
       </div>
       <div>
-        <h3>{{ computeMessage }}</h3>
-        <!--        <p class="text-sm mt-">Last sent: 6th June</p>-->
-        <p class="text-sm text-gray-400">
-          {{ $dateFns.format(invoiceCreatedAt, 'do MMMM') }}
+        <h2 class="text-lg font-bold">{{ invoice.customerId.name }}</h2>
+        <p class="text-gray-500  text-sm" v-if="invoiceStatus == 'paid'">
+          <b>{{ invoiceAmount | amount }}</b> paid on
+          <b>{{ paymentRecievedDate | date }}</b>
+        </p>
+        <p
+          class="text-gray-500 text-sm"
+          v-else-if="invoiceStatus == 'paid_awaiting_confirmation'"
+        >
+          Requesting confirmation of <b>{{ invoiceAmount | amount }}</b> on
+          <b>{{ paymentRecievedDate | date }}</b>
+        </p>
+        <p class="text-gray-500 text-sm" v-else-if="invoiceStatus == 'overdue'">
+          Overdue {{ this.invoice.dueDate | howLongAgo }}
         </p>
       </div>
     </div>
-    <div class="ml-auto">
-      <button v-if="invoiceStatus === 'overdue'" class="border px-2" @click="sendNotification">
-        <i class="fi-rr-bell-ring text-primary-color mt-1"></i>
+    <div>
+      <button 
+          class="button-outline text-sm" 
+          v-if="invoiceStatus === 'overdue'"
+          @click="sendReminder"
+        >
+         <SingleLoader v-if="loading" />
+        <i class="fi-rr-alarm-clock" v-else/> 
       </button>
-      <button v-else>
-        <i class="fi-rr-angle-small-right"></i>
+      <button
+        class="button-outline text-sm"
+        v-if="invoiceStatus === 'paid_awaiting_confirmation'"
+        alt="Mark as paid"
+        @click="markInvoiceAsPaid"
+      >
+        <SingleLoader v-if="loading" />
+        <i class="fi-rr-check" v-else />
       </button>
     </div>
   </div>
 </template>
 
 <script>
+import PaymentReciept from "../invoices/PaymentReciept";
 export default {
-  props: ['invoice'],
+  data() {
+    return {
+      nonWirePaymentTypes: ["bank", "cash","transfer","check","credit","TRANSFER","CASH"],
+      loading: false,
+    };
+  },
+  props: ["invoice"],
   computed: {
-    invoiceCreatedAt () {
-      return this.invoice.createdAt
+    invoiceCustomerAvatar() {
+      return this.invoice.customerId?.imageURL || this.invoice.customerId;
     },
-    invoiceCustomerAvatar () {
-      return this.invoice.customerId?.imageURL || `${this.invoice.customerId.firstName?.charAt(0)} ${this.invoice.customerId.lastName?.charAt(0) || ''}`
+    invoiceAmount() {
+      return this.invoice.total;
     },
-    invoiceAmount () {
-      return new Intl.NumberFormat().format(this.invoice.total)
+    invoiceStatus() {
+      return this.invoice && this.invoice.status;
     },
-    invoicePaymentMethod () {
-      const type = this.invoice.supportedPaymentMethods[0].type.charAt(0).toUpperCase() + this.invoice.supportedPaymentMethods[0].type.slice(1)
-      return { ...this.invoice.supportedPaymentMethods[0], type }
+    paymentReciept() {
+      return this.invoice.paymentReceipts.find(reciept => reciept.status != "cancelled");
     },
-    invoiceStatus () {
-      return this.invoice && this.invoice.status
+    paymentRecievedDate() {
+      return this.paymentReciept.paymentDate;
     },
-    invoiceCustomer () {
-      return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
+    paymentType() {
+      return this.paymentReciept.paymentType;
     },
-    computeMessage () {
-      let msg
-      if (this.invoiceStatus === 'pending') { msg = `${this.invoicePaymentMethod.type} Payment of ${this.invoiceAmount} from ${this.invoiceCustomer}` } else if (this.invoiceStatus === 'overdue') { msg = `You have an overdue ${this.invoicePaymentMethod.type} payment of ${this.invoiceAmount} from  ${this.invoiceCustomer}` } else if (this.invoiceStatus === 'paid') { msg = `${this.invoicePaymentMethod.type} Payment of ${this.invoiceAmount} from  ${this.invoiceCustomer}` }
-
-      return msg
-    }
   },
   methods: {
-    async sendNotification () {
+    async sendReminder() {
       try {
-        await this.$store.dispatch('invoice/notify', { id: this.invoice._id })
-        this.$lunaToast.show('Reminder sent')
-      } catch (e) {
+        this.loading =true
+        await this.$store.dispatch("invoice/notify", { id: this.invoice._id });
+        this.$lunaToast.show("Reminder sent");
+        this.loading = false
+      } catch (e) {}
+    },
+    async markInvoiceAsPaid() {
+      try {
+        this.loading = true;
+        this.$modal.show(
+          PaymentReciept,
+          {
+            invoice: this.invoice,
+          },
+          {
+            height: "auto",
+            width: 512,
+            adaptive: true,
+          }
+        );
+      } catch (e) {}
 
-      }
-    }
-  }
-}
+      this.loading = false;
+    },
+  },
+};
 </script>
 
 <style scoped>
-
+.circled-icon {
+  @apply h-12 p-3 w-12 rounded-full inline-flex justify-center items-center;
+}
 </style>

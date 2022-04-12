@@ -29,7 +29,7 @@
         </div>
       </div>
     </div>
-    <div class="w-full px-1">
+    <div v-if="false" class="w-full px-1">
       <ClickOutside v-if="show" :do="() => openCalendarSelector = false">
         <div class="relative">
           <transition

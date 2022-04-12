@@ -45,10 +45,10 @@
         </button>
       </div>
     </div>
-    <modal name="service-modal" height="auto" :adaptive="true">
+    <modal :click-to-close="false" name="service-modal" height="auto" :adaptive="true">
       <invoices-add-new-invoice-service :service-object="selectedService" class="m-6" @close-modal="close">
         <template v-slot:title>
-          {{ selectedService ? 'Edit Service' : 'Add Service' }}
+          {{ Object.keys(selectedService).length > 0 ? 'Edit Service' : 'Add Service' }}
         </template>
       </invoices-add-new-invoice-service>
     </modal>
@@ -60,28 +60,27 @@ import currency from '~/utils/currency'
 export default {
   props: ['serviceObject'],
   async asyncData (ctx) {
-    const res = await ctx.store.dispatch('profile/getServices')
-    return { services: res.data }
+    await ctx.store.dispatch('profile/getUserProfile')
   },
   data () {
     return {
       currency,
-      selectedService: null,
-      services: []
+      selectedService: {},
+    }
+  },
+  computed: {
+    services () {
+      return this.$store.state.profile.user.services || []
     }
   },
   methods: {
-    close (newObject = null) {
-      if (newObject) {
-        this.services.unshift(newObject)
-      }
-      this.selectedService = null
+    close () {
+      this.selectedService = {}
       this.$modal.hide('service-modal')
     },
     async removeService (service) {
       try {
         await this.$store.dispatch('profile/deleteService', service._id)
-        this.services.splice(this.services.indexOf(service), 1)
         this.$lunaToast.success('Service deleted')
       } catch (e) {
         this.$lunaToast.error(e)

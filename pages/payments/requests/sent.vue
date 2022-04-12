@@ -18,12 +18,12 @@
             </span>
           </div>
           <div class="flex">
-            <SearchDropdown :fields="searchFields" :options="options" @field-selected="searchField=$event" @selected="searchInvoice">
+            <SearchDropdown v-model="searchField" :fields="searchFields" :options="options" @reset="resetTable" @selected="searchInvoice">
               <template v-slot:selected-option="{selected}">
                 <span v-if="searchField === 'Name'" class="flex">
-                  <ClientAvatar :height="1" :width="1" :client-info="{firstName: selected.name.split(' ')[0], lastName: selected.name.split(' ')[1]}" />
+                  <ClientAvatar :height="1" :width="1" :client-info="{firstName: selected.firstName}" />
                   <span class="text-xs text-gray-700 ml-2">
-                    {{ selected.name.split(' ')[0] }}  {{ selected.name.split(' ')[1] }}
+                    {{ selected.firstName }}
                   </span>
                 </span>
                 <span v-else>
@@ -33,9 +33,9 @@
               <template v-slot:option="{option}">
                 <div class="flex client items-center client py-2 px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
                   <div v-if="searchField === 'Name'" class="flex">
-                    <ClientAvatar :height="1" :width="1" :client-info="{firstName: option.name.split(' ')[0], lastName: option.name.split(' ')[1]}" />
+                    <ClientAvatar :height="1" :width="1" :client-info="{firstName: option.firstName}" />
                     <span class="text-xs text-gray-700 ml-2">
-                      {{ option.name.split(' ')[0] }}  {{ option.name.split(' ')[1] }}
+                      {{ option.firstName }} 
                     </span>
                   </div>
                   <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
@@ -57,19 +57,19 @@
                       <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
                     </div>
                   </th>
-                  <th class="py-4 font-medium text-left px-6 w-3/6">
+                  <th class="py-4 font-medium text-left px-6 w-5/12">
                     Name
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     INVOICE#
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     CREATED
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     AMOUNT
                   </th>
-                  <th class="py-4 font-medium px-6">
+                  <th class="py-4 font-medium text-left px-6">
                     STATUS
                   </th>
                 </tr>
@@ -85,7 +85,7 @@
                   <td class="w-12 py-4 font-medium pl-3">
                     <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
                   </td>
-                  <td class="py-4 text-left px-6 w-3/6">
+                  <td class="py-4 text-left px-6">
                     <div class="flex items-center">
                       <ClientAvatar :client-info="{firstName:data.customerId.name.split(' ')[0], lastName: data.customerId.name.split(' ')[1] }" />
                       <div class="ml-4">
@@ -96,22 +96,22 @@
                       </div>
                     </div>
                   </td>
-                  <td class="py-4  px-6">
+                  <td class="py-4 px-6 text-left">
                     <div class="text-base text-gray-700">
                       {{ data.invoiceNo }}
                     </div>
                   </td>
-                  <td class="py-4  px-6">
+                  <td class="py-4 px-6 text-left">
                     <div class="text-xs md:text-base text-gray-700">
                       {{ data.createdAt | date }}
                     </div>
                   </td>
-                  <td class="py-4 px-6">
+                  <td class="py-4 px-6 text-left">
                     <div class="text-sm md:text-base text-gray-700">
-                      {{ "\uFFE1" }}{{ new Intl.NumberFormat().format(data.total) }}
+                      {{ data.total | amount }}
                     </div>
                   </td>
-                  <td class="py-4 px-6">
+                  <td class="py-4 px-6 text-left">
                     <InvoiceStatusComponent :status="data.status" />
                   </td>
                 </tr>
@@ -155,13 +155,14 @@ export default {
       quickSearchQuery: '',
       exporting: false,
       options: [],
+      allClients: [],
       checkedItems: [],
-      invoices: []
     }
   },
   computed: {
     ...mapGetters({
-      hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods'
+      hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
+      invoices: 'invoice/getAllInvoices',
     }),
     filteredRecords () {
       let records = this.invoices
@@ -177,12 +178,37 @@ export default {
     }
   },
   watch: {
-    searchField: {
+    "$route": {
+      immediate: true,
+      async handler (val) {
+        if(Object.keys(val.query).length > 0) {
+          if(val.query.name) {
+            this.options = this.filteredRecords.map(invoice => invoice.customerId)
+            await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', customerUserId: val.query.name })
+            this.searchField = 'Name'
+            this.options = this.allClients
+          }else if(val.query.status) {
+            await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', status: val.query.status})
+            this.searchField = 'Status'
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Paid Awaiting Confirmation']
+          }
+        }else {
+          let res = await this.$store.dispatch('client/allConciseClients')
+          this.allClients = res.data
+          this.options = this.allClients
+          await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+          
+        }        
+      },
+      deep: true,
+    },
+    "searchField": {
+      immediate: true,
       handler (newVal) {
         if (newVal === 'Name') {
-          this.options = this.filteredRecords.map(invoice => invoice.customerId)
+          this.options = this.allClients
         } else if (newVal === 'Status') {
-          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding']
+          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Paid Awaiting Confirmation']
         }
       }
     },
@@ -198,37 +224,22 @@ export default {
       }
     }
   },
-  async mounted (ctx) {
-    try {
-      this.checkPaymentMethods()
-      const res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-      this.invoices = res
-
-      this.options = this.filteredRecords.map(invoice => invoice.customerId)
-    } catch (e) {
-      console.log({ e })
-    }
-  },
   methods: {
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
     async checkPaymentMethods () {
-      // if the user does not have any payment method we show a welcome and then
-      // take this to a middleware
+      
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
     },
+    async resetTable() {
+      await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+      this.$router.push({ name: 'payments-requests-sent'})
+    },
     async searchInvoice (option) {
-      try {
-        let res
-        if (this.searchField === 'Name') {
-          res = await this.$store.dispatch('invoice/getFetchCustomerInvoice', { workflowStatus: 'sent', customerId: option._id })
-          this.invoices = [...res.data]
-        } else {
-          res = await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: option.toLowerCase() })
-          this.invoices = res
-        }
-      } catch (e) {
-        console.log({ e })
+      if (this.searchField === 'Name') {
+        this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
+      } else {
+        this.$router.push({ name: 'payments-requests-sent', query: { status: option.toLowerCase() } })
       }
     },
     async archive () {
@@ -264,6 +275,13 @@ export default {
       link.setAttribute('download', 'Sent_Invoices.csv')
       document.body.appendChild(link)
       link.click()
+    }
+  },
+  async beforeMount () {
+    try {
+      await this.checkPaymentMethods()
+    } catch (e) {
+      console.log({ e })
     }
   }
 }

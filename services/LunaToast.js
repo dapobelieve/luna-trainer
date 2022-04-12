@@ -85,7 +85,7 @@ export class LunaToast {
     }, currentOptions.timeout)
 
     toast.addEventListener('mouseover', () => {
-      clearTimeout(timeout)
+      // clearTimeout(timeout)
     })
   }
 
@@ -117,7 +117,7 @@ export class LunaToast {
   }
 
   #composeToast = (options) => {
-    let toastClasses = 'luna-toast fixed z-1000 flex items-start bg-white border p-4 rounded-xl shadow-lg slideIn'
+    let toastClasses = 'luna-toast fixed z-1000 flex items-start bg-white border p-4 pb-2 rounded-xl shadow-lg slideIn'
     const toast = this.#createElement('div', toastClasses)
     toastClasses += ' ' + options.position + ' ' + options.position.split('-')[0]
     toast.style.width = '20rem'
@@ -136,6 +136,7 @@ export class LunaToast {
       body.appendChild(h3)
     }
     const p = this.#createElement('p', 'text-gray-600')
+    p.style.wordBreak = 'break-all'
     p.innerText = options.message
     body.appendChild(p)
     if (options.actions) {

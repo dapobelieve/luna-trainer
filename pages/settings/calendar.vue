@@ -11,7 +11,7 @@
         <div class="flex mb-6">
           <div>
             <h6 class="text-lg font-medium">
-              GetWelp
+              GoLuna
             </h6>
             <span class="text-gray-500 text-sm">{{ $auth.user.email }}</span>
           </div>
@@ -20,7 +20,7 @@
             <CalendarActions />
           </div>
         </div>
-        <SchedulerSyncCalendarItem provider="google" @connect="connectToCalendar">
+        <!-- <SchedulerSyncCalendarItem provider="google" @connect="connectToCalendar">
           <template v-slot:content>
             <div>
               <h6 class="text-lg font-medium flex">
@@ -29,7 +29,7 @@
               <span class="text-gray-500 text-sm">Brief description about this feature</span>
             </div>
           </template>
-        </SchedulerSyncCalendarItem>
+        </SchedulerSyncCalendarItem> -->
       </div>
     </div>
   </async-view>

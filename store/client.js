@@ -62,7 +62,10 @@ export const actions = {
         return response
       })
   },
-  fetchAllClients({ commit, dispatch }, payload) {
+  allConciseClients() {
+    return this.$axios.$get(`${process.env.BASEURL_HOST}/client/concise`)
+  },
+  fetchAllClients ({ commit, dispatch }, payload) {
     const stat =
       payload !== undefined && 'status' in payload ? payload.status : ''
     const currPage =

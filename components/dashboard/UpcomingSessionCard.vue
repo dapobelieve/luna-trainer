@@ -29,7 +29,7 @@ export default {
     },
     color: {
       type: String,
-      default: 'pink'
+      default: 'blue'
     }
   },
   methods: {

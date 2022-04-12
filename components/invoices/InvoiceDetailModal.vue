@@ -123,12 +123,12 @@
               <span v-else>Send Nudge</span>
             </button>
 
-            <button class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
+            <button v-if="invoice.paymentReceipts.length > 0" class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
               Mark as Paid
             </button>
           </template>
           <template v-else>
-            <button class="text-primary-color px-4 py-2 border">
+            <button @click="markUnPaid" class="text-primary-color px-4 py-2 border">
               Mark as unpaid
             </button>
           </template>
@@ -158,7 +158,7 @@
         </div>
         <div class="mb-6">
           <label class="">Payment Method</label>
-          <GwSelector v-model="paidObj.paymentType" placeholder="Select payment method" class="w-full repeat-selector" :options="paymentMethods">
+          <GwSelector v-model="paidObj.paymentType" label="label" placeholder="Select payment method" class="w-full repeat-selector" :options="paymentMethods">
             <template v-slot:selectedOption="{selected}">
               <div class="flex items-center">
                 <span class="text-gray-700">{{ selected.label }}</span>
@@ -172,7 +172,7 @@
           </GwSelector>
         </div>
         <div class="flex">
-          <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="createReceipt">
+          <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="updateInvoice">
             <SingleLoader v-if="loading" />
             <span v-else>Mark as Paid</span>
           </button>
@@ -199,16 +199,12 @@ export default {
       markAsPaid: false,
       paymentMethods: [
         {
-          type: 'bank',
-          label: 'Bank'
+          type: 'TRANSFER',
+          label: 'Bank Transfer'
         },
         {
-          type: 'stripe',
-          label: 'Stripe'
-        },
-        {
-          type: 'paypal',
-          label: 'Paypal'
+          type: 'CASH',
+          label: 'Cash'
         }
       ],
       paidObj: {
@@ -249,13 +245,29 @@ export default {
     },
     invoiceCustomer () {
       return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
-    }
+    },
+    validPaymentReceipt() {
+      const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
+      return acceptedInvoice
+    },
   },
   methods: {
-    async createReceipt () {
+    async markUnPaid() {
+      const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
+      try {
+        await this.$store.dispatch('payment-methods/markAsUnPaid', {
+          id: acceptedInvoice._id
+        })
+        this.$lunaToast.success('Invoice updated')
+        this.close()
+      }catch (e) {
+        console.log(e)
+      }
+    },
+    async updateInvoice () {
       this.loading = true
       try {
-        await this.$store.dispatch('payment-methods/createPaymentReceipt', {
+        await this.$store.dispatch('payment-methods/markAsPaid', {
           paymentDate: this.$dateFns.format(this.paidObj.paymentDate, 'yyyy-MM-dd'),
           paymentType: this.paidObj.paymentType.type,
           invoiceId: this.invoice._id

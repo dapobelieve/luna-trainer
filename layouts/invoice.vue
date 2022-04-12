@@ -37,7 +37,6 @@ export default {
     }
   },
   created () {
-    console.log(this.$router)
     this.$nuxt.$on('autosaving-invoice', () => {
       this.showAutosavingText = true
     })

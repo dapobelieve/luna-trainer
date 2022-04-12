@@ -10,9 +10,15 @@ export const mutations = {
 }
 
 export const actions = {
-  async createPaymentReceipt (_, receipt) {
-    await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt`, receipt)
-    return true
+  async markAsPaid ({dispatch}, receipt) {
+    const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt/confirm`, receipt)
+    await dispatch('invoice/getInvoices', null, {root: true})
+    return res
+  },
+  async markAsUnPaid ({dispatch}, payload) {
+    const res = await this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/payment-receipt/${payload.id}/cancel`)
+    await dispatch('invoice/getInvoices', null, {root: true})
+    return res
   },
   async getPaymentMethods ({ commit, dispatch }) {
     const { data } = await this.$axios.get(`${process.env.PAYMENT_HOST_URL}/payment-method`)
