@@ -17,7 +17,7 @@ export default {
       statuses: {
         paid: {
           text: 'text-blue-500',
-          bg: 'bg-blue-50'
+          bg: 'bg-green-50'
         },
         overdue: {
           text: 'text-pink-500',

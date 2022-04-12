@@ -208,7 +208,7 @@ export default {
         if (newVal === 'Name') {
           this.options = this.allClients
         } else if (newVal === 'Status') {
-          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding']
+          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Paid Awaiting Confirmation']
         }
       }
     },

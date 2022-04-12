@@ -171,11 +171,17 @@ export default {
     },
   },
   mounted() {
+     const payments = window.localStorage.getItem("invoice-tour")
+    if (payments) {
+      this.$router?.push({query: {new: true}})
+    }
+  },
+  updated() {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
     }
-  }
+  },
 }
 </script>
 

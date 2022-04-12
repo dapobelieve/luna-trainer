@@ -224,6 +224,7 @@ export default {
       let query = Object.assign({}, this.$route.query);
       delete query.new;
       this.$router.replace({ query });
+      window.localStorage.removeItem("dashboard-tour")
     },
     tourItems () {
       if (this.doNotShowHints) return
