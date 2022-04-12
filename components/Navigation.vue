@@ -50,17 +50,19 @@
                 />
               </div>
               <div id="new-action" class="relative">
-                <button
-                  style="height: 35px; padding-bottom: 0"
-                  class="rounded-lg px-0 pl-2 w-full button-fill h-4"
-                  @click="showQuickMenu = true"
-                >
-                  <div
-                    class="w-full new-button flex justify-start items-center font-bold"
-                  >
-                    <i class="fi-rr-plus mr-4"></i> New
-                  </div>
-                </button>
+                <div>
+                   <button
+                      style="height: 35px; padding-bottom: 0"
+                      class="rounded-lg px-0 pl-2 w-full button-fill h-4"
+                      @click="showQuickMenu = true"
+                    >
+                      <div
+                        class="w-full new-button flex justify-start items-center font-bold"
+                      >
+                        <i class="fi-rr-plus mr-4"></i> New
+                      </div>
+                    </button>
+                </div>
                 <ClickOutside
                   :do="
                     (e) => {
@@ -100,12 +102,6 @@
                           Session
                         </span>
                       </button>
-                      <!-- <button class="hover:bg-blue-50 py-2 pl-3">
-                        <span class="w-full flex mt-1">
-                          <i class="fi-rr-link mr-3 text-gray-500"></i>
-                          Payment Link
-                        </span>
-                      </button> -->
                     </div>
                   </div>
                 </ClickOutside>
@@ -176,7 +172,7 @@
         </div>
       </div>
     </nav>
-    <LunaSearch />
+    <LunaSearch @close="$modal.hide('luna-search-modal')" />
   </div>
 </template>
 
@@ -261,15 +257,21 @@ export default {
       return 'welp'
     }
   },
+  watch: {
+    $route: {
+      handler (newRouteValue) {
+        this.getNav(newRouteValue)
+      },
+      deep: true
+    }
+  },
   async beforeMount () {
     this.getNav(this.$route)
-
     try {
       await this.$store.dispatch('notifications/fetchNotifications')
     } catch (e) {
       console.log(e)
     }
-
     const url = new URL(process.env.BASEURL_HOST)
     // eslint-disable-next-line
     const socket = io(`${url.origin}`, {
@@ -280,7 +282,6 @@ export default {
           .split('Bearer ')[1]
       }
     })
-
     socket.on('connect', () => {
       console.log('CONNECTED 🚀')
     })
@@ -297,6 +298,10 @@ export default {
         case 'PAYMENT_ACCEPTED':
           this.$lunaToast.show(`${data.message}`)
           break
+        case 'NEW_PAYMENT_RECEIPT':
+          this.$lunaToast.show(`${data.message}`)
+          this.getInvoices()
+          break
         case 'STRIPE_CONNECTION_SUCCESSFUL':
           await this.getPaymentMethods()
           this.$lunaToast.show('Stripe has just connected successful')
@@ -307,7 +312,6 @@ export default {
       }
       this.$store.commit('notifications/setNotification', data)
     })
-
     socket.on('CALENDAR_SYNC', () => {})
   },
   methods: {
@@ -317,6 +321,12 @@ export default {
           return 'reporting-hint'
         case 'Settings':
           return 'settings-hint'
+        case 'Messages':
+          return 'message-hint-nav'
+        case 'Schedule':
+          return 'session-st-nav'
+        case 'Payment':
+          return 'billing-hint-nav'
         default:
           return ''
       }
@@ -336,12 +346,12 @@ export default {
     },
     getNav (e) {
       const paths = e.path?.split('/')
-
       if (paths.length >= 1) {
         this.currentLink = paths[1]
       }
     },
     ...mapActions({
+      getInvoices: 'invoice/getInvoices',
       logOut: 'authorize/logOut',
       getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
@@ -354,30 +364,9 @@ export default {
     hideSidebarMenu () {
       this.$nuxt.$emit('hideSidebarMenu')
     }
-  },
-  watch: {
-    $route: {
-      handler (newRouteValue) {
-        this.getNav(newRouteValue)
-      },
-      deep: true
-    }
-  },
-  mounted () {
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 27) {
-        this.$modal.hide('luna-search-modal')
-      }
-    })
-    document.addEventListener('keydown', (e) => {
-      if (e.keyCode === 75 && e.metaKey) {
-        this.$modal.show('luna-search-modal')
-      }
-    })
   }
 }
 </script>
-
 <style lang="scss" scoped>
 .active {
   @apply bg-blue-50;
