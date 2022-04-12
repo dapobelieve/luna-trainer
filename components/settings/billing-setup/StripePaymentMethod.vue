@@ -91,17 +91,17 @@ export default {
       setDefaultPaymentMethod: 'setDefaultPaymentMethod'
     }),
     async toggleStripeConnection () {
+      this.loading = true
       if (!this.connected) { this.connectToStripeAndRedirect() } else { this.disconnectFromStripe() }
+      this.loading = false
     },
     async connectToStripeAndRedirect () {
       try {
-        this.loading = true
         const connectionUrl = await this.connectToStripe(location.href)
         window.open(connectionUrl)
       } catch (error) {
         this.$lunaToast.error('Stripe connection failed '+ error.message)
       }
-      this.loading = false
     },
 
     async enable (e) {

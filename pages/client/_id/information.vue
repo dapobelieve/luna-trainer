@@ -2,10 +2,11 @@
   <AsyncView>
     <div
       v-if="clientInfo"
-      class="grid pb-4 bg-white border rounded-xl w-full min-h-screen"
+      style="height: calc(100vh - 90px)"
+      class="grid border rounded-xl w-full overflow-y-auto"
     >
       <form>
-        <div class="bg-white sticky top-14 rounded-xl" style="z-index: 1">
+        <div class="bg-white sticky top-14 min-h-full rounded-xl flex flex-col" style="z-index: 1">
           <h2 class="text-xl py-4 px-3.5">
             Information
           </h2>
@@ -44,9 +45,7 @@
                 v-model="clientInfo"
                 @showButtons="showButtons = true"
               />
-              <div v-if="tab === 3">
-                <ClientHealthInformation v-if="tab === 3" />
-              </div>
+              <ClientHealthInformation v-if="tab === 3" />
             </template>
           </TabbedItems>
         </div>

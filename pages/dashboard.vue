@@ -87,37 +87,16 @@
           </button>
         </template>
       </NotificationsModal>
-      <modal name="welcome-modal" :height="500">
-        <div>
-          <div class="space"/>
-          <div class="grid m-6">
-            <div class="py-0 text-justify">
-              <div class="text-left mb-5 font-light text-2xl">
-                <h3>Welcome to Luna</h3>
-              </div>
-              <p class="mb-8 w-50 text-justify">
-                Start the tour to discover how easy it is to do everything in Luna with -
-                tips and tricks on how to save yourself time on basic
-                business admin, so you can focus on doing what you love.
-              </p>
-              <div class="flex justify-left gap-5">
-                 <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="() => {
-                   closeModal()
-                   this.doNotShowHints = true
-                   }">
-                   Explore by myself
-                </button>
-                <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="() => {
-                   this.tourItems();
-                  closeModal()
-                  }">
-                  Start the tour
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </modal>
+     <DashboardWelcomeModal
+      :exitTour="() => {
+          closeModal()
+          this.doNotShowHints = true
+        }"
+        :takeTour="() => {
+          this.tourItems();
+          closeModal()
+        }" 
+      />
     </section>
   </main>
 </template>
@@ -130,9 +109,11 @@ import WeekView from '~/components/dashboard/WeekView'
 import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
 import InvoiceWidget from '~/components/dashboard/InvoiceWidget'
 import MessageWidget from '~/components/dashboard/MessageWidget'
+import DashboardWelcomeModal from '~/components/modals/DashboardWelcomeModal.vue'
+import {dashboardTourSteps} from '~/tour/DashboardTourSteps'
 export default {
   name: 'Dashboard',
-  components: { MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard },
+  components: { MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard, DashboardWelcomeModal },
   layout: 'dashboard',
   async asyncData ({ store }) {
     const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
@@ -186,7 +167,15 @@ export default {
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
     if (newUser) {
-      this.$modal.show('welcome-modal')
+
+      window.localStorage.setItem("dashboard-tour", new Date())
+      window.localStorage.setItem("session-tour", new Date())
+      window.localStorage.setItem("client-tour", new Date())
+      window.localStorage.setItem("invoice-tour", new Date())
+
+      if (window.localStorage.getItem("dashboard-tour")) {
+        this.$modal.show('welcome-modal')
+      }
     } else {
       this.$lunaToast.show(
         'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
@@ -235,84 +224,17 @@ export default {
       let query = Object.assign({}, this.$route.query);
       delete query.new;
       this.$router.replace({ query });
+      window.localStorage.removeItem("dashboard-tour")
     },
     tourItems () {
       if (this.doNotShowHints) return
     
-      const self = this;
-      this.$intro()
-        .setOptions({
-          ...{
-            nextLabel: 'Next',
-            prevLabel: 'Back',
-            skipLabel: '',
-            doneLabel: 'End tour',
-            hidePrev: true,
-            hideNext: false,
-            nextToDone: true,
-            tooltipPosition: 'bottom',
-            tooltipClass: '',
-            highlightClass: '',
-            exitOnEsc: true,
-            exitOnOverlayClick: true,
-            showStepNumbers: false,
-            keyboardNavigation: true,
-            showButtons: true,
-            showBullets: true,
-            showProgress: false,
-            scrollToElement: true,
-            scrollTo: 'element',
-            scrollPadding: 30,
-            overlayOpacity: 0.5,
-            autoPosition: true,
-            positionPrecedence: ['bottom', 'top', 'right', 'left'],
-            disableInteraction: false,
-            helperElementPadding: 0,
-            hintPosition: 'top-middle',
-            hintAnimation: true,
-            buttonClass: 'bg-white rounded px-6 py-1 text-blue-500',
-            progressBarAdditionalClass: false
-          },
-          steps: [
-            {
-              element: document.querySelector('#new-action'),
-              intro: 'If you quickly want to add a new client, create a new payment request, or schedule a new session, you can do that in one click here.'
-            },
-            {
-              element: document.querySelector('#home-nav'),
-              intro: 'This is your home dashboard. You can see everything you need to action from here.'
-            },
-            {
-              element: document.querySelector('#home-nav'),
-              intro: 'Within your left navigation menu, you can easily jump into any of your main pages. '
-            },
-            {
-              element: document.querySelector('#session-st'),
-              intro: 'From here you can see all your sessions for the day - schedule a new session, or click view all to jump into your full schedule. '
-            },
-            {
-              element: document.querySelector('#message-hint'),
-              intro: 'Here you will see all unread messages. Just click on an any message to jump into your clients profile to reply and see any relevant notes. '
-            },
-            {
-              element: document.querySelector('#billing-hint'),
-              intro: 'Here within payments, you can see all notifications on outstanding or recieved payments. You can quickly send a nudge to your clients to remind them to pay you. '
-            },
-            {
-              element: document.querySelector('#settings-hint'),
-              intro: 'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here. '
-            },
-            {
-              element: document.querySelector('#reporting-hint'),
-              intro: 'Within reporting you can see a simple overview of how your business is performing.'
-            }
-          ]
+      dashboardTourSteps(this.$intro())
+        .oncomplete(()=> {
+          this.removeQueryParams()
         })
-        .oncomplete(function () {
-          self.removeQueryParams()
-        })
-        .onexit(function () {
-          self.removeQueryParams()
+        .onexit(() =>{
+          this.removeQueryParams()
         })
         .start()
 
@@ -338,82 +260,7 @@ export default {
   }
 }
 </script>
+
 <style>
-.vm--overlay{
-  background: rgba(241, 245, 249, 0.4);
-}
-.introjs-bullets{
-  text-align: left;
-  padding-left: 10px;
-}
-.introjs-bullets ul li a {
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.05);
-  background: rgba(255,255,255,0.5);
-}
-.introjs-arrow.top {
-    border-bottom-color: #3B82F6;
-}
-.introjs-arrow.bottom {
-    border-top-color: #3B82F6;
-}
-.introjs-arrow.left {
-    border-right-color: #3B82F6;
-}
-.introjs-arrow.right {
-    border-bottom-color: #3B82F6;
-}
-.introjs-tooltip-title,
-.introjs-tooltip,.introjs-floating,
-introjs-tooltipbuttons,.introjs-tooltiptext,
-.introjs-skipbutton,.introjs-tooltip-header,.introjs-tooltipbuttons{
-  background: #3B82F6;
-  border-top: 0px;
-  color: #FFF;
-}
-.introjs-bullets li > a.active {
-    width: 6px;
-    background: #FFF;
-}
-.introjs-bullets ul li a.active {
-    width: 6px;
-    background: #FFF;
-}
-</style>
-<style lang="scss" scoped>
-.space{
-  width: 100%;
-  height: 250px;
-  background: rgba(59, 130, 246, 0.05);
-}
-.introjs-tooltip {
-  background-color: #3B82F6;
-  border-radius: 12px;
-  &-header  {
-    display: none;
-  }
-  .introjs-tooltiptext {
-    color: #fff;
-    padding: 16px;
-    font-size: 14px;
-    font-weight: 400;
-  }
-  .introjs-bullets {
-    display: none;
-  }
-  .introjs-tooltipbuttons {
-    border: none;
-    a {
-      padding: 6px 16px 6px 16px;
-      color: #3B82F6;
-      background: #fff;
-      border: none;
-      border-radius: 6px;
-      font-size: 10px;
-      font-weight: 500;
-      &:focus {
-        box-shadow: none;
-      }
-    }
-  }
-}
+  @import '../assets/css/introtheme.css';
 </style>

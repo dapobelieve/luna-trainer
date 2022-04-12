@@ -214,6 +214,9 @@ import { format } from "date-fns";
 
 export default {
   name: "InvoicePayment",
+  layout: "empty",
+  middleware: "validToken",
+  auth: false,
   data() {
     return {
       loading: false,

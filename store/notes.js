@@ -4,18 +4,17 @@ export const state = () => ({
   largeScreen: false,
   addNoteModal: false,
   addingMode: true,
-  noteInView: {},
-  isLoading: false
+  noteInView: {}
 })
 
 export const mutations = {
-  isLoading (state, loadingStatus) {
-    state.isLoading = loadingStatus
+  SET_STATES (state, data) {
+    // eslint-disable-next-line array-callback-return
+    Object.keys(data).map((key) => {
+      state[key] = data[key]
+    })
   },
-  setNotes (state, notes) {
-    state.notes = notes
-  },
-  toggleModal (state, payload) {
+  TOGGLE_MODAL (state, payload) {
     state.addNoteModal = payload.status
     if ('addingMode' in payload) {
       state.addingMode = payload.addingMode
@@ -24,75 +23,62 @@ export const mutations = {
       state.noteInView = payload.note
     }
   },
-  toggleExpandModal (state, payload) {
+  TOGGLE_EXPAND_MODAL (state, payload) {
     state.largeScreen = !state.largeScreen
     state.expandModal = payload.status
   },
-  addNotes (state, details) {
+  ADD_NOTES (state, details) {
     state.notes.unshift(details)
   },
-  updateNotes (state, noteDetails) {
+  UPDATE_NOTE (state, noteDetails) {
     const noteIndex = state.notes.findIndex(n => n._id === noteDetails._id)
     state.notes.splice(noteIndex, 1, noteDetails)
   },
-  deleteSingleNote (state, noteId) {
-    const noteIndex = state.notes.findIndex(n => n.id === noteId)
+  DELETE_NOTE (state, noteId) {
+    const noteIndex = state.notes.findIndex(n => n._id === noteId)
     state.notes.splice(noteIndex, 1)
   }
 }
 
 export const actions = {
-  async fetchNotesWithStatusAndLimit ({ commit, dispatch }, payload) {
-    const currPage =
-      payload !== undefined && 'page' in payload ? payload.page : 1
-    const limit =
-      payload !== undefined && 'limit' in payload ? payload.limit : 5
-    const clientId = payload.clientId
-    dispatch('loader/startProcess', null, { root: true })
-    try {
-      const { data } = await this.$axios.$get(
-        `${process.env.BASEURL_HOST}/note?page=${currPage}&limit=${limit}&clientId=${clientId}`
-      )
-      commit('setNotes', data)
-    } catch (error) {
-      return error
+  async fetchNotes ({ commit, dispatch }, payload) {
+    const queries = {
+      page: 1,
+      limit: 5,
+      ...payload
     }
-    dispatch('loader/endProcess', null, { root: true })
+    dispatch('loader/startProcess', 'health-notes', { root: true })
+    const res = await this.$axios.$get(
+      `${process.env.BASEURL_HOST}/note`, { params: queries })
+    commit('SET_STATES', { notes: res.data })
+    dispatch('loader/endProcess', 'health-notes', { root: true })
   },
+
   async addNotes ({ state, commit }, details) {
-    try {
-      const { data } = await this.$axios.$post(
+    const { data } = await this.$axios.$post(
         `${process.env.BASEURL_HOST}/note`,
         details
-      )
-      commit('addNotes', data)
-      return data._id
-    } catch (error) {
-      console.log('error creating notes ', error)
-    }
+    )
+    commit('ADD_NOTES', data)
+    return data._id
   },
-  async updateNotes ({ commit }, payload) {
+  async updateNote ({ commit }, payload) {
     const noteId = payload.noteId
     const description = payload.description
     try {
       const { data } = await this.$axios.$patch(
         `${process.env.BASEURL_HOST}/note/${noteId}`, { description })
-      commit('updateNotes', data)
+      commit('UPDATE_NOTE', data)
       return data._id
     } catch (error) {
       console.log('error updating notes ', error)
     }
   },
-  async deleteSingleNote ({ commit }, noteId) {
-    console.log('deleting note id ', noteId)
-    try {
-      await this.$axios.$delete(
+  async deleteNote ({ commit }, noteId) {
+    await this.$axios.$delete(
         `${process.env.BASEURL_HOST}/note/${noteId}`)
-      commit('deleteSingleNote', noteId)
-      return true
-    } catch (error) {
-      console.log('error deleting notes ', error)
-    }
+    commit('DELETE_NOTE', noteId)
+    return true
   }
 }
 
