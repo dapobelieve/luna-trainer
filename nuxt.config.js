@@ -1,5 +1,7 @@
 import webpack from 'webpack'
-require("./config")(function (h, o, t, j, a, r) {
+require("./config");
+
+const hotjar = (function (h, o, t, j, a, r) {
   h.hj =
     h.hj ||
     function () {
