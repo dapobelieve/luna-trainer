@@ -196,9 +196,9 @@ export default {
         }else {
           let res = await this.$store.dispatch('client/allConciseClients')
           this.allClients = res.data
+          this.searchField = 'Name'
           this.options = this.allClients
           await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-          
         }        
       },
       deep: true,
@@ -238,7 +238,6 @@ export default {
       this.$router.push({ name: 'payments-requests-sent'})
     },
     async searchInvoice (option) {
-      console.log(option)
       if (this.searchField === 'Name') {
         this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
       } else {
