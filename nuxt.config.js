@@ -33,7 +33,8 @@ export default {
         async: true,
       },
       {
-        src: "@/assets/scripts/hotjar",
+        src: "@/assets/scripts/hotjar",  
+        async: true,
       },
     ],
   },
