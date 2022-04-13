@@ -1,61 +1,69 @@
 import webpack from 'webpack'
-require('./config')
+require("./config");
+
+
 
 export default {
   ssr: false,
   head: {
-    title: 'Luna',
-    titleTemplate: 'Luna | %s',
+    title: "Luna",
+    titleTemplate: "Luna | %s",
     htmlAttrs: {
-      lang: 'en'
+      lang: "en",
     },
     meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'Getwelp Trainer UI' }
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "description",
+        name: "description",
+        content: "Getwelp Trainer UI",
+      },
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
       {
-        rel: 'stylesheet',
-        href:
-          'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap'
-      }
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap",
+      },
     ],
     script: [
       {
-        src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js',
-        async: true
-      }
-    ]
+        src: "https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js",
+        async: true,
+      },
+      {
+        src: "@/assets/scripts/hotjar",
+      },
+    ],
   },
   css: [
-    '@/assets/css/theme.scss',
-    '@/assets/css/new-fonts.css',
-    'vue-popperjs/dist/vue-popper.css',
-    'vue-multiselect/dist/vue-multiselect.min.css',
-    'vue2-datepicker/index.css'
+    "@/assets/css/theme.scss",
+    "@/assets/css/new-fonts.css",
+    "vue-popperjs/dist/vue-popper.css",
+    "vue-multiselect/dist/vue-multiselect.min.css",
+    "vue2-datepicker/index.css",
   ],
   plugins: [
-    { src: '~plugins/services' },
-    { src: '~plugins/v-calendar', ssr: false },
-    { src: '~/plugins/vue-tel-input', ssr: false },
-    { src: '~/plugins/vue-select', ssr: false },
-    { src: '~/plugins/vuelidate', ssr: true },
-    { src: '~plugins/persisted-state.client' },
-    { src: '~plugins/intercom.js', ssr: false },
-    { src: '~/plugins/axios.js' },
-    { src: '~/plugins/intro.js', ssr: false },
-    { src: '~/plugins/error-handler' },
-    { src: '~/plugins/sendbird' },
-    { src: '~/plugins/v-click-outside', ssr: false },
-    { src: '~plugins/filters', ssr: false },
-    { src: '~plugins/v-tooltip', ssr: false },
-    { src: '~plugins/v-modal' },
-    { src: '~plugins/utils', ssr: false }
+    { src: "~plugins/services" },
+    { src: "~plugins/v-calendar", ssr: false },
+    { src: "~/plugins/vue-tel-input", ssr: false },
+    { src: "~/plugins/vue-select", ssr: false },
+    { src: "~/plugins/vuelidate", ssr: true },
+    { src: "~plugins/persisted-state.client" },
+    { src: "~plugins/intercom.js", ssr: false },
+    { src: "~/plugins/axios.js" },
+    { src: "~/plugins/intro.js", ssr: false },
+    { src: "~/plugins/error-handler" },
+    { src: "~/plugins/sendbird" },
+    { src: "~/plugins/v-click-outside", ssr: false },
+    { src: "~plugins/filters", ssr: false },
+    { src: "~plugins/v-tooltip", ssr: false },
+    { src: "~plugins/v-modal" },
+    { src: "~plugins/utils", ssr: false },
   ],
   components: {
-    dirs: ['~/components', '~/components/util']
+    dirs: ["~/components", "~/components/util"],
   },
   env: {
     BASEURL_HOST: process.env.BASEURL_HOST,
@@ -68,68 +76,68 @@ export default {
     REPORTING_HOST: process.env.REPORTING_HOST,
     SEARCH_HOST: process.env.SEARCH_HOST,
   },
-  loading: '~/components/loading.vue',
+  loading: "~/components/loading.vue",
   buildModules: [
     // '@nuxtjs/eslint-module',
-    '@nuxtjs/tailwindcss',
-    '@nuxtjs/date-fns'
+    "@nuxtjs/tailwindcss",
+    "@nuxtjs/date-fns",
   ],
   modules: [
-    '@nuxtjs/axios',
-    '@nuxtjs/auth-next',
-    '@nuxtjs/toast',
-    'cookie-universal-nuxt'
+    "@nuxtjs/axios",
+    "@nuxtjs/auth-next",
+    "@nuxtjs/toast",
+    "cookie-universal-nuxt",
   ],
 
   toast: {
-    position: 'top-right',
+    position: "top-right",
     duration: 4000,
-    closeOnSwipe: true
+    closeOnSwipe: true,
   },
 
   router: {
-    middleware: ['auth', 'dashboard']
+    middleware: ["auth", "dashboard"],
   },
 
   auth: {
     redirect: {
-      login: '/auth/signin',
-      logout: '/auth/signin',
-      callback: '/auth/signin',
-      home: '/dashboard'
+      login: "/auth/signin",
+      logout: "/auth/signin",
+      callback: "/auth/signin",
+      home: "/dashboard",
     },
     strategies: {
       local: {
-        scheme: 'refresh',
+        scheme: "refresh",
         token: {
-          property: 'accessToken',
+          property: "accessToken",
           global: true,
           required: true,
-          maxAge: false
+          maxAge: false,
           // type: 'Bearer'
         },
         refreshToken: {
-          property: 'refreshToken',
-          data: 'refreshToken',
-          maxAge: false
+          property: "refreshToken",
+          data: "refreshToken",
+          maxAge: false,
         },
         user: {
-          property: 'data',
-          autoFetch: false
+          property: "data",
+          autoFetch: false,
         },
         endpoints: {
           login: {
             url: `${process.env.ACCOUNT_HOST_URL}/auth/login`,
-            method: 'post'
+            method: "post",
           },
           refresh: {
             url: `${process.env.ACCOUNT_HOST_URL}/auth/renew-token`,
-            method: 'patch'
+            method: "patch",
           },
-          user: false
-        }
-      }
-    }
+          user: false,
+        },
+      },
+    },
   },
   build: {
     transpile: /@fullcalendar.*/,
@@ -137,18 +145,18 @@ export default {
       plugins: {
         cssnano: {
           preset: [
-            'default',
+            "default",
             {
-              calc: false
-            }
-          ]
-        }
-      }
+              calc: false,
+            },
+          ],
+        },
+      },
     },
     plugins: [
       new webpack.ProvidePlugin({
-        introJs: ['intro.js']
-      })
-    ]
-  }
-}
+        introJs: ["intro.js"],
+      }),
+    ],
+  },
+};
