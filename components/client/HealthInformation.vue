@@ -20,7 +20,6 @@
 import { mapState, mapActions } from 'vuex'
 import NoNotes from '~/components/notes/NoNotes.vue'
 import Note from '~/components/notes/Note.vue'
-
 export default {
   name: 'HealthInformation',
   components: {
@@ -44,7 +43,7 @@ export default {
       fetchNotes: 'notes/fetchNotes'
     }),
     addNote () {
-      this.$modal.show('add-note', { note: {}, addingMode: true })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
     }
   }
 }
@@ -58,7 +57,6 @@ export default {
       @apply text-xs font-medium text-gray-700;
     }
   }
-
   .action-btn {
     @apply flex items-center space-x-2 text-blue-500;
     span {

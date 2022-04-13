@@ -27,20 +27,34 @@
 <script>
 export default {
   name: 'AddingNotes',
-  props: {
-    addingMode: {
-      type: Boolean,
-      default: true
-    },
-    noteInView: {
-      type: Object,
-      default: () => {}
-    }
-  },
   data () {
     return {
+      addingMode: true,
+      noteInView: {},
       expanded: false
     }
+  },
+  created () {
+    this.$nuxt.$on('openNoteModalSm', ($event) => {
+      if ($event) {
+        this.addingMode = $event.addingMode
+        this.noteInView = $event.note
+      }
+      this.$modal.show('add-note')
+    })
+    this.$nuxt.$on('closeNoteModalSm', ($event) => {
+      if ($event) {
+        this.addingMode = $event.addingMode
+        this.noteInView = $event.noteInView
+      }
+      this.$modal.hide('add-note')
+    })
+    this.$nuxt.$on('openNoteModalLg', ($event) => {
+      this.$modal.show('expand-add-note')
+    })
+    this.$nuxt.$on('closeNoteModalLg', ($event) => {
+      this.$modal.hide('expand-add-note')
+    })
   },
   methods: {
     closeModal () {
@@ -49,7 +63,6 @@ export default {
       this.expanded = false
     },
     toggle () {
-      console.log('toggle')
       this.expanded = !this.expanded
       if (!this.expanded) {
         this.$modal.hide('expand-add-note')
@@ -64,5 +77,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
