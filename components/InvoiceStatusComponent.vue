@@ -16,7 +16,7 @@ export default {
     return {
       statuses: {
         paid: {
-          text: 'text-blue-500',
+          text: 'text-green-500',
           bg: 'bg-green-50'
         },
         overdue: {
@@ -31,9 +31,9 @@ export default {
           text: 'text-yellow-500',
           bg: 'bg-yellow-50'
         },
-        paid_awaiting_confirmation: {
-          text: 'text-yellow-500',
-          bg: 'bg-yellow-50'
+        awaiting: {
+          text: 'text-blue-500',
+          bg: 'bg-blue-50'
         }
       }
     }

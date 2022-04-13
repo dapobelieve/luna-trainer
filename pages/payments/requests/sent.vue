@@ -183,14 +183,15 @@ export default {
       async handler (val) {
         if(Object.keys(val.query).length > 0) {
           if(val.query.name) {
-            this.options = this.filteredRecords.map(invoice => invoice.customerId)
+            let res = await this.$store.dispatch('client/allConciseClients')
+            this.allClients = res.data
             await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', customerUserId: val.query.name })
             this.searchField = 'Name'
             this.options = this.allClients
           }else if(val.query.status) {
             await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', status: val.query.status})
             this.searchField = 'Status'
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Paid Awaiting Confirmation']
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Awaiting']
           }
         }else {
           let res = await this.$store.dispatch('client/allConciseClients')
@@ -208,7 +209,7 @@ export default {
         if (newVal === 'Name') {
           this.options = this.allClients
         } else if (newVal === 'Status') {
-          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Paid Awaiting Confirmation']
+          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
         }
       }
     },
@@ -227,19 +228,22 @@ export default {
   methods: {
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
     async checkPaymentMethods () {
-      
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
     },
     async resetTable() {
       await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
+      this.searchField = 'Name'
+      this.options = this.allClients
       this.$router.push({ name: 'payments-requests-sent'})
     },
     async searchInvoice (option) {
+      console.log(option)
       if (this.searchField === 'Name') {
         this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
       } else {
-        this.$router.push({ name: 'payments-requests-sent', query: { status: option.toLowerCase() } })
+        let _option = option === 'Awaiting' ? 'paid_awaiting_confirmation' : option
+        this.$router.push({ name: 'payments-requests-sent', query: { status: _option.toLowerCase() } })
       }
     },
     async archive () {
