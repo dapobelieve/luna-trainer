@@ -59,7 +59,7 @@ import AddingNote from '~/components/notes/AddingNote.vue'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'default',
-  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal, AddingNote },
   mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
   data () {
     return {

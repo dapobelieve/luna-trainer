@@ -113,7 +113,8 @@ export default {
       title: this.addingMode ? '' : this.noteInView.title,
       body: this.addingMode ? '' : this.noteInView.description,
       autoSaving: false,
-      mode: this.addingMode ? 'create' : 'editing'
+      mode: this.addingMode ? 'create' : 'editing',
+      open: true
     }
   },
   watch: {
@@ -135,7 +136,8 @@ export default {
       this.$emit('toggle')
     },
     closeModal () {
-      this.$emit('close')
+      this.$nuxt.$emit('closeNoteModalSm', { addingMode: true, note: {} })
+      this.$nuxt.$emit('closeNoteModalLg', { addingMode: true, note: {} })
     },
     cancel () {
       this.closeModal()
