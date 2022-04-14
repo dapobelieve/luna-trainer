@@ -308,7 +308,7 @@ import sendbirdHandlers from "~/mixins/sendbirdHandlers";
 export default {
   name: "Navigation",
   components: { LunaSearch },
-  mixins:[sendbirdHandlers],
+  mixins: [sendbirdHandlers],
   data() {
     return {
       showQuickMenu: false,
@@ -369,12 +369,12 @@ export default {
     unReadNotifications() {
       return this.notifications.filter((n) => n.status === "UNREAD");
     },
-    unreadMessages(){
-      let count = 0
-      for(let key in this.getUnreadMessagesCount){
-        count += this.getUnreadMessagesCount[key] || 0
+    unreadMessages() {
+      let count = 0;
+      for (let key in this.getUnreadMessagesCount) {
+        count += this.getUnreadMessagesCount[key] || 0;
       }
-      return count
+      return count;
     },
     firstName(string) {
       if (string) {
@@ -402,7 +402,7 @@ export default {
   async beforeMount() {
     this.getNav(this.$route);
     try {
-      await this.connectSendbird(this.$auth.user.sendbirdId)
+      await this.connectSendbird(this.$auth.user.sendbirdId);
       await this.getChannelsMetadata();
       await this.$store.dispatch("notifications/fetchNotifications");
       this.socketNotification();
@@ -442,9 +442,10 @@ export default {
         },
       });
       socket.on("connect", () => {
-        console.log("Socket connected 🚀");
+        console.log("CONNECTED 🚀");
       });
-      socket.on("new-notification", (data) => {
+      socket.on("new-notification", async (data) => {
+        console.log("NEW SOCKET MESSAGE >>>>", data);
         const { type } = data;
         if (type === "LOGIN_WITH_QR") {
           this.$nuxt.$emit("device-paired");
@@ -456,11 +457,15 @@ export default {
               `${data.data.firstName} just accepted your invite`
             );
             break;
+          case "PAYMENT_ACCEPTED":
+            this.$lunaToast.show(`${data.message}`);
+            break;
           case "NEW_PAYMENT_RECEIPT":
             this.$lunaToast.show(`${data.message}`);
             this.getInvoices();
             break;
           case "STRIPE_CONNECTION_SUCCESSFUL":
+            await this.getPaymentMethods();
             this.$lunaToast.show("Stripe has just connected successful");
             break;
           default:
@@ -469,7 +474,6 @@ export default {
         }
         this.$store.commit("notifications/setNotification", data);
       });
-
       socket.on("CALENDAR_SYNC", () => {});
     },
     openSession() {
@@ -484,7 +488,6 @@ export default {
     },
     getNav(e) {
       const paths = e.path?.split("/");
-
       if (paths.length >= 1) {
         this.currentLink = paths[1];
       }
@@ -494,6 +497,7 @@ export default {
       logOut: "authorize/logOut",
       connectSendbird: "sendbird-v2/connect",
       getChannelsMetadata: "sendbird-v2/getChannelsMetadata",
+      getPaymentMethods: "payment-methods/getPaymentMethods",
     }),
     inviteClient() {
       this.$modal.show("inviteClientModal");
@@ -507,7 +511,6 @@ export default {
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .active {
   @apply bg-blue-50;

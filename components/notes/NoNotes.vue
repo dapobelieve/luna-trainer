@@ -17,12 +17,11 @@
 </template>
 
 <script>
-
 export default {
   name: 'NoNotes',
   methods: {
     addNote () {
-      this.$modal.show('add-note', { note: {}, addingMode: true })
+      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
     }
   }
 }
