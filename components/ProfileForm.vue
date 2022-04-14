@@ -181,11 +181,11 @@
         </div>
         <div>
           <label for="Specialization">Specialization</label>
-          <settings-tag-input v-model="profile.specialization" :tabindex="9" />
+            <settings-tag-input v-model="profile.specialization" :tabindex="9" />
         </div>
         <div>
           <label for="Specialization">Accreditations</label>
-          <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
+            <settings-tag-input v-model="profile.accreditations" :tabindex="10" />
         </div>
         <div class="flex justify-end">
           <button-spinner
