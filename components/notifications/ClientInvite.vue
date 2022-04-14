@@ -1,10 +1,7 @@
 <template>
   <button
     type="button"
-    :class="[
-      notification.status === 'UNREAD' ? '' : 'bg-blue-50',
-      'w-full hover:bg-blue-50 py-4 px-4 rounded-md flex items-center',
-    ]"
+    class="w-full hover:bg-blue-50 py-4 px-4 rounded-md flex items-center"
     @click="viewProfile"
   >
     <div
@@ -35,10 +32,7 @@
         >{{ notification.createdAt | howLongAgo }}</small>
       </div>
     </div>
-    <div v-if="notification.status === 'UNREAD'">
-      <div class="rounded-full h-2.5 w-2.5 bg-blue-500"></div>
-    </div>
-    <i v-else class="fi-rr-angle-right text-blue-500"></i>
+    <i class="fi-rr-angle-right text-blue-500"></i>
   </button>
 </template>
 
