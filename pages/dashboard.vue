@@ -167,7 +167,6 @@ export default {
     this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
 
     if (newUser) {
-
       window.localStorage.setItem("dashboard-tour", new Date())
       window.localStorage.setItem("session-tour", new Date())
       window.localStorage.setItem("client-tour", new Date())
@@ -177,25 +176,29 @@ export default {
         this.$modal.show('welcome-modal')
       }
     } else {
-      this.$lunaToast.show(
-        'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
-        {
-          position: 'bottom-right',
-          timeout: 10000,
-          actions: true,
-          heading: 'Welcome to Luna',
-          confirm: {
-            text: 'Get started',
-            resolver: () => {
-              this.tourItems()
+      // set date time stamp in local storage
+      if (!window.localStorage.getItem("welcome")) {
+        window.localStorage.setItem("welcome", new Date())
+        this.$lunaToast.show(
+          'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
+          {
+            position: 'bottom-right',
+            timeout: 10000,
+            actions: true,
+            heading: 'Welcome to Luna',
+            confirm: {
+              text: 'Get started',
+              resolver: () => {
+                this.tourItems()
+              }
+            },
+            cancel: {
+              text: 'Not Now',
+              resolver: async () => {}
             }
-          },
-          cancel: {
-            text: 'Not Now',
-            resolver: async () => {}
           }
-        }
-      )
+        )
+      }
     }
 
     this.fetchPaidInvoices({ status: 'paid', limit: 5 })
