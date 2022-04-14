@@ -46,9 +46,6 @@ export default {
   methods: {
     closeDrawer () {
       this.$store.commit('scheduler/setStates', { drawer: { open: false, activePage: '' } })
-      this.$router.push({
-        name: 'schedule'
-      })
     },
     async reschedule (event) {
       this.event = event
