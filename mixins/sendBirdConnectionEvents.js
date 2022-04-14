@@ -7,7 +7,7 @@ export default {
     connectionHandler.onReconnectSucceeded = this.onReconnectSucceeded
     connectionHandler.onReconnectFailed = this.onReconnectFailed
 
-    this.$sb.addConnectionHandler('deafultLayoutHandler', connectionHandler)
+    this.$sb.addConnectionHandler('defaultLayoutHandler', connectionHandler)
   },
   methods: {
     onReconnectStarted () {

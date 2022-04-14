@@ -66,7 +66,7 @@ export default {
 
 <style lang="scss" scoped>
 .notifications {
-  @apply bg-white shadow-sm rounded-xl pb-4 lg:w-3/4 xl:w-[578.5px] mx-auto overflow-y-auto;
+  @apply bg-white shadow-sm rounded-xl pb-4 md:w-[500px]  xl:w-[500px] mx-auto overflow-y-auto;
   height: 80vh;
 }
 </style>

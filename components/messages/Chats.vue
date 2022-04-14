@@ -268,10 +268,9 @@ export default {
           this.scrollFeedToBottom()
         })
         this.message = ''
-        // hitting sendbird server with message
         this.channel.sendUserMessage(params, (userMessage, error) => {
           if (error) {
-            this.$lunaToast.error('Message not sent')
+            this.$lunaToast.error('Message not sent',error)
           }
         })
       }

@@ -2,7 +2,7 @@
   <span
     v-if="!isImgAvailable"
     :style="altStyling"
-    :class="{ 'user-is-online': onlineStatus === 'online' }"
+    :class="{ 'user-is-online': online }"
     class="bg-green-white rounded-full flex items-center justify-center "
   >
     <span
@@ -11,7 +11,7 @@
   </span>
   <img
     v-else
-    :class="{ 'user-is-online': onlineStatus === 'online' }"
+    :class="{ 'user-is-online': online }"
     :src="clientInfo.imgURL || clientInfo.imgUrl"
     class="object-cover rounded-full h-10 w-10 inline-block"
     :style="altStyling"
@@ -38,11 +38,14 @@ export default {
         return {}
       },
       required: true
-    }
+    },
+    online: {
+      type: Boolean,
+      default: false
+    },
   },
   data () {
     return {
-      onlineStatus: 'offline',
       altStyling: {
         width: this.width + 'rem',
         height: this.height + 'rem'
@@ -50,14 +53,8 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      isSendbirdConnected: state => state.sendBird.sendbirdConnected
-    }),
     isImgAvailable () {
       return this.clientInfo?.imgURL || this.clientInfo.imgUrl
-    },
-    isSendbirdIdAvailable () {
-      return 'sendbirdId' in this.clientInfo
     },
     displayInitials () {
       let initials = ''
@@ -72,23 +69,7 @@ export default {
       return initials
     }
   },
-  watch: {
-    isSendbirdConnected: {
-      handler (newValue, oldValue) {
-        if ((newValue || oldValue) && this.isSendbirdIdAvailable) {
-          this.isUserOnline([this.clientInfo.sendbirdId]).then((res) => {
-            this.onlineStatus = res
-          })
-        }
-      },
-      immediate: true
-    }
-  },
-  methods: {
-    ...mapActions({
-      isUserOnline: 'sendBird/isUserOnline'
-    })
-  }
+    
 }
 </script>
 

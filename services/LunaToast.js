@@ -129,14 +129,14 @@ export class LunaToast {
   #composeBody = (options) => {
     const body = document.createElement('div')
     body.className = 'flex-grow ml-2'
-    body.style.wordBreak = 'break-all'
+    body.style.wordBreak = 'break-word'
     if (options.heading) {
       const h3 = this.#createElement('h3', 'text-black font-medium text-base')
       h3.innerText = options.heading
       body.appendChild(h3)
     }
     const p = this.#createElement('p', 'text-gray-600')
-    p.style.wordBreak = 'break-all'
+    p.style.wordBreak = 'break-word'
     p.innerText = options.message
     body.appendChild(p)
     if (options.actions) {

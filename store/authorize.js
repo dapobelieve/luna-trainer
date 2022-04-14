@@ -68,8 +68,8 @@ export const actions = {
   async logOut ({ commit, dispatch }) {
     await this.$auth.logout()
     // remove sendbord events
-    this.$sb.removeUserEventHandler('deafultLayoutHandler')
-    this.$sb.removeConnectionHandler('deafultLayoutHandler')
+    this.$sb.removeUserEventHandler('defaultLayoutHandler')
+    this.$sb.removeConnectionHandler('defaultLayoutHandler')
     // clear token oursaelves
     dispatch('loader/startProcess', 'logout', { root: true })
     dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })

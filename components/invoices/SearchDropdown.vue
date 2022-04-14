@@ -106,6 +106,7 @@ export default {
     connectToStripe(){
       
     },
+    
     clearSelection () {
       this.selectedOption = null
       this.show = true

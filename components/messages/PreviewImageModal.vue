@@ -6,7 +6,7 @@
       <p class="text-gray-700 text-xl font-normal">
         Preview
       </p>
-      <button type="button" @click="close">
+      <button type="button" @click="removeImage">
         <i class="fi-rr-cross text-xl text-blue-500"></i>
       </button>
     </div>
@@ -37,7 +37,7 @@
       <button
         class="button-fill button-sm w-11"
         style="height: 40px"
-        @click="submit"
+        @click="send"
       >
         <i class="fi-rr-paper-plane h-6 text-xl"></i>
       </button>
@@ -52,24 +52,14 @@ export default {
     fileImage: {
       type: String,
       required: true
-    },
-    removeImage: {
-      type: Function,
-      required: true
-    },
-    sendFile: {
-      type: Function,
-      required: true
     }
   },
   methods: {
-    close () {
-      this.removeImage()
-      this.$emit("close")
+    removeImage () {
+      this.$emit('removeImage')
     },
-    submit () {
-      this.sendFile()  
-      this.$emit("close")
+    send () {
+      this.$emit('sendFile')
     }
   }
 }

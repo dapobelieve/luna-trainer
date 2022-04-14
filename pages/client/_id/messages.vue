@@ -1,76 +1,30 @@
 <template>
   <div class="messages">
-    <MessagesChannelLoading v-if="channelIsLoading" />
-    <ErrorCreatingChannel v-else-if="ErrorCreatingChannel" />
-    <Chats v-else :channel="channel" :channel-url="channelUrl" />
+    <ChatsV2 v-if="sendbirdId" :receipientId="sendbirdId" />
   </div>
 </template>
 
 <script>
-import { mapState, mapActions } from 'vuex'
-import ErrorCreatingChannel from '~/components/messages/ErrorCreatingChannel.vue'
-import Chats from '~/components/messages/Chats.vue'
-
+import ChatsV2 from '../../../components/messages/Chats-v2.vue'
+import {mapActions} from 'vuex'
 export default {
   name: 'Messages',
   components: {
-    ErrorCreatingChannel,
-    Chats
+    ChatsV2
   },
-  async asyncData ({ params, store }) {
-    try {
-      const res = await store
-        .dispatch('client/getSingleClientById', params.id)
-      return { sendbirdId: res.sendbirdId }
-    } catch (error) {
-      console.log('error fetching client profile ', error)
-    }
-  },
-  data () {
+  data(){
     return {
-      channelIsLoading: true,
-      ErrorCreatingChannel: false,
-      channelUrl: null,
-      channel: null,
       sendbirdId: null
     }
   },
-  computed: {
-    ...mapState('sendBird', ['sendbirdConnected', 'fetchingMessages'])
-  },
-  mounted () {
-    try {
-      this.$watch(
-        vm => [vm.sendbirdConnected, vm.fetchingMessages],
-        async (val) => {
-          if (val[0] && !val[1]) {
-            let channel = await this.checkIfConversationExits(
-              this.sendbirdId
-            )
-            if (!channel) {
-              channel = await this.createPrivateChannel(
-                this.sendbirdId
-              )
-            }
-            this.channelUrl = channel.url
-            this.channel = channel
-            this.channelIsLoading = false
-          }
-        },
-        {
-          immediate: true
-        }
-      )
-    } catch (error) {
-      console.log('something went wrong')
-    }
-  },
-
   methods: {
-    ...mapActions('sendBird', {
-      checkIfConversationExits: 'checkIfConversationExits',
-      createPrivateChannel: 'createPrivateChannel'
+    ...mapActions('client', {
+      getSingleClientById: 'getSingleClientById'
     })
+  },
+  async mounted(){
+    const {sendbirdId} = await this.getSingleClientById(this.$route.params.id)
+    this.sendbirdId = sendbirdId
   }
 }
 </script>

@@ -14,7 +14,7 @@
       <div>
         <form @submit.prevent="fnLogin">
           <div class="flex justify-around">
-            <div class="text-center">
+            <div class="flex flex-col items-center">
               <ClientAvatar
                 :width="4.5"
                 :height="4.5"
@@ -74,7 +74,7 @@ export default {
         this.$lunaToast.success('Login Successful')
         this.$modal.hide('auth-modal')
       } catch (e) {
-        console.log(e)
+        this.$lunaToast.error(e.message)
       } finally {
         this.isLoading = false
       }
