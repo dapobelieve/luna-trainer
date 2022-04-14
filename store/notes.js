@@ -65,9 +65,10 @@ export const actions = {
   async updateNote ({ commit }, payload) {
     const noteId = payload.noteId
     const description = payload.description
+    const title = payload.title
     try {
       const { data } = await this.$axios.$patch(
-        `${process.env.BASEURL_HOST}/note/${noteId}`, { description })
+        `${process.env.BASEURL_HOST}/note/${noteId}`, { title, description })
       commit('UPDATE_NOTE', data)
       return data._id
     } catch (error) {

@@ -118,13 +118,30 @@ export default {
     }
   },
   watch: {
-    body (newValue) {
-      if (this.noteId === null && newValue) {
-        this.createNotes()
-      } else {
-        this.updateNote()
+    // body (newValue) {
+    //   if (this.noteId === null && newValue) {
+    //     this.createNotes()
+    //   } else {
+    //     this.updateNote()
+    //   }
+    // }
+  },
+  mounted () {
+    this.$watch(
+      vm => [vm.title, vm.body],
+      (val) => {
+        if (val[1].length) {
+          if (val[1].length && this.noteId === null) {
+            this.createNotes()
+          } else {
+            this.updateNote()
+          }
+        }
       }
-    }
+      // {
+      //   immediate: true
+      // }
+    )
   },
   methods: {
     ...mapActions({
@@ -133,7 +150,7 @@ export default {
       deleteNote: 'notes/deleteNote'
     }),
     toggleWidth () {
-      this.$emit('toggle')
+      // this.$emit('toggle')
     },
     closeModal () {
       this.$nuxt.$emit('closeNoteModalSm', { addingMode: true, note: {} })
@@ -149,14 +166,15 @@ export default {
       }, 3500)
     },
     createNotes: debounce(function () {
-      this.createNote({ title: this.title, description: this.body, clientId: this.id, tags: this.$route.name === 'client-id-information' ? 'health' : '' }).then((result) => {
+      this.createNote({ title: this.title.length ? this.title : 'Untitled', description: this.body, clientId: this.id, tags: this.$route.name === 'client-id-information' ? 'health' : '' }).then((result) => {
         this.noteId = result
         this.mode = 'editing'
         this.autoSave()
       })
     }, 1000),
     updateNote: debounce(function () {
-      this.updatingNote({ description: this.body, noteId: this.noteId })
+      this.updatingNote({ title: this.title.length ? this.title : 'Untitled', description: this.body, noteId: this.noteId })
+      this.$emit('updating-note', { id: this.id, title: this.title.length ? this.title : 'Untitled', description: this.body })
       this.autoSave()
     }, 1000),
     async deleteSingleNote () {
