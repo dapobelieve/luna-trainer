@@ -24,7 +24,7 @@
         </div>
       </div>
       <div>
-        <h2 class="text-lg font-bold text-left">
+        <h2 class="text-lg text-left" :class="[notification.status === 'UNREAD' ? 'font-bold' : 'font-normal']">
           {{ notification.data.customerId.name }}
         </h2>
         <p v-if="notification.data.status == 'paid_awaiting_confirmation'" class="text-gray-500  text-sm">
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-import { mapMutations, mapActions } from 'vuex'
+import { mapActions } from 'vuex'
 export default {
   name: 'ReceivedPayment',
   props: {
@@ -48,16 +48,12 @@ export default {
     }
   },
   methods: {
-    ...mapMutations({
-      setIncomingPaymentNotification: 'payment-methods/setIncomingPaymentNotification'
-    }),
     ...mapActions({
       readNotification: 'notifications/readNotification'
     }),
     async gotoPayment () {
-      this.setIncomingPaymentNotification(this.notification.data._id)
       await this.readNotification({ id: this.notification._id })
-      this.$router.push({ name: 'payments-requests-sent' })
+      this.$router.replace({ name: 'payments-requests-sent', params: { incomingNotificationId: this.notification.data._id } })
     }
   }
 }

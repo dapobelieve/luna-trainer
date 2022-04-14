@@ -1,15 +1,11 @@
 import Vue from 'vue'
 export const state = () => ({
-  paymentMethods: [],
-  incomingPaymentNotification: null
+  paymentMethods: []
 })
 
 export const mutations = {
   setPaymentMethods (state, data) {
     Vue.set(state, 'paymentMethods', data)
-  },
-  setIncomingPaymentNotification (state, data) {
-    state.incomingPaymentNotification = data
   }
 }
 

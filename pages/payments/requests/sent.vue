@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 export default {
@@ -160,7 +160,6 @@ export default {
     }
   },
   computed: {
-    ...mapState('payment-methods', ['incomingPaymentNotification']),
     ...mapGetters({
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       invoices: 'invoice/getAllInvoices'
@@ -226,25 +225,22 @@ export default {
   },
   async beforeMount () {
     try {
-      await this.checkPaymentMethods()
-      if (this.incomingPaymentNotification) {
-        this.activeRecord = this.invoices.find(i => i._id === this.incomingPaymentNotification)
+      const incomingNotificationId = this.$route.params.incomingNotificationId
+      if (incomingNotificationId) {
+        const { data } = await this.getSingleInvoice(incomingNotificationId)
+        this.activeRecord = data
         this.$modal.show('invoice-details')
       }
+      await this.checkPaymentMethods()
     } catch (e) {
       console.log({ e })
     }
   },
-  destroyed () {
-    this.setIncomingPaymentNotification({
-      incomingPaymentNotification: null
-    })
-  },
   methods: {
-    ...mapMutations({
-      setIncomingPaymentNotification: 'payment-methods/setIncomingPaymentNotification'
+    ...mapActions({
+      getPaymentMethods: 'payment-methods/getPaymentMethods',
+      getSingleInvoice: 'invoice/getSingleInvoice'
     }),
-    ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
     async checkPaymentMethods () {
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
