@@ -97,7 +97,7 @@
           Welcome to Luna!
         </h2>
         <p class="text-base text-gray-700 mb-6 leading-relaxed">
-          We want you to get the most out of the platform from day 1 - so we’re
+          We want you to get the most out of the platform from day 1, so we’re
           going to take you through a simple setup process to get you started.
         </p>
         <div class="flex justify-start py-4">

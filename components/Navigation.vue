@@ -144,7 +144,7 @@
                     <div class="flex flex-col text-black" role="none">
                       <button
                         class="hover:bg-blue-50 py-2 pl-3"
-                        @click="$modal.show('inviteClientModal')"
+                        @click="$modal.show('invite-client')"
                       >
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-following mr-3 text-gray-500"></i>
@@ -500,7 +500,7 @@ export default {
       getPaymentMethods: "payment-methods/getPaymentMethods",
     }),
     inviteClient() {
-      this.$modal.show("inviteClientModal");
+      this.$modal.show("invite-client");
     },
     signOut() {
       this.logOut();

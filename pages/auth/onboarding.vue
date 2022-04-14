@@ -84,7 +84,7 @@
                 class="button-outline"
                 @click.prevent="decreaseStep"
               >
-                back
+                Back
               </button>
               <button-spinner
                 v-if="step === 3"

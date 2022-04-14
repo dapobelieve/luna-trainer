@@ -231,7 +231,7 @@ export default {
       this.currentInvoice = {}
     },
     inviteClient () {
-      this.$modal.show('inviteClientModal')
+      this.$modal.show('invite-client')
     }
   }
 }

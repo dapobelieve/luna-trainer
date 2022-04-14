@@ -111,7 +111,7 @@ export default {
       this.deleteClient = true
     },
     inviteClient () {
-      this.$modal.show('inviteClientModal')
+      this.$modal.show('invite-client')
     },
     deleteClientData () {
       return this.deleteInvoices(this.tempTrashId)

@@ -70,14 +70,14 @@
                 >
                   <i
                     :class="{ hidden: client.status === 'accepted' }"
-                    class="fi-rr-time-add text-xs mr-1"
+                    class="fi-rr-user-time text-xs mr-1"
                   ></i>
                 </span>
               </div>
               <div
-                class="text-gray-700 text-xs font-normal normal-case truncate"
+                class="text-gray-500 font-normal normal-case truncate"
               >
-                {{ client.email }}
+              <small> You'll be able to send a message when they accept your request</small>
               </div>
             </div>
           </div>
@@ -185,7 +185,7 @@
                   </p>
                 </div>
                 <div v-else>
-                  <small>Click to conversation</small>
+                  <small>Click to start a conversation</small>
                 </div>
               </div>
             </div>
@@ -198,7 +198,7 @@
           </div>
         </button>
       </template>
-      <NoMessages v-else />
+      <NoMessages v-else @invite-client="$modal.show('invite-client')"/>
     </div>
   </div>
 </template>

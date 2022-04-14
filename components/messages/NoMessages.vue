@@ -3,13 +3,13 @@
     <div class="max-width">
       <i class="fi-rr-comment-alt text-sky-500 text-4xl"></i>
       <p class="title">
-        You have no messages yet
+       No messages yet
       </p>
       <p class="sub-title">
-        Looks like you haven’t started a conversation with your client.
+        You have no client to chat with, they will show up here once they accept your request.
       </p>
-      <button class="action-btn">
-        <span>Start a conversation</span>
+      <button class="action-btn" @click.prevent="$emit('invite-client')">
+        <span>Invite a client </span>
       </button>
     </div>
   </div>
@@ -17,7 +17,13 @@
 
 <script>
 export default {
-  name: 'NoMessages'
+  name: 'NoMessages',
+  props:{
+    noClient: {
+      type: Boolean,
+      default: false,
+    },
+  }
 }
 </script>
 

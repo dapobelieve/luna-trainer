@@ -44,6 +44,24 @@
               </div>
             </div>
           </div>
+          <div class="flex justify-between gap-6">
+            <div class="flex gap-5 w-full">
+              <div class="w-full">
+                <label
+                  for="first_name"
+                  class="block text-sm font-medium text-gray-700 required"
+                  :class="{'text-red-500' : $v.clientInfo.lastName.$error}"
+                >Last name</label>
+                <input
+                  id="first_name"
+                  v-model.trim="$v.clientInfo.lastName.$model"
+                  type="text"
+                  class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md focus:shadow-md focus:outline-none focus:bg-white focus:border-blue-500"
+                  :class="{'shadow-md border-red-500' : $v.clientInfo.lastName.$error}"
+                />
+              </div>
+            </div>
+          </div>
           <div class="flex gap-5">
             <div class="w-full">
               <label for="email" class="required" :class="{'text-red-500' : $v.clientInfo.email.$error}">Email Address</label>
@@ -96,6 +114,7 @@ export default {
       isLoading: false,
       clientInfo: {
         firstName: this.client ? this.client.firstName : '',
+        lastName: this.client ? this.client.lastName : '',
         email: this.client ? this.client.email : ''
       }
     }
@@ -103,6 +122,9 @@ export default {
   validations: {
     clientInfo: {
       firstName: {
+        required
+      },
+      lastName: {
         required
       },
       email: {

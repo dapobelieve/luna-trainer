@@ -33,12 +33,9 @@ export const mutations = {
   swapMessage(state, { id, newMessage }) {
     let messages = state.messages[id] || [];
     let messageExist = messages && messages.find(message => (message.messageId == newMessage.messageId) || (message.data && message.data == newMessage.data));
-    // console.log("Push or swaping into store?",messageExist?.messageId, newMessage.messageId, messageExist?.data, newMessage.data)
     if (messageExist) {
-      // console.log("Swaping", newMessage)
       messages = messages.map(message => (message.messageId == newMessage.messageId ) || (message.data && message.data == newMessage.data) ? newMessage : message)
     } else {
-      // console.log("Pushing", newMessage)
       messages.push(newMessage)
       messages.sort((a, b) => a.createdAt - b.createdAt)
     }

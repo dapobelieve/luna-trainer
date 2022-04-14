@@ -25,7 +25,7 @@
         All your client list will appear here. Send an invite to a potential client to get started
       </p>
       <div class="w-max mx-auto">
-        <button class="base-button flex items-center" type="button" @click.prevent="$modal.show('inviteClientModal')">
+        <button class="base-button flex items-center" type="button" @click.prevent="$modal.show('invite-client')">
           <i class="fi-rr-add h-5 w-5 mr-2"></i>
           Add client now
         </button>

@@ -71,7 +71,7 @@ export default {
       this.filter = link
     },
     inviteClient () {
-      this.$modal.show('inviteClientModal')
+      this.$modal.show('invite-client')
     },
     closeModal () {
       this.$modal.hide('welcome-modal')

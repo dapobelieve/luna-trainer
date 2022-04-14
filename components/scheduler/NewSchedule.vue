@@ -151,7 +151,7 @@
                     <button
                       type="button"
                       class="flex items-center w-full py-2 outline-none"
-                      @click.prevent="$modal.show('inviteClientModal')"
+                      @click.prevent="$modal.show('invite-client')"
                     >
                       <div class="flex px-2 ml-1 items-center justify-center">
                         <i
