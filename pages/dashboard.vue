@@ -231,7 +231,6 @@ export default {
       window.localStorage.setItem("dashboard-tour", new Date())
       window.localStorage.setItem("session-tour", new Date())
       window.localStorage.setItem("client-tour", new Date())
-      window.localStorage.setItem("invoice-tour", new Date())
 
       if (window.localStorage.getItem("dashboard-tour")) {
         this.$modal.show("welcome-modal");

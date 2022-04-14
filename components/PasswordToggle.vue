@@ -4,20 +4,8 @@
     class="focus:outline-none"
     @click="toggle()"
   >
-    <img
-      v-if="value"
-      class="h-4"
-      src="~/assets/img/eye-off-outline.svg"
-      alt=""
-      srcset=""
-    />
-    <img
-      v-else
-      class="h-4"
-      src="~/assets/img/eye-outline.svg"
-      alt=""
-      srcset=""
-    />
+    <i v-if="value" class="fi-rr-eye text-sm text-gray-500"></i>
+    <i v-else class="fi-rr-eye-crossed text-sm text-gray-500"></i>
   </button>
 </template>
 

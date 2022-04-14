@@ -8,7 +8,7 @@
           </slot>
         </h5>
         <button type="button" @click="$modal.hide('change-password-modal')">
-          <i class="ns-cross text-lg text-blue-500"></i>
+          <i class="fi-rr-cross text-lg text-blue-500"></i>
         </button>
       </div>
       <div>
@@ -70,15 +70,13 @@ export default {
   methods: {
     async updatePassword () {
       this.isLoading = true
-      try {
-        await this.$store.dispatch('authorize/resetPassword', { ...this.form })
-        this.$lunaToast.success('Password changed successfully')
-        this.$emit('close-modal')
-      } catch (e) {
-        this.$lunaToast.error(e.response.data.message)
-      } finally {
+      await this.$store.dispatch('authorize/resetPassword', { ...this.form }).catch((e) => {
+        this.$lunaToast.error(e.message)
         this.isLoading = false
-      }
+      })
+      this.$modal.hide('change-password-modal')
+      this.$lunaToast.error("Successfully changed password")
+      this.isLoading = false
     }
   }
 }

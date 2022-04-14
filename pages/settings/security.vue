@@ -24,8 +24,8 @@
             </div>
             <div>
               <button
-                :disabled="isAuthLocal"
-                :class="{ 'cursor-not-allowed': isAuthLocal }"
+                :disabled="!isAuthLocal"
+                :class="{ 'cursor-not-allowed': !isAuthLocal }"
                 class="button-outline"
                 @click="$modal.show('change-password-modal')"
               >
@@ -34,7 +34,7 @@
             </div>
           </div>
         </div>
-        <div class="mb-6">
+        <!-- <div class="mb-6">
           <p
             class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8"
           >
@@ -51,8 +51,8 @@
             </div>
             <div>
               <button
-                :disabled="isAuthLocal"
-                :class="{ 'cursor-not-allowed': isAuthLocal }"
+                :disabled="!isAuthLocal"
+                :class="{ 'cursor-not-allowed': !isAuthLocal }"
                 class="button-outline"
                 @click="$modal.show('change-email-modal')"
               >
@@ -78,7 +78,7 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
         <settings-device-pairing />
       </div>
       <ChangeEmailComponent @display-cancel-change="cancelEmailChange = true" />
@@ -120,6 +120,7 @@ export default {
           ...this.form
         })
         this.$lunaToast.success('Successfully cancelled ')
+        this.$modal.hide('change-password-modal')
         await this.fetchUserProfile()
       } catch (e) {
         this.$lunaToast.error(e.response.data.message)

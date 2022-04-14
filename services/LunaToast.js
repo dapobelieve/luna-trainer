@@ -12,6 +12,9 @@ const _defaultOptions = {
   confirm: {
     text: 'Confirm',
     resolver: () => { console.log('confirm clicked') }
+  },
+  close: {
+    resolver: () => { console.log('close clicked') }
   }
 }
 
@@ -149,6 +152,7 @@ export class LunaToast {
     const close = this.#createElement('button', 'ml-2 mt-1')
     close.innerHTML = '<i style="font-size: 12px; font-weight: 900" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>'
     close.addEventListener('click', () => {
+      options.close.resolver()
       close.parentNode.remove()
     })
 

@@ -15,7 +15,7 @@
         @input="$emit('input', $event.target.value)"
       />
       <span v-if="type === 'password'" class="right-2 top-3 absolute cursor-pointer" @click="showPassword = !showPassword">
-        <i :class="[!showPassword ? 'ns-eye' : 'ns-eye-crossed']" class="text-xl text-gray-400"></i>
+        <i :class="[!showPassword ? 'fi-rr-eye' : 'fi-rr-eye-crossed']" class="text-xl text-gray-400"></i>
       </span>
     </div>
   </div>
