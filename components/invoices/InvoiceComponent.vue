@@ -239,7 +239,7 @@
             <small
               class="mt-3 block"
             ><router-link
-              to="/settings/billing-setup"
+              to="/settings/billing/setup"
               class="text-primary-color"
             >Add another payment method
               <i class="fi-rr-link" /></router-link></small>
