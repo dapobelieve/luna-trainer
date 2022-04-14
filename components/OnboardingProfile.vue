@@ -48,47 +48,30 @@
           </option>
         </select>
       </div>
+
       <div class="flex flex-col gap-1.5">
-        <label for="gender">
-          <div>
+        <label for="pronouns" class="required" :class="{'text-red-500' : $v.location.$error}">
+          <span>
             <span class="text-sm md:gap-3">Preferred pronouns</span>
             <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
-          </div>
+          </span>
         </label>
-        <div class="flex flex-row gap-2">
-          <label
-            class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : gender === 'male' }"
-          >
-            <input
-              v-model="gender"
-              type="radio"
-              name="gender"
-              :checked="gender"
-              value="male"
-              class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
-              aria-labelledby="gender-0-label"
-              aria-describedby="gender-0-description"
-            />
-            <span id="gender-0-label" class="block font-medium ml-2">Male</span>
-          </label>
-          <label
-            class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : gender === 'female' }"
-          >
-            <input
-              v-model="gender"
-              :checked="gender"
-              type="radio"
-              name="gender"
-              value="female"
-              class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
-              aria-labelledby="gender-0-label"
-              aria-describedby="gender-0-description"
-            />
-            <span id="gender-0-label" class="block font-medium ml-2">Female</span>
-          </label>
-        </div>
+        <select
+          v-model="pronouns"
+          autocomplete="country"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          :class="{'border-red-500' : $v.location.$error}"
+        >
+          <option value="She / Her">
+            She / Her
+          </option>
+          <option value="They / Them">
+            They / Them
+          </option>
+          <option value="He / Him">
+            He / Him
+          </option>
+        </select>
       </div>
     </form>
   </div>
@@ -129,10 +112,10 @@ export default {
         this.setProfileData({ key: 'location', value: val })
       }
     },
-    gender: {
-      get () { return this.personalProfile.gender },
+    pronouns: {
+      get () { return this.personalProfile.pronouns },
       set (val) {
-        this.setProfileData({ parent: 'trainerProfile', key: 'gender', value: val })
+        this.setProfileData({ parent: 'trainerProfile', key: 'pronouns', value: val })
       }
     },
     phone: {

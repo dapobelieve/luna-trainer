@@ -10,10 +10,7 @@
           class="required"
           :class="{ 'text-red-500': $v.businessName.$error }"
         >
-          <div>
-            <span class="text-sm md:gap-3">Registered company name</span>
-            <span class="text-sm md:gap-3">(With companies house/HMRC)</span>
-          </div>
+          Registered company or trading name
         </label>
         <input
           id="businessName"
@@ -64,14 +61,14 @@
           </option>
         </select>
       </div>
-      <div class="flex flex-col gap-1.5">
+      <!-- <div class="flex flex-col gap-1.5">
         <label for="vat" class="">VAT Number (if applicable)</label>
         <input
           id="vat"
           v-model="vat"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
-      </div>
+      </div> -->
     </form>
   </div>
 </template>
