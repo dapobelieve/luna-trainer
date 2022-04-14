@@ -1,6 +1,6 @@
 import SendBird from 'sendbird'
 export const state = () => ({
-  sendbirdConnected: false,
+  connected: false,
   connectedChannels: new Map(),
   fetchingMessages: true,
   connectingStatus: false,
@@ -25,7 +25,6 @@ export const mutations = {
     state.imageDetails = imageDetails
     state.openImage = status
   },
-
   // messages
   ADD_NEW_CHANNEL (state, channelDetails) {
     if (state.connectedChannels.size) {
@@ -53,7 +52,7 @@ export const mutations = {
   },
   DISCONNECT_USER_FROM_SENDBIRD (state) {
     state.connectedChannels = new Map()
-    state.sendbirdConnected = false
+    state.connected = false
   },
   CONNECTION_ERROR (state, status) {
     state.connectingStatus = status
@@ -77,7 +76,7 @@ export const actions = {
         this.$lunaToast.error('Messaging not connected.')
         return false
       }
-      commit('SET_STATES', { sendbirdConnected: true })
+      commit('SET_STATES', { connected: true })
     })
   },
 

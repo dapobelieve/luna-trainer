@@ -2,30 +2,38 @@
   <div class="pt-14">
     <div class="messages">
       <div class="header">
-        <p class="title">
-          Messages
-        </p>
+        <p class="title">Messages</p>
         <div class="pt-4 bg-white">
           <div class="relative flex items-center h-8">
             <i class="fi-rr-search absolute left-2 text-gray-400 h-4"></i>
             <input
               v-model="search"
               type="text"
-              class="focus:outline-none w-full sm:text-sm border rounded-md h-8 pl-7 shadow-sm focus:border-blue-500"
+              class="
+                focus:outline-none
+                w-full
+                sm:text-sm
+                border
+                rounded-md
+                h-8
+                pl-7
+                shadow-sm
+                focus:border-blue-500
+              "
               placeholder="Search name to start new chat"
             />
           </div>
         </div>
       </div>
-      <template v-if="fetchingMessages">
+      <template v-if="isLoading">
         <div class="mt-20 flex justify-center">
           <SingleLoader />
         </div>
       </template>
       <template v-else-if="search">
-        <template v-if="searchClient.length">
+        <template v-if="filteredClients.length">
           <div
-            v-for="client in searchClient"
+            v-for="client in filteredClients"
             :key="client._id"
             role="button"
             class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
@@ -34,19 +42,36 @@
             <div class="flex-none w-12 mr-4">
               <ClientAvatar
                 :client-info="{
-                  firstName: client.firstName
+                  firstName: client.firstName,
+                  lastName: client.lastName || '',
                 }"
               />
             </div>
             <div class="truncate flex-grow">
               <div class="flex items-center">
                 <span
-                  class="text-base text-gray-700 font-medium capitalize mr-2 flex-grow truncate"
-                >{{ client.firstName }}</span>
-                <span
-                  :class="[client.status === 'accepted' ? 'bg-green-200 text-green-700' : 'text-red-700', 'rounded text-sm font-normal normal-case flex-none w-18 items-center flex']"
+                  class="
+                    text-base text-gray-700
+                    font-medium
+                    capitalize
+                    mr-2
+                    flex-grow
+                    truncate
+                  "
+                  >{{ client.firstName }} {{ client.lastName || ""}} </span
                 >
-                  <i :class="{ hidden : client.status === 'accepted' }" class="fi-rr-time-add text-xs mr-1"></i>
+                <span
+                  :class="[
+                    client.status === 'accepted'
+                      ? 'bg-green-200 text-green-700'
+                      : 'text-red-700',
+                    'rounded text-sm font-normal normal-case flex-none w-18 items-center flex',
+                  ]"
+                >
+                  <i
+                    :class="{ hidden: client.status === 'accepted' }"
+                    class="fi-rr-time-add text-xs mr-1"
+                  ></i>
                 </span>
               </div>
               <div
@@ -57,140 +82,205 @@
             </div>
           </div>
         </template>
-        <div v-else class="text-center mt-10">
-          😩 Client not found.
-        </div>
+        <div v-else class="text-center mt-10">😩 Client not found.</div>
       </template>
-      <div v-else-if="acceptedClients.length && !search.length" class="px-1">
+      <template
+        v-else-if="acceptedClients.length && !search.length"
+        class="px-1"
+      >
         <button
           v-for="client in acceptedClients"
           :key="client._id"
-          class="rounded-md py-4 px-3 flex items-center space-x-0 w-full hover:bg-gray-100"
+          class="
+            rounded-md
+            py-4
+            px-3
+            flex
+            items-center
+            space-x-0
+            w-full
+            hover:bg-gray-100
+          "
           @click="gotoMessage(client._id)"
         >
-          <span class="w-full flex items-center">
-            <div class="flex-shrink-0 h-12 w-12 mr-4">
+          <div class="w-full flex items-center">
+            <div class="mr-4 w-14 h-12">
               <ClientAvatar
                 :client-info="{
                   sendbirdId: client.sendbirdId,
-                  firstName: client.firstName
+                  firstName: client.firstName,
+                  imgURL: client.imgURL,
                 }"
+                :online="connectionStatus[client.sendbirdId] == 'online'"
               />
             </div>
-            <div class="flex-grow min-w-0 text-left">
-              <div class="focus:outline-none">
+            <div class="flex w-full  min-w-0 flex-col text-left">
+              <div class="w-full relative">
+                <span class="font-bold text-base capitalize text-gray-700">{{
+                  `${client.firstName} ${client.lastName || ""}`
+                }}</span>
                 <span
-                  class="font-bold text-base capitalize text-gray-700"
-                >{{ client.firstName }}</span>
-                <template v-if="checkForUnreadMessage(client.sendbirdId) !== undefined">
+                  v-if="latestMessages[client.sendbirdId]"
+                  class="text-sm font-medium text-gray-400"
+                >
+                  {{ latestMessages[client.sendbirdId].createdAt | howLongAgo }}
+                </span>
+                <span
+                  v-if="unreadMessagesCount[client.sendbirdId]"
+                  class="
+                    bg-blue-500
+                    absolute
+                    right-0
+                    text-sm
+                    rounded-full
+                    p-1
+                    px-2
+                    text-white
+                  "
+                >
+                  {{ unreadMessagesCount[client.sendbirdId] }}
+                </span>
+              </div>
+              <div class="focus:outline-none">
+                <div v-if="latestMessages[client.sendbirdId]">
                   <p
-                    v-if="checkForUnreadMessage(client.sendbirdId).lastMessage.messageType === 'user'"
-                    class="truncate text-sm w-48 xl:w-56 normal-case font-medium"
+                    v-if="
+                      latestMessages[client.sendbirdId].messageType === 'user'
+                    "
+                    class="
+                      truncate
+                      text-sm
+                      w-48
+                      xl:w-56
+                      mt-[4px]
+                      normal-case
+                      font-medium
+                      text-gray-600
+                    "
                   >
-                    {{ checkForUnreadMessage(client.sendbirdId).lastMessage.message }}
+                    <i
+                      v-if="
+                        latestMessages[client.sendbirdId]._sender.userId !=
+                        client.sendbirdId
+                      "
+                      class="fi-rr-check text-sm text-green-500 mr-1"
+                    ></i>
+                    <span :class="[ unreadMessagesCount[client.sendbirdId] > 0 ? 'font-bold' : '' ]">{{ latestMessages[client.sendbirdId].message }}</span>
                   </p>
                   <p
-                    v-else-if="checkForUnreadMessage(client.sendbirdId).lastMessage.messageType === 'file'"
-                    class="flex items-center"
+                    v-else-if="
+                      latestMessages[client.sendbirdId].messageType === 'file'
+                    "
+                    class="flex items-center text-gray-500 mt-[4px]"
                   >
-                    <img
-                      src="~/assets/img/image-outline.svg"
-                      class="w-5 h-5"
-                      alt=""
-                      srcset=""
-                    />
+                    <i
+                      v-if="
+                        latestMessages[client.sendbirdId]._sender.userId !=
+                        client.sendbirdId
+                      "
+                      class="fi-rr-check text-sm text-green-500 mr-1"
+                    ></i>
+                    <i class="fi-rr-camera text-sm"></i>
                     <span class="ml-1 font-medium text-sm">Photo</span>
                   </p>
-                  <p
-                    class="text-sm font-medium text-blue-500"
-                  >
-                    {{ checkForUnreadMessage(client.sendbirdId).lastMessage.createdAt | howLongAgo }}
-                  </p>
-                </template>
-                <p v-else class="font-normal">
-                  {{ client.email }}
-                </p>
+                </div>
+                <div v-else>
+                  <small>Click to conversation</small>
+                </div>
               </div>
             </div>
-          </span>
-          <span class="text-xs text-gray-500 truncate">
-            <p
-              v-if="checkForUnreadMessage(client.sendbirdId) !== undefined"
-              class="bg-blue-700 p-1 rounded-full"
-            ></p>
-            <i v-else class="fi-rr-angle-right text-blue-500"></i>
-          </span>
+            <span class="text-xs text-gray-500 truncate">
+              <i
+                v-if="!latestMessages[client.sendbirdId]"
+                class="fi-rr-angle-right text-blue-500"
+              ></i>
+            </span>
+          </div>
         </button>
-      </div>
+      </template>
       <NoMessages v-else />
     </div>
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex'
-import NoMessages from '~/components/messages/NoMessages.vue'
+import { mapGetters, mapActions } from "vuex";
+import NoMessages from "~/components/messages/NoMessages.vue";
 export default {
-  name: 'MessagesSubMenu',
+  name: "MessagesSubMenu",
   components: {
-    NoMessages
+    NoMessages,
   },
-  data () {
+  data() {
     return {
-      search: ''
-    }
+      search: "",
+      loading: false,
+    };
+  },
+  async mounted() {
+    this.loading = true;
+    await this.getChannelsMetadata();
+    this.loading = false;
   },
   computed: {
-    ...mapState('sendBird', ['fetchingMessages']),
     ...mapGetters({
-      allClients: 'client/getAllClients',
-      listOfChannels: 'sendBird/listOfChannels',
-      getUnreadMessages: 'sendBird/getUnreadMessages'
+      allClients: "client/getAllClients",
+      latestMessages: "sendbird-v2/getChannelsMetadata",
+      unreadMessagesCount: "sendbird-v2/getUnreadMessagesCount",
+      connectionStatus:"sendbird-v2/getConnectionStatus",
     }),
-    acceptedClients () {
-      return this.allClients.filter(c => c.status === 'accepted')
+    isLoading(){
+      return this.loading && !this.unreadMessagesCount && !this.latestMessages;
     },
-    acceptedImageTypes (file) {
-      const allowableImageTypes = ['image/gif', 'image/jpeg', 'image/png']
-      return allowableImageTypes.includes(file)
+    acceptedClients() {
+      const clients = this.allClients.filter((c) => c.status === "accepted");
+      if (this.latestMessages){
+        clients.sort((a, b) => {
+          return this.latestMessages[b.sendbirdId]?.createdAt - this.latestMessages[a.sendbirdId]?.createdAt
+        });
+      }
+      return clients
     },
-    searchClient () {
+    filteredClients() {
       return this.allClients.filter((client) => {
         if (this.search && this.allClients.length) {
-          return client.firstName.toLowerCase().match(this.search.toLowerCase())
+          return client.firstName
+            .toLowerCase()
+            .match(this.search.toLowerCase());
         }
-        return 'No Result'
-      })
-    }
+        return "No Result";
+      });
+    },
   },
   methods: {
-    gotoMessage (clientId) {
+    ...mapActions("sendbird-v2", ["getChannelsMetadata"]),
+    gotoMessage(clientId) {
       try {
         this.$router.push({
-          name: 'client-id-messages',
-          params: { id: clientId }
-        })
+          name: "client-id-messages",
+          params: { id: clientId },
+        });
       } catch (error) {
-        this.$lunaToast.error('Something went wrong, Please contact admin.')
+        this.$lunaToast.error("Something went wrong, Please contact admin.");
       }
     },
-    messageClient (client) {
-      if (client.status === 'accepted') {
-        this.$router.push({ name: 'client-id-messages', params: { id: client._id } })
+    messageClient(client) {
+      if (client.status === "accepted") {
+        this.$router.push({
+          name: "client-id-messages",
+          params: { id: client._id },
+        });
       } else {
-        this.$lunaToast.error('This client has not accepted your request.')
+        this.$lunaToast.error("This client has not accepted your request.");
       }
     },
-    checkForUnreadMessage (sendbirdId) {
-      return this.getUnreadMessages.find(member => member.members.find(m => m.userId === sendbirdId))
-    }
-  }
-}
+  },
+};
 </script>
 
 <style lang="scss" scoped>
 .unread-bg {
-background-color: #F8FAFC;
+  background-color: #f8fafc;
 }
 .no-messages {
   height: 444px;
@@ -203,9 +293,9 @@ background-color: #F8FAFC;
   .header {
     @apply sticky top-0 bg-white;
     @apply p-4;
-  .title {
-    @apply text-xl font-normal text-gray-700;
-  }
+    .title {
+      @apply text-xl font-normal text-gray-700;
+    }
   }
 }
 </style>
