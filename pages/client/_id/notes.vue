@@ -61,7 +61,7 @@ export default {
   },
   computed: {
     ...mapState({
-      notes: state => state.notes.notes.filter(note => note.tags[0] !== 'health')
+      notes: state => state.notes.notes
     }),
     ...mapGetters({
       allClients: 'client/getAllClients'

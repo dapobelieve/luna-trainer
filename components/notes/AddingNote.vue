@@ -8,7 +8,14 @@
       width="25%"
       :click-to-close="false"
     >
-      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" :expanded="expanded" @toggle="toggle" @close="closeModal" />
+      <NotesAddNote
+        :adding-mode="addingMode"
+        :note-in-view="noteInView"
+        :expanded="expanded"
+        @toggle="toggle"
+        @close="closeModal"
+        @updating-note="updateNote($event)"
+      />
     </modal>
 
     <!-- expanded view -->
@@ -19,7 +26,14 @@
       :adaptive="true"
       :click-to-close="false"
     >
-      <NotesAddNote :adding-mode="addingMode" :note-in-view="noteInView" :expanded="expanded" @toggle="toggle" @close="closeModal" />
+      <NotesAddNote
+        :adding-mode="addingMode"
+        :note-in-view="noteInView"
+        :expanded="expanded"
+        @toggle="toggle"
+        @close="closeModal"
+        @updating-note="updateNote($event)"
+      />
     </modal>
   </div>
 </template>
@@ -71,6 +85,9 @@ export default {
         this.$modal.hide('add-note')
         this.$modal.show('expand-add-note')
       }
+    },
+    updateNote (e) {
+      this.noteInView = e
     }
   }
 }

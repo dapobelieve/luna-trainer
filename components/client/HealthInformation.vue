@@ -1,18 +1,21 @@
 <template>
-  <div class="health">
-    <div class="header">
-      <p class="mr-auto title">
-        HEALTH NOTES
-      </p>
-      <button type="button" class="action-btn" @click="addNote">
-        <i class="fi-rr-plus h-5"></i>
-        <span>Add note</span>
-      </button>
+  <div>
+    <div class="health">
+      <div class="header">
+        <p class="mr-auto title">
+          HEALTH NOTES
+        </p>
+        <button type="button" class="action-btn" @click="addNote">
+          <i class="fi-rr-plus h-5"></i>
+          <span>Add note</span>
+        </button>
+      </div>
+      <AsyncView loader-id="health-notes">
+        <NoNotes v-if="!notes.length" />
+        <Note v-for="note in notes" v-else :key="note._id" :note="note" />
+      </AsyncView>
     </div>
-    <AsyncView loader-id="health-notes">
-      <NoNotes v-if="!notes.length" />
-      <Note v-for="note in notes" v-else :key="note._id" :note="note" />
-    </AsyncView>
+    <!-- <NotesPanel /> -->
   </div>
 </template>
 
@@ -20,11 +23,13 @@
 import { mapState, mapActions } from 'vuex'
 import NoNotes from '~/components/notes/NoNotes.vue'
 import Note from '~/components/notes/Note.vue'
+// import NotesPanel from '~/components/notes/NotesPanel.vue'
 export default {
   name: 'HealthInformation',
   components: {
     NoNotes,
     Note
+    // NotesPanel
   },
   computed: {
     ...mapState({
@@ -43,7 +48,18 @@ export default {
       fetchNotes: 'notes/fetchNotes'
     }),
     addNote () {
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
+      console.log('logging')
+      // this.$modal.show(NotesPanel,
+      //   {},
+      //   {
+      //     height: '100%',
+      //     adaptive: true,
+      //     'shift-x': 1,
+      //     width: '25%',
+      //     'click-to-close': false
+      //   })
+      // console.log('wtf')
+      this.$nuxt.$emit('openNoteModalSm')
     }
   }
 }
