@@ -1,30 +1,14 @@
 <template>
   <div>
     <div
-      class="bg-white h-auto py-2 px-3 w-full border shadow-sm rounded-md flex flex-wrap gap-1"
+      class="bg-white border rounded py-3"
+      style="position: relative;"
     >
-      <div
-        v-for="tag in value"
-        :key="tag.index"
-        class="bg-whites inline-flex items-center border rounded-full h-8 w-auto pl-2 pr-1 font-medium"
-      >
-        <span class="text-sm capitalize">{{ tag }}</span>
-        <button
-          title="Delete item"
-          type="button"
-          class="text-blue-500 text-xs h-5 w-5 flex justify-center items-center ml-1 hover:bg-blue-50 rounded-full"
-          @click="removeItem(tag)"
-        >
-          <i class="fi-rr-cross text-xs h-3 w-3"></i>
-        </button>
-      </div>
-      <input
+      <vue-tags-input
         v-model.trim="input"
-        :tabindex="tabindex"
-        class="border-0 bg-transparent w-full text-sm h-6"
         placeholder="Input an item"
-        @keydown.enter.prevent="addItem($event)"
-        @keydown.tab="addItem($event)"
+        :tags="items"
+        @tags-changed="e => onChange(e)"
       />
     </div>
     <p v-if="input.length" class="text-gray-500 text-sm font-normal mt-2">
@@ -34,14 +18,24 @@
 </template>
 
 <script>
+import VueTagsInput from '@johmun/vue-tags-input';
 export default {
   name: 'SettingsTagInput',
+   components: {
+    VueTagsInput,
+  },
   props: {
     block: Boolean,
     tabindex: Number,
     value: {
       type: Array,
       required: true
+    }
+  },
+  methods: {
+    onChange (e) {
+      this.items = e.map(i => i.text)
+      this.$emit('input', this.items)
     }
   },
   data () {
@@ -51,24 +45,12 @@ export default {
       showHint: false
     }
   },
-  methods: {
-    addItem ($event) {
-      if (this.input && !this.items.includes(this.input.toLowerCase())) {
-        this.items.push(this.input)
-        this.$emit('input', this.items)
-        $event.preventDefault()
-      }
-      this.input = ''
-    },
-    removeItem (tag) {
-      if (this.items.includes(tag)) {
-        this.items.splice(this.items.indexOf(tag), 1)
-        this.$emit('input', this.items)
-      }
-    }
-  }
 }
 </script>
+
+<style>
+  @import '../assets/css/inputtag.css';
+</style>
 
 <style scoped>
 input {

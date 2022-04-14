@@ -1,53 +1,32 @@
 <template>
   <div>
-    <div class="border rounded bg-white">
-      <div class="flex flex-wrap px-4">
-        <div class=" flex flex-wrap pb-3">
-          <div v-for="(tag, index) in tags" :key="index" class="tag-input__tag flex items-center border rounded p-2 my-1">
-            {{ tag }}
-            <span class="text-base font-bold px-2" @click="removeTag(index)">x</span>
-          </div>
-          <input
-            type="text"
-            placeholder="Enter a Tag"
-            class="tag-input__text capitalize"
-            @keydown.enter="addTag"
-            @keydown.188="addTag"
-            @keydown.delete="removeLastTag"
-          />
-        </div>
-      </div>
+    <div
+      class="bg-white"
+      style="position: relative;"
+    >
+      <vue-tags-input
+        v-model.trim="input"
+        class="tag-input__text capitalize"
+        placeholder="Enter a Tag"
+        :tags="tags"
+        @tags-changed="newTags => tags = newTags.map(i => i.text)"
+      />
     </div>
   </div>
 </template>
 
 <script>
+import VueTagsInput from '@johmun/vue-tags-input';
 export default {
   data () {
     return {
-      tags: []
+      tags: [],
+      input: ''
     }
   },
-  methods: {
-    addTag (event) {
-      event.preventDefault()
-      const val = event.target.value.trim()
-      if (val && !this.tags.includes(val.toLowerCase())) {
-        if (val.length > 0) {
-          this.tags.push(val)
-          event.target.value = ''
-        }
-      }
-    },
-    removeTag (index) {
-      this.tags.splice(index, 1)
-    },
-    removeLastTag (event) {
-      if (event.target.value.length === 0) {
-        this.removeTag(this.tags.length - 1)
-      }
-    }
-  }
+   components: {
+    VueTagsInput,
+  },
 }
 </script>
 

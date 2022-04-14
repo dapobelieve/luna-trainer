@@ -103,11 +103,11 @@
         </div>
         <div>
           <label for="specialise" class="form-label">What do you specialise in?</label>
-          <settings-tag-input v-model="profileInfo.specialization" :block="false" />
+            <settings-tag-input v-model="profileInfo.specialization" :block="false" />
         </div>
         <div>
           <label for="accreditations" class="form-label">What are your Accreditations ?</label>
-          <settings-tag-input v-model="profileInfo.accreditations" :block="false" />
+            <settings-tag-input v-model="profileInfo.accreditations" :block="false" />
         </div>
         <div>
           <label for="accreditations" class="form-label">
