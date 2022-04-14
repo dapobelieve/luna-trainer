@@ -80,7 +80,7 @@ export class LunaToast {
     }
 
     toast.append(this.#composeBody(currentOptions))
-    toast.append(this.#composeClose())
+    toast.append(this.#composeClose(currentOptions))
     document.body.appendChild(toast)
 
     const timeout = setTimeout(() => {
@@ -148,7 +148,7 @@ export class LunaToast {
     return body
   }
 
-  #composeClose = () => {
+  #composeClose = (options) => {
     const close = this.#createElement('button', 'ml-2 mt-1')
     close.innerHTML = '<i style="font-size: 12px; font-weight: 900" class="cursor-pointer fi-rr-cross font-bold text-primary-color"></i>'
     close.addEventListener('click', () => {

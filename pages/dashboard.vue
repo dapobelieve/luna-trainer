@@ -257,6 +257,11 @@ export default {
                 console.log("cancelling")
                 window.localStorage.setItem("welcome", new Date())
               }
+            },
+            close: {
+              resolver: async () => {
+                window.localStorage.setItem("welcome", new Date())
+              }
             }
           }
         )
