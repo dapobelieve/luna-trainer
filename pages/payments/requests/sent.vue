@@ -4,15 +4,15 @@
       <div class="flex mt-1 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
-            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
+            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center font-medium text-primary-color text-base" to="/" @click="archive">
               <i class="fi-rr-archive mr-1"></i>
               <span>Archive</span>
             </span>
-            <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
+            <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
               <i class="fi-rr-download mr-1"></i>
               <span>Export</span>
             </span>
-            <span v-else-if="exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
+            <span v-else-if="exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400" to="/">
               <i class="fi-rr-download mr-1"></i>
               <span>Exporting...</span>
             </span>
@@ -35,7 +35,7 @@
                   <div v-if="searchField === 'Name'" class="flex">
                     <ClientAvatar :height="1" :width="1" :client-info="{firstName: option.firstName}" />
                     <span class="text-xs text-gray-700 ml-2">
-                      {{ option.firstName }} 
+                      {{ option.firstName }}
                     </span>
                   </div>
                   <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
@@ -140,7 +140,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapState, mapMutations, mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 export default {
@@ -156,13 +156,14 @@ export default {
       exporting: false,
       options: [],
       allClients: [],
-      checkedItems: [],
+      checkedItems: []
     }
   },
   computed: {
+    ...mapState('payment-methods', ['incomingPaymentNotification']),
     ...mapGetters({
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
-      invoices: 'invoice/getAllInvoices',
+      invoices: 'invoice/getAllInvoices'
     }),
     filteredRecords () {
       let records = this.invoices
@@ -178,31 +179,30 @@ export default {
     }
   },
   watch: {
-    "$route": {
+    $route: {
       immediate: true,
       async handler (val) {
-        if(Object.keys(val.query).length > 0) {
-          if(val.query.name) {
+        if (Object.keys(val.query).length > 0) {
+          if (val.query.name) {
             this.options = this.filteredRecords.map(invoice => invoice.customerId)
             await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', customerUserId: val.query.name })
             this.searchField = 'Name'
             this.options = this.allClients
-          }else if(val.query.status) {
-            await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', status: val.query.status})
+          } else if (val.query.status) {
+            await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: val.query.status })
             this.searchField = 'Status'
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Paid Awaiting Confirmation']
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Paid Awaiting Confirmation']
           }
-        }else {
-          let res = await this.$store.dispatch('client/allConciseClients')
+        } else {
+          const res = await this.$store.dispatch('client/allConciseClients')
           this.allClients = res.data
           this.options = this.allClients
           await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-          
-        }        
+        }
       },
-      deep: true,
+      deep: true
     },
-    "searchField": {
+    searchField: {
       immediate: true,
       handler (newVal) {
         if (newVal === 'Name') {
@@ -224,18 +224,36 @@ export default {
       }
     }
   },
+  async beforeMount () {
+    try {
+      await this.checkPaymentMethods()
+      if (this.incomingPaymentNotification) {
+        this.activeRecord = this.invoices.find(i => i._id === this.incomingPaymentNotification)
+        this.$modal.show('invoice-details')
+      }
+    } catch (e) {
+      console.log({ e })
+    }
+  },
+  destroyed () {
+    this.setIncomingPaymentNotification({
+      incomingPaymentNotification: null
+    })
+  },
   methods: {
+    ...mapMutations({
+      setIncomingPaymentNotification: 'payment-methods/setIncomingPaymentNotification'
+    }),
     ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
     async checkPaymentMethods () {
-      
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
     },
-    async resetTable() {
+    async resetTable () {
       await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-      this.$router.push({ name: 'payments-requests-sent'})
+      this.$router.push({ name: 'payments-requests-sent' })
     },
-    async searchInvoice (option) {
+    searchInvoice (option) {
       if (this.searchField === 'Name') {
         this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
       } else {
@@ -275,13 +293,6 @@ export default {
       link.setAttribute('download', 'Sent_Invoices.csv')
       document.body.appendChild(link)
       link.click()
-    }
-  },
-  async beforeMount () {
-    try {
-      await this.checkPaymentMethods()
-    } catch (e) {
-      console.log({ e })
     }
   }
 }

@@ -1,10 +1,8 @@
 <template>
   <button
     type="button"
-    :class="[
-      notification.status === 'UNREAD' ? '' : 'bg-blue-50',
-      'w-full hover:bg-blue-50 py-2 px-4 rounded-md flex items-center',
-    ]"
+    class="w-full hover:bg-blue-50 p-4 rounded-md flex items-center"
+    @click="gotoPayment"
   >
     <div
       :class="[
@@ -13,37 +11,34 @@
       ]"
     >
       <div class="mr-4 flex">
-        <span class="relative inline-block">
-          <ClientAvatar
-            :client-info="{ firstName: notification.data.customerId.name }"
+        <i
+          v-if="notification.data.paymentReceipts[0].paymentType === 'TRANSFER'"
+          class="circled-icon bg-blue-50 fi-rr-bank text-xl text-blue-500"
+        ></i>
+        <div v-else class="circled-icon bg-blue-50">
+          <img
+            class="inline-block"
+            src="~/assets/img/stripe.png"
+            alt="stripe logo"
           />
-          <span
-            class="absolute -bottom-1 -right-1 bg-white rounded-full p-2 h-6 w-6 grid place-content-center flex-shrink"
-          >
-            <i class="fi-rr-bank text-xs h-3 text-blue-500"></i>
-          </span>
-        </span>
+        </div>
       </div>
-      <div class="text-gray-700 truncate">
-        <p :class="[notification.status === 'UNREAD' ? 'font-bold' : 'font-normal', 'text-base truncate']">
-          Bank payment of {{ notification.data.currency }}{{ notification.data.total }} from
-          <span class="capitalize font-medium">{{
-            notification.data.customerId.name
-          }}</span>
+      <div>
+        <h2 class="text-lg font-bold text-left">
+          {{ notification.data.customerId.name }}
+        </h2>
+        <p v-if="notification.data.status == 'paid_awaiting_confirmation'" class="text-gray-500  text-sm">
+          Requesting confirmation of <b>{{ notification.data.total | amount }}</b> on
+          <b>{{ notification.updatedAt | date }}</b>
         </p>
-        <small :class="[notification.status === 'UNREAD' ? 'font-bold text-blue-500' : 'font-normal', 'block text-sm text-left']">{{
-          notification.createdAt | howLongAgo
-        }}</small>
       </div>
     </div>
-    <div v-if="notification.status === 'UNREAD'">
-      <div class="rounded-full h-2.5 w-2.5 bg-blue-500"></div>
-    </div>
-    <i v-else class="fi-rr-angle-right text-blue-500"></i>
+    <i class="fi-rr-angle-right text-blue-500"></i>
   </button>
 </template>
 
 <script>
+import { mapMutations, mapActions } from 'vuex'
 export default {
   name: 'ReceivedPayment',
   props: {
@@ -51,8 +46,25 @@ export default {
       type: Object,
       required: true
     }
+  },
+  methods: {
+    ...mapMutations({
+      setIncomingPaymentNotification: 'payment-methods/setIncomingPaymentNotification'
+    }),
+    ...mapActions({
+      readNotification: 'notifications/readNotification'
+    }),
+    async gotoPayment () {
+      this.setIncomingPaymentNotification(this.notification.data._id)
+      await this.readNotification({ id: this.notification._id })
+      this.$router.push({ name: 'payments-requests-sent' })
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.circled-icon {
+  @apply h-12 p-3 w-12 rounded-full inline-flex justify-center items-center;
+}
+</style>
