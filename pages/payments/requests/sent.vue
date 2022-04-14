@@ -229,7 +229,7 @@ export default {
     try {
       const incomingNotificationId = this.$route.params.incomingNotificationId
       if (incomingNotificationId) {
-        const { data } = await this.getSingleInvoice(incomingNotificationId)
+        const { data } = await this.getSingleInvoice(id)
         this.activeRecord = data
         this.$modal.show('invoice-details')
       }
