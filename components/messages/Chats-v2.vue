@@ -128,7 +128,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapGetters, mapMutations } from "vuex";
 import PreviewImage from "~/components/messages/PreviewImage.vue";
 import OpponentMessage from "~/components/messages/OpponentMessage.vue";
 import SenderMessages from "~/components/messages/SenderMessages.vue";
@@ -169,7 +169,6 @@ export default {
       return this.$auth.user.sendbirdId;
     },
     isLoading() {
-      console.log([this.messages[this.receipientId]])
       return this.loading && (!this.messages[this.receipientId] || this.messages[this.receipientId].length === 0)
     },
     groupedMessages() {
@@ -195,8 +194,12 @@ export default {
   },
   async beforeMount() {
     await this.initializeChat();
+    this.scrollFeedToBottom();
   },
   methods: {
+    ...mapMutations({
+      swapMessage: "sendbird-v2/swapMessage",
+    }),
     ...mapActions({
       getChannel: "sendbird-v2/getChannel",
       getMessages: "sendbird-v2/getMessages",
@@ -212,8 +215,21 @@ export default {
           sender: this.senderId,
         });
         this.collection = await this.getMessages(this.channel);
-        this.scrollFeedToBottom();
-        this.loading = false
+        this.collection.onCacheResult((err, messages) => {
+          console.log('Messages from Cache: ', messages)
+          messages && messages.forEach(newMessage => {
+            this.swapMessage({ id: this.receipientId, newMessage })
+          })
+          this.scrollFeedToBottom();
+          this.loading = false
+        })
+        .onApiResult((err, messages) => {
+          console.log('Messages from API: ', messages)
+          messages && messages.forEach(newMessage => {
+            this.swapMessage({ id: this.receipientId, newMessage })
+          })
+          this.scrollFeedToBottom();
+        })
       }
     },
     async chatBodyScroll(event){

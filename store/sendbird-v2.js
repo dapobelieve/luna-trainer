@@ -96,35 +96,13 @@ export const actions = {
     if (channel) {
       const startingPoint = Date.now();
       const messageCollectionFetchLimit = 100;
-      const messageCollection = channel.createMessageCollection()
+      let messageCollection = channel.createMessageCollection()
         .setFilter(messageFilter)
         .setStartingPoint(startingPoint)
         .setLimit(messageCollectionFetchLimit)
         .build();
 
-      messageCollection
-        .initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
-        .onCacheResult((err, messages) => {
-          // Messages will be retrieved from the local cache.
-          // They might be too outdated or far from the startingPoint.
-          // put this information in the store
-          // we'll use our local to store the messages
-          console.log('Messages from Cache: ', messages)
-          messages && messages.forEach(message => {
-            commit('swapMessage', { id, newMessage: message })
-          })
-        })
-        .onApiResult((err, messages) => {
-          // Messages will be retrieved from the Sendbird server through API.
-          // According to the MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API,
-          // the existing data source needs to be cleared
-          // before adding retrieved messages to the local cache.cn
-          console.log('Messages from API: ', messages)
-          messages && messages.forEach(message => {
-            commit('swapMessage', { id, newMessage: message })
-          })
-        })
-
+      messageCollection = messageCollection.initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
       return messageCollection;
     }
   },
