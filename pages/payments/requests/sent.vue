@@ -18,7 +18,7 @@
             </span>
           </div>
           <div class="flex">
-            <SearchDropdown v-model="searchField" :fields="searchFields" :options="options" @reset="resetTable" @selected="searchInvoice">
+            <SearchDropdown v-model="searchField" :fields="searchFields" :options="options" :selected="selected" @reset="resetTable" @selected="searchInvoice">
               <template v-slot:selected-option="{selected}">
                 <span v-if="searchField === 'Name'" class="flex">
                   <ClientAvatar :height="1" :width="1" :client-info="{firstName: selected.firstName}" />
@@ -153,6 +153,7 @@ export default {
       searchFields: ['Name', 'Status'],
       selectAll: false,
       quickSearchQuery: '',
+      selected: '',
       exporting: false,
       options: [],
       allClients: [],
@@ -185,12 +186,14 @@ export default {
           if(val.query.name) {
             let res = await this.$store.dispatch('client/allConciseClients')
             this.allClients = res.data
+            this.selected = this.allClients.filter(client => client.userId === val.query.name)[0]
             await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', customerUserId: val.query.name })
             this.searchField = 'Name'
             this.options = this.allClients
           } else if (val.query.status) {
             await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: val.query.status })
             this.searchField = 'Status'
+            this.selected = val.query.status === 'paid_awaiting_confirmation' ? 'Awaiting' : val.query.status
             this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Awaiting']
           }
         } else {

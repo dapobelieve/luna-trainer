@@ -59,6 +59,7 @@ export default {
   },
   props: {
     field: {},
+    selected: {},
     fields: {
       type: Array
     },
@@ -69,7 +70,6 @@ export default {
   data () {
     return {
       showFieldDropdown: false,
-      selectedField: null,
       selectedOption: null,
       value: null,
       search: '',
@@ -94,6 +94,12 @@ export default {
     }
   },
   watch: {
+    "selected": {
+      immediate: true,
+      handler (val) {
+        this.selectedOption = val
+      },
+    },
     fields: {
       immediate: true,
       handler (newVal) {
@@ -102,11 +108,7 @@ export default {
       }
     }
   },
-  methods: {
-    connectToStripe(){
-      
-    },
-    
+  methods: {    
     clearSelection () {
       this.selectedOption = null
       this.show = true
