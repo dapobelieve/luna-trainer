@@ -228,7 +228,7 @@ export default {
   async beforeMount () {
     try {
       const id = this.$route.params.id
-      if (incomingNotificationId) {
+      if (id) {
         const { data } = await this.getSingleInvoice(id)
         this.activeRecord = data
         this.$modal.show('invoice-details')
