@@ -12,8 +12,10 @@ export default ({ store }) => {
       'sendBird.tempClient',
       'client.clients',
       'payment-methods',
-      'services.services'
+      'services.services',
+      'sendbird-v2.messages',
+      'sendbird-v2.latestMessages',
+      'sendbird-v2.unreadMessagesCount'
     ],
-    storage: localStorage
   })(store)
 }

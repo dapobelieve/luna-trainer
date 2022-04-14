@@ -4,15 +4,15 @@
       <div class="flex mt-1 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
-            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="archive">
+            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center font-medium text-primary-color text-base" to="/" @click="archive">
               <i class="fi-rr-archive mr-1"></i>
               <span>Archive</span>
             </span>
-            <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center text-sm font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
+            <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
               <i class="fi-rr-download mr-1"></i>
               <span>Export</span>
             </span>
-            <span v-else-if="exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400 text-base" to="/">
+            <span v-else-if="exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400" to="/">
               <i class="fi-rr-download mr-1"></i>
               <span>Exporting...</span>
             </span>
@@ -35,7 +35,7 @@
                   <div v-if="searchField === 'Name'" class="flex">
                     <ClientAvatar :height="1" :width="1" :client-info="{firstName: option.firstName}" />
                     <span class="text-xs text-gray-700 ml-2">
-                      {{ option.firstName }} 
+                      {{ option.firstName }}
                     </span>
                   </div>
                   <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
@@ -140,13 +140,13 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 export default {
   name: 'SentInvoice',
-  components: { InvoiceDetailModal, SearchDropdown },
-  data () {
+  components: {InvoiceDetailModal, SearchDropdown},
+  data() {
     return {
       activeRecord: null,
       searchField: 'Name',
@@ -157,65 +157,15 @@ export default {
       exporting: false,
       options: [],
       allClients: [],
-      checkedItems: [],
-    }
-  },
-  watch: {
-    "$route": {
-      immediate: true,
-      async handler (val) {
-        if(Object.keys(val.query).length > 0) {
-          if(val.query.name) {
-            let res = await this.$store.dispatch('client/allConciseClients')
-            this.allClients = res.data
-            this.selected = this.allClients.filter(client => client.userId === val.query.name)[0]
-            await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', customerUserId: val.query.name })
-            this.searchField = 'Name'
-            this.options = this.allClients
-          }else if(val.query.status) {
-            await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', status: val.query.status})
-            this.searchField = 'Status'
-            this.selected = val.query.status === 'paid_awaiting_confirmation' ? 'Awaiting' : val.query.status
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Awaiting']
-          }
-        }else {
-          let res = await this.$store.dispatch('client/allConciseClients')
-          this.allClients = res.data
-          this.searchField = 'Name'
-          this.options = this.allClients
-          await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-        }        
-      },
-      deep: true,
-    },
-    "searchField": {
-      immediate: true,
-      handler (newVal) {
-        if (newVal === 'Name') {
-          this.options = this.allClients
-        } else if (newVal === 'Status') {
-          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
-        }
-      }
-    },
-    checkedItems (newVal) {
-      if (newVal.length !== this.invoices.length) { this.selectAll = false } else if (newVal.length === this.invoices.length) { this.selectAll = true }
-    },
-    selectAll (newVal) {
-      if (newVal) {
-        this.checkedItems = [...this.invoices.map(invoice => invoice._id)]
-      } else if (!newVal && this.checkedItems.length === this.invoices.length) {
-        this.checkedItems = []
-        this.selectAll = false
-      }
+      checkedItems: []
     }
   },
   computed: {
     ...mapGetters({
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
-      invoices: 'invoice/getAllInvoices',
+      invoices: 'invoice/getAllInvoices'
     }),
-    filteredRecords () {
+    filteredRecords() {
       let records = this.invoices
       if (records && records.length > 0) {
         records = records.filter((row) => {
@@ -228,66 +178,58 @@ export default {
       return records
     }
   },
-  methods: {
-    ...mapActions({ getPaymentMethods: 'payment-methods/getPaymentMethods' }),
-    async checkPaymentMethods () {
-      await this.getPaymentMethods()
-      if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
-    },
-    async resetTable() {
-      await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-      this.searchField = 'Name'
-      this.options = this.allClients
-      this.$router.push({ name: 'payments-requests-sent'})
-    },
-    async searchInvoice (option) {
-      if (this.searchField === 'Name') {
-        this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
-      } else {
-        let _option = option === 'Awaiting' ? 'paid_awaiting_confirmation' : option
-        this.$router.push({ name: 'payments-requests-sent', query: { status: _option.toLowerCase() } })
-      }
-    },
-    async archive () {
-      try {
-        if (this.checkedItems.length) {
-          await this.$store.dispatch('invoice/archive', [...this.checkedItems])
-          this.$lunaToast.success('Invoices archived')
+  watch: {
+    $route: {
+      immediate: true,
+      async handler(val) {
+        if (Object.keys(val.query).length > 0) {
+          if (val.query.name) {
+            let res = await this.$store.dispatch('client/allConciseClients')
+            this.allClients = res.data
+            this.selected = this.allClients.filter(client => client.userId === val.query.name)[0]
+            await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', customerUserId: val.query.name})
+            this.searchField = 'Name'
+            this.options = this.allClients
+          } else if (val.query.status) {
+            await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent', status: val.query.status})
+            this.searchField = 'Status'
+            this.selected = val.query.status === 'paid_awaiting_confirmation' ? 'Awaiting' : val.query.status
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
+          }
         } else {
-          this.$lunaToast.error('No record selected')
+          const res = await this.$store.dispatch('client/allConciseClients')
+          this.allClients = res.data
+          this.searchField = 'Name'
+          this.options = this.allClients
+          await this.$store.dispatch('invoice/getInvoices', {workflowStatus: 'sent'})
         }
-      } catch (e) {
-        console.log(e)
+      },
+      deep: true
+    },
+    searchField: {
+      immediate: true,
+      handler(newVal) {
+        if (newVal === 'Name') {
+          this.options = this.allClients
+        } else if (newVal === 'Status') {
+          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
+        }
       }
     },
-    async exportInvoice () {
-      try {
-        this.exporting = true
-        const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/export`, {
-          responseType: 'blob'
-        })
-        this.downloadDocument(res)
-      } catch (e) {
-
-      } finally {
-        this.exporting = false
+    checkedItems(newVal) {
+      if (newVal.length !== this.invoices.length) {
+        this.selectAll = false
+      } else if (newVal.length === this.invoices.length) {
+        this.selectAll = true
       }
     },
-    downloadDocument (response) {
-      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
-      const link = document.createElement('a')
-
-      link.href = url
-      link.setAttribute('download', 'Sent_Invoices.csv')
-      document.body.appendChild(link)
-      link.click()
-    }
-  },
-  async beforeMount () {
-    try {
-      await this.checkPaymentMethods()
-    } catch (e) {
-      console.log({ e })
+    selectAll(newVal) {
+      if (newVal) {
+        this.checkedItems = [...this.invoices.map(invoice => invoice._id)]
+      } else if (!newVal && this.checkedItems.length === this.invoices.length) {
+        this.checkedItems = []
+        this.selectAll = false
+      }
     }
   }
 }

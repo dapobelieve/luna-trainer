@@ -12,7 +12,7 @@
           </h2>
           <div
             v-if="showButtons"
-            class="sm:absolute right-4 flex space-x-2 justify-end mr-4"
+            class="absolute right-4 top-4 flex space-x-2 justify-end"
           >
             <button
               :disabled="cancelLoading"

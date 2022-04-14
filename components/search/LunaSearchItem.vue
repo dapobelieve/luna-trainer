@@ -5,9 +5,9 @@
         <img :src="result.imgURL || '~/assets/img/search-user.svg'">
       </div>
       <div class="flex items-center">
-        <router-link :to="'/client/' + result.id+'/information'" class="hover:underline text-gray-700 font-medium">
-        {{result.firstName}}
-        </router-link>
+        <button @click.prevent="goToClient" class="hover:underline text-gray-700 font-medium">
+         {{`${result.firstName} ${result.lastName || ""}`}}
+        </button>
       
         <i class="fi-rr-angle-small-right w-4 h-4"></i>
         <button @click.stop="gotToPayments" class="inline-flex text-sm items-center mr-4 text-primary-color cursor-pointer">
@@ -45,6 +45,15 @@ export default {
         name: 'payments-requests-sent',
         query: {
           name: this.result.userId
+        }
+      })
+      this.close()
+    } ,
+    goToClient() {
+      this.$router.push({
+        name: 'client-id-information',
+        params: {
+          id: this.result.id
         }
       })
       this.close()

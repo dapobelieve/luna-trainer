@@ -36,9 +36,6 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
-import sendBird from '../mixins/sendBird'
-import sendBirdEvents from '../mixins/sendBirdEvents'
-import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
@@ -46,7 +43,7 @@ import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'Dashboard',
   components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
-  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
+  mixins: [auth],
   data () {
     return {
       isLoading: false,
@@ -113,11 +110,6 @@ export default {
     hideMobileMenu () {
       this.showSidebarMenu = false
     },
-    ...mapActions('sendBird', {
-      connectToSendBird: 'connectToSBWithUserid',
-      newMessage: 'updateConnectedChannels',
-      addChannel: 'addNewChannel'
-    }),
     ...mapActions('authorize', {
       startFullPageLoad: 'startFullPageLoading',
       endFullPageLoad: 'endFullPageLoading'

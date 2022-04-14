@@ -11,7 +11,7 @@
     </div>
     <img
       class="bg-white cursor-not-allowed imgSize opacity-20"
-      :src="msg.imaging || msg.url"
+      :src="msg.fileBinary || msg.url"
     />
   </span>
   <span
@@ -19,36 +19,43 @@
     class="msg overflow-hidden relative"
     @click="viewImage(msg)"
   >
-    <img
-      class="bg-white cursor-pointer imgSize"
-      :src="msg.imaging || msg.url"
-    />
+    <img class="bg-white cursor-pointer imgSize" :src="msg.image || msg.url" />
   </span>
 </template>
 
 <script>
+import ViewChatImage from "./ViewChatImage.vue";
 export default {
-  name: 'SenderFileMessage',
+  name: "SenderFileMessage",
+  components: {
+    ViewChatImage,
+  },
   props: {
     msg: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   methods: {
-    viewImage (image) {
-      this.$store.commit('sendBird/VIEW_IMAGE', {
-        imageDetails: {
-          url: image.url,
-          nickname: image._sender.nickname,
-          profileImg: image._sender.plainProfileUrl,
-          dateTime: image.createdAt
+    viewImage(msg) {
+      this.$modal.show(
+        ViewChatImage,
+        {
+          imageDetails: {
+            url: msg.url,
+            nickname: msg._sender.nickname,
+            profileImg: msg._sender.plainProfileUrl,
+            dateTime: msg.createdAt,
+          },
         },
-        status: true
-      })
-    }
-  }
-}
+        {
+          height: "100%",
+          width: "100%",
+        }
+      );
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>

@@ -2,45 +2,74 @@
   <main>
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
-        <DashboardCard @action="$router.push({name: 'schedule'})" :view-all="events.length > 0" class="p-0" id="session-st">
+        <DashboardCard
+          @action="$router.push({ name: 'schedule' })"
+          :view-all="events.length > 0"
+          class="p-0"
+          id="session-st"
+        >
           <div id="session-hint">
             <div class="mb-5">
-              <img class="w-full" src="~/assets/img/home.svg">
+              <img class="w-full" src="~/assets/img/home.svg" />
             </div>
             <div class="mb-6">
               <div class="flex items-center px-3 mb-5">
                 <div class="flex items-center">
-                  <div class="h-12 w-12 rounded-full bg-fuchsia-50 mr-4 flex items-center justify-center">
-                    <span class="fi-rr-calendar text-fuchsia-500 text-xl"></span>
+                  <div
+                    class="
+                      h-12
+                      w-12
+                      rounded-full
+                      bg-fuchsia-50
+                      mr-4
+                      flex
+                      items-center
+                      justify-center
+                    "
+                  >
+                    <span
+                      class="fi-rr-calendar text-fuchsia-500 text-xl"
+                    ></span>
                   </div>
-                  <h3 class="font-medium">
-                    My Sessions
-                  </h3>
+                  <h3 class="font-medium">My Sessions</h3>
                 </div>
               </div>
               <div class="flex px-3 items-center mb-4">
                 <div class="font-medium text-sm">
-                  {{ $dateFns.format(new Date(), 'MMMM d, EEEE') }}
+                  {{ $dateFns.format(new Date(), "MMMM d, EEEE") }}
                 </div>
-                <span class="ml-auto text-gray-500 mr-1">{{ events.length }} upcoming</span>
+                <span class="ml-auto text-gray-500 mr-1"
+                  >{{ events.length }} upcoming</span
+                >
               </div>
               <div class="px-3">
-                <WeekView fetch-events @fetching-events="fetching=true" @stop-fetching-events="fetching=false" @events="events = $event" />
+                <WeekView
+                  fetch-events
+                  @fetching-events="fetching = true"
+                  @stop-fetching-events="fetching = false"
+                  @events="events = $event"
+                />
               </div>
             </div>
           </div>
           <div class="px-3 h-[19rem]">
-            <div v-if="fetching" class="flex items-center justify-center h-full">
+            <div
+              v-if="fetching"
+              class="flex items-center justify-center h-full"
+            >
               <SingleLoader height="40px" width="40px" />
             </div>
             <template v-else>
-              <div v-if="!events.length" class="flex items-center h-full justify-center">
+              <div
+                v-if="!events.length"
+                class="flex items-center h-full justify-center"
+              >
                 <div class="flex flex-col items-center">
                   <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
-                  <h3 class="text-gray-700 text-lg">
-                    You have no appointment
-                  </h3>
-                  <small class="text-base text-gray-500">Your appointments would be displayed here</small>
+                  <h3 class="text-gray-700 text-lg">You have no appointment</h3>
+                  <small class="text-base text-gray-500"
+                    >Your appointments would be displayed here</small
+                  >
                   <button class="button-fill mt-3" @click="openSession">
                     Schedule a session
                   </button>
@@ -48,21 +77,25 @@
               </div>
               <div v-else>
                 <!--                <CurrentSessionCard class="mb-4" />-->
-                <UpcomingSessionCard v-for="event in events" :key="event.id" :event="event" :color="event.color" class="mb-2" />
+                <UpcomingSessionCard
+                  v-for="event in events"
+                  :key="event.id"
+                  :event="event"
+                  :color="event.color"
+                  class="mb-2"
+                />
               </div>
             </template>
           </div>
         </DashboardCard>
         <div class="grid gap-4">
-          <MessageWidget class="h-[20rem]" id="message-hint" />
-          <InvoiceWidget class="h-[31rem]" id="billing-hint" />
+          <MessageWidget class="h-[23rem]" id="message-hint" />
+          <InvoiceWidget class="h-[30rem]" id="billing-hint" />
         </div>
       </div>
       <!-- modals -->
       <NotificationsModal :visible="true">
-        <template v-slot:title>
-          Stripe Connect
-        </template>
+        <template v-slot:title> Stripe Connect </template>
         <template v-slot:subtitle>
           Account under review, please confirm all requirements have been met
           before proceeding to creating invoices.
@@ -72,57 +105,81 @@
         :visible="showNotification"
         @close="showNotification = $event"
       >
-        <template v-slot:title>
-          Chat Connection Failed
-        </template>
+        <template v-slot:title> Chat Connection Failed </template>
         <template v-slot:subtitle>
           Reconnect chat to enjoy all of GetWelp's features
         </template>
         <template v-slot:actionButtons>
           <button
-            class="bg-white rounded-md text-sm font-medium capitalize hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 text-blue-700"
+            class="
+              bg-white
+              rounded-md
+              text-sm
+              font-medium
+              capitalize
+              hover:text-gray-500
+              focus:outline-none
+              focus:ring-2
+              focus:ring-offset-2
+              focus:ring-indigo-500
+              text-blue-700
+            "
             @click="retry"
           >
             retry
           </button>
         </template>
       </NotificationsModal>
-     <DashboardWelcomeModal
-      :exitTour="() => {
-          closeModal()
-          this.doNotShowHints = true
-        }"
-        :takeTour="() => {
-          this.tourItems();
-          closeModal()
-        }" 
+      <DashboardWelcomeModal
+        :exitTour="
+          () => {
+            closeModal();
+            this.doNotShowHints = true;
+          }
+        "
+        :takeTour="
+          () => {
+            this.tourItems();
+            closeModal();
+          }
+        "
       />
     </section>
   </main>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
-import DashboardCard from '~/components/dashboard/DashboardCard'
-import WeekView from '~/components/dashboard/WeekView'
+import { mapActions, mapGetters } from "vuex";
+import DashboardCard from "~/components/dashboard/DashboardCard";
+import WeekView from "~/components/dashboard/WeekView";
 // import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
-import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
-import InvoiceWidget from '~/components/dashboard/InvoiceWidget'
-import MessageWidget from '~/components/dashboard/MessageWidget'
-import DashboardWelcomeModal from '~/components/modals/DashboardWelcomeModal.vue'
-import {dashboardTourSteps} from '~/tour/DashboardTourSteps'
+import UpcomingSessionCard from "~/components/dashboard/UpcomingSessionCard";
+import InvoiceWidget from "~/components/dashboard/InvoiceWidget";
+import MessageWidget from "~/components/dashboard/MessageWidget";
+import DashboardWelcomeModal from "~/components/modals/DashboardWelcomeModal.vue";
+import { dashboardTourSteps } from "~/tour/DashboardTourSteps";
 export default {
-  name: 'Dashboard',
-  components: { MessageWidget, InvoiceWidget, UpcomingSessionCard, WeekView, DashboardCard, DashboardWelcomeModal },
-  layout: 'dashboard',
-  async asyncData ({ store }) {
-    const acceptedClients = await store.dispatch('client/fetchClientsWithStatusAndLimit', {
-      status: 'accepted',
-      limit: 2
-    })
-    return { acceptedClients }
+  name: "Dashboard",
+  components: {
+    MessageWidget,
+    InvoiceWidget,
+    UpcomingSessionCard,
+    WeekView,
+    DashboardCard,
+    DashboardWelcomeModal,
   },
-  data () {
+  layout: "dashboard",
+  async asyncData({ store }) {
+    const acceptedClients = await store.dispatch(
+      "client/fetchClientsWithStatusAndLimit",
+      {
+        status: "accepted",
+        limit: 2,
+      }
+    );
+    return { acceptedClients };
+  },
+  data() {
     return {
       fetching: false,
       fetchEventsForToday: false,
@@ -133,38 +190,42 @@ export default {
       openBankModal: false,
       showNotification: false,
       paidInvoices: [],
-      acceptedClients: []
-    }
+      acceptedClients: [],
+    };
   },
-  head () {
+  head() {
     return {
-      title: 'Dashboard'
-    }
+      title: "Dashboard",
+    };
   },
   computed: {
-    ...mapGetters('profile', {
-      isStripeConnected: 'isStripeConnected',
-      isStripeReady: 'isStripeReady'
+    ...mapGetters("profile", {
+      isStripeConnected: "isStripeConnected",
+      isStripeReady: "isStripeReady",
     }),
     ...mapGetters({
-      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
-    })
+      sendBirdConnStatus: "sendBird/connectingToSendbirdServerWithUserStatus",
+    }),
   },
   watch: {
-    sendBirdConnStatus (newValue, oldValue) {
+    sendBirdConnStatus(newValue, oldValue) {
       if (newValue || oldValue || !this.store.state.sendbirdId.sbUser) {
         this.$nextTick(() => {
           setTimeout(() => {
-            this.showNotification = true
-          }, 2000)
-        })
+            this.showNotification = true;
+          }, 2000);
+        });
       }
-    }
+    },
   },
-  mounted () {
-    const newUser = (this.$route?.query?.new)
-    this.fetchUserProfile()
-    this.fetchPaidInvoices({ status: 'paid', limit: 5 }).then((r) => { this.paidInvoices = r }).catch(e => console.error(e))
+  mounted() {
+    const newUser = this.$route?.query?.new;
+    this.fetchUserProfile();
+    this.fetchPaidInvoices({ status: "paid", limit: 5 })
+      .then((r) => {
+        this.paidInvoices = r;
+      })
+      .catch((e) => console.error(e));
 
     if (newUser) {
       window.localStorage.setItem("dashboard-tour", new Date())
@@ -173,12 +234,11 @@ export default {
       window.localStorage.setItem("invoice-tour", new Date())
 
       if (window.localStorage.getItem("dashboard-tour")) {
-        this.$modal.show('welcome-modal')
+        this.$modal.show("welcome-modal");
       }
     } else {
       // set date time stamp in local storage
       if (!window.localStorage.getItem("welcome")) {
-        window.localStorage.setItem("welcome", new Date())
         this.$lunaToast.show(
           'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
           {
@@ -194,76 +254,69 @@ export default {
             },
             cancel: {
               text: 'Not Now',
-              resolver: async () => {}
+              resolver: async () => {
+                console.log("cancelling")
+                window.localStorage.setItem("welcome", new Date())
+              }
             }
           }
         )
       }
     }
 
-    this.fetchPaidInvoices({ status: 'paid', limit: 5 })
+    this.fetchPaidInvoices({ status: "paid", limit: 5 })
       .then((r) => {
-        this.paidInvoices = r
+        this.paidInvoices = r;
       })
-      .catch(e => console.error(e))
+      .catch((e) => console.error(e));
   },
-  updated () {
+  updated() {
     this.$nextTick(() => {
-      this.fetchEventsForToday = true
+      this.fetchEventsForToday = true;
       if (this.sendBirdConnStatus) {
         setTimeout(() => {
-          this.showNotification = true
-        }, 2000)
+          this.showNotification = true;
+        }, 2000);
       }
-    })
+    });
   },
   methods: {
-    openSession () {
-      this.$store.commit('scheduler/setStates', {
-        drawer: { open: true, activePage: 'new-session' }
-      })
+    openSession() {
+      this.$store.commit("scheduler/setStates", {
+        drawer: { open: true, activePage: "new-session" },
+      });
     },
     removeQueryParams() {
       let query = Object.assign({}, this.$route.query);
       delete query.new;
       this.$router.replace({ query });
-      window.localStorage.removeItem("dashboard-tour")
+      window.localStorage.removeItem("dashboard-tour");
     },
-    tourItems () {
-      if (this.doNotShowHints) return
-    
-      dashboardTourSteps(this.$intro())
-        .oncomplete(()=> {
-          this.removeQueryParams()
-        })
-        .onexit(() =>{
-          this.removeQueryParams()
-        })
-        .start()
+    tourItems() {
+      if (this.doNotShowHints) return;
 
-      this.$intro().showHints()
+      dashboardTourSteps(this.$intro())
+        .oncomplete(() => {
+          this.removeQueryParams();
+        })
+        .onexit(() => {
+          this.removeQueryParams();
+        })
+        .start();
+
+      this.$intro().showHints();
     },
-    closeModal () {
-      this.$modal.hide('welcome-modal')
+    closeModal() {
+      this.$modal.hide("welcome-modal");
     },
     ...mapActions({
-      fetchUserProfile: 'profile/getUserProfile',
-      fetchPaidInvoices: 'invoice/getInvoices',
-      connectToSendBird: 'sendBird/connectToSBWithUserid'
+      fetchUserProfile: "profile/getUserProfile",
+      fetchPaidInvoices: "invoice/getInvoices",
     }),
-    retry () {
-      this.$store.commit('sendBird/CONNECTION_ERROR', false)
-      this.showNotification = false
-      return this.connectToSendBird(this.$auth.user.sendbirdId).then((result) => {
-        if (result !== 'error') {
-          this.$lunaToast.success('Chat connection successful')
-        }
-      })
-    }
-  }
-}
+  },
+};
 </script>
 
 <style>
-  @import '../assets/css/introtheme.css';
+@import "../assets/css/introtheme.css";
 </style>

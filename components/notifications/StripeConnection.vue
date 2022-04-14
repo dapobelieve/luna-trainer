@@ -1,10 +1,7 @@
 <template>
   <button
     type="button"
-    :class="[
-      notification.status === 'UNREAD' ? '' : 'bg-blue-50',
-      'w-full hover:bg-blue-50 py-4 px-4 rounded-md flex items-center',
-    ]"
+    class="w-full hover:bg-blue-50 p-4 rounded-md flex items-center"
     @click="gotoPayments"
   >
     <div
@@ -13,6 +10,9 @@
         'mr-auto flex',
       ]"
     >
+      <i
+        class="circled-icon bg-blue-50 mr-3 fi-rr-settings text-xl text-blue-500"
+      ></i>
       <div class="text-gray-700">
         <p class="text-base">
           Stripe is connected successfully.
@@ -27,10 +27,7 @@
         >{{ notification.createdAt | howLongAgo }}</small>
       </div>
     </div>
-    <div v-if="notification.status === 'UNREAD'">
-      <div class="rounded-full h-2.5 w-2.5 bg-blue-500"></div>
-    </div>
-    <i v-else class="fi-rr-angle-right text-blue-500"></i>
+    <i class="fi-rr-angle-right text-blue-500"></i>
   </button>
 </template>
 
@@ -57,5 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.circled-icon {
+  @apply h-12 p-3 w-12 rounded-full inline-flex justify-center items-center;
+}
 </style>

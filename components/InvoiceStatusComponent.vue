@@ -1,6 +1,6 @@
 <template>
-  <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.text}`, `${computedStatus.bg}`]">
-    {{ `${status.substring(0,1).toUpperCase()}${status.substring(1).toLowerCase().replaceAll('_',' ')}` }}
+  <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.textColor}`, `${computedStatus.bgColor}`]">
+    {{ computedStatus.text }}
   </div>
 </template>
 
@@ -16,24 +16,34 @@ export default {
     return {
       statuses: {
         paid: {
-          text: 'text-green-500',
-          bg: 'bg-green-50'
+          textColor: 'text-green-500',
+          bgColor: 'bg-green-50',
+          text: 'Paid'
         },
         overdue: {
-          text: 'text-pink-500',
-          bg: 'bg-red-50'
+          textColor: 'text-pink-500',
+          bgColor: 'bg-red-50',
+          text: 'Overdue'
         },
         outstanding: {
-          text: 'text-red-500',
-          bg: 'bg-red-50'
+          textColor: 'text-red-500',
+          bgColor: 'bg-red-50',
+          text: 'Outstanding'
         },
         pending: {
-          text: 'text-yellow-500',
-          bg: 'bg-yellow-50'
+          textColor: 'text-yellow-500',
+          bgColor: 'bg-yellow-50',
+          text: 'Pending'
         },
         awaiting: {
-          text: 'text-blue-500',
-          bg: 'bg-blue-50'
+          textColor: 'text-blue-500',
+          bgColor: 'bg-blue-50',
+          text: 'Awaiting'
+        },
+        paid_awaiting_confirmation: {
+          textColor: 'text-blue-500',
+          bgColor: 'bg-blue-50',
+          text: 'Awaiting Confirmation'
         }
       }
     }

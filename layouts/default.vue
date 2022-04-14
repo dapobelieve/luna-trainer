@@ -46,9 +46,6 @@
 <script>
 import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
-import sendBird from '../mixins/sendBird'
-import sendBirdEvents from '../mixins/sendBirdEvents'
-import sendBirdConnectionEvents from '../mixins/sendBirdConnectionEvents'
 import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
 import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
 import auth from '~/mixins/auth'
@@ -59,8 +56,8 @@ import AddingNote from '~/components/notes/AddingNote.vue'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'default',
-  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal, AddingNote },
-  mixins: [sendBird, sendBirdEvents, sendBirdConnectionEvents, auth],
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal,AddingNote },
+  mixins: [auth],
   data () {
     return {
       page: this.$route.name,
@@ -144,18 +141,12 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions('sendBird', {
-      connectToSendBird: 'connectToSBWithUserid',
       newMessage: 'updateConnectedChannels',
       addChannel: 'addNewChannel'
     }),
     retry () {
       this.$store.commit('sendBird/CONNECTION_ERROR', false)
       this.showNotification = false
-      return this.connectToSendBird(this.$auth.user.sendbirdId).then((result) => {
-        if (result !== 'error') {
-          this.$lunaToast.success('Chat connection successful')
-        }
-      })
     }
   }
 }
