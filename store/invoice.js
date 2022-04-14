@@ -1,4 +1,4 @@
-import Vue from "vue";
+import Vue from 'vue'
 
 const queryString = require('querystring')
 
@@ -75,13 +75,13 @@ export const actions = {
     const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt`, payload)
     return res
   },
-  async getWidgetData ({ commit, dispatch }, status, limit=3) {
+  async getWidgetData ({ commit, dispatch }, status, limit = 3) {
     try {
       const response = await this.$axios.$get(
         `${process.env.PAYMENT_HOST_URL}/widget/payment?status=${status}&limit=${limit}`
       )
       return response.data
-    }catch(error){
+    } catch (error) {
       console.error(error)
     }
   },
