@@ -1,136 +1,146 @@
 /* style the background and the text color of the input ... */
 .vue-tags-input {
     background: #324652;
-  }
+}
 
-  .vue-tags-input .ti-new-tag-input {
-    background: transparent;
-    color: #b7c4c9;
-  }
+.vue-tags-input .ti-new-tag-input {
+background: transparent;
+color: #b7c4c9;
+}
 
-  .vue-tags-input .ti-input {
-    padding: 4px 10px;
-    transition: border-bottom 200ms ease;
-  }
+.vue-tags-input .ti-input {
+padding: 4px 10px;
+transition: border-bottom 200ms ease;
+}
 
-  /* some stylings for the autocomplete layer */
-  .vue-tags-input .ti-autocomplete {
-    background: #283944;
-    border: 1px solid #8b9396;
-    border-top: none;
-  }
+/* some stylings for the autocomplete layer */
+.vue-tags-input .ti-autocomplete {
+background: #283944;
+border: 1px solid #8b9396;
+border-top: none;
+}
 
-  /* the selected item in the autocomplete layer, should be highlighted */
-  .vue-tags-input .ti-item.ti-selected-item {
-    background: #ebde6e;
-    color: #283944;
-  }
+/* the selected item in the autocomplete layer, should be highlighted */
+.vue-tags-input .ti-item.ti-selected-item {
+background: #ebde6e;
+color: #283944;
+}
 
-  /* style the placeholders color across all browser */
-  .vue-tags-input ::-webkit-input-placeholder {
-    color: #a4b1b6;
-  }
+/* style the placeholders color across all browser */
+.vue-tags-input ::-webkit-input-placeholder {
+color: #a4b1b6;
+}
 
-  .vue-tags-input ::-moz-placeholder {
-    color: #a4b1b6;
-  }
+.vue-tags-input ::-moz-placeholder {
+color: #a4b1b6;
+}
 
-  .vue-tags-input :-ms-input-placeholder {
-    color: #a4b1b6;
-  }
+.vue-tags-input :-ms-input-placeholder {
+color: #a4b1b6;
+}
 
-  .ti-icon-close{
-    color: rgba(15, 62, 139, 0.5);
-  }
+.ti-icon-close{
+color: rgba(15, 62, 139, 0.5);
+}
 
-  .ti-icon-close:hover,.ti-icon-close:focus{
-      background-color: rgba(59, 130, 246, 0.09);
-      border-radius: 50%;
-      width: 20px;
-      justify-content: center;
-      height: 20px;
-      display: flex;
-      align-items: center;
-  }
-  .vue-tags-input :-moz-placeholder {
-    color: #a4b1b6;
-  }
+.ti-icon-close:hover,.ti-icon-close:focus{
+    background-color: rgba(59, 130, 246, 0.09);
+    border-radius: 50%;
+    width: 20px;
+    justify-content: center;
+    height: 20px;
+    display: flex;
+    align-items: center;
+}
+.vue-tags-input :-moz-placeholder {
+color: #a4b1b6;
+}
 
-  .ti-new-tag-input,.ti-valid {
-      font-size: 16px;
-      height: 30px;
-  }
-
-  /* default styles for all the tags */
-  .vue-tags-input .ti-tag {
-    position: relative;
-    background: #FFF;
-    color: #283944;
-    border-color: lightgray;
-    border-width: 1px;
-    border-radius: 20px;
-    max-height: 30px;
+.ti-new-tag-input  {
+font-size: 16px;
+height: 10px;
+}
+.ti-valid {
     font-size: 16px;
-    padding: 5px;
+    height: 28px;
+}
+
+/* default styles for all the tags */
+.vue-tags-input .ti-tag {
+position: relative;
+background: #FFF;
+color: #283944;
+border-color: lightgray;
+border-width: 1px;
+border-radius: 20px;
+max-height: 30px;
+font-size: 16px;
+padding: 5px;
+text-transform: capitalize;
+padding-left: 10px;
+}
+
+/* we defined a custom css class in the data model, now we are using it to style the tag */
+.vue-tags-input .ti-tag.custom-class {
+background: transparent;
+border: 1px solid lightgray;
+color: lightgray;
+margin-right: 4px;
+border-radius: 0px;
+font-size: 13px;
+}
+
+/* the styles if a tag is invalid */
+.vue-tags-input .ti-tag.ti-invalid {
+background-color: #e88a74;
+}
+
+/* if the user input is invalid, the input color should be red */
+.vue-tags-input .ti-new-tag-input.ti-invalid {
+color: #e88a74;
+}
+
+/* if a tag or the user input is a duplicate, it should be crossed out */
+.vue-tags-input .ti-duplicate span,
+.vue-tags-input .ti-new-tag-input.ti-duplicate {
+text-decoration: line-through;
+}
+.ti-input {
+    height: "auto";
     text-transform: capitalize;
-    padding-left: 10px;
-  }
+}
 
-  /* we defined a custom css class in the data model, now we are using it to style the tag */
-  .vue-tags-input .ti-tag.custom-class {
-    background: transparent;
-    border: 1px solid lightgray;
-    color: lightgray;
-    margin-right: 4px;
-    border-radius: 0px;
-    font-size: 13px;
-  }
+/* if the user presses backspace, the complete tag should be crossed out, to mark it for deletion */
+.vue-tags-input .ti-tag:after {
+transition: transform .2s;
+position: absolute;
+content: '';
+height: 2px;
+width: 108%;
+left: -4%;
+top: calc(50% - 1px);
+background-color: #000;
+transform: scaleX(0);
+}
 
-  /* the styles if a tag is invalid */
-  .vue-tags-input .ti-tag.ti-invalid {
-    background-color: #e88a74;
-  }
+.vue-tags-input .ti-deletion-mark:after {
+transform: scaleX(1);
+}
 
-  /* if the user input is invalid, the input color should be red */
-  .vue-tags-input .ti-new-tag-input.ti-invalid {
-    color: #e88a74;
-  }
+.vue-tags-input {
+position: relative;
+height: auto;
+}
 
-  /* if a tag or the user input is a duplicate, it should be crossed out */
-  .vue-tags-input .ti-duplicate span,
-  .vue-tags-input .ti-new-tag-input.ti-duplicate {
-    text-decoration: line-through;
-  }
-  .ti-input {
-        height: "auto";
-        text-transform: capitalize;
-    }
+.ti-input[data-v-61d92e31] {
+    border: 0px solid #fff;
+    display: flex;
+    padding: 4px;
+    padding-top: 10px;
+    flex-wrap: wrap;
+}
 
-  /* if the user presses backspace, the complete tag should be crossed out, to mark it for deletion */
-  .vue-tags-input .ti-tag:after {
-    transition: transform .2s;
-    position: absolute;
-    content: '';
-    height: 2px;
-    width: 108%;
-    left: -4%;
-    top: calc(50% - 1px);
-    background-color: #000;
-    transform: scaleX(0);
-  }
-
-  .vue-tags-input .ti-deletion-mark:after {
-    transform: scaleX(1);
-  }
-
-  .vue-tags-input {
+.ti-new-tag-input-wrapper input[data-v-61d92e31]{
     position: relative;
-    height: auto;
-    }
-
-    .ti-input[data-v-61d92e31] {
-        border: 0px solid #fff;
-        display: flex;
-        padding: 4px;
-        flex-wrap: wrap;
-    }
+    top: -3px;
+}

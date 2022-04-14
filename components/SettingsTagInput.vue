@@ -1,19 +1,17 @@
 <template>
   <div>
     <div
-      class="bg-white border rounded py-3"
+      class="bg-white border rounded"
       style="position: relative;"
     >
       <vue-tags-input
         v-model.trim="input"
         placeholder="Input an item"
         :tags="items"
+        :separators="[',',';']"
         @tags-changed="e => onChange(e)"
       />
     </div>
-    <p v-if="input.length" class="text-gray-500 text-sm font-normal mt-2">
-      Press enter to add another item, or tab to continue
-    </p>
   </div>
 </template>
 
