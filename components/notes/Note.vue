@@ -1,48 +1,148 @@
 <template>
-  <div class="note" role="button" @click="viewNote">
-    <div class="mr-auto">
-      <p class="title">
-        {{ note.title }}
-      </p>
-      <p class="body">
-        {{ note.description }}
-      </p>
-      <span class="date">
-        {{ note.updatedAt | howLongAgo }}
-      </span>
+  <async-view>
+    <div>
+      <div class="flex justify-between items-center px-4 sticky top-0">
+        <p class="text-gray-700 font-normal text-sm mr-auto title uppercase">{{type}} Notes</p>
+        <button class="text-blue-500" type="button" @click.prevent="addNote">
+          <i class="fi-rr-plus h-4 w-4"></i>
+        </button>
+      </div>
+      <div class="mt-8 px-1">
+        <NoNotes v-if="!notes.length" :type="type" @add="addNote" />
+        <NoteItem
+          v-for="note in notes"
+          v-else
+          :key="note._id"
+          :note="note"
+          @click="viewNote(note)"
+        />
+        <a
+          href="#"
+          @click.prevent="loadMore"
+          v-if="notes && notes.length >= this.limit * page"
+          class="w-full py-4 text-primary text-center block hover:text-primary"
+          :disabled="loading"
+        >
+          <span v-if="!loading">Loading more</span>
+          <SingleLoader v-else></SingleLoader>
+        </a>
+      </div>
+      <AddNote :note="note" :open="openAddNoteSidebar" @close="resetNote" />
+      <NoteDeleteModal @yes="deleteSingleNote"></NoteDeleteModal>
     </div>
-    <i class="fi-rr-angle-small-right text-blue-500 h-2 w-2"></i>
-  </div>
+  </async-view>
 </template>
 
 <script>
+import { mapActions, mapGetters } from "vuex";
+import AddNote from "./AddNote.vue";
+import NoNotes from './NoNotes.vue';
+import NoteDeleteModal from "./NoteDeleteModal.vue";
+import NoteItem from "./NoteItem.vue";
 export default {
-  name: 'Note',
-  props: {
-    note: {
-      type: Object,
-      required: true
+  name: "Notes",
+  components: {
+    AddNote,
+    NoteItem,
+    NoteDeleteModal,
+    NoNotes,
+  },
+  props:{
+    type: {
+      type:String,
+      default:''
     }
   },
+  data() {
+    return {
+      note: {
+        title: new Date().toDateString(),
+        description: "",
+        clientId: this.$route.params.id,
+        tags: [this.type],
+      },
+      page: 1,
+      limit: 20,
+      loading: false,
+      openAddNoteSidebar: false,
+      clientId: this.$route.params.id,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      clients: "client/getAllClients",
+      allNotes: "notes-v2/notes"
+    }),
+    notes(){
+     console.log(this.allNotes)
+     if(this.type){
+        return [...this.allNotes].filter(note=>note.tags.find(note=>note===this.type))
+      }
+      else return [...this.allNotes];
+    },
+    inviteStatus() {
+      const client = this.clients.find((c) => c._id === this.clientId);
+      return client.status === "accepted";
+    },
+  },
+  mounted() {
+    let payload =  { clientId: this.id }
+    if(this.type) payload.tags = [this.type] 
+    this.fetchNotes({
+      payload,
+      page: this.page,
+      limit: this.limit,
+    });
+  },
   methods: {
-    viewNote () {
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: false, note: this.note })
-    }
-  }
-}
+    ...mapActions({
+      fetchNotes: "notes-v2/fetchNotes",
+      deleteNote: "notes-v2/deleteNote",
+    }),
+    addNote() {
+      if (!this.inviteStatus) {
+        this.$lunaToast.error("Client invite still pending");
+      } else {
+        this.openAddNoteSidebar = true;
+      }
+    },
+    async deleteSingleNote() {
+      try {
+        await this.deleteNote(this.note._id);
+        this.$lunaToast.success("Note deleted succesfully");
+        this.openAddNoteSidebar = false;
+        this.$modal.hide("delete-note");
+      } catch (error) {
+        this.$lunaToast.error("Something went wrong");
+      }
+    },
+    viewNote(note) {
+      this.note = { ...note };
+      this.openAddNoteSidebar = true;
+    },
+    resetNote() {
+      this.note = {
+        title: new Date().toDateString(),
+        description: "",
+        clientId: this.$route.params.id,
+        tags: [],
+      };
+      this.openAddNoteSidebar = false;
+    },
+    loadMore() {
+      this.page++;
+      this.loading = true;
+      let payload =  { clientId: this.id }
+      if(this.type) payload.tags = [this.type] 
+      this.fetchNotes({
+        payload,
+        page: this.page,
+        limit: 20,
+      });
+      this.loading = false;
+    },
+  },
+};
 </script>
 
-<style lang="scss" scoped>
-.note {
-    @apply py-4 px-3 text-gray-700 flex items-center rounded-md hover:bg-blue-50;
-    .title {
-        @apply text-base font-medium capitalize;
-    }
-    .body {
-        @apply text-sm font-normal max-w-[18rem] md:max-w-xl xl:max-w-2xl truncate;
-    }
-    .date {
-        @apply text-gray-500 font-normal;
-    }
-}
-</style>
+<style lang="scss" scoped></style>

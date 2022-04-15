@@ -10,7 +10,7 @@
             Do you have any accreditations, affiliations or qualifications?
           </span>
         </label>
-        <settings-tag-input v-model="accreditations" :block="false" />
+        <TagInput v-model="accreditations" :block="false" />
         <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>
@@ -22,7 +22,7 @@
           focuses? For example, Puppy Training, Separation Anxiety, Reactivity,
           Agility…
         </label>
-        <settings-tag-input v-model="specialization" :block="false" />
+        <TagInput v-model="specialization" :block="false" />
         <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>

@@ -40,7 +40,6 @@
     <InviteNewClientModal />
     <ExpiredSessionAuthModal />
     <ViewImageModal />
-    <AddingNote />
   </async-view>
 </template>
 <script>
@@ -51,12 +50,10 @@ import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBan
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import ViewImageModal from '~/components/messages/ViewImageModal.vue'
-import AddingNote from '~/components/notes/AddingNote.vue'
-
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'default',
-  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal,AddingNote },
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
   mixins: [auth],
   data () {
     return {
@@ -72,7 +69,6 @@ export default {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
       loading: 'profile/getLoading',
-      sendBirdConnStatus: 'sendBird/connectingToSendbirdServerWithUserStatus'
     })
   },
   watch: {

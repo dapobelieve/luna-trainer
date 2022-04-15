@@ -81,7 +81,7 @@
         </div> -->
         <settings-device-pairing />
       </div>
-      <ChangeEmailComponent @display-cancel-change="cancelEmailChange = true" />
+      <!-- <ChangeEmailComponent @display-cancel-change="cancelEmailChange = true" /> -->
       <ChangePasswordComponent />
     </div>
   </async-view>

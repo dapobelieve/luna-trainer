@@ -17,7 +17,7 @@
           </div>
           <div class="ml-auto flex items-center">
             <span class="bg-blue-50 px-2 py-1 rounded-full text-sm text-cyan-400 mr-4">Default</span>
-            <CalendarActions />
+            <!-- <CalendarActions /> -->
           </div>
         </div>
         <!-- <SchedulerSyncCalendarItem provider="google" @connect="connectToCalendar">

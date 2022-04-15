@@ -1,16 +1,16 @@
 <template>
   <div class="no-notes">
     <div class="max-width">
-      <i class="fi-rr-bell-notebook text-sky-500 text-4xl"></i>
+      <i class="fi-rr-notebook text-sky-500 text-4xl"></i>
       <p class="title">
-        No health notes yet
+        No {{type}} notes yet
       </p>
       <p class="sub-title">
-        Your clients dog health notes would be displayed here
+        Your clients {{type}} notes would be displayed here
       </p>
-      <button type="button" class="action-btn" @click="addNote">
+      <button type="button" class="action-btn" @click="$emit('add')">
         <i class="fi-rr-plus h-5"></i>
-        <span>Create a health note</span>
+        <span>Create a {{type}} note</span>
       </button>
     </div>
   </div>
@@ -19,10 +19,8 @@
 <script>
 export default {
   name: 'NoNotes',
-  methods: {
-    addNote () {
-      this.$nuxt.$emit('openNoteModalSm', { addingMode: true, note: {} })
-    }
+  props:{
+    type: String
   }
 }
 </script>

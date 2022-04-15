@@ -48,7 +48,7 @@
             for="name"
             class="block font-light"
           >Requirements</label>
-          <TagInput v-model="name" />
+          <!-- <TagInput v-model="name" /> -->
           <div class="text-left text-xs">
             Separate with a comma
           </div>

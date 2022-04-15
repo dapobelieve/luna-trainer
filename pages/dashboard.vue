@@ -203,9 +203,6 @@ export default {
       isStripeConnected: "isStripeConnected",
       isStripeReady: "isStripeReady",
     }),
-    ...mapGetters({
-      sendBirdConnStatus: "sendBird/connectingToSendbirdServerWithUserStatus",
-    }),
   },
   watch: {
     sendBirdConnStatus(newValue, oldValue) {

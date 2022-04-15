@@ -1,12 +1,12 @@
 <template>
   <div>
     <div
-      class="bg-white border rounded"
+      class="bg-white border rounded overflow-hidden rounded-lg shadow-sm focus:outline-none focus:bg-white focus:border-blue-50"
       style="position: relative;"
     >
       <vue-tags-input
         v-model.trim="input"
-        placeholder="Input an item"
+        placeholder="Add an item"
         :tags="items"
         :separators="[',',';']"
         @tags-changed="e => onChange(e)"
@@ -18,7 +18,7 @@
 <script>
 import VueTagsInput from '@johmun/vue-tags-input';
 export default {
-  name: 'SettingsTagInput',
+  name: 'TagInput',
    components: {
     VueTagsInput,
   },

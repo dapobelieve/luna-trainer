@@ -25,7 +25,7 @@
       </PageHeader>
     </transition>
     <!-- start here -->
-    <div class="p-4 md:w-full bg-gray-100 flex justify-center">
+    <div class="p-4 md:w-full bg-gray-100 flex justify-center z-[10]">
       <div
         class="flex lg:space-x-4 w-full max-w-2xl lg:max-w-7xl flex-col lg:flex-row"
       >

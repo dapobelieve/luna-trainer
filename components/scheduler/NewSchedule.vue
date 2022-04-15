@@ -27,7 +27,7 @@
               <date-picker v-model="form.date" class="date-picker" format="ddd MMM D" placeholder="Date" @change="updateDate"></date-picker>
             </div>
           </div>
-          <small v-if="$v.form.date.$error" class="text-red-600">select a date</small>
+          <small v-if="$v.form.date.$error" class="text-red-600">Select a date</small>
         </div>
         <div class="flex flex-col mb-3">
           <div class="flex items-center">
@@ -70,7 +70,7 @@
               </div>
             </div>
           </div>
-          <small v-if="$v.form.from.$error" class="text-red-600">select a time for the meeting</small>
+          <small v-if="$v.form.from.$error" class="text-red-600">Select a time for the meeting</small>
         </div>
         <div v-if="!hasSchedule" class="flex items-center mb-3">
           <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
@@ -108,7 +108,7 @@
               </GwSelector>
             </span>
           </div>
-          <small v-if="$v.form.timezone.$error" class="text-red-600">select a timezone</small>
+          <small v-if="$v.form.timezone.$error" class="text-red-600">Select a timezone</small>
         </div>
       </div>
       <div id="clients">
@@ -216,7 +216,7 @@
               </div>
             </template>
           </GwSelector>
-          <small v-if="$v.form.color.$error" class="text-red-600">select a color</small>
+          <small v-if="$v.form.color.$error" class="text-red-600">Select a color</small>
         </div>
         <div class="flex flex-col mb-3">
           <textarea v-model="form.description" placeholder="Add description" rows="6" class="w-full resize-none px-1 focus:outline-none"></textarea>
