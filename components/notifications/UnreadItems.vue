@@ -27,9 +27,7 @@ export default {
       notifications: 'notifications/getAllNotifications'
     }),
     unreadNotifications () {
-      const a = this.notifications.filter(n => n.status === 'UNREAD' && n.type !== 'LOGIN_WITH_QR')
-      console.log('loggin a: ', a)
-      return a.sort((a, b) => a.updatedAt - b.updatedAt)
+      return this.notifications.filter(n => n.status === 'UNREAD' && n.type !== 'LOGIN_WITH_QR')
     }
   }
 }
