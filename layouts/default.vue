@@ -34,7 +34,7 @@
         </transition>
       </div>
     </div>
-
+    <AddNote/>
     <PaymentMethodStatusModal />
     <PaymentMethodBankAccountModal />
     <InviteNewClientModal />
@@ -51,21 +51,19 @@ import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import ViewImageModal from '~/components/messages/ViewImageModal.vue'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
+import AddNote from '../components/notes/AddNote.vue'
 export default {
   name: 'default',
-  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal },
+  components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal, AddNote },
   mixins: [auth],
   data () {
     return {
       page: this.$route.name,
       showNotification: false,
-      showSidebarMenu: false
+      showSidebarMenu: false,
     }
   },
   computed: {
-    ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels
-    }),
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
       loading: 'profile/getLoading',
@@ -136,14 +134,6 @@ export default {
       startFullPageLoad: 'startFullPageLoading',
       endFullPageLoad: 'endFullPageLoading'
     }),
-    ...mapActions('sendBird', {
-      newMessage: 'updateConnectedChannels',
-      addChannel: 'addNewChannel'
-    }),
-    retry () {
-      this.$store.commit('sendBird/CONNECTION_ERROR', false)
-      this.showNotification = false
-    }
   }
 }
 </script>

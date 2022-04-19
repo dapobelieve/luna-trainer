@@ -1,13 +1,23 @@
 <template>
-  <transition
-    enter-active-class="transition-all ease-in-out duration-[500ms]"
-    leave-active-class="transition-all ease-in-out duration-[500ms]"
-    enter-class="transform translate-x-full"
-    leave-class="-translate-x-0"
-    enter-to-class="-translate-x-0"
-    leave-to-class="translate-x-full"
-  >
-    <template>
+  <div>
+    <transition
+      enter-active-class="transition-all ease-in-out duration-[100ms]"
+      leave-active-class="transition-all ease-in-out duration-[100ms]"
+      enter-class="transform opacity-100"
+      leave-class="opacity-0"
+    >
+      <div
+        class="fixed left-0 top-0 w-full h-full bg-white z-[40] opacity-50"
+        v-if="open"
+        @click="cancel"
+      ></div>
+    </transition>
+    <transition
+      enter-active-class="transition-all ease-in-out duration-[300ms]"
+      leave-active-class="transition-all ease-in-out duration-[300ms]"
+      enter-class="transform translate-x-full"
+      leave-to-class="translate-x-full"
+    >
       <div
         v-if="open"
         class="
@@ -15,11 +25,12 @@
           h-full
           md:w-96
           w-full
-          shadow
+          shadow-indigo-500/40
+          shadow-lg
           fixed
           right-0
           top-0
-          z-[60]
+          z-[40]
           overflow-y-auto
           bg-white
         "
@@ -30,8 +41,7 @@
             <p class="font-bold text-gray-700 text-xl">
               <span>{{ this.note._id ? "Editing" : "Create" }} note</span>
             </p>
-            <small class="text-xs ml-10 block"> Auto save on </small>
-           
+            <small class="text-xs ml-10 pt-1 block">Auto save changes</small>
           </div>
           <div class="flex space-x-7">
             <i
@@ -43,7 +53,7 @@
             <i
               role="button"
               class="fi-rr-cross text-blue-500 h-4 w-4"
-              @click.prevent="$emit('close')"
+              @click.prevent="cancel"
             ></i>
           </div>
         </div>
@@ -95,10 +105,9 @@
             </button>
           </div>
         </div>
-
       </div>
-    </template>
-  </transition>
+    </transition>
+  </div>
 </template>
 
 <script>
@@ -106,22 +115,11 @@ import debounce from "lodash.debounce";
 import { mapActions } from "vuex";
 export default {
   name: "AddNote",
-  props: {
-    note: {
-      type: Object,
-      required: true,
-    },
-    expanded: {
-      type: Boolean,
-      required: false,
-    },
-    open: {
-      type: Boolean,
-      required: false,
-    },
-  },
   data() {
     return {
+      note: {},
+      open: false,
+      expanded: false,
       autoSaving: false,
     };
   },
@@ -130,9 +128,17 @@ export default {
       handler() {
         this.autoSave();
       },
-      immediate:true,
+      immediate: true,
       deep: true,
-    }
+    },
+  },
+  mounted() {
+    this.$nuxt.$on("open-add-note-sidebar", (note) => {
+      console.trace("open-add-note-sidebar", note);
+      this.open = true;
+      this.note = note;
+    });
+    this.addClickOutListener();
   },
   methods: {
     ...mapActions({
@@ -140,10 +146,11 @@ export default {
       updateNote: "notes-v2/updateNote",
     }),
     cancel() {
-      this.$emit("close");
+      this.open = false;
+      this.$nuxt.$emit("close-add-note-sidebar");
     },
-    enterPressed(){
-      this.$refs['text-area'].focus()
+    enterPressed() {
+      this.$refs["text-area"].focus();
     },
     autoSave: debounce(function () {
       this.autoSaving = true;
@@ -159,7 +166,7 @@ export default {
     saveNote() {
       this.createNote(this.note)
         .then((result) => {
-          this.note._id = result._id
+          this.note._id = result._id;
         })
         .catch((err) => {
           this.$lunaToast.error(err.message);
@@ -169,13 +176,26 @@ export default {
     editNote() {
       this.updateNote(this.note)
         .then((result) => {
-          console.log([result._id])
-          this.note._id = result._id
+          console.log([result._id]);
+          this.note._id = result._id;
         })
         .catch((err) => {
           this.$lunaToast.error(err.message);
           console.error(err);
         });
+    },
+    addClickOutListener() {
+      // const elem = this.$refs['add-note-sidebar'];
+      // // const listener = (e) => {
+      // //   if (e.target === elem || elem.contains(e.target)) {
+      // //     return;
+      // //   }
+      // //   this.open = this.open ? false : this.open;
+      // // };
+      // // document.addEventListener("click", listener);
+      // // this.$once("hook:beforeDestroy", () => {
+      // //   document.removeEventListener("click", listener);
+      // // });
     },
     toggleWidth() {
       this.expanded = !this.expanded;

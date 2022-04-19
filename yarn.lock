@@ -1549,6 +1549,11 @@
   "resolved" "https://registry.npmjs.org/@polka/url/-/url-1.0.0-next.21.tgz"
   "version" "1.0.0-next.21"
 
+"@popperjs/core@^2.11.5", "@popperjs/core@^2.4.0":
+  "integrity" "sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw=="
+  "resolved" "https://registry.npmjs.org/@popperjs/core/-/core-2.11.5.tgz"
+  "version" "2.11.5"
+
 "@types/cookie@^0.3.3":
   "integrity" "sha512-LKVP3cgXBT9RYj+t+9FDKwS5tdI+rPBXaNSkma7hvqy35lc7mAokC2zsqWJH0LaqIt3B962nuYI77hsJoT1gow=="
   "resolved" "https://registry.npmjs.org/@types/cookie/-/cookie-0.3.3.tgz"

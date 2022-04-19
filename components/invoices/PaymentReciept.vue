@@ -18,7 +18,7 @@
         </div>
         <div class="mb-6">
           <label class="">Payment Method</label>
-          <GwSelector v-model="paidObj.paymentType" label="label" placeholder="Select payment method" class="w-full repeat-selector" :options="paymentMethods">
+          <GwSelector v-model="paidObj.paymentType" :menu-props="{ top: true, offsetY: true }" label="label" placeholder="Select payment method" class="w-full repeat-selector" :options="paymentMethods">
             <template v-slot:selectedOption="{selected}">
               <div class="flex items-center">
                 <span class="text-gray-700">{{ selected.label }}</span>

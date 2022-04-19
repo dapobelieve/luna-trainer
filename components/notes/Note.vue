@@ -2,7 +2,9 @@
   <async-view>
     <div>
       <div class="flex justify-between items-center px-4 sticky top-0">
-        <p class="text-gray-700 font-normal text-sm mr-auto title uppercase">{{type}} Notes</p>
+        <p class="text-gray-700 font-normal text-sm mr-auto title uppercase">
+          {{ type }} Notes
+        </p>
         <button class="text-blue-500" type="button" @click.prevent="addNote">
           <i class="fi-rr-plus h-4 w-4"></i>
         </button>
@@ -27,7 +29,6 @@
           <SingleLoader v-else></SingleLoader>
         </a>
       </div>
-      <AddNote :note="note" :open="openAddNoteSidebar" @close="resetNote" />
       <NoteDeleteModal @yes="deleteSingleNote"></NoteDeleteModal>
     </div>
   </async-view>
@@ -36,7 +37,7 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 import AddNote from "./AddNote.vue";
-import NoNotes from './NoNotes.vue';
+import NoNotes from "./NoNotes.vue";
 import NoteDeleteModal from "./NoteDeleteModal.vue";
 import NoteItem from "./NoteItem.vue";
 export default {
@@ -47,11 +48,11 @@ export default {
     NoteDeleteModal,
     NoNotes,
   },
-  props:{
+  props: {
     type: {
-      type:String,
-      default:''
-    }
+      type: String,
+      default: "",
+    },
   },
   data() {
     return {
@@ -64,21 +65,20 @@ export default {
       page: 1,
       limit: 20,
       loading: false,
-      openAddNoteSidebar: false,
       clientId: this.$route.params.id,
     };
   },
   computed: {
     ...mapGetters({
       clients: "client/getAllClients",
-      allNotes: "notes-v2/notes"
+      allNotes: "notes-v2/notes",
     }),
-    notes(){
-     console.log(this.allNotes)
-     if(this.type){
-        return [...this.allNotes].filter(note=>note.tags.find(note=>note===this.type))
-      }
-      else return [...this.allNotes];
+    notes() {
+      if (this.type) {
+        return [...this.allNotes].filter((note) =>
+          note.tags.find((note) => note === this.type)
+        );
+      } else return [...this.allNotes];
     },
     inviteStatus() {
       const client = this.clients.find((c) => c._id === this.clientId);
@@ -86,13 +86,14 @@ export default {
     },
   },
   mounted() {
-    let payload =  { clientId: this.id }
-    if(this.type) payload.tags = [this.type] 
+    let payload = { clientId: this.id };
+    if (this.type) payload.tags = [this.type];
     this.fetchNotes({
       payload,
       page: this.page,
       limit: this.limit,
     });
+    this.$nuxt.$on("close-add-note-sidebar", this.resetNote);
   },
   methods: {
     ...mapActions({
@@ -103,22 +104,22 @@ export default {
       if (!this.inviteStatus) {
         this.$lunaToast.error("Client invite still pending");
       } else {
-        this.openAddNoteSidebar = true;
+        this.viewNote(this.note);
       }
     },
     async deleteSingleNote() {
       try {
         await this.deleteNote(this.note._id);
-        this.$lunaToast.success("Note deleted succesfully");
-        this.openAddNoteSidebar = false;
         this.$modal.hide("delete-note");
+        this.$nuxt.$emit("close-add-note-sidebar");
+        this.$lunaToast.success("Note deleted succesfully");
       } catch (error) {
         this.$lunaToast.error("Something went wrong");
       }
     },
     viewNote(note) {
       this.note = { ...note };
-      this.openAddNoteSidebar = true;
+      this.$nuxt.$emit("open-add-note-sidebar", this.note);
     },
     resetNote() {
       this.note = {
@@ -127,13 +128,12 @@ export default {
         clientId: this.$route.params.id,
         tags: [],
       };
-      this.openAddNoteSidebar = false;
     },
     loadMore() {
       this.page++;
       this.loading = true;
-      let payload =  { clientId: this.id }
-      if(this.type) payload.tags = [this.type] 
+      let payload = { clientId: this.id };
+      if (this.type) payload.tags = [this.type];
       this.fetchNotes({
         payload,
         page: this.page,
