@@ -81,6 +81,7 @@ export default {
   buildModules: [
     // '@nuxtjs/eslint-module',
     "@nuxtjs/tailwindcss",
+    "nuxt-compress",
     "@nuxtjs/date-fns",
   ],
   modules: [
@@ -88,6 +89,20 @@ export default {
     "@nuxtjs/auth-next",
     "@nuxtjs/toast",
     "cookie-universal-nuxt",
+    [
+      'nuxt-compress',
+      {
+        gzip: {
+          threshold: 10240,
+          minRatio: 0.8,
+        },
+        brotli: {
+          threshold: 10240,
+          test: /\.(js|vue|css|html|svg)$/,
+          minRatio: 0.8,
+        },
+      },
+    ],
   ],
 
   toast: {

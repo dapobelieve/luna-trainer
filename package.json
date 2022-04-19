@@ -37,6 +37,7 @@
     "lodash.isequal": "^4.5.0",
     "lodash.merge": "^4.6.2",
     "nuxt": "^2.15.3",
+    "nuxt-compress": "^5.0.0",
     "sendbird": "^3.0.154",
     "sha1": "^1.1.1",
     "tailwind-colors": "^1.1.0",
