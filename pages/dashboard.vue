@@ -309,6 +309,7 @@ export default {
     },
     closeModal() {
       this.$modal.hide("welcome-modal");
+      this.removeQueryParams();
     },
     ...mapActions({
       fetchUserProfile: "profile/getUserProfile",
