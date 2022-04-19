@@ -1,5 +1,5 @@
 <template>
-     <modal name="welcome-modal" :height="470" :width="500">
+     <modal @closed="exitTour" name="welcome-modal" :height="470" :width="500">
         <div>
             <div class="space"/>
             <div class="grid m-6">

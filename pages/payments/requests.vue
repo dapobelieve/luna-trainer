@@ -148,6 +148,7 @@ export default {
     },
     closeModal () {
       this.$modal.hide('welcome-modal')
+      this.removeQueryParams()
     },
     removeQueryParams () {
       const query = Object.assign({}, this.$route.query)
@@ -172,6 +173,7 @@ export default {
   mounted () {
     const payments = window.localStorage.getItem('invoice-tour')
     if (payments) {
+      this.$modal.show('welcome-modal')
       this.$router?.push({ query: { new: true } })
     }
   },
