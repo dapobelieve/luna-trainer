@@ -75,6 +75,7 @@ export default {
     },
     closeModal () {
       this.$modal.hide('welcome-modal')
+      this.removeQueryParams()
     },
     removeQueryParams() {
       let query = Object.assign({}, this.$route.query);

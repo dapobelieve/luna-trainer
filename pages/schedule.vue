@@ -94,7 +94,7 @@ import interactionPlugin from '@fullcalendar/interaction'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
-import ScheduleWelcomeModal from '~/components/modals/PaymentWelcomeModal.vue'
+import ScheduleWelcomeModal from '~/components/modals/ScheduleWelcomeModal.vue'
 import {scheduleTourSteps} from '~/tour/ScheduleTourSteps'
 import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
@@ -152,6 +152,12 @@ export default {
     })
   },
   async mounted () {
+    const schedule = window.localStorage.getItem("session-tour")
+    if (schedule) {
+      this.$modal.show('welcome-modal')
+      this.$router?.push({ query: { new: true } })
+    }
+
     this.$store.commit('profile/SET_STATE', { loading: true })
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
@@ -166,12 +172,6 @@ export default {
       console.log(e)
     } finally {
       this.$store.commit('profile/SET_STATE', { loading: false })
-    }
-
-
-    const schedule = window.localStorage.getItem("session-tour")
-    if (schedule) {
-      this.$router?.push({query: {new: true}})
     }
   },
   updated() {
@@ -262,6 +262,7 @@ export default {
     },
     closeModal () {
       this.$modal.hide('welcome-modal')
+      this.removeQueryParams()
     },
     removeQueryParams() {
       let query = Object.assign({}, this.$route.query);
