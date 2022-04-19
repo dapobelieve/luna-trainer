@@ -45,7 +45,7 @@ export default {
     update () {
       this.isLoading = true
       return this.updateProfile(this.profile).then(async (response) => {
-        if (response.status === 'success') {
+        if (response) {
           if (this.profileImage) {
             await this.uploadPicture(this.profileImage)
           }
