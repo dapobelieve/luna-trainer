@@ -48,12 +48,12 @@
             <div class="flex gap-5 w-full">
               <div class="w-full">
                 <label
-                  for="first_name"
+                  for="last_name"
                   class="block text-sm font-medium text-gray-700 required"
                   :class="{'text-red-500' : $v.clientInfo.lastName.$error}"
                 >Last name</label>
                 <input
-                  id="first_name"
+                  id="last_name"
                   v-model.trim="$v.clientInfo.lastName.$model"
                   type="text"
                   class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md focus:shadow-md focus:outline-none focus:bg-white focus:border-blue-500"
@@ -77,6 +77,23 @@
                   v-if="!$v.clientInfo.email.email"
                   class="error text-red-500"
                 >Please enter a valid email address.</small>
+              </div>
+            </div>
+          </div>
+          <div class="flex justify-between gap-6">
+            <div class="flex gap-5 w-full">
+              <div class="w-full">
+                <label
+                  for="notes"
+                  class="block text-sm font-medium text-gray-700"
+                >Notes</label>
+                <textarea
+                  id="notes"
+                  v-model.trim="clientInfo.welcomeNote"
+                  rows="2"
+                  type="text"
+                  class="bg-white w-full p-2.5 block sm:text-sm mt-1 border border-gray-300 rounded-md focus:shadow-md focus:outline-none focus:bg-white focus:border-blue-500"
+                />
               </div>
             </div>
           </div>
@@ -115,7 +132,8 @@ export default {
       clientInfo: {
         firstName: this.client ? this.client.firstName : '',
         lastName: this.client ? this.client.lastName : '',
-        email: this.client ? this.client.email : ''
+        email: this.client ? this.client.email : '',
+        welcomeNote: ''
       }
     }
   },
