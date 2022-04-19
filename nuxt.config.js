@@ -81,21 +81,28 @@ export default {
   buildModules: [
     // '@nuxtjs/eslint-module',
     "@nuxtjs/tailwindcss",
+    "nuxt-compress",
     "@nuxtjs/date-fns",
   ],
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
-    "@nuxtjs/toast",
     "cookie-universal-nuxt",
+    [
+      'nuxt-compress',
+      {
+        gzip: {
+          threshold: 10240,
+          minRatio: 0.8,
+        },
+        brotli: {
+          threshold: 10240,
+          test: /\.(js|vue|css|html|svg)$/,
+          minRatio: 0.8,
+        },
+      },
+    ],
   ],
-
-  toast: {
-    position: "top-right",
-    duration: 4000,
-    closeOnSwipe: true,
-  },
-
   router: {
     middleware: ["auth", "dashboard"],
   },
