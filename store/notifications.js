@@ -22,7 +22,7 @@ export const actions = {
     const res = await this.$axios.$get(
       `${process.env.BASEURL_HOST}/notifications`
     )
-    res.data.notifications.map(item => commit('setNotification', item))
+    res.data.notifications.reverse().map(item => commit('setNotification', item))
     dispatch('loader/endProcess', null, { root: true })
   },
 
@@ -35,5 +35,5 @@ export const actions = {
 }
 
 export const getters = {
-  getAllNotifications: state => Object.values(state.notifications)
+  getAllNotifications: state => Object.values(state.notifications).reverse()
 }
