@@ -87,7 +87,6 @@ export default {
   modules: [
     "@nuxtjs/axios",
     "@nuxtjs/auth-next",
-    "@nuxtjs/toast",
     "cookie-universal-nuxt",
     [
       'nuxt-compress',
@@ -104,13 +103,6 @@ export default {
       },
     ],
   ],
-
-  toast: {
-    position: "top-right",
-    duration: 4000,
-    closeOnSwipe: true,
-  },
-
   router: {
     middleware: ["auth", "dashboard"],
   },
