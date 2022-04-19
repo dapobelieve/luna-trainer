@@ -48,7 +48,7 @@
                     {{ item.qty }}
                   </td>
                   <td class="py-2 text-right">
-                    £{{ new Intl.NumberFormat().format(item.price) }}
+                   {{ item.price | amount}}
                   </td>
                 </tr>
               </tbody>
@@ -58,7 +58,7 @@
                 Total
               </h3>
               <h3 class="ml-auto font-bold">
-                £{{ invoiceTotal }}
+                {{ invoiceTotal | amount}}
               </h3>
             </div>
             <div class="text-sm flex items-center">
@@ -72,7 +72,7 @@
                 Amount
               </h3>
               <h3 class="ml-auto font-bold text-3xl">
-                £{{ invoiceTotal }}
+                {{ invoiceTotal | amount}}
               </h3>
             </div>
           </div>

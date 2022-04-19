@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-select
+      auto
       :value="value"
       :disabled="disabled"
       :multiple="multiple"
