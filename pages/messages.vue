@@ -233,6 +233,7 @@ export default {
       return this.loading && !this.unreadMessagesCount && !this.latestMessages;
     },
     acceptedClients() {
+      console.log(this.allClients.length)
       const clients = this.allClients.filter((c) => c.status === "accepted");
       if (this.latestMessages){
         clients.sort((a, b) => {

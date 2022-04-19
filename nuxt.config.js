@@ -33,8 +33,8 @@ export default {
         async: true,
       },
       {
-        src: "@/assets/scripts/hotjar",  
-        async: true,
+        src: "https://getwelp-files.s3.us-west-2.amazonaws.com/scripts/hotjar.js",
+        async:true
       },
     ],
   },
