@@ -57,6 +57,18 @@
           </div>
           <div class="mt-4">
             <GwInputField
+              v-model="clientInfo.location"
+              placeholder="Type here"
+              type="text"
+              label="Address"
+              autocomplete="text"
+              class-name="information_box"
+              class="w-full"
+              @input="focusField"
+            />
+          </div>
+          <div class="mt-4">
+            <GwInputField
               v-model="clientInfo.city"
               placeholder="Type here"
               type="text"

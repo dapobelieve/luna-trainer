@@ -59,8 +59,9 @@ export const actions = {
       throw new Error('Sendbird id is not defined')
     }
   },
-  async createChannelIfNoneExists({ commit, state }, { sender, receipient }) {
-    let channel = dispatch('getChannel', { sender, receipient })
+  async createChannelIfNoneExists({ commit, state,dispatch }, { sender, receipient }) {
+    let channel = await dispatch('getChannel', { sender, receipient })
+    console.log(channel,"channel", sender, receipient)
     if (!channel) {
       const params = new this.$sb.GroupChannelParams()
       params.isPublic = false
@@ -79,8 +80,8 @@ export const actions = {
           }
         }
       )
-      console.log(channel)
-      return channel[0]
+      console.log('Channel created', channel)
+      return channel
     } else {
       return channel
     }
@@ -88,19 +89,19 @@ export const actions = {
   },
   async getMessages({ commit }, channel) {
     const messageFilter = new this.$sb.MessageFilter();
-    const id = Object.keys(channel.memberMap).find(key => key !== this.$auth.user.userId)
+    if(channel){
+      if (channel) {
+        const startingPoint = Date.now();
+        const messageCollectionFetchLimit = 100;
+        let messageCollection = channel.createMessageCollection()
+          .setFilter(messageFilter)
+          .setStartingPoint(startingPoint)
+          .setLimit(messageCollectionFetchLimit)
+          .build();
 
-    if (channel) {
-      const startingPoint = Date.now();
-      const messageCollectionFetchLimit = 100;
-      let messageCollection = channel.createMessageCollection()
-        .setFilter(messageFilter)
-        .setStartingPoint(startingPoint)
-        .setLimit(messageCollectionFetchLimit)
-        .build();
-
-      messageCollection = messageCollection.initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
-      return messageCollection;
+        messageCollection = messageCollection.initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
+        return messageCollection;
+      }
     }
   },
   async getPrevMessages({ commit }, collection) {
@@ -185,7 +186,6 @@ export const actions = {
         return groupChannels[0]
       })
 
-      console.log('channel', channel)
       return channel[0]
     }
   },

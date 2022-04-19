@@ -173,17 +173,19 @@ export default {
     },
     groupedMessages() {
       let groupedMessages = {};
-      const messages = this.messages[this.receipientId];
-      if (messages) {
-        messages.forEach((message) => {
-            const createdDate = new Date(message.createdAt).toDateString();
-            if (!groupedMessages[createdDate]) {
-              groupedMessages[createdDate] = [];
-            } 
-            groupedMessages[createdDate].push(message);
-          });
+      if(this.channel){
+        const messages = this.messages[this.receipientId];
+        if (messages) {
+          messages.forEach((message) => {
+              const createdDate = new Date(message.createdAt).toDateString();
+              if (!groupedMessages[createdDate]) {
+                groupedMessages[createdDate] = [];
+              } 
+              groupedMessages[createdDate].push(message);
+            });
+        }
+        this.channel.markAsRead && this.channel.markAsRead();
       }
-      this.channel.markAsRead && this.channel.markAsRead();
       return groupedMessages;
     },
   },
@@ -214,22 +216,26 @@ export default {
           receipient: this.receipientId,
           sender: this.senderId,
         });
-        this.collection = await this.getMessages(this.channel);
-        this.collection.onCacheResult((err, messages) => {
-          console.log('Messages from Cache: ', messages)
-          messages && messages.forEach(newMessage => {
-            this.swapMessage({ id: this.receipientId, newMessage })
+        if(this.channel){
+          this.collection = await this.getMessages(this.channel);
+          this.collection.onCacheResult((err, messages) => {
+            console.log('Messages from Cache: ', messages)
+            messages && messages.forEach(newMessage => {
+              this.swapMessage({ id: this.receipientId, newMessage })
+            })
+            this.scrollFeedToBottom();
+            this.loading = false
           })
-          this.scrollFeedToBottom();
+          .onApiResult((err, messages) => {
+            console.log('Messages from API: ', messages)
+            messages && messages.forEach(newMessage => {
+              this.swapMessage({ id: this.receipientId, newMessage })
+            })
+            this.scrollFeedToBottom();
+          })
+        }else{
           this.loading = false
-        })
-        .onApiResult((err, messages) => {
-          console.log('Messages from API: ', messages)
-          messages && messages.forEach(newMessage => {
-            this.swapMessage({ id: this.receipientId, newMessage })
-          })
-          this.scrollFeedToBottom();
-        })
+        }
       }
     },
     async chatBodyScroll(event){
@@ -306,6 +312,7 @@ export default {
             sender: this.senderId,
             receipient: this.receipientId,
           }));
+        console.log(this.channel)
         this.sendMessage({ message: this.message, channel: this.channel });
         this.message = "";
         this.scrollFeedToBottom();

@@ -19,7 +19,6 @@
         </div>
       </div>
       <ExpiredSessionAuthModal />
-      <div class="bg-teal-500 text-rose-500 bg-teal-50 text-amber-500 bg-amber-500 bg-rose-500 bg-rose-50 bg-amber-50 bg-red-500 bg-red-50 bg-cyan-500 text-sky-500 bg-sky-500 bg-sky-50 bg-cyan-50"></div>
       <transition
         enter-active-class="transition-all ease-in-out duration-[500ms]"
         leave-active-class="transition-all ease-in-out duration-[500ms]"
@@ -34,34 +33,26 @@
   </async-view>
 </template>
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
+import AddNote from '../components/notes/AddNote.vue'
 export default {
   name: 'Dashboard',
-  components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
+  components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal, AddNote },
   mixins: [auth],
   data () {
     return {
-      isLoading: false,
-      form: {
-        password: null
-      },
-      page: this.$route.name,
-      showSidebarMenu: false
+      showSidebarMenu: false,
     }
   },
   computed: {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
       loading: 'profile/getLoading'
-    }),
-    ...mapState({
-      connectedChannels: state => state.sendBird.connectedChannels,
-      isStripeConnected: state => state.profile.isStripeConnected
     })
   },
   watch: {
