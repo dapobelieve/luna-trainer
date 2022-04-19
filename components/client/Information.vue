@@ -45,7 +45,7 @@
               Country
             </dt>
             <div class="information_box">
-              <select v-model="clientInfo.location" class="w-full" autocomplete="country" @input="focusField">
+              <select v-model="clientInfo.businessCountry" class="w-full" autocomplete="country" @input="focusField">
                 <option :value="null" selected disabled>
                   click here
                 </option>
