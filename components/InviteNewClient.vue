@@ -64,7 +64,7 @@
           </div>
           <div class="flex gap-5">
             <div class="w-full">
-              <label for="email" class="required" :class="{'text-red-500' : $v.clientInfo.email.$error}">Email Address</label>
+              <label for="email" class="required text-sm font-medium" :class="{'text-red-500' : $v.clientInfo.email.$error}">Email Address</label>
               <input
                 id="email"
                 v-model.trim="$v.clientInfo.email.$model"
@@ -86,7 +86,7 @@
                 <label
                   for="notes"
                   class="block text-sm font-medium text-gray-700"
-                >Notes</label>
+                >Note</label>
                 <textarea
                   id="notes"
                   v-model.trim="clientInfo.welcomeNote"
