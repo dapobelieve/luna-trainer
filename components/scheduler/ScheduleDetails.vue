@@ -64,7 +64,6 @@ export default {
     $route: {
       immediate: true,
       async handler (val) {
-        console.log(val)
         await this.getEvent(val.params.id)
       }
     }
