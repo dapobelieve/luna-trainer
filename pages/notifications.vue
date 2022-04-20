@@ -41,7 +41,7 @@ export default {
   computed: {
     ...mapGetters({
       notificationsSummary: 'notifications/getNotificationsSummary'
-    }),
+    })
   },
   async create () {
     try {
