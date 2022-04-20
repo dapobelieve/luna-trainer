@@ -1,18 +1,23 @@
-import Vue from 'vue'
+const notificationTypes = [
+  'INVITE_REQUEST_ACCEPTED',
+  'PAYMENT_ACCEPTED',
+  'NEW_PAYMENT_RECEIPT',
+  'STRIPE_CONNECTION_SUCCESSFUL',
+  'STRIPE_CONNECTION_SUCCESSFUL'
+]
 
 export const state = () => ({
-  notifications: {}
+  notifications: []
 })
 
 export const mutations = {
-  setStates (state, data) {
-    // eslint-disable-next-line array-callback-return
-    Object.keys(data).map((key) => {
-      Vue.set(state, key, data[key])
-    })
+  setNotifications (state, data) {
+    state.notifications = data
   },
-  setNotification (state, data) {
-    Vue.set(state.notifications, [data._id], data)
+  addNotification (state, data) {
+    if (notificationTypes.includes(data.type)) {
+      state.notifications.push(data)
+    }
   }
 }
 
@@ -22,7 +27,8 @@ export const actions = {
     const res = await this.$axios.$get(
       `${process.env.BASEURL_HOST}/notifications`
     )
-    res.data.notifications.reverse().map(item => commit('setNotification', item))
+    const notifications = res.data.notifications.filter(item => notificationTypes.includes(item.type))
+    commit('setNotifications', notifications)
     dispatch('loader/endProcess', null, { root: true })
   },
 
@@ -35,5 +41,8 @@ export const actions = {
 }
 
 export const getters = {
-  getAllNotifications: state => Object.values(state.notifications).reverse()
+  getAllNotifications: state =>
+    [...state.notifications].sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    )
 }

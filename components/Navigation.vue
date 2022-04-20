@@ -455,10 +455,10 @@ export default {
       socket.on('new-notification', async (data) => {
         console.log('NEW SOCKET MESSAGE >>>>', data)
         const { type } = data
-        if (type === 'LOGIN_WITH_QR') {
-          this.$nuxt.$emit('device-paired')
-        }
         switch (type) {
+          case 'LOGIN_WITH_QR':
+            this.$nuxt.$emit('device-paired')
+            break
           case 'INVITE_REQUEST_ACCEPTED':
             this.localUpdateClient(data.data)
             this.$lunaToast.show(
@@ -480,16 +480,7 @@ export default {
             this.$lunaToast.show('You have a new notification')
             break
         }
-        const notificationTypes = [
-          'INVITE_REQUEST_ACCEPTED',
-          'PAYMENT_ACCEPTED',
-          'NEW_PAYMENT_RECEIPT',
-          'STRIPE_CONNECTION_SUCCESSFUL',
-          'STRIPE_CONNECTION_SUCCESSFUL'
-        ]
-        if (notificationTypes.includes(type)) {
-          this.$store.commit('notifications/setNotification', data)
-        }
+        this.$store.commit('notifications/addNotification', data)
       })
       socket.on('CALENDAR_SYNC', () => {})
     },
