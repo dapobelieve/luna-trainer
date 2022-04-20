@@ -9,7 +9,7 @@
         type="text"
         class="w-full focus:outline-none text-sm resize-none h-6 box-border"
         placeholder="Type a message"
-        v-on:input="$emit('input', $event.target.value)"
+        @input="$emit('input', $event.target.value)"
       />
       <div class="relative">
         <transition name="fadeIn">

@@ -1,44 +1,51 @@
 <template>
-    <div class="grid m-5 py-1">
-      <div>
-        <h3 class="text-sm mb-6">
-          Ensure your entries matches the actual payment information
-        </h3>
-        <div class="mb-6">
-          <label class="">Payment Date</label>
-          <div class="border rounded-md relative pl-4 mt-3">
-            <DatePicker
-              v-model="paidObj.paymentDate"
-              style="width: 100%"
-              class="date-picker relative"
-              format="ddd MMM D"
-              placeholder="Date"
-            ></DatePicker>
-          </div>
-        </div>
-        <div class="mb-6">
-          <label class="">Payment Method</label>
-          <GwSelector v-model="paidObj.paymentType" :menu-props="{ top: true, offsetY: true }" label="label" placeholder="Select payment method" class="w-full repeat-selector" :options="paymentMethods">
-            <template v-slot:selectedOption="{selected}">
-              <div class="flex items-center">
-                <span class="text-gray-700">{{ selected.label }}</span>
-              </div>
-            </template>
-            <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-              <div class="flex items-center py-2">
-                <span class="text-gray-700">{{ optionObject.label }}</span>
-              </div>
-            </template>
-          </GwSelector>
-        </div>
-        <div class="flex">
-          <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="markAsPaid">
-            <SingleLoader v-if="loading" />
-            <span v-else>Confirm</span>
-          </button>
+  <div class="grid m-5 py-1">
+    <div>
+      <h3 class="text-sm mb-6">
+        Ensure your entries matches the actual payment information
+      </h3>
+      <div class="mb-6">
+        <label class="">Payment Date</label>
+        <div class="border rounded-md relative pl-4 mt-3">
+          <DatePicker
+            v-model="paidObj.paymentDate"
+            style="width: 100%"
+            class="date-picker relative"
+            format="ddd MMM D"
+            placeholder="Date"
+          ></DatePicker>
         </div>
       </div>
+      <div class="mb-6">
+        <label class="">Payment Method</label>
+        <GwSelector
+          v-model="paidObj.paymentType"
+          :menu-props="{ top: true, offsetY: true }"
+          label="label"
+          placeholder="Select payment method"
+          class="w-full repeat-selector"
+          :options="paymentMethods"
+        >
+          <template v-slot:selectedOption="{selected}">
+            <div class="flex items-center">
+              <span class="text-gray-700">{{ selected.label }}</span>
+            </div>
+          </template>
+          <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+            <div class="flex items-center py-2">
+              <span class="text-gray-700">{{ optionObject.label }}</span>
+            </div>
+          </template>
+        </GwSelector>
+      </div>
+      <div class="flex">
+        <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="markAsPaid">
+          <SingleLoader v-if="loading" />
+          <span v-else>Confirm</span>
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -51,16 +58,6 @@ export default {
     invoice: {
       type: Object
     }
-  },
-  mounted(){
-      const [acceptedPaymentReceipts] = this.invoice.paymentReceipts.filter(x => x.status === 'pending')
-      if(!acceptedPaymentReceipts){
-        this.$$lunaToast.error("No payment reciepts found")
-      }else{
-        console.log(acceptedPaymentReceipts)
-        this.paidObj.paymentDate = new Date(acceptedPaymentReceipts.paymentDate)
-        this.paidObj.paymentType = this.paymentMethods.find(method => method.type == acceptedPaymentReceipts.paymentType)
-      }
   },
   data () {
     return {
@@ -81,8 +78,18 @@ export default {
       }
     }
   },
+  mounted () {
+    const [acceptedPaymentReceipts] = this.invoice.paymentReceipts.filter(x => x.status === 'pending')
+    if (!acceptedPaymentReceipts) {
+      this.$$lunaToast.error('No payment reciepts found')
+    } else {
+      console.log(acceptedPaymentReceipts)
+      this.paidObj.paymentDate = new Date(acceptedPaymentReceipts.paymentDate)
+      this.paidObj.paymentType = this.paymentMethods.find(method => method.type == acceptedPaymentReceipts.paymentType)
+    }
+  },
   methods: {
-    async markUnPaid() {
+    async markUnPaid () {
       const [acceptedPaymentReceipts] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
 
       try {
@@ -90,9 +97,9 @@ export default {
           id: acceptedPaymentReceipts._id
         })
         this.$lunaToast.success('Payment has been reverted successfully')
-        this.$emit("close")
+        this.$emit('close')
         this.$nuxt.$emit('unpaid')
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
@@ -105,14 +112,14 @@ export default {
           invoiceId: this.invoice._id
         })
         this.$lunaToast.success('Payment has been confirmed successfully')
-        this.$emit("close")
+        this.$emit('close')
         this.$nuxt.$emit('paid')
       } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.loading = false
       }
-    },
+    }
   }
 }
 </script>

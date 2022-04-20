@@ -16,7 +16,9 @@
         >
           <i class="fi-rr-comment-alt text-xl text-sky-500 mt-1"></i>
         </div>
-        <h3 class="text-black text-xl">Messages</h3>
+        <h3 class="text-black text-xl">
+          Messages
+        </h3>
       </div>
       <div class="ml-auto">
         <span class="text-gray-500">
@@ -35,7 +37,7 @@
           <button
             v-if="
               unreadMessagesCount[client.sendbirdId] &&
-              unreadMessagesCount[client.sendbirdId] > 0
+                unreadMessagesCount[client.sendbirdId] > 0
             "
             class="
               rounded-md
@@ -57,7 +59,7 @@
                     firstName: client.firstName,
                     imgURL: client.imgURL,
                   }"
-                :online="connectionStatus[client.sendbirdId] == 'online'"
+                  :online="connectionStatus[client.sendbirdId] == 'online'"
                 />
               </div>
               <div class="flex w-full min-w-0 flex-col text-left">
@@ -109,7 +111,7 @@
                       <i
                         v-if="
                           latestMessages[client.sendbirdId]._sender.userId !=
-                          client.sendbirdId
+                            client.sendbirdId
                         "
                         class="fi-rr-check text-sm text-green-500 mr-1"
                       ></i>
@@ -126,7 +128,7 @@
                       <i
                         v-if="
                           latestMessages[client.sendbirdId]._sender.userId !=
-                          client.sendbirdId
+                            client.sendbirdId
                         "
                         class="fi-rr-check text-sm text-green-500 mr-1"
                       ></i>
@@ -149,10 +151,14 @@
       <template v-else class="">
         <div class="text-center flex-col flex items-center h-full w-full justify-center">
           <i class="fi-rr-comment-alt text-4xl text-amber-500"></i>
-          <h3 class="text-gray-700 text-lg">You have no unread messages</h3>
-          <p class="text-base text-gray-500"
-            >Your new and unread messages will show up here</p
+          <h3 class="text-gray-700 text-lg">
+            You have no unread messages
+          </h3>
+          <p
+            class="text-base text-gray-500"
           >
+            Your new and unread messages will show up here
+          </p>
           <button class="button-fill mt-3" @click.prevent="gotoMessages">
             Start conversation
           </button>
@@ -163,54 +169,54 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-import DashboardCard from "~/components/dashboard/DashboardCard";
+import { mapGetters } from 'vuex'
+import DashboardCard from '~/components/dashboard/DashboardCard'
 
 export default {
   components: { DashboardCard },
-  data() {
+  data () {
     return {
-      loading: false,
-    };
+      loading: false
+    }
   },
   computed: {
     ...mapGetters({
-      unreadMessagesCount: "sendbird-v2/getUnreadMessagesCount",
-      latestMessages: "sendbird-v2/getChannelsMetadata", 
-      connectionStatus:"sendbird-v2/getConnectionStatus",
-      clients: "client/getAllClients",
-      
+      unreadMessagesCount: 'sendbird-v2/getUnreadMessagesCount',
+      latestMessages: 'sendbird-v2/getChannelsMetadata',
+      connectionStatus: 'sendbird-v2/getConnectionStatus',
+      clients: 'client/getAllClients'
+
     }),
-    unreadMessages() {
-      let count = 0;
-      for (let key in this.unreadMessagesCount) {
-        count += this.unreadMessagesCount[key] || 0;
+    unreadMessages () {
+      let count = 0
+      for (const key in this.unreadMessagesCount) {
+        count += this.unreadMessagesCount[key] || 0
       }
-      return count;
-    },
+      return count
+    }
   },
   methods: {
-    gotoMessage(clientId) {
+    gotoMessage (clientId) {
       try {
         this.$router.push({
-          name: "client-id-messages",
-          params: { id: clientId },
-        });
+          name: 'client-id-messages',
+          params: { id: clientId }
+        })
       } catch (error) {
-        this.$lunaToast.error("Something went wrong, Please contact admin.");
+        this.$lunaToast.error('Something went wrong, Please contact admin.')
       }
     },
-    gotoMessages() {
+    gotoMessages () {
       try {
         this.$router.push({
-          name: "messages",
-        });
+          name: 'messages'
+        })
       } catch (error) {
-        this.$lunaToast.error("Something went wrong, Please contact admin.");
+        this.$lunaToast.error('Something went wrong, Please contact admin.')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>

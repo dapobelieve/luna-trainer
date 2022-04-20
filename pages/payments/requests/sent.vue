@@ -18,7 +18,14 @@
             </span>
           </div>
           <div class="flex">
-            <SearchDropdown v-model="searchField" :fields="searchFields" :options="options" :selected="selected" @reset="resetTable" @selected="searchInvoice">
+            <SearchDropdown
+              v-model="searchField"
+              :fields="searchFields"
+              :options="options"
+              :selected="selected"
+              @reset="resetTable"
+              @selected="searchInvoice"
+            >
               <template v-slot:selected-option="{selected}">
                 <span v-if="searchField === 'Name'" class="flex">
                   <ClientAvatar :height="1" :width="1" :client-info="{firstName: selected.firstName}" />
@@ -182,9 +189,9 @@ export default {
     $route: {
       immediate: true,
       async handler (val) {
-        if(Object.keys(val.query).length > 0) {
-          if(val.query.name) {
-            let res = await this.$store.dispatch('client/allConciseClients')
+        if (Object.keys(val.query).length > 0) {
+          if (val.query.name) {
+            const res = await this.$store.dispatch('client/allConciseClients')
             this.allClients = res.data
             this.selected = this.allClients.filter(client => client.userId === val.query.name)[0]
             await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', customerUserId: val.query.name })
@@ -194,7 +201,7 @@ export default {
             await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent', status: val.query.status })
             this.searchField = 'Status'
             this.selected = val.query.status === 'paid_awaiting_confirmation' ? 'Awaiting' : val.query.status
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding','Awaiting']
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
           }
         } else {
           const res = await this.$store.dispatch('client/allConciseClients')
@@ -202,7 +209,7 @@ export default {
           this.searchField = 'Name'
           this.options = this.allClients
           await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
-        }        
+        }
       },
       deep: true
     },
@@ -254,13 +261,13 @@ export default {
       await this.$store.dispatch('invoice/getInvoices', { workflowStatus: 'sent' })
       this.searchField = 'Name'
       this.options = this.allClients
-      this.$router.push({ name: 'payments-requests-sent'})
+      this.$router.push({ name: 'payments-requests-sent' })
     },
     searchInvoice (option) {
       if (this.searchField === 'Name') {
         this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
       } else {
-        let _option = option === 'Awaiting' ? 'paid_awaiting_confirmation' : option
+        const _option = option === 'Awaiting' ? 'paid_awaiting_confirmation' : option
         this.$router.push({ name: 'payments-requests-sent', query: { status: _option.toLowerCase() } })
       }
     },

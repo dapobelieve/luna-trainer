@@ -1,3 +1,4 @@
+import lunaDB from '~/utils/DB'
 export const state = () => ({
   tokenExpired: false
 })
@@ -59,14 +60,15 @@ export const actions = {
   },
   async signUpUser ({ commit }, payload) {
     await this.$axios
-    .$post(`${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload)
-    .then(({ status }) => status)
+      .$post(`${process.env.ACCOUNT_HOST_URL}/auth/signup`, payload)
+      .then(({ status }) => status)
   },
   setToken ({ commit }, payload) {
     this.$auth.setUserToken(payload.token, payload.refreshToken)
   },
   async logOut ({ commit, dispatch }) {
     await this.$auth.logout()
+    await lunaDB.dropInstance({ name: 'lunaDb' })
     // remove sendbord events
     this.$sb.removeUserEventHandler('defaultLayoutHandler')
     this.$sb.removeConnectionHandler('defaultLayoutHandler')

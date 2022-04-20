@@ -18,9 +18,11 @@
           </div>
         </ClickOutside>
         <div class="w-[160px] flex items-center justify-start">
-          <div  v-if="selectedOption" class="inline-flex items-center w-full">
-            <div class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full"
-                 @click.exact.stop="clearSelection">
+          <div v-if="selectedOption" class="inline-flex items-center w-full">
+            <div
+              class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full"
+              @click.exact.stop="clearSelection"
+            >
               <slot :selected="selectedOption" name="selected-option"></slot>
             </div>
           </div>
@@ -33,7 +35,9 @@
             class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full "
             @focus="show = true"
           />
-          <button v-if="selectedOption || field" @click="selectedOption= null,close(),$emit('reset')" class="border ml-auto rounded-full h-4 w-4"><i style="font-size: 0.4rem" class="fi-rr-cross inline-flex items-center text-xs"></i></button>
+          <button v-if="selectedOption || field" class="border ml-auto rounded-full h-4 w-4" @click="selectedOption= null,close(),$emit('reset')">
+            <i style="font-size: 0.4rem" class="fi-rr-cross inline-flex items-center text-xs"></i>
+          </button>
         </div>
       </div>
       <div v-if="show" class="absolute right-0 bg-white mdy-1.5 w-40 border border-t-0 shadow z-40 rounded">
@@ -94,11 +98,11 @@ export default {
     }
   },
   watch: {
-    "selected": {
+    selected: {
       immediate: true,
       handler (val) {
         this.selectedOption = val
-      },
+      }
     },
     fields: {
       immediate: true,
@@ -108,7 +112,7 @@ export default {
       }
     }
   },
-  methods: {    
+  methods: {
     clearSelection () {
       this.selectedOption = null
       this.show = true

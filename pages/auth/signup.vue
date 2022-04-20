@@ -164,23 +164,22 @@ export default {
     }),
     async onError (err) {
       if (err.response) {
-          this.$lunaToast.error(
+        this.$lunaToast.error(
             `${err.response.data.message}`,
             { position: 'bottom-right' }
-          )
-        } else if (err.request) {
-          this.$lunaToast.error('Something went wrong. Try again', {
-            position: 'bottom-right'
-          })
-        } else {
-          this.$lunaToast.error(`${err.message}`, {
-            position: 'bottom-right'
-          })
-        }
-        this.isLoading = false
-        this.signUpText = "Get started"
-        this.isLoading = false
-
+        )
+      } else if (err.request) {
+        this.$lunaToast.error('Something went wrong. Try again', {
+          position: 'bottom-right'
+        })
+      } else {
+        this.$lunaToast.error(`${err.message}`, {
+          position: 'bottom-right'
+        })
+      }
+      this.isLoading = false
+      this.signUpText = 'Get started'
+      this.isLoading = false
     },
     async signUp () {
       this.isLoading = true
@@ -209,7 +208,6 @@ export default {
         const profile = await this.getUserProfile()
         this.setProfile(profile)
         this.$modal.show('welcome-modal')
-
       } catch (err) {
         return this.onError(err)
       }

@@ -307,10 +307,10 @@ import { mapActions, mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
 import isEmpty from 'lodash.isempty'
 import ContainerWithTitle from '../Containers/ContainerWithTitle'
+import InviteNewClient from '../InviteNewClient.vue'
 import EditInvoiceItem from './EditInvoiceItem'
 import OnetimeInvoiceItem from './OnetimeInvoiceItem'
 import ItemDisplay from '~/components/invoices/ItemDisplay'
-import InviteNewClient from '../InviteNewClient.vue'
 export default {
   name: 'Invoice',
   components: {
@@ -355,7 +355,7 @@ export default {
         this.invoice.items &&
         this.invoice.items.length &&
         this.invoice.supportedPaymentMethods &&
-        this.invoice.supportedPaymentMethods.length 
+        this.invoice.supportedPaymentMethods.length
       )
     },
     services () {
@@ -384,15 +384,15 @@ export default {
     }),
     ...mapActions({ getServices: 'services/getServices' }),
     async saveForm () {
-        this.autoSaving = true
-        this.$nuxt.$emit('autosaving-invoice')
-        if (this.invoiceId === null && this.invoice.customer) {
-          await this.createInvoice()
-        } else if (this.invoiceId) {
-          await this.updateInvoice()
-        }
-        this.$nuxt.$emit('autosaving-invoice-completed')
-        this.autoSaving = false
+      this.autoSaving = true
+      this.$nuxt.$emit('autosaving-invoice')
+      if (this.invoiceId === null && this.invoice.customer) {
+        await this.createInvoice()
+      } else if (this.invoiceId) {
+        await this.updateInvoice()
+      }
+      this.$nuxt.$emit('autosaving-invoice-completed')
+      this.autoSaving = false
     },
     addOneTime () {
       this.$modal.show(
@@ -481,7 +481,7 @@ export default {
     async send () {
       try {
         this.isLoading = true
-        await this.saveForm();
+        await this.saveForm()
         await this.$store.dispatch('invoice/sendInvoice', {
           id: this.invoiceId,
           recipient: this.invoice.customer.email

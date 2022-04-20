@@ -31,9 +31,9 @@ export default {
   async asyncData (ctx) {
     await ctx.store.dispatch('invoice/getInvoices', { workflowStatus: 'draft', status: 'pending' })
   },
-  computed:{
+  computed: {
     ...mapGetters({
-      drafts: 'invoice/getAllInvoices',
+      drafts: 'invoice/getAllInvoices'
     })
   },
   methods: {

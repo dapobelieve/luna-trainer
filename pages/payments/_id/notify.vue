@@ -1,45 +1,47 @@
 <template>
- <payment-feedback title="Trainer notified"  >
-        <i class="fi fi-rr-bell-ring my-3 text-white text-[30px]" slot="icon" />
-        <p slot="description">Your trainer has been notified of payment on <br/> invoice <b class="text-black">#{{invoice}}</b>. Thank you</p>
-         <button
-            slot="button"
-            class="button-fill"
-            @click="goToHome()"
-        >
-            Done
-        </button>
-    </payment-feedback>
+  <payment-feedback title="Trainer notified">
+    <i slot="icon" class="fi fi-rr-bell-ring my-3 text-white text-[30px]" />
+    <p slot="description">
+      Your trainer has been notified of payment on <br /> invoice <b class="text-black">#{{ invoice }}</b>. Thank you
+    </p>
+    <button
+      slot="button"
+      class="button-fill"
+      @click="goToHome()"
+    >
+      Done
+    </button>
+  </payment-feedback>
 </template>
 
 <script>
 import PaymentFeedback from '../../../components/invoices/PaymentFeeback.vue'
 export default {
   name: 'InvoicePaymentNotify',
+  components: { PaymentFeedback },
   layout: 'empty',
-  components: {PaymentFeedback},
   middleware: ['validToken'],
   auth: false,
   data () {
     return {
     }
   },
+  head () {
+    return {
+      title: 'InvoicePaymentNotify'
+    }
+  },
   computed: {
     routeName () {
       return this.$route.name
     },
-    invoice() {
-        return this.$route?.params?.id
+    invoice () {
+      return this.$route?.params?.id
     }
   },
   methods: {
-    goToHome(){
-      this.$router?.replace({name: "auth"})
-    }
-  },
-  head () {
-    return {
-      title: 'InvoicePaymentNotify'
+    goToHome () {
+      this.$router?.replace({ name: 'auth' })
     }
   }
 }

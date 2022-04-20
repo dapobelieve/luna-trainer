@@ -5,16 +5,15 @@
         <img :src="result.imgURL || '~/assets/img/search-user.svg'">
       </div>
       <div class="flex items-center">
-        <button @click.prevent="goToClient" class="hover:underline text-gray-700 font-medium">
-         {{`${result.firstName} ${result.lastName || ""}`}}
+        <button class="hover:underline text-gray-700 font-medium" @click.prevent="goToClient">
+          {{ `${result.firstName} ${result.lastName || ""}` }}
         </button>
-      
+
         <i class="fi-rr-angle-small-right w-4 h-4"></i>
-        <button @click.stop="gotToPayments" class="inline-flex text-sm items-center mr-4 text-primary-color cursor-pointer">
-            <span>Payment requests</span>
+        <button class="inline-flex text-sm items-center mr-4 text-primary-color cursor-pointer" @click.stop="gotToPayments">
+          <span>Payment requests</span>
         </button>
         <div class="flex">
-       
           <a v-if="false" :to="{name: 'schedule'}" class="inline-flex items-center">
             <img class="h-4 mr-2" src="~/assets/img/search-calendar.svg">
             <span>Upcoming session</span>
@@ -33,14 +32,14 @@ export default {
       required: true
     }
   },
-  mounted(){
-    console.log("search item mounted", this.result)
+  mounted () {
+    console.log('search item mounted', this.result)
   },
   methods: {
-    close() {
+    close () {
       this.$emit('close')
     },
-    gotToPayments() {
+    gotToPayments () {
       this.$router.push({
         name: 'payments-requests-sent',
         query: {
@@ -48,8 +47,8 @@ export default {
         }
       })
       this.close()
-    } ,
-    goToClient() {
+    },
+    goToClient () {
       this.$router.push({
         name: 'client-id-information',
         params: {

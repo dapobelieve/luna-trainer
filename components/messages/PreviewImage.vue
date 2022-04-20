@@ -65,11 +65,11 @@ export default {
   methods: {
     close () {
       this.removeImage()
-      this.$emit("close")
+      this.$emit('close')
     },
     submit () {
-      this.sendFile()  
-      this.$emit("close")
+      this.sendFile()
+      this.$emit('close')
     }
   }
 }

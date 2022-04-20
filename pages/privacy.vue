@@ -5,11 +5,14 @@
       class="w-20"
     />
     <div class="text-center p-10 md:p-6 bg-green-100 rounded-lg my-5">
-      <h5 class="text-5xl font-bold">Privacy Policy</h5>
-      <p class="text-sm text-grey mt-2">Last updated: April 08, 2022</p>
+      <h5 class="text-5xl font-bold">
+        Privacy Policy
+      </h5>
+      <p class="text-sm text-grey mt-2">
+        Last updated: April 08, 2022
+      </p>
     </div>
     <div class="w-[800px] max-w-[90%] m-auto">
-    
       <p class="text-lg mb-2">
         This Privacy Policy describes Our policies and procedures on the
         collection, use and disclosure of Your information when You use the
@@ -22,16 +25,24 @@
         accordance with this Privacy Policy. This Privacy Policy has been
         created with the help of the
       </p>
-      <h1 class="text-2xl font-bold mb-2">Interpretation and Definitions</h1>
-      <h2 class="text-xl font-bold mb-2">Interpretation</h2>
-      <p >
+      <h1 class="text-2xl font-bold mb-2">
+        Interpretation and Definitions
+      </h1>
+      <h2 class="text-xl font-bold mb-2">
+        Interpretation
+      </h2>
+      <p>
         The words of which the initial letter is capitalized have meanings
         defined under the following conditions. The following definitions shall
         have the same meaning regardless of whether they appear in singular or
         in plural.
       </p>
-      <h2  class="text-xl font-bold mb-2">Definitions</h2>
-      <p  class="text-lg mb-2">For the purposes of this Privacy Policy:</p>
+      <h2 class="text-xl font-bold mb-2">
+        Definitions
+      </h2>
+      <p class="text-lg mb-2">
+        For the purposes of this Privacy Policy:
+      </p>
       <ul class="mb-5">
         <li>
           <p>
@@ -96,8 +107,7 @@
               href="www.goluna.app"
               rel="external nofollow noopener"
               target="_blank"
-              >www.goluna.app</a
-            >
+            >www.goluna.app</a>
           </p>
         </li>
         <li>
@@ -108,9 +118,15 @@
           </p>
         </li>
       </ul>
-    <h1 class="text-2xl font-bold mb-2">Collecting and Using Your Personal Data</h1>
-      <h2 class="text-xl font-bold mb-2">Types of Data Collected</h2>
-       <h3 class="text-xl mb-2" >Personal Data</h3>
+      <h1 class="text-2xl font-bold mb-2">
+        Collecting and Using Your Personal Data
+      </h1>
+      <h2 class="text-xl font-bold mb-2">
+        Types of Data Collected
+      </h2>
+      <h3 class="text-xl mb-2">
+        Personal Data
+      </h3>
       <p>
         While using Our Service, We may ask You to provide Us with certain
         personally identifiable information that can be used to contact or
@@ -134,8 +150,10 @@
           <p>Usage Data</p>
         </li>
       </ul>
-     
-      <h3 class="text-xl mb-2">Usage Data</h3>
+
+      <h3 class="text-xl mb-2">
+        Usage Data
+      </h3>
       <p>Usage Data is collected automatically when using the Service.</p>
       <p>
         Usage Data may include information such as Your Device's Internet
@@ -185,8 +203,7 @@
             href="https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_"
             rel="external nofollow noopener"
             target="_blank"
-            >https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_</a
-          >
+          >https://helpx.adobe.com/flash-player/kb/disable-local-shared-objects-flash.html#main_Where_can_I_change_the_settings_for_disabling__or_deleting_local_shared_objects_</a>
         </li>
         <li>
           <strong>Web Beacons.</strong> Certain sections of our Service and our
@@ -206,8 +223,7 @@
         <a
           href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking"
           target="_blank"
-          >Use of Cookies by Free Privacy Policy</a
-        >.
+        >Use of Cookies by Free Privacy Policy</a>.
       </p>
       <p>
         We use both Session and Persistent Cookies for the purposes set out
@@ -490,11 +506,11 @@
 </template>
 <script>
 export default {
-  name: "Privacy",
-  layout: "empty",
-  middleware: "validToken",
-  auth: false,
-};
+  name: 'Privacy',
+  layout: 'empty',
+  middleware: 'validToken',
+  auth: false
+}
 </script>
 <style lang="scss" scoped>
 ul{

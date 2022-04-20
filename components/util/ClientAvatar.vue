@@ -42,7 +42,7 @@ export default {
     online: {
       type: Boolean,
       default: false
-    },
+    }
   },
   data () {
     return {
@@ -68,8 +68,8 @@ export default {
       }
       return initials
     }
-  },
-    
+  }
+
 }
 </script>
 

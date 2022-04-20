@@ -24,20 +24,20 @@
 </template>
 
 <script>
-import ViewChatImage from "./ViewChatImage.vue";
+import ViewChatImage from './ViewChatImage.vue'
 export default {
-  name: "SenderFileMessage",
+  name: 'SenderFileMessage',
   components: {
-    ViewChatImage,
+    ViewChatImage
   },
   props: {
     msg: {
       type: Object,
-      required: true,
-    },
+      required: true
+    }
   },
   methods: {
-    viewImage(msg) {
+    viewImage (msg) {
       this.$modal.show(
         ViewChatImage,
         {
@@ -45,17 +45,17 @@ export default {
             url: msg.url,
             nickname: msg._sender.nickname,
             profileImg: msg._sender.plainProfileUrl,
-            dateTime: msg.createdAt,
-          },
+            dateTime: msg.createdAt
+          }
         },
         {
-          height: "100%",
-          width: "100%",
+          height: '100%',
+          width: '100%'
         }
-      );
-    },
-  },
-};
+      )
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

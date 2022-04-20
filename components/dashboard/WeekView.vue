@@ -71,7 +71,7 @@ export default {
     },
     async fetchSessions (data) {
       this.$emit('fetching-events')
-      const res = await this.$store.dispatch('scheduler/getAllAppointments', { ...data })
+      const res = await this.$store.dispatch('scheduler/getAllAppointmentsForTimeRange', { ...data })
       this.$emit('stop-fetching-events')
       this.$emit('events', res.slice(0, 2))
     }

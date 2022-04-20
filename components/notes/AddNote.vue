@@ -7,8 +7,8 @@
       leave-class="opacity-0"
     >
       <div
-        class="fixed left-0 top-0 w-full h-full bg-white z-[40] opacity-50"
         v-if="open"
+        class="fixed left-0 top-0 w-full h-full bg-white z-[40] opacity-50"
         @click="cancel"
       ></div>
     </transition>
@@ -39,7 +39,7 @@
         <div class="flex items-center min-h-[5.2vh] border-b px-4 py-[10px]">
           <div class="mr-auto space-x-2 flex items-center">
             <p class="font-bold text-gray-700 text-xl">
-              <span>{{ this.note._id ? "Editing" : "Create" }} note</span>
+              <span>{{ note._id ? "Editing" : "Create" }} note</span>
             </p>
             <small class="text-xs ml-10 pt-1 block">Auto save changes</small>
           </div>
@@ -63,9 +63,9 @@
         >
           <div class="pb-4">
             <input
+              ref="title-area"
               v-model.trim="note.title"
               tabindex="1"
-              ref="title-area"
               class="
                 focus:outline-none
                 w-full
@@ -80,9 +80,9 @@
           </div>
           <div class="pb-8" style="height: calc(100vh - 160px)">
             <textarea
-              tabindex="2"
               ref="text-area"
               v-model.trim="note.description"
+              tabindex="2"
               class="w-full h-full focus:outline-none pr-4 placeholder-gray-400"
               placeholder="Enter note"
             >
@@ -90,14 +90,14 @@
           </div>
           <div class="absolute right-0 left-0 bottom-0 bg-white">
             <button
-              v-if="!this.note._id"
+              v-if="!note._id"
               class="w-full py-4 text-blue-500 text-base font-medium"
               @click.prevent="cancel"
             >
               Cancel
             </button>
             <button
-              v-if="this.note._id"
+              v-if="note._id"
               class="w-full py-4 text-red-500 text-base font-medium"
               @click.prevent="$modal.show('delete-note')"
             >
@@ -111,80 +111,80 @@
 </template>
 
 <script>
-import debounce from "lodash.debounce";
-import { mapActions } from "vuex";
+import debounce from 'lodash.debounce'
+import { mapActions } from 'vuex'
 export default {
-  name: "AddNote",
-  data() {
+  name: 'AddNote',
+  data () {
     return {
       note: {},
       open: false,
       expanded: false,
-      autoSaving: false,
-    };
+      autoSaving: false
+    }
   },
   watch: {
     note: {
-      handler() {
-        this.autoSave();
+      handler () {
+        this.autoSave()
       },
       immediate: true,
-      deep: true,
-    },
+      deep: true
+    }
   },
-  mounted() {
-    this.$nuxt.$on("open-add-note-sidebar", (note) => {
-      console.trace("open-add-note-sidebar", note);
-      this.open = true;
-      this.note = note;
-    });
-    this.addClickOutListener();
+  mounted () {
+    this.$nuxt.$on('open-add-note-sidebar', (note) => {
+      console.trace('open-add-note-sidebar', note)
+      this.open = true
+      this.note = note
+    })
+    this.addClickOutListener()
   },
   methods: {
     ...mapActions({
-      createNote: "notes-v2/createNote",
-      updateNote: "notes-v2/updateNote",
+      createNote: 'notes-v2/createNote',
+      updateNote: 'notes-v2/updateNote'
     }),
-    cancel() {
-      this.open = false;
-      this.$nuxt.$emit("close-add-note-sidebar");
+    cancel () {
+      this.open = false
+      this.$nuxt.$emit('close-add-note-sidebar')
     },
-    enterPressed() {
-      this.$refs["text-area"].focus();
+    enterPressed () {
+      this.$refs['text-area'].focus()
     },
     autoSave: debounce(function () {
-      this.autoSaving = true;
+      this.autoSaving = true
       if (this.note.description) {
         if (this.note._id) {
-          this.editNote();
+          this.editNote()
         } else {
-          this.saveNote();
+          this.saveNote()
         }
       }
-      this.autoSaving = false;
+      this.autoSaving = false
     }, 1000),
-    saveNote() {
+    saveNote () {
       this.createNote(this.note)
         .then((result) => {
-          this.note._id = result._id;
+          this.note._id = result._id
         })
         .catch((err) => {
-          this.$lunaToast.error(err.message);
-          console.error(err);
-        });
+          this.$lunaToast.error(err.message)
+          console.error(err)
+        })
     },
-    editNote() {
+    editNote () {
       this.updateNote(this.note)
         .then((result) => {
-          console.log([result._id]);
-          this.note._id = result._id;
+          console.log([result._id])
+          this.note._id = result._id
         })
         .catch((err) => {
-          this.$lunaToast.error(err.message);
-          console.error(err);
-        });
+          this.$lunaToast.error(err.message)
+          console.error(err)
+        })
     },
-    addClickOutListener() {
+    addClickOutListener () {
       // const elem = this.$refs['add-note-sidebar'];
       // // const listener = (e) => {
       // //   if (e.target === elem || elem.contains(e.target)) {
@@ -197,11 +197,11 @@ export default {
       // //   document.removeEventListener("click", listener);
       // // });
     },
-    toggleWidth() {
-      this.expanded = !this.expanded;
-    },
-  },
-};
+    toggleWidth () {
+      this.expanded = !this.expanded
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

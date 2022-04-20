@@ -3,10 +3,10 @@
     <section class="mt-2">
       <div class="grid gap-4 md:grid-cols-2">
         <DashboardCard
-          @action="$router.push({ name: 'schedule' })"
+          id="session-st"
           :view-all="events.length > 0"
           class="p-0"
-          id="session-st"
+          @action="$router.push({ name: 'schedule' })"
         >
           <div id="session-hint">
             <div class="mb-5">
@@ -31,16 +31,18 @@
                       class="fi-rr-calendar text-fuchsia-500 text-xl"
                     ></span>
                   </div>
-                  <h3 class="font-medium">My Sessions</h3>
+                  <h3 class="font-medium">
+                    My Sessions
+                  </h3>
                 </div>
               </div>
               <div class="flex px-3 items-center mb-4">
                 <div class="font-medium text-sm">
                   {{ $dateFns.format(new Date(), "MMMM d, EEEE") }}
                 </div>
-                <span class="ml-auto text-gray-500 mr-1"
-                  >{{ events.length }} upcoming</span
-                >
+                <span
+                  class="ml-auto text-gray-500 mr-1"
+                >{{ events.length }} upcoming</span>
               </div>
               <div class="px-3">
                 <WeekView
@@ -66,10 +68,12 @@
               >
                 <div class="flex flex-col items-center">
                   <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
-                  <h3 class="text-gray-700 text-lg">You have no appointment</h3>
-                  <small class="text-base text-gray-500"
-                    >Your appointments would be displayed here</small
-                  >
+                  <h3 class="text-gray-700 text-lg">
+                    You have no appointment
+                  </h3>
+                  <small
+                    class="text-base text-gray-500"
+                  >Your appointments would be displayed here</small>
                   <button class="button-fill mt-3" @click="openSession">
                     Schedule a session
                   </button>
@@ -89,13 +93,15 @@
           </div>
         </DashboardCard>
         <div class="grid gap-4">
-          <MessageWidget class="h-[23rem]" id="message-hint" />
-          <InvoiceWidget class="h-[30rem]" id="billing-hint" />
+          <MessageWidget id="message-hint" class="h-[23rem]" />
+          <InvoiceWidget id="billing-hint" class="h-[30rem]" />
         </div>
       </div>
       <!-- modals -->
       <NotificationsModal :visible="true">
-        <template v-slot:title> Stripe Connect </template>
+        <template v-slot:title>
+          Stripe Connect
+        </template>
         <template v-slot:subtitle>
           Account under review, please confirm all requirements have been met
           before proceeding to creating invoices.
@@ -105,7 +111,9 @@
         :visible="showNotification"
         @close="showNotification = $event"
       >
-        <template v-slot:title> Chat Connection Failed </template>
+        <template v-slot:title>
+          Chat Connection Failed
+        </template>
         <template v-slot:subtitle>
           Reconnect chat to enjoy all of GetWelp's features
         </template>
@@ -131,15 +139,15 @@
         </template>
       </NotificationsModal>
       <DashboardWelcomeModal
-        :exitTour="
+        :exit-tour="
           () => {
             closeModal();
-            this.doNotShowHints = true;
+            doNotShowHints = true;
           }
         "
-        :takeTour="
+        :take-tour="
           () => {
-            this.tourItems();
+            tourItems();
             closeModal();
           }
         "
@@ -149,37 +157,37 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import DashboardCard from "~/components/dashboard/DashboardCard";
-import WeekView from "~/components/dashboard/WeekView";
+import { mapActions, mapGetters } from 'vuex'
+import DashboardCard from '~/components/dashboard/DashboardCard'
+import WeekView from '~/components/dashboard/WeekView'
 // import CurrentSessionCard from '~/components/dashboard/CurrentSessionCard'
-import UpcomingSessionCard from "~/components/dashboard/UpcomingSessionCard";
-import InvoiceWidget from "~/components/dashboard/InvoiceWidget";
-import MessageWidget from "~/components/dashboard/MessageWidget";
-import DashboardWelcomeModal from "~/components/modals/DashboardWelcomeModal.vue";
-import { dashboardTourSteps } from "~/tour/DashboardTourSteps";
+import UpcomingSessionCard from '~/components/dashboard/UpcomingSessionCard'
+import InvoiceWidget from '~/components/dashboard/InvoiceWidget'
+import MessageWidget from '~/components/dashboard/MessageWidget'
+import DashboardWelcomeModal from '~/components/modals/DashboardWelcomeModal.vue'
+import { dashboardTourSteps } from '~/tour/DashboardTourSteps'
 export default {
-  name: "Dashboard",
+  name: 'Dashboard',
   components: {
     MessageWidget,
     InvoiceWidget,
     UpcomingSessionCard,
     WeekView,
     DashboardCard,
-    DashboardWelcomeModal,
+    DashboardWelcomeModal
   },
-  layout: "dashboard",
-  async asyncData({ store }) {
+  layout: 'dashboard',
+  async asyncData ({ store }) {
     const acceptedClients = await store.dispatch(
-      "client/fetchClientsWithStatusAndLimit",
+      'client/fetchClientsWithStatusAndLimit',
       {
-        status: "accepted",
-        limit: 2,
+        status: 'accepted',
+        limit: 2
       }
-    );
-    return { acceptedClients };
+    )
+    return { acceptedClients }
   },
-  data() {
+  data () {
     return {
       fetching: false,
       fetchEventsForToday: false,
@@ -190,51 +198,51 @@ export default {
       openBankModal: false,
       showNotification: false,
       paidInvoices: [],
-      acceptedClients: [],
-    };
+      acceptedClients: []
+    }
   },
-  head() {
+  head () {
     return {
-      title: "Dashboard",
-    };
+      title: 'Dashboard'
+    }
   },
   computed: {
-    ...mapGetters("profile", {
-      isStripeConnected: "isStripeConnected",
-      isStripeReady: "isStripeReady",
-    }),
+    ...mapGetters('profile', {
+      isStripeConnected: 'isStripeConnected',
+      isStripeReady: 'isStripeReady'
+    })
   },
   watch: {
-    sendBirdConnStatus(newValue, oldValue) {
+    sendBirdConnStatus (newValue, oldValue) {
       if (newValue || oldValue || !this.store.state.sendbirdId.sbUser) {
         this.$nextTick(() => {
           setTimeout(() => {
-            this.showNotification = true;
-          }, 2000);
-        });
+            this.showNotification = true
+          }, 2000)
+        })
       }
-    },
+    }
   },
-  mounted() {
-    const newUser = this.$route?.query?.new;
-    this.fetchUserProfile();
-    this.fetchPaidInvoices({ status: "paid", limit: 5 })
+  mounted () {
+    const newUser = this.$route?.query?.new
+    this.fetchUserProfile()
+    this.fetchPaidInvoices({ status: 'paid', limit: 5 })
       .then((r) => {
-        this.paidInvoices = r;
+        this.paidInvoices = r
       })
-      .catch((e) => console.error(e));
+      .catch(e => console.error(e))
 
     if (newUser) {
-      window.localStorage.setItem("dashboard-tour", new Date())
-      window.localStorage.setItem("session-tour", new Date())
-      window.localStorage.setItem("client-tour", new Date())
+      window.localStorage.setItem('dashboard-tour', new Date())
+      window.localStorage.setItem('session-tour', new Date())
+      window.localStorage.setItem('client-tour', new Date())
 
-      if (window.localStorage.getItem("dashboard-tour")) {
-        this.$modal.show("welcome-modal");
+      if (window.localStorage.getItem('dashboard-tour')) {
+        this.$modal.show('welcome-modal')
       }
     } else {
       // set date time stamp in local storage
-      if (!window.localStorage.getItem("welcome")) {
+      if (!window.localStorage.getItem('welcome')) {
         this.$lunaToast.show(
           'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
           {
@@ -251,13 +259,13 @@ export default {
             cancel: {
               text: 'Not Now',
               resolver: async () => {
-                console.log("cancelling")
-                window.localStorage.setItem("welcome", new Date())
+                console.log('cancelling')
+                window.localStorage.setItem('welcome', new Date())
               }
             },
             close: {
               resolver: async () => {
-                window.localStorage.setItem("welcome", new Date())
+                window.localStorage.setItem('welcome', new Date())
               }
             }
           }
@@ -265,58 +273,58 @@ export default {
       }
     }
 
-    this.fetchPaidInvoices({ status: "paid", limit: 5 })
+    this.fetchPaidInvoices({ status: 'paid', limit: 5 })
       .then((r) => {
-        this.paidInvoices = r;
+        this.paidInvoices = r
       })
-      .catch((e) => console.error(e));
+      .catch(e => console.error(e))
   },
-  updated() {
+  updated () {
     this.$nextTick(() => {
-      this.fetchEventsForToday = true;
+      this.fetchEventsForToday = true
       if (this.sendBirdConnStatus) {
         setTimeout(() => {
-          this.showNotification = true;
-        }, 2000);
+          this.showNotification = true
+        }, 2000)
       }
-    });
+    })
   },
   methods: {
-    openSession() {
-      this.$store.commit("scheduler/setStates", {
-        drawer: { open: true, activePage: "new-session" },
-      });
+    openSession () {
+      this.$store.commit('scheduler/setStates', {
+        drawer: { open: true, activePage: 'new-session' }
+      })
     },
-    removeQueryParams() {
-      let query = Object.assign({}, this.$route.query);
-      delete query.new;
-      this.$router.replace({ query });
-      window.localStorage.removeItem("dashboard-tour");
+    removeQueryParams () {
+      const query = Object.assign({}, this.$route.query)
+      delete query.new
+      this.$router.replace({ query })
+      window.localStorage.removeItem('dashboard-tour')
     },
-    tourItems() {
-      if (this.doNotShowHints) return;
+    tourItems () {
+      if (this.doNotShowHints) { return }
 
       dashboardTourSteps(this.$intro())
         .oncomplete(() => {
-          this.removeQueryParams();
+          this.removeQueryParams()
         })
         .onexit(() => {
-          this.removeQueryParams();
+          this.removeQueryParams()
         })
-        .start();
+        .start()
 
-      this.$intro().showHints();
+      this.$intro().showHints()
     },
-    closeModal() {
-      this.$modal.hide("welcome-modal");
-      this.removeQueryParams();
+    closeModal () {
+      this.$modal.hide('welcome-modal')
+      this.removeQueryParams()
     },
     ...mapActions({
-      fetchUserProfile: "profile/getUserProfile",
-      fetchPaidInvoices: "invoice/getInvoices",
-    }),
-  },
-};
+      fetchUserProfile: 'profile/getUserProfile',
+      fetchPaidInvoices: 'invoice/getInvoices'
+    })
+  }
+}
 </script>
 
 <style>
