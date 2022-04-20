@@ -1,21 +1,21 @@
 import Vue from 'vue'
 export const state = () => ({
-  notes: [],
+  notes: []
 })
 
 export const mutations = {
   setNotes (state, notes) {
-    state.notes= notes
+    state.notes = notes
   },
   updateNotes (state, notes) {
-    notes.forEach(note => {
+    notes.forEach((note) => {
       state.notes.push(note)
     })
   },
   addNote (state, details) {
     console.log(state.notes)
     state.notes.unshift(details)
-  }, 
+  },
   pushNote (state, details) {
     console.log(state.notes)
     state.notes.unshift(details)
@@ -31,7 +31,7 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchNotes ({ commit, dispatch }, {payload, page, limit}) {
+  async fetchNotes ({ commit, dispatch }, { payload, page, limit }) {
     const queries = {
       page,
       limit,
@@ -39,8 +39,7 @@ export const actions = {
     }
     const res = await this.$axios.$get(
       `${process.env.BASEURL_HOST}/note`, { params: queries })
-    if(page > 1 ) commit('updateNotes', res.data )
-    else commit('setNotes', res.data )
+    if (page > 1) { commit('updateNotes', res.data) } else { commit('setNotes', res.data) }
   },
 
   async createNote ({ state, commit }, details) {
@@ -72,5 +71,5 @@ export const actions = {
 
 export const getters = {
   notes: state => state.notes,
-  healthNotes: state => state.notes.filter(note=>note.tags && !note.tags.find(tag=>tag=="health")),
+  healthNotes: state => state.notes.filter(note => note.tags && !note.tags.find(tag => tag == 'health'))
 }

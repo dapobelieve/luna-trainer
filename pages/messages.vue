@@ -2,7 +2,9 @@
   <div class="pt-14">
     <div class="messages">
       <div class="header">
-        <p class="title">Messages</p>
+        <p class="title">
+          Messages
+        </p>
         <div class="pt-4 bg-white">
           <div class="relative flex items-center h-8">
             <i class="fi-rr-search absolute left-2 text-gray-400 h-4"></i>
@@ -58,8 +60,7 @@
                     flex-grow
                     truncate
                   "
-                  >{{ client.firstName }} {{ client.lastName || ""}} </span
-                >
+                >{{ client.firstName }} {{ client.lastName || "" }} </span>
                 <span
                   :class="[
                     client.status === 'accepted'
@@ -77,12 +78,14 @@
               <div
                 class="text-gray-500 font-normal normal-case truncate"
               >
-              <small> You'll be able to send a message when they accept your request</small>
+                <small> You'll be able to send a message when they accept your request</small>
               </div>
             </div>
           </div>
         </template>
-        <div v-else class="text-center mt-10">😩 Client not found.</div>
+        <div v-else class="text-center mt-10">
+          😩 Client not found.
+        </div>
       </template>
       <template
         v-else-if="acceptedClients.length && !search.length"
@@ -161,7 +164,7 @@
                     <i
                       v-if="
                         latestMessages[client.sendbirdId]._sender.userId !=
-                        client.sendbirdId
+                          client.sendbirdId
                       "
                       class="fi-rr-check text-sm text-green-500 mr-1"
                     ></i>
@@ -176,7 +179,7 @@
                     <i
                       v-if="
                         latestMessages[client.sendbirdId]._sender.userId !=
-                        client.sendbirdId
+                          client.sendbirdId
                       "
                       class="fi-rr-check text-sm text-green-500 mr-1"
                     ></i>
@@ -198,85 +201,85 @@
           </div>
         </button>
       </template>
-      <NoMessages v-else @invite-client="$modal.show('invite-client')"/>
+      <NoMessages v-else @invite-client="$modal.show('invite-client')" />
     </div>
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
-import NoMessages from "~/components/messages/NoMessages.vue";
+import { mapGetters, mapActions } from 'vuex'
+import NoMessages from '~/components/messages/NoMessages.vue'
 export default {
-  name: "MessagesSubMenu",
+  name: 'MessagesSubMenu',
   components: {
-    NoMessages,
+    NoMessages
   },
-  data() {
+  data () {
     return {
-      search: "",
-      loading: false,
-    };
+      search: '',
+      loading: false
+    }
   },
-  async mounted() {
-    this.loading = true;
-    await this.getChannelsMetadata();
-    this.loading = false;
+  async mounted () {
+    this.loading = true
+    await this.getChannelsMetadata()
+    this.loading = false
   },
   computed: {
     ...mapGetters({
-      allClients: "client/getAllClients",
-      latestMessages: "sendbird-v2/getChannelsMetadata",
-      unreadMessagesCount: "sendbird-v2/getUnreadMessagesCount",
-      connectionStatus:"sendbird-v2/getConnectionStatus",
+      allClients: 'client/getAllClients',
+      latestMessages: 'sendbird-v2/getChannelsMetadata',
+      unreadMessagesCount: 'sendbird-v2/getUnreadMessagesCount',
+      connectionStatus: 'sendbird-v2/getConnectionStatus'
     }),
-    isLoading(){
-      return this.loading && !this.unreadMessagesCount && !this.latestMessages;
+    isLoading () {
+      return this.loading && !this.unreadMessagesCount && !this.latestMessages
     },
-    acceptedClients() {
+    acceptedClients () {
       console.log(this.allClients.length)
-      const clients = this.allClients.filter((c) => c.status === "accepted");
-      if (this.latestMessages){
+      const clients = this.allClients.filter(c => c.status === 'accepted')
+      if (this.latestMessages) {
         clients.sort((a, b) => {
           return this.latestMessages[b.sendbirdId]?.createdAt - this.latestMessages[a.sendbirdId]?.createdAt
-        });
+        })
       }
       return clients
     },
-    filteredClients() {
+    filteredClients () {
       return this.allClients.filter((client) => {
         if (this.search && this.allClients.length) {
           return client.firstName
             .toLowerCase()
-            .match(this.search.toLowerCase());
+            .match(this.search.toLowerCase())
         }
-        return "No Result";
-      });
-    },
+        return 'No Result'
+      })
+    }
   },
   methods: {
-    ...mapActions("sendbird-v2", ["getChannelsMetadata"]),
-    gotoMessage(clientId) {
+    ...mapActions('sendbird-v2', ['getChannelsMetadata']),
+    gotoMessage (clientId) {
       try {
         this.$router.push({
-          name: "client-id-messages",
-          params: { id: clientId },
-        });
+          name: 'client-id-messages',
+          params: { id: clientId }
+        })
       } catch (error) {
-        this.$lunaToast.error("Something went wrong, Please contact admin.");
+        this.$lunaToast.error('Something went wrong, Please contact admin.')
       }
     },
-    messageClient(client) {
-      if (client.status === "accepted") {
+    messageClient (client) {
+      if (client.status === 'accepted') {
         this.$router.push({
-          name: "client-id-messages",
-          params: { id: client._id },
-        });
+          name: 'client-id-messages',
+          params: { id: client._id }
+        })
       } else {
-        this.$lunaToast.error("This client has not accepted your request.");
+        this.$lunaToast.error('This client has not accepted your request.')
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

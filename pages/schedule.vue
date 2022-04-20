@@ -74,15 +74,15 @@
     </div>
 
     <ScheduleWelcomeModal
-      :exitTour="() => {
-          closeModal()
-          this.doNotShowHints = true
-        }"
-        :takeTour="() => {
-          this.tourItems();
-          closeModal()
-        }" 
-      />
+      :exit-tour="() => {
+        closeModal()
+        doNotShowHints = true
+      }"
+      :take-tour="() => {
+        tourItems();
+        closeModal()
+      }"
+    />
   </div>
 </template>
 
@@ -95,15 +95,13 @@ import timeGridPlugin from '@fullcalendar/timegrid'
 import listPlugin from '@fullcalendar/list'
 import { mapGetters } from 'vuex'
 import ScheduleWelcomeModal from '~/components/modals/ScheduleWelcomeModal.vue'
-import {scheduleTourSteps} from '~/tour/ScheduleTourSteps'
-import SchedulerWelcome from '~/components/scheduler/SchedulerWelcome'
+import { scheduleTourSteps } from '~/tour/ScheduleTourSteps'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 export default {
   name: 'Scheduler',
   components: {
     SchedulerInfo,
     ScheduleWelcomeModal,
-    SchedulerWelcome,
     FullCalendar
   },
   data () {
@@ -149,28 +147,21 @@ export default {
     })
   },
   async mounted () {
-    const schedule = window.localStorage.getItem("session-tour")
+    const schedule = window.localStorage.getItem('session-tour')
     if (schedule) {
       this.$modal.show('welcome-modal')
       this.$router?.push({ query: { new: true } })
     }
-    //initialize calendar
+    // initialize calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
     try {
-      // if (!this.activeCalendar) {
-        // this.$modal.show('scheduler-modal')
-        // await this.$store.dispatch('scheduler/connectToLocalCalendar')
-      // } else {
-        await this.loadEvents()
-      // }
+      await this.loadEvents()
     } catch (e) {
-      // console.log(e)
-    } finally {
-      this.$store.commit('profile/SET_STATE', { loading: false })
+      console.error(e)
     }
   },
-  updated() {
+  updated () {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
@@ -185,9 +176,9 @@ export default {
     openDrawer (data) {
       this.$store.commit('scheduler/setStates', { drawer: data })
     },
-    async loadEvents () {
+    loadEvents () {
       this.calendarApi.refetchEvents()
-      this.allEvents.forEach(event => {
+      this.allEvents.forEach((event) => {
         this.processNewEvent(event)
         this.calendarApi.addEvent(event)
       })
@@ -215,7 +206,7 @@ export default {
       if (event?.updated) {
         this.removeEvent(event.id)
       }
-      
+
       if (event && Object.keys(event.when).length > 0) {
         this.calendarApi.addEvent({
           id: event.id,
@@ -248,15 +239,14 @@ export default {
       this.$modal.hide('welcome-modal')
       this.removeQueryParams()
     },
-    removeQueryParams() {
-      let query = Object.assign({}, this.$route.query);
-      delete query.new;
-      this.$router.replace({ query });
-      window.localStorage.removeItem("session-tour")
+    removeQueryParams () {
+      const query = Object.assign({}, this.$route.query)
+      delete query.new
+      this.$router.replace({ query })
+      window.localStorage.removeItem('session-tour')
     },
     tourItems () {
-      if (this.doNotShowHints) return
-      let t = 0;
+      if (this.doNotShowHints) { return }
       scheduleTourSteps(this.$intro())
         .oncomplete(() => {
           this.removeQueryParams()
@@ -267,7 +257,7 @@ export default {
         .start()
 
       this.$intro().showHints()
-    },
+    }
   }
 }
 </script>

@@ -9,42 +9,42 @@ export const state = () => ({
 })
 
 export const mutations = {
-  addMessage(state, { id, message }) {
-    let messages = state.messages[id] || []
+  addMessage (state, { id, message }) {
+    const messages = state.messages[id] || []
     messages.push(message)
     messages.sort((a, b) => a.createdAt - b.createdAt)
     Vue.set(state.messages, id, messages)
   },
-  setMessages(state, { id, messages }) {
+  setMessages (state, { id, messages }) {
     Vue.set(state.messages, id, messages)
   },
-  setConnected(state, connected) {
+  setConnected (state, connected) {
     Vue.set(state, 'connected', connected)
   },
-  setLatestMessages(state, { message, id }) {
+  setLatestMessages (state, { message, id }) {
     Vue.set(state.latestMessages, id, message)
   },
-  setUnreadMessagesCount(state, { count, id }) {
+  setUnreadMessagesCount (state, { count, id }) {
     Vue.set(state.unreadMessagesCount, id, count)
   },
-  setConnectionStatus(state, { id, status }) {
+  setConnectionStatus (state, { id, status }) {
     Vue.set(state.connectionStatus, id, status)
   },
-  swapMessage(state, { id, newMessage }) {
-    let messages = state.messages[id] || [];
-    let messageExist = messages && messages.find(message => (message.messageId == newMessage.messageId) || (message.data && message.data == newMessage.data));
+  swapMessage (state, { id, newMessage }) {
+    let messages = state.messages[id] || []
+    const messageExist = messages && messages.find(message => (message.messageId == newMessage.messageId) || (message.data && message.data == newMessage.data))
     if (messageExist) {
-      messages = messages.map(message => (message.messageId == newMessage.messageId ) || (message.data && message.data == newMessage.data) ? newMessage : message)
+      messages = messages.map(message => (message.messageId == newMessage.messageId) || (message.data && message.data == newMessage.data) ? newMessage : message)
     } else {
       messages.push(newMessage)
       messages.sort((a, b) => a.createdAt - b.createdAt)
     }
     Vue.set(state.messages, id, messages)
-  },
+  }
 }
 
 export const actions = {
-  async connect({ commit, dispatch }, sendbirdId) {
+  async connect ({ commit, dispatch }, sendbirdId) {
     if (sendbirdId && !this.state.connected) {
       await this.$sb.connect(sendbirdId, async (user, error) => {
         if (error) {
@@ -59,9 +59,9 @@ export const actions = {
       throw new Error('Sendbird id is not defined')
     }
   },
-  async createChannelIfNoneExists({ commit, state,dispatch }, { sender, receipient }) {
+  async createChannelIfNoneExists ({ commit, state, dispatch }, { sender, receipient }) {
     let channel = await dispatch('getChannel', { sender, receipient })
-    console.log(channel,"channel", sender, receipient)
+    console.log(channel, 'channel', sender, receipient)
     if (!channel) {
       const params = new this.$sb.GroupChannelParams()
       params.isPublic = false
@@ -85,47 +85,46 @@ export const actions = {
     } else {
       return channel
     }
-
   },
-  async getMessages({ commit }, channel) {
-    const messageFilter = new this.$sb.MessageFilter();
-    if(channel){
+  async getMessages ({ commit }, channel) {
+    const messageFilter = new this.$sb.MessageFilter()
+    if (channel) {
       if (channel) {
-        const startingPoint = Date.now();
-        const messageCollectionFetchLimit = 100;
+        const startingPoint = Date.now()
+        const messageCollectionFetchLimit = 100
         let messageCollection = channel.createMessageCollection()
           .setFilter(messageFilter)
           .setStartingPoint(startingPoint)
           .setLimit(messageCollectionFetchLimit)
-          .build();
+          .build()
 
         messageCollection = messageCollection.initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
-        return messageCollection;
+        return messageCollection
       }
     }
   },
-  async getPrevMessages({ commit }, collection) {
+  async getPrevMessages ({ commit }, collection) {
     if (collection.hasPrevious) {
       // Load the previous messages when the scroll
       // reaches the first message in the chat view.
       const messages = await collection.loadPrevious()
       // console.log('Messages from API: ', messages)
       const id = Object.keys(collection.channel.memberMap).find(key => key !== this.$auth.user.userId)
-      messages && messages.forEach(message => {
+      messages && messages.forEach((message) => {
         commit('swapMessage', { id, newMessage: message })
       })
     }
   },
-  async sendMessage({ dispatch }, { message, channel, meta }) {
+  async sendMessage ({ dispatch }, { message, channel, meta }) {
     if (message) {
-      if (typeof message == 'string') {
+      if (typeof message === 'string') {
         await dispatch('sendTextMessageToChannel', { text: message, channel })
       } else {
         await dispatch('sendFileMessageToChannel', { file: message, fileBinary: meta, channel })
       }
     }
   },
-  async sendTextMessageToChannel({ commit }, { text, channel }) {
+  async sendTextMessageToChannel ({ commit }, { text, channel }) {
     const params = new this.$sb.UserMessageParams()
     params.data = Date.now() + Math.random().toString(36)
     params.message = text
@@ -145,7 +144,7 @@ export const actions = {
     console.log(pendingMessage, 'pendingMessage')
     commit('addMessage', { id, message: pendingMessage })
   },
-  async sendFileMessageToChannel({ commit }, { file, fileBinary, channel }) {
+  async sendFileMessageToChannel ({ commit }, { file, fileBinary, channel }) {
     const params = new this.$sb.FileMessageParams()
     params.data = Date.now() + Math.random().toString(36)
     params.file = file
@@ -167,9 +166,8 @@ export const actions = {
     })
     pendingMessage.fileBinary = fileBinary
     commit('addMessage', { id, message: pendingMessage })
-
   },
-  async getChannel({ }, { sender, receipient }) {
+  async getChannel ({ }, { sender, receipient }) {
     const listQuery = this.$sb.GroupChannel.createMyGroupChannelListQuery()
     listQuery.includeEmpty = true
     listQuery.userIdsIncludeFilter = [sender, receipient]
@@ -189,7 +187,7 @@ export const actions = {
       return channel[0]
     }
   },
-  async getChannelsMetadata({ commit }) {
+  async getChannelsMetadata ({ commit }) {
     const listQuery = this.$sb.GroupChannel.createMyGroupChannelListQuery()
     listQuery.includeEmpty = true
     listQuery.userIdsIncludeFilter = [this.$auth.user.userId]
@@ -202,11 +200,11 @@ export const actions = {
           console.error('Error fetching channels', error)
           return
         }
-        return groupChannels.forEach(channel => {
+        return groupChannels.forEach((channel) => {
           const id = Object.keys(channel.memberMap).find(key => key !== this.$auth.user.userId)
           commit('setLatestMessages', { message: channel.lastMessage, id })
           commit('setUnreadMessagesCount', { count: channel.unreadMessageCount, id })
-          channel.members.forEach(member => {
+          channel.members.forEach((member) => {
             if (member.userId !== this.$auth.user.userId) {
               commit('setConnectionStatus', { id: member.userId, status: member.connectionStatus })
             }
@@ -214,12 +212,12 @@ export const actions = {
         })
       })
     }
-  },
+  }
 }
 
 export const getters = {
   isConnected: (state) => {
-    return state.connected;
+    return state.connected
   },
   getMessages: (state) => {
     return state.messages

@@ -10,7 +10,6 @@
       </div>
       <template v-slot:buttons>
         <div>
-     
         </div>
         <button
           type="button"

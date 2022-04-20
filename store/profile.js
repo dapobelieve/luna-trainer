@@ -121,7 +121,7 @@ export const actions = {
       })
   },
   async updateProfile ({ dispatch, commit }, payload) {
-    let res = await this.$axios.$put(`${process.env.BASEURL_HOST}/profile`, payload)
+    const res = await this.$axios.$put(`${process.env.BASEURL_HOST}/profile`, payload)
     await dispatch('getUserProfile')
     return res.data
   },
@@ -151,7 +151,7 @@ export const actions = {
     )
   },
   async deleteService ({ dispatch, commit }, serviceId) {
-    let res = await this.$axios.$delete(
+    const res = await this.$axios.$delete(
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
     )
     await dispatch('getUserProfile')
@@ -173,5 +173,5 @@ export const actions = {
 export const getters = {
   getLoading: state => state.loading,
   getUser: state => state.user,
-  getServices: state => state.user.services,
+  getServices: state => state.user.services
 }

@@ -35,18 +35,18 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
+import AddNote from '../components/notes/AddNote.vue'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
-import AddNote from '../components/notes/AddNote.vue'
 export default {
   name: 'Dashboard',
   components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal, AddNote },
   mixins: [auth],
   data () {
     return {
-      showSidebarMenu: false,
+      showSidebarMenu: false
     }
   },
   computed: {
@@ -87,12 +87,12 @@ export default {
   },
   beforeMount () {
     this.$store.dispatch('scheduler/connectToLocalCalendar')
-    .then(res => {
-      console.log(res)
-    })
-    .catch(err => {
-      this.$store.dispatch('scheduler/getCalendars')
-    })
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        this.$store.dispatch('scheduler/getCalendars')
+      })
   },
   methods: {
     toggleSidebarMenu () {

@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
-import Note from "../../../components/notes/Note.vue"
+import { mapGetters } from 'vuex'
+import Note from '../../../components/notes/Note.vue'
 
-export default{
-  components: { Note },
-  name: "Notes"
-};
+export default {
+  name: 'Notes',
+  components: { Note }
+}
 </script>
 
 <style lang="scss" scoped></style>

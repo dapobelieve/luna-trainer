@@ -1,21 +1,23 @@
 <template>
-    <payment-feedback title="Payment failed"  >
-        <i class="fi fi-rr-cross my-3 text-white text-[30px]" slot="icon" />
-        <p slot="description">Your payment on invoice <b class="text-black">#{{invoice}}</b> failed</p>
-         <button
-            slot="button"
-            class="button-fill"
-        >
-            Retry
-        </button>
-    </payment-feedback>
+  <payment-feedback title="Payment failed">
+    <i slot="icon" class="fi fi-rr-cross my-3 text-white text-[30px]" />
+    <p slot="description">
+      Your payment on invoice <b class="text-black">#{{ invoice }}</b> failed
+    </p>
+    <button
+      slot="button"
+      class="button-fill"
+    >
+      Retry
+    </button>
+  </payment-feedback>
 </template>
 
 <script>
 import PaymentFeedback from '../../../components/invoices/PaymentFeeback.vue'
 export default {
   name: 'InvoicePaymentError',
-  components: {PaymentFeedback},
+  components: { PaymentFeedback },
   layout: 'empty',
   middleware: ['validToken'],
   auth: false,
@@ -23,20 +25,20 @@ export default {
     return {
     }
   },
-  methods: {
+  head () {
+    return {
+      title: 'InvoicePaymentError'
+    }
   },
   computed: {
     routeName () {
       return this.$route.name
     },
-    invoice() {
-        return this.$route?.params?.id
+    invoice () {
+      return this.$route?.params?.id
     }
   },
-  head () {
-    return {
-      title: 'InvoicePaymentError'
-    }
+  methods: {
   }
 }
 </script>

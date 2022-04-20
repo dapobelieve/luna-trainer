@@ -66,10 +66,10 @@
                   <span class="text-gray-800 text-sm font-light">{{
                     $auth.user.businessName
                   }}</span>
-                  <span class="text-gray-800 text-md font-medium"
-                    >Hi! {{ $auth.user.firstName }}
-                    {{ $auth.user.lastName }}</span
-                  >
+                  <span
+                    class="text-gray-800 text-md font-medium"
+                  >Hi! {{ $auth.user.firstName }}
+                    {{ $auth.user.lastName }}</span>
                 </div>
               </div>
             </div>
@@ -237,7 +237,9 @@
             </NuxtLink>
           </div>
           <div class="bottom-nav">
-            <div class="pl-2 mb-4">Help</div>
+            <div class="pl-2 mb-4">
+              Help
+            </div>
             <div
               class="
                 bg-gray-700
@@ -250,7 +252,9 @@
               "
             >
               <div class="text-white">
-                <h3 class="font-bold text-white mb-2">Need Help?</h3>
+                <h3 class="font-bold text-white mb-2">
+                  Need Help?
+                </h3>
                 <span class="text-sm">
                   Activate the switch button to send a message to us
                 </span>
@@ -273,7 +277,9 @@
               "
             >
               <i class="fi-rr-time-half-past mr-4 mt-4"></i>
-              <h3 class="">What's coming next...</h3>
+              <h3 class="">
+                What's coming next...
+              </h3>
             </NuxtLink>
             <button
               class="
@@ -291,7 +297,9 @@
               @click="signOut"
             >
               <i class="fi-rr-power mr-4 mt-0.5"></i>
-              <h3 class="">Sign out</h3>
+              <h3 class="">
+                Sign out
+              </h3>
             </button>
           </div>
         </div>
@@ -302,48 +310,48 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from "vuex";
-import LunaSearch from "~/components/LunaSearch";
-import sendbirdHandlers from "~/mixins/sendbirdHandlers";
+import { mapActions, mapMutations, mapGetters } from 'vuex'
+import LunaSearch from '~/components/LunaSearch'
+import sendbirdHandlers from '~/mixins/sendbirdHandlers'
 export default {
-  name: "Navigation",
+  name: 'Navigation',
   components: { LunaSearch },
   mixins: [sendbirdHandlers],
-  data() {
+  data () {
     return {
       showQuickMenu: false,
-      currentLink: "dashboard",
+      currentLink: 'dashboard',
       menus: [
         {
-          icon: "fi-rr-home",
-          title: "Home",
-          path: "dashboard",
+          icon: 'fi-rr-home',
+          title: 'Home',
+          path: 'dashboard'
         },
         {
-          icon: "fi-rr-comment-alt",
-          id: "introjs-step-5",
-          title: "Messages",
-          path: "messages",
+          icon: 'fi-rr-comment-alt',
+          id: 'introjs-step-5',
+          title: 'Messages',
+          path: 'messages'
         },
         {
-          icon: "fi-rr-bell-ring",
-          title: "Notifications",
-          path: "notifications",
+          icon: 'fi-rr-bell-ring',
+          title: 'Notifications',
+          path: 'notifications'
         },
         {
-          icon: "fi-rr-following",
-          title: "Clients",
-          path: "clients",
+          icon: 'fi-rr-following',
+          title: 'Clients',
+          path: 'clients'
         },
         {
-          icon: "fi-rr-calendar",
-          title: "Schedule",
-          path: "schedule",
+          icon: 'fi-rr-calendar',
+          title: 'Schedule',
+          path: 'schedule'
         },
         {
-          icon: "fi-rr-receipt",
-          title: "Payment",
-          path: "payments-requests-sent",
+          icon: 'fi-rr-receipt',
+          title: 'Payment',
+          path: 'payments-requests-sent'
         },
         // {
         //   icon: 'fi-rr-chart-histogram',
@@ -351,165 +359,165 @@ export default {
         //   path: 'reports-financials'
         // },
         {
-          icon: "fi-rr-settings",
-          title: "Settings",
-          path: "settings-profile",
-        },
+          icon: 'fi-rr-settings',
+          title: 'Settings',
+          path: 'settings-profile'
+        }
       ],
       showNotification: false,
-      openModal: false,
-    };
+      openModal: false
+    }
   },
   computed: {
     ...mapGetters({
-      acceptedClients: "client/acceptedClients",
-      notifications: "notifications/getAllNotifications",
-      getUnreadMessagesCount: "sendbird-v2/getUnreadMessagesCount",
+      acceptedClients: 'client/acceptedClients',
+      notifications: 'notifications/getAllNotifications',
+      getUnreadMessagesCount: 'sendbird-v2/getUnreadMessagesCount'
     }),
-    unReadNotifications() {
-      return this.notifications.filter((n) => n.status === "UNREAD");
+    unReadNotifications () {
+      return this.notifications.filter(n => n.status === 'UNREAD')
     },
-    unreadMessages() {
-      let count = 0;
-      for (let key in this.getUnreadMessagesCount) {
-        count += this.getUnreadMessagesCount[key] || 0;
+    unreadMessages () {
+      let count = 0
+      for (const key in this.getUnreadMessagesCount) {
+        count += this.getUnreadMessagesCount[key] || 0
       }
-      return count;
+      return count
     },
-    firstName(string) {
+    firstName (string) {
       if (string) {
-        const firstName = string.split(" ");
-        return firstName[0];
+        const firstName = string.split(' ')
+        return firstName[0]
       }
-      return "get";
+      return 'get'
     },
-    lastName(string) {
+    lastName (string) {
       if (string) {
-        const lastName = string.split(" ");
-        return lastName[1];
+        const lastName = string.split(' ')
+        return lastName[1]
       }
-      return "welp";
-    },
+      return 'welp'
+    }
   },
   watch: {
     $route: {
-      handler(newRouteValue) {
-        this.getNav(newRouteValue);
+      handler (newRouteValue) {
+        this.getNav(newRouteValue)
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
-  async beforeMount() {
-    this.getNav(this.$route);
+  async beforeMount () {
+    this.getNav(this.$route)
     try {
-      await this.connectSendbird(this.$auth.user.sendbirdId);
-      await this.getChannelsMetadata();
-      await this.$store.dispatch("notifications/fetchNotifications");
-      this.socketNotification();
+      await this.connectSendbird(this.$auth.user.sendbirdId)
+      await this.getChannelsMetadata()
+      await this.$store.dispatch('notifications/fetchNotifications')
+      this.socketNotification()
     } catch (e) {
-      console.error(e);
+      console.error(e)
     }
   },
   methods: {
-    getId(e) {
+    getId (e) {
       switch (e) {
-        case "Report":
-          return "reporting-hint";
-        case "Settings":
-          return "settings-hint";
-        case "Messages":
-          return "message-hint-nav";
-        case "Schedule":
-          return "session-st-nav";
-        case "Payment":
-          return "billing-hint-nav";
+        case 'Report':
+          return 'reporting-hint'
+        case 'Settings':
+          return 'settings-hint'
+        case 'Messages':
+          return 'message-hint-nav'
+        case 'Schedule':
+          return 'session-st-nav'
+        case 'Payment':
+          return 'billing-hint-nav'
         default:
-          return "";
+          return ''
       }
     },
     ...mapMutations({
-      localUpdateClient: "client/LOCAL_UPDATE_CLIENT",
+      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
     }),
-    socketNotification(data) {
-      const url = new URL(process.env.BASEURL_HOST);
+    socketNotification (data) {
+      const url = new URL(process.env.BASEURL_HOST)
       // eslint-disable-next-line
       const socket = io(`${url.origin}`, {
         path: `${url.pathname}/socket.io`,
         query: {
           accessToken: localStorage
-            .getItem("auth._token.local")
-            .split("Bearer ")[1],
-        },
-      });
-      socket.on("connect", () => {
-        console.log("🚀");
-      });
-      socket.on("new-notification", async (data) => {
-        console.log("NEW SOCKET MESSAGE >>>>", data);
-        const { type } = data;
-        if (type === "LOGIN_WITH_QR") {
-          this.$nuxt.$emit("device-paired");
+            .getItem('auth._token.local')
+            .split('Bearer ')[1]
+        }
+      })
+      socket.on('connect', () => {
+        console.log('🚀')
+      })
+      socket.on('new-notification', async (data) => {
+        console.log('NEW SOCKET MESSAGE >>>>', data)
+        const { type } = data
+        if (type === 'LOGIN_WITH_QR') {
+          this.$nuxt.$emit('device-paired')
         }
         switch (type) {
-          case "INVITE_REQUEST_ACCEPTED":
-            this.localUpdateClient(data.data);
+          case 'INVITE_REQUEST_ACCEPTED':
+            this.localUpdateClient(data.data)
             this.$lunaToast.show(
               `${data.data.firstName} just accepted your invite`
-            );
-            break;
-          case "PAYMENT_ACCEPTED":
-            this.$lunaToast.show(`${data.message}`);
-            break;
-          case "NEW_PAYMENT_RECEIPT":
-            this.$lunaToast.show(`${data.message}`);
-            this.getInvoices();
-            break;
-          case "STRIPE_CONNECTION_SUCCESSFUL":
-            await this.getPaymentMethods();
-            this.$lunaToast.show("Stripe has just connected successful");
-            break;
+            )
+            break
+          case 'PAYMENT_ACCEPTED':
+            this.$lunaToast.show(`${data.message}`)
+            break
+          case 'NEW_PAYMENT_RECEIPT':
+            this.$lunaToast.show(`${data.message}`)
+            this.getInvoices()
+            break
+          case 'STRIPE_CONNECTION_SUCCESSFUL':
+            await this.getPaymentMethods()
+            this.$lunaToast.show('Stripe has just connected successful')
+            break
           default:
-            this.$lunaToast.show("You have a new notification");
-            break;
+            this.$lunaToast.show('You have a new notification')
+            break
         }
-        this.$store.commit("notifications/setNotification", data);
-      });
-      socket.on("CALENDAR_SYNC", () => {});
+        this.$store.commit('notifications/setNotification', data)
+      })
+      socket.on('CALENDAR_SYNC', () => {})
     },
-    openSession() {
-      this.$store.commit("scheduler/setStates", {
-        drawer: { open: true, activePage: "new-session" },
-      });
+    openSession () {
+      this.$store.commit('scheduler/setStates', {
+        drawer: { open: true, activePage: 'new-session' }
+      })
     },
-    handleClick(e) {
-      if (!e.target.closest(".new-button")) {
-        this.showQuickMenu = false;
+    handleClick (e) {
+      if (!e.target.closest('.new-button')) {
+        this.showQuickMenu = false
       }
     },
-    getNav(e) {
-      const paths = e.path?.split("/");
+    getNav (e) {
+      const paths = e.path?.split('/')
       if (paths.length >= 1) {
-        this.currentLink = paths[1];
+        this.currentLink = paths[1]
       }
     },
     ...mapActions({
-      getInvoices: "invoice/getInvoices",
-      logOut: "authorize/logOut",
-      connectSendbird: "sendbird-v2/connect",
-      getChannelsMetadata: "sendbird-v2/getChannelsMetadata",
-      getPaymentMethods: "payment-methods/getPaymentMethods",
+      getInvoices: 'invoice/getInvoices',
+      logOut: 'authorize/logOut',
+      connectSendbird: 'sendbird-v2/connect',
+      getChannelsMetadata: 'sendbird-v2/getChannelsMetadata',
+      getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
-    inviteClient() {
-      this.$modal.show("invite-client");
+    inviteClient () {
+      this.$modal.show('invite-client')
     },
-    signOut() {
-      this.logOut();
+    signOut () {
+      this.logOut()
     },
-    hideSidebarMenu() {
-      this.$nuxt.$emit("hideSidebarMenu");
-    },
-  },
-};
+    hideSidebarMenu () {
+      this.$nuxt.$emit('hideSidebarMenu')
+    }
+  }
+}
 </script>
 <style lang="scss" scoped>
 .active {
