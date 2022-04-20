@@ -148,27 +148,22 @@ export default {
       allEvents: 'scheduler/getAllEvents'
     })
   },
-  async asyncData (ctx) {
-    // await ctx.store.dispatch('scheduler/getCalendars')
-  },
   async mounted () {
     const schedule = window.localStorage.getItem("session-tour")
     if (schedule) {
       this.$modal.show('welcome-modal')
       this.$router?.push({ query: { new: true } })
     }
-
-    // this.$store.commit('profile/SET_STATE', { loading: true })
     //initialize calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
     this.updateDate()
     try {
-      if (!this.activeCalendar) {
-        this.$modal.show('scheduler-modal')
-        await this.$store.dispatch('scheduler/connectToLocalCalendar')
-      } else {
+      // if (!this.activeCalendar) {
+        // this.$modal.show('scheduler-modal')
+        // await this.$store.dispatch('scheduler/connectToLocalCalendar')
+      // } else {
         await this.loadEvents()
-      }
+      // }
     } catch (e) {
       // console.log(e)
     } finally {
