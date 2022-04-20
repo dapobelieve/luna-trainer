@@ -56,7 +56,7 @@ export const actions = {
         console.log('Sendbird is ready 🚀')
       })
     } else {
-      throw new Error('Sendbird id is not defined')
+      console.error('Sendbird id is not defined')
     }
   },
   async createChannelIfNoneExists ({ commit, state, dispatch }, { sender, receipient }) {

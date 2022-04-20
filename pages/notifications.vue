@@ -5,7 +5,7 @@
     >
       <div>
         <TabbedItems
-          :links="[{link: 'Unread', count: unreadNotifications.length}, {link: 'Read', count: readNotifications.length}]"
+          :links="[{link: 'Unread', count: notificationsSummary.unread}, {link: 'Read', count: notificationsSummary.read}]"
         >
           <template v-slot:title>
             <h2
@@ -40,25 +40,19 @@ export default {
   },
   computed: {
     ...mapGetters({
-      notifications: 'notifications/getAllNotifications'
+      notificationsSummary: 'notifications/getNotificationsSummary'
     }),
-    unreadNotifications () {
-      return this.notifications.filter(n => n.status === 'UNREAD' && n.type !== 'LOGIN_WITH_QR')
-    },
-    readNotifications () {
-      return this.notifications.filter(n => n.status === 'READ' && n.type !== 'LOGIN_WITH_QR')
-    }
   },
-  async mounted () {
+  async create () {
     try {
-      await this.fetchNotifications()
+      await this.fetchNotificationsSummary()
     } catch (e) {
       console.log({ e })
     }
   },
   methods: {
     ...mapActions({
-      fetchNotifications: 'notifications/fetchNotifications'
+      fetchNotificationsSummary: 'notifications/fetchNotificationsSummary'
     })
   }
 }

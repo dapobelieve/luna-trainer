@@ -216,7 +216,7 @@
               </div>
               <div
                 v-else-if="
-                  menu.path === 'notifications' && unReadNotifications.length
+                  menu.path === 'notifications' && getNotificationsSummary.unread > 0
                 "
                 class="ml-auto"
               >
@@ -231,7 +231,7 @@
                     rounded-full
                   "
                 >
-                  {{ unReadNotifications.length }}
+                  {{ getNotificationsSummary.unread }}
                 </div>
               </div>
             </NuxtLink>
@@ -371,12 +371,9 @@ export default {
   computed: {
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
-      notifications: 'notifications/getAllNotifications',
+      getNotificationsSummary: 'notifications/getNotificationsSummary',
       getUnreadMessagesCount: 'sendbird-v2/getUnreadMessagesCount'
     }),
-    unReadNotifications () {
-      return this.notifications.filter(n => n.status === 'UNREAD')
-    },
     unreadMessages () {
       let count = 0
       for (const key in this.getUnreadMessagesCount) {
@@ -412,7 +409,7 @@ export default {
     try {
       await this.connectSendbird(this.$auth.user.sendbirdId)
       await this.getChannelsMetadata()
-      await this.$store.dispatch('notifications/fetchNotifications')
+      await this.$store.dispatch('notifications/fetchNotificationsSummary')
       this.socketNotification()
     } catch (e) {
       console.error(e)
@@ -480,7 +477,7 @@ export default {
             this.$lunaToast.show('You have a new notification')
             break
         }
-        this.$store.commit('notifications/addNotification', data)
+        this.$store.dispatch('notifications/fetchNotificationsSummary')
       })
       socket.on('CALENDAR_SYNC', () => {})
     },

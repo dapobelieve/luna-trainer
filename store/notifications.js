@@ -5,31 +5,56 @@ const notificationTypes = [
   'STRIPE_CONNECTION_SUCCESSFUL',
   'STRIPE_CONNECTION_SUCCESSFUL'
 ]
-
 export const state = () => ({
-  notifications: []
+  notifications: {
+    READ: [],
+    UNREAD: []
+  },
+  summary: {}
 })
 
 export const mutations = {
-  setNotifications (state, data) {
-    state.notifications = data
-  },
-  addNotification (state, data) {
+  addNotification (state, { data, status }) {
     if (notificationTypes.includes(data.type)) {
-      state.notifications.push(data)
+      state.notifications[status] = state.notifications[status] || []
+      state.notifications[status].push(data)
     }
+  },
+  setNotifications (state, { notifications, status }) {
+    state.notifications[status] = notifications
+  },
+  setNotificationsSummary (state, data) {
+    state.summary = data
   }
 }
 
 export const actions = {
-  async fetchNotifications ({ commit, dispatch }) {
-    dispatch('loader/startProcess', null, { root: true })
+  async fetchNotifications ({ commit }, payload) {
     const res = await this.$axios.$get(
-      `${process.env.BASEURL_HOST}/notifications`
+      `${process.env.BASEURL_HOST}/notifications`,
+      {
+        params: {
+          limit: payload.limit,
+          status: payload.status,
+          page: payload.page
+        }
+      }
     )
-    const notifications = res.data.notifications.filter(item => notificationTypes.includes(item.type))
-    commit('setNotifications', notifications)
-    dispatch('loader/endProcess', null, { root: true })
+    const status = payload.status
+    if (payload.page > 1) {
+      res.data.forEach((data) => {
+        commit('addNotification', { status, data })
+      })
+    } else {
+      const notifications = res.data.filter(notification => notificationTypes.includes(notification.type))
+      commit('setNotifications', { status, notifications })
+    }
+  },
+  async fetchNotificationsSummary ({ commit }) {
+    const res = await this.$axios.$get(
+      `${process.env.BASEURL_HOST}/notifications/summary`
+    )
+    commit('setNotificationsSummary', res.data)
   },
 
   async readNotification ({ dispatch }, payload) {
@@ -41,8 +66,13 @@ export const actions = {
 }
 
 export const getters = {
-  getAllNotifications: state =>
-    [...state.notifications].sort(
+  getUnreadNotifications: state =>
+    [...state.notifications.UNREAD].sort(
       (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
-    )
+    ),
+  getReadNotifications: state =>
+    [...state.notifications.READ].sort(
+      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+    ),
+  getNotificationsSummary: state => state.summary
 }
