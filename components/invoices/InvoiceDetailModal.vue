@@ -118,7 +118,7 @@
             <button class="text-red-500 px-4 py-2 border mr-2" @click="close">
               Cancel
             </button>
-            <button ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
+            <button v-if="invoiceStatus !== 'paid_awaiting_confirmation'" ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
               <span v-else>Send Nudge</span>
             </button>
