@@ -40,7 +40,10 @@ export const actions = {
     })
   },
   async notify ({ commit }, payload) {
-    return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/${payload.id}/notify`, { note: 'note' })
+    return await this.$axios.$post(
+      `${process.env.PAYMENT_HOST_URL}/invoice/reminder/${payload.id}/notify`,
+      { note: 'note' }
+    )
   },
   async resendInvoice ({ commit }, invoiceDetails) {
     return await this.$axios
