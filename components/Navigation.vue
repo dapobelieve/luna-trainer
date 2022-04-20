@@ -442,7 +442,7 @@ export default {
         },
       });
       socket.on("connect", () => {
-        console.log("CONNECTED 🚀");
+        console.log("🚀");
       });
       socket.on("new-notification", async (data) => {
         console.log("NEW SOCKET MESSAGE >>>>", data);

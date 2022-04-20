@@ -26,11 +26,16 @@ export const mutations = {
   }
 }
 export const actions = {
-  async getCalendars ({ commit }) {
-    const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
-    commit('setCalendar', res[0])
-    return res
-  },
+  async getCalendars ({ dispatch, commit }) {
+    const [res=null] = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
+    if(res) {
+      commit('setStates', {calendar: res})
+      await dispatch('getAllAppointments', {
+        startDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() - 1)).setHours(0) / 1000),
+        endDateTime: parseInt(new Date(new Date().setFullYear(new Date().getFullYear() + 1)).setHours(23) / 1000)
+      })
+    }
+   },
   async createAppointment ({ commit, dispatch }, payload, calendar) {
     if (payload.data.conferencing) {
       delete payload.data.conferencing.type
@@ -47,11 +52,15 @@ export const actions = {
     return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
   },
   async getAllAppointments ({ state, commit }, payload) {
-    if (!state.calendar) { return [] } // we are supposed to have a calendar before we can get appointments
+    if (!state.calendar) { return [] } 
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`)
     if (res.length > 0) {
       commit('setEvents', res)
     }
+  },
+  async getAllAppointmentsForTimeRange ({ state, commit }, payload) {
+    if (!state.calendar) { return [] } // we are supposed to have a calendar before we can get appointments
+    const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment?startDatetime=${payload.startDateTime}&endDatetime=${payload.endDateTime}`)
     return res
   },
   async deleteAppointment ({ state }, payload) {
@@ -65,6 +74,7 @@ export const actions = {
     return res
   }
 }
+
 export const getters = {
   drawer: state => state.drawer,
   getCalendar: state => state.calendar,

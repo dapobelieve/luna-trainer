@@ -74,6 +74,7 @@
         <template v-else>
           <InvoiceWidgetCard
             v-for="(data, dataIndex) in widgetData"
+            :key="dataIndex"
             :invoice="data"
           />
         </template>
