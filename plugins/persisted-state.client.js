@@ -16,6 +16,6 @@ export default ({ store }) => {
       'sendbird-v2.messages',
       'sendbird-v2.latestMessages',
       'sendbird-v2.unreadMessagesCount'
-    ],
+    ]
   })(store)
 }

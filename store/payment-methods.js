@@ -10,14 +10,14 @@ export const mutations = {
 }
 
 export const actions = {
-  async markAsPaid ({dispatch}, receipt) {
+  async markAsPaid ({ dispatch }, receipt) {
     const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt/confirm`, receipt)
-    await dispatch('invoice/getInvoices', null, {root: true})
+    await dispatch('invoice/getInvoices', null, { root: true })
     return res
   },
-  async markAsUnPaid ({dispatch}, payload) {
+  async markAsUnPaid ({ dispatch }, payload) {
     const res = await this.$axios.$put(`${process.env.PAYMENT_HOST_URL}/payment-receipt/${payload.id}/cancel`)
-    await dispatch('invoice/getInvoices', null, {root: true})
+    await dispatch('invoice/getInvoices', null, { root: true })
     return res
   },
   async getPaymentMethods ({ commit, dispatch }) {
@@ -37,7 +37,7 @@ export const actions = {
   },
   async connectToStripe ({ commit, dispatch }, redirectUrl) {
     const { data } = await this.$axios.get(`${process.env.PAYMENT_HOST_URL}/stripe/connect/url?returnurl=${redirectUrl}`)
-    if (!data.url) throw new Error(data)
+    if (!data.url) { throw new Error(data) }
     return data.url
   },
   async disconnectFromStripe ({ commit, dispatch }) {

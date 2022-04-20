@@ -1,18 +1,18 @@
 <template>
   <div class="messages">
-    <ChatsV2 v-if="sendbirdId" :receipientId="sendbirdId" />
+    <ChatsV2 v-if="sendbirdId" :receipient-id="sendbirdId" />
   </div>
 </template>
 
 <script>
+import { mapActions } from 'vuex'
 import ChatsV2 from '../../../components/messages/Chats-v2.vue'
-import {mapActions} from 'vuex'
 export default {
   name: 'Messages',
   components: {
     ChatsV2
   },
-  data(){
+  data () {
     return {
       sendbirdId: null
     }
@@ -22,8 +22,8 @@ export default {
       getSingleClientById: 'getSingleClientById'
     })
   },
-  async mounted(){
-    const {sendbirdId} = await this.getSingleClientById(this.$route.params.id)
+  async mounted () {
+    const { sendbirdId } = await this.getSingleClientById(this.$route.params.id)
     this.sendbirdId = sendbirdId
   }
 }

@@ -2,13 +2,13 @@
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-1.5">
       <label for="accreditations">Do you have any accreditations? e.g APDT</label>
-        <TagInput v-model="profile.accreditations" :tabindex="9" />
+      <TagInput v-model="profile.accreditations" :tabindex="9" />
     </div>
     <div class="flex flex-col gap-1.5">
       <label
         class="required"
       >What training or behavioural issues do you specialise in? e.g Puppies, Separation Anxiety</label>
-        <TagInput v-model="profile.specialization" :class="{'border-red-500' : $v.profile.specialization.$invalid}" :tabindex="9" />
+      <TagInput v-model="profile.specialization" :class="{'border-red-500' : $v.profile.specialization.$invalid}" :tabindex="9" />
     </div>
     <div class="flex flex-row gap-2">
       <label

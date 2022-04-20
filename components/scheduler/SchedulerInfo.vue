@@ -119,7 +119,7 @@ export default {
   async mounted () {
     try {
       this.loading = true
-      this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointments', {
+      this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointmentsForTimeRange', {
         startDateTime: parseInt(new Date().setUTCHours(0, 0, 0) / 1000),
         endDateTime: parseInt(new Date(new Date().setDate(new Date().getDate() + 1)).setUTCHours(23, 59, 59, 999) / 1000)
       })
@@ -134,7 +134,7 @@ export default {
       const { start, end } = dateObj
       try {
         this.loading = true
-        this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointments', {
+        this.todayAndTomorrowsEvents = await this.$store.dispatch('scheduler/getAllAppointmentsForTimeRange', {
           startDateTime: parseInt(Date.parse(start) / 1000),
           endDateTime: parseInt(Date.parse(end) / 1000)
         })

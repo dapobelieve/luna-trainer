@@ -20,7 +20,9 @@
         >
           <i class="fi-rr-receipt text-xl text-amber-500 mt-1"></i>
         </div>
-        <h3 class="text-black text-xl">Billing</h3>
+        <h3 class="text-black text-xl">
+          Billing
+        </h3>
       </div>
       <div class="ml-auto overflow-auto flex items-end">
         <button
@@ -59,10 +61,12 @@
         >
           <div class="flex flex-col items-center">
             <i class="fi-rr-receipt text-5xl text-amber-500"></i>
-            <h3 class="text-gray-700 text-lg">You have no billing items</h3>
-            <small class="text-base text-gray-500"
-              >Your payment requests would be displayed here</small
-            >
+            <h3 class="text-gray-700 text-lg">
+              You have no billing items
+            </h3>
+            <small
+              class="text-base text-gray-500"
+            >Your payment requests would be displayed here</small>
             <button
               class="button-fill mt-3"
               @click="$router.push({ name: 'payments-request' })"
@@ -74,6 +78,7 @@
         <template v-else>
           <InvoiceWidgetCard
             v-for="(data, dataIndex) in widgetData"
+            :key="dataIndex"
             :invoice="data"
           />
         </template>
@@ -83,41 +88,41 @@
 </template>
 
 <script>
-import DashboardCard from "~/components/dashboard/DashboardCard";
-import InvoiceWidgetCard from "~/components/dashboard/InvoiceWidgetCard";
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex'
+import DashboardCard from '~/components/dashboard/DashboardCard'
+import InvoiceWidgetCard from '~/components/dashboard/InvoiceWidgetCard'
 export default {
   components: { InvoiceWidgetCard, DashboardCard },
-  data() {
+  data () {
     return {
       imgUrl: null,
       fetching: false,
-      selectedOption: "paid_awaiting_confirmation",
-      widgetData: [],
-    };
+      selectedOption: 'paid_awaiting_confirmation',
+      widgetData: []
+    }
   },
   watch: {
-    async selectedOption() {
-      await this.fetchWidgetData();
-    },
+    async selectedOption () {
+      await this.fetchWidgetData()
+    }
   },
-  async mounted() {
-    this.$nuxt.$on("paid", async () => {
-      await this.fetchWidgetData();
-    });
-    await this.fetchWidgetData();
+  async mounted () {
+    this.$nuxt.$on('paid', async () => {
+      await this.fetchWidgetData()
+    })
+    await this.fetchWidgetData()
   },
   methods: {
     ...mapActions({
-      getWidgetData: "invoice/getWidgetData",
+      getWidgetData: 'invoice/getWidgetData'
     }),
-    async fetchWidgetData() {
-      this.fetching = true;
-      this.widgetData = await this.getWidgetData(this.selectedOption);
-      this.fetching = false;
-    },
-  },
-};
+    async fetchWidgetData () {
+      this.fetching = true
+      this.widgetData = await this.getWidgetData(this.selectedOption)
+      this.fetching = false
+    }
+  }
+}
 </script>
 
 <style scoped lang="scss">

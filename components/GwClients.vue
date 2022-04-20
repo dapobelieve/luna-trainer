@@ -14,7 +14,7 @@
     </div>
     <div v-else class="my-16 px-5  grid gap-5 justify-center text-center">
       <div class="w-full">
-        <i class="fi-rr-following text-[50px] mt-1 mr-1 text-blue-500"/>
+        <i class="fi-rr-following text-[50px] mt-1 mr-1 text-blue-500" />
       </div>
       <h5 class="font-bold">
         No clients yet

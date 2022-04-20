@@ -13,14 +13,14 @@
       Drop Image Here
     </div>
     <ul id="chatBody" class="h-full w-full p-4 overflow-y-auto list-none" @scroll="chatBodyScroll">
-       <template v-if="isLoading">
-         <div  class="flex items-center w-full mt-4 justify-center">
-            <SingleLoader class=""></SingleLoader>
-         </div>
+      <template v-if="isLoading">
+        <div class="flex items-center w-full mt-4 justify-center">
+          <SingleLoader class=""></SingleLoader>
+        </div>
       </template>
       <template v-else-if="Object.keys(groupedMessages).length">
         <div v-if="loadingMore" class="flex items-center w-full justify-center">
-          <SingleLoader ></SingleLoader>
+          <SingleLoader></SingleLoader>
         </div>
         <div
           v-for="(messages, groupId) in groupedMessages"
@@ -128,166 +128,166 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapMutations } from "vuex";
-import PreviewImage from "~/components/messages/PreviewImage.vue";
-import OpponentMessage from "~/components/messages/OpponentMessage.vue";
-import SenderMessages from "~/components/messages/SenderMessages.vue";
+import { mapActions, mapGetters, mapMutations } from 'vuex'
+import PreviewImage from '~/components/messages/PreviewImage.vue'
+import OpponentMessage from '~/components/messages/OpponentMessage.vue'
+import SenderMessages from '~/components/messages/SenderMessages.vue'
 
 export default {
-  name: "ChatsV2",
+  name: 'ChatsV2',
   components: {
     PreviewImage,
     OpponentMessage,
-    SenderMessages,
+    SenderMessages
   },
   props: {
     receipientId: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
-  data() {
+  data () {
     return {
       dragging: false,
-      message: "",
+      message: '',
       showUpload: false,
       uploadFile: null,
       uploadFileImage: null,
       channel: {},
-      collection:null,
-      loadingMore:false,
-      loading:false
-    };
+      collection: null,
+      loadingMore: false,
+      loading: false
+    }
   },
 
   computed: {
     ...mapGetters({
-      connected: "sendbird-v2/isConnected",
-      messages: "sendbird-v2/getMessages",
+      connected: 'sendbird-v2/isConnected',
+      messages: 'sendbird-v2/getMessages'
     }),
-    senderId(){
-      return this.$auth.user.sendbirdId;
+    senderId () {
+      return this.$auth.user.sendbirdId
     },
-    isLoading() {
+    isLoading () {
       return this.loading && (!this.messages[this.receipientId] || this.messages[this.receipientId].length === 0)
     },
-    groupedMessages() {
-      let groupedMessages = {};
-      if(this.channel){
-        const messages = this.messages[this.receipientId];
+    groupedMessages () {
+      const groupedMessages = {}
+      if (this.channel) {
+        const messages = this.messages[this.receipientId]
         if (messages) {
           messages.forEach((message) => {
-              const createdDate = new Date(message.createdAt).toDateString();
-              if (!groupedMessages[createdDate]) {
-                groupedMessages[createdDate] = [];
-              } 
-              groupedMessages[createdDate].push(message);
-            });
+            const createdDate = new Date(message.createdAt).toDateString()
+            if (!groupedMessages[createdDate]) {
+              groupedMessages[createdDate] = []
+            }
+            groupedMessages[createdDate].push(message)
+          })
         }
-        this.channel.markAsRead && this.channel.markAsRead();
+        this.channel.markAsRead && this.channel.markAsRead()
       }
-      return groupedMessages;
-    },
+      return groupedMessages
+    }
   },
   watch: {
-    async connected() {
-      await this.initializeChat();
-    },
+    async connected () {
+      await this.initializeChat()
+    }
   },
-  async beforeMount() {
-    await this.initializeChat();
-    this.scrollFeedToBottom();
+  async beforeMount () {
+    await this.initializeChat()
+    this.scrollFeedToBottom()
   },
   methods: {
     ...mapMutations({
-      swapMessage: "sendbird-v2/swapMessage",
+      swapMessage: 'sendbird-v2/swapMessage'
     }),
     ...mapActions({
-      getChannel: "sendbird-v2/getChannel",
-      getMessages: "sendbird-v2/getMessages",
-      getPrevMessages: "sendbird-v2/getPrevMessages",
-      sendMessage: "sendbird-v2/sendMessage",
-      createChannelIfNoneExists: "sendbird-v2/createChannelIfNoneExists",
+      getChannel: 'sendbird-v2/getChannel',
+      getMessages: 'sendbird-v2/getMessages',
+      getPrevMessages: 'sendbird-v2/getPrevMessages',
+      sendMessage: 'sendbird-v2/sendMessage',
+      createChannelIfNoneExists: 'sendbird-v2/createChannelIfNoneExists'
     }),
-    async initializeChat() {
+    async initializeChat () {
       this.loading = true
       if (this.connected) {
         this.channel = await this.getChannel({
           receipient: this.receipientId,
-          sender: this.senderId,
-        });
-        if(this.channel){
-          this.collection = await this.getMessages(this.channel);
+          sender: this.senderId
+        })
+        if (this.channel) {
+          this.collection = await this.getMessages(this.channel)
           this.collection.onCacheResult((err, messages) => {
             console.log('Messages from Cache: ', messages)
-            messages && messages.forEach(newMessage => {
+            messages && messages.forEach((newMessage) => {
               this.swapMessage({ id: this.receipientId, newMessage })
             })
-            this.scrollFeedToBottom();
+            this.scrollFeedToBottom()
             this.loading = false
           })
-          .onApiResult((err, messages) => {
-            console.log('Messages from API: ', messages)
-            messages && messages.forEach(newMessage => {
-              this.swapMessage({ id: this.receipientId, newMessage })
+            .onApiResult((err, messages) => {
+              console.log('Messages from API: ', messages)
+              messages && messages.forEach((newMessage) => {
+                this.swapMessage({ id: this.receipientId, newMessage })
+              })
+              this.scrollFeedToBottom()
             })
-            this.scrollFeedToBottom();
-          })
-        }else{
+        } else {
           this.loading = false
         }
       }
     },
-    async chatBodyScroll(event){
-      if(this.collection && event.target.scrollTop < 5 && this.channel && !this.loadingMore){
+    async chatBodyScroll (event) {
+      if (this.collection && event.target.scrollTop < 5 && this.channel && !this.loadingMore) {
         this.loadingMore = true
         await this.getPrevMessages(this.collection)
         this.loadingMore = false
       }
     },
-    dateToDaysOfWeek(d) {
+    dateToDaysOfWeek (d) {
       const weekDays = [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-      ];
-      const currentDate = new Date();
-      const groupDate = new Date(d);
+        'Sunday',
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ]
+      const currentDate = new Date()
+      const groupDate = new Date(d)
       const diff =
-        (currentDate.getTime() - groupDate.getTime()) / (1000 * 3600 * 24);
+        (currentDate.getTime() - groupDate.getTime()) / (1000 * 3600 * 24)
       if (diff <= 6) {
-        return weekDays[groupDate.getDay()];
+        return weekDays[groupDate.getDay()]
       }
-      return new Date(d).toDateString();
+      return new Date(d).toDateString()
     },
-    onDropImage(event) {
-      const files = event.dataTransfer.files;
+    onDropImage (event) {
+      const files = event.dataTransfer.files
       const fileType =
-        event.dataTransfer.files[0].type.split("/")[0] === "image";
+        event.dataTransfer.files[0].type.split('/')[0] === 'image'
       if (fileType) {
         this.uploadFile = files[0]
-        this.showImagePreview();
+        this.showImagePreview()
       } else {
-        this.$lunaToast.error("File is not an image");
+        this.$lunaToast.error('File is not an image')
       }
-      this.dragging = false;
+      this.dragging = false
     },
-    onChange(e) {
+    onChange (e) {
       this.uploadFile = e.target.files[0]
-      this.showImagePreview();
+      this.showImagePreview()
     },
-    uploadPhoto() {
-      this.$refs.fileUpload.click();
-      this.showUpload = false;
+    uploadPhoto () {
+      this.$refs.fileUpload.click()
+      this.showUpload = false
     },
-    showImagePreview() {
-      const reader = new FileReader();
+    showImagePreview () {
+      const reader = new FileReader()
       reader.onload = (e) => {
-        this.uploadFileImage = e.target.result;
+        this.uploadFileImage = e.target.result
         this.$modal.show(
           PreviewImage,
           {
@@ -295,54 +295,54 @@ export default {
             sendFile: this.sendFileMessage,
             removeImage: this.removeImage
           },
-          { adaptive: true, height: "100%", width: "100%" }
-        );
-      };
-      reader.readAsDataURL(this.uploadFile);
+          { adaptive: true, height: '100%', width: '100%' }
+        )
+      }
+      reader.readAsDataURL(this.uploadFile)
     },
-    removeImage() {
-      this.uploadFile = null;
-      this.uploadFileImage = null;
+    removeImage () {
+      this.uploadFile = null
+      this.uploadFileImage = null
     },
-    async sendTextMessage() {
-      if (this.message ) {
+    async sendTextMessage () {
+      if (this.message) {
         this.channel =
           this.channel ||
           (await this.createChannelIfNoneExists({
             sender: this.senderId,
-            receipient: this.receipientId,
-          }));
+            receipient: this.receipientId
+          }))
         console.log(this.channel)
-        this.sendMessage({ message: this.message, channel: this.channel });
-        this.message = "";
-        this.scrollFeedToBottom();
+        this.sendMessage({ message: this.message, channel: this.channel })
+        this.message = ''
+        this.scrollFeedToBottom()
       }
     },
-    async sendFileMessage() {
+    async sendFileMessage () {
       if (this.uploadFile) {
         this.channel =
           this.channel ||
           (await this.createChannelIfNoneExists({
             sender: this.senderId,
-            receipient: this.receipientId,
-          }));
+            receipient: this.receipientId
+          }))
         await this.sendMessage({
           message: this.uploadFile,
           meta: this.uploadFileImage,
-          channel: this.channel,
-        });
+          channel: this.channel
+        })
         this.removeImage()
-        this.scrollFeedToBottom();
+        this.scrollFeedToBottom()
       }
     },
-    scrollFeedToBottom() {
+    scrollFeedToBottom () {
       this.$nextTick(() => {
-        const messageFeed = document.getElementById("chatBody");
-        return messageFeed && messageFeed.scrollTo(0, messageFeed.scrollHeight);
-      });
-    },
-  },
-};
+        const messageFeed = document.getElementById('chatBody')
+        return messageFeed && messageFeed.scrollTo(0, messageFeed.scrollHeight)
+      })
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

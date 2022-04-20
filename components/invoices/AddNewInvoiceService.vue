@@ -13,9 +13,9 @@
         <label for="service" class="required">Description</label>
         <input
           id="service"
+          ref="serviceDescription"
           v-model="service.description"
           autofocus
-          ref="serviceDescription"
           placeholder="Separation Anxiety (Replace this description)"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
@@ -198,10 +198,10 @@ export default {
       } else {
         this.isLoading = true
         try {
-          const {services} = await this.$store.dispatch('profile/updateProfile', {
+          const { services } = await this.$store.dispatch('profile/updateProfile', {
             services: [this.service, ...this.servicesFromStore]
           })
-          
+
           const [latestService] = services
           this.reset()
           this.$emit('close-modal', latestService)
@@ -211,7 +211,7 @@ export default {
           console.log(e)
           this.$lunaToast.error(
             `${this.service.description} service not added`)
-        }finally {
+        } finally {
           this.isLoading = false
         }
       }
@@ -230,9 +230,9 @@ export default {
         this.reset()
         await this.$store.dispatch('profile/getUserProfile')
         this.$emit('close-modal')
-      }catch (e) {
+      } catch (e) {
         console.log(e)
-      }finally{
+      } finally {
         this.isLoading = false
       }
     },

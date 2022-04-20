@@ -1,14 +1,14 @@
 <template>
   <div>
-   <Note type="health"></Note>
+    <Note type="health"></Note>
   </div>
 </template>
 
 <script>
 import Note from '../notes/Note.vue'
 export default {
-  components: { Note },
-  name: 'HealthInformation'
+  name: 'HealthInformation',
+  components: { Note }
 }
 </script>
 

@@ -2,7 +2,7 @@
   <span class="messages flex justify-end pl-6">
     <small class="self-end text-xs mr-1.5">
       <i
-        :class="[msg.sendingStatus === 'succeeded' ? 'fi-rr-check text-green-500' : 'fi-rr-time-oclock text-gaey-500']" 
+        :class="[msg.sendingStatus === 'succeeded' ? 'fi-rr-check text-green-500' : 'fi-rr-time-oclock text-gaey-500']"
         class="text-xs bold h-1"
       ></i>
       <span class="">{{
@@ -13,7 +13,7 @@
     <SenderFileMessage v-if="msg.messageType === 'file'" :msg="msg" />
     <div v-else class="msg p-2 max-w-lg break-all" style="calc(100% - 2.5rem)">
       {{ msg.message }}
-    </div>   
+    </div>
   </span>
 </template>
 

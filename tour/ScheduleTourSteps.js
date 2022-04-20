@@ -1,24 +1,24 @@
-import { TourOption } from "./Option";
+import { TourOption } from './Option'
 export const scheduleTourSteps = (intro) => {
   return intro.setOptions({
     ...TourOption,
     steps: [
       {
-        element: document.querySelector("#sync"),
+        element: document.querySelector('#sync'),
         intro:
-          "You can connect your Google calendar or use one of Luna’s virtual calendars.",
+          'You can connect your Google calendar or use one of Luna’s virtual calendars.'
       },
       {
-        element: document.querySelector("#monthly"),
-        position: "bottom",
+        element: document.querySelector('#monthly'),
+        position: 'bottom',
         intro:
-          "Filter your calendar down by month, week, day, or in list view here.",
+          'Filter your calendar down by month, week, day, or in list view here.'
       },
       {
-        element: document.querySelector("#plus"),
-        position: "bottom",
-        intro: "To schedule a new session click here.",
-      },
+        element: document.querySelector('#plus'),
+        position: 'bottom',
+        intro: 'To schedule a new session click here.'
+      }
       // {
       //   element: document.querySelector("#clients"),
       //   position: "bottom",
@@ -30,6 +30,6 @@ export const scheduleTourSteps = (intro) => {
       //   position: "bottom",
       //   intro: 'Filter your calendar down by month, week, day, or in list view here.'
       // },
-    ],
-  });
-};
+    ]
+  })
+}

@@ -48,7 +48,7 @@
                     {{ item.qty }}
                   </td>
                   <td class="py-2 text-right">
-                   {{ item.price | amount}}
+                    {{ item.price | amount }}
                   </td>
                 </tr>
               </tbody>
@@ -58,7 +58,7 @@
                 Total
               </h3>
               <h3 class="ml-auto font-bold">
-                {{ invoiceTotal | amount}}
+                {{ invoiceTotal | amount }}
               </h3>
             </div>
             <div class="text-sm flex items-center">
@@ -72,7 +72,7 @@
                 Amount
               </h3>
               <h3 class="ml-auto font-bold text-3xl">
-                {{ invoiceTotal | amount}}
+                {{ invoiceTotal | amount }}
               </h3>
             </div>
           </div>
@@ -87,12 +87,12 @@
             {{ issuedDate }}
           </h3>
         </div>
-<!--        <div class="flex mb-8 bottom-border">-->
-<!--          <h3>Paid Date</h3>-->
-<!--          <h3 class="ml-auto">-->
-<!--            {{ issuedDate }}-->
-<!--          </h3>-->
-<!--        </div>-->
+        <!--        <div class="flex mb-8 bottom-border">-->
+        <!--          <h3>Paid Date</h3>-->
+        <!--          <h3 class="ml-auto">-->
+        <!--            {{ issuedDate }}-->
+        <!--          </h3>-->
+        <!--        </div>-->
         <template v-if="invoiceStatus === 'paid'">
           <div class="flex mb-8 bottom-border">
             <h3>Payment for</h3>
@@ -118,7 +118,7 @@
             <button class="text-red-500 px-4 py-2 border mr-2" @click="close">
               Cancel
             </button>
-            <button ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
+            <button v-if="invoiceStatus !== 'paid_awaiting_confirmation'" ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
               <span v-else>Send Nudge</span>
             </button>
@@ -128,7 +128,7 @@
             </button>
           </template>
           <template v-else>
-            <button @click="markUnPaid" class="text-primary-color px-4 py-2 border">
+            <button class="text-primary-color px-4 py-2 border" @click="markUnPaid">
               Mark as unpaid
             </button>
           </template>
@@ -246,13 +246,13 @@ export default {
     invoiceCustomer () {
       return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
     },
-    validPaymentReceipt() {
+    validPaymentReceipt () {
       const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
       return acceptedInvoice
-    },
+    }
   },
   methods: {
-    async markUnPaid() {
+    async markUnPaid () {
       const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
       try {
         await this.$store.dispatch('payment-methods/markAsUnPaid', {
@@ -260,7 +260,7 @@ export default {
         })
         this.$lunaToast.success('Invoice updated')
         this.close()
-      }catch (e) {
+      } catch (e) {
         console.log(e)
       }
     },
@@ -277,7 +277,7 @@ export default {
         this.close()
       } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.loading = false
       }
     },

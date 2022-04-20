@@ -5,11 +5,11 @@ export const state = () => ({
 })
 
 export const mutations = {
-  SET_ALL_CLIENTS(state, clients) {
+  SET_ALL_CLIENTS (state, clients) {
     state.clients = clients.data
     state.clientsCount = clients.size
   },
-  IS_LOADING(state, loadingStatus) {
+  IS_LOADING (state, loadingStatus) {
     state.isLoading = loadingStatus
   },
   LOCAL_UPDATE_CLIENT (state, client) {
@@ -20,16 +20,16 @@ export const mutations = {
 }
 
 export const actions = {
-  async archive({ }, payload) {
+  async archive ({ }, payload) {
     return await this.$axios.post(`${process.env.BASEURL_HOST}/profile/${payload._id}/archive`)
   },
-  updateClientProfile({ commit }, details) {
+  updateClientProfile ({ commit }, details) {
     return this.$axios
       .$patch(`${process.env.BASEURL_HOST}/client/${details.id}`, details.info)
       .then(response => response)
       .catch(e => e)
   },
-  fetchClientsWithStatusAndLimit({ commit }, payload) {
+  fetchClientsWithStatusAndLimit ({ commit }, payload) {
     const stat =
       payload !== undefined && 'status' in payload ? payload.status : ''
     const currPage =
@@ -45,24 +45,24 @@ export const actions = {
         return response.data
       })
   },
-  clearAllClientStates({ commit }) {
+  clearAllClientStates ({ commit }) {
     // for local storage force logout
     commit('SET_ALL_CLIENTS', { data: [], size: 0 })
   },
-  inviteClient({ commit }, clientInfo) {
+  inviteClient ({ commit }, clientInfo) {
     return this.$axios
       .$post(`${process.env.BASEURL_HOST}/client/invite`, clientInfo)
       .then(response => response)
       .catch(e => e)
   },
-  resendClientInvite({ commit, dispatch }, id) {
+  resendClientInvite ({ commit, dispatch }, id) {
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/client/${id}/resend-invite`)
       .then((response) => {
         return response
       })
   },
-  allConciseClients() {
+  allConciseClients () {
     return this.$axios.$get(`${process.env.BASEURL_HOST}/client/concise`)
   },
   fetchAllClients ({ commit, dispatch }, payload) {
@@ -88,7 +88,7 @@ export const actions = {
         commit('IS_LOADING', false)
       })
   },
-  getSingleClientById({ commit, dispatch }, id) {
+  getSingleClientById ({ commit, dispatch }, id) {
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
       .$get(`${process.env.BASEURL_HOST}/profile?id=${id}`)

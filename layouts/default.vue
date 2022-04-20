@@ -17,7 +17,7 @@
       <div class="flex">
         <Navigation class="hidden lg:block" />
         <div v-if="showSidebarMenu" class="block lg:hidden absolute">
-          <Navigation  />
+          <Navigation />
         </div>
         <main class="w-full bg-gray-100">
           <Nuxt :key="$route.fullpath" />
@@ -34,7 +34,7 @@
         </transition>
       </div>
     </div>
-    <AddNote/>
+    <AddNote />
     <PaymentMethodStatusModal />
     <PaymentMethodBankAccountModal />
     <InviteNewClientModal />
@@ -47,26 +47,26 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
 import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
+import AddNote from '../components/notes/AddNote.vue'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import ViewImageModal from '~/components/messages/ViewImageModal.vue'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
-import AddNote from '../components/notes/AddNote.vue'
 export default {
-  name: 'default',
+  name: 'Default',
   components: { SchedulerDrawer, ExpiredSessionAuthModal, InviteNewClientModal, PaymentMethodStatusModal, PaymentMethodBankAccountModal, ViewImageModal, AddNote },
   mixins: [auth],
   data () {
     return {
       page: this.$route.name,
       showNotification: false,
-      showSidebarMenu: false,
+      showSidebarMenu: false
     }
   },
   computed: {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
-      loading: 'profile/getLoading',
+      loading: 'profile/getLoading'
     })
   },
   watch: {
@@ -133,7 +133,7 @@ export default {
     ...mapActions('authorize', {
       startFullPageLoad: 'startFullPageLoading',
       endFullPageLoad: 'endFullPageLoading'
-    }),
+    })
   }
 }
 </script>

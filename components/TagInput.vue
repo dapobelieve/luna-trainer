@@ -16,11 +16,11 @@
 </template>
 
 <script>
-import VueTagsInput from '@johmun/vue-tags-input';
+import VueTagsInput from '@johmun/vue-tags-input'
 export default {
   name: 'TagInput',
-   components: {
-    VueTagsInput,
+  components: {
+    VueTagsInput
   },
   props: {
     block: Boolean,
@@ -30,12 +30,6 @@ export default {
       required: true
     }
   },
-  methods: {
-    onChange (e) {
-      this.items = e.map(i => i.text)
-      this.$emit('input', this.items)
-    }
-  },
   data () {
     return {
       items: this.value,
@@ -43,6 +37,12 @@ export default {
       showHint: false
     }
   },
+  methods: {
+    onChange (e) {
+      this.items = e.map(i => i.text)
+      this.$emit('input', this.items)
+    }
+  }
 }
 </script>
 

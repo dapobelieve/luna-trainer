@@ -65,7 +65,7 @@ export default {
   data () {
     return {
       currency,
-      selectedService: {},
+      selectedService: {}
     }
   },
   computed: {

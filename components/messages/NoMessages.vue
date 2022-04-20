@@ -3,7 +3,7 @@
     <div class="max-width">
       <i class="fi-rr-comment-alt text-sky-500 text-4xl"></i>
       <p class="title">
-       No messages yet
+        No messages yet
       </p>
       <p class="sub-title">
         You have no client to chat with, they will show up here once they accept your request.
@@ -18,11 +18,11 @@
 <script>
 export default {
   name: 'NoMessages',
-  props:{
+  props: {
     noClient: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   }
 }
 </script>

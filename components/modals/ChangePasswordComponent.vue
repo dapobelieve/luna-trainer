@@ -75,7 +75,7 @@ export default {
         this.isLoading = false
       })
       this.$modal.hide('change-password-modal')
-      this.$lunaToast.error("Successfully changed password")
+      this.$lunaToast.error('Successfully changed password')
       this.isLoading = false
     }
   }

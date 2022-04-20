@@ -5,7 +5,7 @@
         Clients
       </template>
       <template v-slot:buttons>
-        <button type="button" id="plus" class="button-fill w-10" @click="inviteClient">
+        <button id="plus" type="button" class="button-fill w-10" @click="inviteClient">
           <i class="fi-rr-plus h-5"></i>
         </button>
       </template>
@@ -17,26 +17,26 @@
         </template>
       </gw-pagination>
     </div>
-     <ClientWelcomeModal
-        :exitTour="() => {
-          closeModal()
-          this.doNotShowHints = true
-        }"
-        :takeTour="() => {
-          this.tourItems();
-          closeModal()
-        }" 
-      />
+    <ClientWelcomeModal
+      :exit-tour="() => {
+        closeModal()
+        doNotShowHints = true
+      }"
+      :take-tour="() => {
+        tourItems();
+        closeModal()
+      }"
+    />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
 import ClientWelcomeModal from '~/components/modals/ClientWelcomeModal.vue'
-import {clientTourSteps} from '~/tour/ClientTourSteps'
+import { clientTourSteps } from '~/tour/ClientTourSteps'
 export default {
   name: 'Clients',
-  components: {ClientWelcomeModal},
+  components: { ClientWelcomeModal },
   data () {
     return {
       clients: false,
@@ -54,13 +54,13 @@ export default {
       size: 'client/clientsCount'
     })
   },
-  mounted() {
-    const client = window.localStorage.getItem("client-tour")
+  mounted () {
+    const client = window.localStorage.getItem('client-tour')
     if (client) {
-      this.$router?.push({query: {new: true}})
+      this.$router?.push({ query: { new: true } })
     }
   },
-  updated() {
+  updated () {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
@@ -77,18 +77,17 @@ export default {
       this.$modal.hide('welcome-modal')
       this.removeQueryParams()
     },
-    removeQueryParams() {
-      let query = Object.assign({}, this.$route.query);
-      delete query.new;
-      this.$router.replace({ query });
-      window.localStorage.removeItem("client-tour")
-
+    removeQueryParams () {
+      const query = Object.assign({}, this.$route.query)
+      delete query.new
+      this.$router.replace({ query })
+      window.localStorage.removeItem('client-tour')
     },
     tourItems () {
-      if (this.doNotShowHints) return
+      if (this.doNotShowHints) { return }
       clientTourSteps(this.$intro())
-        .onchange(e => {
-          const button = document.getElementById("plus")
+        .onchange((e) => {
+          const button = document.getElementById('plus')
           if (e === button) {
             button.click()
           }
@@ -102,7 +101,7 @@ export default {
         .start()
 
       this.$intro().showHints()
-    },
+    }
   }
 }
 </script>
@@ -120,4 +119,3 @@ export default {
   background: rgba(59, 130, 246, 0.05);
 }
 </style>
-

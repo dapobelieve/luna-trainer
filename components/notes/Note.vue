@@ -19,11 +19,11 @@
           @click="viewNote(note)"
         />
         <a
+          v-if="notes && notes.length >= limit * page"
           href="#"
-          @click.prevent="loadMore"
-          v-if="notes && notes.length >= this.limit * page"
           class="w-full py-4 text-primary text-center block hover:text-primary"
           :disabled="loading"
+          @click.prevent="loadMore"
         >
           <span v-if="!loading">Loading more</span>
           <SingleLoader v-else></SingleLoader>
@@ -35,114 +35,114 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
-import AddNote from "./AddNote.vue";
-import NoNotes from "./NoNotes.vue";
-import NoteDeleteModal from "./NoteDeleteModal.vue";
-import NoteItem from "./NoteItem.vue";
+import { mapActions, mapGetters } from 'vuex'
+import AddNote from './AddNote.vue'
+import NoNotes from './NoNotes.vue'
+import NoteDeleteModal from './NoteDeleteModal.vue'
+import NoteItem from './NoteItem.vue'
 export default {
-  name: "Notes",
+  name: 'Notes',
   components: {
     AddNote,
     NoteItem,
     NoteDeleteModal,
-    NoNotes,
+    NoNotes
   },
   props: {
     type: {
       type: String,
-      default: "",
-    },
+      default: ''
+    }
   },
-  data() {
+  data () {
     return {
       note: {
         title: new Date().toDateString(),
-        description: "",
+        description: '',
         clientId: this.$route.params.id,
-        tags: [this.type],
+        tags: [this.type]
       },
       page: 1,
       limit: 20,
       loading: false,
-      clientId: this.$route.params.id,
-    };
+      clientId: this.$route.params.id
+    }
   },
   computed: {
     ...mapGetters({
-      clients: "client/getAllClients",
-      allNotes: "notes-v2/notes",
+      clients: 'client/getAllClients',
+      allNotes: 'notes-v2/notes'
     }),
-    notes() {
+    notes () {
       if (this.type) {
-        return [...this.allNotes].filter((note) =>
-          note.tags.find((note) => note === this.type)
-        );
-      } else return [...this.allNotes];
+        return [...this.allNotes].filter(note =>
+          note.tags.find(note => note === this.type)
+        )
+      } else { return [...this.allNotes] }
     },
-    inviteStatus() {
-      const client = this.clients.find((c) => c._id === this.clientId);
-      return client.status === "accepted";
-    },
+    inviteStatus () {
+      const client = this.clients.find(c => c._id === this.clientId)
+      return client.status === 'accepted'
+    }
   },
-  mounted() {
-    let payload = { clientId: this.id };
-    if (this.type) payload.tags = [this.type];
+  mounted () {
+    const payload = { clientId: this.id }
+    if (this.type) { payload.tags = [this.type] }
     this.fetchNotes({
       payload,
       page: this.page,
-      limit: this.limit,
-    });
-    this.$nuxt.$on("close-add-note-sidebar", this.resetNote);
+      limit: this.limit
+    })
+    this.$nuxt.$on('close-add-note-sidebar', this.resetNote)
   },
   methods: {
     ...mapActions({
-      fetchNotes: "notes-v2/fetchNotes",
-      deleteNote: "notes-v2/deleteNote",
+      fetchNotes: 'notes-v2/fetchNotes',
+      deleteNote: 'notes-v2/deleteNote'
     }),
-    addNote() {
+    addNote () {
       if (!this.inviteStatus) {
-        this.$lunaToast.error("Client invite still pending");
+        this.$lunaToast.error('Client invite still pending')
       } else {
-        this.viewNote(this.note);
+        this.viewNote(this.note)
       }
     },
-    async deleteSingleNote() {
+    async deleteSingleNote () {
       try {
-        await this.deleteNote(this.note._id);
-        this.$modal.hide("delete-note");
-        this.$nuxt.$emit("close-add-note-sidebar");
-        this.$lunaToast.success("Note deleted succesfully");
+        await this.deleteNote(this.note._id)
+        this.$modal.hide('delete-note')
+        this.$nuxt.$emit('close-add-note-sidebar')
+        this.$lunaToast.success('Note deleted succesfully')
       } catch (error) {
-        this.$lunaToast.error("Something went wrong");
+        this.$lunaToast.error('Something went wrong')
       }
     },
-    viewNote(note) {
-      this.note = { ...note };
-      this.$nuxt.$emit("open-add-note-sidebar", this.note);
+    viewNote (note) {
+      this.note = { ...note }
+      this.$nuxt.$emit('open-add-note-sidebar', this.note)
     },
-    resetNote() {
+    resetNote () {
       this.note = {
         title: new Date().toDateString(),
-        description: "",
+        description: '',
         clientId: this.$route.params.id,
-        tags: [],
-      };
+        tags: []
+      }
     },
-    loadMore() {
-      this.page++;
-      this.loading = true;
-      let payload = { clientId: this.id };
-      if (this.type) payload.tags = [this.type];
+    loadMore () {
+      this.page++
+      this.loading = true
+      const payload = { clientId: this.id }
+      if (this.type) { payload.tags = [this.type] }
       this.fetchNotes({
         payload,
         page: this.page,
-        limit: 20,
-      });
-      this.loading = false;
-    },
-  },
-};
+        limit: 20
+      })
+      this.loading = false
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped></style>
