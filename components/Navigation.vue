@@ -480,7 +480,16 @@ export default {
             this.$lunaToast.show('You have a new notification')
             break
         }
-        this.$store.commit('notifications/setNotification', data)
+        const notificationTypes = [
+          'INVITE_REQUEST_ACCEPTED',
+          'PAYMENT_ACCEPTED',
+          'NEW_PAYMENT_RECEIPT',
+          'STRIPE_CONNECTION_SUCCESSFUL',
+          'STRIPE_CONNECTION_SUCCESSFUL'
+        ]
+        if (notificationTypes.includes(type)) {
+          this.$store.commit('notifications/setNotification', data)
+        }
       })
       socket.on('CALENDAR_SYNC', () => {})
     },
