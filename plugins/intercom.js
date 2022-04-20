@@ -32,6 +32,7 @@ const intercom = function () {
       const s = d.createElement('script')
       s.type = 'text/javascript'
       s.async = true
+      s.defer = true
       s.src = 'https://widget.intercom.io/widget/ovxbm9hr'
       const x = d.getElementsByTagName('script')[0]
       x.parentNode.insertBefore(s, x)

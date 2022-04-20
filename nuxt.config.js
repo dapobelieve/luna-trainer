@@ -27,10 +27,12 @@ export default {
     ],
     script: [
       {
+        defer: true,
         src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js',
         async: true
       },
       {
+        defer: true,
         src: 'https://getwelp-files.s3.us-west-2.amazonaws.com/scripts/hotjar.js',
         async: true
       }
@@ -77,7 +79,7 @@ export default {
   },
   loading: '~/components/loading.vue',
   buildModules: [
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     'nuxt-compress',
     '@nuxtjs/date-fns'
