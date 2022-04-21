@@ -11,21 +11,21 @@
 </template>
 <script>
 export default {
-  name: "AsyncTest",
-  layout: "empty",
-  middleware: "validToken",
+  name: 'AsyncTest',
+  layout: 'empty',
+  middleware: 'validToken',
   auth: false,
-  data() {
+  data () {
     return {
-      mountains: [],
-    };
+      mountains: []
+    }
   },
-  async fetch() {
+  async fetch () {
     this.mountains = await this.$axios
-      .$get("https://api.nuxtjs.dev/mountains")
-      .then((response) => response);
+      .$get('https://api.nuxtjs.dev/mountains')
+      .then(response => response)
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 </style>

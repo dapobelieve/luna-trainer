@@ -6,8 +6,9 @@
         :key="notification._id"
         :notification="notification"
       />
-      <button v-if="this.readNotifications.length === this.page * this.limit" @click.prevent="loadMore" class="btn block w-full py-2 font-bold">
-        <single-loader  v-if="loadingMore"> </single-loader>
+      <button v-if="readNotifications.length === page * limit" class="btn block w-full py-2 font-bold" @click.prevent="loadMore">
+        <single-loader v-if="loadingMore">
+        </single-loader>
         <span v-else>Load More</span>
       </button>
     </template>
