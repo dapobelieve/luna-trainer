@@ -161,12 +161,6 @@ export default {
       console.error(e)
     }
   },
-  updated () {
-    const newUser = (this.$route?.query?.new)
-    if (newUser) {
-      this.$modal.show('welcome-modal')
-    }
-  },
   created () {
     this.$nuxt.$on('scheduler:event-created', (data) => {
       this.processNewEvent(data)
