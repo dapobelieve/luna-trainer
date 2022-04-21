@@ -7,7 +7,7 @@
       <i
         role="button"
         class="fi-rr-cross text-blue-500 h-4 w-4"
-        @click.prevent="$emit('close-modal')"
+        @click.prevent="$emit('close')"
       ></i>
     </div>
     <div class="space-y-5">
@@ -59,7 +59,7 @@ export default {
   data () {
     return {
       isLoading: false,
-      bankAccount: this.getBankAccount || {}
+      bankAccount: {}
     }
   },
   validations: {
@@ -74,6 +74,9 @@ export default {
     ...mapGetters({
       getBankAccount: 'payment-methods/getBankAccount'
     })
+  },
+  created () {
+    this.bankAccount = this.getBankAccount
   },
   methods: {
     ...mapActions({

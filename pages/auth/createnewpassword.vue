@@ -8,8 +8,7 @@
           Create New Password
         </h1>
         <p class="text-gray-500 mt-2 text-sm">
-          Your new password must be different from previously used
-          passwords.
+          Your new password must be different from temporary or previously passwords.
         </p>
       </div>
       <form class="flex flex-col gap-4" @submit.prevent="reset">
@@ -18,7 +17,7 @@
             for="password"
             class="required"
             :class="{'text-red-500' : $v.userInfo.oldPassword.$error}"
-          >Old Password</label>
+          >Temporary Password</label>
           <div
             class="
             flex

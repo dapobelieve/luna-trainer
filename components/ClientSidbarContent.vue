@@ -6,7 +6,7 @@
         <client-card-navigation />
 
         <!-- invoices -->
-        <div>
+        <!-- <div>
           <containers-summary-card-with-notifications
             :display-view-all-button="Boolean(paidInvoices.length)"
             url="Invoices"
@@ -51,8 +51,8 @@
                 </div>
               </template>
             </template>
-          </containers-summary-card-with-notifications>
-        </div>
+          </containers-summary-card-with-notifications> -->
+        <!-- </div> -->
       </div>
     </div>
   </nav>

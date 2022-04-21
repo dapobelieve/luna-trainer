@@ -517,6 +517,7 @@ export default {
     }
   },
   async mounted () {
+    console.log(this.activePaymentMethods, 'activePaymentMethods')
     await this.getServices() // this will be revmove once we can enusre the global state of the application is consistent
     if (this.invoice._id) {
       this.$set(

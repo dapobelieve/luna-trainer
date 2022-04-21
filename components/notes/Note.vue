@@ -2,14 +2,14 @@
   <async-view>
     <div>
       <div class="flex justify-between items-center px-4 sticky top-0">
-        <p class="text-gray-700 font-normal text-sm mr-auto title uppercase">
+        <p class="text-gray-700 font-normal text-sm py-4 mr-auto title uppercase">
           {{ type }} Notes
         </p>
         <button class="text-blue-500" type="button" @click.prevent="addNote">
           <i class="fi-rr-plus h-4 w-4"></i>
         </button>
       </div>
-      <div class="mt-8 px-1">
+      <div class="mt-2 px-1 oveflow-auto">
         <NoNotes v-if="!notes.length" :type="type" @add="addNote" />
         <NoteItem
           v-for="note in notes"
@@ -29,7 +29,6 @@
           <SingleLoader v-else></SingleLoader>
         </a>
       </div>
-      <NoteDeleteModal @yes="deleteSingleNote"></NoteDeleteModal>
     </div>
   </async-view>
 </template>
@@ -37,13 +36,11 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import NoNotes from './NoNotes.vue'
-import NoteDeleteModal from './NoteDeleteModal.vue'
 import NoteItem from './NoteItem.vue'
 export default {
   name: 'Notes',
   components: {
     NoteItem,
-    NoteDeleteModal,
     NoNotes
   },
   props: {
@@ -105,16 +102,6 @@ export default {
         this.viewNote(this.note)
       }
     },
-    async deleteSingleNote () {
-      try {
-        await this.deleteNote(this.note._id)
-        this.$modal.hide('delete-note')
-        this.$nuxt.$emit('close-add-note-sidebar')
-        this.$lunaToast.success('Note deleted succesfully')
-      } catch (error) {
-        this.$lunaToast.error('Something went wrong')
-      }
-    },
     viewNote (note) {
       this.note = { ...note }
       this.$nuxt.$emit('open-add-note-sidebar', this.note)
@@ -124,7 +111,7 @@ export default {
         title: new Date().toDateString(),
         description: '',
         clientId: this.clientId,
-        tags: []
+        tags: this.type ? [this.type] : []
       }
     },
     loadMore () {
