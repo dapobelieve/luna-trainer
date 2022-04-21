@@ -256,15 +256,15 @@
                   Need Help?
                 </h3>
                 <span class="text-sm">
-                  Activate the switch button to send a message to us
+                  Send us an email s@goluna.app
                 </span>
               </div>
-              <div class="flex-shrink">
+              <!-- <div class="flex-shrink">
                 <Toggle2 />
-              </div>
+              </div> -->
             </div>
-            <NuxtLink
-              to="/"
+            <a
+              href="/"
               class="
                 flex
                 hover:bg-blue-50
@@ -280,7 +280,7 @@
               <h3 class="">
                 What's coming next...
               </h3>
-            </NuxtLink>
+            </a>
             <button
               class="
                 flex

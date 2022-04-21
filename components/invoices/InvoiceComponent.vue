@@ -316,8 +316,7 @@ export default {
   components: {
     ItemDisplay,
     DatePicker,
-    ContainerWithTitle,
-    EditInvoiceItem
+    ContainerWithTitle
   },
   layout: 'invoice',
   props: {
@@ -419,14 +418,13 @@ export default {
       this.$set(this.invoice, 'items', data)
     },
     openInviteClientModal ($event) {
-      console.log('openInviteClientModal', $event)
       this.$nextTick(() => {
         this.invoice.customer = null
       })
       this.$modal.show(
         InviteNewClient,
         { client: { firstName: $event } },
-        { adaptive: true, height: 390 }
+        { adaptive: true, height: 'auto' }
       )
     },
     openEditItemModal ($event) {
@@ -440,7 +438,7 @@ export default {
             price: 0
           }
         },
-        { adaptive: true, height: 450 }
+        { adaptive: true, height: 'auto' }
       )
     },
     getCustomerSelectOption (customer) {

@@ -50,7 +50,7 @@
                   Add deposit bank account
                 </p>
                 <p class="text-sm font-normal text-gray-500">
-                  Brief description about this feature
+                  We will never share your bank account details with anyone.
                 </p>
               </div>
               <div>
