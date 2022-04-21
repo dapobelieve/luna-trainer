@@ -158,7 +158,7 @@ export default {
       try {
         const profile = await this.getUserProfile()
         this.setProfile(profile)
-        if (!profile.services.length) {
+        if (!profile.onboard) {
           this.$router.push({ name: 'auth-onboarding' })
         } else {
           this.$router.push({ name: 'dashboard' })

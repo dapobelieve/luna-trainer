@@ -30,7 +30,7 @@
               v-model.trim="$v.userInfo.oldPassword.$model"
               tabindex="1"
               :disabled="isLoading"
-              :type="showPassword ? 'text':'password'"
+              :type="showOldPassword ? 'text':'password'"
               class="bg-white h-10 flex justify-center py-2 px-3 mb-2 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500 pr-8"
 
               :class="{'border-red-500' : $v.userInfo.oldPassword.$error}"
@@ -86,6 +86,7 @@
 
 <script>
 import { required, minLength } from 'vuelidate/lib/validators'
+import { mapActions, mapMutations } from 'vuex'
 
 export default {
   name: 'CreateNewPassword',
@@ -93,7 +94,6 @@ export default {
   auth: false,
   data () {
     return {
-      showPassword: false,
       showOldPassword: false,
       showNewPassword: false,
       isLoading: false,
@@ -121,14 +121,34 @@ export default {
     }
   },
   methods: {
+    ...mapMutations({
+      setProfile: 'profile/SET_PROFILE'
+    }),
+    ...mapActions({
+      getUserProfile: 'profile/getUserProfile'
+    }),
+    async authenticate () {
+      try {
+        const profile = await this.getUserProfile()
+        this.setProfile(profile)
+        if (!profile.onboard) {
+          this.$router.push({ name: 'auth-onboarding' })
+        } else {
+          this.$router.push({ name: 'dashboard' })
+        }
+      } catch (err) {
+        this.$lunaToast.error('Something went wrong', {
+          position: 'bottom-right'
+        })
+      }
+    },
     async reset () {
       if (this.userInfo) {
         this.isLoading = true
-        await this.$store.dispatch('authorize/resetpassword', this.userInfo).then((response) => {
+        await this.$store.dispatch('authorize/resetPassword', this.userInfo).then((response) => {
           if (response.status === 'successful') {
-            this.$auth.strategy.token.reset()
-            this.$lunaToast.success('Reset successful')
-            this.$router.push({ name: 'auth-signin' })
+            this.$lunaToast.success('Password reset successful')
+            this.authenticate()
           }
         }).catch((err) => {
           if (err.response) {
