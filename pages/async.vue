@@ -20,8 +20,10 @@ export default {
       mountains: []
     }
   },
-  fetch () {
-    throw new Error('Maiosn')
+  async fetch () {
+    this.mountains = await this.$axios
+      .$get('https://api.nuxtjs.dev/mountains')
+      .then(response => response)
   }
 }
 </script>

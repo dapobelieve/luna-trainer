@@ -306,7 +306,6 @@ export default {
   },
   watch: {
     'form.from': {
-      // immediate: true,
       deep: true,
       handler (val) {
         const pos = this.time.indexOf(val)
@@ -412,8 +411,7 @@ export default {
       this.form.to = format(fromUnixTime(this.event.when.endTime), 'KK:mm aaa')
       this.form.description = this.event.description
       this.form.participants = this.event.participants
-
-      this.form.color = this.colors.find(item => item.value === this.event.colorName)
+      this.form.color = this.colors.find(item => item.value === this.event.color)
     }
   },
   methods: {

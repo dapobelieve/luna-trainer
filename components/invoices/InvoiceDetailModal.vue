@@ -219,11 +219,10 @@ export default {
       return this.invoice.items
     },
     invoiceTotal () {
-      const total = this.invoiceServices.reduce((acc, item) => {
+      return this.invoiceServices.reduce((acc, item) => {
         acc += item.qty * item.price
         return acc
       }, 0)
-      return new Intl.NumberFormat().format(total)
     },
     paymentMethod () {
       return this.invoice.supportedPaymentMethods[0]

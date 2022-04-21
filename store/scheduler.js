@@ -1,4 +1,7 @@
 import Vue from 'vue'
+import _cloneDeep from 'lodash.clonedeep'
+import lunaDB from '~/utils/DB'
+
 export const state = () => ({
   calendar: null,
   activeEvent: {},
@@ -47,9 +50,18 @@ export const actions = {
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
     return await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
   },
-  async updateAppointment ({ commit, dispatch }, payload) {
+  async updateAppointment ({ rootState, commit, dispatch }, payload) {
     payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id
-    return await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
+    const res = await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
+    const userSessions = await lunaDB.getItem(`user:${rootState.auth.user.userId}:sessions`)
+    const updatedSessions = userSessions.map((session) => {
+      if (session.id === res.id) {
+        session = _cloneDeep(res)
+      }
+      return session
+    })
+    await lunaDB.setItem(`user:${rootState.auth.user.userId}:sessions`, updatedSessions)
+    return res
   },
   async getAllAppointments ({ state, commit }, payload) {
     if (!state.calendar) { return [] }

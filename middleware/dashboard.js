@@ -3,7 +3,9 @@ export default async function (ctx) {
   try {
     const userSessions = await lunaDB.getItem(`user:${ctx.$auth.$state.user.userId}:sessions`)
     if (userSessions) {
+      const calendar = await lunaDB.getItem(`user:${ctx.$auth.$state.user.userId}:calendar`)
       ctx.app.store.commit('scheduler/setEvents', userSessions)
+      ctx.app.store.commit('scheduler/setStates', { calendar })
     } else {
       const [calendarRes = null] = await ctx.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
 
