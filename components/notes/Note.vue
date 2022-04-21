@@ -36,14 +36,12 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import AddNote from './AddNote.vue'
 import NoNotes from './NoNotes.vue'
 import NoteDeleteModal from './NoteDeleteModal.vue'
 import NoteItem from './NoteItem.vue'
 export default {
   name: 'Notes',
   components: {
-    AddNote,
     NoteItem,
     NoteDeleteModal,
     NoNotes
@@ -86,10 +84,10 @@ export default {
     }
   },
   mounted () {
-    const payload = { clientId: this.id }
+    const payload = { clientId: this.clientId }
     if (this.type) { payload.tags = [this.type] }
     this.fetchNotes({
-      payload,
+      ...payload,
       page: this.page,
       limit: this.limit
     })
@@ -125,17 +123,17 @@ export default {
       this.note = {
         title: new Date().toDateString(),
         description: '',
-        clientId: this.$route.params.id,
+        clientId: this.clientId,
         tags: []
       }
     },
     loadMore () {
       this.page++
       this.loading = true
-      const payload = { clientId: this.id }
+      const payload = { clientId: this.clientId }
       if (this.type) { payload.tags = [this.type] }
       this.fetchNotes({
-        payload,
+        ...payload,
         page: this.page,
         limit: 20
       })
