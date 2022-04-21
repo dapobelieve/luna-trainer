@@ -256,7 +256,7 @@
                   Need Help?
                 </h3>
                 <span class="text-sm">
-                  Send us an email s@goluna.app
+                  Send us feedback or email us at support@goluna.app
                 </span>
               </div>
               <!-- <div class="flex-shrink">
@@ -264,7 +264,7 @@
               </div> -->
             </div>
             <a
-              href="/"
+              href="https://goluna.notion.site/Roadmap-Timeline-98e920761a32435c97aeac63baf3628b"
               class="
                 flex
                 hover:bg-blue-50
@@ -276,7 +276,7 @@
                 rounded-lg
               "
             >
-              <i class="fi-rr-time-half-past mr-4 mt-4"></i>
+              <i class="fi-rr-time-half-past mr-4 mt-2"></i>
               <h3 class="">
                 What's coming next...
               </h3>
