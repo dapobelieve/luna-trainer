@@ -62,6 +62,8 @@ export const actions = {
       `${process.env.BASEURL_HOST}/notifications/${payload.id}/read`
     )
     dispatch('fetchNotifications')
+    dispatch('fetchNotificationsSummary')
+    
   }
 }
 
