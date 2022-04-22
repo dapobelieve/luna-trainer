@@ -4,10 +4,10 @@
       <div class="flex mt-1 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
-            <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center font-medium text-primary-color text-base" to="/" @click="archive">
+            <!-- <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center font-medium text-primary-color text-base" to="/" @click="archive">
               <i class="fi-rr-archive mr-1"></i>
               <span>Archive</span>
-            </span>
+            </span> -->
             <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
               <i class="fi-rr-download mr-1"></i>
               <span>Export</span>
@@ -286,7 +286,7 @@ export default {
     async exportInvoice () {
       try {
         this.exporting = true
-        const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/invoice/export`, {
+        const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export`, {
           responseType: 'blob'
         })
         this.downloadDocument(res)
