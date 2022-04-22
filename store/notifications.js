@@ -63,7 +63,6 @@ export const actions = {
     )
     dispatch('fetchNotifications')
     dispatch('fetchNotificationsSummary')
-    
   }
 }
 
