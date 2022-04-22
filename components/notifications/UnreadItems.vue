@@ -59,6 +59,8 @@ export default {
       status: 'UNREAD',
       limit: this.limit
     })
+
+    console.log(this.unreadNotifications)
   },
   computed: {
     ...mapGetters({
