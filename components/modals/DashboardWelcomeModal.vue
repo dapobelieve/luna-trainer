@@ -13,11 +13,11 @@
             business admin, so you can focus on doing what you love.
           </p>
           <div class="flex justify-left gap-5">
-            <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="exitTour">
-              Explore by myself
-            </button>
             <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="takeTour">
               Start the tour
+            </button>
+             <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="exitTour">
+              Explore by myself
             </button>
           </div>
         </div>
