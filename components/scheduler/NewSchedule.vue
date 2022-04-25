@@ -370,7 +370,8 @@ export default {
       }, [])))
     },
     isLocalCalendar () {
-      return this.activeCalendar.provider === 'nylas'
+      return true
+      // return this.activeCalendar.provider === 'nylas'
     },
     showConference () {
       if (this.hasSchedule || this.isLocalCalendar) {
@@ -438,8 +439,7 @@ export default {
       const toMinutes = parseInt(toTime[0].split(':')[1])
 
       const start = new Date(this.form.date.setHours(fromHrs, fromMinutes))
-
-      const end = new Date(this.form.date.setUTCHours(toHrs, toMinutes))
+      const end = new Date(this.form.date.setHours(toHrs, toMinutes))
 
       this.form.when.startTime = start / 1000
       this.form.when.endTime = end / 1000
@@ -533,9 +533,7 @@ export default {
             data: { ...payloadData }
           })
 
-          if (payloadData.recurrence) {
-            location.reload()
-          } else {
+          if (!payloadData.recurrence) {
             this.$nuxt.$emit('scheduler:event-created', res)
             this.close()
             this.$router.push({
@@ -547,7 +545,7 @@ export default {
           }
           this.$lunaToast.success('New Appointment created')
         } catch (e) {
-          console.log({ e })
+          console.log('error ', { e })
         } finally {
           this.btn = {
             text: 'Send',

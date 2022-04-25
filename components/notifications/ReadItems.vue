@@ -36,6 +36,18 @@ export default {
       loadingMore: false
     }
   },
+  async fetch () {
+    await this.fetchNotifications({
+      page: this.page,
+      status: 'READ',
+      limit: this.limit
+    })
+  },
+  computed: {
+    ...mapGetters({
+      readNotifications: 'notifications/getReadNotifications'
+    })
+  },
   methods: {
     ...mapActions({
       fetchNotifications: 'notifications/fetchNotifications'
@@ -50,18 +62,6 @@ export default {
       })
       this.loadingMore = false
     }
-  },
-  async fetch () {
-    await this.fetchNotifications({
-      page: this.page,
-      status: 'READ',
-      limit: this.limit
-    })
-  },
-  computed: {
-    ...mapGetters({
-      readNotifications: 'notifications/getReadNotifications'
-    })
   }
 }
 </script>

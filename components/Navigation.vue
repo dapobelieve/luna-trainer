@@ -473,6 +473,9 @@ export default {
             await this.getPaymentMethods()
             this.$lunaToast.show('Stripe has just connected successful')
             break
+          case "SESSION_RESCHEDULED":
+            this.$lunaToast.show(`Session has been Rescheduled`)
+            break
           default:
             this.$lunaToast.show('You have a new notification')
             break

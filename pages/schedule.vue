@@ -98,6 +98,7 @@ import ScheduleWelcomeModal from '~/components/modals/ScheduleWelcomeModal.vue'
 import { scheduleTourSteps } from '~/tour/ScheduleTourSteps'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 export default {
+  middleware: ['scheduler'],
   name: 'Scheduler',
   components: {
     SchedulerInfo,
@@ -140,6 +141,16 @@ export default {
       title: 'Schedules'
     }
   },
+  watch: {
+    'allEvents': {
+      handler: function (val, oldVal) {
+        this.calendarApi.getEvents().forEach(event => {
+          event.remove()
+        })
+        this.loadEvents()
+      }
+    },
+  },
   computed: {
     ...mapGetters({
       activeCalendar: 'scheduler/getCalendar',
@@ -161,7 +172,8 @@ export default {
       console.error(e)
     }
   },
-  updated () {
+  async updated () {
+    await this.updateDate()
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
@@ -176,11 +188,11 @@ export default {
     openDrawer (data) {
       this.$store.commit('scheduler/setStates', { drawer: data })
     },
-    loadEvents () {
+    loadEvents (events) {
+      events = events || this.allEvents
       this.calendarApi.refetchEvents()
-      this.allEvents.forEach((event) => {
+      events.forEach((event) => {
         this.processNewEvent(event)
-        this.calendarApi.addEvent(event)
       })
     },
     removeEvent (eventId) {
@@ -217,15 +229,23 @@ export default {
           when: event.when,
           editable: false,
           title: event.title,
-          start: format(fromUnixTime(event.when?.startTime), "yyyy-MM-dd'T'HH:mm:ss"),
-          end: format(fromUnixTime(event.when?.endTime), "yyyy-MM-dd'T'HH:mm:ss"),
+          start: format(new Date(event.when?.startTime * 1000), "yyyy-MM-dd'T'HH:mm:ss"),
+          end: format(new Date(event.when?.endTime * 1000), "yyyy-MM-dd'T'HH:mm:ss"),
           allDay: false
         })
       }
     },
-    updateDate () {
+    async updateDate () {
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
       this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
+
+      const currDate = new Date(new Date().getFullYear(), new Date(this.calendarApi.currentData.currentDate).getMonth(), 1)
+      const endDate = new Date(currDate.getFullYear(), currDate.getMonth() + 1, 0)
+
+      await this.$store.dispatch('scheduler/getAllAppointments', {
+        startDate: parseInt(currDate / 1000),
+        endDate: parseInt(endDate / 1000)
+      })
     },
     mainPrev () {
       this.calendarApi.prev()
