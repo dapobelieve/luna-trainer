@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="text-left">
-        <h2 class="text-lg font-normal" >
+        <h2 class="text-lg font-normal">
           <span :class="[notification.status === 'UNREAD' ? 'font-bold' : 'font-normal']">{{ notification.data.customerId.name }}</span>
           <span> just paid for invoice </span>
           <a href="#" class="text-blue-500">#{{ notification.data.invoiceNo }}</a>
