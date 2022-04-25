@@ -12,7 +12,7 @@
           <button class="button-fill" @click.prevent="nextStep">
             Proceed
           </button>
-           <button class="bg-white-500 py-2 px-4 text-blue-500" @click="tryLater()">
+          <button class="bg-white-500 py-2 px-4 text-blue-500" @click="tryLater()">
             Try it later
           </button>
         </div>

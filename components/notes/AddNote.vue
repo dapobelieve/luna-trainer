@@ -116,8 +116,8 @@ import debounce from 'lodash.debounce'
 import { mapActions } from 'vuex'
 import NoteDeleteModal from './NoteDeleteModal.vue'
 export default {
-  components: { NoteDeleteModal },
   name: 'AddNote',
+  components: { NoteDeleteModal },
   data () {
     return {
       note: {},

@@ -85,15 +85,6 @@ export default {
       this.fetchAllClients()
     }
   },
-  beforeMount () {
-    this.$store.dispatch('scheduler/connectToLocalCalendar')
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        this.$store.dispatch('scheduler/getCalendars')
-      })
-  },
   methods: {
     toggleSidebarMenu () {
       this.showSidebarMenu = !this.showSidebarMenu

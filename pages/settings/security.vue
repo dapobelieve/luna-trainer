@@ -7,7 +7,7 @@
         </h5>
       </div>
       <div class="px-4">
-        <div class="mb-4" v-if="isAuthLocal">
+        <div v-if="isAuthLocal" class="mb-4">
           <p
             class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8"
           >

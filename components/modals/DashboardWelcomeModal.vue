@@ -16,7 +16,7 @@
             <button class="bg-blue-500 py-2 px-4 text-white" style="width:fit-content" @click="takeTour">
               Start the tour
             </button>
-             <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="exitTour">
+            <button class="bg-white-500 py-2 px-4 text-blue-500" style="width:fit-content" @click="exitTour">
               Explore by myself
             </button>
           </div>
