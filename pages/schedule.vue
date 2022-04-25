@@ -87,7 +87,7 @@
 </template>
 
 <script>
-import { format, fromUnixTime } from 'date-fns'
+import { format } from 'date-fns'
 import FullCalendar from '@fullcalendar/vue'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
@@ -98,13 +98,13 @@ import ScheduleWelcomeModal from '~/components/modals/ScheduleWelcomeModal.vue'
 import { scheduleTourSteps } from '~/tour/ScheduleTourSteps'
 import SchedulerInfo from '~/components/scheduler/SchedulerInfo'
 export default {
-  middleware: ['scheduler'],
   name: 'Scheduler',
   components: {
     SchedulerInfo,
     ScheduleWelcomeModal,
     FullCalendar
   },
+  middleware: ['scheduler'],
   data () {
     return {
       activeEvent: {},
@@ -142,14 +142,14 @@ export default {
     }
   },
   watch: {
-    'allEvents': {
-      handler: function (val, oldVal) {
-        this.calendarApi.getEvents().forEach(event => {
+    allEvents: {
+      handler (val, oldVal) {
+        this.calendarApi.getEvents().forEach((event) => {
           event.remove()
         })
         this.loadEvents()
       }
-    },
+    }
   },
   computed: {
     ...mapGetters({

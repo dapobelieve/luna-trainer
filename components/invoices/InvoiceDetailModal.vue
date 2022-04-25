@@ -95,12 +95,6 @@
         <!--        </div>-->
         <template v-if="invoiceStatus === 'paid'">
           <div class="flex mb-8 bottom-border">
-            <h3>Payment for</h3>
-            <h3 class="ml-auto">
-              ???
-            </h3>
-          </div>
-          <div class="flex mb-8 bottom-border">
             <h3>Payment Method</h3>
             <h3 class="ml-auto">
               {{ paymentMethod.type.toUpperCase() }}

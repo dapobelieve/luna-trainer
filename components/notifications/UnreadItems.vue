@@ -6,9 +6,13 @@
         :key="notification._id"
         :notification="notification"
       />
-      <button v-if="unreadNotifications.length === page * limit" class="btn block w-full py-2 font-bold" @click.prevent="loadMore">
-        <single-loader v-if="loadingMore">
-        </single-loader>
+      <button
+        v-if="unreadNotifications.length >= page * limit || loadingMore"
+        class="btn block w-full py-2 font-bold text-center flex items-center"
+        @click.prevent="loadMore"
+      >
+        <SingleLoader v-if="loadingMore">
+        </SingleLoader>
         <span v-else>Load More</span>
       </button>
     </template>
@@ -57,6 +61,8 @@ export default {
       status: 'UNREAD',
       limit: this.limit
     })
+
+    console.log(this.unreadNotifications)
   },
   computed: {
     ...mapGetters({

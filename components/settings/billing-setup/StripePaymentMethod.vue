@@ -92,7 +92,15 @@ export default {
     }),
     async toggleStripeConnection () {
       this.loading = true
-      if (!this.connected) { this.connectToStripeAndRedirect() } else { this.disconnectFromStripe() }
+      if (!this.connected) {
+        await this.connectToStripeAndRedirect()
+      } else {
+        try {
+          await this.disconnectFromStripe()
+        } catch (error) {
+          this.$lunaToast.error(error.message)
+        }
+      }
       this.loading = false
     },
     async connectToStripeAndRedirect () {
@@ -103,7 +111,6 @@ export default {
         this.$lunaToast.error('Stripe connection failed ' + error.message)
       }
     },
-
     async enable (e) {
       try {
         this.loading = true

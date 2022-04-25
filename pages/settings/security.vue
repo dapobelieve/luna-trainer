@@ -7,7 +7,7 @@
         </h5>
       </div>
       <div class="px-4">
-        <div class="mb-4">
+        <div v-if="isAuthLocal" class="mb-4">
           <p
             class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8"
           >
@@ -90,10 +90,9 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import ChangePasswordComponent from '~/components/modals/ChangePasswordComponent'
-import ChangeEmailComponent from '~/components/modals/ChangeEmailComponent'
 import AsyncView from '~/components/util/AsyncView.vue'
 export default {
-  components: { ChangeEmailComponent, ChangePasswordComponent, AsyncView },
+  components: { ChangePasswordComponent, AsyncView },
   computed: {
     ...mapGetters({
       getUser: 'profile/getUser'

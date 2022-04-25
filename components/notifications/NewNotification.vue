@@ -8,6 +8,10 @@
       <NotificationsSessionReminder />
     </template>
 
+    <template v-if="notification.type === 'PAYMENT_ACCEPTED'">
+      <PaymentAccepted :notification="notification" />
+    </template>
+
     <template v-if="notification.type === 'NEW_PAYMENT_RECEIPT'">
       <NotificationsReceivedPayment :notification="notification" />
     </template>
@@ -19,11 +23,13 @@
 </template>
 
 <script>
+import PaymentAccepted from './PaymentAccepted.vue'
 import StripeConnection from '~/components/notifications/StripeConnection.vue'
 export default {
   name: 'NewNotification',
   components: {
-    StripeConnection
+    StripeConnection,
+    PaymentAccepted
   },
   props: {
     notification: {

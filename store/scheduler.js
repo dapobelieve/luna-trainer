@@ -1,7 +1,5 @@
 import Vue from 'vue'
-import _cloneDeep from 'lodash.clonedeep'
 import lunaDB from '~/utils/DB'
-import { fromUnixTime } from "date-fns";
 
 export const state = () => ({
   calendar: null,
@@ -34,19 +32,19 @@ export const mutations = {
 }
 export const actions = {
   async getCalendars ({ dispatch, commit }) {
-    const [res = null] = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
+    await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
   },
   async createAppointment ({ rootState, commit, dispatch }, payload, calendar) {
-    let eventRes;
+    let eventRes
     if (payload.data.conferencing) {
       delete payload.data.conferencing.type
       eventRes = await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment?conferencing=automatic`, { ...payload.data })
     }
     eventRes = await this.$axios.$post(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment`, { ...payload.data })
     const eventStartDate = new Date(eventRes.when.startTime * 1000)
-    const startOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth(), 1)/1000)
-    const endOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth() + 1, 0)/1000)
-    dispatch('getAppointmentsForMonth', {startDate: startOfMonth, endDate: endOfMonth})
+    const startOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth(), 1) / 1000)
+    const endOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth() + 1, 0) / 1000)
+    dispatch('getAppointmentsForMonth', { startDate: startOfMonth, endDate: endOfMonth })
     return eventRes
   },
   async getSingleAppointment ({ state }, payload) {
@@ -56,24 +54,23 @@ export const actions = {
   async updateAppointment ({ rootState, commit, dispatch }, payload) {
     payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id
     const eventRes = await this.$axios.$put(`${process.env.SCHEDULER_HOST}/calendar/${payload.calendar}/appointment/${payload.data.id}`, { ...payload.data })
-    
+
     const eventStartDate = new Date(eventRes.when.startTime * 1000)
-    const startOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth(), 1)/1000)
-    const endOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth() + 1, 0)/1000)
-    dispatch('getAppointmentsForMonth', {startDate: startOfMonth, endDate: endOfMonth})
+    const startOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth(), 1) / 1000)
+    const endOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth() + 1, 0) / 1000)
+    dispatch('getAppointmentsForMonth', { startDate: startOfMonth, endDate: endOfMonth })
     return eventRes
   },
   async getAllAppointments ({ rootState, state, commit, dispatch }, payload) {
     if (!state.calendar) { return [] }
-    let sessions = await lunaDB.getItem(`user:${rootState.auth.user.userId}:${payload.startDate}:sessions`)
+    const sessions = await lunaDB.getItem(`user:${rootState.auth.user.userId}:${payload.startDate}:sessions`)
     if (sessions?.length) {
       commit('setEvents', sessions)
-    } 
-    else {
+    } else {
       dispatch('getAppointmentsForMonth', payload)
     }
   },
-  async getAppointmentsForMonth({rootState, commit, state}, dates) {
+  async getAppointmentsForMonth ({ rootState, commit, state }, dates) {
     const sessions = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment`, {
       params: {
         startDatetime: dates.startDate,

@@ -1,6 +1,6 @@
 <template>
   <div class="grid m-6 ">
-    <div class="py-0 mb-5">
+    <div class="py-0">
       <div class="flex justify-between items-center mb-2">
         <h2 class="text-2xl font-normal text-gray-700 mb-1">
           Invite New Client

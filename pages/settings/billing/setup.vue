@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import BankAccountPaymentMethod from '../../../components/settings/billing-setup/BankAccountPaymentMethod'
 import StripePaymentMethod from '../../../components/settings/billing-setup/StripePaymentMethod'
 
@@ -27,7 +27,6 @@ export default {
   async mounted () {
     try {
       await this.getPaymentMethods()
-      console.log(this.stripe)
     } catch (error) {
       this.$lunaToast.error('No connected payment method')
     }

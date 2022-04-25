@@ -41,19 +41,19 @@ export const actions = {
     return data.url
   },
   async disconnectFromStripe ({ commit, dispatch }) {
-    const { data } = await this.$axios.delete(`${process.env.PAYMENT_HOST_URL}/stripe/disconnect`)
+    await this.$axios.delete(`${process.env.PAYMENT_HOST_URL}/stripe/disconnect`)
     dispatch('getPaymentMethods')
   },
   async disablePaymentMethod ({ commit, dispatch }, id) {
-    const { data } = await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/payment-method/${id}/disable`)
+    await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/payment-method/${id}/disable`)
     dispatch('getPaymentMethods')
   },
   async enablePaymentMethod ({ commit, dispatch }, id) {
-    const { data } = await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/payment-method/${id}/enable`)
+    await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/payment-method/${id}/enable`)
     dispatch('getPaymentMethods')
   },
   async setDefaultPaymentMethod ({ commit, dispatch }, id) {
-    const { data } = await this.$axios.post(`${process.env.PAYMENT_HOST_URL}/payment-method/default/${id}`)
+    await this.$axios.post(`${process.env.PAYMENT_HOST_URL}/payment-method/default/${id}`)
     dispatch('getPaymentMethods')
   }
 }
@@ -61,12 +61,20 @@ export const actions = {
 export const getters = {
   getActivePaymentMethods: (state) => {
     return state.paymentMethods.filter((paymentMethod) => {
-      return !paymentMethod.disabled
+      if (paymentMethod.stripe) {
+        return !paymentMethod.disabled && paymentMethod.stripe.connected
+      } else {
+        return !paymentMethod.disabled
+      }
     })
   },
   hasActivePaymentMethods: (state) => {
     return state.paymentMethods.some((paymentMethod) => {
-      return !paymentMethod.disabled && paymentMethod.isDefault
+      if (paymentMethod.stripe) {
+        return paymentMethod.stripe.connected && !paymentMethod.disabled
+      } else {
+        return !paymentMethod.disabled
+      }
     })
   },
   getAllPaymentMethods: (state) => {
@@ -74,7 +82,7 @@ export const getters = {
   },
 
   getBankAccount: (state) => {
-    const bankAccount = state.paymentMethods.find(paymentMethod => paymentMethod.type == 'bank') || {
+    const bankAccount = state.paymentMethods.find(paymentMethod => paymentMethod.type === 'bank') || {
       accountHolderName: '',
       accountNo: '',
       sortCode: '',
@@ -83,10 +91,10 @@ export const getters = {
     return bankAccount.bank ? bankAccount.bank : bankAccount
   },
   getBankAccountPaymentMethod: (state) => {
-    return state.paymentMethods.find(paymentMethod => paymentMethod.type == 'bank') || {}
+    return state.paymentMethods.find(paymentMethod => paymentMethod.type === 'bank') || {}
   },
   getStripePaymentMethod: (state) => {
-    return state.paymentMethods.find(paymentMethod => paymentMethod.type == 'stripe') || {}
+    return state.paymentMethods.find(paymentMethod => paymentMethod.type === 'stripe') || {}
   },
   getDefaultPaymentMethod: (state) => {
     return state.paymentMethods.find(paymentMethod => paymentMethod.isDefault)

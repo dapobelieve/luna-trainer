@@ -1,4 +1,4 @@
-export default async function (ctx) {
+export default function (ctx) {
   if (ctx.route.path === '/') {
     return ctx.redirect('/dashboard')
   }

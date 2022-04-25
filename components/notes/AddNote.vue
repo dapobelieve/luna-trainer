@@ -8,7 +8,7 @@
     >
       <div
         v-if="open"
-        class="fixed left-0 top-0 w-full h-full bg-white z-[40] opacity-50"
+        class="fixed left-0 top-0 w-full h-full bg-white z-[38] opacity-50"
         @click="cancel"
       ></div>
     </transition>
@@ -107,14 +107,17 @@
         </div>
       </div>
     </transition>
+    <NoteDeleteModal @yes="deleteSingleNote"></NoteDeleteModal>
   </div>
 </template>
 
 <script>
 import debounce from 'lodash.debounce'
 import { mapActions } from 'vuex'
+import NoteDeleteModal from './NoteDeleteModal.vue'
 export default {
   name: 'AddNote',
+  components: { NoteDeleteModal },
   data () {
     return {
       note: {},
@@ -134,16 +137,15 @@ export default {
   },
   mounted () {
     this.$nuxt.$on('open-add-note-sidebar', (note) => {
-      console.trace('open-add-note-sidebar', note)
       this.open = true
       this.note = note
     })
-    this.addClickOutListener()
   },
   methods: {
     ...mapActions({
       createNote: 'notes-v2/createNote',
-      updateNote: 'notes-v2/updateNote'
+      updateNote: 'notes-v2/updateNote',
+      deleteNote: 'notes-v2/deleteNote'
     }),
     cancel () {
       this.open = false
@@ -163,6 +165,16 @@ export default {
       }
       this.autoSaving = false
     }, 1000),
+    async deleteSingleNote () {
+      try {
+        await this.deleteNote(this.note._id)
+        this.$modal.hide('delete-note')
+        this.cancel()
+        this.$lunaToast.success('Note deleted succesfully')
+      } catch (error) {
+        this.$lunaToast.error('Something went wrong')
+      }
+    },
     saveNote () {
       this.createNote(this.note)
         .then((result) => {
@@ -176,26 +188,12 @@ export default {
     editNote () {
       this.updateNote(this.note)
         .then((result) => {
-          console.log([result._id])
           this.note._id = result._id
         })
         .catch((err) => {
           this.$lunaToast.error(err.message)
           console.error(err)
         })
-    },
-    addClickOutListener () {
-      // const elem = this.$refs['add-note-sidebar'];
-      // // const listener = (e) => {
-      // //   if (e.target === elem || elem.contains(e.target)) {
-      // //     return;
-      // //   }
-      // //   this.open = this.open ? false : this.open;
-      // // };
-      // // document.addEventListener("click", listener);
-      // // this.$once("hook:beforeDestroy", () => {
-      // //   document.removeEventListener("click", listener);
-      // // });
     },
     toggleWidth () {
       this.expanded = !this.expanded

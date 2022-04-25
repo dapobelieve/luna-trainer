@@ -1,6 +1,5 @@
 import lunaDB from '~/utils/DB'
 export default async function (ctx) {
-  
   let userCalendar = await lunaDB.getItem('calendar')
   if (!userCalendar) {
     ctx.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/connect/local?timezone=Africa/Lagos`)
@@ -12,7 +11,8 @@ export default async function (ctx) {
       .catch(async (err) => {
         const [calendar = null] = await ctx.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar`)
         await ctx.app.store.commit('scheduler/setCalendar', calendar)
+        console.log(err)
       })
   }
-  await ctx.app.store.commit('scheduler/setCalendar', userCalendar)  
+  await ctx.app.store.commit('scheduler/setCalendar', userCalendar)
 }

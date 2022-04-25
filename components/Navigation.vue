@@ -256,15 +256,15 @@
                   Need Help?
                 </h3>
                 <span class="text-sm">
-                  Activate the switch button to send a message to us
+                  Send us feedback or email us at support@goluna.app
                 </span>
               </div>
-              <div class="flex-shrink">
+              <!-- <div class="flex-shrink">
                 <Toggle2 />
-              </div>
+              </div> -->
             </div>
-            <NuxtLink
-              to="/"
+            <a
+              href="https://goluna.notion.site/Roadmap-Timeline-98e920761a32435c97aeac63baf3628b"
               class="
                 flex
                 hover:bg-blue-50
@@ -276,11 +276,11 @@
                 rounded-lg
               "
             >
-              <i class="fi-rr-time-half-past mr-4 mt-4"></i>
+              <i class="fi-rr-time-half-past mr-4 mt-2"></i>
               <h3 class="">
                 What's coming next...
               </h3>
-            </NuxtLink>
+            </a>
             <button
               class="
                 flex
@@ -473,8 +473,8 @@ export default {
             await this.getPaymentMethods()
             this.$lunaToast.show('Stripe has just connected successful')
             break
-          case "SESSION_RESCHEDULED":
-            this.$lunaToast.show(`Session has been Rescheduled`)
+          case 'SESSION_RESCHEDULED':
+            this.$lunaToast.show('Session has been Rescheduled')
             break
           default:
             this.$lunaToast.show('You have a new notification')

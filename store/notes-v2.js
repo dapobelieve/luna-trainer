@@ -1,4 +1,3 @@
-import Vue from 'vue'
 export const state = () => ({
   notes: []
 })
@@ -31,17 +30,11 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchNotes ({ commit, dispatch }, { payload, page, limit }) {
-    const queries = {
-      page,
-      limit,
-      ...payload
-    }
+  async fetchNotes ({ commit, dispatch }, params) {
     const res = await this.$axios.$get(
-      `${process.env.BASEURL_HOST}/note`, { params: queries })
-    if (page > 1) { commit('updateNotes', res.data) } else { commit('setNotes', res.data) }
+      `${process.env.BASEURL_HOST}/note`, { params })
+    if (params.page > 1) { commit('updateNotes', res.data) } else { commit('setNotes', res.data) }
   },
-
   async createNote ({ state, commit }, details) {
     const { data } = await this.$axios.$post(
         `${process.env.BASEURL_HOST}/note`,
@@ -71,5 +64,5 @@ export const actions = {
 
 export const getters = {
   notes: state => state.notes,
-  healthNotes: state => state.notes.filter(note => note.tags && !note.tags.find(tag => tag == 'health'))
+  healthNotes: state => state.notes.filter(note => note.tags && !note.tags.find(tag => tag === 'health'))
 }

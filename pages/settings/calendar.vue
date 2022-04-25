@@ -26,7 +26,7 @@
               <h6 class="text-lg font-medium flex">
                 Sync with <img alt="google logo" class="ml-2 mt-0.5" src="~/assets/img/google.svg">
               </h6>
-              <span class="text-gray-500 text-sm">Brief description about this feature</span>
+              <span class="text-gray-500 text-sm">Connect with your google account and all your events will be visible in your GetWelp calendar.</span>
             </div>
           </template>
         </SchedulerSyncCalendarItem> -->
@@ -36,16 +36,12 @@
 </template>
 
 <script>
-import SchedulerSyncCalendarItem from '~/components/scheduler/SchedulerSyncCalendarItem'
-import CalendarActions from '~/components/scheduler/CalendarActions'
+// import SchedulerSyncCalendarItem from '~/components/scheduler/SchedulerSyncCalendarItem'
+// import CalendarActions from '~/components/scheduler/CalendarActions'
 
 export default {
   name: 'Calendar',
-  components: { CalendarActions, SchedulerSyncCalendarItem },
-  data () {
-    return {
-    }
-  },
+  // components: { CalendarActions, SchedulerSyncCalendarItem },
   computed: {},
   methods: {
     connectToCalendar (provider) {

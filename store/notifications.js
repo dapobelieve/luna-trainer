@@ -2,7 +2,6 @@ const notificationTypes = [
   'INVITE_REQUEST_ACCEPTED',
   'PAYMENT_ACCEPTED',
   'NEW_PAYMENT_RECEIPT',
-  'STRIPE_CONNECTION_SUCCESSFUL',
   'STRIPE_CONNECTION_SUCCESSFUL'
 ]
 export const state = () => ({
@@ -62,6 +61,7 @@ export const actions = {
       `${process.env.BASEURL_HOST}/notifications/${payload.id}/read`
     )
     dispatch('fetchNotifications')
+    dispatch('fetchNotificationsSummary')
   }
 }
 

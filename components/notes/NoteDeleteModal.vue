@@ -10,7 +10,7 @@
       <div class="mt-10 flex justify-end space-x-4">
         <button
           class="button-outline"
-          @click.prevent="$emit('close')"
+          @click.prevent="$modal.hide('delete-note')"
         >
           No, don't
         </button>
