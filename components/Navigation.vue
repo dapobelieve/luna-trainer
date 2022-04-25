@@ -408,9 +408,9 @@ export default {
     this.getNav(this.$route)
     try {
       await this.connectSendbird(this.$auth.user.sendbirdId)
+      await this.connectSocket()
       await this.getChannelsMetadata()
       await this.$store.dispatch('notifications/fetchNotificationsSummary')
-      this.socketNotification()
     } catch (e) {
       console.error(e)
     }
@@ -432,58 +432,6 @@ export default {
           return ''
       }
     },
-    ...mapMutations({
-      localUpdateClient: 'client/LOCAL_UPDATE_CLIENT'
-    }),
-    socketNotification (data) {
-      const url = new URL(process.env.BASEURL_HOST)
-      const path = url.hostname === 'localhost' ? `${url.pathname}socket.io` : `${url.pathname}/socket.io`
-      const socket = io(`${url.origin}`, {
-        path,
-        query: {
-          accessToken: localStorage
-            .getItem('auth._token.local')
-            .split('Bearer ')[1]
-        }
-      })
-      socket.on('connect', () => {
-        console.log('CONNECTED 🚀')
-      })
-      socket.on('new-notification', async (data) => {
-        console.log('NEW SOCKET MESSAGE >>>>', data)
-        const { type } = data
-        switch (type) {
-          case 'LOGIN_WITH_QR':
-            this.$nuxt.$emit('device-paired')
-            break
-          case 'INVITE_REQUEST_ACCEPTED':
-            this.localUpdateClient(data.data)
-            this.$lunaToast.show(
-              `${data.data.firstName} just accepted your invite`
-            )
-            break
-          case 'PAYMENT_ACCEPTED':
-            this.$lunaToast.show(`${data.message}`)
-            break
-          case 'NEW_PAYMENT_RECEIPT':
-            this.$lunaToast.show(`${data.message}`)
-            this.getInvoices()
-            break
-          case 'STRIPE_CONNECTION_SUCCESSFUL':
-            await this.getPaymentMethods()
-            this.$lunaToast.show('Stripe has just connected successful')
-            break
-          case 'SESSION_RESCHEDULED':
-            this.$lunaToast.show('Session has been Rescheduled')
-            break
-          default:
-            this.$lunaToast.show('You have a new notification')
-            break
-        }
-        this.$store.dispatch('notifications/fetchNotificationsSummary')
-      })
-      socket.on('CALENDAR_SYNC', () => {})
-    },
     openSession () {
       this.$store.commit('scheduler/setStates', {
         drawer: { open: true, activePage: 'new-session' }
@@ -501,11 +449,10 @@ export default {
       }
     },
     ...mapActions({
-      getInvoices: 'invoice/getInvoices',
       logOut: 'authorize/logOut',
       connectSendbird: 'sendbird-v2/connect',
-      getChannelsMetadata: 'sendbird-v2/getChannelsMetadata',
-      getPaymentMethods: 'payment-methods/getPaymentMethods'
+      connectSocket: 'socketio/connect',
+      getChannelsMetadata: 'sendbird-v2/getChannelsMetadata'
     }),
     inviteClient () {
       this.$modal.show('invite-client')

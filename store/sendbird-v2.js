@@ -214,7 +214,7 @@ export const actions = {
     }
   },
   disconnect () {
-    this.$sb.GroupChannel.disconnect()
+    // disconnect from the server
   }
 }
 
