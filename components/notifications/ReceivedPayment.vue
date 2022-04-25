@@ -29,7 +29,7 @@
         </h2>
         <p v-if="notification.data.status == 'paid_awaiting_confirmation'" class="text-gray-500  text-sm">
           Requesting confirmation of <b>{{ notification.data.total | amount }}</b> on
-          <b>{{ notification.updatedAt | date }}</b>
+          <b>{{ notification.updatedAt | howLongAgo }}</b>
         </p>
       </div>
     </div>
