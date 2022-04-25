@@ -32,9 +32,9 @@ export const mutations = {
   },
   swapMessage (state, { id, newMessage }) {
     let messages = state.messages[id] || []
-    const messageExist = messages && messages.find(message => (message.messageId == newMessage.messageId) || (message.data && message.data == newMessage.data))
+    const messageExist = messages && messages.find(message => (message.messageId === newMessage.messageId) || (message.data && message.data === newMessage.data))
     if (messageExist) {
-      messages = messages.map(message => (message.messageId == newMessage.messageId) || (message.data && message.data == newMessage.data) ? newMessage : message)
+      messages = messages.map(message => (message.messageId === newMessage.messageId) || (message.data && message.data === newMessage.data) ? newMessage : message)
     } else {
       messages.push(newMessage)
       messages.sort((a, b) => a.createdAt - b.createdAt)
@@ -46,7 +46,7 @@ export const mutations = {
 export const actions = {
   async connect ({ commit, dispatch }, sendbirdId) {
     if (sendbirdId && !this.state.connected) {
-      await this.$sb.connect(sendbirdId, async (user, error) => {
+      await this.$sb.connect(sendbirdId, (user, error) => {
         if (error) {
           this.$lunaToast.error('Messaging not connected.')
           commit('setConnected', false)
@@ -86,7 +86,7 @@ export const actions = {
       return channel
     }
   },
-  async getMessages ({ commit }, channel) {
+  getMessages ({ commit }, channel) {
     const messageFilter = new this.$sb.MessageFilter()
     if (channel) {
       if (channel) {
@@ -167,7 +167,7 @@ export const actions = {
     pendingMessage.fileBinary = fileBinary
     commit('addMessage', { id, message: pendingMessage })
   },
-  async getChannel ({ }, { sender, receipient }) {
+  async getChannel ({ commit }, { sender, receipient }) {
     const listQuery = this.$sb.GroupChannel.createMyGroupChannelListQuery()
     listQuery.includeEmpty = true
     listQuery.userIdsIncludeFilter = [sender, receipient]
@@ -212,6 +212,9 @@ export const actions = {
         })
       })
     }
+  },
+  disconnect () {
+    this.$sb.GroupChannel.disconnect()
   }
 }
 

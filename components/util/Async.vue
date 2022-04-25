@@ -22,13 +22,13 @@
 </template>
 <script>
 export default {
-  name: "Async",
+  name: 'Async',
   props:{
     state:{
       type:Object,
       required:true
-    },
-  },
+    }
+  }
 }
 </script>
 <style lang="scss" scoped></style> 

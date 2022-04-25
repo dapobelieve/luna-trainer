@@ -136,7 +136,6 @@ import SenderMessages from '~/components/messages/SenderMessages.vue'
 export default {
   name: 'ChatsV2',
   components: {
-    PreviewImage,
     OpponentMessage,
     SenderMessages
   },
@@ -217,21 +216,29 @@ export default {
           sender: this.senderId
         })
         if (this.channel) {
-          this.collection = await this.getMessages(this.channel)
+          this.collection = this.getMessages(this.channel)
           this.collection.onCacheResult((err, messages) => {
             console.log('Messages from Cache: ', messages)
-            messages && messages.forEach((newMessage) => {
-              this.swapMessage({ id: this.receipientId, newMessage })
-            })
-            this.scrollFeedToBottom()
-            this.loading = false
-          })
-            .onApiResult((err, messages) => {
-              console.log('Messages from API: ', messages)
+            if (!err) {
               messages && messages.forEach((newMessage) => {
                 this.swapMessage({ id: this.receipientId, newMessage })
               })
               this.scrollFeedToBottom()
+              this.loading = false
+            } else {
+              console.err(err)
+            }
+          })
+            .onApiResult((err, messages) => {
+              console.log('Messages from API: ', messages)
+              if (!err) {
+                messages && messages.forEach((newMessage) => {
+                  this.swapMessage({ id: this.receipientId, newMessage })
+                })
+                this.scrollFeedToBottom()
+              } else {
+                console.err(err)
+              }
             })
         } else {
           this.loading = false

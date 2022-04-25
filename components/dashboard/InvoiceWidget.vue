@@ -1,6 +1,6 @@
 <template>
   <DashboardCard
-    :view-all="widgetData.length > 0"
+    :view-all="widgetData && widgetData.length > 0"
     class="pt-4"
     @action="$router.push({ name: 'payments-requests-sent' })"
   >
@@ -51,12 +51,10 @@
       </div>
     </div>
     <div class="h-full flex-col justify-center">
-      <div v-if="fetching" class="flex h-full items-center justify-center">
-        <SingleLoader height="40px" width="40px" />
-      </div>
-      <template v-else class="">
+    <async :state="$fetchState">
+      <template class="">
         <div
-          v-if="!widgetData.length"
+          v-if="!widgetData || !widgetData.length"
           class="flex items-center h-full justify-center"
         >
           <div class="flex flex-col items-center">
@@ -83,44 +81,42 @@
           />
         </template>
       </template>
+    </async>
     </div>
   </DashboardCard>
 </template>
 
 <script>
 import { mapActions } from 'vuex'
+import Async from '../util/Async.vue'
 import DashboardCard from '~/components/dashboard/DashboardCard'
 import InvoiceWidgetCard from '~/components/dashboard/InvoiceWidgetCard'
 export default {
-  components: { InvoiceWidgetCard, DashboardCard },
+  components: { InvoiceWidgetCard, DashboardCard, Async },
   data () {
     return {
       imgUrl: null,
-      fetching: false,
       selectedOption: 'paid_awaiting_confirmation',
       widgetData: []
     }
   },
   watch: {
     async selectedOption () {
-      await this.fetchWidgetData()
+      await this.fetch()
     }
   },
-  async mounted () {
+  created () {
     this.$nuxt.$on('paid', async () => {
-      await this.fetchWidgetData()
+      await this.fetch()
     })
-    await this.fetchWidgetData()
+  },
+  async fetch () {
+    this.widgetData = await this.getWidgetData(this.selectedOption)
   },
   methods: {
     ...mapActions({
       getWidgetData: 'invoice/getWidgetData'
-    }),
-    async fetchWidgetData () {
-      this.fetching = true
-      this.widgetData = await this.getWidgetData(this.selectedOption)
-      this.fetching = false
-    }
+    })
   }
 }
 </script>

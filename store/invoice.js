@@ -55,7 +55,6 @@ export const actions = {
     return this.$axios
       .$delete(`${process.env.PAYMENT_HOST_URL}/invoice/${id}`)
       .then((response) => {
-        //  commit("DELETE_INVOICE", response.data);
         return response
       })
   },
@@ -78,14 +77,11 @@ export const actions = {
     return res
   },
   async getWidgetData ({ commit, dispatch }, status, limit = 3) {
-    try {
-      const response = await this.$axios.$get(
-        `${process.env.PAYMENT_HOST_URL}/widget/payment?status=${status}&limit=${limit}`
-      )
-      return response.data
-    } catch (error) {
-      console.error(error)
-    }
+    const response = await this.$axios.$get(
+      `${process.env.PAYMENT_HOST_URL}/widget/payment?status=${status}&limit=${limit}`
+    )
+    console.log(response)
+    return response.data || []
   },
   async getInvoices ({ commit, dispatch }, payload) {
     const q = {

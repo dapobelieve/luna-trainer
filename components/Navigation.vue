@@ -439,7 +439,7 @@ export default {
       const url = new URL(process.env.BASEURL_HOST)
       // eslint-disable-next-line
       const socket = io(`${url.origin}`, {
-        path: `${url.pathname}/socket.io`,
+        path: `${url.pathname}socket.io`,
         query: {
           accessToken: localStorage
             .getItem('auth._token.local')

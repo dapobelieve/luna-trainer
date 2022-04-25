@@ -74,7 +74,7 @@ export const actions = {
     this.$sb.removeConnectionHandler('defaultLayoutHandler')
     // clear token oursaelves
     dispatch('loader/startProcess', 'logout', { root: true })
-    dispatch('sendBird/disconnectFromSendbirdServer', null, { root: true })
+    dispatch('sendbird-v2/disconnect', null, { root: true })
     dispatch('client/clearAllClientStates', null, { root: true })
 
     commit('CLEAR_LOCAL_STORAGE')
