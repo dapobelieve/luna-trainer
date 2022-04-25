@@ -102,12 +102,12 @@ export default {
   },
   watch: {
     async selectedOption () {
-      await this.fetch()
+      await this.$fetch()
     }
   },
   created () {
     this.$nuxt.$on('paid', async () => {
-      await this.fetch()
+      await this.$fetch()
     })
   },
   async fetch () {
