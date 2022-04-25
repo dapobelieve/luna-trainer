@@ -2,7 +2,6 @@ const notificationTypes = [
   'INVITE_REQUEST_ACCEPTED',
   'PAYMENT_ACCEPTED',
   'NEW_PAYMENT_RECEIPT',
-  'STRIPE_CONNECTION_SUCCESSFUL',
   'STRIPE_CONNECTION_SUCCESSFUL'
 ]
 export const state = () => ({

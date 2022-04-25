@@ -12,6 +12,9 @@
           <button class="button-fill" @click.prevent="nextStep">
             Proceed
           </button>
+           <button class="bg-white-500 py-2 px-4 text-blue-500" @click="tryLater()">
+            Try it later
+          </button>
         </div>
       </template>
       <template v-if="currentDisplay === 2">
@@ -38,7 +41,7 @@
                   Connect your stripe account if you have one, or provide we'll help you create one.
                 </p>
               </div>
-              <div>
+              <div class="flex">
                 <ButtonSpinner :loading="isStripeLoading" class="button-outline" @click="connectToStripeAndRedirect">
                   Connect
                 </ButtonSpinner>
@@ -95,6 +98,10 @@ export default {
     }),
     nextStep () {
       this.currentDisplay = Math.min(this.currentDisplay + 1, 2)
+    },
+    tryLater () {
+      this.$modal.hide('payment-method-status')
+      this.$router.back(-1)
     },
     async connectToStripeAndRedirect () {
       this.isStripeLoading = true

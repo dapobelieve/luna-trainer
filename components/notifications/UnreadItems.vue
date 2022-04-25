@@ -66,6 +66,20 @@ export default {
       })
       this.loadingMore = false
     }
+  },
+  async fetch () {
+    await this.fetchNotifications({
+      page: this.page,
+      status: 'UNREAD',
+      limit: this.limit
+    })
+
+    console.log(this.unreadNotifications)
+  },
+  computed: {
+    ...mapGetters({
+      unreadNotifications: 'notifications/getUnreadNotifications'
+    })
   }
 }
 </script>

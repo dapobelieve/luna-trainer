@@ -65,10 +65,9 @@ export const actions = {
     })
   },
   async export ({ commit }) {
-    const res = await this.$axios.get(
+    await this.$axios.get(
       `${process.env.PAYMENT_HOST_URL}/invoice/export`
     )
-    console.log(res)
   },
   async getInvoicePayment ({ commit }, id) {
     return await this.$axios
