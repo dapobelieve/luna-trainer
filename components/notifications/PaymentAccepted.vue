@@ -19,14 +19,14 @@
           />
         </div>
       </div>
-      <div>
-        <h2 class="text-lg text-left font-normal" >
+      <div class="text-left">
+        <h2 class="text-lg font-normal" >
           <span :class="[notification.status === 'UNREAD' ? 'font-bold' : 'font-normal']">{{ notification.data.customerId.name }}</span>
           <span> just paid for invoice </span>
           <a href="#" class="text-blue-500">#{{ notification.data.invoiceNo }}</a>
         </h2>
-        <p class="text-gray-500 mt-1 text-sm">
-          <b>{{ notification.updatedAt | date }}</b>
+        <p class="text-gray-500 mt-1 text-sm font-normal">
+          {{ notification.updatedAt | howLongAgo }}
         </p>
       </div>
     </div>
