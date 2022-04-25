@@ -437,9 +437,9 @@ export default {
     }),
     socketNotification (data) {
       const url = new URL(process.env.BASEURL_HOST)
-      // eslint-disable-next-line
+      const path = url.hostname === 'localhost' ? `${url.pathname}socket.io` : `${url.pathname}/socket.io`
       const socket = io(`${url.origin}`, {
-        path: `${url.pathname}socket.io`,
+        path,
         query: {
           accessToken: localStorage
             .getItem('auth._token.local')
