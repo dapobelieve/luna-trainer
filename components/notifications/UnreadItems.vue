@@ -7,10 +7,12 @@
         :notification="notification"
       />
       <button
-        v-if="this.unreadNotifications.length >= this.page * this.limit || loadingMore"
+        v-if="unreadNotifications.length >= page * limit || loadingMore"
+        class="btn w-full py-2 font-bold text-center flex items-center"
         @click.prevent="loadMore"
-        class="btn block w-full py-2 font-bold text-center flex items-center">
-        <SingleLoader v-if="loadingMore"> </SingleLoader>
+      >
+        <SingleLoader v-if="loadingMore">
+        </SingleLoader>
         <span v-else>Load More</span>
       </button>
     </template>
@@ -37,6 +39,18 @@ export default {
       limit: 12,
       loadingMore: false
     }
+  },
+  async fetch () {
+    await this.fetchNotifications({
+      page: this.page,
+      status: 'UNREAD',
+      limit: this.limit
+    })
+  },
+  computed: {
+    ...mapGetters({
+      unreadNotifications: 'notifications/getUnreadNotifications'
+    })
   },
   methods: {
     ...mapActions({

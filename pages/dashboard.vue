@@ -240,37 +240,35 @@ export default {
       if (window.localStorage.getItem('dashboard-tour')) {
         this.$modal.show('welcome-modal')
       }
-    } else {
+    } else if (!window.localStorage.getItem('welcome')) {
       // set date time stamp in local storage
-      if (!window.localStorage.getItem('welcome')) {
-        this.$lunaToast.show(
-          'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
-          {
-            position: 'bottom-right',
-            timeout: 10000,
-            actions: true,
-            heading: 'Welcome to Luna',
-            confirm: {
-              text: 'Get started',
-              resolver: () => {
-                this.tourItems()
-              }
-            },
-            cancel: {
-              text: 'Not Now',
-              resolver: async () => {
-                console.log('cancelling')
-                window.localStorage.setItem('welcome', new Date())
-              }
-            },
-            close: {
-              resolver: async () => {
-                window.localStorage.setItem('welcome', new Date())
-              }
+      this.$lunaToast.show(
+        'The all-in-one business software specifically designed and built for dog trainers and behaviourists. We hope you love it. Would you like to take the tour?.',
+        {
+          position: 'bottom-right',
+          timeout: 10000,
+          actions: true,
+          heading: 'Welcome to Luna',
+          confirm: {
+            text: 'Get started',
+            resolver: () => {
+              this.tourItems()
+            }
+          },
+          cancel: {
+            text: 'Not Now',
+            resolver: () => {
+              console.log('cancelling')
+              window.localStorage.setItem('welcome', new Date())
+            }
+          },
+          close: {
+            resolver: () => {
+              window.localStorage.setItem('welcome', new Date())
             }
           }
-        )
-      }
+        }
+      )
     }
 
     this.fetchPaidInvoices({ status: 'paid', limit: 5 })

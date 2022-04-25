@@ -138,10 +138,10 @@
     <div class="flex flex-col gap-1.5">
       <label for="country" class="required">Where are you based?</label>
       <select
-        v-model="profile.location"
+        v-model="profile.businessCountry"
         autocomplete="country"
         class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-        :class="{'border-red-500' : $v.profile.location.$invalid}"
+        :class="{'border-red-500' : $v.profile.businessCountry.$invalid}"
       >
         <option v-for="country in countries" :key="country.numericCode">
           {{ country.name }}
@@ -175,6 +175,9 @@ export default {
         required
       },
       location: {
+        required
+      },
+      businessCountry: {
         required
       }
     }
