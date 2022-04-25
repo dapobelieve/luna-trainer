@@ -111,6 +111,7 @@ export default {
         info: {
           firstName: this.clientInfo.firstName,
           lastName: this.clientInfo.lastName,
+          businessCountry: this.clientInfo.businessCountry,
           location: this.clientInfo.location,
           zip: this.clientInfo.zip,
           city: this.clientInfo.city,

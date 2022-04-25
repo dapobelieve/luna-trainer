@@ -8,7 +8,7 @@
       />
       <button
         v-if="unreadNotifications.length >= page * limit || loadingMore"
-        class="btn block w-full py-2 font-bold text-center flex items-center"
+        class="btn w-full py-2 font-bold text-center flex items-center"
         @click.prevent="loadMore"
       >
         <SingleLoader v-if="loadingMore">
@@ -39,6 +39,18 @@ export default {
       limit: 12,
       loadingMore: false
     }
+  },
+  async fetch () {
+    await this.fetchNotifications({
+      page: this.page,
+      status: 'UNREAD',
+      limit: this.limit
+    })
+  },
+  computed: {
+    ...mapGetters({
+      unreadNotifications: 'notifications/getUnreadNotifications'
+    })
   },
   methods: {
     ...mapActions({
