@@ -157,33 +157,6 @@ export default {
       allEvents: 'scheduler/getAllEvents'
     })
   },
-  async mounted () {
-    const schedule = window.localStorage.getItem('session-tour')
-    if (schedule) {
-      this.$modal.show('welcome-modal')
-      this.$router?.push({ query: { new: true } })
-    }
-    // initialize calendar
-    this.calendarApi = this.$refs.fullCalendar.getApi()
-    this.updateDate()
-    try {
-      await this.loadEvents()
-    } catch (e) {
-      console.error(e)
-    }
-  },
-  async updated () {
-    await this.updateDate()
-    const newUser = (this.$route?.query?.new)
-    if (newUser) {
-      this.$modal.show('welcome-modal')
-    }
-  },
-  created () {
-    this.$nuxt.$on('scheduler:event-created', (data) => {
-      this.processNewEvent(data)
-    })
-  },
   methods: {
     openDrawer (data) {
       this.$store.commit('scheduler/setStates', { drawer: data })
@@ -200,14 +173,15 @@ export default {
       event.remove()
     },
     handleCalendarEventClick (info) {
+      this.openDrawer({ open: false, activePage: '' })
       const { id } = info.event
       this.openDrawer({ open: true, activePage: 'schedule-details' })
-      this.$router.push({
-        name: 'schedule-events-id',
-        params: {
-          id
-        }
-      })
+      // this.$router.push({
+      //   name: 'schedule-events-id',
+      //   params: {
+      //     id
+      //   }
+      // })
     },
     changeView (viewName, display) {
       this.currentView = display
@@ -236,6 +210,7 @@ export default {
       }
     },
     async updateDate () {
+      console.log("Updating date")
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
       this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
 
@@ -278,7 +253,32 @@ export default {
 
       this.$intro().showHints()
     }
-  }
+  },
+  async mounted () {
+    // setTimeout(async () => {
+    //   await this.updateDate()
+    // }, 500)
+    const schedule = window.localStorage.getItem('session-tour')
+    if (schedule) {
+      this.$modal.show('welcome-modal')
+      this.$router?.push({ query: { new: true } })
+    }
+    // initialize calendar
+    this.calendarApi = this.$refs.fullCalendar.getApi()
+    await this.updateDate()
+  },
+  async updated () {
+    const newUser = (this.$route?.query?.new)
+    if (newUser) {
+      this.$modal.show('welcome-modal')
+    }
+  },
+  async created () {
+    this.$nuxt.$on('scheduler:event-created', (data) => {
+      this.processNewEvent(data)
+    })
+  },
+  
 }
 </script>
 <style>

@@ -24,6 +24,9 @@ export const mutations = {
     const { title, startStr, id, endStr, extendedProps } = data
     state.activeEvent = { title, startStr, id, endStr, ...extendedProps }
   },
+  removeEvent(state, eventId) {
+    Vue.delete(state.events, eventId)
+  },
   setEvents (state, data) {
     data.forEach((event) => {
       Vue.set(state.events, event.id, event)
@@ -48,8 +51,11 @@ export const actions = {
     return eventRes
   },
   async getSingleAppointment ({ state }, payload) {
+    console.time('getSingleAppointment')
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
-    return await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
+    let res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
+    console.timeEnd('getSingleAppointment')
+    return res
   },
   async updateAppointment ({ rootState, commit, dispatch }, payload) {
     payload.data.id = payload.data.id.includes('_') ? payload.data.id.split('_')[0] : payload.data.id
@@ -92,9 +98,15 @@ export const actions = {
     })
     return res
   },
-  async deleteAppointment ({ state }, payload) {
+  async deleteAppointment ({ rootState, state, commit, dispatch }, payload) {
+    commit('removeEvent', payload.id)
+    const eventStartDate = new Date(payload.when.startTime * 1000)
+    const startOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth(), 1) / 1000)
+    const endOfMonth = parseInt(new Date(eventStartDate.getFullYear(), eventStartDate.getMonth() + 1, 0) / 1000)
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
     await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
+    await dispatch('getAppointmentsForMonth', { startDate: startOfMonth, endDate: endOfMonth })
+    
     return true
   },
   async connectToLocalCalendar ({ commit }) {

@@ -15,4 +15,13 @@ export default async function (ctx) {
       })
   }
   await ctx.app.store.commit('scheduler/setCalendar', userCalendar)
+  
+  setTimeout(async () => {
+    const start = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+    const end = new Date(start.getFullYear(), start.getMonth() + 1, 0)
+    await ctx.app.store.dispatch('scheduler/getAllAppointments', {
+      startDate: start,
+      endDate: end
+    })
+  }, 1000)
 }
