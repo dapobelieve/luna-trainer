@@ -89,18 +89,16 @@ export const actions = {
   getMessages ({ commit }, channel) {
     const messageFilter = new this.$sb.MessageFilter()
     if (channel) {
-      if (channel) {
-        const startingPoint = Date.now()
-        const messageCollectionFetchLimit = 100
-        let messageCollection = channel.createMessageCollection()
-          .setFilter(messageFilter)
-          .setStartingPoint(startingPoint)
-          .setLimit(messageCollectionFetchLimit)
-          .build()
+      const startingPoint = Date.now()
+      const messageCollectionFetchLimit = 100
+      let messageCollection = channel.createMessageCollection()
+        .setFilter(messageFilter)
+        .setStartingPoint(startingPoint)
+        .setLimit(messageCollectionFetchLimit)
+        .build()
 
-        messageCollection = messageCollection.initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
-        return messageCollection
-      }
+      messageCollection = messageCollection.initialize(this.$sb.MessageCollection.MessageCollectionInitPolicy.CACHE_AND_REPLACE_BY_API)
+      return messageCollection
     }
   },
   async getPrevMessages ({ commit }, collection) {

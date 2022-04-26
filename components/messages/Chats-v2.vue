@@ -203,7 +203,7 @@ export default {
     }),
     ...mapActions({
       getChannel: 'sendbird-v2/getChannel',
-      getMessages: 'sendbird-v2/getMessages',
+    getMessages: 'sendbird-v2/getMessages',
       getPrevMessages: 'sendbird-v2/getPrevMessages',
       sendMessage: 'sendbird-v2/sendMessage',
       createChannelIfNoneExists: 'sendbird-v2/createChannelIfNoneExists'
@@ -216,7 +216,8 @@ export default {
           sender: this.senderId
         })
         if (this.channel) {
-          this.collection = this.getMessages(this.channel)
+          this.collection = await this.getMessages(this.channel)
+          console.log(this.channel, this.collection)
           this.collection.onCacheResult((err, messages) => {
             console.log('Messages from Cache: ', messages)
             if (!err) {
