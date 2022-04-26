@@ -1,22 +1,25 @@
 <template>
-  <main>
-    <section class="mt-2">
-      <div class="grid gap-4 md:grid-cols-2">
-        <DashboardCard
-          id="session-st"
-          :view-all="events.length > 0"
-          class="p-0"
-          @action="$router.push({ name: 'schedule' })"
-        >
-          <div id="session-hint">
-            <div class="mb-5">
-              <img class="w-full" src="~/assets/img/home.svg" />
-            </div>
-            <div class="mb-6">
-              <div class="flex items-center px-3 mb-5">
-                <div class="flex items-center">
-                  <div
-                    class="
+  <div class="min-h-full">
+    <main>
+      <div class="pt-4 max-w-3xl mx-auto lg:max-w-7xl lg:px-8">
+        <div class="grid grid-cols-1 gap-4 items-start lg:grid-cols-4 lg:gap-8">
+          <!-- left side -->
+          <div class="grid grid-cols-1 lg:col-span-2 lg:min-h-full">
+            <DashboardCard
+              id="session-st"
+              :view-all="events.length > 0"
+              class="p-0"
+              @action="$router.push({ name: 'schedule' })"
+            >
+              <div id="session-hint">
+                <div class="mb-5">
+                  <img class="w-full" src="~/assets/img/home.svg" />
+                </div>
+                <div class="mb-6">
+                  <div class="flex items-center px-3 mb-5">
+                    <div class="flex items-center">
+                      <div
+                        class="
                       h-12
                       w-12
                       rounded-full
@@ -26,100 +29,105 @@
                       items-center
                       justify-center
                     "
-                  >
-                    <span
-                      class="fi-rr-calendar text-fuchsia-500 text-xl"
-                    ></span>
+                      >
+                        <span
+                          class="fi-rr-calendar text-fuchsia-500 text-xl"
+                        ></span>
+                      </div>
+                      <h3 class="font-medium">
+                        My Sessions
+                      </h3>
+                    </div>
                   </div>
-                  <h3 class="font-medium">
-                    My Sessions
-                  </h3>
+                  <div class="flex px-3 items-center mb-4">
+                    <div class="font-medium text-sm">
+                      {{ $dateFns.format(new Date(), "MMMM d, EEEE") }}
+                    </div>
+                    <span
+                      class="ml-auto text-gray-500 mr-1"
+                    >{{ events.length }} upcoming</span>
+                  </div>
+                  <div class="px-3">
+                    <WeekView
+                      fetch-events
+                      @fetching-events="fetching = true"
+                      @stop-fetching-events="fetching = false"
+                      @events="events = $event"
+                    />
+                  </div>
                 </div>
               </div>
-              <div class="flex px-3 items-center mb-4">
-                <div class="font-medium text-sm">
-                  {{ $dateFns.format(new Date(), "MMMM d, EEEE") }}
+              <div class="px-3 h-[19rem]">
+                <div
+                  v-if="fetching"
+                  class="flex items-center justify-center h-full"
+                >
+                  <SingleLoader height="40px" width="40px" />
                 </div>
-                <span
-                  class="ml-auto text-gray-500 mr-1"
-                >{{ events.length }} upcoming</span>
+                <template v-else>
+                  <div
+                    v-if="!events.length"
+                    class="flex items-center h-full justify-center"
+                  >
+                    <div class="flex flex-col items-center">
+                      <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
+                      <h3 class="text-gray-700 text-lg">
+                        You have no appointment
+                      </h3>
+                      <small
+                        class="text-base text-gray-500"
+                      >Your appointments would be displayed here</small>
+                      <button class="button-fill mt-3" @click="openSession">
+                        Schedule a session
+                      </button>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <!--                <CurrentSessionCard class="mb-4" />-->
+                    <UpcomingSessionCard
+                      v-for="event in events"
+                      :key="event.id"
+                      :event="event"
+                      :color="event.color"
+                      class="mb-2"
+                    />
+                  </div>
+                </template>
               </div>
-              <div class="px-3">
-                <WeekView
-                  fetch-events
-                  @fetching-events="fetching = true"
-                  @stop-fetching-events="fetching = false"
-                  @events="events = $event"
-                />
-              </div>
-            </div>
+            </DashboardCard>
           </div>
-          <div class="px-3 h-[19rem]">
-            <div
-              v-if="fetching"
-              class="flex items-center justify-center h-full"
-            >
-              <SingleLoader height="40px" width="40px" />
-            </div>
-            <template v-else>
-              <div
-                v-if="!events.length"
-                class="flex items-center h-full justify-center"
-              >
-                <div class="flex flex-col items-center">
-                  <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
-                  <h3 class="text-gray-700 text-lg">
-                    You have no appointment
-                  </h3>
-                  <small
-                    class="text-base text-gray-500"
-                  >Your appointments would be displayed here</small>
-                  <button class="button-fill mt-3" @click="openSession">
-                    Schedule a session
-                  </button>
-                </div>
-              </div>
-              <div v-else>
-                <!--                <CurrentSessionCard class="mb-4" />-->
-                <UpcomingSessionCard
-                  v-for="event in events"
-                  :key="event.id"
-                  :event="event"
-                  :color="event.color"
-                  class="mb-2"
-                />
-              </div>
-            </template>
+          <!-- right side -->
+          <div class="grid grid-cols-1 lg:col-span-2 gap-4">
+            <MessageWidget id="message-hint" class="h-[23rem]" />
+            <InvoiceWidget id="billing-hint" class="h-[30rem]" />
           </div>
-        </DashboardCard>
-        <div class="grid gap-4">
-          <MessageWidget id="message-hint" class="h-[23rem]" />
-          <InvoiceWidget id="billing-hint" class="h-[30rem]" />
         </div>
       </div>
-      <!-- modals -->
-      <NotificationsModal :visible="true">
-        <template v-slot:title>
-          Stripe Connect
-        </template>
-        <template v-slot:subtitle>
-          Account under review, please confirm all requirements have been met
-          before proceeding to creating invoices.
-        </template>
-      </NotificationsModal>
-      <NotificationsModal
-        :visible="showNotification"
-        @close="showNotification = $event"
-      >
-        <template v-slot:title>
-          Chat Connection Failed
-        </template>
-        <template v-slot:subtitle>
-          Reconnect chat to enjoy all of GetWelp's features
-        </template>
-        <template v-slot:actionButtons>
-          <button
-            class="
+    </main>
+
+    <!-- modals -->
+    <NotificationsModal :visible="true">
+      <template v-slot:title>
+        Stripe Connect
+      </template>
+      <template v-slot:subtitle>
+        Account under review, please confirm all requirements have been met
+        before proceeding to creating invoices.
+      </template>
+    </NotificationsModal>
+    <NotificationsModal
+      :visible="showNotification"
+      @close="showNotification = $event"
+    >
+      <template v-slot:title>
+        Chat Connection Failed
+      </template>
+      <template v-slot:subtitle>
+        Reconnect chat to enjoy all of GetWelp's features
+      </template>
+      <template v-slot:actionButtons>
+        <button
+          class="
               bg-white
               rounded-md
               text-sm
@@ -132,28 +140,27 @@
               focus:ring-indigo-500
               text-blue-700
             "
-            @click="retry"
-          >
-            retry
-          </button>
-        </template>
-      </NotificationsModal>
-      <DashboardWelcomeModal
-        :exit-tour="
-          () => {
-            closeModal();
-            doNotShowHints = true;
-          }
-        "
-        :take-tour="
-          () => {
-            tourItems();
-            closeModal();
-          }
-        "
-      />
-    </section>
-  </main>
+          @click="retry"
+        >
+          retry
+        </button>
+      </template>
+    </NotificationsModal>
+    <DashboardWelcomeModal
+      :exit-tour="
+        () => {
+          closeModal();
+          doNotShowHints = true;
+        }
+      "
+      :take-tour="
+        () => {
+          tourItems();
+          closeModal();
+        }
+      "
+    />
+  </div>
 </template>
 
 <script>
