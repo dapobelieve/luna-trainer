@@ -86,7 +86,7 @@ export default {
     async deleteEvent () {
       this.loading = true
       try {
-        this.$store.dispatch('scheduler/deleteAppointment', this.eventObj )
+        this.$store.dispatch('scheduler/deleteAppointment', this.eventObj)
         this.$emit('remove-event', this.eventObj.id)
         this.closeModal()
         this.$lunaToast.success('Session Deleted')

@@ -24,7 +24,7 @@ export const mutations = {
     const { title, startStr, id, endStr, extendedProps } = data
     state.activeEvent = { title, startStr, id, endStr, ...extendedProps }
   },
-  removeEvent(state, eventId) {
+  removeEvent (state, eventId) {
     Vue.delete(state.events, eventId)
   },
   setEvents (state, data) {
@@ -53,7 +53,7 @@ export const actions = {
   async getSingleAppointment ({ state }, payload) {
     console.time('getSingleAppointment')
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
-    let res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
+    const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
     console.timeEnd('getSingleAppointment')
     return res
   },
@@ -106,7 +106,7 @@ export const actions = {
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
     await this.$axios.$delete(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
     await dispatch('getAppointmentsForMonth', { startDate: startOfMonth, endDate: endOfMonth })
-    
+
     return true
   },
   async connectToLocalCalendar ({ commit }) {

@@ -35,7 +35,7 @@ export default {
         count += this.getUnreadMessagesCount[key] || 0
       }
       return count
-    },
+    }
   },
   methods: {
     openPageSidebar () {
