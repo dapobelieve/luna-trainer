@@ -217,7 +217,6 @@ export default {
         })
         if (this.channel) {
           this.collection = await this.getMessages(this.channel)
-          console.log(this.channel, this.collection)
           this.collection.onCacheResult((err, messages) => {
             console.log('Messages from Cache: ', messages)
             if (!err) {
