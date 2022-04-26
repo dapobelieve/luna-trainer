@@ -170,13 +170,13 @@ export default {
     this.calendarApi = this.$refs.fullCalendar.getApi()
     await this.updateDate()
   },
-  async updated () {
+  updated () {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
     }
   },
-  async created () {
+  created () {
     this.$nuxt.$on('scheduler:event-created', (data) => {
       this.processNewEvent(data)
     })
@@ -200,12 +200,12 @@ export default {
       this.openDrawer({ open: false, activePage: '' })
       const { id } = info.event
       this.openDrawer({ open: true, activePage: 'schedule-details' })
-      // this.$router.push({
-      //   name: 'schedule-events-id',
-      //   params: {
-      //     id
-      //   }
-      // })
+      this.$router.push({
+        name: 'schedule-events-id',
+        params: {
+          id
+        }
+      })
     },
     changeView (viewName, display) {
       this.currentView = display

@@ -83,7 +83,7 @@ export default {
         this.loading = false
       }
     },
-    async deleteEvent () {
+    deleteEvent () {
       this.loading = true
       try {
         this.$store.dispatch('scheduler/deleteAppointment', this.eventObj)
