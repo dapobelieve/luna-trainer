@@ -1,5 +1,5 @@
 <template>
-  <div class="pt-14">
+  <div class="md:pt-14">
     <div class="messages">
       <div class="header">
         <p class="title">

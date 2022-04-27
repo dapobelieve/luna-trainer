@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen pt-14">
+  <div class="min-h-screen md:pt-14">
     <div
       class="notifications"
     >
@@ -23,7 +23,6 @@
         </TabbedItems>
       </div>
     </div>
-  </div>
   </div>
 </template>
 
