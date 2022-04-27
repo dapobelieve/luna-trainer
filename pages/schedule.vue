@@ -165,15 +165,9 @@ export default {
     }
     // initialize calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
-    this.updateDate()
-    try {
-      await this.loadEvents()
-    } catch (e) {
-      console.error(e)
-    }
-  },
-  async updated () {
     await this.updateDate()
+  },
+  updated () {
     const newUser = (this.$route?.query?.new)
     if (newUser) {
       this.$modal.show('welcome-modal')
@@ -200,6 +194,7 @@ export default {
       event.remove()
     },
     handleCalendarEventClick (info) {
+      this.openDrawer({ open: false, activePage: '' })
       const { id } = info.event
       this.openDrawer({ open: true, activePage: 'schedule-details' })
       this.$router.push({
@@ -236,6 +231,7 @@ export default {
       }
     },
     async updateDate () {
+      console.log('Updating date')
       this.currentDate.month = new Date(this.calendarApi.currentData.currentDate).getMonth()
       this.currentDate.year = new Date(this.calendarApi.currentData.currentDate).getFullYear()
 
@@ -279,6 +275,7 @@ export default {
       this.$intro().showHints()
     }
   }
+
 }
 </script>
 <style>

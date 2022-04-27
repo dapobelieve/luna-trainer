@@ -14,8 +14,7 @@
       <p>
         <i class="fi-rr-interrogation text-3xl text-red-500"></i>
       </p>
-      <p>{{state.error && state.error.message || 'Something went wrong' }}</p>
-     
+      <p>{{ state.error && state.error.message || 'Something went wrong' }}</p>
     </div>
 
     <slot v-if="!state.pending && !state.error"></slot>
@@ -24,10 +23,10 @@
 <script>
 export default {
   name: 'Async',
-  props:{
-    state:{
-      type:Object,
-      required:true
+  props: {
+    state: {
+      type: Object,
+      required: true
     }
   }
 }
