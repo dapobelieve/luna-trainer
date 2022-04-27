@@ -158,9 +158,6 @@ export default {
     })
   },
   async mounted () {
-    // setTimeout(async () => {
-    //   await this.updateDate()
-    // }, 500)
     const schedule = window.localStorage.getItem('session-tour')
     if (schedule) {
       this.$modal.show('welcome-modal')
