@@ -51,37 +51,37 @@
       </div>
     </div>
     <div class="h-full flex-col justify-center">
-    <async :state="$fetchState">
-      <template class="">
-        <div
-          v-if="!widgetData || !widgetData.length"
-          class="flex items-center h-full justify-center"
-        >
-          <div class="flex flex-col items-center">
-            <i class="fi-rr-receipt text-5xl text-amber-500"></i>
-            <h3 class="text-gray-700 text-lg">
-              You have no billing items
-            </h3>
-            <small
-              class="text-base text-gray-500"
-            >Your payment requests would be displayed here</small>
-            <button
-              class="button-fill mt-3"
-              @click="$router.push({ name: 'payments-request' })"
-            >
-              Create a Payment Request
-            </button>
+      <async :state="$fetchState">
+        <template class="">
+          <div
+            v-if="!widgetData || !widgetData.length"
+            class="flex items-center h-full justify-center"
+          >
+            <div class="flex flex-col items-center">
+              <i class="fi-rr-receipt text-5xl text-amber-500"></i>
+              <h3 class="text-gray-700 text-lg">
+                You have no billing items
+              </h3>
+              <small
+                class="text-base text-gray-500"
+              >Your payment requests would be displayed here</small>
+              <button
+                class="button-fill mt-3"
+                @click="$router.push({ name: 'payments-request' })"
+              >
+                Create a Payment Request
+              </button>
+            </div>
           </div>
-        </div>
-        <template v-else>
-          <InvoiceWidgetCard
-            v-for="(data, dataIndex) in widgetData"
-            :key="dataIndex"
-            :invoice="data"
-          />
+          <template v-else>
+            <InvoiceWidgetCard
+              v-for="(data, dataIndex) in widgetData"
+              :key="dataIndex"
+              :invoice="data"
+            />
+          </template>
         </template>
-      </template>
-    </async>
+      </async>
     </div>
   </DashboardCard>
 </template>
@@ -100,6 +100,9 @@ export default {
       widgetData: []
     }
   },
+  async fetch () {
+    this.widgetData = await this.getWidgetData(this.selectedOption)
+  },
   watch: {
     async selectedOption () {
       await this.$fetch()
@@ -109,9 +112,6 @@ export default {
     this.$nuxt.$on('paid', async () => {
       await this.$fetch()
     })
-  },
-  async fetch () {
-    this.widgetData = await this.getWidgetData(this.selectedOption)
   },
   methods: {
     ...mapActions({

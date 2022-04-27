@@ -28,14 +28,14 @@ export default {
     ...mapGetters({
       getNotificationsSummary: 'notifications/getNotificationsSummary',
       getUnreadMessagesCount: 'sendbird-v2/getUnreadMessagesCount'
-    })
-  },
-  unreadMessages () {
-    let count = 0
-    for (const key in this.getUnreadMessagesCount) {
-      count += this.getUnreadMessagesCount[key] || 0
+    }),
+    unreadMessages () {
+      let count = 0
+      for (const key in this.getUnreadMessagesCount) {
+        count += this.getUnreadMessagesCount[key] || 0
+      }
+      return count
     }
-    return count
   },
   methods: {
     openPageSidebar () {
