@@ -1,20 +1,20 @@
 import Vue from 'vue'
 
 export const state = () => ({
-  connected: false,
+  connected: false
 })
 
 export const mutations = {
   setConnected (state, connected) {
     Vue.set(state, 'connected', connected)
-  },
+  }
 }
 
 export const actions = {
-  async connect ({ state, commit, dispatch }) {
-    if(!state.connected){
+  connect ({ state, commit, dispatch }) {
+    if (!state.connected) {
       const url = new URL(process.env.BASEURL_HOST)
-      const path = url.hostname === 'localhost' ? `${url.pathname}socket.io` : `${url.pathname}/socket.io`
+      const path = url.pathname === '/' ? `${url.pathname}socket.io` : `${url.pathname}/socket.io`
       const socket = io(`${url.origin}`, {
         path,
         query: {
@@ -23,17 +23,14 @@ export const actions = {
             .split('Bearer ')[1]
         }
       })
-
       socket.on('connect', () => {
         commit('setConnected', true)
         console.log('CONNECTED 🚀')
       })
-           
       socket.on('disconnect', () => {
         commit('setConnected', false)
         console.log('DISCONNECTED 😥')
       })
-
       socket.on('new-notification', async (data) => {
         console.log('NEW SOCKET MESSAGE >>>>', data)
         const { type } = data
@@ -69,16 +66,13 @@ export const actions = {
         dispatch('notifications/fetchNotificationsSummary', {}, { root: true })
       })
     }
-   
   },
   disconnect () {
     console.log('DISCONNECTED 🚀')
-    // disconnect from the server
   }
 }
-
 export const getters = {
   isConnected: (state) => {
     return state.connected
-  },
+  }
 }

@@ -310,7 +310,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import LunaSearch from '~/components/LunaSearch'
 import sendbirdHandlers from '~/mixins/sendbirdHandlers'
 export default {
