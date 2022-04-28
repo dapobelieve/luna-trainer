@@ -9,11 +9,8 @@
     <GwHeader />
     <div class="flex">
       <invite-new-client-modal redirect />
-      <Navigation class="hidden lg:block" />
-      <div v-if="showSidebarMenu" class="block lg:hidden absolute bg-fuchsia-500">
-        <Navigation />
-      </div>
-      <div class="w-full p-4 bg-gray-100 flex justify-center">
+      <Navigation />
+      <div class="w-full md:pl-64 p-4 bg-gray-100 flex justify-center">
         <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
           <Nuxt />
         </div>
@@ -35,20 +32,14 @@
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
-import AddNote from '../components/notes/AddNote.vue'
 import auth from '~/mixins/auth'
 import ExpiredSessionAuthModal from '~/components/modals/ExpiredSessionAuthModal'
 import SingleLoader from '~/components/util/SingleLoader'
 import SchedulerDrawer from '~/components/scheduler/SchedulerDrawer'
 export default {
   name: 'Dashboard',
-  components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal, AddNote },
+  components: { SchedulerDrawer, SingleLoader, ExpiredSessionAuthModal, InviteNewClientModal },
   mixins: [auth],
-  data () {
-    return {
-      showSidebarMenu: false
-    }
-  },
   computed: {
     ...mapGetters({
       schedulerDrawer: 'scheduler/drawer',
@@ -64,12 +55,6 @@ export default {
     }
   },
   created () {
-    this.$nuxt.$on('displayPageSidebar', () => {
-      this.toggleSidebarMenu()
-    })
-    this.$nuxt.$on('hideSidebarMenu', () => {
-      this.hideMobileMenu()
-    })
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
@@ -86,12 +71,6 @@ export default {
     }
   },
   methods: {
-    toggleSidebarMenu () {
-      this.showSidebarMenu = !this.showSidebarMenu
-    },
-    hideMobileMenu () {
-      this.showSidebarMenu = false
-    },
     ...mapActions('authorize', {
       startFullPageLoad: 'startFullPageLoading',
       endFullPageLoad: 'endFullPageLoading'

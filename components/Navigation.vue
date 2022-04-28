@@ -1,40 +1,38 @@
 <template>
   <div
-    class="
-      block
-      lg:h-screen
-      z-40
-      lg:w-56
-      xl:w-64
-      lg:border-r lg:shadow-sm
-      bg-white
-      lg:sticky lg:top-0
-      left-0
-      lg:rounded-none
-      text-gray-500
-      flex-shrink-0
-      top-14
-      border
-      rounded-xl
-      shadow-xl
-      h-full
-      w-full
-      md:w-1/2
-    "
+    class="fixed inset-0 z-40 md:inset-y-0 md:flex md:w-64 md:flex-col border shadow-xl"
+    :class="[showSidebarMenu ? 'block' : 'hidden' ]"
   >
-    <nav id="home-nav" aria-label="Sidebar" class="w-full">
-      <div class="">
+    <div class="fixed inset-0 md:inset-y-0 md:inset-x-full bg-gray-600 md:bg-none bg-opacity-75 md:bg-opacity-0" @click="closeSidebarMenu"></div>
+    <nav id="home-nav" aria-label="Sidebar" class="max-w-xs bg-white relative">
+      <!-- close button -->
+      <div class="absolute top-0 right-0 -mr-12 pt-2">
+        <button class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="closeSidebarMenu">
+          <span class="sr-only">Close sidebar</span>
+          <svg
+            class="h-6 w-6 text-white"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div>
         <div
           class="
-            px-1
-            pt-3
-            lg:pt-3
-            flex flex-col
-            border
-            overflow-y-auto
-            h-screen
-            max-h-screen
-          "
+              px-1
+              pt-3
+              lg:pt-3
+              flex flex-col
+              border
+              overflow-y-auto
+              h-screen
+              max-h-screen
+            "
         >
           <div class="mb-auto">
             <div class="ml-1">
@@ -46,16 +44,16 @@
               <div class="flex items-center">
                 <div
                   class="
-                    flex-shrink
-                    h-9
-                    w-9
-                    mr-3
-                    border
-                    overflow-hidden
-                    border-green-500
-                    rounded-full
-                    avatar
-                  "
+                      flex-shrink
+                      h-9
+                      w-9
+                      mr-3
+                      border
+                      overflow-hidden
+                      border-green-500
+                      rounded-full
+                      avatar
+                    "
                 >
                   <img
                     class="object-cover w-full h-full rounded-full"
@@ -84,17 +82,17 @@
                   type="text"
                   name="search"
                   class="
-                    focus:outline-none
-                    w-full
-                    cursor-pointer
-                    sm:text-sm
-                    border
-                    rounded-md
-                    h-8
-                    pl-3
-                    bg-gray-50
-                    shadow-sm
-                  "
+                      focus:outline-none
+                      w-full
+                      cursor-pointer
+                      sm:text-sm
+                      border
+                      rounded-md
+                      h-8
+                      pl-3
+                      bg-gray-50
+                      shadow-sm
+                    "
                   placeholder="Search"
                   @click.stop="$modal.show('luna-search-modal')"
                 />
@@ -108,13 +106,13 @@
                   >
                     <div
                       class="
-                        w-full
-                        new-button
-                        flex
-                        justify-start
-                        items-center
-                        font-bold
-                      "
+                          w-full
+                          new-button
+                          flex
+                          justify-start
+                          items-center
+                          font-bold
+                        "
                     >
                       <i class="fi-rr-plus mr-4"></i> New
                     </div>
@@ -130,16 +128,16 @@
                   <div
                     v-show="showQuickMenu"
                     class="
-                      absolute
-                      top-0
-                      w-full
-                      z-40
-                      right-0
-                      rounded-lg
-                      bg-white
-                      ring-opacity-5 ring-1 ring-black
-                      shadow-lg
-                    "
+                        absolute
+                        top-0
+                        w-full
+                        z-40
+                        right-0
+                        rounded-lg
+                        bg-white
+                        ring-opacity-5 ring-1 ring-black
+                        shadow-lg
+                      "
                   >
                     <div class="flex flex-col text-black" role="none">
                       <button
@@ -181,16 +179,16 @@
               :class="[menu.path.includes(currentLink) ? 'active' : '']"
               :to="{ name: menu.path }"
               class="
-                flex
-                hover:bg-blue-50
-                mb-1
-                items-center
-                px-3
-                pl-4
-                text-gray-600
-                py-1
-                rounded-lg
-              "
+                  flex
+                  hover:bg-blue-50
+                  mb-1
+                  items-center
+                  px-3
+                  pl-4
+                  text-gray-600
+                  py-1
+                  rounded-lg
+                "
             >
               <i :class="menu.icon" class="mr-4 mt-0.5"></i>
               <h3 class="">
@@ -202,14 +200,14 @@
               >
                 <div
                   class="
-                    primary-color
-                    px-1.5
-                    text-white text-sm
-                    inline-flex
-                    justify-center
-                    items-center
-                    rounded-full
-                  "
+                      primary-color
+                      px-1.5
+                      text-white text-sm
+                      inline-flex
+                      justify-center
+                      items-center
+                      rounded-full
+                    "
                 >
                   {{ unreadMessages }}
                 </div>
@@ -222,14 +220,14 @@
               >
                 <div
                   class="
-                    primary-color
-                    px-1.5
-                    text-white text-sm
-                    inline-flex
-                    justify-center
-                    items-center
-                    rounded-full
-                  "
+                      primary-color
+                      px-1.5
+                      text-white text-sm
+                      inline-flex
+                      justify-center
+                      items-center
+                      rounded-full
+                    "
                 >
                   {{ getNotificationsSummary.unread }}
                 </div>
@@ -242,14 +240,14 @@
             </div>
             <div
               class="
-                bg-gray-700
-                flex
-                items-center
-                justify-between
-                px-3
-                py-3
-                rounded-lg
-              "
+                  bg-gray-700
+                  flex
+                  items-center
+                  justify-between
+                  px-3
+                  py-3
+                  rounded-lg
+                "
             >
               <div class="text-white">
                 <h3 class="font-bold text-white mb-2">
@@ -260,21 +258,21 @@
                 </span>
               </div>
               <!-- <div class="flex-shrink">
-                <Toggle2 />
-              </div> -->
+                  <Toggle2 />
+                </div> -->
             </div>
             <a
               href="https://goluna.notion.site/Roadmap-Timeline-98e920761a32435c97aeac63baf3628b"
               class="
-                flex
-                hover:bg-blue-50
-                mb-1
-                items-center
-                pl-4
-                text-gray-600
-                py-1
-                rounded-lg
-              "
+                  flex
+                  hover:bg-blue-50
+                  mb-1
+                  items-center
+                  pl-4
+                  text-gray-600
+                  py-1
+                  rounded-lg
+                "
             >
               <i class="fi-rr-time-half-past mr-4 mt-2"></i>
               <h3 class="">
@@ -283,17 +281,17 @@
             </a>
             <button
               class="
-                flex
-                hover:bg-blue-50
-                mb-1
-                w-full
-                justify-start
-                px-3
-                pl-4
-                text-gray-600
-                py-1
-                rounded-lg
-              "
+                  flex
+                  hover:bg-blue-50
+                  mb-1
+                  w-full
+                  justify-start
+                  px-3
+                  pl-4
+                  text-gray-600
+                  py-1
+                  rounded-lg
+                "
               @click="signOut"
             >
               <i class="fi-rr-power mr-4 mt-0.5"></i>
@@ -305,6 +303,10 @@
         </div>
       </div>
     </nav>
+
+    <div class="w-14 flex-shrink-0" aria-hidden="true">
+      <!-- force sidebar to shrink to fit close icon -->
+    </div>
     <LunaSearch @close="$modal.hide('luna-search-modal')" />
   </div>
 </template>
@@ -365,7 +367,8 @@ export default {
         }
       ],
       showNotification: false,
-      openModal: false
+      openModal: false,
+      showSidebarMenu: false
     }
   },
   computed: {
@@ -403,6 +406,14 @@ export default {
       },
       deep: true
     }
+  },
+  created () {
+    this.$nuxt.$on('displayPageSidebar', () => {
+      this.toggleSidebarMenu()
+    })
+    this.$nuxt.$on('hideSidebarMenu', () => {
+      this.hideMobileMenu()
+    })
   },
   async beforeMount () {
     this.getNav(this.$route)
@@ -460,8 +471,11 @@ export default {
     signOut () {
       this.logOut()
     },
-    hideSidebarMenu () {
-      this.$nuxt.$emit('hideSidebarMenu')
+    toggleSidebarMenu () {
+      this.showSidebarMenu = !this.showSidebarMenu
+    },
+    closeSidebarMenu () {
+      this.showSidebarMenu = false
     }
   }
 }
