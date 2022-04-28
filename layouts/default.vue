@@ -15,11 +15,8 @@
         }"
       />
       <div class="flex">
-        <Navigation class="hidden lg:block" />
-        <div v-if="showSidebarMenu" class="block lg:hidden absolute">
-          <Navigation />
-        </div>
-        <main class="w-full bg-gray-100">
+        <Navigation />
+        <main class="w-full md:pl-64 bg-gray-100">
           <Nuxt :key="$route.fullpath" />
         </main>
         <transition
@@ -43,7 +40,7 @@
   </async-view>
 </template>
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import InviteNewClientModal from '../components/modals/InviteNewClientModal.vue'
 import PaymentMethodStatusModal from '../components/modals/PaymentMethodStatusModal'
 import PaymentMethodBankAccountModal from '../components/modals/PaymentMethodBankAccountModal'
