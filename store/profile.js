@@ -12,7 +12,7 @@ export const state = () => ({
       lastName: '',
       businessName: '',
       websiteUrl: '',
-      location: '',
+      businessCountry: '',
       currency: '',
       phone: '',
       timezone: '',
@@ -48,7 +48,7 @@ export const mutations = {
       usePositiveReinforce: false,
       gender: 'male',
       ...user,
-      location: 'United Kingdom',
+      businessCountry: 'United Kingdom',
       currency: 'GBP'
     }
   },
@@ -62,7 +62,7 @@ export const mutations = {
         lastName: '',
         businessName: '',
         websiteUrl: '',
-        location: '',
+        businessCountry: '',
         currency: '',
         phone: '',
         timezone: '',
@@ -151,7 +151,7 @@ export const actions = {
     )
   },
   async deleteService ({ dispatch, commit }, serviceId) {
-    const res = await this.$axios.$delete(
+    await this.$axios.$delete(
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
     )
     await dispatch('getUserProfile')

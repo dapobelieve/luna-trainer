@@ -36,12 +36,12 @@
         <PhoneComponent v-model="phone" />
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="country" class="required" :class="{'text-red-500' : $v.location.$error}">Where are you based?</label>
+        <label for="country" class="required" :class="{'text-red-500' : $v.businessCountry.$error}">Where are you based?</label>
         <select
-          v-model="location"
+          v-model="businessCountry"
           autocomplete="country"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-          :class="{'border-red-500' : $v.location.$error}"
+          :class="{'border-red-500' : $v.businessCountry.$error}"
         >
           <option v-for="country in countries" :key="country.numericCode">
             {{ country.name }}
@@ -50,7 +50,7 @@
       </div>
 
       <div class="flex flex-col gap-1.5">
-        <label for="pronouns" class="required" :class="{'text-red-500' : $v.location.$error}">
+        <label for="pronouns" class="">
           <span>
             <span class="text-sm md:gap-3">Preferred pronouns</span>
             <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
@@ -60,7 +60,6 @@
           v-model="pronouns"
           autocomplete="country"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-          :class="{'border-red-500' : $v.location.$error}"
         >
           <option value="She / Her">
             She / Her
@@ -106,10 +105,10 @@ export default {
         this.setProfileData({ key: 'lastName', value: val })
       }
     },
-    location: {
-      get () { return this.personalProfile.location },
+    businessCountry: {
+      get () { return this.personalProfile.businessCountry },
       set (val) {
-        this.setProfileData({ key: 'location', value: val })
+        this.setProfileData({ key: 'businessCountry', value: val })
       }
     },
     pronouns: {
@@ -142,7 +141,7 @@ export default {
     lastName: {
       required
     },
-    location: {
+    businessCountry: {
       required
     }
   },
