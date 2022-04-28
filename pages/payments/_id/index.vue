@@ -346,12 +346,12 @@ export default {
       }
     },
     handleStripeClick () {
-      window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
+      window.location = `${process.env.PAYMENT_HOST_URL}/pay/${
         this.$route?.params?.id ?? ''
       }`
     },
     handlePaypalClick () {
-      window.location = `${process.env.PAYMENT_HOST_URL}/payment/?id=${
+      window.location = `${process.env.PAYMENT_HOST_URL}/pay/${
         this.$route.params.id ?? ''
       }`
     },
