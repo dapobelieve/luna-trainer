@@ -6,7 +6,7 @@
     <div class="fixed inset-0 md:inset-y-0 md:inset-x-full bg-gray-600 md:bg-none bg-opacity-75 md:bg-opacity-0" @click="closeSidebarMenu"></div>
     <nav id="home-nav" aria-label="Sidebar" class="max-w-xs bg-white relative">
       <!-- close button -->
-      <div class="absolute top-0 right-0 -mr-12 pt-2">
+      <div class="md:hidden absolute top-0 right-0 -mr-12 pt-2">
         <button class="ml-1 flex h-10 w-10 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white" @click="closeSidebarMenu">
           <span class="sr-only">Close sidebar</span>
           <svg
@@ -172,12 +172,11 @@
                 </ClickOutside>
               </div>
             </div>
-            <NuxtLink
+            <button
               v-for="(menu, menuIndex) in menus"
               :id="getId(menu.title)"
               :key="menuIndex"
               :class="[menu.path.includes(currentLink) ? 'active' : '']"
-              :to="{ name: menu.path }"
               class="
                   flex
                   hover:bg-blue-50
@@ -188,15 +187,17 @@
                   text-gray-600
                   py-1
                   rounded-lg
+                  w-full
                 "
+              @click="gotoNav(menu.path)"
             >
               <i :class="menu.icon" class="mr-4 mt-0.5"></i>
-              <h3 class="">
+              <h3 class="mr-auto">
                 {{ menu.title }}
               </h3>
               <div
                 v-if="menu.path === 'messages' && unreadMessages"
-                class="ml-auto"
+                class=""
               >
                 <div
                   class="
@@ -232,7 +233,7 @@
                   {{ getNotificationsSummary.unread }}
                 </div>
               </div>
-            </NuxtLink>
+            </button>
           </div>
           <div class="bottom-nav">
             <div class="pl-2 mb-4">
@@ -475,6 +476,10 @@ export default {
       this.showSidebarMenu = !this.showSidebarMenu
     },
     closeSidebarMenu () {
+      this.showSidebarMenu = false
+    },
+    gotoNav (path) {
+      this.$router.push({ name: path })
       this.showSidebarMenu = false
     }
   }
