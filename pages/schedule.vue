@@ -165,6 +165,14 @@ export default {
     }
     // initialize calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
+    // await setTimeout(async () => {
+    //   const start = parseInt(new Date(new Date().getFullYear(), new Date().getMonth(), 1) / 1000)
+    //   const end = parseInt(new Date(start.getFullYear(), start.getMonth() + 1, 0) / 1000)
+    //   await this.$store.dispatch('scheduler/getAllAppointments', {
+    //     startDate: start,
+    //     endDate: end
+    //   })
+    // }, 1000)
     await this.updateDate()
   },
   updated () {
@@ -215,6 +223,7 @@ export default {
       }
 
       if (event && Object.keys(event.when).length > 0) {
+        console.log(event.status)
         this.calendarApi.addEvent({
           id: event.id,
           color: this.colorMap[event.color],
@@ -223,6 +232,7 @@ export default {
           colorName: event.color,
           when: event.when,
           editable: false,
+          classNames: ['cancelled-event'],
           title: event.title,
           start: format(new Date(event.when?.startTime * 1000), "yyyy-MM-dd'T'HH:mm:ss"),
           end: format(new Date(event.when?.endTime * 1000), "yyyy-MM-dd'T'HH:mm:ss"),
@@ -329,6 +339,11 @@ export default {
       box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 6px;
       border-radius: 4px;
       font-size: 12px;
+    }
+    .cancelled-event {
+      .fc-event-title {
+        text-decoration: line-through;
+      }
     }
   }
   .fc-timeGridWeek-view {

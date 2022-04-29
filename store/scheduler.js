@@ -51,10 +51,8 @@ export const actions = {
     return eventRes
   },
   async getSingleAppointment ({ state }, payload) {
-    console.time('getSingleAppointment')
     const id = (payload.id.includes('_')) ? payload.id.split('_')[0] : payload.id
     const res = await this.$axios.$get(`${process.env.SCHEDULER_HOST}/calendar/${state.calendar.id}/appointment/${id}`)
-    console.timeEnd('getSingleAppointment')
     return res
   },
   async updateAppointment ({ rootState, commit, dispatch }, payload) {

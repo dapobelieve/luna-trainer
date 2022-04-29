@@ -90,7 +90,6 @@ export default {
         this.$emit('remove-event', this.eventObj.id)
         this.closeModal()
         this.$lunaToast.success('Session Deleted')
-        this.$emit('close')
       } catch (e) {
         console.log(e)
       } finally {
