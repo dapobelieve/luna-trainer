@@ -223,7 +223,6 @@ export default {
       }
 
       if (event && Object.keys(event.when).length > 0) {
-        console.log(event.status)
         this.calendarApi.addEvent({
           id: event.id,
           color: this.colorMap[event.color],
@@ -232,7 +231,6 @@ export default {
           colorName: event.color,
           when: event.when,
           editable: false,
-          classNames: ['cancelled-event'],
           title: event.title,
           start: format(new Date(event.when?.startTime * 1000), "yyyy-MM-dd'T'HH:mm:ss"),
           end: format(new Date(event.when?.endTime * 1000), "yyyy-MM-dd'T'HH:mm:ss"),
