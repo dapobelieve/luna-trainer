@@ -165,14 +165,14 @@ export default {
     }
     // initialize calendar
     this.calendarApi = this.$refs.fullCalendar.getApi()
-    // await setTimeout(async () => {
-    //   const start = parseInt(new Date(new Date().getFullYear(), new Date().getMonth(), 1) / 1000)
-    //   const end = parseInt(new Date(start.getFullYear(), start.getMonth() + 1, 0) / 1000)
-    //   await this.$store.dispatch('scheduler/getAllAppointments', {
-    //     startDate: start,
-    //     endDate: end
-    //   })
-    // }, 1000)
+    setTimeout(async () => {
+      const start = parseInt(new Date(new Date().getFullYear(), new Date().getMonth(), 1) / 1000)
+      const end = parseInt(new Date(start.getFullYear(), start.getMonth() + 1, 0) / 1000)
+      await this.$store.dispatch('scheduler/getAllAppointments', {
+        startDate: start,
+        endDate: end
+      })
+    }, 3000)
     await this.updateDate()
   },
   updated () {
