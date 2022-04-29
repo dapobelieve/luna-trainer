@@ -169,8 +169,8 @@ export default {
       const start = new Date(new Date().getFullYear(), new Date().getMonth(), 1)
       const end = new Date(start.getFullYear(), start.getMonth() + 1, 0)
       await this.$store.dispatch('scheduler/getAllAppointments', {
-        startDate: parseInt(start/1000),
-        endDate: parseInt(end/1000)
+        startDate: parseInt(start / 1000),
+        endDate: parseInt(end / 1000)
       })
     }, 100)
     await this.updateDate()
@@ -336,11 +336,6 @@ export default {
       box-shadow: rgba(0, 0, 0, 0.1) 1.95px 1.95px 6px;
       border-radius: 4px;
       font-size: 12px;
-    }
-    .cancelled-event {
-      .fc-event-title {
-        text-decoration: line-through;
-      }
     }
   }
   .fc-timeGridWeek-view {

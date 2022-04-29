@@ -203,7 +203,7 @@ export default {
     }),
     ...mapActions({
       getChannel: 'sendbird-v2/getChannel',
-    getMessages: 'sendbird-v2/getMessages',
+      getMessages: 'sendbird-v2/getMessages',
       getPrevMessages: 'sendbird-v2/getPrevMessages',
       sendMessage: 'sendbird-v2/sendMessage',
       createChannelIfNoneExists: 'sendbird-v2/createChannelIfNoneExists'
