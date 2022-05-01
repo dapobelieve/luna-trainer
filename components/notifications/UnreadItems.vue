@@ -16,7 +16,7 @@
         <span v-else>Load More</span>
       </button>
     </template>
-    <NoNotifications v-else />
+    <NoNotifications v-for="n in 50" :key="n" />
   </div>
 </template>
 
@@ -66,20 +66,6 @@ export default {
       })
       this.loadingMore = false
     }
-  },
-  async fetch () {
-    await this.fetchNotifications({
-      page: this.page,
-      status: 'UNREAD',
-      limit: this.limit
-    })
-
-    console.log(this.unreadNotifications)
-  },
-  computed: {
-    ...mapGetters({
-      unreadNotifications: 'notifications/getUnreadNotifications'
-    })
   }
 }
 </script>

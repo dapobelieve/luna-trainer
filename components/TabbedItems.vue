@@ -50,7 +50,7 @@ export default {
 .tabbedItems {
   @apply flex-1 flex flex-col;
   .top {
-    @apply sticky top-0 bg-white z-50;
+    @apply sticky top-0 bg-white;
   }
   .tabs {
     @apply flex bg-white items-center text-base font-normal text-gray-500 overflow-y-hidden justify-start space-x-[2rem] px-4 border-b border-gray-200 overflow-x-scroll z-30;
