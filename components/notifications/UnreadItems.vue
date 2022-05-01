@@ -16,7 +16,7 @@
         <span v-else>Load More</span>
       </button>
     </template>
-    <NoNotifications v-for="n in 50" :key="n" />
+    <NoNotifications v-else />
   </div>
 </template>
 
