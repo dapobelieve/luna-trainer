@@ -32,7 +32,7 @@
           <div
             class="font-medium"
           >
-            {{amountFormatted($store.state.profile.user.currency, n.pricing.amount)}}
+            {{ n.pricing.amount | amount }}
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
@@ -71,12 +71,6 @@ export default {
       updateServices: 'profile/UPDATE_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
-    amountFormatted: (currency, amount) => {
-      return new Intl.NumberFormat('en', {
-        style: 'currency',
-        currency
-      }).format(amount)
-    },
     deleteService (index) {
       if (this.editingService) {
         this.$lunaToast.error('You are currently editing a service')
