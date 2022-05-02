@@ -152,7 +152,7 @@ export default {
   },
   computed: {
     disableAdd  () {
-      return !this.service.appointmentTypes.length || !this.service.description || !this.service.pricing.amount || (this.service?.pricing?.amount?? 0) <= 0
+      return !this.service.appointmentTypes.length || !this.service.description || !this.service.pricing.amount || this.service.pricing.amount <= 0
     },
     ...mapState({
       servicesFromStore: state => state.auth.user.services
@@ -162,11 +162,11 @@ export default {
         Boolean(this.service.description) &&
         Boolean(this.service.pricing.amount) &&
         Boolean(this.service.appointmentTypes.length) &&
-        (this.service.pricing?.amount?? 0) <= 0
+        this.service.pricing.amount  <= 0
       )
     },
     disableUpdate () {
-      return isEqual(this.service, this.serviceObject) || (this.service?.pricing?.amount?? 0) <= 0
+      return isEqual(this.service, this.serviceObject) || !this.service.pricing.amount || this.service.pricing.amount <= 0
     }
   },
   validations: {
