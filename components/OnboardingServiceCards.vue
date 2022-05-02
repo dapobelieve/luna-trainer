@@ -32,7 +32,7 @@
           <div
             class="font-medium"
           >
-            {{ $store.state.profile.user.currency }}{{ n.pricing.amount }}.00
+            {{amountFormatted($store.state.profile.user.currency, n.pricing.amount)}}
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
@@ -56,6 +56,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'OnboardingServiceCards',
   computed: {
@@ -63,13 +64,19 @@ export default {
       services: state => state.profile.user.services,
       currency: state => state.profile.user.currency,
       editingService: state => state.profile.editingServiceCard
-    })
+    }),
   },
   methods: {
     ...mapMutations({
       updateServices: 'profile/UPDATE_TRAINER_REG_DATA',
       setTempState: 'profile/SET_STATE'
     }),
+    amountFormatted: (currency, amount) => {
+      return new Intl.NumberFormat('en', {
+        style: 'currency',
+        currency
+      }).format(amount)
+    },
     deleteService (index) {
       if (this.editingService) {
         this.$lunaToast.error('You are currently editing a service')
