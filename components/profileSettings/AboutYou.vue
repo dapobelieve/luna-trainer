@@ -109,13 +109,13 @@
           autocomplete="country"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         >
-          <option value="She / Her">
+          <option value="she/her">
             She / Her
           </option>
-          <option value="They / Them">
+          <option value="they/them">
             They / Them
           </option>
-          <option value="He / Him">
+          <option value="he/him">
             He / Him
           </option>
         </select>
