@@ -97,43 +97,28 @@
       <PhoneComponent v-model="profile.phoneNumber" />
     </div>
     <div class="flex flex-col gap-1.5">
-      <label
-        for="gender"
-      >Gender</label>
-      <div class="flex flex-row gap-2">
-        <label
-          class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-          :class="{ 'bg-blue-50' : profile.gender === 'male' }"
-        >
-          <input
-            v-model="profile.gender"
-            type="radio"
-            name="gender"
-            :checked="profile.gender"
-            value="male"
-            class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
-            aria-labelledby="gender-0-label"
-            aria-describedby="gender-0-description"
-          />
-          <span id="gender-0-label" class="block font-medium ml-2">Male</span>
+
+        <label for="pronouns" class="">
+          <span>
+            <span class="text-sm md:gap-3">Preferred pronouns</span>
+            <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
+          </span>
         </label>
-        <label
-          class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-          :class="{ 'bg-blue-50' : profile.gender === 'female' }"
+        <select
+          v-model="pronouns"
+          autocomplete="country"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         >
-          <input
-            v-model="profile.gender"
-            :checked="profile.gender"
-            type="radio"
-            name="gender"
-            value="female"
-            class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
-            aria-labelledby="gender-0-label"
-            aria-describedby="gender-0-description"
-          />
-          <span id="gender-0-label" class="block font-medium ml-2">Female</span>
-        </label>
-      </div>
+          <option value="she/her">
+            She / Her
+          </option>
+          <option value="they/them">
+            They / Them
+          </option>
+          <option value="he/him">
+            He / Him
+          </option>
+        </select>
     </div>
     <div class="flex flex-col gap-1.5">
       <label for="country" class="required">Where are you based?</label>
@@ -191,6 +176,14 @@ export default {
       immediate: true,
       deep: true
     }
+  },
+  computed: {
+     pronouns: {
+      get () { return this.profile.pronouns },
+      set (val) {
+        this.profile.pronouns = val
+      }
+    },
   },
   methods: {
     onDropImage (event) {

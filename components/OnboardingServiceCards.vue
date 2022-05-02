@@ -32,7 +32,7 @@
           <div
             class="font-medium"
           >
-            {{ $store.state.profile.user.currency }}{{ n.pricing.amount }}.00
+            {{ n.pricing.amount | amount }}
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
@@ -56,6 +56,7 @@
 
 <script>
 import { mapState, mapMutations } from 'vuex'
+
 export default {
   name: 'OnboardingServiceCards',
   computed: {
@@ -63,7 +64,7 @@ export default {
       services: state => state.profile.user.services,
       currency: state => state.profile.user.currency,
       editingService: state => state.profile.editingServiceCard
-    })
+    }),
   },
   methods: {
     ...mapMutations({
