@@ -172,7 +172,7 @@ export default {
         startDate: parseInt(start / 1000),
         endDate: parseInt(end / 1000)
       })
-    }, 100)
+    }, 500)
     await this.updateDate()
   },
   updated () {
