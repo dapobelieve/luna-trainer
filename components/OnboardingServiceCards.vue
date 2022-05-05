@@ -32,19 +32,19 @@
           <div
             class="font-medium"
           >
-            {{ n.pricing.amount | amount }}
+            {{ n.pricing.amount | amount($store.state.onboarding.business.currency ) }}
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
           <button
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
-            @click.prevent="editService(index)"
+            @click.prevent="editService(n)"
           >
             <i class="fi-rr-pencil"></i>
           </button>
           <button
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
-            @click.prevent="deleteService(index)"
+            @click.prevent="deleteService(n)"
           >
             <i class="fi-rr-trash"></i>
           </button>
@@ -55,30 +55,20 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-
+import { mapState } from 'vuex'
 export default {
   name: 'OnboardingServiceCards',
   computed: {
     ...mapState({
-      services: state => ({ ...state.onboarding.services })
+      services: state => state.onboarding.services
     })
   },
   methods: {
-    ...mapMutations({
-      updateServices: 'onboarding/updateServices'
-    }),
-    deleteService (index) {
-      if (this.editingService) {
-        this.$lunaToast.error('You are currently editing a service')
-      } else {
-        const updatedServices = [...this.services]
-        updatedServices.splice(index, 1)
-        this.updateServices(updatedServices)
-      }
+    deleteService (service) {
+      this.$store.commit('onboarding/removeService', service)
     },
-    editService (index) {
-      this.$emit('editservice', index)
+    editService (service) {
+      this.$emit('edit-service', service)
     }
   }
 }

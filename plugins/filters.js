@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import { formatDistance } from 'date-fns'
 
-function amount (amount) {
+function amount (amount, currency) {
   const vuex = JSON.parse(localStorage.getItem('vuex'))
-  return new Intl.NumberFormat('en', { style: 'currency', currency: vuex.profile.user.currency }).format(amount)
+  return new Intl.NumberFormat('en', { style: 'currency', currency: currency || vuex.profile.user.currency }).format(amount)
 }
 function date (date) {
   return new Date(date).toDateString()

@@ -49,7 +49,7 @@
                   <onboarding-profile @validity="profile.isDisabled = $event" />
                 </template>
                 <template v-else-if="step === 1">
-                  <business-details @validity="businessDetails.isDisabled = $event" />
+                  <onboarding-business-details @validity="businessDetails.isDisabled = $event" />
                 </template>
                 <template v-else-if="step === 2">
                   <onboarding-trainer-profile
@@ -58,8 +58,7 @@
                 </template>
                 <template v-else-if="step === 3">
                   <onboarding-services
-                    :service="currentService"
-                    @clearSelectedServiceIndex="currentService = $event"
+                    v-model="currentService"
                     @validity="allow($event)"
                   />
                 </template>
@@ -67,7 +66,7 @@
               <!-- Service items for mobile screen -->
               <template v-if="step === 3">
                 <div class="xl:hidden py-6">
-                  <onboarding-service-cards @editservice="currentService = $event" />
+                  <onboarding-service-cards @edit-service="currentService = $event" />
                 </div>
               </template>
             </div>
@@ -106,15 +105,13 @@
           </div>
         </div>
         <!-- Service items for screen 1280 and above -->
-        <div
-          class="hidden xl:block w-full lg:max-w-sm 2xl:max-w-xl"
-        >
+        <div class="hidden xl:block w-full lg:max-w-sm 2xl:max-w-xl">
           <template v-if="step === 3">
             <div
               class="h-screen border-l overflow-y-auto xl:p-10"
             >
               <onboarding-service-cards
-                @editservice="selectedServiceProps = $event"
+                @edit-service="currentService = $event"
               />
               <div class="h-20"></div>
             </div>
@@ -129,16 +126,16 @@
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
-import BusinessDetails from '~/components/onboarding-auth/BusinessDetails.vue'
+import OnboardingBusinessDetails from '../../components/OnboardingBusinessDetails.vue'
 export default {
   name: 'Onboarding',
-  components: { OnboardingCompleteModal, BusinessDetails },
+  components: { OnboardingCompleteModal, OnboardingBusinessDetails },
   layout: 'authOnboarding',
   data () {
     return {
       currentService: {
         description: '',
-        appointmentTypes: [],
+        appointmentTypes: ['in-person'],
         pricing: {
           amount: '',
           plan: 'hourly'
@@ -201,7 +198,7 @@ export default {
   },
   computed: {
     ...mapState({
-      currentPage: state => state.onboarding.currentPage
+      currentPage: state => state.onboarding.currentPageIndex
     }),
     disableNext () {
       return this.step === 0
@@ -242,7 +239,8 @@ export default {
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions({
-      complete: 'onboarding/complete'
+      completeOnboarding: 'onboarding/complete',
+      cleanup: 'onboarding/cleanup'
     }),
     move (e) {
       this.step = e
@@ -254,9 +252,11 @@ export default {
     },
     increaseStep () {
       this.step++
+      this.setCurrentPage(this.step)
     },
     decreaseStep () {
       this.step--
+      this.setCurrentPage(this.step)
     },
     async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
@@ -275,6 +275,7 @@ export default {
     finishedSetUp () {
       this.$router.replace({ name: 'dashboard', query: { new: true } }).then(() => {
         this.$lunaToast.success('Welcome')
+        this.cleanup()
       })
     }
   }

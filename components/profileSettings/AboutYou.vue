@@ -118,6 +118,9 @@
           <option value="he/him">
             He / Him
           </option>
+          <option value="prefer not to say">
+            Prefer not to say
+          </option>
         </select>
     </div>
     <div class="flex flex-col gap-1.5">
@@ -128,7 +131,7 @@
         class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         :class="{'border-red-500' : $v.profile.businessCountry.$invalid}"
       >
-        <option v-for="country in countries" :key="country.numericCode">
+        <option v-for="country in countries" :key="country.numericCode" :value="country.code">
           {{ country.name }}
         </option>
       </select>
@@ -157,9 +160,6 @@ export default {
         required
       },
       lastName: {
-        required
-      },
-      location: {
         required
       },
       businessCountry: {

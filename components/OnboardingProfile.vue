@@ -33,7 +33,7 @@
         </div>
       </div>
       <div class="flex flex-col gap-1.5">
-        <PhoneComponent v-model="profile.phone" :country="profile.businessCountry" />
+        <PhoneComponent v-model="profile.phoneNumber" :country="profile.businessCountry" />
       </div>
       <div class="flex flex-col gap-1.5">
         <label for="country" class="required" :class="{'text-red-500' : $v.profile.businessCountry.$error}">Where are you based?</label>
@@ -61,14 +61,17 @@
           autocomplete="country"
           class="input-field"
         >
-          <option value="She / Her">
+          <option value="she/her">
             She / Her
           </option>
-          <option value="They / Them">
+          <option value="they/them">
             They / Them
           </option>
-          <option value="He / Him">
+          <option value="he/him">
             He / Him
+          </option>
+          <option value="prefer not to say">
+            Prefer not to say
           </option>
         </select>
       </div>
@@ -76,7 +79,6 @@
   </div>
 </template>
 <script>
-import { mapState, mapMutations } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 import countries from '~/countries.json'
 import PhoneComponent from '~/components/util/PhoneComponent'
@@ -86,23 +88,18 @@ export default {
   data () {
     return {
       countries,
-      profile: {}
+      profile: { ...this.$store.state.onboarding.personal }
     }
   },
   watch: {
     profile: {
-      handler () {
-        this.updatePersonalInfo(this.profile)
+      handler (value) {
+        this.$store.commit('onboarding/updatePersonalInfo', { ...value })
         this.$emit('validity', this.$v.$invalid)
       },
       deep: true,
       immediate: true
     }
-  },
-  computed: {
-    ...mapState({
-      personal: state => state.onboarding.personal
-    })
   },
   validations: {
     profile: {
@@ -115,25 +112,10 @@ export default {
       businessCountry: {
         required
       },
-      phone: {
+      phoneNumber: {
         required
       }
     }
-  },
-  mounted () {
-    console.log(this.personal)
-    // this.profile = {
-    //   firstName: this.personal.firstName,
-    //   lastName: this.personal.lastName,
-    //   phone: this.personal.phone,
-    //   businessCountry: this.personal.businessCountry,
-    //   pronouns: this.personal.pronouns
-    // }
-  },
-  methods: {
-    ...mapMutations({
-      updatePersonalInfo: 'onboarding/updatePersonalInfo'
-    })
   }
 }
 </script>

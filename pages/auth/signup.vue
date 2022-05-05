@@ -207,7 +207,6 @@ export default {
         }
         this.setToken(tokens)
         const profile = await this.getUserProfile()
-        this.setProfile(profile)
         this.startOnboarding(profile)
         this.$modal.show('welcome-modal')
       } catch (err) {

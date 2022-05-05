@@ -1,92 +1,19 @@
 import Vue from 'vue'
 
 export const state = () => ({
-  isStripeConnected: false,
-  editingServiceCard: false,
   user: {},
   loading: false,
-  currency: 'GBP',
-  trainerRegData: {
-    personalProfile: {
-      firstName: '',
-      lastName: '',
-      businessName: '',
-      websiteUrl: '',
-      businessCountry: '',
-      currency: '',
-      phone: '',
-      timezone: '',
-      dateFormat: 'DD/MM/YY'
-    },
-    trainerProfile: {
-      accreditations: [],
-      specialization: [],
-      usePositiveReinforce: false
-    },
-    services: [],
-    client: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      petName: '',
-      petBreed: '',
-      petAge: '',
-      petGender: ''
-    },
-    stripe: false
-  }
+  currency: 'GBP'
 })
 
 export const mutations = {
   SET_PROFILE (state, user) {
     state.user = {
-      firstName: '',
-      lastName: '',
-      businessName: '',
-      websiteUrl: '',
-      dateFormat: 'DD/MM/YY',
-      usePositiveReinforce: false,
-      gender: 'male',
-      ...user,
-      businessCountry: 'United Kingdom',
-      currency: 'GBP'
+      ...user
     }
   },
   SET_STATE (state, data) {
     Object.keys(data).forEach(key => (state[key] = data[key]))
-  },
-  SET_EMPTY_TRAINER_REG_DATA (state) {
-    state.trainerRegData = {
-      personalProfile: {
-        firstName: '',
-        lastName: '',
-        businessName: '',
-        websiteUrl: '',
-        businessCountry: '',
-        currency: '',
-        phone: '',
-        timezone: '',
-        dateFormat: 'DD/MM/YY'
-      },
-      trainerProfile: {
-        accreditations: [],
-        specialization: [],
-        usePositiveReinforce: false
-      },
-      services: [],
-      stripe: false
-    }
-  },
-  UPDATE_TRAINER_REG_DATA (state, payload) {
-    if ('type' in payload && payload.type === 'services') {
-      state.user[payload.parent].push(payload.value)
-    } else if ('type' in payload && payload.type === 'deleteService') {
-      state.user[payload.parent] = payload.value
-    } else if ('type' in payload && payload.type === 'updateService') {
-      state.user.services.splice(payload.index, 1, payload.value)
-    } else {
-      state.user[payload.key] = payload.value
-    }
   },
   SET_USER (state, user) {
     this.$auth.setUser(user)
@@ -97,28 +24,6 @@ export const mutations = {
 export const actions = {
   clearGetWelpUser ({ commit, dispatch, getters }) {
     commit('SET_USER', {})
-  },
-  async updateOnboardingProfile ({ state, commit }, payload = { ...state.user }) {
-    await this.$axios
-      .$put(`${process.env.BASEURL_HOST}/profile`, payload)
-      .then((response) => {
-        const { data } = response
-        commit('SET_USER', data)
-        return true
-      })
-  },
-  createTrainerProfile ({ commit, dispatch }, payload) {
-    const data = { ...payload }
-    delete data.profilePic
-    return this.$axios
-      .$post(`${process.env.BASEURL_HOST}/profile`, data)
-      .then((response) => {
-        const { data } = response
-        if (data !== null) {
-          commit('SET_USER', data)
-        }
-        return response
-      })
   },
   async updateProfile ({ dispatch, commit }, payload) {
     const res = await this.$axios.$put(`${process.env.BASEURL_HOST}/profile`, payload)
@@ -163,10 +68,9 @@ export const actions = {
     return res.data[0]
   },
   async clientReport () {},
+
   userFinancials () {
     return {}
-    // const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/invoice`)
-    // return res.data
   },
   async reportPreference () {}
 }

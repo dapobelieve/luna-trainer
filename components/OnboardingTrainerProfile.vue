@@ -40,13 +40,12 @@
         <div class="flex flex-row gap-2">
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : trainer.usePositiveReinforce, 'border-red-500' : !$v.trainer.usePositiveReinforce.$error }"
           >
             <input
               v-model="trainer.usePositiveReinforce"
               type="radio"
               name="usePositiveReinforce"
-              :checked="usePositiveReinforce"
+              :checked="trainer.usePositiveReinforce"
               :value="true"
               class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
               aria-labelledby="usePositiveReinforce-0-label"
@@ -77,43 +76,35 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-import { required } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingTrainerProfile',
   data () {
     return {
-      trainer: {}
+      trainer: { ...this.$store.state.onboarding.business }
     }
-  },
-  computed: {
-    ...mapState({
-      business: state => ({ ...state.onboarding.business })
-    })
   },
   watch: {
-    trainer (newValue, oldValue) {
-      this.updateBusinessInfo(newValue)
-      this.$emit('validity', this.$v.$invalid)
+    trainer: {
+      handler (value) {
+        this.$store.commit('onboarding/updateBusinessInfo', { ...value })
+        this.$emit('validity', this.$v.$invalid)
+      },
+      deep: true,
+      immediate: true
     }
-  },
-  mounted () {
-    this.trainer = this.business
   },
   validations: {
     trainer: {
       specialization: {
-        required
+        required,
+        minLength: minLength(1)
       },
       accreditations: {
-        required
+        required,
+        minLength: minLength(1)
       }
     }
-  },
-  methods: {
-    ...mapMutations({
-      updateBusinessInfo: 'onboarding/updateBusinessInfo'
-    })
   }
 }
 </script>
