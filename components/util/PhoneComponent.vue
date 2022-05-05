@@ -6,6 +6,7 @@
     <client-only>
       <vue-tel-input
         :value="value"
+        defaultCountry="country"
         input-id="phone_number"
         :disabled="disable"
         input-classes="form-control"
@@ -21,6 +22,10 @@ export default {
       type: String,
       default: 'Phone Number'
     },
+    country: {
+      type: String,
+      default: 'GBP'
+    },
     disable: {
       type: Boolean,
       default: false
@@ -28,11 +33,6 @@ export default {
     value: {
       type: String,
       default: ''
-    }
-  },
-  data () {
-    return {
-      country: null
     }
   },
   methods: {

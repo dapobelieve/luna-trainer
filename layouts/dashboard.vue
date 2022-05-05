@@ -59,7 +59,7 @@ export default {
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (
       this.$auth.loggedIn &&
-      Object.entries(this.$auth.user).length === 0 &&
+      (!this.$auth.user && !this.$auth.user.onboard) &&
       tokenValidity
     ) {
       this.$router.replace({ name: 'auth-onboarding' }).then(() => {

@@ -132,7 +132,6 @@ export default {
     serviceObject: {
       description: '',
       type: Object
-
     }
   },
   data () {
@@ -162,7 +161,7 @@ export default {
         Boolean(this.service.description) &&
         Boolean(this.service.pricing.amount) &&
         Boolean(this.service.appointmentTypes.length) &&
-        this.service.pricing.amount <= 0
+        (!this.service.pricing || this.service.pricing.amount <= 0)
       )
     },
     disableUpdate () {

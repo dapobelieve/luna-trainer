@@ -10,7 +10,10 @@
             Do you have any accreditations, affiliations or qualifications?
           </span>
         </label>
-        <TagInput v-model="accreditations" :block="false" />
+        <TagInput
+          v-model="trainer.accreditations"
+          :block="false"
+          :class="{'border-red-500' : $v.trainer.accreditations.$error}"/>
         <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>
@@ -22,7 +25,10 @@
           focuses? For example, Puppy Training, Separation Anxiety, Reactivity,
           Agility…
         </label>
-        <TagInput v-model="specialization" :block="false" />
+        <TagInput
+          v-model="trainer.specialization"
+          :block="false"
+          :class="{'border-red-500' : $v.trainer.accreditations.$error}" />
         <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>
@@ -34,13 +40,12 @@
         <div class="flex flex-row gap-2">
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : usePositiveReinforce }"
           >
             <input
-              v-model="usePositiveReinforce"
+              v-model="trainer.usePositiveReinforce"
               type="radio"
               name="usePositiveReinforce"
-              :checked="usePositiveReinforce"
+              :checked="trainer.usePositiveReinforce"
               :value="true"
               class="h-5 w-5 cursor-pointer text-blue-500 border-gray-200 focus:ring-blue-500"
               aria-labelledby="usePositiveReinforce-0-label"
@@ -50,11 +55,11 @@
           </label>
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
-            :class="{ 'bg-blue-50' : !usePositiveReinforce }"
+            :class="{ 'bg-blue-50' : !trainer.usePositiveReinforce }"
           >
             <input
-              v-model="usePositiveReinforce"
-              :checked="usePositiveReinforce"
+              v-model="trainer.usePositiveReinforce"
+              :checked="trainer.usePositiveReinforce"
               type="radio"
               name="usePositiveReinforce"
               :value="false"
@@ -71,59 +76,35 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
 import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingTrainerProfile',
   data () {
     return {
-      accreditations: [...this.$store.state.profile.user.accreditations],
-      specialization: [...this.$store.state.profile.user.specialization]
-    }
-  },
-  computed: {
-    ...mapState({
-      personalProfile: state => state.profile.user
-    }),
-    usePositiveReinforce: {
-      get () { return this.personalProfile.usePositiveReinforce },
-      set (val) {
-        this.setProfileData({ parent: 'trainerProfile', key: 'usePositiveReinforce', value: val })
-      }
+      trainer: { ...this.$store.state.onboarding.business }
     }
   },
   watch: {
-    specialization (newValue, oldValue) {
-      if (newValue) {
-        const specials = [...this.specialization]
-        this.setProfileData({ key: 'specialization', value: specials })
-      }
-    },
-    accreditations (newValue, oldValue) {
-      if (newValue) {
-        const creds = [...this.accreditations]
-        this.setProfileData({ key: 'accreditations', value: creds })
-      }
-    },
-    '$v.$invalid' (newValue, oldValue) {
-      this.$emit('validity', this.$v.$invalid)
-    }
-  },
-  mounted () {
-    if (!this.$v.$invalid) {
-      this.$emit('validity', this.$v.$invalid)
+    trainer: {
+      handler (value) {
+        this.$store.commit('onboarding/updateBusinessInfo', { ...value })
+        this.$emit('validity', this.$v.$invalid)
+      },
+      deep: true,
+      immediate: true
     }
   },
   validations: {
-    specialization: {
-      required,
-      minLength: minLength(1)
+    trainer: {
+      specialization: {
+        required,
+        minLength: minLength(1)
+      },
+      accreditations: {
+        required,
+        minLength: minLength(1)
+      }
     }
-  },
-  methods: {
-    ...mapMutations({
-      setProfileData: 'profile/UPDATE_TRAINER_REG_DATA'
-    })
   }
 }
 </script>

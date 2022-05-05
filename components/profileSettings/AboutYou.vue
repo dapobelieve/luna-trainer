@@ -97,27 +97,31 @@
       <PhoneComponent v-model="profile.phoneNumber" />
     </div>
     <div class="flex flex-col gap-1.5">
-      <label for="pronouns" class="">
-        <span>
-          <span class="text-sm md:gap-3">Preferred pronouns</span>
-          <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
-        </span>
-      </label>
-      <select
-        v-model="pronouns"
-        autocomplete="country"
-        class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-      >
-        <option value="she/her">
-          She / Her
-        </option>
-        <option value="they/them">
-          They / Them
-        </option>
-        <option value="he/him">
-          He / Him
-        </option>
-      </select>
+
+        <label for="pronouns" class="">
+          <span>
+            <span class="text-sm md:gap-3">Preferred pronouns</span>
+            <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
+          </span>
+        </label>
+        <select
+          v-model="profile.pronouns"
+          autocomplete="country"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+        >
+          <option value="she/her">
+            She / Her
+          </option>
+          <option value="they/them">
+            They / Them
+          </option>
+          <option value="he/him">
+            He / Him
+          </option>
+          <option value="prefer not to say">
+            Prefer not to say
+          </option>
+        </select>
     </div>
     <div class="flex flex-col gap-1.5">
       <label for="country" class="required">Where are you based?</label>
@@ -127,7 +131,7 @@
         class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         :class="{'border-red-500' : $v.profile.businessCountry.$invalid}"
       >
-        <option v-for="country in countries" :key="country.numericCode">
+        <option v-for="country in countries" :key="country.numericCode" :value="country.code">
           {{ country.name }}
         </option>
       </select>
@@ -158,10 +162,10 @@ export default {
       lastName: {
         required
       },
-      location: {
+      businessCountry: {
         required
       },
-      businessCountry: {
+      pronouns: {
         required
       }
     }

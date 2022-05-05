@@ -160,7 +160,8 @@ export default {
       setToken: 'setToken'
     }),
     ...mapActions({
-      getUserProfile: 'profile/getUserProfile'
+      getUserProfile: 'profile/getUserProfile',
+      startOnboarding: 'onboarding/start'
     }),
     onError (err) {
       if (err.response) {
@@ -191,7 +192,7 @@ export default {
         this.$lunaToast.success('Signup Successful', {
           position: 'bottom-right'
         })
-        this.signUpText = 'please wait...'
+        this.signUpText = 'Please wait...'
 
         const { data } = await this.$auth.login({
           data: {
@@ -206,7 +207,7 @@ export default {
         }
         this.setToken(tokens)
         const profile = await this.getUserProfile()
-        this.setProfile(profile)
+        this.startOnboarding(profile)
         this.$modal.show('welcome-modal')
       } catch (err) {
         return this.onError(err)

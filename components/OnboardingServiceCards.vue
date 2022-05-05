@@ -32,19 +32,19 @@
           <div
             class="font-medium"
           >
-            {{ n.pricing.amount | amount }}
+            {{ n.pricing.amount | amount($store.state.onboarding.business.currency ) }}
           </div>
         </div>
         <div class="flex px-2 py-1 gap-2 bg-gray-50">
           <button
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
-            @click.prevent="editService(index)"
+            @click.prevent="editService(n)"
           >
             <i class="fi-rr-pencil"></i>
           </button>
           <button
             class="w-full h-8 flex items-center justify-center text-blue-500 rounded-md hover:bg-blue-50"
-            @click.prevent="deleteService(index)"
+            @click.prevent="deleteService(n)"
           >
             <i class="fi-rr-trash"></i>
           </button>
@@ -55,34 +55,20 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
-
+import { mapState } from 'vuex'
 export default {
   name: 'OnboardingServiceCards',
   computed: {
     ...mapState({
-      services: state => state.profile.user.services,
-      currency: state => state.profile.user.currency,
-      editingService: state => state.profile.editingServiceCard
+      services: state => state.onboarding.services
     })
   },
   methods: {
-    ...mapMutations({
-      updateServices: 'profile/UPDATE_TRAINER_REG_DATA',
-      setTempState: 'profile/SET_STATE'
-    }),
-    deleteService (index) {
-      if (this.editingService) {
-        this.$lunaToast.error('You are currently editing a service')
-      } else {
-        const updatedServices = [...this.services]
-        updatedServices.splice(index, 1)
-        this.updateServices({ parent: 'services', type: 'deleteService', value: updatedServices })
-      }
+    deleteService (service) {
+      this.$store.commit('onboarding/removeService', service)
     },
-    editService (index) {
-      this.$emit('editservice', index)
-      this.setTempState({ editingServiceCard: true })
+    editService (service) {
+      this.$emit('edit-service', service)
     }
   }
 }
