@@ -58,7 +58,7 @@
               })
             "
           >
-            <i class="ns-comment-alt mr-2"></i> send message
+            <i class="fi-rr-comment-alt h-4 mr-2"></i> Chat
           </button>
         </div>
       </div>
