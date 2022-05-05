@@ -162,7 +162,7 @@ export default {
     ...mapActions({
       getUserProfile: 'profile/getUserProfile'
     }),
-    async onError (err) {
+    onError (err) {
       if (err.response) {
         this.$lunaToast.error(
             `${err.response.data.message}`,
