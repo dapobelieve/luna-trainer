@@ -8,7 +8,7 @@
   >
     <div class="flex items-center space-x-2">
       <div class="relative pt-2">
-        <button type="button" @click="showDropdown = !showDropdown">
+        <button type="button" @click.stop="showDropdown = !showDropdown">
           <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
         </button>
         <!-- dropdown menu -->

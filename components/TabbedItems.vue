@@ -48,16 +48,12 @@ export default {
 
 <style lang="scss" scoped>
 .tabbedItems {
-  @apply flex-1 flex flex-col;
+  @apply grid;
   .top {
     @apply sticky top-0 bg-white;
   }
   .tabs {
-    @apply flex bg-white items-center text-base font-normal text-gray-500 overflow-y-hidden justify-start space-x-[2rem] px-4 border-b border-gray-200 overflow-x-scroll z-30;
-    overflow-x: overlay;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-
+    @apply space-x-[2rem] px-4 flex flex-wrap bg-white items-center text-base font-normal text-gray-500 border-b border-gray-200 z-10;
     .switcher {
       @apply py-2.5;
       transition: 0.3s;

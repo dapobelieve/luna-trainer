@@ -168,6 +168,15 @@ export default {
       return isEqual(this.service, this.serviceObject) || !this.service.pricing.amount || this.service.pricing.amount <= 0
     }
   },
+  mounted () {
+    this.$nextTick(() => {
+      this.$refs.serviceDescription.focus()
+    })
+    if (this.serviceObject && Object.entries(this.serviceObject).length !== 0) {
+      this.service = JSON.parse(JSON.stringify(this.serviceObject))
+      this.editing = true
+    }
+  },
   validations: {
     service: {
       'pricing.amount': {
@@ -257,15 +266,6 @@ export default {
       }
       this.selectedService = null
       this.$emit('clearSelectedServiceIndex', null)
-    }
-  },
-  mounted () {
-    this.$nextTick(() => {
-      this.$refs.serviceDescription.focus()
-    })
-    if (this.serviceObject && Object.entries(this.serviceObject).length !== 0) {
-      this.service = JSON.parse(JSON.stringify(this.serviceObject))
-      this.editing = true
     }
   }
 }

@@ -1,34 +1,49 @@
 <template>
-  <containers-summary-information-with-avatar
-    url="client-id-information"
-    :parameter="{ id: client._id }"
-  >
-    <template v-slot:avatar>
-      <ClientAvatar :client-info="client" />
-    </template>
-    <template v-slot:content>
-      <div class="font-medium capitalize">
-        <div>{{ client.firstName }} {{ $utils.optional(client.lastName) }}</div>
-        <div class="font-extralight text-md text-gray-500 dot normal-case">
-          {{ client.email }}
-        </div>
-      </div>
-    </template>
-    <template v-slot:button>
+  <ul role="list">
+    <li>
       <button
-        v-if="client.status === 'invited'"
         type="button"
-        class="button-text button-sm"
-        @click="resendInvite"
+        class="group block w-full"
+        @click.prevent="gotoRoute"
       >
-        <i class="fi-rr-refresh"></i>
-        <span class="capitalize ml-2">resend invite</span>
+        <div class="flex items-center py-4 px-3.5 rounded-md hover:bg-gray-100">
+          <div class="min-w-0 flex-1 flex items-center">
+            <div class="flex-shrink-0 h-12 w-12">
+              <ClientAvatar
+                class="group-hover:opacity-75"
+                :client-info="client"
+              />
+            </div>
+            <div class="min-w-0 flex-1 px-4 md:grid md:grid-cols-2 md:gap-4">
+              <div>
+                <p class="font-medium capitalize truncate text-left">
+                  {{ client.firstName }} {{ $utils.optional(client.lastName) }}
+                </p>
+                <p class="flex items-center text-sm text-gray-500">
+                  <span
+                    class="truncate font-extralight text-md text-gray-500 dot normal-case"
+                  >
+                    {{ client.email }}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+          <button
+            v-if="client.status === 'invited'"
+            class="button-text button-sm"
+            @click.stop="resendInvite"
+          >
+            <i class="fi-rr-refresh"></i>
+            <span class="capitalize ml-2">resend invite</span>
+          </button>
+          <div v-else>
+            <ClientActions :client-info="client" />
+          </div>
+        </div>
       </button>
-      <div v-else>
-        <ClientActions :client-info="client" />
-      </div>
-    </template>
-  </containers-summary-information-with-avatar>
+    </li>
+  </ul>
 </template>
 
 <script>
@@ -68,8 +83,7 @@ export default {
         })
         .catch((err) => {
           if (err.response) {
-            this.$lunaToast.error(
-              `${err.response.data.message}`)
+            this.$lunaToast.error(`${err.response.data.message}`)
           } else if (err.request) {
             this.$lunaToast.error('Something went wrong. Try again')
           } else {
@@ -84,6 +98,11 @@ export default {
       } catch (e) {
         console.log({ e })
       }
+    },
+    gotoRoute () {
+      this.$router.push({
+        name: 'client-id-information', params: { id: this.client._id }
+      })
     }
   }
 }
@@ -100,7 +119,7 @@ export default {
     background: #334155;
     border-radius: 50%;
     bottom: 10px;
-    margin-left: 5px
+    margin-left: 5px;
   }
 }
 </style>

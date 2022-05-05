@@ -170,6 +170,14 @@ export default {
       }
     }
   },
+  computed: {
+    pronouns: {
+      get () { return this.profile.pronouns },
+      set (val) {
+        this.profile.pronouns = val
+      }
+    }
+  },
   watch: {
     profile: {
       handler (newValue) {

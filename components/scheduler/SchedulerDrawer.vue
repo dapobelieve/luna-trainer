@@ -1,5 +1,5 @@
 <template>
-  <div class="drawer bg-white h-full md:w-96 w-full shadow fixed right-0 top-0 z-[11] overflow-y-auto">
+  <div class="drawer bg-white h-full md:w-96 w-full shadow fixed right-0 top-0 z-[50] overflow-y-auto">
     <NewSchedule
       v-if="activePage === pages.NEW_SCHEDULE"
       :event="event"
