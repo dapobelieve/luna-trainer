@@ -64,7 +64,7 @@ export default {
       services: state => state.profile.user.services,
       currency: state => state.profile.user.currency,
       editingService: state => state.profile.editingServiceCard
-    }),
+    })
   },
   methods: {
     ...mapMutations({

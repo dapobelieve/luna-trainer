@@ -2,8 +2,7 @@
   <AsyncView>
     <div
       v-if="clientInfo"
-      style="height: calc(100vh - 90px)"
-      class="grid border rounded-xl w-full overflow-y-auto"
+      class="grid border rounded-xl w-full overflow-y-auto information"
     >
       <form>
         <div class="bg-white sticky top-14 min-h-full rounded-xl flex flex-col" style="z-index: 1">
@@ -160,6 +159,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.information {
+  height: calc(100vh - 90px)
+}
+@media only screen and (max-width: 768px) {
+  .information {
+    height: calc(100vh - 160px);
+  }
+}
 textarea,
 select {
   @apply border-0 bg-none bg-transparent shadow-none appearance-none focus:outline-none overflow-hidden;
