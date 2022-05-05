@@ -31,7 +31,7 @@
       >
         <!-- left menu -->
         <aside
-          class="w-full lg:max-w-[18rem] xl:max-w-sm 2xl:max-w-md w-full flex-shrink-0 order-1 lg:order-first"
+          class="w-full lg:max-w-[18rem] xl:max-w-sm 2xl:max-w-md flex-shrink-0 order-1 lg:order-first"
         >
           <div class="sticky md:top-[4.5rem]">
             <div class="w-full">
@@ -47,7 +47,7 @@
 
         <div
           v-if="displayComponent === false"
-          class="bg-white p-2 shadow-sm sticky bottom-2 rounded-xl mt-4 border flex justify-end order-last flex lg:hidden"
+          class="bg-white p-2 shadow-sm sticky bottom-2 rounded-xl mt-4 border flex justify-end order-last lg:hidden"
         >
           <button
             class="button-fill w-full"

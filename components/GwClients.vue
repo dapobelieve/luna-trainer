@@ -1,6 +1,6 @@
 <template>
   <async-view>
-    <div v-if="filteredClients.length" class="grid">
+    <div v-if="filteredClients.length" class="">
       <template v-if="$route.name === 'Clients-id-Messages'">
         <nuxt-child />
       </template>
