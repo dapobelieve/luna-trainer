@@ -143,11 +143,11 @@ export default {
   },
   methods: {
     ...mapMutations({
-      setTempState: 'profile/SET_STATE',
       setProfile: 'profile/SET_PROFILE'
     }),
     ...mapActions({
       setToken: 'authorize/setToken',
+      startOnboarding: 'onboarding/start',
       getUserProfile: 'profile/getUserProfile'
     }),
     authenticateWithTokens (tokens) {
@@ -159,6 +159,7 @@ export default {
         const profile = await this.getUserProfile()
         this.setProfile(profile)
         if (!profile.onboard) {
+          this.startOnboarding(profile)
           this.$router.push({ name: 'auth-onboarding' })
         } else {
           this.$router.push({ name: 'dashboard' })

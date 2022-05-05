@@ -9,10 +9,9 @@
         <circle-step-navigation
           class="flex items-center h-16 lg:h-auto"
           :step-count="step"
-          :disabled="[profile, businessDetails, trainerProfile, addedServices]"
+          :disabled="[profile, businessDetails, trainerProfile, addServices]"
           @stepper="move($event)"
         />
-
         <div class="hidden lg:block flex-grow">
           <template v-if="'type' in pageIntro[step]">
             <h1 class="text-3xl">
@@ -59,8 +58,8 @@
                 </template>
                 <template v-else-if="step === 3">
                   <onboarding-services
-                    :selected-service-index="selectedServiceProps"
-                    @clearSelectedServiceIndex="selectedServiceProps = $event"
+                    :service="currentService"
+                    @clearSelectedServiceIndex="currentService = $event"
                     @validity="allow($event)"
                   />
                 </template>
@@ -68,9 +67,7 @@
               <!-- Service items for mobile screen -->
               <template v-if="step === 3">
                 <div class="xl:hidden py-6">
-                  <onboarding-service-cards
-                    @editservice="selectedServiceProps = $event"
-                  />
+                  <onboarding-service-cards @editservice="currentService = $event" />
                 </div>
               </template>
             </div>
@@ -89,7 +86,7 @@
               <button-spinner
                 v-if="step === 3"
                 :loading="isLoading"
-                :disabled="addedServices.isDisabled"
+                :disabled="addServices.isDisabled"
                 type="button"
                 style="width:fit-content"
                 @click="saveProfile"
@@ -98,15 +95,7 @@
               </button-spinner>
               <button
                 v-else-if="step !== 5"
-                :disabled="
-                  step === 0
-                    ? profile.isDisabled
-                    : step === 1
-                      ? businessDetails.isDisabled
-                      : step === 2
-                        ? trainerProfile.isDisabled
-                        : addedServices.isDisabled
-                "
+                :disabled="disableNext"
                 type="button"
                 class="button-fill"
                 @click="increaseStep"
@@ -147,7 +136,14 @@ export default {
   layout: 'authOnboarding',
   data () {
     return {
-      selectedServiceProps: null,
+      currentService: {
+        description: '',
+        appointmentTypes: [],
+        pricing: {
+          amount: '',
+          plan: 'hourly'
+        }
+      },
       isLoading: false,
       step: 0,
       profile: {
@@ -162,7 +158,7 @@ export default {
         id: 2,
         isDisabled: true
       },
-      addedServices: {
+      addServices: {
         id: 3,
         isDisabled: true
       },
@@ -205,71 +201,62 @@ export default {
   },
   computed: {
     ...mapState({
-      trainerRegInfo: state => state.profile.user,
-      editingService: state => state.profile.editingServiceCard
-    })
+      currentPage: state => state.onboarding.currentPage
+    }),
+    disableNext () {
+      return this.step === 0
+        ? this.profile.isDisabled
+        : this.step === 1
+          ? this.businessDetails.isDisabled
+          : this.step === 2
+            ? this.trainerProfile.isDisabled
+            : this.addServices.isDisabled
+    }
   },
   created () {
-    console.log('ok')
+    console.log(this.currentPage)
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
-    if (
-      this.$auth.loggedIn &&
-      Object.entries(this.$auth.user.services).length !== 0 &&
-      tokenValidity
-    ) {
+    if (this.$auth.loggedIn && this.$auth.user.onboard && tokenValidity) {
       this.$router.replace({ name: 'dashboard' }).then(() => {
         this.endFullPageLoad()
       })
-    } else if (!this.$auth.strategy.token.status().valid()) {
+    } else if (!tokenValidity) {
       this.$router.replace({ name: 'auth-signin' }).then(() => {
         this.endFullPageLoad()
       })
       this.$lunaToast.error('Session Expired. Please login')
-    } else if (
-      this.$auth.strategy.token.status().valid() &&
-      'jumpto' in this.$route.query
-    ) {
+    } else if (tokenValidity && this.currentPage) {
+      this.move(this.currentPage)
       this.endFullPageLoad()
-      const step = parseInt(this.$route.query.jumpto)
-      this.move(step)
     } else {
       this.endFullPageLoad()
     }
   },
   methods: {
     ...mapMutations({
-      cleartrainerRegData: 'profile/SET_EMPTY_TRAINER_REG_DATA',
-      setTempState: 'profile/SET_STATE'
+      setCurrentPage: 'onboarding/setCurrentPage'
     }),
     ...mapActions('authorize', {
       startFullPageLoad: 'startFullPageLoading',
       endFullPageLoad: 'endFullPageLoading'
     }),
     ...mapActions({
-      updateOnboardingProfile: 'profile/updateOnboardingProfile'
+      complete: 'onboarding/complete'
     }),
     move (e) {
-      this.setTempState({ editingServiceCard: false })
       this.step = e
+      this.setCurrentPage(e)
     },
     allow (e) {
-      this.addedServices.isDisabled = e
+      this.addServices.isDisabled = e
       this.businessDetails.isDisabled = e
     },
     increaseStep () {
-      if (this.editingService) {
-        this.$lunaToast.error('You are currently editing a service')
-      } else {
-        this.step++
-      }
+      this.step++
     },
     decreaseStep () {
-      if (this.editingService) {
-        this.$lunaToast.error('You are currently editing a service')
-      } else {
-        this.step--
-      }
+      this.step--
     },
     async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
@@ -278,17 +265,14 @@ export default {
       } else {
         this.isLoading = true
         try {
-          await this.updateOnboardingProfile()
-          localStorage.setItem('profileCompleted', 'true')
+          await this.completeOnboarding()
           this.$modal.show('done')
         } catch (error) {
-          this.$lunaToast.error(
-                    `${error}`)
+          this.$lunaToast.error(`${error}`)
         }
       }
     },
     finishedSetUp () {
-      // this.cleartrainerRegData()
       this.$router.replace({ name: 'dashboard', query: { new: true } }).then(() => {
         this.$lunaToast.success('Welcome')
       })

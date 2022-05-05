@@ -61,15 +61,12 @@ export default {
   name: 'OnboardingServiceCards',
   computed: {
     ...mapState({
-      services: state => state.profile.user.services,
-      currency: state => state.profile.user.currency,
-      editingService: state => state.profile.editingServiceCard
-    }),
+      services: state => ({ ...state.onboarding.services })
+    })
   },
   methods: {
     ...mapMutations({
-      updateServices: 'profile/UPDATE_TRAINER_REG_DATA',
-      setTempState: 'profile/SET_STATE'
+      updateServices: 'onboarding/updateServices'
     }),
     deleteService (index) {
       if (this.editingService) {
@@ -77,12 +74,11 @@ export default {
       } else {
         const updatedServices = [...this.services]
         updatedServices.splice(index, 1)
-        this.updateServices({ parent: 'services', type: 'deleteService', value: updatedServices })
+        this.updateServices(updatedServices)
       }
     },
     editService (index) {
       this.$emit('editservice', index)
-      this.setTempState({ editingServiceCard: true })
     }
   }
 }

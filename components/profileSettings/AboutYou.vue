@@ -105,7 +105,7 @@
           </span>
         </label>
         <select
-          v-model="pronouns"
+          v-model="profile.pronouns"
           autocomplete="country"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         >
@@ -164,6 +164,9 @@ export default {
       },
       businessCountry: {
         required
+      },
+      pronouns: {
+        required
       }
     }
   },
@@ -176,14 +179,6 @@ export default {
       immediate: true,
       deep: true
     }
-  },
-  computed: {
-     pronouns: {
-      get () { return this.profile.pronouns },
-      set (val) {
-        this.profile.pronouns = val
-      }
-    },
   },
   methods: {
     onDropImage (event) {

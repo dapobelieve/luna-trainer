@@ -12,6 +12,7 @@ export default ({ store }) => {
       'sendBird.tempClient',
       'client.clients',
       'payment-methods',
+      'onboarding',
       'services.services',
       'sendbird-v2.messages',
       'sendbird-v2.latestMessages',

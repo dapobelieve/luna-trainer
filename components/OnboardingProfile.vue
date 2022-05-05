@@ -6,44 +6,44 @@
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex gap-4">
         <div class="flex flex-col gap-1.5 flex-grow">
-          <label for="first-name" class="required" :class="{'text-red-500' : $v.firstName.$error}">First name</label>
+          <label for="first-name" class="required" :class="{'text-red-500' : $v.profile.firstName.$error}">First name</label>
           <div class>
             <input
               id="first-name"
-              v-model.trim="firstName"
+              v-model.trim="profile.firstName"
               type="text"
               name="first-name"
-              class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-              :class="{'border-red-500' : $v.firstName.$error}"
+              class="input-field"
+              :class="{'border-red-500' : $v.profile.firstName.$error}"
             />
           </div>
         </div>
         <div class="flex flex-col gap-1.5 flex-grow">
-          <label for="last-name" class="required" :class="{'text-red-500' : $v.lastName.$error}">Last name</label>
+          <label for="last-name" class="required" :class="{'text-red-500' : $v.profile.lastName.$error}">Last name</label>
           <div class>
             <input
               id="last-name"
-              v-model="lastName"
+              v-model="profile.lastName"
               type="text"
               name="last-name"
-              class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-              :class="{'border-red-500' : $v.lastName.$error}"
+              class="input-field"
+              :class="{'border-red-500' : $v.profile.lastName.$error}"
             />
           </div>
         </div>
       </div>
       <div class="flex flex-col gap-1.5">
-        <PhoneComponent v-model="phone" />
+        <PhoneComponent v-model="profile.phone" :country="profile.businessCountry" />
       </div>
       <div class="flex flex-col gap-1.5">
-        <label for="country" class="required" :class="{'text-red-500' : $v.businessCountry.$error}">Where are you based?</label>
+        <label for="country" class="required" :class="{'text-red-500' : $v.profile.businessCountry.$error}">Where are you based?</label>
         <select
-          v-model="businessCountry"
+          v-model="profile.businessCountry"
           autocomplete="country"
-          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-          :class="{'border-red-500' : $v.businessCountry.$error}"
+          class="input-field"
+          :class="{'border-red-500' : $v.profile.businessCountry.$error}"
         >
-          <option v-for="country in countries" :key="country.numericCode">
+          <option v-for="country in countries" :key="country.code" :value="country.code" >
             {{ country.name }}
           </option>
         </select>
@@ -57,9 +57,9 @@
           </span>
         </label>
         <select
-          v-model="pronouns"
+          v-model="profile.pronouns"
           autocomplete="country"
-          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+          class="input-field"
         >
           <option value="She / Her">
             She / Her
@@ -75,7 +75,6 @@
     </form>
   </div>
 </template>
-
 <script>
 import { mapState, mapMutations } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
@@ -86,80 +85,60 @@ export default {
   components: { PhoneComponent },
   data () {
     return {
-      countries
+      countries,
+      profile: {}
+    }
+  },
+  watch: {
+    profile: {
+      handler () {
+        this.updatePersonalInfo(this.profile)
+        this.$emit('validity', this.$v.$invalid)
+      },
+      deep: true,
+      immediate: true
     }
   },
   computed: {
     ...mapState({
-      personalProfile: state => state.profile.user
-    }),
-    firstName: {
-      get () { return this.personalProfile.firstName },
-      set (val) {
-        this.setProfileData({ key: 'firstName', value: val })
-      }
-    },
-    lastName: {
-      get () { return this.personalProfile.lastName },
-      set (val) {
-        this.setProfileData({ key: 'lastName', value: val })
-      }
-    },
-    businessCountry: {
-      get () { return this.personalProfile.businessCountry },
-      set (val) {
-        this.setProfileData({ key: 'businessCountry', value: val })
-      }
-    },
-    pronouns: {
-      get () { return this.personalProfile.pronouns },
-      set (val) {
-        this.setProfileData({ parent: 'trainerProfile', key: 'pronouns', value: val })
-      }
-    },
-    phone: {
-      get () { return this.personalProfile.phoneNumber },
-      set (val) {
-        this.setProfileData({ key: 'phoneNumber', value: val })
-      }
-    }
+      personal: state => state.onboarding.personal
+    })
   },
-  watch: {
-    '$v.$invalid' (newValue, oldValue) {
-      this.$emit('validity', this.$v.$invalid)
+  validations: {
+    profile: {
+      firstName: {
+        required
+      },
+      lastName: {
+        required
+      },
+      businessCountry: {
+        required
+      },
+      phone: {
+        required
+      }
     }
   },
   mounted () {
-    if (!this.$v.$invalid) {
-      this.$emit('validity', this.$v.$invalid)
-    }
-  },
-  validations: {
-    firstName: {
-      required
-    },
-    lastName: {
-      required
-    },
-    businessCountry: {
-      required
-    }
+    console.log(this.personal)
+    // this.profile = {
+    //   firstName: this.personal.firstName,
+    //   lastName: this.personal.lastName,
+    //   phone: this.personal.phone,
+    //   businessCountry: this.personal.businessCountry,
+    //   pronouns: this.personal.pronouns
+    // }
   },
   methods: {
     ...mapMutations({
-      setProfileData: 'profile/UPDATE_TRAINER_REG_DATA'
-    }),
-    change (e) {
-      const url = e.target.value
-      if (this.regex.test(url)) {
-        this.isValid = false
-      } else {
-        this.isValid = true
-      }
-    }
+      updatePersonalInfo: 'onboarding/updatePersonalInfo'
+    })
   }
 }
 </script>
-
 <style lang="scss" scoped>
+.input-field{
+  @apply bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500;
+}
 </style>

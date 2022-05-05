@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5 class="text-lg font-bold">
-      Add your core services.
+      Add your core $service.
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
@@ -11,7 +11,7 @@
         >For example: Puppy Class or Behaviour Consultation</span>
         <input
           id="service"
-          v-model="services.description"
+          v-model="$service.description"
           placeholder="Separation Anxiety (Replace this description)"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
@@ -27,12 +27,12 @@
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
             :class="{
-              'bg-blue-50': services.appointmentTypes.includes('remote')
+              'bg-blue-50': $service.appointmentTypes.includes('remote')
             }"
           >
             <input
               id="remote"
-              v-model="services.appointmentTypes"
+              v-model="$service.appointmentTypes"
               aria-describedby="remote-description"
               name="remote"
               type="checkbox"
@@ -44,14 +44,14 @@
           <label
             class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
             :class="{
-              'bg-blue-50': services.appointmentTypes.includes(
+              'bg-blue-50': $service.appointmentTypes.includes(
                 'in-person'
               )
             }"
           >
             <input
               id="inPerson"
-              v-model="services.appointmentTypes"
+              v-model="$service.appointmentTypes"
               aria-describedby="remote-description"
               name="remote"
               type="checkbox"
@@ -72,7 +72,7 @@
           </div>
           <input
             id="currency"
-            v-model.number="services.pricing.amount"
+            v-model.number="$service.pricing.amount"
             type="number"
             class="bg-white h-10 flex justify-center py-2 px-4 w-full border shadow-sm rounded-r-md focus:outline-none focus:bg-white focus:border-blue-500 focus:border border-l-0"
           />
@@ -80,7 +80,7 @@
       </div>
       <div class="sm:col-span-2 flex justify-end gap-2">
         <p
-          v-if="servicesFromStore.length === 5 && !editing"
+          v-if="services.length === 5 && !editing"
           class="text-gray-500 font-medium"
         >
           You have enough services for now
@@ -112,59 +112,38 @@ import { required } from 'vuelidate/lib/validators'
 export default {
   name: 'OnboardingServices',
   props: {
-    selectedServiceIndex: [Number]
+    service: {
+      type: Object,
+      required: true
+    }
   },
   data () {
     return {
-      selectedService: null,
-      services: {
-        description: '',
-        appointmentTypes: [],
-        pricing: {
-          plan: 'hourly',
-          amount: ''
-        }
-      }
+      $service: this.service
     }
   },
   computed: {
     ...mapState({
-      servicesFromStore: state => state.profile.user.services,
-      editing: state => state.profile.editingServiceCard
+      services: state => state.onboarding.services
     }),
     disabled () {
-      return (
-        Boolean(this.services.description) &&
-        Boolean(this.services.pricing.amount) &&
-        this.services.appointmentTypes.length
-      )
+      return !this.service || !this.$service.description || !this.$service.pricing.amount || !this.$service.appointmentTypes.length
     },
     disableUpdate () {
       if (this.disabled) {
-        return (
-          Object.values(this.services).toString() ===
-          Object.values(this.selectedService).toString()
-        )
+        return Object.values(this.service).toString()
       }
       return true
     }
   },
   watch: {
-    selectedServiceIndex (newValue, oldValue) {
-      if (newValue !== null) {
-        this.selectedService = this.servicesFromStore[newValue]
-        this.services.description = this.selectedService.description
-        this.services.appointmentTypes = this.selectedService.appointmentTypes
-        this.services.pricing.amount = this.selectedService.pricing.amount
-      }
-    },
-    servicesFromStore (newValue, oldValue) {
-      this.$emit('validity', Boolean(!this.servicesFromStore.length))
+    services (newValue, oldValue) {
+      this.$emit('validity', Boolean(!this.services.length))
     }
   },
   mounted () {
-    if (this.servicesFromStore) {
-      this.$emit('validity', Boolean(!this.servicesFromStore.length))
+    if (this.services) {
+      this.$emit('validity', Boolean(!this.services.length))
     }
   },
   validations: {
@@ -179,60 +158,34 @@ export default {
   },
   methods: {
     ...mapMutations({
-      createService: 'profile/UPDATE_TRAINER_REG_DATA',
-      setTempState: 'profile/SET_STATE'
+      updateServices: 'onboarding/updateServices'
     }),
     addNewService () {
       if (!this.disabled) {
         this.$lunaToast.error('All form fields are required')
-      } else if (
-        this.servicesFromStore.length &&
-        this.servicesFromStore.some(
-          s =>
-            s.description.toLowerCase() ===
-            this.services.description.toLowerCase()
-        )
-      ) {
-        this.$lunaToast.error(
-          `${this.services.description} service already exist`)
+      } else if (this.services.length && this.services.some(s => s._id() === this.$service._id)) {
+        this.$lunaToast.error(`${this.$service.description} service already exist`)
       } else {
-        this.createService({
-          parent: 'services',
-          type: 'services',
-          value: { ...this.services }
-        })
-        this.services.description = ''
-        this.services.appointmentTypes = []
-        this.services.pricing = {
-          amount: '',
-          plan: 'hourly'
-        }
+        this.addService(this.$service)
+        this.resetService()
       }
     },
     saveEdit () {
-      if (this.disableUpdate && this.services.pricing.amount === this.selectedService.pricing.amount) {
+      if (this.disableUpdate) {
         this.$lunaToast.error('You have not made any change to the service')
       } else {
-        this.createService({
-          parent: 'services',
-          type: 'updateService',
-          index: this.selectedServiceIndex,
-          value: { ...this.services }
-        })
+        this.updateService(this.$service)
         this.cancelEdit()
         this.$lunaToast.success('Service Updated')
       }
     },
-    cancelEdit () {
-      this.setTempState({ editingServiceCard: false })
-      this.services.description = ''
-      this.services.appointmentTypes = []
-      this.services.pricing = {
+    resetService () {
+      this.$service.description = ''
+      this.$service.appointmentTypes = []
+      this.$service.pricing = {
         amount: '',
         plan: 'hourly'
       }
-      this.selectedService = null
-      this.$emit('clearSelectedServiceIndex', null)
     }
   }
 }
