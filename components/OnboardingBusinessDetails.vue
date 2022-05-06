@@ -72,7 +72,7 @@ export default {
   data () {
     return {
       isValid: false,
-       // eslint-disable-next-line
+      // eslint-disable-next-line
       regex: /[(http(s)?):\/\/(www\.)?a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
       trainer: { ...this.$store.state.onboarding.business }
     }
