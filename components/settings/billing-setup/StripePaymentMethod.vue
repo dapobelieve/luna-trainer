@@ -33,10 +33,10 @@
       <button
         v-if="!connected"
         class="button-outline"
-        @click.prevent="connectToStripeAndRedirect"
+        @click.prevent="toggleStripeConnection"
       >
         <SingleLoader v-if="loading" class="mr-2" />
-        {{ loading ? "Connecting..." : "Connect" }}
+        <span>{{ loading ? "Connecting..." : "Connect" }}</span>
       </button>
       <div v-else class="flex space-x-4 items-start">
         <span v-if="isDefault" class="tag"> Default </span>
