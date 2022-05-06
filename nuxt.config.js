@@ -1,6 +1,11 @@
 import webpack from 'webpack'
 require('./config')
 
+const hotjar = process.env.ENV !== 'production' ? {} : {
+  defer: true,
+  src: 'https://getwelp-files.s3.us-west-2.amazonaws.com/scripts/hotjar.js',
+  async: true
+}
 export default {
   ssr: false,
   head: {
@@ -31,11 +36,7 @@ export default {
         src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js',
         async: true
       },
-      {
-        defer: true,
-        src: 'https://getwelp-files.s3.us-west-2.amazonaws.com/scripts/hotjar.js',
-        async: true
-      }
+      hotjar
     ]
   },
   css: [
