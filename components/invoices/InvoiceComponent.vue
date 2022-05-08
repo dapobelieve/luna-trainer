@@ -283,18 +283,14 @@
     <span class="divider"></span>
     <!-- invoice previews -->
     <invoices-invoice-preview
-      class="md:hidden"
-      :client="invoice.customer"
-      :items="invoice.items"
-      :due-date="invoice.dueDate"
+      class="hidden max-w-[400px]"
+      :invoice="invoice"
     />
     <div>
       <modal name="preview-invoice" height="100%" width="100%" :adaptive="true">
         <invoices-invoice-preview
           class="m-6"
-          :client="invoice.customer"
-          :items="invoice.items"
-          :due-date="invoice.dueDate"
+          :invoice="invoice"
           @close="$modal.hide('preview-invoice')"
         />
       </modal>

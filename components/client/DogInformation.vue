@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="w-full">
     <div class="bg-gray-100 rounded-xl">
       <div class="py-4 flex flex-col items-center ">
         <img class="h-20 w-50" src="~/assets/img/dog-avatar.png" alt="google logo">

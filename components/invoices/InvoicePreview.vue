@@ -213,9 +213,14 @@
 export default {
   name: 'InvoicePreview',
   props: {
-    items: Array,
-    dueDate: [Date, String],
-    client: Object
+    invoice: Object
+  },
+  data () {
+    return {
+      items: this.invoice.items,
+      dueDate: this.invoice.dueDate,
+      client: this.invoice.client
+    }
   },
   computed: {
     getTotal () {

@@ -53,7 +53,7 @@
             class="button-fill w-full"
             @click="
               $router.push({
-                name: 'Client-id-messages',
+                name: 'client-id-messages',
                 params: { id: $route.params.id },
               })
             "
@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import Helpers from '~/mixins/helpers'
 export default {
   name: 'Client',
@@ -80,26 +80,11 @@ export default {
     }
   },
   computed: {
-    ...mapState({
-      thisUser: state => state.sendBird.tempClient
-    }),
-    ...mapGetters({
-      isOnline: 'sendBird/isUserOnline'
-    }),
     firstName () {
       return (this.clientInfo && this.clientInfo.firstName) || ''
     },
     lastName () {
       return (this.clientInfo && this.clientInfo.lastName) || ''
-    },
-    petName () {
-      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].name) || ''
-    },
-    petAge () {
-      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].age) || ''
-    },
-    petBreed () {
-      return (this.clientInfo.pet[0] && this.clientInfo.pet[0].breed) || ''
     }
   },
   async mounted () {
@@ -111,8 +96,7 @@ export default {
   },
   methods: {
     ...mapActions({
-      getSingleClientById: 'client/getSingleClientById',
-      isUserOnline: 'sendBird/isUserOnline'
+      getSingleClientById: 'client/getSingleClientById'
     }),
     showDropdown () {
       this.showDropDown = !this.showDropDown

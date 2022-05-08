@@ -1,6 +1,15 @@
 <template>
   <div class="messages">
     <ChatsV2 v-if="sendbirdId" :receipient-id="sendbirdId" />
+    <div class="flex flex-col items-center h-full mt-20" v-else>
+      <i class="fi-rr-comment-alt text-3xl text-red-500"></i>
+      <h3 class="text-gray-700 text-lg">
+        Client has not accepted your request
+      </h3>
+      <small
+        class="text-base text-gray-500"
+      >You'll be able to send them a message when they accept the request</small>
+    </div>
   </div>
 </template>
 
