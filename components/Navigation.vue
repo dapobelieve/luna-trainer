@@ -171,6 +171,7 @@
             </button>
             <button
               class="md:hidden flex hover:bg-blue-50 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg w-full"
+              :class="['settings'.includes(currentLink) ? 'active' : '']"
               @click="gotoNav('settings')"
             >
               <i class="fi-rr-settings mr-4 mt-0.5"></i>
@@ -180,6 +181,7 @@
             </button>
             <button
               class="hidden md:flex hover:bg-blue-50 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg w-full"
+              :class="['settings-profile'.includes(currentLink) ? 'active' : '']"
               @click="gotoNav('settings-profile')"
             >
               <i class="fi-rr-settings mr-4 mt-0.5"></i>
