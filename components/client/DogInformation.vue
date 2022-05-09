@@ -104,6 +104,6 @@ export default {
 <style lang="scss" scoped>
 .content {
   @apply mx-auto;
-  width: 512px;
+  max-width: 512px;
 }
 </style>

@@ -1,14 +1,26 @@
 <template>
   <div class="bg-gray-100 h-full">
     <PageHeader>
-      <template v-slot:title>
+      <template v-if="$route.name !== 'settings'" v-slot:back-button>
+        <button
+          type="button"
+          class="button-text w-10"
+          @click="$router.push({ name: 'settings' })"
+        >
+          <i
+            class="fi-rr-angle-left font-bold text-blue-500 text-lg"
+            style="margin-top: 5px"
+          ></i>
+        </button>
+      </template>
+      <template v-else v-slot:title>
         <span class="font-normal">Settings</span>
       </template>
     </PageHeader>
     <div class="w-full p-4 lg:flex lg:justify-center">
       <div class="max-w-full md:max-w-4xl lg:max-w-full 2xl:max-w-7xl">
         <div class="grid lg:grid-cols-3 gap-4">
-          <div class="hidden lg:block grid">
+          <div v-if="$route.name === 'settings'" class="block md:grid">
             <div class="bg-white border border-gray-200 p-1 shadow-sm rounded-xl">
               <div
                 v-for="(menu, index) in filteredMenu"
