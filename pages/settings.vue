@@ -46,6 +46,32 @@
               </div>
             </div>
           </div>
+          <div v-else class="hidden md:grid">
+            <div class="bg-white border border-gray-200 p-1 shadow-sm rounded-xl">
+              <div
+                v-for="(menu, index) in filteredMenu"
+                :key="index"
+                :class="[activeRoute.path.includes(menu.name) ? 'bg-blue-50' : '']"
+                class="p-1 flex py-4 px-3 justify-between cursor-pointer items-center rounded-lg hover:bg-blue-50"
+                @click="$router.push({name: menu.route})"
+              >
+                <div class="h-12 w-12 bg-gray-50 flex-shrink-0 flex items-center justify-center rounded-full">
+                  <i :class="[menu.icon, activeRoute.path.includes(menu.name) ? 'text-blue-500' : 'text-gray-500' ]" class=" text-lg"></i>
+                </div>
+                <div class="md:w-4/5 w-60 text-gray-500">
+                  <h6 class="text-base">
+                    {{ `${menu.name.charAt(0).toUpperCase()}${menu.name.substr(1)}` }}
+                  </h6>
+                  <p class="text-xs">
+                    {{ menu.details }}
+                  </p>
+                </div>
+                <div>
+                  <i class="fi-rr-angle-right text-base text-blue-500"></i>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="lg:col-span-2">
             <NuxtChild />
           </div>
