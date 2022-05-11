@@ -73,7 +73,7 @@
               </div>
             </div>
           </div>
-          <div v-else class="hidden md:grid">
+          <div v-else class="hidden md:block">
             <div
               class="bg-white border border-gray-200 p-1 shadow-sm rounded-xl"
             >
