@@ -1,5 +1,5 @@
 <template>
-  <async-view>
+  <Async :state="$fetchState">
     <div v-if="filteredClients.length" class="">
       <template v-if="$route.name === 'Clients-id-Messages'">
         <nuxt-child />
@@ -31,7 +31,7 @@
         </button>
       </div>
     </div>
-  </async-view>
+  </Async>
 </template>
 
 <script>
@@ -74,8 +74,8 @@ export default {
       }
     }
   },
-  created () {
-    this.fetchAllClients({ page: this.pageNumber })
+  async fetch () {
+    await this.fetchAllClients({ page: this.pageNumber })
   },
   methods: {
     ...mapActions({

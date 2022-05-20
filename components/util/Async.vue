@@ -2,7 +2,7 @@
   <div class="w-full" style="height: 100%">
     <div
       v-if="state.pending"
-      class="mt-40 px-5 grid gap-5 justify-center text-center"
+      class="my-40 px-5 grid gap-5 justify-center text-center"
     >
       <SingleLoader width="50px" height="50px" />
     </div>
