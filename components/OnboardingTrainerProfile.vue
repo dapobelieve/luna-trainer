@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5 class="text-lg font-bold">
-      Tell us a bit about the type of Trainer you are
+      Your training experience.
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
@@ -22,8 +22,7 @@
         <label
           class="required"
         >What are your training areas of specialism, or behavioural issue
-          focuses? For example, Puppy Training, Separation Anxiety, Reactivity,
-          Agility…
+          focuses?
         </label>
         <TagInput
           v-model="trainer.specialization"
