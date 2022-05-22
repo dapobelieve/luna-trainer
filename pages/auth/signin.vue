@@ -5,9 +5,8 @@
     >
       <div>
         <div class="text-xl font-bold">
-          Hello.
+          Sign in with your email.
         </div>
-        <span class="text-sm md:gap-3">Sign in with email</span>
       </div>
       <form class="flex flex-col gap-4" @submit.prevent="login">
         <div class="flex flex-col gap-1.5 relative mb-3">
@@ -15,7 +14,7 @@
             for="email"
             class="required"
             :class="{ 'text-red-500': $v.userInfo.email.$error }"
-          >Email</label>
+          >Email address</label>
 
           <input
             v-model="$v.userInfo.email.$model"
