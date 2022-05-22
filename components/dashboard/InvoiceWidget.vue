@@ -21,7 +21,7 @@
           <i class="fi-rr-receipt text-xl text-amber-500 mt-1"></i>
         </div>
         <h3 class="text-black text-xl">
-          Billing
+          Payments
         </h3>
       </div>
       <div class="ml-auto overflow-auto flex items-end">
@@ -60,16 +60,16 @@
             <div class="flex flex-col items-center">
               <i class="fi-rr-receipt text-5xl text-amber-500"></i>
               <h3 class="text-gray-700 text-lg">
-                You have no billing items
+                You have no payment items yet.
               </h3>
               <small
                 class="text-base text-gray-500"
-              >Your payment requests would be displayed here</small>
+              >Most recent payment notification would be displayed here.</small>
               <button
                 class="button-fill mt-3"
                 @click="$router.push({ name: 'payments-request' })"
               >
-                Create a Payment Request
+                Set up a new payment request
               </button>
             </div>
           </div>
