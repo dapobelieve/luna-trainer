@@ -50,9 +50,9 @@
       </div>
 
       <div class="flex flex-col gap-1.5">
-        <label for="pronouns" class="">
+        <label for="pronouns">Preferred pronouns</label>
+        <label class="">
           <span>
-            <span class="text-sm md:gap-3">Preferred pronouns</span>
             <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
           </span>
         </label>
