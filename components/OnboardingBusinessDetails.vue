@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5 class="text-lg font-bold">
-      Tell us a bit about your business
+      Basic business information.
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">
@@ -10,7 +10,7 @@
           class="required"
           :class="{ 'text-red-500': $v.trainer.businessName.$error }"
         >
-          Registered company or trading name
+          Registered business name
         </label>
         <input
           id="businessName"
@@ -20,7 +20,7 @@
         />
       </div>
       <div class="flex flex-col gap-1.5 relative mb-1">
-        <label for="websiteURL" class="required" :class="{'text-red-500' : $v.trainer.websiteUrl.$error}">What’s your website url?</label>
+        <label for="websiteURL" class="required" :class="{'text-red-500' : $v.trainer.websiteUrl.$error}">Business website</label>
         <input
           id="website"
           v-model="trainer.websiteUrl"

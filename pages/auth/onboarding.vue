@@ -168,7 +168,7 @@ export default {
         {
           id: 1,
           title: 'Setting up your business profile',
-          subTitle: 'We only need a couple of details'
+          subTitle: 'We only need a couple of details.'
         },
         {
           id: 2,
