@@ -182,8 +182,8 @@ export default {
           title: 'And finally, your services.',
           type: 'html',
           subTitle:
-            '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
-            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
+            '<p class="mb-6 my-4">Luna is specifically designed for dog trainers and behaviourists, we have integrated the services you provide into your payment centre. </p>' +
+            "<p class='mb-6'>The services you add today are just to get you started, you can always add, delete or amend at a later date.</p>"
         },
         {
           id: 4,
