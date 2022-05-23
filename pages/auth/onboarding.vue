@@ -183,7 +183,9 @@ export default {
           type: 'html',
           subTitle:
             '<p class="mb-6 my-4">Luna is specifically designed for dog trainers and behaviourists, we have integrated the services you provide into your payment centre. </p>' +
-            "<p class='mb-6'>The services you add today are just to get you started, you can always add, delete or amend at a later date.</p>"
+            "<p class='mb-6'>The services you add today are just to get you started, you can always add, delete or amend at a later date.</p>" +
+			"<p> For example: </p> <div class='ml-8'> <ul> <li class='list-disc'> Puppy Class - 1 hour </li> <li> In Person </li> <li> £10 </li> </ul>" +
+			"<p class='my-6'> Or </p> <ul> <li class='list-disc'> 1-2-1 Behaviour Consultation </li> <li> Remote </li> <li> £60 </li> </ul> </div>"
         },
         {
           id: 4,
