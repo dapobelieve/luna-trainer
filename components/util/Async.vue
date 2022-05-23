@@ -2,14 +2,14 @@
   <div class="w-full" style="height: 100%">
     <div
       v-if="state.pending"
-      class="mt-40 px-5 grid gap-5 justify-center text-center"
+      class="my-40 px-5 grid gap-5 justify-center text-center"
     >
       <SingleLoader width="50px" height="50px" />
     </div>
 
     <div
       v-if="state.error"
-      class="mt-40 px-5 grid gap-2 justify-center text-center"
+      class="my-40 px-5 grid gap-2 justify-center text-center"
     >
       <p>
         <i class="fi-rr-interrogation text-3xl text-red-500"></i>
