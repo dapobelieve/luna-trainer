@@ -80,7 +80,6 @@ export const actions = {
     const response = await this.$axios.$get(
       `${process.env.PAYMENT_HOST_URL}/widget/payment?status=${status}&limit=${limit}`
     )
-    console.log(response)
     return response.data || []
   },
   async getInvoices ({ commit, dispatch }, payload) {

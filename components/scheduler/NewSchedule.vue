@@ -75,7 +75,7 @@
         <div v-if="!hasSchedule" class="flex items-center mb-3">
           <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
           <span class="ml-3 text-gray-500 w-full">
-            <GwSelector v-model="form.repeat" placeholder="Repeat" class="w-full repeat-selector" :options="repeat">
+            <GwSelector v-model="form.repeat" placeholder="Repeat" label="name" class="w-full repeat-selector" :options="repeat">
               <template v-slot:selectedOption="{selected}">
                 <div class="flex items-center">
                   <span class="text-gray-700">{{ selected.name }}</span>
@@ -426,12 +426,20 @@ export default {
       this.form.date = event
       this.$forceUpdate()
     },
+    removeClient (client) {
+      this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
+    },
     async updateEvent () {
       this.btn.loading = true
       this.btn.text = 'Rescheduling...'
 
       const fromTime = this.form.from.split(' ')
-      const fromHrs = fromTime[1] === 'pm' ? (parseInt(fromTime[0].split(':')[0]) + 12) : parseInt(fromTime[0].split(':')[0])
+      let fromHrs
+      if(fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
+        fromHrs = (parseInt(fromTime[0].split(':')[0]) + 12)
+      }else{
+        fromHrs = parseInt(fromTime[0].split(':')[0]);
+      }
       const fromMinutes = parseInt(fromTime[0].split(':')[1])
 
       const toTime = this.form.to.split(' ')
@@ -477,17 +485,19 @@ export default {
         }
       }
     },
-    removeClient (client) {
-      this.form.participants = this.form.participants.filter(item => item.userId !== client.userId)
-    },
     async createEvent () {
       this.$v.$touch()
       if (!this.$v.$invalid) {
         try {
-          this.btn.loading = true
+          // this.btn.loading = true
           this.btn.text = 'Creating Schedule...'
           const fromTime = this.form.from.split(' ')
-          const fromHrs = fromTime[1] === 'pm' ? (parseInt(fromTime[0].split(':')[0]) + 12) : parseInt(fromTime[0].split(':')[0])
+          let fromHrs
+          if(fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
+            fromHrs = (parseInt(fromTime[0].split(':')[0]) + 12)
+          }else{
+            fromHrs = parseInt(fromTime[0].split(':')[0]);
+          }
           const fromMinutes = parseInt(fromTime[0].split(':')[1])
 
           const toTime = this.form.to.split(' ')

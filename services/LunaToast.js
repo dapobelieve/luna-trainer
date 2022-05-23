@@ -7,14 +7,14 @@ const _defaultOptions = {
   image: 'https://getwelp-files.s3.us-west-2.amazonaws.com/logos/logo_icon_coloured.svg',
   cancel: {
     text: 'cancel',
-    resolver: () => { console.log('cancel clicked') }
+    resolver: () => { console.log('') }
   },
   confirm: {
     text: 'Confirm',
-    resolver: () => { console.log('confirm clicked') }
+    resolver: () => { console.log('') }
   },
   close: {
-    resolver: () => { console.log('close clicked') }
+    resolver: () => { console.log('') }
   }
 }
 
