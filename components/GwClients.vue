@@ -64,13 +64,13 @@ export default {
   watch: {
     pageNumber (newValue) {
       if (newValue) {
-        this.fetchAllClients({ page: this.pageNumber })
+        this.$fetch()
       }
     },
     status (newValue) {
       if (newValue) {
         newValue = newValue === 'Active' ? 'accepted' : newValue
-        newValue === 'All' ? this.fetchAllClients() : this.fetchAllClients({ status: newValue.toLowerCase() })
+        newValue === 'All' ? this.$fetch() : this.fetchAllClients({ status: newValue.toLowerCase() })
       }
     }
   },

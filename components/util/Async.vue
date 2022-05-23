@@ -9,7 +9,7 @@
 
     <div
       v-if="state.error"
-      class="mt-40 px-5 grid gap-2 justify-center text-center"
+      class="my-40 px-5 grid gap-2 justify-center text-center"
     >
       <p>
         <i class="fi-rr-interrogation text-3xl text-red-500"></i>
