@@ -3,7 +3,7 @@
     <div class="py-0">
       <div class="flex justify-between items-center mb-2">
         <h2 class="text-2xl font-normal text-gray-700 mb-1">
-          Invite New Client
+          Invite a new client.
         </h2>
         <button
           type="button"
@@ -18,7 +18,7 @@
         </button>
       </div>
       <p class="text-gray-500 text-base">
-        Let us know your client’s name and email address so we can invite them to GetWelp!
+        Just simply add your client's name and email address below to invite them to join you on Luna!
       </p>
       <div class="overflow-y-scroll">
         <form
@@ -86,7 +86,7 @@
                 <label
                   for="notes"
                   class="block text-sm font-medium text-gray-700"
-                >Note</label>
+                >Add a personal message <span class="text-gray-400">(optional)</span> </label> 
                 <textarea
                   id="notes"
                   v-model.trim="clientInfo.welcomeNote"
@@ -103,7 +103,7 @@
               :disabled="$v.$invalid"
               :loading="isLoading"
             >
-              Send Invite
+              Send
             </button-spinner>
           </div>
         </form>
