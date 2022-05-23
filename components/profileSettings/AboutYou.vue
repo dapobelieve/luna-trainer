@@ -97,11 +97,10 @@
       <PhoneComponent v-model="profile.phoneNumber" />
     </div>
     <div class="flex flex-col gap-1.5">
-
-        <label for="pronouns" class="">
+        <label for="pronouns">Preferred pronouns</label>
+        <label class="">
           <span>
-            <span class="text-sm md:gap-3">Preferred pronouns</span>
-            <span class="text-sm md:gap-3">This helps us understand the best way to address you.</span>
+            <span class="text-sm md:gap-3 text-gray-500">This helps us understand the best way to address you.</span>
           </span>
         </label>
         <select
@@ -124,7 +123,7 @@
         </select>
     </div>
     <div class="flex flex-col gap-1.5">
-      <label for="country" class="required">Where are you based?</label>
+      <label for="country" class="required">Country</label>
       <select
         v-model="profile.businessCountry"
         autocomplete="country"

@@ -278,7 +278,7 @@ export default {
         },
         {
           icon: 'fi-rr-receipt',
-          title: 'Payment',
+          title: 'Payments',
           path: 'payments-requests-sent'
         }
       ],

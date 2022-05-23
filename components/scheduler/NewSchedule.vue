@@ -5,7 +5,7 @@
         <i class="fi-rr-arrow-left text-xl font-bold text-primary-color"></i>
       </span>
       <h4 class="text-xl mb-2 font-bold">
-        {{ !hasSchedule ? 'Schedule Session' : 'Reschedule Session' }}
+        {{ !hasSchedule ? 'Schedule new session' : 'Reschedule Session' }}
       </h4>
       <span class="cursor-pointer" @click="$emit('close')">
         <i class="fi-rr-cross text-primary-color"></i>

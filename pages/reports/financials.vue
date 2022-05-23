@@ -82,7 +82,7 @@
           <div class="text-gray-700">
             <div class="mb-16">
               <p class="text-lg font-light leading-7">
-                Total Value of Sales
+                Total value of sales
               </p>
               <p class="font-bold text-md">
                 £ 245,000.00
@@ -126,7 +126,7 @@
           <div class="text-gray-700">
             <div class="mb-16">
               <p class="text-lg font-light leading-7">
-                Number of Sales
+                Total number of sales transactions
               </p>
               <p class="font-bold text-md">
                 1200

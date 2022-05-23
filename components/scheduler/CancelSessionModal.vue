@@ -13,7 +13,7 @@
           <h3>Cancel Session</h3>
         </div>
         <p class="text-left text-lg text-gray-700 mb-8">
-          This session will permanently be deleted from your schedule. Do you want to cancel?
+          This session will permanently be deleted from your schedule. Are you sure you want to cancel?
         </p>
         <div class="flex justify-end">
           <button class="py-2 px-4 text-primary-color" style="width:fit-content" @click="$emit('close')">

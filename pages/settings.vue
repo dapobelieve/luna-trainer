@@ -135,31 +135,31 @@ export default {
           name: 'profile',
           icon: 'fi-rr-user',
           details:
-            'Some of your information will be shown to your clients. Try and be as accurate as possible',
+            'Information about you and your business.',
           route: 'settings-profile'
         },
         {
           name: 'services',
           icon: 'fi-rr-hand-holding-heart',
-          details: 'What type of things do you offer?',
+          details: 'A list of the services you offer.',
           route: 'settings-services'
         },
-        {
-          name: 'payment',
-          icon: 'fi-rr-credit-card',
-          details: 'Integrate with mutiple services platforms',
-          route: 'settings-billing-setup'
-        },
-        {
+		{
           name: 'calendar',
           icon: 'fi-rr-calendar',
-          details: 'Integrate with multiple other services platforms',
+          details: 'Connect your calendars to Luna.',
           route: 'settings-calendar'
+        },
+        {
+          name: 'payment options',
+          icon: 'fi-rr-credit-card',
+          details: 'Add new payment options. Integrate with your payment platforms.',
+          route: 'settings-billing-setup'
         },
         {
           name: 'security',
           icon: 'fi-rr-shield',
-          details: 'We keep your data as secure as possible',
+          details: 'Set your security settings and privacy.',
           route: 'settings-security'
         }
       ]

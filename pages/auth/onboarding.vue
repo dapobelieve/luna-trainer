@@ -168,7 +168,7 @@ export default {
         {
           id: 1,
           title: 'Setting up your business profile',
-          subTitle: 'We only need a couple of details'
+          subTitle: 'We only need a couple of details.'
         },
         {
           id: 2,
@@ -182,8 +182,10 @@ export default {
           title: 'And finally, your services.',
           type: 'html',
           subTitle:
-            '<p class="mb-6 my-4">Now, because we’ve built Luna specifically to be an all-in-one business software solution for dog trainers and behaviourists, we have integrated the services you provide into your billing centre to make it super easy to set up payment links. The services you add today are just to get you started, you can always add, delete or amend at a later date. </p>' +
-            "<p>Please don't worry, you can change this in the settings section of the platform.</p>"
+            '<p class="mb-6 my-4">Luna is specifically designed for dog trainers and behaviourists, we have integrated the services you provide into your payment centre. </p>' +
+            "<p class='mb-6'>The services you add today are just to get you started, you can always add, delete or amend at a later date.</p>" +
+			"<p> For example: </p> <div class='ml-8'> <ul> <li class='list-disc'> Puppy Class - 1 hour </li> <li> In Person </li> <li> £10 </li> </ul>" +
+			"<p class='my-6'> Or </p> <ul> <li class='list-disc'> 1-2-1 Behaviour Consultation </li> <li> Remote </li> <li> £60 </li> </ul> </div>"
         },
         {
           id: 4,

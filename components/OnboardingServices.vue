@@ -1,7 +1,7 @@
 <template>
   <div>
     <h5 class="text-lg font-bold">
-      Add your core service.
+      Add your core services.
     </h5>
     <form class="flex flex-col gap-6 mt-6 lg:mt-10">
       <div class="flex flex-col gap-1.5">

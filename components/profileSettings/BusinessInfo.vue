@@ -4,7 +4,7 @@
       <label
         for="businessName"
         class="required"
-      >What’s your business’s name?</label>
+      >Registered business name</label>
       <input
         id="businessName"
         v-model="profile.businessName"
@@ -13,7 +13,7 @@
       />
     </div>
     <div class="flex flex-col gap-1.5">
-      <label for="websiteUrl" class="required">What’s your website url?</label>
+      <label for="websiteUrl" class="required">Business website</label>
       <input
         id="websiteUrl"
         v-model="profile.websiteUrl"
@@ -25,7 +25,7 @@
       <label
         for="currency"
         class="required"
-      >Please select your currency</label>
+      >Default trading currency</label>
       <select
         id="currency"
         v-model="profile.currency"
