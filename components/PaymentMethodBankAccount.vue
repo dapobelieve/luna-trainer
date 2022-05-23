@@ -2,7 +2,7 @@
   <div class="p-6">
     <div class="flex justify-between items-center mb-9">
       <p class="text-2xl font-normal text-gray-700">
-        Setup Bank Information
+        Add your bank account details
       </p>
       <i
         role="button"
@@ -12,7 +12,7 @@
     </div>
     <div class="space-y-5">
       <p class="text-sm font-normal text-gray-500">
-        Enter your bank account information integration with your getwelp account
+        Enter your bank account information integration with your Luna account.
       </p>
       <div class="flex flex-col gap-1.5">
         <label class="required">Sort Code</label>

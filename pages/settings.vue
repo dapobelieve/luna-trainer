@@ -151,7 +151,7 @@ export default {
           route: 'settings-calendar'
         },
         {
-          name: 'payment',
+          name: 'payment options',
           icon: 'fi-rr-credit-card',
           details: 'Add new payment options. Integrate with your payment platforms.',
           route: 'settings-billing-setup'
@@ -159,7 +159,7 @@ export default {
         {
           name: 'security',
           icon: 'fi-rr-shield',
-          details: 'Set your security settings.',
+          details: 'Set your security settings and privacy.',
           route: 'settings-security'
         }
       ]

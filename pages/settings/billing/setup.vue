@@ -5,7 +5,7 @@
       style="min-height: calc(100vh - 96px)"
     >
       <h1 class="text-xl font-normal text-gray-700 mb-8">
-        Billing Setup
+        Payment
       </h1>
       <h3 class="tracking-wide uppercase font-medium text-gray-500 text-xs mb-8">
         Payment methods
