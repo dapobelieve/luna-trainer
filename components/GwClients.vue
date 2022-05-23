@@ -69,13 +69,15 @@ export default {
     },
     status (newValue) {
       if (newValue) {
-        newValue = newValue === 'Active' ? 'accepted' : newValue
-        newValue === 'All' ? this.$fetch() : this.fetchAllClients({ status: newValue.toLowerCase() })
+        this.$fetch()
       }
     }
   },
   async fetch () {
-    await this.fetchAllClients({ page: this.pageNumber })
+    await this.fetchAllClients({ 
+      page: this.pageNumber, 
+      status:  !((this.status === 'Active' || this.status === 'Invited'))? undefined : (this.status === 'Active' ? 'accepted' : this.status?.toLowerCase())
+    })
   },
   methods: {
     ...mapActions({
