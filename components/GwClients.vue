@@ -74,9 +74,13 @@ export default {
     }
   },
   async fetch () {
+    const status = !((this.status === 'Active' || this.status === 'Invited'))? 
+      undefined : 
+      (this.status === 'Active' ? 'accepted' : this.status?.toLowerCase())
+    
     await this.fetchAllClients({ 
       page: this.pageNumber, 
-      status:  !((this.status === 'Active' || this.status === 'Invited'))? undefined : (this.status === 'Active' ? 'accepted' : this.status?.toLowerCase())
+      status
     })
   },
   methods: {
