@@ -6,7 +6,7 @@
         You have no notifications yet
       </p>
       <p class="sub-title">
-        Your notifications and alerts abut your luna account will show up here.
+        Your notifications and alerts abut your luna account will show here.
       </p>
     </div>
   </div>
