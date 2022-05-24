@@ -72,11 +72,11 @@
                     <div class="flex flex-col items-center">
                       <i class="fi-rr-calendar text-5xl text-fuchsia-500"></i>
                       <h3 class="text-gray-700 text-lg">
-                        You have no sessions today.
+                        You have no appointments.
                       </h3>
                       <small
                         class="text-base text-gray-500"
-                      >All upcoming sessions would be shown here.</small>
+                      >Your appointments will be displayed here.</small>
                       <button class="button-fill mt-3" @click="openSession">
                         Schedule a session
                       </button>

@@ -64,7 +64,7 @@
               </h3>
               <small
                 class="text-base text-gray-500"
-              >Most recent payment notification would be displayed here.</small>
+              >Your payment requests will be displayed here.</small>
               <button
                 class="button-fill mt-3"
                 @click="$router.push({ name: 'payments-request' })"
