@@ -30,7 +30,11 @@ export default {
       const calcYears = months > 12 ? Math.floor(months / 12) : 0
       const calcMonths = this.calcYears >= 1 ? months % 12 : months
 
-      return `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} years(s)`
+	  if (calcYears < 1) {
+		  return `${calcWeeks} week(s) and ${calcMonths} month(s)`
+	  }
+
+      return `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} year(s)`
     }
   }
 }
