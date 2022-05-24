@@ -37,7 +37,7 @@
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 xl:gap-6 w-full mt-6">
         <div>
-          <label for="age" class="input-text-label text-gray-700 block">Age</label>
+          <label for="age" class="input-text-label text-gray-700 block">Date of birth</label>
           <date-picker
             v-model="petAge"
             style="width: 100% !important"
@@ -50,7 +50,7 @@
         </div>
         <div>
           <dt class="input-text-label">
-            Behavioural Problems
+            Behavioural Issues
           </dt>
           <dd class="information_box text-gray-400">
             {{ clientInfo && clientInfo.behaviour }}
@@ -60,7 +60,7 @@
       <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
         <div>
           <dt class="input-text-label">
-            Owner's Notes
+            Additional comments by the owner
           </dt>
           <dd class="information_text-area truncate">
             {{ clientInfo && clientInfo.notes }}
