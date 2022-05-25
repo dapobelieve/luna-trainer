@@ -325,11 +325,9 @@ export default {
     }
   },
   created() {
-	  this.invoice.items = this.services;
-	  this.invoice.customer = this.$route.params?.clientData?.firstName;
+	//   console.log(this.$route.params.clientData)
+	  this.invoice.customer = this.$route.params?.clientData;
 	  this.invoice.dueDate = new Date().toISOString();
-	  this.invoice.note = this.$route.params?.clientData?.welcomeNote;
-	  this.invoice.supportedPaymentMethods = this.activePaymentMethods;
   },
   data () {
     return {
