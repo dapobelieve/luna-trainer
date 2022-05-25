@@ -28,13 +28,14 @@ export default {
       const months = Math.floor(weeks / 4)
       const calcWeeks = weeks % 4
       const calcYears = months > 12 ? Math.floor(months / 12) : 0
-      const calcMonths = this.calcYears >= 1 ? months % 12 : months
-
-	  if (calcYears < 1) {
+      const calcMonths = calcYears >= 1 ? months % 12 : months
+	  
+	  if (calcYears < 1 && calcMonths >= 1) 
 		  return `${calcWeeks} week(s) and ${calcMonths} month(s)`
-	  }
-
+	  if (calcYears < 1 && calcMonths < 1) 
+		  return `${calcWeeks} week(s)`
       return `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} year(s)`
+
     }
   }
 }
