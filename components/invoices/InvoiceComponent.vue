@@ -332,8 +332,8 @@ export default {
     return {
       invoiceId: null,
       invoice: {
-		customer: "",
-		dueDate: "",
+	    customer: "",
+	    dueDate: "",
         items: [],
         supportedPaymentMethods: []
       },
