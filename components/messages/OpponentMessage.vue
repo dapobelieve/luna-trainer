@@ -21,9 +21,7 @@
     >
       <img class="bg-white cursor-pointer imgSize" :src="msg.url" />
     </span>
-    <div v-else class="msg p-2 max-w-lg break-all">
-      {{ msg.message }}
-    </div>
+    <div v-else class="msg p-2 max-w-lg whitespace-pre-line break-words">{{ msg.message.trim() }}</div>
     <small class="ml-2 text-xs">{{
       new Date(msg.createdAt).toLocaleTimeString().substring(0, 5)
     }}</small>

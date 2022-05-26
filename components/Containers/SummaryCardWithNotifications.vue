@@ -1,11 +1,11 @@
 <template>
   <div
-    class="rounded-xl border bg-white flex flex-col min-h-0 md:min-h-[20rem] h-full"
+    class="rounded-xl border bg-white flex flex-col h-[20rem]"
   >
     <div class="w-full h-full mb-auto">
       <!-- header -->
-      <div class="w-full flex items-center p-4">
-        <div class="mr-auto flex items-center space-x-4">
+      <div class="w-full flex items-center p-4 pb-2">
+        <div class="mr-auto flex items-center space-x-3">
           <slot name="icon" />
           <h4 class="capitalize text-md lg:text-lg font-medium">
             <slot name="title" />
@@ -24,17 +24,8 @@
     </div>
 
     <!-- bottom button -->
-    <div v-if="displayViewAllButton" class="px-4 pb-2">
+    <div v-if="enableViewAll" class="px-4 pb-2">
       <button
-        v-if="url === '#'"
-        class="text-blue-500 h-10 w-full hover:bg-blue-50 p-1 rounded-md"
-      >
-        <slot name="button">
-          View all
-        </slot>
-      </button>
-      <button
-        v-else
         class="text-blue-500 h-10 w-full hover:bg-blue-50 p-1 rounded-md"
         @click.prevent="showList"
       >
@@ -45,23 +36,18 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: 'SummaryCardWithNotifications',
   props: {
-    displayViewAllButton: {
+    enableViewAll: {
       type: Boolean,
-      default: true
-    },
-    url: {
-      type: String,
-      default: '#'
+      default: false
     }
   },
   methods: {
     showList () {
-      this.$router.push({ name: this.url })
+      this.$emit('view-all')
     }
   }
 }

@@ -9,9 +9,9 @@
             <span>-</span>
             <span>{{ formatTime(event.when.endTime, 'K:mm b') }}</span>
           </div>
-          <div class="event-icon inline-flex justify-center items-center rounded-full bg-gray-200">
+          <!-- <div class="event-icon inline-flex justify-center items-center rounded-full bg-gray-200">
             <img style="width: 8px" src="~/assets/img/video-camera.svg">
-          </div>
+          </div> -->
         </div>
         <div><span class="text-black text-sm font-medium">{{ event.title }}</span></div>
         <template v-if="event.conferencing && event.conferencing.provider === 'Google Meet'">
