@@ -45,7 +45,7 @@
             :disabled-date="date => date > new Date()"
             format="DD-MMM-YYYY"
             @change="focusField"
-			:clearable="false"
+            :clearable="false"
           ></date-picker>
           <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is about {{ showDate }}</small>
         </div>
