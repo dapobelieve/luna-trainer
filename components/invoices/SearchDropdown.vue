@@ -8,7 +8,7 @@
               <span class="text-gray-500 select-none">{{ field }}</span>
               <i class="fi-rr-caret-down h-5 w-3 text-base text-gray-700"></i>
             </div>
-            <div v-show="showFieldDropdown" class="absolute top-[18px] absolute mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
+            <div v-show="showFieldDropdown" class="absolute top-[18px] mt-2 right-[-10px] rounded shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40">
               <div class="py-1" role="none">
                 <a v-for="(fieldOption, indexF) in fields" :key="indexF" class="text-gray-700 select-none cursor-pointer block px-4 py-2 text-sm hover:bg-gray-100" @click="selectField(fieldOption)">
                   {{ fieldOption }}
@@ -30,12 +30,12 @@
             v-if="!selectedOption"
             ref="search"
             v-model="search"
-            :disabled="!field"
+            :disabled="!$field"
             :placeholder="placeHolder"
             class="px-1 text-sm focus:outline-none focus:border focus:border-blue-50 rounded w-full "
             @focus="show = true"
           />
-          <button v-if="selectedOption || field" class="border ml-auto rounded-full h-4 w-4" @click="selectedOption= null,close(),$emit('reset')">
+          <button v-if="selectedOption || $field" class="border ml-auto rounded-full h-4 w-4" @click="selectedOption= null,close(),$emit('reset')">
             <i style="font-size: 0.4rem" class="fi-rr-cross inline-flex items-center text-xs"></i>
           </button>
         </div>
@@ -77,7 +77,8 @@ export default {
       selectedOption: null,
       value: null,
       search: '',
-      show: false
+      show: false,
+      $field: this.field
     }
   },
   computed: {
@@ -107,8 +108,8 @@ export default {
     fields: {
       immediate: true,
       handler (newVal) {
-        this.field = this.fields[0]
-        this.$emit('field-selected', this.field)
+        this.$field = this.fields[0]
+        this.$emit('field-selected', this.$field)
       }
     }
   },

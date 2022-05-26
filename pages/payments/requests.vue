@@ -73,14 +73,7 @@ export default {
   data () {
     return {
       showDrop: false,
-      img: 'https://res.cloudinary.com/rohing/image/upload/v1585572497/harley-davidson-1HZcJjdtc9g-unsplash_vwslej.jpg',
-      active: true,
-      openModal: false,
-      showNotification: false,
-      filter: 'All',
-      trash: false,
-      deleteClient: false,
-      tempTrashId: null
+      active: true
     }
   },
   head () {
@@ -100,51 +93,10 @@ export default {
   },
   methods: {
     ...mapActions({
-      deleteInvoices: 'invoice/deleteInvoice',
       getInvoices: 'invoice/getInvoices'
     }),
-    deleteIcon (e) {
-      this.trash = !this.trash
-      this.tempTrashId = e
-    },
-    deleteInvoice () {
-      this.deleteClient = true
-    },
     inviteClient () {
       this.$modal.show('invite-client')
-    },
-    deleteClientData () {
-      return this.deleteInvoices(this.tempTrashId)
-        .then((response) => {
-          if (response.status === 'success') {
-            this.$lunaToast.success('Invoice deleted successfully')
-            this.getInvoices()
-            this.deleteClient = false
-            this.trash = false
-          }
-        })
-        .catch((err) => {
-          if (err.response) {
-            this.$lunaToast.error(
-              `${err.response.data.message}`)
-          } else if (err.request) {
-            this.$lunaToast.error('Something went wrong. Try again', {
-              position: 'bottom-right'
-            })
-          } else {
-            this.$lunaToast.error(`${err.message}`)
-          }
-        })
-    },
-    filterInvoice (link) {
-      this.filter = link
-    },
-    createInvoice () {
-      if (!this.acceptedClients.length || !this.$auth.user.services.length) {
-        this.showNotification = true
-      } else {
-        this.openModal = true
-      }
     },
     closeModal () {
       this.$modal.hide('welcome-modal')
