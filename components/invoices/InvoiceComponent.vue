@@ -324,13 +324,19 @@ export default {
       default: 'create'
     }
   },
+  created() {
+	  this.invoice.customer = this.$route.params?.clientData;
+	  this.invoice.dueDate = new Date().toISOString();
+  },
   data () {
     return {
       invoiceId: null,
-      invoice: {
-        items: [],
-        supportedPaymentMethods: []
-      },
+	  invoice: {
+		  customer: "",
+		  dueDate: "",
+		  items: [],
+		  supportedPaymentMethods: []
+	  },
       autoSaving: false,
       isLoading: false,
       showDropDown: false

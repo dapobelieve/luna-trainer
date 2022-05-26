@@ -20,10 +20,10 @@
             <button
               type="button"
               class="dropdown-button"
-              @click="
+              @click.stop="
                 $router.push({
-                  name: 'payments-requests-sent',
-                  query: { name: clientInfo.userId },
+                  name: 'payments-request',
+                  params: { clientData: clientInfo },
                 })
               "
             >
