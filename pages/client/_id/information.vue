@@ -65,7 +65,6 @@ export default {
       cancelLoading: false,
       clientInfo: null,
       id: this.$route.params.id,
-      tempClientInfo: {},
       showButtons: false,
       links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }]
     }
@@ -84,7 +83,7 @@ export default {
     }
   },
   mounted () {
-    this.getClientProfile(this.id)
+    this.getProfile(this.id)
       .then((response) => {
         if (!response.pet.length) {
           this.clientInfo = {
@@ -94,13 +93,12 @@ export default {
         } else {
           this.clientInfo = response
         }
-        this.tempClientInfo = { ...this.clientInfo }
       })
       .catch(err => console.log('error fetching client', err))
   },
   methods: {
     ...mapActions('client', {
-      getClientProfile: 'getSingleClientById',
+      getProfile: 'getSingleClientById',
       updateClient: 'updateClientProfile'
     }),
     updateProfile () {
@@ -151,7 +149,6 @@ export default {
     },
     cancelEditField () {
       this.cancelLoading = false
-      this.clientInfo = this.tempClientInfo
       this.showButtons = false
     }
   }

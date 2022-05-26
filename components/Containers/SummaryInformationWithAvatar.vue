@@ -61,15 +61,6 @@
         <slot name="date" />
       </span>
     </div>
-    <div
-      v-if="showChevronRight"
-      :class="[hoverOnRightButton ? 'hover:bg-blue-50' : '', 'rounded-md']"
-      class="relative"
-    >
-      <slot name="button" :matchedRoute="matchedRoute">
-        <img class="h-4 ml-4" src="~/assets/img/svgs/chevron-right.svg" alt="arrow-right" />
-      </slot>
-    </div>
   </div>
 </template>
 
@@ -77,10 +68,6 @@
 export default {
   name: 'SummaryInformationWithAvatar',
   props: {
-    showChevronRight: {
-      type: Boolean,
-      default: true
-    },
     url: {
       type: String,
       default: '#'

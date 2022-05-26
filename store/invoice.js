@@ -95,6 +95,7 @@ export const actions = {
         `${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`
       )
       commit('setStates', { invoices: response.data })
+      return response
     } catch (e) {
       return e
     } finally {
@@ -112,7 +113,6 @@ export const actions = {
     }
   }
 }
-
 export const getters = {
   getAllInvoices: state => state.invoices,
   getAllDraftInvoices: state =>

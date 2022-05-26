@@ -10,7 +10,7 @@
       </div>
       <ClickOutside :do="closeDropDown">
         <div class="flex items-center relative">
-          <i :class="`fi-rr-${meetingIcons[conference.type]}`" class="text-gray-700 text-lg mr-2"></i>
+          <!-- <i :class="`fi-rr-${meetingIcons[conference.type]}`" class="text-gray-700 text-lg mr-2"></i> -->
           <div class="relative w-full">
             <input
               v-if="conference.type === 'remote'"

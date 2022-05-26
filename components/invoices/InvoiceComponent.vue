@@ -325,19 +325,18 @@ export default {
     }
   },
   created() {
-	  this.invoice.items = this.services;
-	  this.invoice.customer = this.$route.params?.clientData?.firstName;
+	  this.invoice.customer = this.$route.params?.clientData;
 	  this.invoice.dueDate = new Date().toISOString();
-	  this.invoice.note = this.$route.params?.clientData?.welcomeNote;
-	  this.invoice.supportedPaymentMethods = this.activePaymentMethods;
   },
   data () {
     return {
       invoiceId: null,
-      invoice: {
-        items: [],
-        supportedPaymentMethods: []
-      },
+	  invoice: {
+		  customer: "",
+		  dueDate: "",
+		  items: [],
+		  supportedPaymentMethods: []
+	  },
       autoSaving: false,
       isLoading: false,
       showDropDown: false
