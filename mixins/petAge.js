@@ -34,7 +34,7 @@ export default {
 	  if (calcYears < 1 && calcMonths >= 1) {
 	      dogAge = `${calcWeeks} week(s) and ${calcMonths} month(s)`
 	  } 
-	  if (calcYears < 1 && calcMonths < 1) {
+	  else if (calcYears < 1 && calcMonths < 1) {
 	      dogAge = `${calcWeeks} week(s)`
 	  } else {
 		  dogAge = `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} year(s)`
