@@ -331,12 +331,12 @@ export default {
   data () {
     return {
       invoiceId: null,
-      invoice: {
-	    customer: "",
-	    dueDate: "",
-        items: [],
-        supportedPaymentMethods: []
-      },
+	  invoice: {
+		  customer: "",
+		  dueDate: "",
+		  items: [],
+		  supportedPaymentMethods: []
+	  },
       autoSaving: false,
       isLoading: false,
       showDropDown: false
