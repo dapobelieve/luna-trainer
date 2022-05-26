@@ -34,51 +34,53 @@
       </template>
       <template v-else-if="search">
         <template v-if="filteredClients.length">
-          <div
-            v-for="client in filteredClients"
-            :key="client._id"
-            role="button"
-            class="flex hover:bg-gray-100 px-3 mx-0.5 py-3 rounded-lg"
-            @click="messageClient(client)"
-          >
-            <div class="flex-none w-12 mr-4">
-              <ClientAvatar
-                :client-info="{
-                  firstName: client.firstName,
-                  lastName: client.lastName || '',
-                }"
-              />
-            </div>
-            <div class="truncate flex-grow">
-              <div class="flex items-center">
-                <span
-                  class="
-                    text-base text-gray-700
-                    font-medium
-                    capitalize
-                    mr-2
-                    flex-grow
-                    truncate
-                  "
-                >{{ client.firstName }} {{ client.lastName || "" }} </span>
-                <span
-                  :class="[
-                    client.status === 'accepted'
-                      ? 'bg-green-200 text-green-700'
-                      : 'text-red-700',
-                    'rounded text-sm font-normal normal-case flex-none w-18 items-center flex',
-                  ]"
-                >
-                  <i
-                    :class="{ hidden: client.status === 'accepted' }"
-                    class="fi-rr-user-time text-xs mr-1"
-                  ></i>
-                </span>
+          <div class="p-4">
+            <div
+              v-for="client in filteredClients"
+              :key="client._id"
+              role="button"
+              class="flex w-full hover:bg-blue-50 p-4 rounded-md items-center"
+              @click="messageClient(client)"
+            >
+              <div class="flex-none w-12 mr-4">
+                <ClientAvatar
+                  :client-info="{
+                    firstName: client.firstName,
+                    lastName: client.lastName || '',
+                  }"
+                />
               </div>
-              <div
-                class="text-gray-500 font-normal normal-case truncate"
-              >
-                <small> You'll be able to send a message when they accept your request</small>
+              <div class="truncate flex-grow">
+                <div class="flex items-center">
+                  <span
+                    class="
+                      text-base text-gray-700
+                      font-medium
+                      capitalize
+                      mr-2
+                      flex-grow
+                      truncate
+                    "
+                  >{{ client.firstName }} {{ client.lastName || "" }} </span>
+                  <span
+                    :class="[
+                      client.status === 'accepted'
+                        ? 'bg-green-200 text-green-700'
+                        : 'text-red-700',
+                      'rounded text-sm font-normal normal-case flex-none w-18 items-center flex',
+                    ]"
+                  >
+                    <i
+                      :class="{ hidden: client.status === 'accepted' }"
+                      class="fi-rr-user-time text-xs mr-1"
+                    ></i>
+                  </span>
+                </div>
+                <div
+                  class="text-gray-500 font-normal normal-case truncate"
+                >
+                  <small> You'll be able to send a message when they accept your request</small>
+                </div>
               </div>
             </div>
           </div>
@@ -89,20 +91,16 @@
       </template>
       <template
         v-else-if="acceptedClients.length && !search.length"
-        class="px-1"
-      >
+      ><div class="p-4">
         <button
           v-for="client in acceptedClients"
           :key="client._id"
           class="
-            rounded-md
-            py-4
-            px-3
             flex
-            items-center
             space-x-0
             w-full
-            hover:bg-gray-100
+            hover:bg-blue-50
+            p-4 rounded-md items-center
           "
           @click="gotoMessage(client._id)"
         >
@@ -200,6 +198,7 @@
             </span>
           </div>
         </button>
+        </div>
       </template>
       <NoMessages v-else @invite-client="$modal.show('invite-client')" />
     </div>
@@ -236,7 +235,6 @@ export default {
       return this.loading && !this.unreadMessagesCount && !this.latestMessages
     },
     acceptedClients () {
-      console.log(this.allClients.length)
       const clients = this.allClients.filter(c => c.status === 'accepted')
       if (this.latestMessages) {
         clients.sort((a, b) => {

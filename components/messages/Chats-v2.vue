@@ -56,23 +56,24 @@
           class="
             border-t
             flex
-            items-center
+            items-end
             justify-center
             bg-white
             rounded-b-xl
             shadow-sm
             px-4
             py-2
-            h-auto
           "
         >
           <textarea
-            ref="chatArea"
+            ref="chatTextArea"
             v-model="message"
             type="text"
-            class="w-full focus:outline-none text-sm resize-none h-6 box-border"
-            placeholder="Type a message"
-            @keyup.enter="sendTextMessage"
+            rows="1"
+            style="white-space: pre-wrap"
+            class="w-full focus:outline-none text-sm py-2 max-h-40 min-h-10 box-border resize-none"
+            placeholder="Type a message, press enter to send or shift + enter for new line"
+            @keydown.enter.exact.prevent="sendTextMessage"
           />
           <div class="relative">
             <transition name="fadeIn">
@@ -191,6 +192,9 @@ export default {
   watch: {
     async connected () {
       await this.initializeChat()
+    },
+    message () {
+      this.recomputeTextareaHeight()
     }
   },
   async beforeMount () {
@@ -312,7 +316,7 @@ export default {
       this.uploadFileImage = null
     },
     async sendTextMessage () {
-      if (this.message) {
+      if (this.message.match(/\S/)) {
         this.channel =
           this.channel ||
           (await this.createChannelIfNoneExists({
@@ -346,6 +350,15 @@ export default {
       this.$nextTick(() => {
         const messageFeed = document.getElementById('chatBody')
         return messageFeed && messageFeed.scrollTo(0, messageFeed.scrollHeight)
+      })
+    },
+    recomputeTextareaHeight () {
+      this.$nextTick(() => {
+        const textarea = this.$refs.chatTextArea
+        if (textarea) {
+          textarea.style.height = 'auto'
+          textarea.style.height = textarea.scrollHeight + 'px'
+        }
       })
     }
   }

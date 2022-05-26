@@ -11,9 +11,7 @@
     </small>
 
     <SenderFileMessage v-if="msg.messageType === 'file'" :msg="msg" />
-    <div v-else class="msg p-2 max-w-lg break-all" style="calc(100% - 2.5rem)">
-      {{ msg.message }}
-    </div>
+    <div v-else class="msg p-2 max-w-lg whitespace-pre-line break-words" style="calc(100% - 2.5rem)">{{ msg.message.trim() }}</div>
   </span>
 </template>
 
