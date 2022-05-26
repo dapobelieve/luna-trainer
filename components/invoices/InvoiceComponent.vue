@@ -325,7 +325,6 @@ export default {
     }
   },
   created() {
-	//   console.log(this.$route.params.clientData)
 	  this.invoice.customer = this.$route.params?.clientData;
 	  this.invoice.dueDate = new Date().toISOString();
   },
@@ -333,6 +332,8 @@ export default {
     return {
       invoiceId: null,
       invoice: {
+		customer: "",
+		dueDate: "",
         items: [],
         supportedPaymentMethods: []
       },
