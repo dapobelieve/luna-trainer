@@ -161,11 +161,7 @@
         </div>
       </div>
       <div class="sm:col-span-2 flex justify-end gap-2">
-        <p v-if="isMaxServicesAmountReached" class="text-gray-500 font-medium">
-          You have enough services for now
-        </p>
         <button-spinner
-          v-else
           :disabled="$v.service.$invalid"
           :loading="loading"
           type="button"
@@ -223,8 +219,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getServiceById: 'services/getServiceById',
-      isMaxServicesAmountReached: 'services/isMaxServicesAmountReached'
+      getServiceById: 'services/getServiceById'
     }),
     disableUpdate () {
       return false
