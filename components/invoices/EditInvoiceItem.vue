@@ -177,7 +177,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { required, minValue, minLength } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'EditInvoiceItem',
   props: {
@@ -192,7 +192,7 @@ export default {
     service: {
       description: { required, minLength: minLength(4) },
       pricing: {
-        amount: { required, minValue: minValue(1) }
+        amount: { required }
       },
       appointmentTypes: { required }
     }

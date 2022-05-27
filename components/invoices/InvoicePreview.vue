@@ -188,7 +188,7 @@
                     <p
                       class="text-gray-500 text-sm justify-self-end"
                     >
-                      {{ item.price  * itemQuantity}}
+                      {{ item.price | amount}}
                     </p>
                   </div>
                 </template>
