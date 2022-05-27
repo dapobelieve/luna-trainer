@@ -2,7 +2,7 @@
   <div class="">
     <GwPagination v-if="drafts && drafts.length" class="tail-border bg-white tail-bg-white tail-p-1 tail-rounded-lg p-1" :total-items="drafts.length">
       <template v-slot:content>
-        <InvoiceClientCard v-for="draft in drafts" :key="draft._id" :invoice="draft" @invoice-deleted="removeDraft" />
+        <InvoiceListItem v-for="draft in drafts" :key="draft._id" :invoice="draft" />
       </template>
     </GwPagination>
     <template v-else>
@@ -35,11 +35,6 @@ export default {
     ...mapGetters({
       drafts: 'invoice/getAllInvoices'
     })
-  },
-  methods: {
-    removeDraft (invoice) {
-      this.drafts.splice(this.drafts.indexOf(invoice), 1)
-    }
   }
 }
 </script>

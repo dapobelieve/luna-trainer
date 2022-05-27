@@ -225,7 +225,7 @@ export default {
       itemQuantity: 1,
       items: this.invoice.items,
       dueDate: this.invoice.dueDate,
-      client: this.invoice.client
+      client: this.invoice.customerId
     }
   },
   computed: {

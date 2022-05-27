@@ -24,7 +24,6 @@
               :options="options"
               :selected="selected"
               @reset="resetTable"
-              @change="clearPreviousFilter"
               @selected="searchInvoice"
               v-if="filteredRecords && filteredRecords.length > 0 || this.filter.status || this.filter.customerUserId"
             >
@@ -239,8 +238,7 @@ export default {
         console.log('val', val)
         if (Object.keys(val.query).length > 0) {
           if (val.query.name) {
-            const res = await this.$store.dispatch('client/allConciseClients')
-            this.allClients = res.data
+            await this.getClients()
             this.selected = this.allClients.filter(client => client.userId === val.query.name)[0]
             this.filter.customerUserId = val.query.name
             await this.$fetch()
@@ -254,8 +252,7 @@ export default {
             this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
           }
         } else {
-          const res = await this.$store.dispatch('client/allConciseClients')
-          this.allClients = res.data
+          await this.getClients()
           this.searchField = 'Name'
           this.options = this.allClients
           this.$fetch()
@@ -265,8 +262,12 @@ export default {
     },
     searchField: {
       immediate: true,
-      handler (newVal) {
+      async handler (newVal, oldVal) {
+        if (newVal !== oldVal) {
+          this.clearFilter(oldVal)
+        }
         if (newVal === 'Name') {
+          await this.getClients()
           this.options = this.allClients
         } else if (newVal === 'Status') {
           this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
@@ -308,17 +309,23 @@ export default {
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
     },
-    resetTable () {
+    async getClients () {
+      if (!this.allClients || this.allClients.length < 1) {
+        const res = await this.$store.dispatch('client/allConciseClients')
+        this.allClients = res.data
+      }
+    },
+    async resetTable () {
       this.clearFilter()
       this.searchField = 'Name'
+      await this.getClients()
       this.options = this.allClients
-      this.$router.push({ name: 'payments-requests-sent' })
     },
     clearFilter (event) {
-      if (this.searchField !== event) {
-        this.filter.status = ''
-        this.filter.customerUserId = ''
-      }
+      this.filter.status = ''
+      this.filter.customerUserId = ''
+      this.selected = ''
+      this.$router.push({ name: 'payments-requests-sent' })
     },
     searchInvoice (option) {
       if (this.searchField === 'Name') {

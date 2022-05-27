@@ -175,7 +175,7 @@
               style="width: 100% !important"
               class="w-full"
               :disabled="!invoice.customer"
-              :disabled-date="(date) => date < new Date()"
+              :disabled-date="(d) => { let date = new Date(); date.setDate(date.getDate() - 1); return d < date; }"
               value-type="format"
               placeholder="Select a due date for this invoice"
             ></date-picker>
@@ -238,11 +238,12 @@
             </div>
             <small
               class="mt-3 block"
-            ><router-link
-              to="/settings/billing/setup"
+            ><a
               class="text-primary-color"
-            >Add another payment method
-              <i class="fi-rr-link" /></router-link></small>
+              @click.prevent="promptAddPaymentMethod"
+              href="/settings/billing/setup"
+              >Add another payment method
+              <i class="fi-rr-link" /></a></small>
           </div>
           <div class="flex justify-end space-x-6 lg:space-x-0">
             <button
@@ -303,10 +304,11 @@ import { mapActions, mapGetters } from 'vuex'
 import DatePicker from 'vue2-datepicker'
 import isEmpty from 'lodash.isempty'
 import ContainerWithTitle from '../Containers/ContainerWithTitle'
-import InviteNewClient from '../InviteNewClient.vue'
+import InviteNewClient from '../InviteNewClient'
 import EditInvoiceItem from './EditInvoiceItem'
 import OnetimeInvoiceItem from './OnetimeInvoiceItem'
 import ItemDisplay from '~/components/invoices/ItemDisplay'
+
 export default {
   name: 'Invoice',
   components: {
@@ -419,6 +421,27 @@ export default {
     selectItem (data) {
       this.$set(this.invoice, 'items', data)
     },
+    promptAddPaymentMethod () {
+      this.$modal.show('dialog', {
+        title: 'Confirm exit page',
+        text: 'Leaving this page will discard your changes. This cannot be on done',
+        buttons: [
+          {
+            title: 'No',
+            handler: () => {
+              this.$modal.hide('dialog')
+            }
+          },
+          {
+            title: 'Yes, sure',
+            handler: () => {
+              this.$router.push({ name: 'settings-billing-setup' })
+              this.$modal.hide('dialog')
+            }
+          }
+        ]
+      })
+    },
     openInviteClientModal ($event) {
       this.$nextTick(() => {
         this.invoice.customer = null
@@ -519,7 +542,6 @@ export default {
     }
   },
   async mounted () {
-    console.log(this.activePaymentMethods, 'activePaymentMethods')
     await this.getServices() // this will be revmove once we can enusre the global state of the application is consistent
     if (this.invoice._id) {
       this.$set(
