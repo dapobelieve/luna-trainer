@@ -128,7 +128,7 @@
               <div class="grid grid-cols-2 pb-4">
                 <div class="">
                   <p class="text-gray-500 text-sm">
-                    Date of issue:
+                    Invoice date:
                   </p>
                   <p class="text-gray-500 text-sm">
                     {{ dueDate | date }}
@@ -136,7 +136,7 @@
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">
-                    Due Date
+                    Due Date:
                   </p>
                   <p class="text-gray-500 text-sm">
                     {{ dueDate | date }}
@@ -178,12 +178,17 @@
                     <p
                       class="text-gray-500 text-sm justify-self-end"
                     >
-                      1
+                      {{ itemQuantity }}
                     </p>
                     <p
                       class="text-gray-500 text-sm justify-self-end"
                     >
-                      {{ item.price | amount }}
+                      {{ item.price }}
+                    </p>
+                    <p
+                      class="text-gray-500 text-sm justify-self-end"
+                    >
+                      {{ item.price  * itemQuantity}}
                     </p>
                   </div>
                 </template>
@@ -217,6 +222,7 @@ export default {
   },
   data () {
     return {
+      itemQuantity: 1,
       items: this.invoice.items,
       dueDate: this.invoice.dueDate,
       client: this.invoice.client
@@ -226,7 +232,7 @@ export default {
     getTotal () {
       if (this.items && this.items.length) {
         return this.items.reduce(
-          (accumulator, current) => accumulator + current.price, 0
+          (accumulator, current) => accumulator + (current.price * this.itemQuantity), 0
         )
       }
       return 0
