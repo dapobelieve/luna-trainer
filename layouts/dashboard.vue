@@ -27,6 +27,7 @@
         <SchedulerDrawer v-if="schedulerDrawer && schedulerDrawer.open" v-model="schedulerDrawer.activePage" />
       </transition>
     </div>
+    <v-dialog />
   </async-view>
 </template>
 <script>

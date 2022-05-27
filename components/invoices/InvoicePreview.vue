@@ -126,14 +126,6 @@
                 </p>
               </div>
               <div class="grid grid-cols-2 pb-4">
-                <div class="">
-                  <p class="text-gray-500 text-sm">
-                    Date of issue:
-                  </p>
-                  <p class="text-gray-500 text-sm">
-                    {{ dueDate | date }}
-                  </p>
-                </div>
                 <div>
                   <p class="text-gray-500 text-sm">
                     Due Date
@@ -219,7 +211,7 @@ export default {
     return {
       items: this.invoice.items,
       dueDate: this.invoice.dueDate,
-      client: this.invoice.client
+      client: this.invoice.customerId
     }
   },
   computed: {

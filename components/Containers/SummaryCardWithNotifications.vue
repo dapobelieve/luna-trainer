@@ -1,6 +1,6 @@
 <template>
   <div
-    class="rounded-xl border bg-white flex flex-col h-[20rem]"
+    class="rounded-xl border bg-white flex flex-col h-[22rem]"
   >
     <div class="w-full h-full mb-auto">
       <!-- header -->

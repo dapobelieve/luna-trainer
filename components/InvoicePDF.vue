@@ -15,9 +15,6 @@
           <p class="text-gray-500 text-xs">
             Invoice No.: <span class="ml-3">&lt; auto generated &gt;</span>
           </p>
-          <p class="text-gray-500 text-xs">
-            Date of Issue:<span class="ml-3">{{ new Date() | date }}</span>
-          </p>
           <p v-if="invoice.dueDate" class="text-gray-500 text-xs">
             Date Due:<span class="ml-3">{{ invoice.dueDate | date }}</span>
           </p>

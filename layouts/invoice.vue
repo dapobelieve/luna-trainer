@@ -12,12 +12,13 @@
       <i
         role="button"
         class="fi-rr-cross text-blue-500 text-md lg:justify-self-end"
-        @click.prevent="$router.back()"
+        @click.prevent="promptCancel"
       ></i>
     </div>
     <Nuxt
       class="md:m-4 lg:m-0 lg:pt-10 flex justify-center"
     />
+    <v-dialog />
   </div>
 </template>
 <script>
@@ -26,6 +27,29 @@ export default {
   provide () {
     return {
       sharedPage: this.sharedPage
+    }
+  },
+  methods: {
+    promptCancel () {
+      this.$modal.show('dialog', {
+        title: 'Confirm exit page',
+        text: 'Leaving this page will discard your changes. This cannot be on done',
+        buttons: [
+          {
+            title: 'No',
+            handler: () => {
+              this.$modal.hide('dialog')
+            }
+          },
+          {
+            title: 'Yes, sure',
+            handler: () => {
+              this.$router.back()
+              this.$modal.hide('dialog')
+            }
+          }
+        ]
+      })
     }
   },
   data () {

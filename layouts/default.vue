@@ -37,6 +37,7 @@
     <InviteNewClientModal />
     <ExpiredSessionAuthModal />
     <ViewImageModal />
+    <v-dialog />  
   </async-view>
 </template>
 <script>

@@ -18,6 +18,9 @@ export const mutations = {
     state.invoices = invoices.data
     state.invoiceCount = invoices.size
   },
+  DELETE_INVOICE (state, id) {
+    state.invoices = state.invoices.filter(invoice => invoice._id !== id)
+  },
   IS_LOADING (state, loadingStatus) {
     state.isLoading = loadingStatus
   }
@@ -55,6 +58,7 @@ export const actions = {
     return this.$axios
       .$delete(`${process.env.PAYMENT_HOST_URL}/invoice/${id}`)
       .then((response) => {
+        commit('DELETE_INVOICE', id)
         return response
       })
   },
