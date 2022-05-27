@@ -181,7 +181,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { required, numeric, minValue, minLength } from 'vuelidate/lib/validators'
+import { required, minValue, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'EditInvoiceItem',
   props: {
@@ -196,7 +196,7 @@ export default {
     service: {
       description: { required, minLength: minLength(4) },
       pricing: {
-        amount: { required, numeric, minValue: minValue(1) }
+        amount: { required, minValue: minValue(1) }
       },
       appointmentTypes: { required }
     }
@@ -214,7 +214,7 @@ export default {
       loading: false
     }
   },
-  async mounted () {
+  mounted () {
     if (this.item.serviceId) {
       this.service = JSON.parse(
         JSON.stringify(this.getServiceById(this.item.serviceId))
