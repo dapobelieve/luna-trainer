@@ -29,17 +29,15 @@ export default {
       const calcWeeks = weeks % 4
       const calcYears = months > 12 ? Math.floor(months / 12) : 0
       const calcMonths = calcYears >= 1 ? months % 12 : months
-	  
-	  let dogAge = ''
-	  if (calcYears < 1 && calcMonths >= 1) {
-	      dogAge = `${calcWeeks} week(s) and ${calcMonths} month(s)`
-	  } 
-	  else if (calcYears < 1 && calcMonths < 1) {
-	      dogAge = `${calcWeeks} week(s)`
-	  } else {
-		  dogAge = `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} year(s)`
-	  }
-	  return dogAge
+      let dogAge = ''
+      if (calcYears < 1 && calcMonths >= 1) {
+        dogAge = `${calcWeeks} week(s) and ${calcMonths} month(s)`
+      } else if (calcYears < 1 && calcMonths < 1) {
+        dogAge = `${calcWeeks} week(s)`
+      } else {
+        dogAge = `${calcWeeks} week(s), ${calcMonths} month(s) and ${calcYears} year(s)`
+      }
+      return dogAge
     }
   }
 }
