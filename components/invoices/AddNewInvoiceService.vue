@@ -87,13 +87,7 @@
         </div>
       </div>
       <div class="sm:col-span-2 flex justify-end gap-2">
-        <p
-          v-if="servicesFromStore.length === 5 && !editing"
-          class="text-gray-500 font-medium"
-        >
-          You have enough services for now
-        </p>
-        <template v-else-if="editing">
+        <template v-if="editing">
           <button type="button" class="button-text" @click="cancelEdit">
             Cancel Edit
           </button>

@@ -161,11 +161,7 @@
         </div>
       </div>
       <div class="sm:col-span-2 flex justify-end gap-2">
-        <p v-if="isMaxServicesAmountReached" class="text-gray-500 font-medium">
-          You have enough services for now
-        </p>
         <button-spinner
-          v-else
           :disabled="$v.service.$invalid"
           :loading="loading"
           type="button"
@@ -181,7 +177,7 @@
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
-import { required, numeric, minValue, minLength } from 'vuelidate/lib/validators'
+import { required, minLength } from 'vuelidate/lib/validators'
 export default {
   name: 'EditInvoiceItem',
   props: {
@@ -196,7 +192,7 @@ export default {
     service: {
       description: { required, minLength: minLength(4) },
       pricing: {
-        amount: { required, numeric, minValue: minValue(1) }
+        amount: { required }
       },
       appointmentTypes: { required }
     }
@@ -214,7 +210,7 @@ export default {
       loading: false
     }
   },
-  async mounted () {
+  mounted () {
     if (this.item.serviceId) {
       this.service = JSON.parse(
         JSON.stringify(this.getServiceById(this.item.serviceId))
@@ -223,8 +219,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getServiceById: 'services/getServiceById',
-      isMaxServicesAmountReached: 'services/isMaxServicesAmountReached'
+      getServiceById: 'services/getServiceById'
     }),
     disableUpdate () {
       return false
