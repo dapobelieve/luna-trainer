@@ -8,7 +8,7 @@
         We will never share your bank account details with anyone.
       </p>
       <p v-if="connected" class="mt-4 text-sm font-medium text-gray-700">
-        **** **** {{ bankAccount.accountNo.substr(-0, 4) }}
+        {{ bankAccount.accountNo }}
       </p>
     </div>
     <div>
