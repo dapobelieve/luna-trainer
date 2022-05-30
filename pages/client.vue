@@ -6,10 +6,7 @@
           <button
             type="button"
             class="button-text w-10"
-            @click="$router.push({
-                name: 'client-id-information',
-                params: { id: $route.params.id },
-              })"
+            @click="backRoute()"
           >
             <i
               class="fi-rr-arrow-left font-bold text-blue-500 text-lg"
@@ -103,6 +100,13 @@ export default {
     }),
     showDropdown () {
       this.showDropDown = !this.showDropDown
+    },
+    backRoute () {
+      if (this.$route.name === 'client-id-information') {
+        this.$router.push({ name: 'clients' })
+      } else {
+        this.$router.push({ name: 'client-id-information', params: { id: this.$route.params.id } })
+      }
     }
   }
 }
