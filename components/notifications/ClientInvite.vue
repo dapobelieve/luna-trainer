@@ -12,7 +12,7 @@
     >
       <div class="mr-4">
         <span class="inline-block">
-          <ClientAvatar
+        <ClientAvatar
             :client-info="{ firstName: notification.data.firstName }"
           />
         </span>

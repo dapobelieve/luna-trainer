@@ -47,6 +47,7 @@
                   :client-info="{
                     firstName: client.firstName,
                     lastName: client.lastName || '',
+                    imgURL: client.imgURL,
                   }"
                 />
               </div>
