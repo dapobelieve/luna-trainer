@@ -6,7 +6,10 @@
           <button
             type="button"
             class="button-text w-10"
-            @click="$router.push({ name: 'clients' })"
+            @click="$router.push({
+                name: 'client-id-information',
+                params: { id: $route.params.id },
+              })"
           >
             <i
               class="fi-rr-arrow-left font-bold text-blue-500 text-lg"
