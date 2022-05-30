@@ -68,7 +68,7 @@ export default {
     }
 
     .badge {
-      @apply rounded-full bg-blue-500 text-white ml-2 px-1.5 py-0.5 text-xs;
+      @apply rounded-full bg-blue-500 text-white ml-2 px-1.5 py-0.5 text-xs min-w-[20px];
     }
   }
 
