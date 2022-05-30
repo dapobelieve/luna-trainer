@@ -150,7 +150,7 @@
               </h3>
               <div v-if="menu.path === 'messages' && unreadMessages" class="">
                 <div
-                  class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full"
+                  class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full min-w-[20px]"
                 >
                   {{ unreadMessages }}
                 </div>
@@ -163,7 +163,7 @@
                 class="ml-auto"
               >
                 <div
-                  class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full"
+                  class="primary-color px-1.5 text-white text-sm inline-flex justify-center items-center rounded-full min-w-[20px]"
                 >
                   {{ getNotificationsSummary.unread }}
                 </div>
