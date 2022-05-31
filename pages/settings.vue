@@ -144,7 +144,7 @@ export default {
           details: 'A list of the services you offer.',
           route: 'settings-services'
         },
-		{
+        {
           name: 'calendar',
           icon: 'fi-rr-calendar',
           details: 'Connect your calendars to Luna.',
