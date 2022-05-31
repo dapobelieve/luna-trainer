@@ -100,12 +100,15 @@
                   ></i>
                 </div>
                 <div class="md:w-4/5 w-60 text-gray-500">
-                  <h6 class="text-base">
+                  <h6 v-if="menu.name !== 'billing'" class="text-base">
                     {{
                       `${menu.name.charAt(0).toUpperCase()}${menu.name.substr(
                         1
                       )}`
                     }}
+                  </h6>
+                  <h6 v-else>
+                    Payment options
                   </h6>
                   <p class="text-xs">
                     {{ menu.details }}
@@ -144,14 +147,14 @@ export default {
           details: 'A list of the services you offer.',
           route: 'settings-services'
         },
-		{
+        {
           name: 'calendar',
           icon: 'fi-rr-calendar',
           details: 'Connect your calendars to Luna.',
           route: 'settings-calendar'
         },
         {
-          name: 'payment options',
+          name: 'billing',
           icon: 'fi-rr-credit-card',
           details: 'Add new payment options. Integrate with your payment platforms.',
           route: 'settings-billing-setup'
