@@ -138,6 +138,8 @@
                     p-1
                     px-2
                     text-white
+                    min-w-[27px]
+                    text-center
                   "
                 >
                   {{ unreadMessagesCount[client.sendbirdId] }}
