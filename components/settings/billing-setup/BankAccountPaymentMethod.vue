@@ -7,9 +7,12 @@
       <p class="text-sm font-normal text-gray-500">
         We will never share your bank account details with anyone.
       </p>
-      <p v-if="connected" class="mt-4 text-sm font-medium text-gray-700">
-        {{ bankAccount.accountNo }}
-      </p>
+      <div v-if="connected" class="mt-4 text-sm font-medium text-gray-700 bg-gray-100 border rounded-lg p-4 max-w-sm grid gap-1">
+        <p><b>Account Name: </b>{{ bankAccount.accountHolderName }}</p>
+        <p><b>Account Number: </b>{{ bankAccount.accountNo }}</p>
+        <p><b>Bank Name: </b>{{ bankAccount.accountBankName }}</p>
+        <p><b>Sortcode: </b>{{ bankAccount.sortCode }}</p>
+      </div>
     </div>
     <div>
       <button
@@ -84,7 +87,7 @@ export default {
         this.loading = true
         await this.enablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to enale payment method')
       }
       this.loading = false
     },
@@ -94,7 +97,7 @@ export default {
         await this.setDefaultPaymentMethod(this.paymentMethod._id)
       } catch (error) {
         console.log(error)
-        this.$lunaToast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to set as default payment method')
       }
       this.loading = false
     },
@@ -103,7 +106,7 @@ export default {
         this.loading = true
         await this.disablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to disable payment method')
       }
       this.loading = false
     }

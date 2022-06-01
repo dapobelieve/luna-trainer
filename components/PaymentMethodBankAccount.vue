@@ -15,13 +15,6 @@
         Enter your bank account information integration with your Luna account.
       </p>
       <div class="flex flex-col gap-1.5">
-        <label class="required">Sort Code</label>
-        <input
-          v-model="bankAccount.sortCode"
-          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
-        />
-      </div>
-      <div class="flex flex-col gap-1.5">
         <label class="required">Account Number</label>
         <input
           v-model="bankAccount.accountNo"
@@ -39,6 +32,13 @@
         <label class="required">Bank Name</label>
         <input
           v-model="bankAccount.accountBankName"
+          class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
+        />
+      </div>
+      <div class="flex flex-col gap-1.5">
+        <label class="required">Sort Code</label>
+        <input
+          v-model="bankAccount.sortCode"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
       </div>
@@ -75,7 +75,7 @@ export default {
       getBankAccount: 'payment-methods/getBankAccount'
     })
   },
-  created () {
+  mounted () {
     this.bankAccount = this.getBankAccount
   },
   methods: {

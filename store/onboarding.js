@@ -5,7 +5,7 @@ export const state = () => ({
     pronouns: 'he/him',
     phoneNumber: '',
     timezone: '',
-    dateFormat: 'DD/MM/YY',
+    dateFormat: 'dd/mm/yy',
     businessCountry: 'UK'
   },
   business: {

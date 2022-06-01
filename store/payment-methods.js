@@ -30,9 +30,13 @@ export const actions = {
   },
   async updateBankAccount ({ commit, dispatch }, payload) {
     const id = payload._id
-    delete payload._id
-    delete payload.disabled
-    await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/bank-account/${id}`, payload)
+    await this.$axios.patch(`${process.env.PAYMENT_HOST_URL}/bank-account/${id}`, {
+      accountBankName: payload.accountBankName,
+      accountHolderName: payload.accountHolderName,
+      accountNo: payload.accountNo,
+      accountRoutingNo: payload.accountRoutingNo,
+      sortCode: payload.sortCode
+    })
     dispatch('getPaymentMethods')
   },
   async connectToStripe ({ commit, dispatch }, redirectUrl) {
@@ -61,8 +65,8 @@ export const actions = {
 export const getters = {
   getActivePaymentMethods: (state) => {
     return state.paymentMethods.filter((paymentMethod) => {
-      if (paymentMethod.stripe) {
-        return !paymentMethod.disabled && paymentMethod.stripe.connected
+      if (paymentMethod.type === 'stripe') {
+        return paymentMethod.stripe && paymentMethod.stripe.status !== 'pending' && !paymentMethod.disabled
       } else {
         return !paymentMethod.disabled
       }
@@ -70,8 +74,8 @@ export const getters = {
   },
   hasActivePaymentMethods: (state) => {
     return state.paymentMethods.some((paymentMethod) => {
-      if (paymentMethod.stripe) {
-        return paymentMethod.stripe.connected && !paymentMethod.disabled
+      if (paymentMethod.type === 'stripe') {
+        return paymentMethod.stripe && paymentMethod.stripe.status !== 'pending' && !paymentMethod.disabled
       } else {
         return !paymentMethod.disabled
       }
@@ -88,7 +92,15 @@ export const getters = {
       sortCode: '',
       accountBankName: ''
     }
-    return bankAccount.bank ? bankAccount.bank : bankAccount
+    return bankAccount.bank
+      ? {
+          accountHolderName: bankAccount.bank.accountHolderName,
+          accountNo: bankAccount.bank.accountNo,
+          sortCode: bankAccount.bank.sortCode,
+          accountBankName: bankAccount.bank.accountBankName,
+          _id: bankAccount._id
+        }
+      : bankAccount
   },
   getBankAccountPaymentMethod: (state) => {
     return state.paymentMethods.find(paymentMethod => paymentMethod.type === 'bank') || {}

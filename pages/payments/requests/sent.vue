@@ -249,7 +249,7 @@ export default {
             await this.$fetch()
             this.searchField = 'Status'
             this.selected = val.query.status === 'paid_awaiting_confirmation' ? 'Awaiting' : this.filter.status
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
+            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting', 'Cancelled']
           }
         } else {
           await this.getClients()
@@ -270,7 +270,7 @@ export default {
           await this.getClients()
           this.options = this.allClients
         } else if (newVal === 'Status') {
-          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting']
+          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting', 'Cancelled']
         }
       }
     },

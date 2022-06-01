@@ -8,6 +8,7 @@
       type="checkbox"
       @click="$event.stopPropagation()"
       @change="check"
+      :disabled="disabled"
     >
     <slot></slot>
   </label>
@@ -29,6 +30,7 @@ export default {
       type: [String, Number]
     },
     checked:Boolean,
+    disabled: Boolean,
     value: {
       type: [String, Number, Boolean]
     }

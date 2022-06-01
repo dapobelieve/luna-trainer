@@ -17,26 +17,37 @@
       </p>
       <div
         v-if="connected && !disabled"
-        class="text-sm font-norml text-green-500 items-center space-x-1 mt-2"
+        class="text-sm font-normal text-green-500 items-center space-x-1 mt-2"
       >
         <i class="fi-rr-check"></i>
         <span>Connected </span>
       </div>
       <div
+        v-if="connectedAwaiting && !disabled"
+        class="text-sm font-normal text-blue-500 items-center space-x-1 mt-2"
+      >
+        <i class="fi-rr-refresh"></i>
+        <span>Pending Verification</span>
+        <button @click="toggleStripeConnection(true)" class="ml-4 text-red-500 hover:underline" title="Remove any connect and connnect again">
+          {{ loading ? 'Reseting' : 'Connect with a new stripe account' }}
+        </button>
+      </div>
+      <div
         v-if="connected && disabled"
-        class="text-sm font-norml text-grey-500 items-center space-x-1 mt-2"
+        class="text-sm font-normal text-grey-500 items-center space-x-1 mt-2"
       >
         <span>Temporary disabled</span>
       </div>
     </div>
     <div>
       <button
-        v-if="!connected"
+        v-if="!connected || connectedAwaiting"
         class="button-outline"
         @click.prevent="toggleStripeConnection"
       >
         <SingleLoader v-if="loading" class="mr-2" />
-        <span>{{ loading ? "Connecting..." : "Connect" }}</span>
+        <span v-if="connectedAwaiting">{{ loading ? "Reconnecting..." : "Continue" }}</span>
+        <span v-else>{{ loading ? "Connecting..." : "Connect" }}</span>
       </button>
       <div v-else class="flex space-x-4 items-start">
         <span v-if="isDefault" class="tag"> Default </span>
@@ -44,7 +55,7 @@
         <SingleLoader v-if="loading" />
         <Dropdown
           v-if="!loading"
-          :primary-action-text="connected ? 'Disconnect' : 'Connnect'"
+          :primary-action-text="connectedAwaiting ? 'Reconnect' : connected ? 'Disconnect' : 'Connnect' "
           :disabled="disabled"
           @action="toggleStripeConnection"
           @enable="enable"
@@ -72,8 +83,11 @@ export default {
     ...mapGetters('payment-methods', {
       paymentMethod: 'getStripePaymentMethod'
     }),
+    connectedAwaiting () {
+      return !!this.paymentMethod.stripe && this.paymentMethod.stripe.connected && this.paymentMethod.stripe.status === 'pending'
+    },
     connected () {
-      return !!this.paymentMethod.stripe && this.paymentMethod.stripe.connected
+      return !!this.paymentMethod.stripe && this.paymentMethod.stripe.connected && this.paymentMethod.stripe.status === 'active'
     },
     disabled () {
       return this.paymentMethod && this.paymentMethod.disabled
@@ -90,16 +104,21 @@ export default {
       disablePaymentMethod: 'disablePaymentMethod',
       setDefaultPaymentMethod: 'setDefaultPaymentMethod'
     }),
-    async toggleStripeConnection () {
+    async disconnectStripeAccount () {
+      try {
+        await this.disconnectFromStripe()
+      } catch (error) {
+        this.$lunaToast.error(error.message)
+      }
+    },
+    async toggleStripeConnection (reset) {
       this.loading = true
-      if (!this.connected) {
+      if (reset === true) {
+        await this.disconnectStripeAccount()
+      } else if (!this.connected || this.connectedAwaiting) {
         await this.connectToStripeAndRedirect()
       } else {
-        try {
-          await this.disconnectFromStripe()
-        } catch (error) {
-          this.$lunaToast.error(error.message)
-        }
+        await this.disconnectStripeAccount()
       }
       this.loading = false
     },
@@ -116,7 +135,7 @@ export default {
         this.loading = true
         await this.enablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to enale payment method')
       }
       this.loading = false
     },
@@ -126,7 +145,7 @@ export default {
         await this.setDefaultPaymentMethod(this.paymentMethod._id)
       } catch (error) {
         console.log(error)
-        this.$lunaToast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to set as default payment method')
       }
       this.loading = false
     },
@@ -135,7 +154,7 @@ export default {
         this.loading = true
         await this.disablePaymentMethod(this.paymentMethod._id)
       } catch (error) {
-        this.$lunaToast.error('Unable to disable payment')
+        this.$lunaToast.error('Unable to disable payment method')
       }
       this.loading = false
     }

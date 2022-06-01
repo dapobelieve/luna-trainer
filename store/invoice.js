@@ -21,6 +21,14 @@ export const mutations = {
   DELETE_INVOICE (state, id) {
     state.invoices = state.invoices.filter(invoice => invoice._id !== id)
   },
+  CANCEL_INVOICE (state, id) {
+    state.invoices = state.invoices.map((invoice) => {
+      if (invoice._id === id) {
+        invoice.status = 'cancelled'
+      }
+      return invoice
+    })
+  },
   IS_LOADING (state, loadingStatus) {
     state.isLoading = loadingStatus
   }
@@ -40,6 +48,11 @@ export const actions = {
   async sendInvoice ({ commit }, sendDetails) {
     return await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/invoice/send/${sendDetails.id}`, {
       recipients: [sendDetails.recipient]
+    })
+  },
+  async cancelInvoice ({ commit }, id) {
+    return await this.$axios.$patch(`${process.env.PAYMENT_HOST_URL}/invoice/cancel/${id}`).then((res) => {
+      commit('CANCEL_INVOICE', id)
     })
   },
   async notify ({ commit }, payload) {
