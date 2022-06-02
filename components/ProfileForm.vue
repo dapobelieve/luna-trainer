@@ -110,10 +110,10 @@
               v-model="profile.dateFormat"
               class="bg-white shadow-sm block w-full sm:text-sm border-gray-300 rounded-md border py-2 px-2"
             >
-              <option value="DD/MM/YY">
+              <option value="dd/mm/yy">
                 DD/MM/YY
               </option>
-              <option value="YY/MM/DD">
+              <option value="yy/mm/dd">
                 YY/MM/DD
               </option>
             </select>

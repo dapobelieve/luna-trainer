@@ -35,6 +35,11 @@ export default {
           bgColor: 'bg-yellow-50',
           text: 'Pending'
         },
+        cancelled: {
+          textColor: 'text-white',
+          bgColor: 'bg-red-500',
+          text: 'Cancelled'
+        },
         awaiting: {
           textColor: 'text-blue-500',
           bgColor: 'bg-blue-50',

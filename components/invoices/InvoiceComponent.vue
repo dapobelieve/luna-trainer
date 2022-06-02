@@ -215,6 +215,7 @@
                   v-model="invoice.supportedPaymentMethods"
                   class="mr-2"
                   :value="activePaymentMethod._id"
+                  :disabled="activePaymentMethod.isDefault"
                 />
                 <span
                   class="font-light"

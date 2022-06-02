@@ -63,7 +63,7 @@
             </div>
             <div class="text-sm flex items-center">
               <div class="h-1 w-1 bg-red-500 rounded-full mr-2"></div>
-              Due on {{ dueDate }}
+              Due on {{ invoice.dueDate | date }}
             </div>
           </div>
           <div v-else>
@@ -81,12 +81,12 @@
           <h3>Status</h3>
           <InvoiceStatusComponent class="ml-auto" :status="status" />
         </div>
-        <div class="flex mb-8 bottom-border">
+        <!-- <div class="flex mb-8 bottom-border">
           <h3>Date Issued</h3>
           <h3 class="ml-auto">
             {{ issuedDate }}
           </h3>
-        </div>
+        </div> -->
         <!--        <div class="flex mb-8 bottom-border">-->
         <!--          <h3>Paid Date</h3>-->
         <!--          <h3 class="ml-auto">-->
@@ -108,9 +108,10 @@
           </h3>
         </div>
         <div class="flex justify-end">
-          <template v-if="invoiceStatus !== 'paid'">
-            <button class="text-red-500 px-4 py-2 border mr-2" @click="close">
-              Cancel
+          <template v-if="invoiceStatus !== 'paid' && invoiceStatus !== 'cancelled'">
+            <button class="text-red-500 px-4 py-2 border mr-2" @click="cancelInvoice">
+               <SingleLoader v-if="cancelling" />
+              <span v-else>Cancel</span>
             </button>
             <button v-if="invoiceStatus !== 'paid_awaiting_confirmation'" ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
@@ -121,7 +122,7 @@
               Mark as Paid
             </button>
           </template>
-          <template v-else>
+          <template v-else-if="invoice.status !== 'cancelled'">
             <button class="text-primary-color px-4 py-2 border" @click="markUnPaid">
               Mark as unpaid
             </button>
@@ -205,7 +206,8 @@ export default {
         paymentType: null,
         paymentDate: null
       },
-      nudging: false
+      nudging: false,
+      cancelling: false
     }
   },
   computed: {
@@ -224,17 +226,11 @@ export default {
     status () {
       return this.invoice.status
     },
-    issuedDate () {
-      return this.$dateFns.format(new Date(this.invoice.createdAt), 'd/M/yy')
-    },
     invoiceStatus () {
       return this.invoice && this.invoice.status
     },
     invoiceNo () {
       return `#${this.invoice.invoiceNo}`
-    },
-    dueDate () {
-      return this.$dateFns.format(new Date(this.invoice.dueDate), 'MMM d, y')
     },
     invoiceCustomer () {
       return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
@@ -251,7 +247,7 @@ export default {
         await this.$store.dispatch('payment-methods/markAsUnPaid', {
           id: acceptedInvoice._id
         })
-        this.$lunaToast.success('Invoice updated')
+        this.$lunaToast.success('Payment request updated')
         this.close()
       } catch (e) {
         console.log(e)
@@ -266,7 +262,7 @@ export default {
           invoiceId: this.invoice._id
         })
 
-        this.$lunaToast.success('Invoice updated')
+        this.$lunaToast.success('Payment request updated')
         this.close()
       } catch (e) {
         console.log(e)
@@ -275,16 +271,23 @@ export default {
       }
     },
     close () {
-      this.markAsPaid = false
       this.$emit('close')
+    },
+    async cancelInvoice () {
+      this.cancelling = true
+      try {
+        await this.$store.dispatch('invoice/cancelInvoice', this.invoice._id)
+        this.$lunaToast.success('Payment request cancelled')
+      } finally {
+        this.cancelling = false
+        this.close()
+      }
     },
     async sendNudge () {
       this.nudging = true
       try {
         await this.$store.dispatch('invoice/notify', { id: this.invoice._id })
         this.$lunaToast.success('Reminder sent')
-      } catch (e) {
-
       } finally {
         this.nudging = false
         this.close()
