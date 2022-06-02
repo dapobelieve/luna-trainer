@@ -7,7 +7,11 @@ function amount (amount, currency) {
 }
 function date (date) {
   const vuex = JSON.parse(localStorage.getItem('vuex'))
-  return format(new Date(date), vuex.profile.user.dateFormat)
+  try{
+    return format(new Date(date), vuex.profile.user.dateFormat)
+  }catch(err){
+    return format(new Date(date), 'MMM dd, yyyy')
+  }
 }
 function howLongAgo (date) {
   return formatDistance(new Date(date), new Date(), {
