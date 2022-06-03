@@ -121,18 +121,17 @@
       </div>
     </div>
     <onboarding-complete-modal @closeOnboardingCompleteModal="finishedSetUp" />
-    <save-service-modal :continueSave="saveService" :cancelSave="cancelServiceSave"/>
+    <v-dialog />
     </async-view>
 </template>
 
 <script>
 import { mapState, mapMutations, mapActions } from 'vuex'
 import OnboardingCompleteModal from '../../components/modals/OnboardingCompleteModal.vue'
-import SaveServiceModal from '../../components/modals/SaveServiceModal.vue'
 import OnboardingBusinessDetails from '../../components/OnboardingBusinessDetails.vue'
 export default {
   name: 'Onboarding',
-  components: { OnboardingCompleteModal, OnboardingBusinessDetails, SaveServiceModal },
+  components: { OnboardingCompleteModal, OnboardingBusinessDetails },
   layout: 'authOnboarding',
   data () {
     return {
@@ -264,7 +263,25 @@ export default {
     },
     checkDraftService () {
       if (this.$refs.service._data.service.description !== '' || this.$refs.service._data.service.pricing.amount !== '') {
-        this.$modal.show('save-service')
+        this.$modal.show('dialog', {
+          title: 'Confirm exit page',
+          text: 'Leaving this page will discard your changes. This cannot be on done',
+          buttons: [
+            {
+              title: 'No',
+              handler: () => {
+                this.$modal.hide('dialog')
+              }
+            },
+            {
+              title: 'Yes, sure',
+              handler: () => {
+                this.$modal.hide('dialog')
+                this.saveProfile()
+              }
+            }
+          ]
+        })
       } else {
         this.saveProfile()
       }
@@ -288,13 +305,6 @@ export default {
         this.$lunaToast.success('Welcome')
         this.cleanup()
       })
-    },
-    saveService () {
-      this.$modal.hide('save-service')
-    },
-    cancelServiceSave () {
-      this.$modal.hide('save-service')
-      this.saveProfile()
     }
   }
 }
