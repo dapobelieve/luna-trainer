@@ -121,7 +121,16 @@
       </div>
     </div>
     <onboarding-complete-modal @closeOnboardingCompleteModal="finishedSetUp" />
-    <v-dialog />
+    <modal name="dialog" width="370px" height="180px">
+      <div class="px-4 pt-8">
+        <h2 class="text-lg font-medium">Confirm Exit Page</h2>
+        <p class="mt-4">Leaving this page will discard your changes. This cannot be undone.</p>
+        <div class="flex justify-end gap-8">
+          <button @click="saveService" class="text-[#3A7D7D]">No</button>
+          <button @click="cancelServiceSave" class="bg-[#3A7D7D] text-white py-2 px-2">Yes, sure</button>
+        </div>
+      </div>
+    </modal>
     </async-view>
 </template>
 
@@ -263,25 +272,7 @@ export default {
     },
     checkDraftService () {
       if (this.$refs.service._data.service.description !== '' || this.$refs.service._data.service.pricing.amount !== '') {
-        this.$modal.show('dialog', {
-          title: 'Confirm exit page',
-          text: 'Leaving this page will discard your changes. This cannot be on done',
-          buttons: [
-            {
-              title: 'No',
-              handler: () => {
-                this.$modal.hide('dialog')
-              }
-            },
-            {
-              title: 'Yes, sure',
-              handler: () => {
-                this.$modal.hide('dialog')
-                this.saveProfile()
-              }
-            }
-          ]
-        })
+        this.$modal.show('dialog')
       } else {
         this.saveProfile()
       }
@@ -305,6 +296,13 @@ export default {
         this.$lunaToast.success('Welcome')
         this.cleanup()
       })
+    },
+    saveService () {
+      this.$modal.hide('dialog')
+    },
+    cancelServiceSave () {
+      this.$modal.hide('dialog')
+      this.saveProfile()
     }
   }
 }
