@@ -222,7 +222,11 @@
     transform: translateX(0px);
   }
 }
-
+.vue-dialog {
+	.vue-dialog-title{
+		color: red
+	}
+}
 .vue-dialog-buttons{
   justify-content: right;
   @apply p-1.5 float-right px-4;
@@ -232,10 +236,10 @@
     @apply py-2 px-4
   }
   & > .vue-dialog-button:nth-child(1){
-    @apply bg-white text-blue-500;
+    @apply bg-white text-[#3A7D7D]
   }
 
   & > .vue-dialog-button:nth-child(2){
-    @apply bg-blue-500 text-white;
+    @apply bg-[#3A7D7D] text-white
   }
 }
