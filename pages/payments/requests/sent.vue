@@ -368,6 +368,10 @@ export default {
       link.setAttribute('download', 'Sent_Invoices.csv')
       document.body.appendChild(link)
       link.click()
+
+      this.$lunaToast.success(
+        `Exported Successfully`
+      )
     }
   }
 }
