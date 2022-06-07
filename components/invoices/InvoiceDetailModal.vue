@@ -119,7 +119,7 @@
             </button>
 
             <button v-if="invoice.paymentReceipts.length > 0" class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
-              Mark as Paid
+              Mark as paid
             </button>
           </template>
           <template v-else-if="invoice.status !== 'cancelled'">
@@ -169,7 +169,7 @@
         <div class="flex">
           <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="updateInvoice">
             <SingleLoader v-if="loading" />
-            <span v-else>Mark as Paid</span>
+            <span v-else>Mark as paid</span>
           </button>
         </div>
       </div>

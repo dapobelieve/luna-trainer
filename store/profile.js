@@ -22,58 +22,63 @@ export const mutations = {
 }
 
 export const actions = {
-  clearGetWelpUser ({ commit, dispatch, getters }) {
-    commit('SET_USER', {})
+  clearGetWelpUser({ commit, getters }) {
+    commit("SET_USER", {});
   },
-  async updateProfile ({ dispatch, commit }, payload) {
-    const res = await this.$axios.$put(`${process.env.BASEURL_HOST}/profile`, payload)
-    await dispatch('getUserProfile')
-    return res.data
+  async updateProfile({ dispatch, commit }, payload) {
+    const res = await this.$axios.$put(
+      `${process.env.BASEURL_HOST}/profile`,
+      payload
+    );
+    await dispatch("getUserProfile");
+    return res.data;
   },
-  async getUserProfile ({ commit }) {
-    const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/profile`)
-    if (res.status === 'success') {
-      commit('SET_USER', res.data)
-      return res.data
+  async getUserProfile({ commit }) {
+    const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/profile`);
+    if (res.status === "success") {
+      commit("SET_USER", res.data);
+      return res.data;
     }
-    return res
+    return res;
   },
-  uploadProfileImage ({ commit }, payload) {
-    const formdata = new FormData()
-    formdata.append('file', payload)
+  uploadProfileImage({ commit }, payload) {
+    const formdata = new FormData();
+    formdata.append("file", payload);
     return this.$axios
       .$patch(`${process.env.BASEURL_HOST}/profile/upload-image`, formdata, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+        headers: { "Content-Type": "multipart/form-data" },
       })
       .then((response) => {
-        commit('SET_USER', response.data)
-        return response
-      })
+        commit("SET_USER", response.data);
+        return response;
+      });
   },
-  async getServices ({ commit }, payload) {
+  async getServices({ commit }, payload) {
     return await this.$axios.$get(
       `${process.env.BASEURL_HOST}/profile/services`
-    )
+    );
   },
-  async deleteService ({ dispatch, commit }, serviceId) {
+  async deleteService({ dispatch, commit }, serviceId) {
     await this.$axios.$delete(
       `${process.env.BASEURL_HOST}/profile/services/${serviceId}`
-    )
-    await dispatch('getUserProfile')
+    );
+    await dispatch("getUserProfile");
   },
   // reporting should have its own store
-  async clientReportSummary () {
+  async clientReportSummary() {
     // day, month, week quarter
-    const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/reporting/client/summary?q=month`)
-    return res.data[0]
+    const res = await this.$axios.$get(
+      `${process.env.REPORTING_HOST}/reporting/client/summary?q=month`
+    );
+    return res.data[0];
   },
-  async clientReport () {},
+  async clientReport() {},
 
-  userFinancials () {
-    return {}
+  userFinancials() {
+    return {};
   },
-  async reportPreference () {}
-}
+  async reportPreference() {},
+};
 export const getters = {
   getLoading: state => state.loading,
   getUser: state => state.user,
