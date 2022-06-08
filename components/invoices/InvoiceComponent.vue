@@ -8,7 +8,7 @@
     "
   >
     <!--  invoice builder -->
-    <form method="post" action="/invoice" @change="saveForm">
+    <form method="post" action="/invoice">
       <container-with-title class="lg:min-w-[500px] lg:max-w-[510px]">
         <template v-slot:headerbox>
           <p class="capitalize text-lg mt-2 font-medium">
@@ -379,6 +379,16 @@ export default {
         idx: item.serviceId ? null : this.getUniqueId(),
         qty: 1
       }))
+    }
+  },
+  watch: {
+    invoice: {
+      deep: true,
+      async handler () {
+        if (this.invoice.items.length !== 0 && this.invoice.note !== undefined) {
+          await this.saveForm()
+        }
+      }
     }
   },
   methods: {
