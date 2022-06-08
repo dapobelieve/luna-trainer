@@ -18,14 +18,14 @@
       </div>
     </div>
 
-    <div class="absolute bottom-0 text-center my-5 text-[#64748B]">
+    <a href="https://web.goluna.app/privacy" class="absolute bottom-0 text-center my-5 text-[#64748B]">
       <div>
         Privacy . Terms
       </div>
       <div>
         Luna © {{ date }}
       </div>
-    </div>
+    </a>
   </div>
 </template>
 

@@ -68,11 +68,11 @@ export const actions = {
 export const getters = {
   getUnreadNotifications: state =>
     [...state.notifications.UNREAD].sort(
-      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     ),
   getReadNotifications: state =>
     [...state.notifications.READ].sort(
-      (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
+      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
     ),
   getNotificationsSummary: state => state.summary
 }
