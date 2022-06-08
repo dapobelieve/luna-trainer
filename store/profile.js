@@ -35,7 +35,7 @@ export const actions = {
   },
   async getUserProfile({ commit }) {
     const res = await this.$axios.$get(`${process.env.BASEURL_HOST}/profile`);
-    if (res.status === "success") {
+    if (res.status === 'success') {
       commit("SET_USER", res.data);
       return res.data;
     }
