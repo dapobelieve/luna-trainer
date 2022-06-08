@@ -108,6 +108,7 @@ export default {
     disconnectStripeAccount () {
       this.$modal.show('dialog', {
         title: 'Are you sure you want to disconnect from Stripe?',
+        text: "You're changes cannot be undone.",
         buttons: [
           {
             title: 'No',

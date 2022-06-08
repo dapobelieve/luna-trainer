@@ -222,14 +222,21 @@
     transform: translateX(0px);
   }
 }
-.vue-dialog {
-	.vue-dialog-title{
-		color: red
-	}
+.vue-dialog div{
+	box-sizing: none;
+}
+.vue-dialog-content{
+  @apply w-80 h-40 px-4 pt-4;
+}
+.vue-dialog-content:nth-child(1){
+	@apply text-base
+}
+.vue-dialog-content-title{
+	@apply text-lg font-normal
 }
 .vue-dialog-buttons{
   justify-content: right;
-  @apply p-1.5 float-right px-4;
+  @apply p-1.5 float-right px-4 mb-2 gap-4 font-medium text-base;
 
   & > .vue-dialog-button{
     flex:none !important;
