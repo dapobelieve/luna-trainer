@@ -60,8 +60,8 @@
                     </div>
                   </div>
                   <div
-                    class="bg-slate-50 py-3 my-4 px-5 shadow-sm rounded-lg"
-                    style="background-color: #e2e8f0"
+                    class="bg-slate-50 py-3 my-4 px-5 shadow-sm rounded-lg border-slate"
+                    style="background-color: rgba(248, 250, 252, 1); border-width: 1px;"
                   >
                     <p class="text-slate-500 text-sm">
                       Amount
