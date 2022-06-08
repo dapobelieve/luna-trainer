@@ -370,7 +370,7 @@ export default {
       link.click()
 
       this.$lunaToast.success(
-        `Exported Successfully`
+        'Exported Successfully'
       )
     }
   }
