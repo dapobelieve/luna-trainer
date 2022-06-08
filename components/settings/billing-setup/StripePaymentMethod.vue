@@ -64,6 +64,7 @@
         />
       </div>
     </div>
+    <v-dialog />
   </div>
 </template>
 
@@ -104,12 +105,29 @@ export default {
       disablePaymentMethod: 'disablePaymentMethod',
       setDefaultPaymentMethod: 'setDefaultPaymentMethod'
     }),
-    async disconnectStripeAccount () {
-      try {
-        await this.disconnectFromStripe()
-      } catch (error) {
-        this.$lunaToast.error(error.message)
-      }
+    disconnectStripeAccount () {
+      this.$modal.show('dialog', {
+        title: 'Are you sure you want to disconnect from Stripe?',
+        buttons: [
+          {
+            title: 'No',
+            handler: () => {
+              this.$modal.hide('dialog')
+            }
+          },
+          {
+            title: 'Yes',
+            handler: async () => {
+              try {
+                await this.disconnectFromStripe()
+              } catch (error) {
+                this.$lunaToast.error(error.message)
+              }
+              this.$modal.hide('dialog')
+            }
+          }
+        ]
+      })
     },
     async toggleStripeConnection (reset) {
       this.loading = true
