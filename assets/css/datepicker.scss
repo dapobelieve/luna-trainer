@@ -1,0 +1,21 @@
+$default-color: #555;
+$primary-color: #7828d2;
+
+@import '~vue2-datepicker/scss/index.scss';
+
+.#{$namespace}-calendar-header {
+  &-label {
+    button {
+      color: black !important;
+    }
+  }
+  i {
+    color: black;
+  }
+}
+.#{$namespace}-calendar-content {
+  .cell {
+    color: #000;
+    font-weight: bolder;
+  }
+}

@@ -44,7 +44,7 @@ export default {
     '@/assets/css/new-fonts.css',
     'vue-popperjs/dist/vue-popper.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
-    'vue2-datepicker/index.css'
+    '@/assets/css/datepicker.scss'
   ],
   plugins: [
     { src: '~plugins/services' },
@@ -80,7 +80,7 @@ export default {
   },
   loading: '~/components/loading.vue',
   buildModules: [
-    '@nuxtjs/eslint-module',
+    // '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     'nuxt-compress',
     '@nuxtjs/date-fns'
