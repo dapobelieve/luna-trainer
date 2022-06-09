@@ -78,20 +78,19 @@
 
                   <div>
                     <div v-for="item in items" :key="item._id" class="my-5 mt-8">
-                      <p class="text-xs font-medium text-slate-700">
+                      <p class="text-xs font-bold text-slate-700">
                         {{ item.description }}
                       </p>
                       <div class="flex justify-between">
                         <p class="text-xs text-slate-500">
                           Qty {{ item.qty }}
                         </p>
-                        <p class="text-xs text-slate-700">
+                        <p class="text-xs text-slate-700 font-bold">
                           {{ formatNumber(item.price, currency) }}
                         </p>
                       </div>
                     </div>
                     <hr class="bg-lightgray" style="margin-bottom: 20px" />
-
                     <div class="flex justify-between">
                       <div class="text-sm text-slate-700">
                         Total
