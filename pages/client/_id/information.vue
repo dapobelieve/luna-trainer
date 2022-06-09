@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
 export default {
   name: 'Information',

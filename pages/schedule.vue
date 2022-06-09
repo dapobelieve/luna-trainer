@@ -287,10 +287,6 @@ export default {
 </script>
 <style>
 @import '../assets/css/introtheme.css';
-/* .introjs-prevbutton {
- height: 0%;
- opacity: 0;
-} */
 </style>
 <style lang="scss" scoped>
 .schedule-section {
