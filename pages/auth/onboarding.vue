@@ -60,6 +60,7 @@
                   <onboarding-services
                     v-model="currentService"
                     @validity="allow($event)"
+                    ref="service"
                   />
                 </template>
               </div>
@@ -88,7 +89,7 @@
                 :disabled="addServices.isDisabled"
                 type="button"
                 style="width:fit-content"
-                @click="saveProfile"
+                @click="checkDraftService"
               >
                 Save & Complete
               </button-spinner>
@@ -120,7 +121,8 @@
       </div>
     </div>
     <onboarding-complete-modal @closeOnboardingCompleteModal="finishedSetUp" />
-  </async-view>
+    <v-dialog />
+    </async-view>
 </template>
 
 <script>
@@ -184,8 +186,8 @@ export default {
           subTitle:
             '<p class="mb-6 my-4">Luna is specifically designed for dog trainers and behaviourists, we have integrated the services you provide into your payment centre. </p>' +
             "<p class='mb-6'>The services you add today are just to get you started, you can always add, delete or amend at a later date.</p>" +
-			"<p> For example: </p> <div class='ml-8'> <ul> <li class='list-disc'> Puppy Class - 1 hour </li> <li> In Person </li> <li> £10 </li> </ul>" +
-			"<p class='my-6'> Or </p> <ul> <li class='list-disc'> 1-2-1 Behaviour Consultation </li> <li> Remote </li> <li> £60 </li> </ul> </div>"
+            "<p> For example: </p> <div class='ml-8'> <ul> <li class='list-disc'> Puppy Class - 1 hour </li> <li> In Person </li> <li> £10 </li> </ul>" +
+            "<p class='my-6'> Or </p> <ul> <li class='list-disc'> 1-2-1 Behaviour Consultation </li> <li> Remote </li> <li> £60 </li> </ul> </div>"
         },
         {
           id: 4,
@@ -213,7 +215,6 @@ export default {
     }
   },
   created () {
-    console.log(this.currentPage)
     this.startFullPageLoad()
     const tokenValidity = this.$auth.strategy.token.status().valid()
     if (this.$auth.loggedIn && this.$auth.user.onboard && tokenValidity) {
@@ -260,6 +261,31 @@ export default {
       this.step--
       this.setCurrentPage(this.step)
     },
+    checkDraftService () {
+      if (this.$refs.service._data.service.description !== '' || this.$refs.service._data.service.pricing.amount !== '') {
+        this.$modal.show('dialog', {
+          title: 'Confirm Exit Page',
+          text: 'Leaving this page will discard your changes. This cannot be undone.',
+          buttons: [
+            {
+              title: 'No',
+              handler: () => {
+                this.$modal.hide('dialog')
+              }
+            },
+            {
+              title: 'Yes, sure',
+              handler: () => {
+                this.$modal.hide('dialog')
+                this.saveProfile()
+              }
+            }
+          ]
+        })
+      } else {
+        this.saveProfile()
+      }
+    },
     async saveProfile () {
       if (!this.$auth.strategy.token.status().valid()) {
         this.$router.replace({ name: 'auth-signin' })
@@ -279,6 +305,13 @@ export default {
         this.$lunaToast.success('Welcome')
         this.cleanup()
       })
+    },
+    saveService () {
+      this.$modal.hide('dialog')
+    },
+    cancelServiceSave () {
+      this.$modal.hide('dialog')
+      this.saveProfile()
     }
   }
 }
