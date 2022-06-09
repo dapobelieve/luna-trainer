@@ -7,9 +7,9 @@ function amount (amount, currency) {
 }
 function date (date) {
   const vuex = JSON.parse(localStorage.getItem('vuex'))
-  try{
+  try {
     return format(new Date(date), vuex.profile.user.dateFormat)
-  }catch(err){
+  } catch (err) {
     return format(new Date(date), 'MMM dd, yyyy')
   }
 }

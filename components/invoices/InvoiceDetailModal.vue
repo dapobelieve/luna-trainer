@@ -107,6 +107,43 @@
             {{ invoiceNo }}
           </h3>
         </div>
+        <div class="flex mb-8 bottom-border">
+          <h3>
+            Payment Method
+          </h3>
+          <div class="ml-auto">
+            <button
+              v-if="supportedPaymentMethods.includes('stripe')"
+              class="button-outline my-2"
+            >
+              <img
+                src="~/assets/img/stripe.png"
+                alt=""
+                class="w-15 h-5"
+              />
+            </button>
+            <button
+              v-if="supportedPaymentMethods.includes('paypal')"
+              class="button-outline my-2"
+            >
+              <img
+                src="~/assets/img/paypal.png"
+                alt=""
+                class="w-15 h-5"
+              />
+            </button>
+            <button
+              v-if="supportedPaymentMethods.includes('bank')"
+              class="button-outline my-2 relative -top-1"
+            >
+              <span class="text-xs font-bold mr-1">Bank</span>
+              <i
+                role="button"
+                class="fi-rr-bank mr-2 text-gray-700 h-5 w-5"
+              ></i>
+            </button>
+          </div>
+        </div>
         <div class="flex justify-end">
           <template v-if="invoiceStatus !== 'paid' && invoiceStatus !== 'cancelled'">
             <button class="text-red-500 px-4 py-2 border mr-2" @click="cancelInvoice">
@@ -192,6 +229,7 @@ export default {
     return {
       loading: false,
       markAsPaid: false,
+      supportedPaymentMethods: [],
       paymentMethods: [
         {
           type: 'TRANSFER',
@@ -238,6 +276,11 @@ export default {
     validPaymentReceipt () {
       const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
       return acceptedInvoice
+    }
+  },
+  watch: {
+    invoice(newVal){
+      this.supportedPaymentMethods = Object.keys(newVal.supportedPaymentMethods[0]);
     }
   },
   methods: {
@@ -289,6 +332,9 @@ export default {
         this.close()
       }
     }
+  },
+  updated(){
+    console.log(this.invoice.supportedPaymentMethods[0])
   }
 }
 </script>
