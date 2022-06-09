@@ -22,11 +22,14 @@ export const mutations = {
 }
 
 export const actions = {
-  clearGetWelpUser ({ commit, dispatch, getters }) {
+  clearGetWelpUser ({ commit, getters }) {
     commit('SET_USER', {})
   },
   async updateProfile ({ dispatch, commit }, payload) {
-    const res = await this.$axios.$put(`${process.env.BASEURL_HOST}/profile`, payload)
+    const res = await this.$axios.$put(
+      `${process.env.BASEURL_HOST}/profile`,
+      payload
+    )
     await dispatch('getUserProfile')
     return res.data
   },
@@ -64,7 +67,9 @@ export const actions = {
   // reporting should have its own store
   async clientReportSummary () {
     // day, month, week quarter
-    const res = await this.$axios.$get(`${process.env.REPORTING_HOST}/reporting/client/summary?q=month`)
+    const res = await this.$axios.$get(
+      `${process.env.REPORTING_HOST}/reporting/client/summary?q=month`
+    )
     return res.data[0]
   },
   async clientReport () {},

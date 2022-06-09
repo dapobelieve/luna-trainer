@@ -148,7 +148,7 @@
           <template v-if="invoiceStatus !== 'paid' && invoiceStatus !== 'cancelled'">
             <button class="text-red-500 px-4 py-2 border mr-2" @click="cancelInvoice">
               <SingleLoader v-if="cancelling" />
-              <span v-else>Cancel</span>
+              <span v-else>Cancel Invoice</span>
             </button>
             <button v-if="invoiceStatus !== 'paid_awaiting_confirmation'" ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
@@ -156,7 +156,7 @@
             </button>
 
             <button v-if="invoice.paymentReceipts.length > 0" class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
-              Mark as Paid
+              Mark as paid
             </button>
           </template>
           <template v-else-if="invoice.status !== 'cancelled'">
@@ -206,7 +206,7 @@
         <div class="flex">
           <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="updateInvoice">
             <SingleLoader v-if="loading" />
-            <span v-else>Mark as Paid</span>
+            <span v-else>Mark as paid</span>
           </button>
         </div>
       </div>
@@ -292,9 +292,7 @@ export default {
         })
         this.$lunaToast.success('Payment request updated')
         this.close()
-      } catch (e) {
-        console.log(e)
-      }
+      } catch (e) {}
     },
     async updateInvoice () {
       this.loading = true
@@ -307,9 +305,7 @@ export default {
 
         this.$lunaToast.success('Payment request updated')
         this.close()
-      } catch (e) {
-        console.log(e)
-      } finally {
+      } catch (e) {} finally {
         this.loading = false
       }
     },
