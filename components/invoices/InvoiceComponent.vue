@@ -385,7 +385,7 @@ export default {
     invoice: {
       deep: true,
       async handler () {
-        if (this.invoice.items.length !== 0 && this.invoice.note !== undefined) {
+        if (this.invoice.customer && this.invoice.items.length !== 0 && this.invoice.dueDate !== '') {
           await this.saveForm()
         }
       }
