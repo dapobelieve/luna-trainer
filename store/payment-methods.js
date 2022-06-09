@@ -12,7 +12,11 @@ export const mutations = {
 export const actions = {
   async markAsPaid ({ dispatch }, receipt) {
     const res = await this.$axios.$post(`${process.env.PAYMENT_HOST_URL}/payment-receipt/confirm`, receipt)
-    await dispatch('invoice/getInvoices', null, { root: true })
+    await dispatch('invoice/getInvoices', {
+      workflowStatus: 'sent',
+      customerUserId: '',
+      status: ''
+    }, { root: true })
     return res
   },
   async markAsUnPaid ({ dispatch }, payload) {

@@ -58,9 +58,9 @@
                 </template>
                 <template v-else-if="step === 3">
                   <onboarding-services
+                    ref="service"
                     v-model="currentService"
                     @validity="allow($event)"
-                    ref="service"
                   />
                 </template>
               </div>
@@ -122,7 +122,7 @@
     </div>
     <onboarding-complete-modal @closeOnboardingCompleteModal="finishedSetUp" />
     <v-dialog />
-    </async-view>
+  </async-view>
 </template>
 
 <script>

@@ -43,7 +43,7 @@
           class="input-field"
           :class="{'border-red-500' : $v.profile.businessCountry.$error}"
         >
-          <option v-for="country in countries" :key="country.code" :value="country.code" >
+          <option v-for="country in countries" :key="country.code" :value="country.code">
             {{ country.name }}
           </option>
         </select>

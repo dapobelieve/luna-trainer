@@ -2,7 +2,7 @@
   <nav class="flex min-h-full text-sm">
     <div class="flex-grow flex flex-1 flex-col space-y-4 ">
       <client-card-navigation />
-      <client-card-invoices :clientUserId="client.userId"/>
+      <client-card-invoices :client-user-id="client.userId" />
       <!-- <client-card-sessions /> -->
     </div>
   </nav>

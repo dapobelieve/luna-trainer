@@ -86,7 +86,7 @@
                 <label
                   for="notes"
                   class="block text-sm font-medium text-gray-700"
-                >Add a personal message <span class="text-gray-400">(optional)</span> </label> 
+                >Add a personal message <span class="text-gray-400">(optional)</span> </label>
                 <textarea
                   id="notes"
                   v-model.trim="clientInfo.welcomeNote"
