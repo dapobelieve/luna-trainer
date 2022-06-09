@@ -264,8 +264,8 @@ export default {
     checkDraftService () {
       if (this.$refs.service._data.service.description !== '' || this.$refs.service._data.service.pricing.amount !== '') {
         this.$modal.show('dialog', {
-          title: 'Confirm exit page',
-          text: 'Leaving this page will discard your changes. This cannot be on done',
+          title: 'Confirm Exit Page',
+          text: 'Leaving this page will discard your changes. This cannot be undone.',
           buttons: [
             {
               title: 'No',
@@ -305,6 +305,13 @@ export default {
         this.$lunaToast.success('Welcome')
         this.cleanup()
       })
+    },
+    saveService () {
+      this.$modal.hide('dialog')
+    },
+    cancelServiceSave () {
+      this.$modal.hide('dialog')
+      this.saveProfile()
     }
   }
 }
