@@ -25,9 +25,9 @@
           <div class="mt-10">
             <div class="justify-center">
               <div class="bg-white rounded-lg pb-4">
-                <div class="bg-[#3b82f6] rounded-t-lg py-5 pl-4 flex">
+                <div class="bg-[#3b82f6] rounded-t-lg py-3 pl-4 flex">
                   <NuxtLink to="/">
-                    <img class="h-8" src="~/assets/img/logo-v2-fff.svg" />
+                    <img class="h-10" src="~/assets/img/logo-v2-fff.svg" />
                   </NuxtLink>
                 </div>
                 <div class="px-4 my-2 bg-white">
@@ -60,7 +60,7 @@
                     </div>
                   </div>
                   <div
-                    class="bg-slate-50 py-3 my-4 px-5 shadow-sm rounded-lg border-slate"
+                    class="bg-slate-50 py-2 my-4 px-5 shadow-sm rounded-lg border-slate"
                     style="background-color: rgba(248, 250, 252, 1); border-width: 1px;"
                   >
                     <p class="text-slate-500 text-sm">
@@ -69,20 +69,20 @@
                     <p class="text-slate-700 text-2xl font-medium">
                       {{ total }}
                     </p>
-                    <p class="text-xs text-slate-700 my-2">
-                      <span class="h-2 w-2 mt-1 text-red-500 bg-red-500 rounded-2xl inline-block"></span>
+                    <p class="text-xs text-slate-700 my-2 mb-1">
+                      <span class="h-1 w-1 mr-1 text-red-500 bg-red-500 rounded-2xl inline-block mb-0"></span>
                       Due on
                       {{ dueDate }}
                     </p>
                   </div>
 
                   <div>
-                    <div v-for="item in items" :key="item._id" class="my-5">
+                    <div v-for="item in items" :key="item._id" class="my-5 mt-8">
                       <p class="text-xs font-medium text-slate-700">
                         {{ item.description }}
                       </p>
                       <div class="flex justify-between">
-                        <p class="text-sm text-slate-500">
+                        <p class="text-xs text-slate-500">
                           Qty {{ item.qty }}
                         </p>
                         <p class="text-xs text-slate-700">
