@@ -176,4 +176,10 @@
   }
 
 
+/*Date picker customizations */
+$namespace: 'gw';
+$default-color: green;
+
+@import "~vue2-datepicker/scss/index.scss";
+
 

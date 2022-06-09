@@ -241,7 +241,6 @@ import DatePicker from 'vue2-datepicker'
 import { format, fromUnixTime } from 'date-fns'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
-import 'vue2-datepicker/index.css'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
 import Conference from '~/components/conference/index'
@@ -435,10 +434,10 @@ export default {
 
       const fromTime = this.form.from.split(' ')
       let fromHrs
-      if(fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
+      if (fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
         fromHrs = (parseInt(fromTime[0].split(':')[0]) + 12)
-      }else{
-        fromHrs = parseInt(fromTime[0].split(':')[0]);
+      } else {
+        fromHrs = parseInt(fromTime[0].split(':')[0])
       }
       const fromMinutes = parseInt(fromTime[0].split(':')[1])
 
@@ -493,10 +492,10 @@ export default {
           this.btn.text = 'Creating Schedule...'
           const fromTime = this.form.from.split(' ')
           let fromHrs
-          if(fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
+          if (fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
             fromHrs = (parseInt(fromTime[0].split(':')[0]) + 12)
-          }else{
-            fromHrs = parseInt(fromTime[0].split(':')[0]);
+          } else {
+            fromHrs = parseInt(fromTime[0].split(':')[0])
           }
           const fromMinutes = parseInt(fromTime[0].split(':')[1])
 

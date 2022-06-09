@@ -1,11 +1,13 @@
 import webpack from 'webpack'
 require('./config')
 
-const hotjar = process.env.NODE_ENV !== 'production' ? {} : {
-  defer: true,
-  src: 'https://getwelp-files.s3.us-west-2.amazonaws.com/scripts/hotjar.js',
-  async: true
-}
+const hotjar = process.env.NODE_ENV !== 'production'
+  ? {}
+  : {
+      defer: true,
+      src: 'https://getwelp-files.s3.us-west-2.amazonaws.com/scripts/hotjar.js',
+      async: true
+    }
 export default {
   ssr: false,
   head: {
@@ -44,7 +46,7 @@ export default {
     '@/assets/css/new-fonts.css',
     'vue-popperjs/dist/vue-popper.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
-    'vue2-datepicker/index.css'
+    '@/assets/css/datepicker.scss'
   ],
   plugins: [
     { src: '~plugins/services' },

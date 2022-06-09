@@ -6,9 +6,9 @@
       :value="value"
       :checked="checked || items.includes(value)"
       type="checkbox"
+      :disabled="disabled"
       @click="$event.stopPropagation()"
       @change="check"
-      :disabled="disabled"
     >
     <slot></slot>
   </label>

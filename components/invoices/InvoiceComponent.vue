@@ -241,9 +241,9 @@
               class="mt-3 block"
             ><a
               class="text-primary-color"
-              @click.prevent="promptAddPaymentMethod"
               href="/settings/billing/setup"
-              >Add another payment method
+              @click.prevent="promptAddPaymentMethod"
+            >Add another payment method
               <i class="fi-rr-link" /></a></small>
           </div>
           <div class="flex justify-end space-x-6 lg:space-x-0">
@@ -327,10 +327,6 @@ export default {
       default: 'create'
     }
   },
-  created () {
-    this.invoice.customer = this.$route.params?.clientData
-    this.invoice.dueDate = new Date().toISOString()
-  },
   data () {
     return {
       invoiceId: null,
@@ -344,6 +340,10 @@ export default {
       isLoading: false,
       showDropDown: false
     }
+  },
+  created () {
+    this.invoice.customer = this.$route.params?.clientData
+    this.invoice.dueDate = new Date().toISOString()
   },
   computed: {
     ...mapGetters({
@@ -385,7 +385,7 @@ export default {
     invoice: {
       deep: true,
       async handler () {
-        if (this.invoice.items.length !== 0 && this.invoice.note !== undefined) {
+        if (this.invoice.customer && this.invoice.items.length !== 0 && this.invoice.dueDate !== '') {
           await this.saveForm()
         }
       }

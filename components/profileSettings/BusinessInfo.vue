@@ -36,9 +36,9 @@
         <option value="AUD">
           AUD ($)
         </option>
-         <option value="NGN">
-            NGN (₦)
-          </option>
+        <option value="NGN">
+          NGN (₦)
+        </option>
         <option value="CAD">
           CAD ($)
         </option>

@@ -13,8 +13,8 @@
     </div>
     <ClickOutside :do="() => { showDropDown = false }">
       <div class="relative">
-        <span class="fi-rr-menu-dots cursor-pointer font-medium text-xl text-primary-color" @click="showDropDown = !showDropDown" v-if="!loading"></span>
-        <div class="font-medium text-xl text-primary-color" v-else>
+        <span v-if="!loading" class="fi-rr-menu-dots cursor-pointer font-medium text-xl text-primary-color" @click="showDropDown = !showDropDown"></span>
+        <div v-else class="font-medium text-xl text-primary-color">
           <SingleLoader />
         </div>
         <div

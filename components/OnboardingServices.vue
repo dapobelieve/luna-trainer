@@ -11,13 +11,12 @@
         >For example: Puppy Class or Behaviour Consultation</span>
         <input
           id="service"
+          v-model="service.description"
           :disabled="maxServicesReached"
           :class="{ 'border-red-500': $v.service.description.$error }"
-          v-model="service.description"
           placeholder="Separation Anxiety"
           class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
         />
-
       </div>
       <div class="flex flex-col gap-1.5">
         <label

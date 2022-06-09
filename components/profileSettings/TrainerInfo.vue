@@ -4,8 +4,8 @@
       <label for="accreditations">Do you have any accreditations, affiliations or qualifications?</label>
       <TagInput v-model="profile.accreditations" :tabindex="9" />
     </div>
-	<label class="text-gray-400">
-    	{{labelNote}}
+    <label class="text-gray-400">
+      {{ labelNote }}
     </label>
     <div class="flex flex-col gap-1.5">
       <label
@@ -13,17 +13,16 @@
       >What are your training areas of specialism, or behavioural issue focuses?</label>
       <TagInput v-model="profile.specialization" :class="{'border-red-500' : $v.profile.specialization.$invalid}" :tabindex="9" />
     </div>
-	<label class="text-gray-400">
-    	{{labelNote}}
+    <label class="text-gray-400">
+      {{ labelNote }}
     </label>
-	<label class="text-gray-500">
-    	Use comma to separate more than one specialization.
+    <label class="text-gray-500">
+      Use comma to separate more than one specialization.
     </label>
-	<label
-          for="usePositiveReinforce"
-        >Can you confirm that you only use positive reinforcement, force free, trust based training methods? </label>
+    <label
+      for="usePositiveReinforce"
+    >Can you confirm that you only use positive reinforcement, force free, trust based training methods? </label>
     <div class="flex flex-row gap-2">
-		
       <label
         class="rounded-md relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm"
       >

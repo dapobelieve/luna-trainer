@@ -29,6 +29,22 @@ export default {
       sharedPage: this.sharedPage
     }
   },
+  data () {
+    return {
+      showAutosavingText: false,
+      sharedPage: {
+        page: 'Create Payment Request'
+      }
+    }
+  },
+  created () {
+    this.$nuxt.$on('autosaving-invoice', () => {
+      this.showAutosavingText = true
+    })
+    this.$nuxt.$on('autosaving-invoice-completed', () => {
+      this.showAutosavingText = false
+    })
+  },
   methods: {
     promptCancel () {
       this.$modal.show('dialog', {
@@ -51,22 +67,6 @@ export default {
         ]
       })
     }
-  },
-  data () {
-    return {
-      showAutosavingText: false,
-      sharedPage: {
-        page: 'Create Payment Request'
-      }
-    }
-  },
-  created () {
-    this.$nuxt.$on('autosaving-invoice', () => {
-      this.showAutosavingText = true
-    })
-    this.$nuxt.$on('autosaving-invoice-completed', () => {
-      this.showAutosavingText = false
-    })
   }
 }
 </script>
