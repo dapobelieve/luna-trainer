@@ -19,13 +19,13 @@
           </div>
           <div class="flex">
             <SearchDropdown
+              v-if="filteredRecords && filteredRecords.length > 0 || filter.status || filter.customerUserId"
               v-model="searchField"
               :fields="searchFields"
               :options="options"
               :selected="selected"
               @reset="resetTable"
               @selected="searchInvoice"
-              v-if="filteredRecords && filteredRecords.length > 0 || this.filter.status || this.filter.customerUserId"
             >
               <template v-slot:selected-option="{selected}">
                 <span v-if="searchField === 'Name'" class="flex">
@@ -53,13 +53,13 @@
           </div>
         </div>
       </div>
-      <GwPagination :total-items="filteredRecords.length" v-if="filteredRecords && filteredRecords.length > 0 || this.filter.status || this.filter.customerUserId">
+      <GwPagination v-if="filteredRecords && filteredRecords.length > 0 || filter.status || filter.customerUserId" :total-items="filteredRecords.length">
         <template v-slot:content>
           {{ quickSearchQuery }}
           <div class="overflow-scroll lg:overflow-hidden bg-white rounded-md">
             <Async :state="$fetchState">
               <template>
-                <table class="table-auto table w-full text-xs" v-if="filteredRecords && filteredRecords.length">
+                <table v-if="filteredRecords && filteredRecords.length" class="table-auto table w-full text-xs">
                   <thead class="">
                     <tr class="uppercase tracking-wider text-gray-500">
                       <th class="w-12 py-4 font-medium pl-1">
@@ -84,7 +84,7 @@
                       </th>
                     </tr>
                   </thead>
-                  <tbody >
+                  <tbody>
                     <tr
                       v-for="(data) in filteredRecords"
                       :key="data._id"
@@ -127,7 +127,7 @@
                     </tr>
                   </tbody>
                 </table>
-                <table class="table-auto table w-full text-xs" v-else>
+                <table v-else class="table-auto table w-full text-xs">
                   <thead class="">
                     <tr class="uppercase tracking-wider text-gray-500">
                       <th class="w-12 py-4 font-medium pl-1">
@@ -156,7 +156,7 @@
                     <tr class="text-center text-gray-500">
                       <td class="w-12 py-4 font-medium pl-3" colspan="6">
                         No records found
-                       </td>
+                      </td>
                     </tr>
                   </tbody>
                 </table>

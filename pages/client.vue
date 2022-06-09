@@ -20,7 +20,7 @@
           >{{ firstName }} {{ lastName }}</span>
         </template>
         <template v-slot:buttons>
-          <ClientActions :client-info="clientInfo" v-if="clientInfo" />
+          <ClientActions v-if="clientInfo" :client-info="clientInfo" />
         </template>
       </PageHeader>
     </transition>
@@ -36,7 +36,7 @@
           <div class="sticky md:top-[4.5rem]">
             <div class="w-full">
               <!-- Sidebar contents-->
-              <client-sidbar-content :client="clientInfo" v-if="clientInfo" />
+              <client-sidbar-content v-if="clientInfo" :client="clientInfo" />
             </div>
           </div>
         </aside>

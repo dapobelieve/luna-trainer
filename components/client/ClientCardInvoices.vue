@@ -33,7 +33,9 @@
                   <template v-slot:date>
                     <div class="flex flex-col items-end">
                       <InvoiceStatusComponent :status="invoice.status" />
-                      <p class="mt-2">{{ invoice.dueDate | date }}</p>
+                      <p class="mt-2">
+                        {{ invoice.dueDate | date }}
+                      </p>
                     </div>
                   </template>
                 </containers-summary-information-with-avatar>

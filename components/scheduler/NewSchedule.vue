@@ -434,10 +434,10 @@ export default {
 
       const fromTime = this.form.from.split(' ')
       let fromHrs
-      if(fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
+      if (fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
         fromHrs = (parseInt(fromTime[0].split(':')[0]) + 12)
-      }else{
-        fromHrs = parseInt(fromTime[0].split(':')[0]);
+      } else {
+        fromHrs = parseInt(fromTime[0].split(':')[0])
       }
       const fromMinutes = parseInt(fromTime[0].split(':')[1])
 
@@ -492,10 +492,10 @@ export default {
           this.btn.text = 'Creating Schedule...'
           const fromTime = this.form.from.split(' ')
           let fromHrs
-          if(fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
+          if (fromTime[1] === 'pm' && fromTime[0].split(':')[0] < 12) {
             fromHrs = (parseInt(fromTime[0].split(':')[0]) + 12)
-          }else{
-            fromHrs = parseInt(fromTime[0].split(':')[0]);
+          } else {
+            fromHrs = parseInt(fromTime[0].split(':')[0])
           }
           const fromMinutes = parseInt(fromTime[0].split(':')[1])
 

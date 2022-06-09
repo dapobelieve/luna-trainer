@@ -6,7 +6,7 @@
     <client-only>
       <vue-tel-input
         :value="value"
-        defaultCountry="country"
+        default-country="country"
         input-id="phone_number"
         :disabled="disable"
         input-classes="form-control"
