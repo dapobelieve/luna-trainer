@@ -6,7 +6,7 @@ $primary-color: #7828d2;
 .#{$namespace}-calendar-header {
   &-label {
     button {
-      color: black !important;
+      color: #475569 !important;
     }
   }
   i {
@@ -15,7 +15,7 @@ $primary-color: #7828d2;
 }
 .#{$namespace}-calendar-content {
   .cell {
-    color: #000;
+    color: #475569;
     font-weight: bolder;
   }
 }
