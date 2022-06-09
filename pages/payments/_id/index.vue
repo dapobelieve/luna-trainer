@@ -6,219 +6,230 @@
         fixed
         preloader
         top-0
-        h-full
-        w-full
+        h-screen
+        w-screen
         flex
         items-center
         justify-center
       "
     >
-      <div class="inline-flex flex-col items-center">
+      <div class="inline-flex flex-col items-center w-full">
         <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg" />
         <SingleLoader height="20px" width="20px" />
       </div>
     </div>
 
-    <div class="lg:w-[400px] md:w-full m-auto">
-      <main else class="place-content-center">
-        <div class="mt-10">
-          <div class="justify-center">
-            <div class="bg-white rounded-lg pb-4">
-              <div class="bg-[#3b82f6] rounded-t-lg py-5 pl-4 flex">
-                <NuxtLink to="/">
-                  <img class="h-8" src="~/assets/img/logo-v2-fff.svg" />
-                </NuxtLink>
-              </div>
-              <div class="px-4 my-2 bg-white">
-                <div>
-                  <p class="text-1xl font-semibold text-gray-600 flex items-end">
-                    <span>Invoice </span>
-                    <InvoiceStatusComponent
-                      v-if="!isPayable"
-                      :status="status"
-                    />
-                  </p>
-
-                  <div class="flex justify-between space-x-9">
-                    <div class="">
-                      <p class="text-xs py-4 text-slate-500">
-                        From
-                      </p>
-                      <p class="text-sm font-bold text-gray-900">
-                        {{ from }}
-                      </p>
-                    </div>
-                    <div class="">
-                      <p class="text-xs py-4 text-slate-500">
-                        To
-                      </p>
-                      <p class="text-sm font-bold font-100 text-gray-900">
-                        {{ to }}
-                      </p>
-                    </div>
-                  </div>
+    <div class="h-screen md:w-full xl:max-w-[1384px] lg:max-w-full w-full m-auto" >
+      <div class="lg:w-1/4 md:w-full m-auto shadow-sm">
+        <main else class="place-content-center">
+          <div class="mt-10">
+            <div class="justify-center">
+              <div class="bg-white rounded-lg pb-4">
+                <div class="bg-[#3b82f6] rounded-t-lg py-3 pl-4 flex">
+                  <NuxtLink to="/">
+                    <img class="h-10" src="~/assets/img/logo-v2-fff.svg" />
+                  </NuxtLink>
                 </div>
-                <div
-                  class="bg-slate-50 py-5 my-4 px-5 shadow-sm rounded-lg"
-                  style="background-color: #e2e8f0"
-                >
-                  <p class="text-slate-500 text-sm">
-                    Amount
-                  </p>
-                  <p class="text-slate-700 text-2xl font-bold">
-                    {{ total }}
-                  </p>
-                  <p class="text-xs text-slate-700">
-                    <span class="text-4xl mt-1 text-red-500"> . </span>Due on
-                    {{ dueDate }}
-                  </p>
-                </div>
-
-                <div>
-                  <div v-for="item in items" :key="item._id" class="my-5">
-                    <p class="text-xs font-medium text-slate-700">
-                      {{ item.description }}
+                <div class="px-4 my-2 bg-white">
+                  <div>
+                    <p class="text-1xl font-semibold text-gray-600 flex items-end">
+                      <span>Invoice </span>
+                      <InvoiceStatusComponent
+                        v-if="!isPayable"
+                        :status="status"
+                      />
                     </p>
-                    <div class="flex justify-between">
-                      <p class="text-sm text-slate-500">
-                        Qty {{ item.qty }}
-                      </p>
-                      <p class="text-xs text-slate-700">
-                        {{ formatNumber(item.price, currency) }}
-                      </p>
-                    </div>
-                  </div>
-                  <hr class="bg-lightgray" style="margin-bottom: 20px" />
 
-                  <div class="flex justify-between">
-                    <div class="text-sm text-slate-700">
-                      Total
-                    </div>
-                    <div class="text-sm text-slate-700 font-bold">
-                      {{ total }}
-                    </div>
-                  </div>
-                </div>
-
-                <div v-if="isPayable">
-                  <h4 class="mt-9 text-slate-700 text-xs">
-                    Payment Options
-                  </h4>
-                  <div class="flex flex-col mt-4">
-                    <button
-                      v-if="supportedPaymentMethods.includes('stripe')"
-                      class="button-outline my-2"
-                      @click="openModal('stripe')"
-                    >
-                      <span class="text-xs font-bold"> Pay with </span>
-                      <img
-                        src="~/assets/img/stripe.png"
-                        alt=""
-                        class="w-15 h-5"
-                      />
-                    </button>
-                    <button
-                      v-if="supportedPaymentMethods.includes('paypal')"
-                      class="button-outline my-2"
-                      @click="openModal('paypal')"
-                    >
-                      <span class="text-xs font-bold mr-1"> Pay with </span>
-                      <img
-                        src="~/assets/img/paypal.png"
-                        alt=""
-                        class="w-15 h-5"
-                      />
-                    </button>
-                    <button
-                      v-if="supportedPaymentMethods.includes('bank')"
-                      class="button-outline my-2"
-                      @click="openModal('bank')"
-                    >
-                      <span class="text-xs font-bold mr-1"> Pay with Bank</span>
-                      <i
-                        data-v-3a2f61b0=""
-                        role="button"
-                        class="fi-rr-bank mr-2 text-gray-700 h-5 w-5"
-                      ></i>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </main>
-      <Modal name="pay-with-bank" height="auto" :adaptive="true" width="500">
-        <template v-slot>
-          <div class="p-4 py-5">
-            <h1 class="text-1xl font-bold pb-6">
-              Pay With Bank
-            </h1>
-            <p class="text-sm text-slate-500 font-100 text-slate-700">
-              Make your payment directly to the bank account provided below
-            </p>
-            <div
-              class="
-                bg-blue-100
-                my-4
-                py-4
-                px-5
-                rounded-lg
-                border border-grey-100
-              "
-            >
-              <h1 class="font-bold">
-                {{ bankName }}
-              </h1>
-              <div
-                v-if="bankData"
-                class="flex flex-row flex-wrap justify-spacearound"
-              >
-                <div
-                  v-for="v in bankData"
-                  :key="v.title"
-                  class="flex flex-row my-4"
-                >
-                  <div style="">
-                    <div class="text-xs pb-1">
-                      {{ v.title }}
-                    </div>
-                    <div class="font-bold text-xs">
-                      {{ v.value }}
+                    <div class="flex justify-between space-x-9">
+                      <div class="w-2/4">
+                        <p class="text-xs py-4 text-slate-500">
+                          From
+                        </p>
+                        <p class="text-sm font-bold text-gray-900">
+                          {{ from }}
+                        </p>
+                      </div>
+                      <div class="w-2/4">
+                        <p class="text-xs py-4 text-slate-500">
+                          To
+                        </p>
+                        <p class="text-sm font-bold font-100 text-gray-900">
+                          {{ to }}
+                        </p>
+                      </div>
                     </div>
                   </div>
                   <div
-                    class="
-                      text-primary-500
-                      justify-center
-                      align-center
-                      py-1
-                      mx-8
-                      flex flex-row
-                      cursor-pointer
-                    "
-                    @click="copyToClipboard(v.value)"
+                    class="bg-slate-50 py-2 my-4 px-5 shadow-sm rounded-lg border-slate"
+                    style="background-color: rgba(248, 250, 252, 1); border-width: 1px;"
                   >
-                    <i class="fi-rr-copy text-primary-1000" />
+                    <p class="text-slate-500 text-sm">
+                      Amount
+                    </p>
+                    <p class="text-slate-700 text-2xl font-medium">
+                      {{ total }}
+                    </p>
+                    <p class="text-xs text-slate-700 my-2 mb-1">
+                      <span class="h-1 w-1 mr-1 text-red-500 bg-red-500 rounded-2xl inline-block mb-0"></span>
+                      Due on
+                      {{ dueDate }}
+                    </p>
+                  </div>
+
+                  <div>
+                    <div v-for="item in items" :key="item._id" class="my-5 mt-8">
+                      <p class="text-xs font-bold text-slate-700">
+                        {{ item.description }}
+                      </p>
+                      <div class="flex justify-between">
+                        <p class="text-xs text-slate-500">
+                          Qty {{ item.qty }}
+                        </p>
+                        <p class="text-xs text-slate-700 font-bold">
+                          {{ formatNumber(item.price, currency) }}
+                        </p>
+                      </div>
+                    </div>
+                    <hr class="bg-lightgray" style="margin-bottom: 20px" />
+                    <div class="flex justify-between">
+                      <div class="text-sm text-slate-700">
+                        Total
+                      </div>
+                      <div class="text-sm text-slate-700 font-bold">
+                        {{ total }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div v-if="isPayable">
+                    <h4 class="mt-9 text-slate-700 text-xs">
+                      Payment Options
+                    </h4>
+                    <div class="flex flex-col mt-4">
+                      <button
+                        v-if="supportedPaymentMethods.includes('stripe')"
+                        class="button-outline my-2"
+                        @click="openModal('stripe')"
+                      >
+                        <span class="text-xs font-bold"> Pay with </span>
+                        <img
+                          src="~/assets/img/stripe.png"
+                          alt=""
+                          class="w-15 h-5"
+                        />
+                      </button>
+                      <button
+                        v-if="supportedPaymentMethods.includes('paypal')"
+                        class="button-outline my-2"
+                        @click="openModal('paypal')"
+                      >
+                        <span class="text-xs font-bold mr-1"> Pay with </span>
+                        <img
+                          src="~/assets/img/paypal.png"
+                          alt=""
+                          class="w-15 h-5"
+                        />
+                      </button>
+                      <button
+                        v-if="supportedPaymentMethods.includes('bank')"
+                        class="button-outline my-2"
+                        @click="openModal('bank')"
+                      >
+                        <span class="text-xs font-bold mr-1"> Pay with Bank</span>
+                        <i
+                          data-v-3a2f61b0=""
+                          role="button"
+                          class="fi-rr-bank mr-2 text-gray-700 h-5 w-5"
+                        ></i>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="my-4 text-xs text-green-1000">
-                Note - When making your payment, add the reference code along
-                with your transfer for easy confirmation
-              </div>
-            </div>
-            <div class="flex justify-end">
-              <button class="button-outline mx-2" @click="closeModal">
-                Pay Later
-              </button>
-              <button-spinner class="button-fill" @click="goToNotifyTrainerPage">
-                Notify trainer of payment
-              </button-spinner>
             </div>
           </div>
-        </template>
-      </Modal>
+        </main>
+        <Modal name="pay-with-bank" height="auto" :adaptive="true" width="500">
+          <template v-slot>
+            <div class="p-4 py-5">
+              <h1 class="text-1xl font-bold pb-6">
+                Pay With Bank
+              </h1>
+              <p class="text-sm text-slate-500 font-100 text-slate-700">
+                Make your payment directly to the bank account provided below
+              </p>
+              <div
+                class="
+                  bg-blue-100
+                  my-4
+                  py-4
+                  px-5
+                  rounded-lg
+                  border border-grey-100
+                "
+              >
+                <h1 class="font-bold">
+                  {{ bankName }}
+                </h1>
+                <div
+                  v-if="bankData"
+                  class="flex flex-row flex-wrap justify-spacearound"
+                >
+                  <div
+                    v-for="v in bankData"
+                    :key="v.title"
+                    class="flex flex-row my-4"
+                  >
+                    <div style="">
+                      <div class="text-xs pb-1">
+                        {{ v.title }}
+                      </div>
+                      <div class="font-bold text-xs">
+                        {{ v.value }}
+                      </div>
+                    </div>
+                    <div
+                      class="
+                        text-primary-500
+                        justify-center
+                        align-center
+                        py-1
+                        mx-8
+                        flex flex-row
+                        cursor-pointer
+                      "
+                      @click="copyToClipboard(v.value)"
+                    >
+                      <i class="fi-rr-copy text-primary-1000" />
+                    </div>
+                  </div>
+                </div>
+                <div class="my-4 text-xs text-green-1000">
+                  Note - When making your payment, add the reference code along
+                  with your transfer for easy confirmation
+                </div>
+              </div>
+              <div class="flex justify-end">
+                <button class="button-outline mx-2" @click="closeModal">
+                  Pay Later
+                </button>
+                <button-spinner class="button-fill" @click="goToNotifyTrainerPage">
+                  Notify trainer of payment
+                </button-spinner>
+              </div>
+            </div>
+          </template>
+        </Modal>
+      </div>
+
+      <a href="https://web.goluna.app/privacy" class="absolute bottom-20 w-screen text-center my-5 text-[#64748B] xl:max-w-[1384px] lg:max-w-full ">
+        <div>
+          Privacy . Terms
+        </div>
+        <div>
+          Luna © {{ date }}
+        </div>
+      </a>
     </div>
   </div>
 </template>
@@ -236,6 +247,7 @@ export default {
   data () {
     return {
       loading: false,
+      date: format(new Date(Date.now()), 'yyyy'),
       showCopyButtons: false,
       isOpen: false,
       bankData: [],
