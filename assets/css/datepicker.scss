@@ -1,7 +1,7 @@
-$default-color: #555;
-$primary-color: #7828d2;
-
 @import '~vue2-datepicker/scss/index.scss';
+
+$default-color: #555;
+$primary-color: rgba(59, 130, 246, 0.5);
 
 .#{$namespace}-calendar-header {
   &-label {
