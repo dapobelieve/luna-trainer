@@ -308,7 +308,6 @@ export default {
     },
     tourItems () {
       if (this.doNotShowHints) { return }
-
       dashboardTourSteps(this.$intro())
         .oncomplete(() => {
           this.removeQueryParams()
@@ -316,9 +315,18 @@ export default {
         .onexit(() => {
           this.removeQueryParams()
         })
+        .onafterchange(() => {
+        })
+        .onexit(() => {
+          const skip = document.getElementById('skip');
+          skip.classList.add('opacity-0')
+        })
         .start()
 
+      const skip = document.getElementById('skip');
+      skip.classList.remove('opacity-0')
       this.$intro().showHints()
+
     },
     closeModal () {
       this.$modal.hide('welcome-modal')
