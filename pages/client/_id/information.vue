@@ -119,7 +119,8 @@ export default {
               breed: this.clientInfo.pet[0].breed
             }
           ],
-          notes: this.clientInfo.notes
+          notes: this.clientInfo.notes,
+          behaviouralIssues: this.clientInfo.behaviouralIssues
         }
       })
         .then((response) => {
