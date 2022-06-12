@@ -23,10 +23,9 @@ export default {
     VueTagsInput
   },
   props: {
-    placeholder:{
+    placeholder: {
       type: String,
       default: 'Add items'
-    },
     },
     block: Boolean,
     tabindex: Number,
