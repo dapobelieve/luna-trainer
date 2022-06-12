@@ -13,6 +13,15 @@ $primary-color: rgba(59, 130, 246, 0.5);
     color: black;
   }
 }
+.#{$namespace}-input {
+  padding: 1rem 1rem !important;
+  padding-left: 10px !important;
+  height: 40px !important;
+  border-radius:0.5em !important;
+  font-weight: 500;
+  border-color: #e2e8f0
+}
+
 .#{$namespace}-calendar-content {
   .cell {
     color: #475569;
