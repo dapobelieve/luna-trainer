@@ -85,7 +85,7 @@ export default {
     } else {
       console.log(acceptedPaymentReceipts)
       this.paidObj.paymentDate = new Date(acceptedPaymentReceipts.paymentDate)
-      this.paidObj.paymentType = this.paymentMethods.find(method => method.type == acceptedPaymentReceipts.paymentType)
+      this.paidObj.paymentType = this.paymentMethods.find(method => method.type === acceptedPaymentReceipts.paymentType)
     }
   },
   methods: {
