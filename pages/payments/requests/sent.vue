@@ -351,7 +351,10 @@ export default {
       try {
         this.exporting = true
         const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export`, {
-          responseType: 'blob'
+          responseType: 'blob',
+          params: {
+            ids: [...this.checkedItems]
+          }
         })
         this.downloadDocument(res)
       } catch (e) {

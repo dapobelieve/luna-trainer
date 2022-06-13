@@ -81,23 +81,17 @@
           <h3>Status</h3>
           <InvoiceStatusComponent class="ml-auto" :status="status" />
         </div>
-        <!-- <div class="flex mb-8 bottom-border">
-          <h3>Date Issued</h3>
-          <h3 class="ml-auto">
-            {{ issuedDate }}
-          </h3>
-        </div> -->
-        <!--        <div class="flex mb-8 bottom-border">-->
-        <!--          <h3>Paid Date</h3>-->
-        <!--          <h3 class="ml-auto">-->
-        <!--            {{ issuedDate }}-->
-        <!--          </h3>-->
-        <!--        </div>-->
-        <template v-if="invoiceStatus === 'paid'">
+        <div class="flex mb-8" v-if="invoice.note">
+          <h3>Notes</h3>
+          <p class="ml-auto">
+            {{ invoice.note }}
+          </p>
+        </div>
+        <template v-if="invoiceStatus === 'paid' && paymentPaymentMethod">
           <div class="flex mb-8 bottom-border">
             <h3>Payment Method</h3>
             <h3 class="ml-auto">
-              {{ paymentMethod.type.toUpperCase() }}
+              {{ paymentPaymentMethod.toUpperCase() }}
             </h3>
           </div>
         </template>
@@ -107,56 +101,53 @@
             {{ invoiceNo }}
           </h3>
         </div>
-        <div class="flex mb-8 bottom-border">
+        <div class="flex mb-8 bottom-border items-center">
           <h3>
-            Payment Method
+            Payment Method(s)
           </h3>
-          <div class="ml-auto">
-            <button
-              v-if="supportedPaymentMethods.includes('stripe')"
-              class="button-outline my-2"
+          <div class="ml-auto flex">
+            <span
+              v-if="supportedPaymentMethodTypes.includes('stripe')"
+              class="my-4 block"
             >
               <img
                 src="~/assets/img/stripe.png"
-                alt=""
+                alt="Stripe"
                 class="w-15 h-5"
               />
-            </button>
-            <button
-              v-if="supportedPaymentMethods.includes('paypal')"
-              class="button-outline my-2"
+            </span>
+            <span
+              v-if="supportedPaymentMethodTypes.includes('paypal')"
+              class="my-4 block"
             >
               <img
                 src="~/assets/img/paypal.png"
-                alt=""
+                alt="Paypal"
                 class="w-15 h-5"
               />
-            </button>
-            <button
-              v-if="supportedPaymentMethods.includes('bank')"
-              class="button-outline my-2 relative -top-1"
+            </span>
+            <span
+              v-if="supportedPaymentMethodTypes.includes('bank')"
+              class="my-4 block"
             >
-              <span class="text-xs font-bold mr-1">Bank</span>
               <i
-                role="button"
                 class="fi-rr-bank mr-2 text-gray-700 h-5 w-5"
               ></i>
-            </button>
+            </span>
           </div>
         </div>
         <div class="flex justify-end">
           <template v-if="invoiceStatus !== 'paid' && invoiceStatus !== 'cancelled'">
             <button class="text-red-500 px-4 py-2 border mr-2" @click="cancelInvoice">
               <SingleLoader v-if="cancelling" />
-              <span v-else>Cancel</span>
+              <span v-else>Cancel Invoice</span>
             </button>
             <button v-if="invoiceStatus !== 'paid_awaiting_confirmation'" ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
               <SingleLoader v-if="nudging" />
               <span v-else>Send Nudge</span>
             </button>
-
             <button v-if="invoice.paymentReceipts.length > 0" class="text-primary-color px-4 py-2 border" @click="markAsPaid = true">
-              Mark as Paid
+              Mark as paid
             </button>
           </template>
           <template v-else-if="invoice.status !== 'cancelled'">
@@ -206,7 +197,7 @@
         <div class="flex">
           <button :disabled="!paidObj.paymentType || !paidObj.paymentDate" class="button-fill ml-auto" @click="updateInvoice">
             <SingleLoader v-if="loading" />
-            <span v-else>Mark as Paid</span>
+            <span v-else>Mark as paid</span>
           </button>
         </div>
       </div>
@@ -229,7 +220,6 @@ export default {
     return {
       loading: false,
       markAsPaid: false,
-      supportedPaymentMethods: [],
       paymentMethods: [
         {
           type: 'TRANSFER',
@@ -258,8 +248,12 @@ export default {
         return acc
       }, 0)
     },
-    paymentMethod () {
-      return this.invoice.supportedPaymentMethods[0]
+    supportedPaymentMethodTypes () {
+      return this.invoice.supportedPaymentMethods.map(m => m.type)
+    },
+    paymentPaymentMethod () {
+      console.log(this.invoice.paymentReceipts)
+      return this.invoice.paymentReceipts && this.invoice.paymentReceipts.find(x => x.status === 'accepted')?.paymentType
     },
     status () {
       return this.invoice.status
@@ -272,15 +266,6 @@ export default {
     },
     invoiceCustomer () {
       return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
-    },
-    validPaymentReceipt () {
-      const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')
-      return acceptedInvoice
-    }
-  },
-  watch: {
-    invoice (newVal) {
-      this.supportedPaymentMethods = Object.keys(newVal.supportedPaymentMethods[0])
     }
   },
   updated () {
@@ -295,9 +280,7 @@ export default {
         })
         this.$lunaToast.success('Payment request updated')
         this.close()
-      } catch (e) {
-        console.log(e)
-      }
+      } catch (e) {}
     },
     async updateInvoice () {
       this.loading = true
@@ -310,9 +293,7 @@ export default {
 
         this.$lunaToast.success('Payment request updated')
         this.close()
-      } catch (e) {
-        console.log(e)
-      } finally {
+      } catch (e) {} finally {
         this.loading = false
       }
     },

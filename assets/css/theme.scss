@@ -226,7 +226,7 @@
 	box-sizing: none;
 }
 .vue-dialog-content{
-  @apply w-80 h-40 px-4 pt-4;
+  @apply w-80 h-auto px-4 pt-4;
 }
 .vue-dialog-content:nth-child(1){
 	@apply text-base
@@ -236,17 +236,17 @@
 }
 .vue-dialog-buttons{
   justify-content: right;
-  @apply p-1.5 float-right px-4 mb-2 gap-4 font-medium text-base;
+  @apply p-1.5 float-right px-4 mb-2 gap-4 font-medium text-base border-none;
 
   & > .vue-dialog-button{
     flex:none !important;
     @apply py-2 px-4
   }
   & > .vue-dialog-button:nth-child(1){
-    @apply bg-white text-[#3A7D7D]
+    @apply bg-white text-blue-500
   }
 
   & > .vue-dialog-button:nth-child(2){
-    @apply bg-[#3A7D7D] text-white
+    @apply bg-blue-500 text-white
   }
 }

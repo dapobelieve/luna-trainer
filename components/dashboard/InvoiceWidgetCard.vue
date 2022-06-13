@@ -92,7 +92,7 @@ export default {
       return this.invoice && this.invoice.status
     },
     paymentReciept () {
-      return this.invoice.paymentReceipts.find(reciept => reciept.status != 'cancelled')
+      return this.invoice.paymentReceipts.find(reciept => reciept.status !== 'cancelled')
     },
     paymentRecievedDate () {
       return this.paymentReciept.paymentDate
@@ -110,7 +110,7 @@ export default {
         this.loading = false
       } catch (e) {}
     },
-    async markInvoiceAsPaid () {
+    markInvoiceAsPaid () {
       try {
         this.loading = true
         this.$modal.show(

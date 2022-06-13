@@ -1,12 +1,12 @@
 <template>
   <div>
     <div
-      class="bg-white border rounded overflow-hidden rounded-lg shadow-sm focus:outline-none focus:bg-white focus:border-blue-50"
+      class="bg-white border overflow-hidden rounded-lg shadow-sm focus:outline-none focus:bg-white focus:border-blue-50"
       style="position: relative;"
     >
       <vue-tags-input
         v-model.trim="input"
-        placeholder="Add an item"
+        :placeholder="placeholder"
         :tags="items"
         :separators="[',',';']"
         @tags-changed="e => onChange(e)"
@@ -23,6 +23,10 @@ export default {
     VueTagsInput
   },
   props: {
+    placeholder: {
+      type: String,
+      default: 'Add items'
+    },
     block: Boolean,
     tabindex: Number,
     value: {

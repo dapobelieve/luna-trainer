@@ -46,7 +46,7 @@ export default {
     '@/assets/css/new-fonts.css',
     'vue-popperjs/dist/vue-popper.css',
     'vue-multiselect/dist/vue-multiselect.min.css',
-    'vue2-datepicker/index.css'
+    '@/assets/css/datepicker.scss'
   ],
   plugins: [
     { src: '~plugins/services' },

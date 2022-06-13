@@ -54,7 +54,6 @@
 </template>
 
 <script>
-import 'vue2-datepicker/index.css'
 import { mapActions } from 'vuex'
 export default {
   name: 'Information',
@@ -120,7 +119,8 @@ export default {
               breed: this.clientInfo.pet[0].breed
             }
           ],
-          notes: this.clientInfo.notes
+          notes: this.clientInfo.notes,
+          behaviouralIssues: this.clientInfo.behaviouralIssues
         }
       })
         .then((response) => {

@@ -49,14 +49,12 @@
           ></date-picker>
           <small v-if="clientInfo.pet[0].age" class="text-xs"><span class="capitalize">{{ clientInfo.pet[0].name ? clientInfo.pet[0].name : 'Your dog' }}</span> is about {{ showDate }}</small>
         </div>
-        <div>
-          <dt class="input-text-label">
-            Behavioural Issues
-          </dt>
-          <dd class="information_box text-gray-400">
-            {{ clientInfo && clientInfo.behaviour }}
-          </dd>
-        </div>
+      </div>
+      <div class="flex flex-col gap-1.5 mt-3">
+        <label
+          class="required"
+        >Behavioural issues</label>
+        <TagInput v-model="clientInfo.behaviouralIssues" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField"/>
       </div>
       <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
         <div>
@@ -75,9 +73,10 @@
 <script>
 import DatePicker from 'vue2-datepicker'
 import PetAge from '~/mixins/petAge'
+import TagInput from '~/components/TagInput'
 export default {
   name: 'DogInformation',
-  components: { DatePicker },
+  components: { DatePicker, TagInput },
   mixins: [PetAge],
   model: {
     prop: 'value',
