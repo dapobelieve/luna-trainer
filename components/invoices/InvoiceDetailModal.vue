@@ -147,7 +147,7 @@
         <div class="flex justify-end">
           <template v-if="invoiceStatus !== 'paid' && invoiceStatus !== 'cancelled'">
             <button class="text-red-500 px-4 py-2 border mr-2" @click="cancelInvoice">
-               <SingleLoader v-if="cancelling" />
+              <SingleLoader v-if="cancelling" />
               <span v-else>Cancel</span>
             </button>
             <button v-if="invoiceStatus !== 'paid_awaiting_confirmation'" ref="nudge" class="text-primary-color px-4 py-2 border mr-2 w-[7.9rem]" @click="sendNudge">
@@ -279,9 +279,12 @@ export default {
     }
   },
   watch: {
-    invoice(newVal){
-      this.supportedPaymentMethods = Object.keys(newVal.supportedPaymentMethods[0]);
+    invoice (newVal) {
+      this.supportedPaymentMethods = Object.keys(newVal.supportedPaymentMethods[0])
     }
+  },
+  updated () {
+    console.log(this.invoice.supportedPaymentMethods[0])
   },
   methods: {
     async markUnPaid () {
@@ -336,9 +339,6 @@ export default {
         this.close()
       }
     }
-  },
-  updated(){
-    console.log(this.invoice.supportedPaymentMethods[0])
   }
 }
 </script>

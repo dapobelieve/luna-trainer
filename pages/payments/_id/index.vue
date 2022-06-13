@@ -19,7 +19,7 @@
       </div>
     </div>
 
-    <div class="h-screen md:w-full xl:max-w-[1384px] lg:max-w-full w-full m-auto" >
+    <div class="h-screen md:w-full xl:max-w-[1384px] lg:max-w-full w-full m-auto">
       <div class="lg:w-1/4 md:w-full m-auto shadow-sm">
         <main else class="place-content-center">
           <div class="mt-10">

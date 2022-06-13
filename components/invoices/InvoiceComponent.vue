@@ -177,6 +177,7 @@
               :disabled="!invoice.customer"
               :disabled-date="(d) => { let date = new Date(); date.setDate(date.getDate() - 1); return d < date; }"
               value-type="format"
+              :format="$auth.user.dateFormat.toUpperCase()"
               placeholder="Select a due date for this invoice"
             ></date-picker>
           </div>
@@ -241,9 +242,9 @@
               class="mt-3 block"
             ><a
               class="text-primary-color"
-              @click.prevent="promptAddPaymentMethod"
               href="/settings/billing/setup"
-              >Add another payment method
+              @click.prevent="promptAddPaymentMethod"
+            >Add another payment method
               <i class="fi-rr-link" /></a></small>
           </div>
           <div class="flex justify-end space-x-6 lg:space-x-0">
@@ -327,10 +328,6 @@ export default {
       default: 'create'
     }
   },
-  created () {
-    this.invoice.customer = this.$route.params?.clientData
-    this.invoice.dueDate = new Date().toISOString()
-  },
   data () {
     return {
       invoiceId: null,
@@ -344,6 +341,10 @@ export default {
       isLoading: false,
       showDropDown: false
     }
+  },
+  created () {
+    this.invoice.customer = this.$route.params?.clientData
+    this.invoice.dueDate = new Date().toISOString()
   },
   computed: {
     ...mapGetters({

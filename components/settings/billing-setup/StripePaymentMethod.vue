@@ -28,7 +28,7 @@
       >
         <i class="fi-rr-refresh"></i>
         <span>Pending Verification</span>
-        <button @click="toggleStripeConnection(true)" class="ml-4 text-red-500 hover:underline" title="Remove any connect and connnect again">
+        <button class="ml-4 text-red-500 hover:underline" title="Remove any connect and connnect again" @click="toggleStripeConnection(true)">
           {{ loading ? 'Reseting' : 'Connect with a new stripe account' }}
         </button>
       </div>

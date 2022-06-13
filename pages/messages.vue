@@ -92,44 +92,45 @@
       </template>
       <template
         v-else-if="acceptedClients.length && !search.length"
-      ><div class="p-4">
-        <button
-          v-for="client in acceptedClients"
-          :key="client._id"
-          class="
+      >
+        <div class="p-4">
+          <button
+            v-for="client in acceptedClients"
+            :key="client._id"
+            class="
             flex
             space-x-0
             w-full
             hover:bg-blue-50
             p-4 rounded-md items-center
           "
-          @click="gotoMessage(client._id)"
-        >
-          <div class="w-full flex items-center">
-            <div class="mr-4 w-14 h-12">
-              <ClientAvatar
-                :client-info="{
-                  sendbirdId: client.sendbirdId,
-                  firstName: client.firstName,
-                  imgURL: client.imgURL,
-                }"
-                :online="connectionStatus[client.sendbirdId] == 'online'"
-              />
-            </div>
-            <div class="flex w-full  min-w-0 flex-col text-left">
-              <div class="w-full relative">
-                <span class="font-bold text-base capitalize text-gray-700">{{
-                  `${client.firstName} ${client.lastName || ""}`
-                }}</span>
-                <span
-                  v-if="latestMessages[client.sendbirdId]"
-                  class="text-sm font-medium text-gray-400"
-                >
-                  {{ latestMessages[client.sendbirdId].createdAt | howLongAgo }}
-                </span>
-                <span
-                  v-if="unreadMessagesCount[client.sendbirdId]"
-                  class="
+            @click="gotoMessage(client._id)"
+          >
+            <div class="w-full flex items-center">
+              <div class="mr-4 w-14 h-12">
+                <ClientAvatar
+                  :client-info="{
+                    sendbirdId: client.sendbirdId,
+                    firstName: client.firstName,
+                    imgURL: client.imgURL,
+                  }"
+                  :online="connectionStatus[client.sendbirdId] == 'online'"
+                />
+              </div>
+              <div class="flex w-full  min-w-0 flex-col text-left">
+                <div class="w-full relative">
+                  <span class="font-bold text-base capitalize text-gray-700">{{
+                    `${client.firstName} ${client.lastName || ""}`
+                  }}</span>
+                  <span
+                    v-if="latestMessages[client.sendbirdId]"
+                    class="text-sm font-medium text-gray-400"
+                  >
+                    {{ latestMessages[client.sendbirdId].createdAt | howLongAgo }}
+                  </span>
+                  <span
+                    v-if="unreadMessagesCount[client.sendbirdId]"
+                    class="
                     bg-blue-500
                     absolute
                     right-0
@@ -141,17 +142,17 @@
                     min-w-[27px]
                     text-center
                   "
-                >
-                  {{ unreadMessagesCount[client.sendbirdId] }}
-                </span>
-              </div>
-              <div class="focus:outline-none">
-                <div v-if="latestMessages[client.sendbirdId]">
-                  <p
-                    v-if="
-                      latestMessages[client.sendbirdId].messageType === 'user'
-                    "
-                    class="
+                  >
+                    {{ unreadMessagesCount[client.sendbirdId] }}
+                  </span>
+                </div>
+                <div class="focus:outline-none">
+                  <div v-if="latestMessages[client.sendbirdId]">
+                    <p
+                      v-if="
+                        latestMessages[client.sendbirdId].messageType === 'user'
+                      "
+                      class="
                       truncate
                       text-sm
                       w-48
@@ -161,46 +162,46 @@
                       font-medium
                       text-gray-600
                     "
-                  >
-                    <i
-                      v-if="
-                        latestMessages[client.sendbirdId]._sender.userId !=
-                          client.sendbirdId
+                    >
+                      <i
+                        v-if="
+                          latestMessages[client.sendbirdId]._sender.userId !=
+                            client.sendbirdId
+                        "
+                        class="fi-rr-check text-sm text-green-500 mr-1"
+                      ></i>
+                      <span :class="[ unreadMessagesCount[client.sendbirdId] > 0 ? 'font-bold' : '' ]">{{ latestMessages[client.sendbirdId].message }}</span>
+                    </p>
+                    <p
+                      v-else-if="
+                        latestMessages[client.sendbirdId].messageType === 'file'
                       "
-                      class="fi-rr-check text-sm text-green-500 mr-1"
-                    ></i>
-                    <span :class="[ unreadMessagesCount[client.sendbirdId] > 0 ? 'font-bold' : '' ]">{{ latestMessages[client.sendbirdId].message }}</span>
-                  </p>
-                  <p
-                    v-else-if="
-                      latestMessages[client.sendbirdId].messageType === 'file'
-                    "
-                    class="flex items-center text-gray-500 mt-[4px]"
-                  >
-                    <i
-                      v-if="
-                        latestMessages[client.sendbirdId]._sender.userId !=
-                          client.sendbirdId
-                      "
-                      class="fi-rr-check text-sm text-green-500 mr-1"
-                    ></i>
-                    <i class="fi-rr-camera text-sm"></i>
-                    <span class="ml-1 font-medium text-sm">Photo</span>
-                  </p>
-                </div>
-                <div v-else>
-                  <small>Click to start a conversation</small>
+                      class="flex items-center text-gray-500 mt-[4px]"
+                    >
+                      <i
+                        v-if="
+                          latestMessages[client.sendbirdId]._sender.userId !=
+                            client.sendbirdId
+                        "
+                        class="fi-rr-check text-sm text-green-500 mr-1"
+                      ></i>
+                      <i class="fi-rr-camera text-sm"></i>
+                      <span class="ml-1 font-medium text-sm">Photo</span>
+                    </p>
+                  </div>
+                  <div v-else>
+                    <small>Click to start a conversation</small>
+                  </div>
                 </div>
               </div>
+              <span class="text-xs text-gray-500 truncate">
+                <i
+                  v-if="!latestMessages[client.sendbirdId]"
+                  class="fi-rr-angle-right text-blue-500"
+                ></i>
+              </span>
             </div>
-            <span class="text-xs text-gray-500 truncate">
-              <i
-                v-if="!latestMessages[client.sendbirdId]"
-                class="fi-rr-angle-right text-blue-500"
-              ></i>
-            </span>
-          </div>
-        </button>
+          </button>
         </div>
       </template>
       <NoMessages v-else @invite-client="$modal.show('invite-client')" />

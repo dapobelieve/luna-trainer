@@ -13,7 +13,8 @@
         <TagInput
           v-model="trainer.accreditations"
           :block="false"
-          :class="{'border-red-500' : $v.trainer.accreditations.$error}"/>
+          :class="{'border-red-500' : $v.trainer.accreditations.$error}"
+        />
         <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>
@@ -27,7 +28,8 @@
         <TagInput
           v-model="trainer.specialization"
           :block="false"
-          :class="{'border-red-500' : $v.trainer.accreditations.$error}" />
+          :class="{'border-red-500' : $v.trainer.accreditations.$error}"
+        />
         <div class="text-gray-400">
           Just type to add one, then hit enter to add more.
         </div>

@@ -1,5 +1,5 @@
 <template>
-  <modal 
+  <modal
     name="payment-method-status"
     class="p-0"
     :width="532"
