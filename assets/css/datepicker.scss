@@ -26,5 +26,14 @@ $primary-color: rgba(59, 130, 246, 0.5);
   .cell {
     color: #475569;
     font-weight: bolder;
+    &.active {
+      color: $calendar-active-color;
+      background-color: #3B82F6;
+    }
+  }
+}
+.#{$namespace}-table-date {
+  .today {
+    color: #3B82F6;
   }
 }
