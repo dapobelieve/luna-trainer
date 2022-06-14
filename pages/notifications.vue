@@ -7,7 +7,7 @@
         <TabbedItems
           :links="[{link: 'Unread', count: notificationsSummary.unread}, {link: 'Read', count: notificationsSummary.read}]"
         >
-          <template v-slot:title>
+         <template v-slot:title>
             <h2
               class="px-4 pt-4 text-xl font-normal text-gray-700 bg-white"
             >
@@ -15,8 +15,10 @@
             </h2>
           </template>
           <template v-slot:tabviews="{ tab }">
-            <UnreadItems v-if="tab === 1" />
-            <ReadItems v-if="tab === 2" />
+            <Async :state="$fetchState">
+                <UnreadItems v-if="tab === 1" />
+                <ReadItems v-if="tab === 2" />
+            </Async>
           </template>
         </TabbedItems>
       </div>
@@ -28,19 +30,21 @@
 import { mapActions, mapGetters } from 'vuex'
 import ReadItems from '~/components/notifications/ReadItems.vue'
 import UnreadItems from '~/components/notifications/UnreadItems.vue'
+import Async from '~/components/util/Async.vue'
 
 export default {
   name: 'Notifications',
   components: {
     UnreadItems,
-    ReadItems
+    ReadItems,
+    Async
   },
   computed: {
     ...mapGetters({
       notificationsSummary: 'notifications/getNotificationsSummary'
     })
   },
-  async create () {
+  async fetch () {
     try {
       await this.fetchNotificationsSummary()
     } catch (e) {
