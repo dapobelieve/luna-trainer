@@ -96,10 +96,14 @@ export default {
           this.removeQueryParams()
         })
         .onexit(() => {
+          const skip = document.getElementById('skip')
+          skip.classList.add('opacity-0')
           this.removeQueryParams()
         })
         .start()
 
+      const skip = document.getElementById('skip')
+      skip.classList.remove('opacity-0')
       this.$intro().showHints()
     }
   }

@@ -1,5 +1,7 @@
 <template>
-  <modal name="welcome-modal" height="auto" :width="500" @closed="exitTour">
+  <div>
+    <Skip />
+    <modal name="welcome-modal" height="auto" :width="500" @closed="exitTour">
     <div>
       <div class="space" />
       <div class="grid m-6">
@@ -24,13 +26,16 @@
       </div>
     </div>
   </modal>
+  </div>
 </template>
 
 <script>
+import Skip from './Skip.vue'
 export default {
   props: {
     exitTour: Function,
     takeTour: Function
-  }
+  },
+  components: { Skip }
 }
 </script>
