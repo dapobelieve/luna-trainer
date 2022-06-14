@@ -134,6 +134,6 @@ export default {
 
 <style scoped>
 .circled-icon {
-  @apply h-12 p-3 w-12 rounded-full inline-flex justify-center items-center;
+  @apply h-12 p-0.5 w-12 rounded-full inline-flex justify-center items-center;
 }
 </style>

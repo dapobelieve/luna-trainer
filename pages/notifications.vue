@@ -15,10 +15,8 @@
             </h2>
           </template>
           <template v-slot:tabviews="{ tab }">
-            <AsyncView>
-              <UnreadItems v-if="tab === 1" />
-              <ReadItems v-if="tab === 2" />
-            </AsyncView>
+            <UnreadItems v-if="tab === 1" />
+            <ReadItems v-if="tab === 2" />
           </template>
         </TabbedItems>
       </div>
