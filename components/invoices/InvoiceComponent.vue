@@ -177,6 +177,7 @@
               :disabled="!invoice.customer"
               :disabled-date="(d) => { let date = new Date(); date.setDate(date.getDate() - 1); return d < date; }"
               value-type="format"
+              :format="$auth.user.dateFormat.toUpperCase()"
               placeholder="Select a due date for this invoice"
             ></date-picker>
           </div>

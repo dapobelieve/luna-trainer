@@ -6,6 +6,7 @@
       title-position="left"
       is-expanded
       class="text-black"
+      :format="$auth.user.dateFormat.toUpperCase()"
       title="text-white"
     />
     <div class="hidden text-center mt-16 px-5">
