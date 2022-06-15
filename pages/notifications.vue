@@ -15,10 +15,8 @@
             </h2>
           </template>
           <template v-slot:tabviews="{ tab }">
-            <Async :state="$fetchState">
-                <UnreadItems v-if="tab === 1" />
-                <ReadItems v-if="tab === 2" />
-            </Async>
+              <UnreadItems v-if="tab === 1" />
+              <ReadItems v-if="tab === 2" />
           </template>
         </TabbedItems>
       </div>
@@ -30,21 +28,19 @@
 import { mapActions, mapGetters } from 'vuex'
 import ReadItems from '~/components/notifications/ReadItems.vue'
 import UnreadItems from '~/components/notifications/UnreadItems.vue'
-import Async from '~/components/util/Async.vue'
 
 export default {
   name: 'Notifications',
   components: {
     UnreadItems,
-    ReadItems,
-    Async
+    ReadItems
   },
   computed: {
     ...mapGetters({
       notificationsSummary: 'notifications/getNotificationsSummary'
     })
   },
-  async fetch () {
+  async create () {
     try {
       await this.fetchNotificationsSummary()
     } catch (e) {
