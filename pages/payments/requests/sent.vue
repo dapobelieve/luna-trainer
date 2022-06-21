@@ -1,13 +1,41 @@
 <template>
   <div>
     <async-view>
+      <LunaTable class="mb-6" check-able :headings="headings" :tableData="tableData">
+        <template #tableRows="{tableItemData}">
+          <td>
+            {{tableItemData.id}}
+          </td>
+          <td>
+            {{tableItemData.name}}
+          </td>
+          <td>
+            {{tableItemData.username}}
+          </td>
+          <td>
+            {{tableItemData.website}}
+          </td>
+          <td>
+            {{tableItemData.phone}}
+          </td>
+          <td>
+            {{tableItemData.email}}
+          </td>
+          <td>
+            {{tableItemData.address.city}}
+          </td>
+          <td>
+            {{tableItemData.company.name}}
+          </td>
+          <td>
+            {{tableItemData.address.street}}
+          </td>
+        </template>
+      </LunaTable>
+      
       <div class="flex mt-1 mb-5">
         <div class="actions flex justify-between items-center w-full">
           <div>
-            <!-- <span v-if="checkedItems.length > 0" class="cursor-pointer mr-4 inline-flex items-center font-medium text-primary-color text-base" to="/" @click="archive">
-              <i class="fi-rr-archive mr-1"></i>
-              <span>Archive</span>
-            </span> -->
             <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
               <i class="fi-rr-download mr-1"></i>
               <span>Export</span>
@@ -62,7 +90,7 @@
                 <table v-if="filteredRecords && filteredRecords.length" class="table-auto table w-full text-xs">
                   <thead class="">
                     <tr class="uppercase tracking-wider text-gray-500">
-                      <th class="w-12 py-4 font-medium pl-1">
+                      <th class="py-4 font-medium pl-1">
                         <div class="pl-3">
                           <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
                         </div>
@@ -93,7 +121,10 @@
                       @click="selectedInvoice=data, $modal.show('invoice-details')"
                     >
                       <td class="w-12 py-4 font-medium pl-3">
-                        <AppCheckboxComponent :id="data._id" v-model="checkedItems" :value="data._id" />
+                        <AppCheckboxComponent 
+                          :id="data._id" 
+                          v-model="checkedItems" 
+                          :value="data._id" />
                       </td>
                       <td class="py-4 text-left px-6">
                         <div class="flex items-center">
@@ -188,18 +219,21 @@
 import { mapActions, mapGetters } from 'vuex'
 import SearchDropdown from '~/components/invoices/SearchDropdown'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
+import LunaTable from "~/components/table/table";
 export default {
   name: 'SentInvoice',
-  components: { InvoiceDetailModal, SearchDropdown },
+  components: {LunaTable, InvoiceDetailModal, SearchDropdown },
   data () {
     return {
       selectedInvoice: null,
+      headings: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
       searchField: 'Name',
       searchFields: ['Name', 'Status'],
       selectAll: false,
       quickSearchQuery: '',
       selected: '',
       exporting: false,
+      tableData: [],
       options: [],
       allClients: [],
       checkedItems: [],
@@ -298,6 +332,13 @@ export default {
     } catch (e) {
       console.log({ e })
     }
+  },
+  async mounted() {
+    //fetch dummy data from jsonplaceholder api with axios
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(res => res.json())
+      .then(res => this.tableData = res)
+    
   },
   methods: {
     ...mapActions({

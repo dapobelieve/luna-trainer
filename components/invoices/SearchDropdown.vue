@@ -71,7 +71,7 @@ export default {
       type: Array
     }
   },
-  data () {
+  data() {
     return {
       showFieldDropdown: false,
       selectedOption: null,
@@ -81,10 +81,10 @@ export default {
     }
   },
   computed: {
-    placeHolder () {
+    placeHolder() {
       return `Search for ${this.field}`
     },
-    filteredRecords () {
+    filteredRecords() {
       let records = this.options
 
       records = records.filter((row) => {
@@ -100,42 +100,42 @@ export default {
   watch: {
     selected: {
       immediate: true,
-      handler (val) {
+      handler(val) {
         this.selectedOption = val
       }
     },
     fields: {
       immediate: true,
-      handler (newVal) {
+      handler(newVal) {
         this.field = this.fields[0] //eslint-disable-line
         this.$emit('field-selected', this.field)
       }
     }
   },
   methods: {
-    clearSelection () {
+    clearSelection() {
       this.selectedOption = null
       this.show = true
       this.$nextTick(() => {
         this.$refs.search.focus()
       })
     },
-    reset () {
+    reset() {
       this.selectedOption = null
       this.close()
       this.$emit('reset')
     },
-    selectField (field) {
+    selectField(field) {
       this.$emit('change', field)
       this.selectedOption = null
       this.showFieldDropdown = false
     },
-    selectOption (option) {
+    selectOption(option) {
       this.selectedOption = option
       this.$emit('selected', option)
       this.close()
     },
-    toggle () {
+    toggle() {
       this.show = !this.show
       if (this.show) {
         this.$nextTick(() => {
@@ -143,10 +143,10 @@ export default {
         })
       }
     },
-    open () {
+    open() {
       this.show = true
     },
-    close () {
+    close() {
       this.search = ''
       this.show = false
     }

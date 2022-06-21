@@ -54,7 +54,7 @@
         <label
           class="required"
         >Behavioural issues</label>
-        <TagInput v-model="clientInfo.behaviouralIssues" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField"/>
+        <TagInput v-model="clientInfo.behaviouralIssues" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField" />
       </div>
       <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
         <div>

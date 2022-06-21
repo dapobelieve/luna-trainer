@@ -81,7 +81,7 @@
           <h3>Status</h3>
           <InvoiceStatusComponent class="ml-auto" :status="status" />
         </div>
-        <div class="flex mb-8" v-if="invoice.note">
+        <div v-if="invoice.note" class="flex mb-8">
           <h3>Notes</h3>
           <p class="ml-auto">
             {{ invoice.note }}
