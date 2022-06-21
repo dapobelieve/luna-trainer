@@ -44,16 +44,18 @@
             <dt class="input-text-label">
               Country
             </dt>
-            <div class="information_box">
-              <select v-model="clientInfo.businessCountry" class="w-full" autocomplete="country" @input="focusField">
-                <option :value="null" selected disabled>
-                  click here
-                </option>
-                <option v-for="country in countries" :key="country.numericCode">
-                  {{ country.name }}
-                </option>
-              </select>
-            </div>
+            <GwSelector v-model="clientInfo.businessCountry" class="w-full repeat-selector" :options="countries" @change="focusField">
+              <template v-slot:selectedOption="{selected}">
+                <div class="flex items-center">
+                  <span class="text-gray-700">{{ selected.name }}</span>
+                </div>
+              </template>
+              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                <div class="flex items-center py-2">
+                  <span class="text-gray-700">{{ optionObject.name }}</span>
+                </div>
+              </template>
+            </GwSelector>
           </div>
           <div class="mt-4">
             <GwInputField
@@ -117,6 +119,11 @@ export default {
       clientInfo: this.value,
       countries
     }
+  },
+  created () {
+    this.clientInfo.businessCountry = this.countries.find((i) => {
+      return i?.code === this.clientInfo.businessCountry
+    })
   },
   methods: {
     focusField () {

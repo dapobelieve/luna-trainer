@@ -87,7 +87,7 @@ export default {
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
-            pet: [{ name: '', age: '', breed: '' }]
+            pet: [{ name: '', age: '' }]
           }
         } else {
           this.clientInfo = response
@@ -107,7 +107,7 @@ export default {
         info: {
           firstName: this.clientInfo.firstName,
           lastName: this.clientInfo.lastName,
-          businessCountry: this.clientInfo.businessCountry,
+          businessCountry: this.clientInfo.businessCountry?.code ?? '',
           location: this.clientInfo.location,
           zip: this.clientInfo.zip,
           city: this.clientInfo.city,
@@ -116,7 +116,12 @@ export default {
             {
               name: this.clientInfo.pet[0].name,
               age: this.clientInfo.pet[0].age,
-              breed: this.clientInfo.pet[0].breed
+              breed: this.clientInfo.pet[0].breed?.name,
+              gender: this.clientInfo.pet[0].gender?.name,
+              fixing: {
+                date: this.clientInfo.pet[0]?.fixing?.date,
+                value: this.clientInfo.pet[0]?.fixing?.value
+              }
             }
           ],
           notes: this.clientInfo.notes,
