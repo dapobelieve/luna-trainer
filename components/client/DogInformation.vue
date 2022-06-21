@@ -102,7 +102,7 @@
                 name="remote"
                 type="checkbox"
                 value="remote"
-                class="h-5 w-5 rounded"
+                class="h-5 w-5 rounded checkbox-round"
               />
               <span
                 id="reinforcement-0-label"
@@ -117,7 +117,7 @@
                 name="remote"
                 type="checkbox"
                 value="remote"
-                class="h-5 w-5 rounded"
+                class="h-5 w-5 rounded checkbox-round"
               />
               <span
                 id="reinforcement-0-label"
@@ -230,4 +230,24 @@ export default {
   border-radius: 6px;
   text-transform: capitalize;
 }
+
+.checkbox-round {
+    width: 1.3em;
+    height: 1.3em;
+    background-color: white;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.checkbox-round:checked {
+    background-color: #fff;
+    border-width: 5px;
+    border-color: #3B82F6;
+}
+
 </style>
