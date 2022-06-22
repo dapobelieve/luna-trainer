@@ -96,12 +96,17 @@
           >
             <label
               class="rounded-2xl relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm information_box"
+              :class="{
+              'bg-blue-50': isSpayed,
+              }"
             >
               <input
-                id="remote"
-                name="remote"
+                id="spaying"
+                name="spaying"
+                value="spaying"
+                v-model="isSpayed"
                 type="checkbox"
-                value="remote"
+                @change="focusField"
                 class="h-5 w-5 rounded checkbox-round"
               />
               <span
@@ -111,12 +116,17 @@
             </label>
             <label
               class="rounded-2xl relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm information_box"
+              :class="{
+              'bg-blue-50': isNotSpayed,
+              }"
             >
               <input
-                id="remote"
-                name="remote"
+                id="neutering"
+                name="neutering"
+                value="neutering"
+                v-model="isNotSpayed"
                 type="checkbox"
-                value="remote"
+                @change="focusField"
                 class="h-5 w-5 rounded checkbox-round"
               />
               <span
@@ -183,6 +193,8 @@ export default {
   },
   data () {
     return {
+      isSpayed: false,
+      isNotSpayed: false,
       clientInfo: { ...this.value },
       gender: [{ name: 'male' }, { name: 'female' }],
       dogBreeds: dogBreeds.sort((a, b) => {
@@ -190,15 +202,34 @@ export default {
       }).map(i => ({ ...i, name: this.format(i.name), value: this.format(i.name) }))
     }
   },
+  watch: {
+    isSpayed (newValue) {
+      if (newValue) {
+        this.clientInfo.pet[0].fixing.value = 'spaying'
+        this.isNotSpayed = false
+      } else {
+        this.clientInfo.pet[0].fixing.value = undefined
+      }
+    },
+    isNotSpayed (newValue) {
+      if (newValue) {
+        this.clientInfo.pet[0].fixing.value = 'neutering'
+        this.isSpayed = false
+      } else {
+        this.clientInfo.pet[0].fixing.value = undefined
+      }
+    }
+  },
   created () {
     this.clientInfo.pet[0].fixing = {
       date: new Date(this.clientInfo.pet[0]?.fixing?.date ?? Date.now()),
       value: this.clientInfo.pet[0]?.fixing?.value
     }
+    this.isSpayed = this.clientInfo.pet[0]?.fixing?.value?.includes('spaying')
+    this.isNotSpayed = this.clientInfo.pet[0]?.fixing?.value?.includes('neutering')
     this.clientInfo.pet[0].gender = this.gender.find((i) => {
       return i?.name === this.clientInfo.pet[0].gender
     })
-
     this.clientInfo.pet[0].breed = this.dogBreeds.find((i) => {
       return i?.name === this.clientInfo.pet[0].breed
     })
