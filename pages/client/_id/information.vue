@@ -55,6 +55,9 @@
 
 <script>
 import { mapActions } from 'vuex'
+import dogBreeds from '~/dogBreeds.json'
+import countries from '~/countries.json'
+
 export default {
   name: 'Information',
   data () {
@@ -62,10 +65,15 @@ export default {
       hasAnyInputChanged: false,
       isLoading: false,
       cancelLoading: false,
+      countries,
       clientInfo: null,
       id: this.$route.params.id,
       showButtons: false,
-      links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }]
+      links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }],
+      gender: [{ name: 'male' }, { name: 'female' }],
+      dogBreeds: dogBreeds.sort((a, b) => {
+        return a?.name > b?.name ? 1 : -1
+      }).map(i => ({ ...i, name: this.format(i.name), value: this.format(i.name) }))
     }
   },
   computed: {
@@ -84,6 +92,19 @@ export default {
   mounted () {
     this.getProfile(this.id)
       .then((response) => {
+        response.businessCountry = this.countries.find((i) => {
+          return i?.code === response.businessCountry
+        })
+        response.pet[0].fixing = {
+          date: new Date(response.pet[0]?.fixing?.date ?? Date.now()),
+          value: response.pet[0]?.fixing?.value
+        }
+        response.pet[0].gender = this.gender.find((i) => {
+          return i?.name === response.pet[0].gender
+        })
+        response.pet[0].breed = this.dogBreeds.find((i) => {
+          return i?.name === response.pet[0].breed
+        })
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
@@ -102,6 +123,7 @@ export default {
     }),
     updateProfile () {
       this.isLoading = true
+
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
@@ -151,6 +173,9 @@ export default {
         .finally(() => {
           this.isLoading = false
         })
+    },
+    format (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
     },
     cancelEditField () {
       this.cancelLoading = false

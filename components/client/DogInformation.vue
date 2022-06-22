@@ -156,7 +156,7 @@
         <label
           class="required"
         >Behavioural Problems</label>
-        <TagInput v-model="clientInfo.behaviouralIssues" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField"/>
+        <TagInput v-model="behaviors" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField"/>
       </div>
       <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
         <div>
@@ -174,6 +174,7 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
+import _cloneDeep from 'lodash.clonedeep'
 import PetAge from '~/mixins/petAge'
 import dogBreeds from '~/dogBreeds.json'
 import TagInput from '~/components/TagInput'
@@ -195,6 +196,7 @@ export default {
     return {
       isSpayed: false,
       isNotSpayed: false,
+      behaviors: [...(this.value?.behaviouralIssues ?? [])],
       clientInfo: { ...this.value },
       gender: [{ name: 'male' }, { name: 'female' }],
       dogBreeds: dogBreeds.sort((a, b) => {
@@ -207,32 +209,21 @@ export default {
       if (newValue) {
         this.clientInfo.pet[0].fixing.value = 'spaying'
         this.isNotSpayed = false
-      } else {
-        this.clientInfo.pet[0].fixing.value = undefined
       }
     },
     isNotSpayed (newValue) {
       if (newValue) {
         this.clientInfo.pet[0].fixing.value = 'neutering'
         this.isSpayed = false
-      } else {
-        this.clientInfo.pet[0].fixing.value = undefined
       }
+    },
+    behaviors (newValue) {
+      this.value.behaviouralIssues = _cloneDeep(newValue)
     }
   },
   created () {
-    this.clientInfo.pet[0].fixing = {
-      date: new Date(this.clientInfo.pet[0]?.fixing?.date ?? Date.now()),
-      value: this.clientInfo.pet[0]?.fixing?.value
-    }
     this.isSpayed = this.clientInfo.pet[0]?.fixing?.value?.includes('spaying')
     this.isNotSpayed = this.clientInfo.pet[0]?.fixing?.value?.includes('neutering')
-    this.clientInfo.pet[0].gender = this.gender.find((i) => {
-      return i?.name === this.clientInfo.pet[0].gender
-    })
-    this.clientInfo.pet[0].breed = this.dogBreeds.find((i) => {
-      return i?.name === this.clientInfo.pet[0].breed
-    })
   },
   methods: {
     focusField () {

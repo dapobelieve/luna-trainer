@@ -120,11 +120,6 @@ export default {
       countries
     }
   },
-  created () {
-    this.clientInfo.businessCountry = this.countries.find((i) => {
-      return i?.code === this.clientInfo.businessCountry
-    })
-  },
   methods: {
     focusField () {
       this.$emit('showButtons', true)
