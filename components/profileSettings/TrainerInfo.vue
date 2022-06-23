@@ -2,23 +2,20 @@
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-1.5">
       <label for="accreditations">Do you have any accreditations, affiliations or qualifications?</label>
+      <small class="text-gray-500">
+        {{ labelNote }}
+      </small>
       <TagInput v-model="profile.accreditations" :tabindex="9" />
     </div>
-    <label class="text-gray-400">
-      {{ labelNote }}
-    </label>
     <div class="flex flex-col gap-1.5">
       <label
         class="required"
       >What are your training areas of specialism, or behavioural issue focuses?</label>
+      <small class="text-gray-500">
+        {{ labelNote }}
+      </small>
       <TagInput v-model="profile.specialization" :class="{'border-red-500' : $v.profile.specialization.$invalid}" :tabindex="9" />
     </div>
-    <label class="text-gray-400">
-      {{ labelNote }}
-    </label>
-    <label class="text-gray-500">
-      Use comma to separate more than one specialization.
-    </label>
     <label
       for="usePositiveReinforce"
     >Can you confirm that you only use positive reinforcement, force free, trust based training methods? </label>
@@ -66,7 +63,7 @@ export default {
   data () {
     return {
       profile: this.value,
-	  labelNote: 'Just type to add one, then hit enter to add more.'
+      labelNote: 'Just type to add one, then hit enter to add more.'
     }
   },
   validations: {
