@@ -96,7 +96,7 @@ export default {
         const t = {
           ...response.pet[0],
           fixing: {
-            date: new Date(response.pet[0]?.fixing?.date ?? Date.now()),
+            date: response.pet[0]?.fixing?.date ? new Date(response.pet[0]?.fixing?.date) : undefined,
             value: response.pet[0]?.fixing?.value
           }
         }
