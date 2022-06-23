@@ -93,10 +93,14 @@ export default {
         response.businessCountry = this.countries.find((i) => {
           return i?.code === response.businessCountry
         })
-        response.pet[0].fixing = {
-          date: new Date(response.pet[0]?.fixing?.date ?? Date.now()),
-          value: response.pet[0]?.fixing?.value
+        const t = {
+          ...response.pet[0],
+          fixing: {
+            date: new Date(response.pet[0]?.fixing?.date ?? Date.now()),
+            value: response.pet[0]?.fixing?.value
+          }
         }
+        response.pet[0] = t
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
