@@ -72,7 +72,6 @@
             placeholder="Type here"
             @change="focusField"
             :options="gender"
-            :reduce="dogBreeds => dogBreeds.name"
             label="name"
             class="overfllow-hidden"
           >
