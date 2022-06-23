@@ -70,10 +70,8 @@ export default {
       id: this.$route.params.id,
       showButtons: false,
       links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }],
-      gender: [{ name: 'male' }, { name: 'female' }],
-      dogBreeds: dogBreeds.sort((a, b) => {
-        return a?.name > b?.name ? 1 : -1
-      }).map(i => ({ ...i, name: this.format(i.name), value: this.format(i.name) }))
+      gender: ['male', 'female'],
+      dogBreeds
     }
   },
   computed: {
@@ -100,7 +98,7 @@ export default {
           value: response.pet[0]?.fixing?.value
         }
         response.pet[0].gender = this.gender.find((i) => {
-          return i?.name === response.pet[0].gender
+          return i === response.pet[0].gender
         })
         response.pet[0].breed = this.dogBreeds.find((i) => {
           return i?.name === response.pet[0].breed
@@ -139,7 +137,7 @@ export default {
               name: this.clientInfo.pet[0].name,
               age: this.clientInfo.pet[0].age,
               breed: this.clientInfo.pet[0].breed?.name,
-              gender: this.clientInfo.pet[0].gender?.name,
+              gender: this.clientInfo.pet[0].gender,
               fixing: {
                 date: this.clientInfo.pet[0]?.fixing?.date,
                 value: this.clientInfo.pet[0]?.fixing?.value

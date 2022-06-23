@@ -32,6 +32,7 @@
             placeholder="Type here"
             @change="focusField"
             :options="dogBreeds"
+            :reduce="dogBreeds => dogBreeds.name"
             label="name"
             class="overfllow-hidden"
           >
@@ -71,6 +72,7 @@
             placeholder="Type here"
             @change="focusField"
             :options="gender"
+            :reduce="dogBreeds => dogBreeds.name"
             label="name"
             class="overfllow-hidden"
           >
@@ -198,10 +200,8 @@ export default {
       isNotSpayed: false,
       behaviors: [...(this.value?.behaviouralIssues ?? [])],
       clientInfo: { ...this.value },
-      gender: [{ name: 'male' }, { name: 'female' }],
-      dogBreeds: dogBreeds.sort((a, b) => {
-        return a?.name > b?.name ? 1 : -1
-      }).map(i => ({ ...i, name: this.format(i.name), value: this.format(i.name) }))
+      gender: ['male', 'female'],
+      dogBreeds
     }
   },
   watch: {
