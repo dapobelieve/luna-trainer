@@ -5,7 +5,7 @@ export const dashboardTourSteps = (intro) => {
     steps: [
       {
         element: document.querySelector('#t'),
-        intro: 'This is your home dashboard. You can see everything you need to action from here.'
+        intro: 'Welcome to your home dashboard. You can see everything you need to action from here.'
       },
       {
         element: document.querySelector('#new-action'),
@@ -26,22 +26,22 @@ export const dashboardTourSteps = (intro) => {
           'From here you can see all your sessions for the day - schedule a new session, or click view all to jump into your full schedule.'
       },
       {
-        element: document.querySelector('#billing-hint-nav'),
+        element: document.querySelector('#payments-hint-nav'),
         position: 'right',
         intro:
           'Here within payments, you can see all notifications on outstanding or recieved payments. You can quickly send a nudge to your clients to remind them to pay you.'
       },
+      {
+        element: document.querySelector('#settings-hint-nav'),
+        position: 'right',
+        intro:
+          'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here.'
+      }
       // {
       //   element: document.querySelector('#reporting-hint'),
       //   position: 'right',
       //   intro: 'Within reporting you can see a simple overview of how your business is performing.'
       // },
-      {
-        element: document.querySelector('#settings-hint'),
-        position: 'right',
-        intro:
-          'And finally, if you want to make any changes to your settings, connect new payment platform, change bank details, update your trainer profile, connect a new calender, change your password - you can do that here.'
-      }
     ]
   })
 }
