@@ -8,10 +8,10 @@
         We will never share your bank account details with anyone.
       </p>
       <div v-if="connected" class="mt-4 text-sm font-medium text-gray-700 bg-gray-100 border rounded-lg p-4 max-w-sm grid gap-1">
-        <p><b>Account Name: </b>{{ bankAccount.accountHolderName }}</p>
-        <p><b>Account Number: </b>{{ bankAccount.accountNo }}</p>
-        <p><b>Bank Name: </b>{{ bankAccount.accountBankName }}</p>
         <p><b>Sortcode: </b>{{ bankAccount.sortCode }}</p>
+        <p><b>Account Number: </b>{{ bankAccount.accountNo }}</p>
+        <p><b>Account Name: </b>{{ bankAccount.accountHolderName }}</p>
+        <p><b>Bank Name: </b>{{ bankAccount.accountBankName }}</p>
       </div>
     </div>
     <div>

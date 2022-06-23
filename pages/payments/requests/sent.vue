@@ -174,7 +174,7 @@
             We want to make your world easier by connecting and <br> managing your payment requests and payments systems.
           </p>
           <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payments-request', })">
-            <i class="fi-rr-plus text-white"></i>
+            <i class="fi-rr-plus text-white flex"></i>
             <span class="text-font-medium text-white text-base ml-2">New Payment Request</span>
           </button>
         </div>
