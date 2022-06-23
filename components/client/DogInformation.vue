@@ -32,18 +32,17 @@
             placeholder="Type here"
             @change="focusField"
             :options="dogBreeds"
-            :reduce="dogBreeds => dogBreeds.name"
             label="name"
             class="overfllow-hidden"
           >
               <template v-slot:selectedOption="{selected}">
                 <div class="flex items-center">
-                  <span class="text-gray-700 ">{{ truncate(selected.name)}}</span>
+                  <span class="text-gray-700 ">{{ format(truncate(selected.name))}}</span>
                 </div>
               </template>
               <template v-slot:dropdownOption="{ optionObject }" class="p-4">
                 <div class="flex items-center py-2">
-                  <span class="text-gray-700">{{ optionObject.name }}</span>
+                  <span class="text-gray-700">{{ format(optionObject.name) }}</span>
                 </div>
               </template>
           </GwSelector>
@@ -72,17 +71,16 @@
             placeholder="Type here"
             @change="focusField"
             :options="gender"
-            label="name"
             class="overfllow-hidden"
           >
               <template v-slot:selectedOption="{selected}">
                 <div class="flex items-center">
-                  <span class="text-gray-700 ">{{ format(selected.name)}}</span>
+                  <span class="text-gray-700 ">{{ format(selected.label)}}</span>
                 </div>
               </template>
               <template v-slot:dropdownOption="{ optionObject }" class="p-4">
                 <div class="flex items-center py-2">
-                  <span class="text-gray-700">{{ format(optionObject.name) }}</span>
+                  <span class="text-gray-700">{{ format(optionObject.label) }}</span>
                 </div>
               </template>
           </GwSelector>

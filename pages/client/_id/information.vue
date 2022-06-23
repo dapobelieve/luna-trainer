@@ -70,7 +70,7 @@ export default {
       id: this.$route.params.id,
       showButtons: false,
       links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }],
-      gender: ['male', 'female'],
+      gender: ['Male', 'Female'],
       dogBreeds
     }
   },
@@ -97,12 +97,6 @@ export default {
           date: new Date(response.pet[0]?.fixing?.date ?? Date.now()),
           value: response.pet[0]?.fixing?.value
         }
-        response.pet[0].gender = this.gender.find((i) => {
-          return i === response.pet[0].gender
-        })
-        response.pet[0].breed = this.dogBreeds.find((i) => {
-          return i?.name === response.pet[0].breed
-        })
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
@@ -136,7 +130,7 @@ export default {
             {
               name: this.clientInfo.pet[0].name,
               age: this.clientInfo.pet[0].age,
-              breed: this.clientInfo.pet[0].breed?.name,
+              breed: this.clientInfo.pet[0].breed,
               gender: this.clientInfo.pet[0].gender,
               fixing: {
                 date: this.clientInfo.pet[0]?.fixing?.date,
@@ -151,6 +145,9 @@ export default {
         .then((response) => {
           this.showButtons = false
           if (response.status === 'success') {
+            response.data.businessCountry = this.countries.find((i) => {
+              return i?.code === response.data.businessCountry
+            })
             this.clientInfo = response.data
             this.isLoading = false
             this.$lunaToast.success('Updated profile successfully')
