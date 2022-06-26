@@ -1,5 +1,5 @@
 <template>
-  <div class="inline-flex px-2 rounded-3xl text-sm" :class="[`${computedStatus.textColor}`, `${computedStatus.bgColor}`]">
+  <div class="inline-flex px-4 rounded-3xl text-sm" :class="[`${computedStatus.textColor}`, `${computedStatus.bgColor}`]">
     {{ computedStatus.text }}
   </div>
 </template>
@@ -16,8 +16,8 @@ export default {
     return {
       statuses: {
         paid: {
-          textColor: 'text-green-500',
-          bgColor: 'bg-green-50',
+          textColor: 'text-teal-700',
+          bgColor: 'bg-teal-100',
           text: 'Paid'
         },
         overdue: {
@@ -31,8 +31,8 @@ export default {
           text: 'Outstanding'
         },
         pending: {
-          textColor: 'text-yellow-500',
-          bgColor: 'bg-yellow-50',
+          textColor: 'text-sky-700',
+          bgColor: 'bg-sky-100',
           text: 'Pending'
         },
         cancelled: {

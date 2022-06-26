@@ -1,244 +1,137 @@
 <template>
-  <div>
+  <div class="pt-2">
     <async-view>
-      <LunaTable class="mb-6" check-able :headings="headings" :tableData="tableData">
-        <template #tableRows="{tableItemData}">
-          <td>
-            {{tableItemData.id}}
+      <div class="tabs mb-6">
+        <button v-for="(status, statusIndex) in statuses" :key="statusIndex" class="px-3 py-2" @click="filterByStatus(status)">
+          {{ status }}
+        </button>
+      </div>
+      <LunaTable
+        v-if="invoices.data"
+        v-model="filterObj"
+        class="mb-6"
+        check-able
+        :sort="sort"
+        :current-page="currentPage"
+        :total-pages="invoices && invoices.size"
+        :headings="headings"
+        :filter-types="filterTypes"
+        :table-data="filteredData"
+        @page-clicked="fetchPage"
+        @sort-column="sort = $event"
+      >
+        <template v-slot:tableRows="{rowData}">
+          <td class="w-4/12">
+            <div class="flex justify-center items-center">
+              <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
+              <div class="text-sm text-slate-700 font-medium w-40">
+                {{ rowData.customerId.firstName }}
+                {{ rowData.customerId.lastName }}
+              </div>
+            </div>
+          </td>
+          <td class="w-1/12">
+            <div>
+              {{ rowData.total }}
+            </div>
           </td>
           <td>
-            {{tableItemData.name}}
+            <div>
+              <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
+            </div>
           </td>
           <td>
-            {{tableItemData.username}}
+            <div>
+              {{ rowData.invoiceNo || '---' }}
+            </div>
           </td>
           <td>
-            {{tableItemData.website}}
+            <div>
+              {{ formatDate(rowData.dueDate, 'MMM d') }}
+            </div>
           </td>
           <td>
-            {{tableItemData.phone}}
+            <div>
+              {{ formatDate(rowData.createdAt, 'MMM d, h:m b') }}
+            </div>
           </td>
-          <td>
-            {{tableItemData.email}}
-          </td>
-          <td>
-            {{tableItemData.address.city}}
-          </td>
-          <td>
-            {{tableItemData.company.name}}
-          </td>
-          <td>
-            {{tableItemData.address.street}}
+          <td class="w-1/12">
+            <div>
+              <button type="button">
+                <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
+              </button>
+            </div>
           </td>
         </template>
       </LunaTable>
-      
-      <div class="flex mt-1 mb-5">
-        <div class="actions flex justify-between items-center w-full">
-          <div>
-            <span v-if="!exporting && checkedItems.length > 0" class="cursor-pointer inline-flex items-center font-medium text-primary-color text-base" to="/" @click="exportInvoice()">
-              <i class="fi-rr-download mr-1"></i>
-              <span>Export</span>
-            </span>
-            <span v-else-if="exporting" class="cursor-pointer inline-flex items-center text-sm font-medium text-gray-400" to="/">
-              <i class="fi-rr-download mr-1"></i>
-              <span>Exporting...</span>
-            </span>
-          </div>
-          <div class="flex">
-            <SearchDropdown
-              v-if="filteredRecords && filteredRecords.length > 0 || filter.status || filter.customerUserId"
-              v-model="searchField"
-              :fields="searchFields"
-              :options="options"
-              :selected="selected"
-              @reset="resetTable"
-              @selected="searchInvoice"
-            >
-              <template v-slot:selected-option="{selected}">
-                <span v-if="searchField === 'Name'" class="flex">
-                  <ClientAvatar :height="1" :width="1" :client-info="{firstName: selected.firstName}" />
-                  <span class="text-xs text-gray-700 ml-2">
-                    {{ selected.firstName }}
-                  </span>
-                </span>
-                <span v-else>
-                  <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="selected" />
-                </span>
-              </template>
-              <template v-slot:option="{option}">
-                <div class="flex client items-center client py-2 px-5 border border-b-0 border-r-0 border-l-0 border-gray-200 border-t hover:bg-gray-50 cursor-pointer">
-                  <div v-if="searchField === 'Name'" class="flex">
-                    <ClientAvatar :height="1" :width="1" :client-info="{firstName: option.firstName}" />
-                    <span class="text-xs text-gray-700 ml-2">
-                      {{ option.firstName }}
-                    </span>
-                  </div>
-                  <InvoiceStatusComponent v-if="searchField === 'Status'" class="my-0.5" :status="option" />
-                </div>
-              </template>
-            </SearchDropdown>
-          </div>
-        </div>
-      </div>
-      <GwPagination v-if="filteredRecords && filteredRecords.length > 0 || filter.status || filter.customerUserId" :total-items="filteredRecords.length">
-        <template v-slot:content>
-          {{ quickSearchQuery }}
-          <div class="overflow-scroll lg:overflow-hidden bg-white rounded-md">
-            <Async :state="$fetchState">
-              <template>
-                <table v-if="filteredRecords && filteredRecords.length" class="table-auto table w-full text-xs">
-                  <thead class="">
-                    <tr class="uppercase tracking-wider text-gray-500">
-                      <th class="py-4 font-medium pl-1">
-                        <div class="pl-3">
-                          <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
-                        </div>
-                      </th>
-                      <th class="py-4 font-medium text-left px-6 w-5/12">
-                        Name
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        INVOICE#
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        CREATED
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        AMOUNT
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        STATUS
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="(data) in filteredRecords"
-                      :key="data._id"
-                      class="text-center relative text-gray-500 hover-row hover:cursor-pointer"
-                      :class="[checkedItems.includes(data._id) ? 'active' : '']"
-                      @click="selectedInvoice=data, $modal.show('invoice-details')"
-                    >
-                      <td class="w-12 py-4 font-medium pl-3">
-                        <AppCheckboxComponent 
-                          :id="data._id" 
-                          v-model="checkedItems" 
-                          :value="data._id" />
-                      </td>
-                      <td class="py-4 text-left px-6">
-                        <div class="flex items-center">
-                          <ClientAvatar :client-info="{firstName:data.customerId.name.split(' ')[0], lastName: data.customerId.name.split(' ')[1] }" />
-                          <div class="ml-4">
-                            <h6 class="text-base text-gray-700 text-capitalize">
-                              {{ data.customerId.name.split(' ')[0] }}  {{ data.customerId.name.split(' ')[1] }}
-                            </h6>
-                            <span class="text-sm text-gray-500">{{ data.customerId.email }}</span>
-                          </div>
-                        </div>
-                      </td>
-                      <td class="py-4 px-6 text-left">
-                        <div class="text-base text-gray-700">
-                          {{ data.invoiceNo }}
-                        </div>
-                      </td>
-                      <td class="py-4 px-6 text-left">
-                        <div class="text-xs md:text-base text-gray-700">
-                          {{ data.createdAt | date }}
-                        </div>
-                      </td>
-                      <td class="py-4 px-6 text-left">
-                        <div class="text-sm md:text-base text-gray-700">
-                          {{ data.total | amount }}
-                        </div>
-                      </td>
-                      <td class="py-4 px-6 text-left">
-                        <InvoiceStatusComponent :status="data.status" />
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table v-else class="table-auto table w-full text-xs">
-                  <thead class="">
-                    <tr class="uppercase tracking-wider text-gray-500">
-                      <th class="w-12 py-4 font-medium pl-1">
-                        <div class="pl-3">
-                          <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
-                        </div>
-                      </th>
-                      <th class="py-4 font-medium text-left px-6 w-5/12">
-                        Name
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        INVOICE#
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        CREATED
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        AMOUNT
-                      </th>
-                      <th class="py-4 font-medium text-left px-6">
-                        STATUS
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr class="text-center text-gray-500">
-                      <td class="w-12 py-4 font-medium pl-3" colspan="6">
-                        No records found
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </template>
-            </Async>
-          </div>
-        </template>
-      </GwPagination>
-      <div v-else class="flex justify-around">
-        <div class="mt-5 text-center">
-          <h4 class="font-bold text-gray-700 mb-1">
-            No Sent Payment Request yet
-          </h4>
-          <p class="text-sm text-gray-500 mb-4">
-            We want to make your world easier by connecting and <br> managing your payment requests and payments systems.
-          </p>
-          <button class="primary-color rounded-lg px-4 py-2" type="button" @click="$router.push({ name: 'payments-request', })">
-            <i class="fi-rr-plus text-white"></i>
-            <span class="text-font-medium text-white text-base ml-2">New Payment Request</span>
-          </button>
-        </div>
-      </div>
+
       <InvoiceDetailModal id="invoice-details" :invoice="selectedInvoice" @close="$modal.hide('invoice-details')" />
     </async-view>
   </div>
 </template>
 
 <script>
+import _orderby from 'lodash.orderby'
+import { format } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
-import SearchDropdown from '~/components/invoices/SearchDropdown'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
-import LunaTable from "~/components/table/table";
+import LunaTable from '~/components/table/LunaTable'
 export default {
   name: 'SentInvoice',
-  components: {LunaTable, InvoiceDetailModal, SearchDropdown },
+  components: { LunaTable, InvoiceDetailModal },
   data () {
     return {
+      statuses: ['All', 'Sent', 'Draft', 'Paid', 'Pending', 'Overdue'],
       selectedInvoice: null,
-      headings: ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'],
-      searchField: 'Name',
-      searchFields: ['Name', 'Status'],
-      selectAll: false,
-      quickSearchQuery: '',
-      selected: '',
+      filterTypes: [
+        // 'amount',
+        // 'client',
+        // 'date',
+        'status',
+        'date-range',
+        'date',
+        'amount'
+      ],
+      headings: [
+        {
+          text: 'Client',
+          value: 'one', // value to be passed to the sort function(should be the key in a data object)
+          sortable: false
+        },
+        {
+          text: 'Amount',
+          value: 'total',
+          sortable: true
+        },
+        {
+          text: 'Status',
+          value: 'status',
+          sortable: false
+        },
+        {
+          text: 'Invoice Number',
+          value: 'invoiceNo',
+          sortable: true
+        },
+        {
+          text: 'Due',
+          value: 'dueDateEpoch',
+          sortable: true
+        },
+        {
+          text: 'Created',
+          value: 'createdAt',
+          sortable: true
+        }
+      ],
+      sort: {},
       exporting: false,
-      tableData: [],
+      currentPage: 1,
       options: [],
+      filterObj: {},
       allClients: [],
       checkedItems: [],
       filter: {
-        workflowStatus: 'sent',
         customerUserId: '',
         status: ''
       }
@@ -249,103 +142,48 @@ export default {
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       invoices: 'invoice/getAllInvoices'
     }),
-    filteredRecords () {
-      let records = this.invoices
-      if (records && records.length > 0) {
-        records = records.filter((row) => {
-          return Object.keys(row).some((key) => {
-            return String(row[key]).toLowerCase().includes(this.quickSearchQuery.toLowerCase())
-          })
-        })
-        return records
+    filteredData () {
+      let records = this.invoices.data
+
+      if (this.sort?.value) {
+        records = _orderby(records, (i) => {
+          return i[this.sort.value]
+        }, this.sort.order)
       }
+
       return records
     }
   },
   async fetch () {
+    // eslint-disable-next-line no-unused-expressions
+    this.filter.status.includes('all') ? this.filter.status = '' : null
     await this.getInvoices(this.filter)
   },
   watch: {
-    $route: {
-      immediate: true,
-      async handler (val) {
-        console.log('val', val)
-        if (Object.keys(val.query).length > 0) {
-          if (val.query.name) {
-            await this.getClients()
-            this.selected = this.allClients.filter(client => client.userId === val.query.name)[0]
-            this.filter.customerUserId = val.query.name
-            await this.$fetch()
-            this.searchField = 'Name'
-            this.options = this.allClients
-          } else if (val.query.status) {
-            this.filter.status = val.query.status
-            await this.$fetch()
-            this.searchField = 'Status'
-            this.selected = val.query.status === 'paid_awaiting_confirmation' ? 'Awaiting' : this.filter.status
-            this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting', 'Cancelled']
-          }
-        } else {
-          await this.getClients()
-          this.searchField = 'Name'
-          this.options = this.allClients
-          this.$fetch()
-        }
-      },
-      deep: true
-    },
-    searchField: {
-      immediate: true,
-      async handler (newVal, oldVal) {
-        if (newVal !== oldVal) {
-          this.clearFilter(oldVal)
-        }
-        if (newVal === 'Name') {
-          await this.getClients()
-          this.options = this.allClients
-        } else if (newVal === 'Status') {
-          this.options = ['Pending', 'Paid', 'Overdue', 'Outstanding', 'Awaiting', 'Cancelled']
-        }
-      }
-    },
-    checkedItems (newVal) {
-      if (newVal.length !== this.invoices.length) { this.selectAll = false } else if (newVal.length === this.invoices.length) { this.selectAll = true }
-    },
-    selectAll (newVal) {
-      if (newVal) {
-        this.checkedItems = [...this.invoices.map(invoice => invoice._id)]
-      } else if (!newVal && this.checkedItems.length === this.invoices.length) {
-        this.checkedItems = []
-        this.selectAll = false
-      }
-    }
-  },
-  async beforeMount () {
-    try {
-      const id = this.$route.params.id
-      if (id) {
-        const { data } = await this.getSingleInvoice(id)
-        this.selectedInvoice = data
-        this.$modal.show('invoice-details')
-      }
-      await this.checkPaymentMethods()
-    } catch (e) {
-      console.log({ e })
-    }
-  },
-  async mounted() {
-    //fetch dummy data from jsonplaceholder api with axios
-    fetch('https://jsonplaceholder.typicode.com/users')
-      .then(res => res.json())
-      .then(res => this.tableData = res)
-    
   },
   methods: {
+    async filterByStatus (status) {
+      this.filterObj.status = status.toLowerCase()
+      this.filter.status = status.toLowerCase()
+      await this.$fetch()
+    },
+    async fetchPage (data) {
+      this.currentPage = data
+      this.filter.page = data
+      await this.$fetch(this.filter)
+    },
     ...mapActions({
       getPaymentMethods: 'payment-methods/getPaymentMethods',
       getSingleInvoice: 'invoice/getSingleInvoice',
       getInvoices: 'invoice/getInvoices'
     }),
+    sortColumn (sortData) {
+      this.sort.key = sortData.key
+      this.sort.order = sortData.order
+    },
+    formatDate (date, formatStr) {
+      return format(new Date(date), formatStr)
+    },
     async checkPaymentMethods () {
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
@@ -354,26 +192,6 @@ export default {
       if (!this.allClients || this.allClients.length < 1) {
         const res = await this.$store.dispatch('client/allConciseClients')
         this.allClients = res.data
-      }
-    },
-    async resetTable () {
-      this.clearFilter()
-      this.searchField = 'Name'
-      await this.getClients()
-      this.options = this.allClients
-    },
-    clearFilter (event) {
-      this.filter.status = ''
-      this.filter.customerUserId = ''
-      this.selected = ''
-      this.$router.push({ name: 'payments-requests-sent' })
-    },
-    searchInvoice (option) {
-      if (this.searchField === 'Name') {
-        this.$router.push({ name: 'payments-requests-sent', query: { name: option.userId } })
-      } else {
-        const _option = option === 'Awaiting' ? 'paid_awaiting_confirmation' : option
-        this.$router.push({ name: 'payments-requests-sent', query: { status: _option.toLowerCase() } })
       }
     },
     async archive () {
@@ -417,11 +235,38 @@ export default {
         'Exported Successfully'
       )
     }
+  },
+  async beforeMount () {
+    try {
+      const id = this.$route.params.id
+      if (id) {
+        const { data } = await this.getSingleInvoice(id)
+        this.selectedInvoice = data
+        this.$modal.show('invoice-details')
+      }
+      await this.checkPaymentMethods()
+    } catch (e) {
+      console.log({ e })
+    }
+  },
+  async mounted () {
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.tabs {
+  &::after {
+    content: '';
+    width: 100%;
+    height: 1px;
+    background-color: lightgrey;
+    position: absolute;
+    top: 124px;
+    z-index: 9;
+    left: 0
+  }
+}
 .client >>> span {
   ::v-deep span {
     font-size: 9px !important;
