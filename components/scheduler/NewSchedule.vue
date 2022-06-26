@@ -20,11 +20,12 @@
         <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
           Date and time
         </h6>
+<!--        <span>{{ $auth.user.dateFormat }}</span>-->
         <div class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-calendar mt-1 text-md text-gray-500"></i>
             <div class="ml-3 text-gray-500 w-full">
-              <date-picker v-model="form.date" class="date-picker" format="ddd MMM D" placeholder="Date" @change="updateDate"></date-picker>
+              <date-picker v-model="form.date" class="date-picker" :format="$auth.user.dateFormat.toUpperCase()" placeholder="Date" @change="updateDate"></date-picker>
             </div>
           </div>
           <small v-if="$v.form.date.$error" class="text-red-600">Select a date</small>

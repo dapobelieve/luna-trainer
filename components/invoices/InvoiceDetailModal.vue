@@ -268,6 +268,9 @@ export default {
       return `${this.invoice.customerId.firstName} ${this.invoice.customerId.lastName || ''}`
     }
   },
+  updated () {
+    console.log(this.invoice.supportedPaymentMethods[0])
+  },
   methods: {
     async markUnPaid () {
       const [acceptedInvoice] = this.invoice.paymentReceipts.filter(x => x.status === 'accepted')

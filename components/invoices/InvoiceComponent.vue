@@ -177,6 +177,7 @@
               :disabled="!invoice.customer"
               :disabled-date="(d) => { let date = new Date(); date.setDate(date.getDate() - 1); return d < date; }"
               value-type="format"
+              :format="$auth.user.dateFormat.toUpperCase()"
               placeholder="Select a due date for this invoice"
             ></date-picker>
           </div>
@@ -201,9 +202,10 @@
             </div>
           </div>
           <div id="payment-method">
-            <h2 class="mb-2 required">
-              Allowed payment methods
+            <h2 class="required">
+              {{ activePaymentMethods.length > 1 ? 'Select prefered payment options' : 'Prefered payment option' }}
             </h2>
+            <!-- <small class="text-gray-500">At least one must be selected</small> -->
             <div
               v-for="activePaymentMethod in activePaymentMethods"
               :key="activePaymentMethod._id"
@@ -216,20 +218,19 @@
                   class="mr-2"
                   :value="activePaymentMethod._id"
                   :disabled="activePaymentMethod.isDefault"
+                  :hidden="activePaymentMethods.length == 1"
                 />
                 <span
                   class="font-light"
-                >Payment with
-                  <i
-                    v-if="activePaymentMethod.type == 'bank'"
-                    class="fi-rr-bank"
-                  ></i>
+                >
+                  <i v-if="activePaymentMethod.type === 'bank'" class="fi-rr-bank"></i>
                   <img
                     v-else-if="activePaymentMethod.type == 'stripe'"
                     class="h-6 inline-block"
                     src="~/assets/img/stripe.png"
                     alt="stripe logo"
                   />
+                  Pay with {{ activePaymentMethod.type }}
                 </span>
               </div>
               <span

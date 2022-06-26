@@ -1,4 +1,4 @@
-<template>
+ p<template>
   <div class="flex flex-col gap-6">
     <div class="flex flex-col gap-1.5">
       <label for="timezone" class="required">Time zone</label>
@@ -22,8 +22,14 @@
         v-model="profile.dateFormat"
         class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
       >
+        <option value="dd/mm/yyyy">
+          DD/MM/YYYY
+        </option>
         <option value="dd/mm/yy">
           DD/MM/YY
+        </option>
+        <option value="yyyy/mm/dd">
+          YYYY/MM/DD
         </option>
         <option value="yy/mm/dd">
           YY/MM/DD

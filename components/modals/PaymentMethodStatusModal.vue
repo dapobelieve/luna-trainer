@@ -19,7 +19,7 @@
           </p>
           <div class="mt-8 flex">
             <button class="button-fill" @click.prevent="nextStep">
-              Proceed
+              Continue
             </button>
             <button class="bg-white-500 py-2 px-4 text-blue-500" @click="tryLater()">
               Try it later
@@ -59,7 +59,7 @@
               <li class="flex justify-between items-center mb-8">
                 <div>
                   <p class="text-lg font-medium text-gray-700 mb-1">
-                    Add deposit bank account
+                    Add bank account
                   </p>
                   <p class="text-sm font-normal text-gray-500">
                     We will never share your bank account details with anyone.
@@ -76,6 +76,14 @@
                 </div>
               </li>
             </ul>
+          </div>
+          <div class="mt-8 flex">
+            <button class="button-fill" @click.prevent="prevStep">
+              Back
+            </button>
+            <button class="bg-white-500 py-2 px-4 text-blue-500 float-right" @click="tryLater()">
+              Try it later
+            </button>
           </div>
         </template>
       </div>
@@ -108,6 +116,9 @@ export default {
     }),
     nextStep () {
       this.currentDisplay = Math.min(this.currentDisplay + 1, 2)
+    },
+    prevStep () {
+      this.currentDisplay = Math.max(this.currentDisplay - 1, 1)
     },
     tryLater () {
       this.$modal.hide('payment-method-status')

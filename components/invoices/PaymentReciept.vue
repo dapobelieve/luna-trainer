@@ -11,7 +11,7 @@
             v-model="paidObj.paymentDate"
             style="width: 100%"
             class="date-picker relative"
-            format="ddd MMM D"
+            :format="$auth.user.dateFormat.toUpperCase()"
             placeholder="Date"
           ></DatePicker>
         </div>

@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <Async :state="$fetchState">
+    <div>
     <template v-if="readNotifications.length">
       <NewNotification
         v-for="notification in readNotifications"
@@ -18,6 +19,7 @@
     </template>
     <NoNotifications v-else />
   </div>
+  </Async>
 </template>
 
 <script>
@@ -25,13 +27,15 @@ import { mapGetters, mapActions } from 'vuex'
 import SingleLoader from '../util/SingleLoader.vue'
 import NoNotifications from '~/components/notifications/NoNotifications'
 import NewNotification from '~/components/notifications/NewNotification'
+import Async from '~/components/util/Async.vue'
 
 export default {
   name: 'ReadItems',
   components: {
     NewNotification,
     NoNotifications,
-    SingleLoader
+    SingleLoader,
+    Async
   },
   data () {
     return {

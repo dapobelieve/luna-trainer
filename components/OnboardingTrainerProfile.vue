@@ -10,14 +10,14 @@
             Do you have any accreditations, affiliations or qualifications?
           </span>
         </label>
+        <small class="text-gray-500">
+          Just type to add one, then hit enter to add more.
+        </small>
         <TagInput
           v-model="trainer.accreditations"
           :block="false"
           :class="{'border-red-500' : $v.trainer.accreditations.$error}"
         />
-        <div class="text-gray-400">
-          Just type to add one, then hit enter to add more.
-        </div>
       </div>
       <div class="flex flex-col gap-1.5">
         <label
@@ -25,14 +25,14 @@
         >What are your training areas of specialism, or behavioural issue
           focuses?
         </label>
+        <small class="text-gray-500">
+          Just type to add one, then hit enter to add more.
+        </small>
         <TagInput
           v-model="trainer.specialization"
           :block="false"
           :class="{'border-red-500' : $v.trainer.accreditations.$error}"
         />
-        <div class="text-gray-400">
-          Just type to add one, then hit enter to add more.
-        </div>
       </div>
       <div class="flex flex-col gap-1.5">
         <label

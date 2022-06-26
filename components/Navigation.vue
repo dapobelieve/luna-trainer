@@ -182,6 +182,7 @@
             <button
               class="hidden md:flex hover:bg-blue-50 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg w-full"
               :class="['settings-profile'.includes(currentLink) ? 'active' : '']"
+              id="settings-hint-nav"
               @click="gotoNav('settings-profile')"
             >
               <i class="fi-rr-settings mr-4 mt-0.5"></i>
@@ -347,14 +348,14 @@ export default {
       switch (e) {
         case 'Report':
           return 'reporting-hint'
-        case 'Settings':
-          return 'settings-hint'
         case 'Messages':
           return 'message-hint-nav'
         case 'Schedule':
           return 'session-st-nav'
-        case 'Payment':
-          return 'billing-hint-nav'
+        case 'Payments':
+          return 'payments-hint-nav'
+        case 'Settings':
+          return 'settings-hint-nav'
         default:
           return ''
       }

@@ -64,7 +64,6 @@
           </td>
         </template>
       </LunaTable>
-
       <InvoiceDetailModal id="invoice-details" :invoice="selectedInvoice" @close="$modal.hide('invoice-details')" />
     </async-view>
   </div>
@@ -122,6 +121,11 @@ export default {
           text: 'Created',
           value: 'createdAt',
           sortable: true
+        },
+        {
+          text: '',
+          value: '',
+          sortable: false
         }
       ],
       sort: {},

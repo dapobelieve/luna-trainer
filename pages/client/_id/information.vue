@@ -55,6 +55,9 @@
 
 <script>
 import { mapActions } from 'vuex'
+import dogBreeds from '~/dogBreeds.json'
+import countries from '~/countries.json'
+
 export default {
   name: 'Information',
   data () {
@@ -62,10 +65,13 @@ export default {
       hasAnyInputChanged: false,
       isLoading: false,
       cancelLoading: false,
+      countries,
       clientInfo: null,
       id: this.$route.params.id,
       showButtons: false,
-      links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }]
+      links: [{ link: 'Client' }, { link: 'Dog' }, { link: 'Health' }],
+      gender: ['Male', 'Female'],
+      dogBreeds
     }
   },
   computed: {
@@ -84,10 +90,21 @@ export default {
   mounted () {
     this.getProfile(this.id)
       .then((response) => {
+        response.businessCountry = this.countries.find((i) => {
+          return i?.code === response.businessCountry
+        })
+        const t = {
+          ...response.pet[0],
+          fixing: {
+            date: response.pet[0]?.fixing?.date ? new Date(response.pet[0]?.fixing?.date) : undefined,
+            value: response.pet[0]?.fixing?.value
+          }
+        }
+        response.pet[0] = t
         if (!response.pet.length) {
           this.clientInfo = {
             ...response,
-            pet: [{ name: '', age: '', breed: '' }]
+            pet: [{ name: '', age: '' }]
           }
         } else {
           this.clientInfo = response
@@ -102,12 +119,13 @@ export default {
     }),
     updateProfile () {
       this.isLoading = true
+
       return this.updateClient({
         id: this.clientInfo._id,
         info: {
           firstName: this.clientInfo.firstName,
           lastName: this.clientInfo.lastName,
-          businessCountry: this.clientInfo.businessCountry,
+          businessCountry: this.clientInfo.businessCountry?.code ?? '',
           location: this.clientInfo.location,
           zip: this.clientInfo.zip,
           city: this.clientInfo.city,
@@ -116,7 +134,12 @@ export default {
             {
               name: this.clientInfo.pet[0].name,
               age: this.clientInfo.pet[0].age,
-              breed: this.clientInfo.pet[0].breed
+              breed: this.clientInfo.pet[0].breed,
+              gender: this.clientInfo.pet[0].gender,
+              fixing: {
+                date: this.clientInfo.pet[0]?.fixing?.date,
+                value: this.clientInfo.pet[0]?.fixing?.value
+              }
             }
           ],
           notes: this.clientInfo.notes,
@@ -126,6 +149,9 @@ export default {
         .then((response) => {
           this.showButtons = false
           if (response.status === 'success') {
+            response.data.businessCountry = this.countries.find((i) => {
+              return i?.code === response.data.businessCountry
+            })
             this.clientInfo = response.data
             this.isLoading = false
             this.$lunaToast.success('Updated profile successfully')
@@ -146,6 +172,9 @@ export default {
         .finally(() => {
           this.isLoading = false
         })
+    },
+    format (str) {
+      return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase()
     },
     cancelEditField () {
       this.cancelLoading = false
