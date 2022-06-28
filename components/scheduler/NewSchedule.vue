@@ -114,6 +114,7 @@
       </div>
       <div id="clients">
         <ClientSelect :event="event" v-model="form.participants" />
+        <ReminderSelect :event="event" v-model="form.reminder" />
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwSelector v-model="form.color" label="name" class="w-full color-selector" :options="colors">
@@ -156,12 +157,13 @@ import { format, fromUnixTime } from 'date-fns'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import ClientSelect from './ClientSelect.vue'
+import ReminderSelect from './ReminderSelect.vue'
 import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect },
+  components: { Conference, DatePicker, ClientSelect, ReminderSelect },
   props: {
     event: {
       type: Object
@@ -230,6 +232,9 @@ export default {
           this.form.to = this.time[this.time.length - 1]
         }
       }
+    },
+    'form.reminder' (newValue) {
+      console.log(newValue)
     }
   },
   validations: {

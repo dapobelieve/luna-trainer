@@ -14,6 +14,7 @@
       :inputmode="inputmode"
       :step="step"
       :min="min"
+      :max="max"
       @input="onInput"
       @focus="$emit('focus')"
       @change="$emit('change')"
@@ -79,6 +80,10 @@ export default {
       default: null
     },
     min: {
+      type: String,
+      default: null
+    },
+    max: {
       type: String,
       default: null
     },
