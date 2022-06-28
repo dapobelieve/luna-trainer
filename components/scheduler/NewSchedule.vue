@@ -114,7 +114,7 @@
       </div>
       <div id="clients">
         <ClientSelect :event="event" v-model="form.participants" />
-        <ReminderSelect :event="event" v-model="form.reminder" />
+        <ReminderSelect :event="event" />
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwSelector v-model="form.color" label="name" class="w-full color-selector" :options="colors">
@@ -282,6 +282,7 @@ export default {
       return time
     },
     computeToTime () {
+      console.log(this.time)
       return this.form.from && [...this.time].slice(this.time.indexOf(this.form.from) + 1)
     },
     timezoneArr () {
