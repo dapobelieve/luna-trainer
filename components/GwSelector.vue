@@ -8,6 +8,7 @@
       :placeholder="placeholder"
       :label="label || undefined"
       :taggable="taggable"
+      :menu-props="menuProps"
       class="v-select"
       @input="$emit('change', $event)"
     >
@@ -49,6 +50,10 @@ export default {
     taggable: {
       type: Boolean,
       default: false
+    },
+    menuProps: {
+      type: Object,
+      default: () => {}
     },
     multiple: {
       type: Boolean,

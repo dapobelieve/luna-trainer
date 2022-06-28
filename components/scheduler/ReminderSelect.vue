@@ -13,7 +13,7 @@
                   placeholder="Add Notification"
                   class="w-full repeat-selector"
                   :options="defaultReminders"
-                  :menu-props="{ top: true, offsetY: true }"
+                  :menuProps="{ top: true, offsetY: true }"
                   :label="name"
                   :reduce="reminder => reminder.value"
                 >
@@ -65,7 +65,7 @@
             </div>
             <div class="flex flex-row pt-4">
              <div class="w-[190px]">
-                 <GwSelector
+                <GwSelector
                   v-model='reminderType'
                   :options="reminderTypes"
                   placeholder="Reminder Type"
@@ -83,6 +83,12 @@
                     </div>
                   </template>
                 </GwSelector>
+                <div
+                  class='text-xs text-red-500 mt-2'
+                  v-if='submitting && $v.reminderType.$invalid'
+                >
+                  Please select a type
+                </div>
              </div>
              <div class="w-[190px] pl-2">
                 <GwInputField
@@ -95,6 +101,12 @@
                   autocomplete="text"
                   class-name="information_box"
                 />
+                <div
+                  class='text-xs text-red-500 mt-2'
+                  v-if='submitting && $v.period.$invalid'
+                >
+                  Please add a valid number
+                </div>
              </div>
              <div class="w-[190px] pl-2">
                  <GwSelector
@@ -115,6 +127,12 @@
                     </div>
                   </template>
                 </GwSelector>
+                 <div
+                  class='text-xs text-red-500 mt-2'
+                  v-if='submitting && $v.reminderPeriod.$invalid'
+                >
+                  Please select a type
+                </div>
              </div>
             </div>
             <div class="mt-10 flex justify-end space-x-4">
@@ -208,6 +226,7 @@ export default {
       this.defaultReminders.push(value)
       this.reminder = value
       this.closeModal()
+      this.submitting = false
     }
   }
 }
