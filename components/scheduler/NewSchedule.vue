@@ -113,94 +113,7 @@
         </div>
       </div>
       <div id="clients">
-        <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
-          Clients
-        </h6>
-        <div class="mb-6">
-          <div class="flex flex-col">
-            <div class="flex items-center">
-              <i class="fi-rr-user mt-1 text-md text-gray-500"></i>
-              <div class="ml-3 text-gray-500 w-full">
-                <GwSelector
-                  v-model="form.participants"
-                  placeholder="Participants"
-                  multiple
-                  label="firstName"
-                  class="w-full clients-selector repeat-selector"
-                  :options="allClients"
-                >
-                  <template>
-                    <div class="flex items-center">
-                      <span>Participants</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }">
-                    <div class="flex justify-between min-w-full items-center">
-                      <div class="flex items-center content-center py-1">
-                        <ClientAvatar
-                          :width="2.3"
-                          :height="2.3"
-                          :client-info="optionObject"
-                        />
-                        <p class="capitalize text-gray-700 ml-4">
-                          {{ optionObject.firstName }} {{ $utils.optional(optionObject.lastName) }}
-                        </p>
-                      </div>
-                    </div>
-                  </template>
-                  <template v-slot:footer @click.stop="">
-                    <button
-                      type="button"
-                      class="flex items-center w-full py-2 outline-none"
-                      @click.prevent="$modal.show('invite-client')"
-                    >
-                      <div class="flex px-2 ml-1 items-center justify-center">
-                        <i
-                          class="fi-rr-plus text-base text-blue-500 p-1 mt-1"
-                        />
-                        <span class="text-primary-color text-base pl-2">Create new Client</span>
-                      </div>
-                    </button>
-                  </template>
-                </GwSelector>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div v-if="form.participants">
-              <div v-for="(client, cId) in form.participants" :key="cId">
-                <div class="flex items-center content-center py-1">
-                  <ClientAvatar
-                    v-if="client.firstName"
-                    :width="2.3"
-                    :height="2.3"
-                    :client-info="client"
-                  />
-                  <ClientAvatar
-                    v-else
-                    :width="2.3"
-                    :height="2.3"
-                    :client-info="{firstName: client.name}"
-                  />
-                  <div class="ml-2">
-                    <p class="capitalize text-md text-gray-700">
-                      <template v-if="client.firstName">
-                        {{ client.firstName }} {{ $utils.optional(client.lastName) }}
-                      </template>
-                      <template v-else>
-                        {{ client.name }}
-                      </template>
-                    </p>
-                    <span class="text-sm text-gray-400">{{ client.email }}</span>
-                  </div>
-                  <span v-if="hasSchedule || form.participants.length" class="ml-auto cursor-pointer" @click="removeClient(client)">
-                    <i class="fi-rr-cross text-primary-color"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <ClientSelect :event="event" v-model="form.participants" />
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwSelector v-model="form.color" label="name" class="w-full color-selector" :options="colors">
@@ -242,11 +155,13 @@ import DatePicker from 'vue2-datepicker'
 import { format, fromUnixTime } from 'date-fns'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
+import ClientSelect from './ClientSelect.vue'
+import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
-import Conference from '~/components/conference/index'
+
 export default {
-  components: { Conference, DatePicker },
+  components: { Conference, DatePicker, ClientSelect },
   props: {
     event: {
       type: Object
@@ -510,16 +425,7 @@ export default {
           this.form.when.startTime = start / 1000
           this.form.when.endTime = end / 1000
 
-          const participants = this.form.participants.reduce((acc, curr) => {
-            acc.push({
-              userId: curr.userId,
-              email: curr.email,
-              profileId: curr._id,
-              imgUrl: curr.imgURL,
-              name: curr.firstName
-            })
-            return acc
-          }, [])
+          const participants = this.form.participants
 
           const payloadData = {
             title: this.form.title,
