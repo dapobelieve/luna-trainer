@@ -99,7 +99,6 @@
                   :min="1"
                   :max="60"
                   autocomplete="text"
-                  class-name="information_box"
                 />
                 <div
                   class='text-xs text-red-500 mt-2'

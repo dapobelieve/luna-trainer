@@ -116,7 +116,7 @@ input {
   @apply border-0 bg-none bg-transparent shadow-none focus:outline-none block w-full;
 }
 .information_box{
-  height: 2.5rem;
+  height: 2.7rem;
   border: 1px solid #E2E8F0;
   padding: 7px 12px;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
