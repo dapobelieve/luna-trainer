@@ -16,9 +16,9 @@
                   class="w-full clients-selector repeat-selector"
                   :options="allClients"
                 >
-                  <template>
-                    <div class="flex items-center">
-                      <span>Participants</span>
+                 <template>
+                    <div class="flex items-center" style="z-index: 3000">
+                      <span class="text-gray-700">Participants</span>
                     </div>
                   </template>
                   <template v-slot:dropdownOption="{ optionObject }">
@@ -55,9 +55,9 @@
           </div>
           <div>
             <div v-if="participants" class="flex flex-row flex-wrap">
-              <div v-for="(client, cId) in participants" :key="cId" class="px-2 py-1">
-                <div class="flex items-center content-center rounded-2xl border-2 p-0">
-                    <div class=" h-8 w-8 relative -left-1 flex-shrink-0 rounded-full flex justify-center items-center overflow-hidden">
+              <div v-for="(client, cId) in participants" :key="cId" class="mr-2 py-1">
+                <div class="flex items-center rounded-full border-2 p-0">
+                    <div class="bg-[#CAE5CE] h-10 w-10 relative flex-shrink-0 rounded-full flex justify-center items-center overflow-hidden" style="left: -1px">
                         <ClientAvatar
                             v-if="client.firstName"
                             :width="2.3"
@@ -81,8 +81,8 @@
                         </template>
                         </p>
                     </div>
-                    <span v-if="hasSchedule || participants.length" class="mx-4 cursor-pointer" @click="removeClient(client)">
-                        <i class="fi-rr-cross text-black text-[8px]"></i>
+                    <span v-if="hasSchedule || participants.length" class="ml-5 mr-3 cursor-pointer" @click="removeClient(client)">
+                        <i class="fi-rr-cross text-black font-bold text-[8px]"></i>
                     </span>
                 </div>
               </div>

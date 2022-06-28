@@ -45,8 +45,8 @@ export default {
   name: 'ViewImageModal',
   computed: {
     ...mapState({
-      isImageOpen: state => state.sendBird?.openImage,
-      imageDetails: state => state.sendBird?.imageDetails
+      isImageOpen: state => state.sendBird.openImage,
+      imageDetails: state => state.sendBird.imageDetails
     })
   },
   watch: {
