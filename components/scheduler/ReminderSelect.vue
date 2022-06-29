@@ -23,14 +23,14 @@
                     </div>
                   </template>
                   <template v-slot:selectedOption="{selected}">
-                    <div class="flex items-center">
-                      <span :class="selected.class" class="color-circle rounded-full mr-4"></span>
+                    <div class="flex">
+                      <span :class="selected.class" class="color-circle rounded-full"></span>
                       <span class="text-gray-700">{{ selected.name }}</span>
                     </div>
                   </template>
-                  <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                    <div class="flex items-center py-3">
-                      <span :class="optionObject.class" class="color-circle rounded-full mr-4"></span>
+                  <template v-slot:dropdownOption="{ optionObject }">
+                    <div class="flex py-3">
+                      <span :class="optionObject.class" class="color-circle rounded-full"></span>
                       <span class="text-gray-700">{{ optionObject.name }}</span>
                     </div>
                   </template>
@@ -238,6 +238,10 @@ export default {
         display: none;
       }
     }
+    .vs__dropdown-option {
+      padding-left: 0;
+      padding: 0px 0px;
+    }
   }
 }
 .date-picker {
@@ -265,7 +269,14 @@ export default {
     .vs__actions {
       display: none;
     }
+    .vs__dropdown-option {
+      padding-left: 0;
+      padding: 0px 0px;
+    }
   }
+}
+.vs__dropdown-menu {
+  padding-left: 0
 }
 .color-selector, .repeat-selector {
   ::v-deep .v-select {
@@ -280,6 +291,7 @@ export default {
   }
   ::v-deep .vs__dropdown-menu {
     padding: 4px;
+    padding-left: 0;
     li {
       border-radius: 8px;
     }
