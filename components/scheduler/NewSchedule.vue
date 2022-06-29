@@ -114,7 +114,7 @@
       </div>
       <div id="clients">
         <ClientSelect :event="event" v-model="form.participants" />
-        <ReminderSelect :event="event" />
+        <!-- <ReminderSelect :event="event" /> -->
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
           <GwSelector v-model="form.color" label="name" class="w-full color-selector" :options="colors">
