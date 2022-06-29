@@ -98,6 +98,7 @@
                   type="number"
                   :min="1"
                   :max="60"
+                  class="information_box"
                   autocomplete="text"
                 />
                 <div
