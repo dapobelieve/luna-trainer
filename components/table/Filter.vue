@@ -42,7 +42,7 @@
                 <button class="py-2 px-5" @click="clear">
                   Clear
                 </button>
-                <button :disabled="!filterList" class="py-2 px-20 button-fill w-28" @click="filter">
+                <button class="py-2 px-20 button-fill w-28" @click="filter">
                   Filter
                 </button>
               </div>
@@ -50,13 +50,13 @@
           </div>
         </button>
       </ClickOutside>
-      <div v-for="(item, key, index) in labels" :key="index" class="mr-1 inline-flex">
+      <div v-for="(item, key, index) in filterHash" :key="index" class="mr-1 inline-flex">
         <span v-if="key === 'date-range'" :key="index" class="border rounded-full py-1 px-3 text-gray-600">
-          <span class="mr-3 select-none">date range:  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
+          <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
           <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
         </span>
         <span v-else :key="index" class="border rounded-full py-1 px-3 text-gray-600">
-          <span class="mr-3 select-none">{{ key }}: <strong>{{ item }}</strong></span>
+          <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
           <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
         </span>
       </div>
@@ -100,41 +100,41 @@ export default {
         from: null,
         to: null
       },
-      checkedVars: [''],
+      checkedVars: [],
       filterObj: this.filterHash,
       show: false
     }
   },
-  computed: {
-    labels () {
-      if (this.filterHash) {
-        return this.filterHash
-      }
-      return {}
-    },
-    filterList () {
-      return Object.keys(this.filterObj).length !== 0
-    }
-  },
   watch: {
-    dateRanges: {
+    filterHash: {
+      immediate: true,
       handler (val) {
-        this.$set(this.filterObj, 'date-range', val)
+        this.filterObj = { ...val }
       },
       deep: true
     },
-    filterObj: {
-      deep: true,
-      handler (val, oldVal) {
-
-      }
+    checkedVars: {
+      handler (vars) {
+        const obj = {}
+        vars.forEach((v) => {
+          obj[v] = this.filterObj[v]
+        })
+        this.filterObj = obj
+      },
+      deep: true
+    },
+    dateRanges: {
+      handler (val) {
+        this.filterObj['date-range'] = val
+      },
+      deep: true
     }
   },
   methods: {
     close () { this.show = false },
     removeFilterItem (key) {
       this.$delete(this.filterObj, key)
-      this.$emit('filter', this.filterObj)
+      this.$emit('filter', { ...this.filterObj })
       this.$emit('filter-item-removed', key)
       this.removeChecked(key)
     },
@@ -144,10 +144,10 @@ export default {
     clear () {
       this.checkedVars = []
       this.$set(this, 'filterObj', {})
-      // this.close()
+      this.close()
     },
     setStatusValue (data) {
-      this.$set(this.filterObj, 'status', data)
+      this.filterObj.status = data.toLowerCase()
     },
     shouldCloseFilter (event) {
       // console.log(event.target)
@@ -157,7 +157,8 @@ export default {
     },
     filter () {
       if (Object.keys(this.filterObj).length > 0) {
-        this.$emit('filter', this.filterObj)
+        this.filterBtn = true
+        this.$emit('filter', { ...this.filterObj })
         this.close()
       }
     }

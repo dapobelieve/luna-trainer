@@ -30,21 +30,21 @@
           <GwSelector
             v-model="clientInfo.pet[0].breed"
             placeholder="Type here"
-            @change="focusField"
             :options="dogBreeds"
             label="name"
             class="overfllow-hidden"
+            @change="focusField"
           >
-              <template v-slot:selectedOption="{selected}">
-                <div class="flex items-center">
-                  <span class="text-gray-700 ">{{ format(truncate(selected.name))}}</span>
-                </div>
-              </template>
-              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                <div class="flex items-center py-2">
-                  <span class="text-gray-700">{{ format(optionObject.name) }}</span>
-                </div>
-              </template>
+            <template v-slot:selectedOption="{selected}">
+              <div class="flex items-center">
+                <span class="text-gray-700 ">{{ format(truncate(selected.name)) }}</span>
+              </div>
+            </template>
+            <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+              <div class="flex items-center py-2">
+                <span class="text-gray-700">{{ format(optionObject.name) }}</span>
+              </div>
+            </template>
           </GwSelector>
         </div>
       </div>
@@ -69,20 +69,20 @@
           <GwSelector
             v-model="clientInfo.pet[0].gender"
             placeholder="Type here"
-            @change="focusField"
             :options="gender"
             class="overfllow-hidden"
+            @change="focusField"
           >
-              <template v-slot:selectedOption="{selected}">
-                <div class="flex items-center">
-                  <span class="text-gray-700 ">{{ format(selected.label)}}</span>
-                </div>
-              </template>
-              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                <div class="flex items-center py-2">
-                  <span class="text-gray-700">{{ format(optionObject.label) }}</span>
-                </div>
-              </template>
+            <template v-slot:selectedOption="{selected}">
+              <div class="flex items-center">
+                <span class="text-gray-700 ">{{ format(selected.label) }}</span>
+              </div>
+            </template>
+            <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+              <div class="flex items-center py-2">
+                <span class="text-gray-700">{{ format(optionObject.label) }}</span>
+              </div>
+            </template>
           </GwSelector>
         </div>
       </div>
@@ -96,17 +96,17 @@
             <label
               class="rounded-2xl relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm information_box"
               :class="{
-              'bg-blue-50': isSpayed,
+                'bg-blue-50': isSpayed,
               }"
             >
               <input
                 id="spaying"
+                v-model="isSpayed"
                 name="spaying"
                 value="spaying"
-                v-model="isSpayed"
                 type="checkbox"
-                @change="focusField"
                 class="h-5 w-5 rounded checkbox-round"
+                @change="focusField"
               />
               <span
                 id="reinforcement-0-label"
@@ -116,17 +116,17 @@
             <label
               class="rounded-2xl relative border p-3 cursor-pointer focus:outline-none w-full bg-white hover:bg-blue-50 transition-all flex items-center shadow-sm information_box"
               :class="{
-              'bg-blue-50': isNotSpayed,
+                'bg-blue-50': isNotSpayed,
               }"
             >
               <input
                 id="neutering"
+                v-model="isNotSpayed"
                 name="neutering"
                 value="neutering"
-                v-model="isNotSpayed"
                 type="checkbox"
-                @change="focusField"
                 class="h-5 w-5 rounded checkbox-round"
+                @change="focusField"
               />
               <span
                 id="reinforcement-0-label"
@@ -155,7 +155,7 @@
         <label
           class="required"
         >Behavioural Problems</label>
-        <TagInput v-model="behaviors" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField"/>
+        <TagInput v-model="behaviors" :tabindex="9" placeholder="Press [Tab] to move on, or [Enter] to add multiple items" @input="focusField" />
       </div>
       <div class="grid grid-cols-1 gap-4 xl:gap-6 w-full mt-6">
         <div>

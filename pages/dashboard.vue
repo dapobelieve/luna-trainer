@@ -318,15 +318,14 @@ export default {
         .onafterchange(() => {
         })
         .onexit(() => {
-          const skip = document.getElementById('skip');
+          const skip = document.getElementById('skip')
           skip.classList.add('opacity-0')
         })
         .start()
 
-      const skip = document.getElementById('skip');
+      const skip = document.getElementById('skip')
       skip.classList.remove('opacity-0')
       this.$intro().showHints()
-
     },
     closeModal () {
       this.$modal.hide('welcome-modal')

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="items-center mb-3 py-2">
-      <LunaFilter v-model="filteredList" :filter-types="filterTypes" @filter="tableFiltered" />
+      <LunaFilter v-model="filterList" :filter-types="filterTypes" @filter="tableFiltered" />
     </div>
     <div class="luna-table overflow-scroll lg:overflow-hidden border bg-white rounded-2xl">
       <table class="table-auto table w-full text-xs" align="center">
@@ -119,11 +119,9 @@ export default {
   data () {
     return {
       selectAll: false,
-      checkedItems: []
+      checkedItems: [],
+      filterList: {}
     }
-  },
-  computed: {
-    //
   },
   watch: {
     checkedItems: {
@@ -140,11 +138,18 @@ export default {
       } else {
         this.checkedItems = []
       }
+    },
+    filteredList: {
+      immediate: true,
+      handler (val) {
+        this.filterList = val
+      },
+      deep: true
     }
   },
   methods: {
     tableFiltered () {
-      this.$emit('table-filter', this.filteredList)
+      this.$emit('table-filter', this.filterList)
     }
   }
 }
@@ -162,9 +167,7 @@ export default {
     font-size: 0.875rem;
   }
   tr {
-    //style row border
     td {
-      //border: 1px solid red;
       height: 3rem;
     }
   }

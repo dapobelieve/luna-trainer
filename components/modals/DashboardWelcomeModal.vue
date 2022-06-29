@@ -1,6 +1,6 @@
 <template>
   <div>
-    <skip v-if="skip"/>
+    <skip v-if="skip" />
     <modal name="welcome-modal" :height="470" :width="500" @closed="exitTour();skip=false">
       <div>
         <div class="space" />
@@ -32,6 +32,7 @@
 <script>
 import Skip from './Skip.vue'
 export default {
+  components: { Skip },
   props: {
     exitTour: Function,
     takeTour: Function
@@ -40,7 +41,6 @@ export default {
     return {
       skip: false
     }
-  },
-  components: { Skip }
+  }
 }
 </script>

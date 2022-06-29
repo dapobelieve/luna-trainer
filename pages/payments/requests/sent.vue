@@ -1,10 +1,17 @@
 <template>
   <div class="pt-2">
     <async-view>
-      <div class="tabs mb-6">
-        <button v-for="(status, statusIndex) in statuses" :key="statusIndex" class="px-3 py-2" @click="filterByStatus(status)">
-          {{ status }}
-        </button>
+      <div class="mb-4 overflow-x-auto">
+        <div class="tasbs w-72 flex">
+          <div v-for="(status, statusIndex) in statuses" :key="statusIndex" role="presentation" class="flex items-center justify-center">
+            <a class="px-4 cursor-pointer relative" style="min-width: 56px" @click="filterByStatus(status)">
+              <div class="pt-4 pb-4 relative flex justify-center items-center">
+                <span class="select-none">{{ status | capitalize }}</span>
+                <div v-show="filterObj.status === status || (status === 'all' && !filterObj.status )" class="indicator absolute bottom-0 h-[4px] bg-blue-500"></div>
+              </div>
+            </a>
+          </div>
+        </div>
       </div>
       <LunaTable
         v-if="invoices.data"
@@ -80,16 +87,16 @@ export default {
   components: { LunaTable, InvoiceDetailModal },
   data () {
     return {
-      statuses: ['All', 'Sent', 'Draft', 'Paid', 'Pending', 'Overdue'],
+      statuses: ['all', 'sent', 'draft', 'paid', 'pending', 'overdue'],
       selectedInvoice: null,
       filterTypes: [
         // 'amount',
         // 'client',
         // 'date',
         'status',
-        'date-range',
-        'date',
-        'amount'
+        'date-range'
+        // 'date',
+        // 'amount'
       ],
       headings: [
         {
@@ -130,14 +137,64 @@ export default {
       ],
       sort: {},
       exporting: false,
-      currentPage: 1,
+      currentPage: this.$route.query.page || 1,
       options: [],
       filterObj: {},
+      demo: "",
       allClients: [],
       checkedItems: [],
       filter: {
         customerUserId: '',
-        status: ''
+        page: 1
+      }
+    }
+  },
+  watch: {
+    sort: {
+      deep: true,
+      handler (val) {
+        const order = val.order === 'asc' ? '' : '-'
+        this.$router.push({
+          query: {
+            ...this.$route.query,
+            sort: `${order}${val.value}`
+          }
+        })
+      }
+    },
+    filterObj: {
+      // immediate: true,
+      deep: true,
+      handler (val) {
+        let query = {}
+        if (Object.keys(val).length > 0) {
+          for (const key in val) {
+            query[key] = key === 'status' ? val[key].toLowerCase() : val[key]
+          }
+          this.$router.push({
+            query: {
+              ...this.$route.query,
+              ...query
+            }
+          })
+        } else {
+          this.$router.push({
+            name: this.$route.name,
+            status: 'all',
+          })
+        }
+      }
+    },
+    '$route.query': {
+      deep: true,
+      immediate: true,
+      async handler (query) {
+        const { page, status } = query
+        this.currentPage = page ? parseInt(page) : 1
+        this.filterObj.status = status ? status : ''
+        this.filter.page = this.currentPage
+        this.filter.status = status === 'all' ? '' : status
+        await this.$fetch()
       }
     }
   },
@@ -146,6 +203,9 @@ export default {
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       invoices: 'invoice/getAllInvoices'
     }),
+    activeStatus () {
+      return this.filterObj.status || 'All'
+    },
     filteredData () {
       let records = this.invoices.data
 
@@ -160,43 +220,35 @@ export default {
   },
   async fetch () {
     // eslint-disable-next-line no-unused-expressions
-    this.filter.status.includes('all') ? this.filter.status = '' : null
+    this.filter.status === 'all' ? this.filter.status = '' : this.filter.status
     await this.getInvoices(this.filter)
-  },
-  watch: {
   },
   methods: {
     async filterByStatus (status) {
-      this.filterObj.status = status.toLowerCase()
-      this.filter.status = status.toLowerCase()
-      await this.$fetch()
+      this.filterObj = Object.assign({}, this.filterObj, {
+        status
+      })
     },
     async fetchPage (data) {
-      this.currentPage = data
-      this.filter.page = data
-      await this.$fetch(this.filter)
+      this.$router.push({
+        name: this.$route.name,
+        query: {
+          ...this.$route.query,
+          page: data
+        }
+      })
     },
     ...mapActions({
       getPaymentMethods: 'payment-methods/getPaymentMethods',
       getSingleInvoice: 'invoice/getSingleInvoice',
       getInvoices: 'invoice/getInvoices'
     }),
-    sortColumn (sortData) {
-      this.sort.key = sortData.key
-      this.sort.order = sortData.order
-    },
     formatDate (date, formatStr) {
       return format(new Date(date), formatStr)
     },
     async checkPaymentMethods () {
       await this.getPaymentMethods()
       if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
-    },
-    async getClients () {
-      if (!this.allClients || this.allClients.length < 1) {
-        const res = await this.$store.dispatch('client/allConciseClients')
-        this.allClients = res.data
-      }
     },
     async archive () {
       try {
@@ -252,13 +304,20 @@ export default {
     } catch (e) {
       console.log({ e })
     }
-  },
-  async mounted () {
   }
 }
 </script>
-
 <style lang="scss" scoped>
+.indicator {
+  height: 4px;
+  align-self: center;
+  display: inline-flex;
+  position: absolute;
+  bottom: 0;
+  min-width: 35px;
+  width: 100%;
+  border-radius: 9999px;
+}
 .tabs {
   &::after {
     content: '';

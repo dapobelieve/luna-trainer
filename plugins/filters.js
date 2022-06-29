@@ -24,7 +24,7 @@ function howLongAgo (date) {
 }
 
 function capitalize (str) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
+  return str?.charAt(0).toUpperCase() + str?.slice(1)
 }
 
 Vue.filter('amount', amount)

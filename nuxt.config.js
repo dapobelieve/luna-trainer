@@ -22,7 +22,7 @@ export default {
       {
         hid: 'description',
         name: 'description',
-        content: 'Getwelp Trainer UI'
+        content: 'Luna Trainer UI'
       }
     ],
     link: [

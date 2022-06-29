@@ -20,7 +20,7 @@
         <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
           Date and time
         </h6>
-<!--        <span>{{ $auth.user.dateFormat }}</span>-->
+        <!--        <span>{{ $auth.user.dateFormat }}</span>-->
         <div class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-calendar mt-1 text-md text-gray-500"></i>
