@@ -140,7 +140,7 @@ export default {
       currentPage: this.$route.query.page || 1,
       options: [],
       filterObj: {},
-      demo: "",
+      demo: '',
       allClients: [],
       checkedItems: [],
       filter: {
@@ -166,7 +166,7 @@ export default {
       // immediate: true,
       deep: true,
       handler (val) {
-        let query = {}
+        const query = {}
         if (Object.keys(val).length > 0) {
           for (const key in val) {
             query[key] = key === 'status' ? val[key].toLowerCase() : val[key]
@@ -180,7 +180,7 @@ export default {
         } else {
           this.$router.push({
             name: this.$route.name,
-            status: 'all',
+            status: 'all'
           })
         }
       }
@@ -191,7 +191,7 @@ export default {
       async handler (query) {
         const { page, status } = query
         this.currentPage = page ? parseInt(page) : 1
-        this.filterObj.status = status ? status : ''
+        this.filterObj.status = status || ''
         this.filter.page = this.currentPage
         this.filter.status = status === 'all' ? '' : status
         await this.$fetch()
@@ -224,12 +224,12 @@ export default {
     await this.getInvoices(this.filter)
   },
   methods: {
-    async filterByStatus (status) {
+    filterByStatus (status) {
       this.filterObj = Object.assign({}, this.filterObj, {
         status
       })
     },
-    async fetchPage (data) {
+    fetchPage (data) {
       this.$router.push({
         name: this.$route.name,
         query: {

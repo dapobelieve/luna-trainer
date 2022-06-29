@@ -28,7 +28,7 @@
           </tr>
         </thead>
         <tbody v-if="tableData.length">
-          <tr v-for="(tableItem, itemIndex) in tableData" v-if="tableData" :key="itemIndex" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" @click.exact="$emit('item-clicked', tableItem)">
+          <tr v-for="(tableItem, itemIndex) in tableData" :key="itemIndex" class="text-center relative text-gray-500 hover-row hover:cursor-pointer" @click.exact="$emit('item-clicked', tableItem)">
             <td v-if="checkAble" class="w-12 py-4 font-medium pl-3">
               <AppCheckboxComponent v-model="checkedItems" :value="tableItem.id || tableItem._id" />
             </td>
@@ -94,7 +94,7 @@ export default {
     },
     sort: {
       type: Object,
-      default: { key: 'type', order: 'asc' }
+      default: () => ({ key: 'type', order: 'asc' })
     },
     tableData: {
       type: Array,
@@ -102,7 +102,7 @@ export default {
       validator: (value) => {
         return value.every(item =>
           typeof item === 'object' &&
-          (item.hasOwnProperty('_id') || item.hasOwnProperty('id')) &&
+          (Object.prototype.hasOwnProperty.call((item, '_id')) || Object.prototype.hasOwnProperty.call((item, 'id'))) &&
           Object.keys(item).length > 1)
       }
     },
