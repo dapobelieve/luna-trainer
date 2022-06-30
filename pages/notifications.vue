@@ -7,7 +7,7 @@
         <TabbedItems
           :links="[{link: 'Unread', count: notificationsSummary.unread}, {link: 'Read', count: notificationsSummary.read}]"
         >
-         <template v-slot:title>
+          <template v-slot:title>
             <h2
               class="px-4 pt-4 text-xl font-normal text-gray-700 bg-white"
             >
@@ -15,8 +15,8 @@
             </h2>
           </template>
           <template v-slot:tabviews="{ tab }">
-              <UnreadItems v-if="tab === 1" />
-              <ReadItems v-if="tab === 2" />
+            <UnreadItems v-if="tab === 1" />
+            <ReadItems v-if="tab === 2" />
           </template>
         </TabbedItems>
       </div>

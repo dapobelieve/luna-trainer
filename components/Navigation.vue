@@ -180,9 +180,9 @@
               </h3>
             </button>
             <button
+              id="settings-hint-nav"
               class="hidden md:flex hover:bg-blue-50 items-center px-3 pl-4 text-gray-600 py-1 rounded-lg w-full"
               :class="['settings-profile'.includes(currentLink) ? 'active' : '']"
-              id="settings-hint-nav"
               @click="gotoNav('settings-profile')"
             >
               <i class="fi-rr-settings mr-4 mt-0.5"></i>
