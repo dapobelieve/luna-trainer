@@ -15,11 +15,32 @@
       :width="2"
     />
     <span
-      v-if="msg.messageType === 'file'"
+      v-if="msg.messageType === 'file' && msg.type.includes('image')"
       class="msg overflow-hidden border"
       @click="viewImage(msg)"
     >
       <img class="bg-white cursor-pointer imgSize" :src="msg.url" />
+    </span>
+    <span
+      v-else-if="msg.messageType === 'file' && msg.type.includes('pdf')"
+      class="msg overflow-hidden border relative"
+    >
+      <div class="bg-white imgSize border-4 border-blue-500">
+        <div class="absolute inset-0 grid place-content-center">
+          <i class="fi fi-rr-document"></i>
+        </div>
+        <div class="absolute inset-0 grid place-content-end right-4 bottom-4 cursor-pointer">
+          <i class="fi fi-rr-download" @click.prevent="downloadItem(msg.url)"></i>
+        </div>
+      </div>
+    </span>
+    <span
+      v-else-if="msg.messageType === 'file' && msg.type.includes('video')"
+      class="msg overflow-hidden border"
+    >
+      <video width="290" height="200" controls>
+        <source :src="msg.url" type="video/mp4">
+      </video>
     </span>
     <div v-else class="msg p-2 max-w-lg whitespace-pre-line break-words">{{ msg.message.trim() }}</div>
     <small class="ml-2 text-xs">{{
@@ -48,6 +69,17 @@ export default {
         },
         status: true
       })
+    },
+    downloadItem ({ url, label }) {
+      this.$axios.get(url, { responseType: 'blob' })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: 'application/pdf' })
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(blob)
+          link.download = label
+          link.click()
+          URL.revokeObjectURL(link.href)
+        }).catch(console.error)
     }
   }
 }
@@ -63,6 +95,16 @@ export default {
   .msg {
     @apply bg-gray-100 text-gray-700 rounded-tl-2xl rounded-tr-2xl rounded-br-2xl rounded-bl-sm;
   }
+}
+.fi:before {
+  @apply text-blue-500
+}
+.fi-rr-document:before {
+  @apply text-6xl
+}
+
+.fi-rr-download:before {
+  @apply text-xl
 }
 .imgSize {
   width: 200px;

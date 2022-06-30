@@ -11,21 +11,21 @@
       </button>
     </div>
     <div class="flex justify-center">
-      <embed
-        class="imgSize h-screen w-screen"
-        :src="file"
-      />
+      <video width="320" height="240" controls>
+        <source :src="file" type="video/mp4">
+      </video>
     </div>
     <div class="bg-white flex justify-between items-center p-4">
       <div
         class="overflow-hidden relative rounded-lg"
         style="border: 3px solid #3B82F6;"
       >
-        <embed
+        <video
           style="max-width: 80px; max-height: 80px"
           class="inline-block object-contain"
           :src="file"
-        />
+        >
+        </video>
         <button
           type="button"
           class="absolute right-1 top-1"
@@ -47,11 +47,11 @@
 
 <script>
 export default {
-  name: 'PreviewImage',
+  name: 'PreviewVideo',
   props: {
     file: {
-      type: Array,
-      default: () => { }
+      type: String,
+      required: true
     },
     removeFile: {
       type: Function,
