@@ -75,45 +75,56 @@
             placeholder="Type a message, press enter to send or shift + enter for new line"
             @keydown.enter.exact.prevent="sendTextMessage"
           />
-          <div class="relative">
+          <div class="absolute mb-12 bg-white right-10 rounded-md text-gray-800">
             <transition name="fadeIn">
-              <img
-                v-if="showUpload"
-                alt="Upload Image"
-                role="button"
-                class="
-                  text-2xl text-center
-                  inline-block
-                  p-2
-                  shadow-2xl
-                  shadow-cyan-500
-                  absolute
-                  bg-blue-500
-                  z-50
-                  -top-14
-                  right-0
-                  rounded-full
-                "
-                src="~/assets/img/svgs/image.svg"
-                @click="uploadPhoto"
-              />
+              <div v-if="showUpload">
+                <li class="flex p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('imageFile')">
+                  <i class="fi fi-rr-picture flex items-center" />
+                  <span class="ml-2">Photo</span>
+                </li>
+                <li class="flex  p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('videoFile')">
+                  <i class="fi fi-rr-play-alt flex items-center" />
+                  <span class="ml-2">Video</span>
+                </li>
+                <li class="flex  p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('pdfFile')">
+                  <i class="fi fi-rr-document flex items-center" />
+                  <span class="ml-2">PDF</span>
+                </li>
+              </div>
             </transition>
             <input
-              ref="fileUpload"
-              class="hidden"
               type="file"
-              name="image"
+              multiple
+              id="imageFile"
+              hidden
               accept="image/*"
               @change="onChange"
             />
-            <button
-              class="button-text button-sm w-8 ml-2"
-              type="button"
-              @click="showUpload = !showUpload"
-            >
-              <i class="fi-rr-link text-blue-500"></i>
-            </button>
+            <input
+              type="file"
+              multiple
+              id="videoFile"
+              hidden
+              accept="video/*"
+              @change="onChange"
+            />
+            <input
+              type="file"
+              multiple
+              id="pdfFile"
+              hidden
+              accept=".pdf"
+              @change="onChange"
+            />
+
           </div>
+          <button
+            class="button-text button-sm w-8 ml-2"
+            type="button"
+            @click="showUpload = !showUpload"
+          >
+            <i class="fi-rr-link text-blue-500"></i>
+          </button>
           <button
             class="button-fill flex items-center button-sm w-8 ml-2"
             type="submit"
@@ -131,6 +142,7 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import PreviewImage from '~/components/messages/PreviewImage.vue'
+import PreviewVideo from '~/components/messages/PreviewVideo.vue'
 import OpponentMessage from '~/components/messages/OpponentMessage.vue'
 import SenderMessages from '~/components/messages/SenderMessages.vue'
 
@@ -289,22 +301,28 @@ export default {
     },
     onChange (e) {
       this.uploadFile = e.target.files[0]
-      this.showImagePreview()
+      this.showImagePreview(e.srcElement.accept)
     },
-    uploadPhoto () {
-      this.$refs.fileUpload.click()
-      this.showUpload = false
+    addFile (fileType) {
+      this.showOptions = false
+      this.$el.querySelector(`#${fileType}`).click()
     },
-    showImagePreview () {
+    showImagePreview (fileType) {
+      let previewType = ''
+      if (fileType.includes('video')) {
+        previewType = PreviewVideo
+      } else {
+        previewType = PreviewImage
+      }
       const reader = new FileReader()
       reader.onload = (e) => {
         this.uploadFileImage = e.target.result
         this.$modal.show(
-          PreviewImage,
+          previewType,
           {
-            fileImage: this.uploadFileImage,
+            file: this.uploadFileImage,
             sendFile: this.sendFileMessage,
-            removeImage: this.removeImage
+            removeFile: this.removeImage
           },
           { adaptive: true, height: '100%', width: '100%' }
         )
