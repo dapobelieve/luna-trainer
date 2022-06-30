@@ -3,7 +3,7 @@ import Vue from 'vue'
 const queryString = require('querystring')
 
 export const state = () => ({
-  invoices: [],
+  invoices: {},
   invoiceCount: 0,
   isLoading: false
 })
@@ -111,7 +111,7 @@ export const actions = {
       const response = await this.$axios.$get(
         `${process.env.PAYMENT_HOST_URL}/invoice?${newQueryObj}`
       )
-      commit('setStates', { invoices: response.data })
+      commit('setStates', { invoices: response })
       return response
     } catch (e) {
       return e

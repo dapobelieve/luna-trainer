@@ -1,24 +1,24 @@
 <template>
   <Async :state="$fetchState">
     <div>
-    <template v-if="readNotifications.length">
-      <NewNotification
-        v-for="notification in readNotifications"
-        :key="notification._id"
-        :notification="notification"
-      />
-      <button
-        v-if="readNotifications.length >= page * limit || loadingMore"
-        class="btn block w-full py-2 font-bold text-center flex items-center"
-        @click.prevent="loadMore"
-      >
-        <SingleLoader v-if="loadingMore">
-        </SingleLoader>
-        <span v-else>Load More</span>
-      </button>
-    </template>
-    <NoNotifications v-else />
-  </div>
+      <template v-if="readNotifications.length">
+        <NewNotification
+          v-for="notification in readNotifications"
+          :key="notification._id"
+          :notification="notification"
+        />
+        <button
+          v-if="readNotifications.length >= page * limit || loadingMore"
+          class="btn block w-full py-2 font-bold text-center flex items-center"
+          @click.prevent="loadMore"
+        >
+          <SingleLoader v-if="loadingMore">
+          </SingleLoader>
+          <span v-else>Load More</span>
+        </button>
+      </template>
+      <NoNotifications v-else />
+    </div>
   </Async>
 </template>
 

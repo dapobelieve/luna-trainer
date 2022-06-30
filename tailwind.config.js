@@ -18,7 +18,12 @@ module.exports = {
         rose: colors.rose,
         teal: colors.teal,
         lime: colors.lime,
-        amber: colors.amber
+        amber: colors.amber,
+        slate: {
+          50: '#F8FAFC',
+          100: '',
+          700: '#334155'
+        }
       },
       zIndex: {
         '-10': '-10',
