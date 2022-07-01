@@ -1,6 +1,6 @@
 <template>
   <div class="relative">
-    <div class="flex text-sm font-semibold mb-2 pt-0 pb-3 px-4 uppercase rounded-2xl text-white bg-forest">
+    <div class="flex text-sm font-semibold mb-2 pt-0 pb-3 px-4 uppercase rounded-2xl text-white bg-blue-200">
       <div class="pb-1.5">
         <span>
           Uploading...
@@ -12,7 +12,7 @@
         </span>
       </div>
     </div>
-    <div class="overflow-hidden h-2 mb-4 flex rounded bg-blue-500">
+    <div class="overflow-hidden h-2 mb-4 flex rounde">
       <div :style="progressBarWidth" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-200"></div>
     </div>
   </div>
