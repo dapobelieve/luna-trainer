@@ -42,14 +42,13 @@
                 </div>
                 <div class="w-[190px] pl-2">
                     <GwInputField
-                    v-model="period"
-                    label=""
-                    placeholder="Type here"
-                    type="number"
-                    :min="1"
-                    :max="60"
-                    class="information_box"
-                    autocomplete="text"
+                      v-model="period"
+                      label=""
+                      placeholder="Type here"
+                      type="number"
+                      :min="1"
+                      class="information_box"
+                      autocomplete="text"
                     />
                     <div
                     class='text-xs text-red-500 mt-2'
@@ -85,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="py-4">
+            <div class="py-4" v-if="isWeekSelected">
                 <div class="pb-4">Repeat on</div>
                 <div class="flex flex-row">
                     <div
@@ -104,13 +103,13 @@
                     </div>
                 </div>
             </div>
-            <div class="py-4 flex w-[200px]">
+            <div class="py-4 flex w-[200px]" v-if="isMonthSelected">
                 <date-picker
-                    v-model="endsOn"
+                    v-model="montSelect"
                     style="width: 100% !important; height: 100%"
                     class="w-full relative"
                     :disabled-date="date => date > new Date()"
-                    format="DD MMM, YYYY"
+                    format="DDDD MMM, YYYY"
                     placeholder="Monthly on day 14"
                     :clearable="false"
                 ></date-picker>
@@ -126,7 +125,7 @@
                         'bg-blue-50': isNever,
                         }"
                     >
-                        <input
+                      <input
                             id="spaying"
                             name="spaying"
                             value="spaying"
@@ -204,7 +203,6 @@
                                 placeholder=""
                                 type="number"
                                 :min="1"
-                                :max="60"
                                 class="information_box"
                                 autocomplete="text"
                             />
@@ -229,6 +227,8 @@
 
 <script>
 import DatePicker from 'vue2-datepicker'
+import { RRule } from 'rrule'
+import { required, and, integer, minValue, maxValue } from 'vuelidate/lib/validators'
 
 export default {
   name: 'RepeatSelect',
@@ -243,27 +243,32 @@ export default {
       isAfter: false,
       submitting: false,
       reminderPeriod: null,
+      montSelect: undefined,
       endsOn: undefined,
+      repeats: [],
       period: null,
       after: null,
       isNever: false,
       isOn: false,
-      dayValue: null,
+      dayValue: [],
       weekly: [
-        { name: 'S', value: 'Sunday' },
-        { name: 'M', value: 'Monday' },
-        { name: 'T', value: 'Tuesday' },
-        { name: 'W', value: 'Wednesday' },
-        { name: 'TH', value: 'Thursday' },
-        { name: 'F', value: 'Friday' },
-        { name: 'S', value: 'Saturday' }
+        { name: 'S', value: RRule.SU },
+        { name: 'M', value: RRule.MO },
+        { name: 'T', value: RRule.TU },
+        { name: 'W', value: RRule.WE },
+        { name: 'TH', value: RRule.TH },
+        { name: 'F', value: RRule.FR },
+        { name: 'S', value: RRule.SA }
       ],
       reminderPeriods: [
-        { name: 'minutes', value: 'mins' },
-        { name: 'hours', value: 'hrs' },
-        { name: 'days', value: 'day' },
-        { name: 'weeks', value: 'week' }
-      ]
+        { name: 'days', value: RRule.DAILY },
+        { name: 'weeks', value: RRule.WEEKLY },
+        { name: 'months', value: RRule.MONTHLY },
+        { name: 'years', value: RRule.YEARLY }
+      ],
+      isWeekSelected: false,
+      isMonthSelected: false,
+      rRule: {}
     }
   },
   props: {
@@ -279,6 +284,132 @@ export default {
   watch: {
     'repeat' (newValue) {
       this.$emit('change', newValue)
+    },
+    'reminderPeriod' (newValue) {
+      if (newValue) {
+        switch (newValue.value) {
+          case RRule.WEEKLY:
+            this.isWeekSelected = true
+            this.isMonthSelected = false
+            break
+          case RRule.MONTHLY:
+            this.isWeekSelected = false
+            this.isMonthSelected = true
+            break
+          case RRule.DAILY:
+            this.isWeekSelected = false
+            this.isMonthSelected = false
+            break
+          case RRule.YEARLY:
+            this.isWeekSelected = false
+            this.isMonthSelected = false
+            break
+          default:
+            this.isWeekSelected = false
+            this.isMonthSelected = false
+            break
+        }
+
+        this.rRule = {
+          ...this.rRule,
+          freq: newValue.value
+        }
+      }
+    },
+    'montSelect' (newValue) {
+      if (newValue) {
+        this.rRule = {
+          ...this.rRule,
+          bymonthday: [new Date(newValue).getDay()],
+          bymonth: [new Date(newValue).getMonth()]
+        }
+      }
+    },
+    'period' (newValue) {
+      if (newValue) {
+        this.rRule = {
+          ...this.rRule,
+          interval: newValue
+        }
+      }
+    },
+    'dayValue' (newValue) {
+      if (newValue && newValue.length > 0) {
+        this.rRule = {
+          ...this.rRule,
+          byweekday: newValue
+        }
+      }
+    },
+    'rRule' (newValue) {
+      console.log(newValue, '====')
+    },
+    'isNever' (newValue) {
+      if (newValue) {
+        this.isOn = false
+        this.isAfter = false
+        this.endsOn = undefined
+        this.rRule = { ...this.rRule, count: undefined, until: undefined }
+      }
+    },
+    'isOn' (newValue) {
+      if (newValue) {
+        this.isAfter = false
+        this.isNever = false
+        this.rRule = { ...this.rRule, count: undefined, until: new Date(this.endsOn ?? Date.now()) }
+      }
+    },
+    'isAfter' (newValue) {
+      if (newValue) {
+        this.isOn = false
+        this.isNever = false
+        this.endsOn = undefined
+        this.rRule = { ...this.rRule, until: undefined, count: this.after ?? 1 }
+      }
+    },
+    'endsOn' (newValue) {
+      if (newValue && this.isOn) {
+        console.log(newValue)
+        const dateData = new Date(newValue ?? Date.now())
+        this.rRule = { ...this.rRule, until: dateData }
+      }
+    },
+    'after' (newValue) {
+      if (newValue && Number(newValue) > 0 && this.isAfter) {
+        this.rRule = { ...this.rRule, count: newValue }
+      }
+    },
+    'showOptions' (newValue) {
+      const options = [
+        {
+          name: 'Does not repeat',
+          value: ''
+        },
+        {
+          name: 'Every day',
+          value: 'RRULE:FREQ=DAILY'
+        },
+        {
+          name: 'Every weekday',
+          value: 'RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
+        },
+        {
+          name: `Every week on ${this.$dateFns.format(new Date(this.showOptions), 'ccc')}`,
+          value: 'RRULE:FREQ=WEEKLY;INTERVAL=1'
+        },
+        {
+          name: `Every month on the 1st ${this.$dateFns.format(new Date(this.showOptions), 'ccc')}`,
+          value: `RRULE:FREQ=MONTHLY;BYSETPOS=1;BYDAY=${this.$dateFns.format(new Date(this.showOptions), 'EEEEEE').toUpperCase()};INTERVAL=1`
+        }
+      ]
+      const holder = []
+      this.repeats.forEach((i) => {
+        const doesExist = options.findIndex(q => q.value === i.value)
+        if (doesExist === -1) {
+          holder.push(i)
+        }
+      })
+      this.repeats = [...options, ...holder]
     }
   },
   methods: {
@@ -286,39 +417,46 @@ export default {
       this.$modal.hide('repeat-modal')
     },
     isDayActive (n) {
-      return this.dayValue === n.value
+      return this.dayValue.findIndex(i => i === n.value) !== -1
     },
     chooseDay (n) {
-      this.dayValue = n.value
+      if (this.isDayActive(n)) {
+        this.dayValue = this.dayValue.filter(i => i !== n.value)
+      } else {
+        this.dayValue = [...this.dayValue, n.value]
+      }
+    },
+    done () {
+      this.$v.$touch()
+      this.submitting = true
+      if (this.$v.period.$invalid || this.$v.reminderPeriod.$invalid) {
+        return
+      }
+      try {
+        const newRule = new RRule(this.rRule)
+        const findIndex = this.repeats.findIndex(i => i.value === newRule.toString())
+        const rRuleName = `${newRule.toText().substring(0, 1).toUpperCase()}${newRule.toText().substring(1, newRule.toText().length)}`
+        if (findIndex === -1) {
+          this.repeats.push({
+            name: rRuleName,
+            value: newRule.toString()
+          })
+        }
+        this.repeat = {
+          name: rRuleName,
+          value: newRule.toString()
+        }
+        this.closeModal()
+        this.submitting = false
+      } catch (e) {
+        this.$lunaToast.error(e)
+      }
     }
   },
-  computed: {
-    repeats () {
-      if (this.showOptions) {
-        return [
-          {
-            name: 'Does not repeat',
-            value: ''
-          },
-          {
-            name: 'Every day',
-            value: 'RRULE:FREQ=DAILY'
-          },
-          {
-            name: 'Every weekday',
-            value: 'RRULE:FREQ=DAILY;BYDAY=MO,TU,WE,TH,FR'
-          },
-          {
-            name: `Every week on ${this.$dateFns.format(new Date(this.showOptions), 'ccc')}`,
-            value: 'RRULE:FREQ=WEEKLY;INTERVAL=1'
-          },
-          {
-            name: `Every month on the 1st ${this.$dateFns.format(new Date(this.showOptions), 'ccc')}`,
-            value: `RRULE:FREQ=MONTHLY;BYSETPOS=1;BYDAY=${this.$dateFns.format(new Date(this.showOptions), 'EEEEEE').toUpperCase()};INTERVAL=1`
-          }
-        ]
-      }
-      return []
+  validations () {
+    return {
+      period: { shouldBeChecked: and(required, minValue(1), maxValue(60), integer) },
+      reminderPeriod: { required }
     }
   }
 }

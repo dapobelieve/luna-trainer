@@ -365,7 +365,7 @@ export default {
         description: this.form.description,
         participants: this.form.participants
       }
-
+      console.log(this.form.repeat)
       if (this.form.repeat?.value) {
         payloadData.recurrence = [this.form.repeat.value]
       }
