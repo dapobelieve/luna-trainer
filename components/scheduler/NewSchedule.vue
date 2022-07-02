@@ -73,24 +73,7 @@
           </div>
           <small v-if="$v.form.from.$error" class="text-red-600">Select a time for the meeting</small>
         </div>
-        <div v-if="!hasSchedule" class="flex items-center mb-3">
-          <i class="fi-rr-refresh mt-1 text-md text-gray-500"></i>
-          <span class="ml-3 text-gray-500 w-full">
-            <GwSelector v-model="form.repeat" placeholder="Repeat" label="name" class="w-full repeat-selector" :options="repeat">
-              <template v-slot:selectedOption="{selected}">
-                <div class="flex items-center">
-                  <span class="text-gray-700">{{ selected.name }}</span>
-                </div>
-              </template>
-              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                <div class="flex items-center py-3">
-                  <span class="text-gray-700">{{ optionObject.name }}</span>
-                  <span v-if="optionObject.name.includes('weekday')" class="ml-1"> Mon - Fri</span>
-                </div>
-              </template>
-            </GwSelector>
-          </span>
-        </div>
+        <RepeatSelect :showOptions="form.date" v-if="!hasSchedule" v-model="form.repeat" />
         <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-globe mt-1 text-md text-gray-500"></i>
@@ -158,12 +141,13 @@ import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import ClientSelect from './ClientSelect.vue'
 import ReminderSelect from './ReminderSelect.vue'
+import RepeatSelect from './RepeatSelect.vue'
 import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect, ReminderSelect },
+  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect },
   props: {
     event: {
       type: Object
@@ -381,7 +365,7 @@ export default {
         description: this.form.description,
         participants: this.form.participants
       }
-
+      console.log(this.form.repeat)
       if (this.form.repeat?.value) {
         payloadData.recurrence = [this.form.repeat.value]
       }
