@@ -12,7 +12,7 @@
         </span>
       </div>
     </div>
-    <div class="overflow-hidden h-2 mb-4 flex rounde">
+    <div class="overflow-hidden h-2 mb-4 flex">
       <div :style="progressBarWidth" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-blue-200"></div>
     </div>
   </div>
