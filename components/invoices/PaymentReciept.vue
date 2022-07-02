@@ -83,7 +83,6 @@ export default {
     if (!acceptedPaymentReceipts) {
       this.$$lunaToast.error('No payment reciepts found')
     } else {
-      console.log(acceptedPaymentReceipts)
       this.paidObj.paymentDate = new Date(acceptedPaymentReceipts.paymentDate)
       this.paidObj.paymentType = this.paymentMethods.find(method => method.type === acceptedPaymentReceipts.paymentType)
     }

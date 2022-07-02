@@ -5,7 +5,8 @@ export const state = () => ({
   messages: {},
   latestMessages: {},
   unreadMessagesCount: {},
-  connectionStatus: {}
+  connectionStatus: {},
+  uploadPercentage: 0
 })
 
 export const mutations = {
@@ -40,6 +41,9 @@ export const mutations = {
       messages.sort((a, b) => a.createdAt - b.createdAt)
     }
     Vue.set(state.messages, id, messages)
+  },
+  setUploadPercentage (state, uploadPercentage) {
+    state.uploadPercentage = uploadPercentage
   }
 }
 
@@ -153,15 +157,20 @@ export const actions = {
 
     const id = Object.keys(channel.memberMap).find(key => key !== this.$auth.user.userId)
 
-    const pendingMessage = await channel.sendFileMessage(params, null, (fileMessage, error) => {
-      if (error) {
-        console.error('Message not sent', error)
-        this.$lunaToast.error('Message not sent', error)
-      }
-      if (fileMessage) {
-        commit('swapMessage', { id, newMessage: fileMessage })
-      }
-    })
+    const pendingMessage = await channel.sendFileMessage(params, null,
+      function (event) { // Check progress of file upload request.
+        const uploadedData = parseInt(Math.floor(event.loaded / event.total * 100))
+        commit('setUploadPercentage', uploadedData)
+      },
+      (fileMessage, error) => {
+        if (error) {
+          console.error('Message not sent', error)
+          this.$lunaToast.error('Message not sent', error)
+        }
+        if (fileMessage) {
+          commit('swapMessage', { id, newMessage: fileMessage })
+        }
+      })
     pendingMessage.fileBinary = fileBinary
     commit('addMessage', { id, message: pendingMessage })
   },
@@ -231,5 +240,8 @@ export const getters = {
   },
   getConnectionStatus: (state) => {
     return state.connectionStatus
+  },
+  getUploadedPercentage: (state) => {
+    return state.uploadPercentage
   }
 }

@@ -13,12 +13,22 @@ function date (date) {
     return format(new Date(date), 'MMM dd, yyyy')
   }
 }
+
+function shortDate (date) {
+  return format(new Date(date), 'MMM d, yyyy')
+}
 function howLongAgo (date) {
   return formatDistance(new Date(date), new Date(), {
     addSuffix: false
   })
 }
 
+function capitalize (str) {
+  return str?.charAt(0).toUpperCase() + str?.slice(1)
+}
+
 Vue.filter('amount', amount)
 Vue.filter('date', date)
 Vue.filter('howLongAgo', howLongAgo)
+Vue.filter('shortDate', shortDate)
+Vue.filter('capitalize', capitalize)
