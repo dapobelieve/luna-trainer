@@ -163,7 +163,7 @@ import timezones from '~/timezones.json'
 import time from '~/utils/time'
 
 export default {
-  Components: { Conference, DatePicker, ClientSelect, ReminderSelect },
+  components: { Conference, DatePicker, ClientSelect, ReminderSelect },
   props: {
     event: {
       type: Object
