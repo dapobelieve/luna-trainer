@@ -29,18 +29,19 @@
         <modal name="repeat-modal" height="auto" width="550" :adaptive="true">
           <div class="px-4 py-2" style="overflow: scroll">
             <div class="flex flex-row">
-              <p class="text-lg text-gray-700 font-normal py-4 w-3/4">
+              <p class="text-lg text-gray-500 font-normal py-4 w-3/4">
                 Custom recurrence
               </p>
               <p class="w-1/4 flex justify-end py-4">
                 <i @click="closeModal" class="fi-rr-cross text-lg cursor-pointer text-primary-color"></i>
               </p>
             </div>
-            <div class="flex flex-row pt-4">
-                <div class="w-[140px] items-center">
-                    <div>Repeat every</div>
+            <div class="flex flex-col pt-4">
+                <div class="items-center text-gray-500">
+                  Repeat every
                 </div>
-                <div class="w-[190px] pl-2">
+                <div class="flex flex-row mt-2">
+                  <div class="w-[100px]">
                     <GwInputField
                       v-model="period"
                       label=""
@@ -83,15 +84,16 @@
                     Please select a type
                     </div>
                 </div>
+              </div>
             </div>
             <div class="py-4" v-if="isWeekSelected">
-                <div class="pb-4">Repeat on</div>
+                <div class="pb-4 text-gray-500">Repeat on</div>
                 <div class="flex flex-row">
                     <div
                         v-for="n in weekly"
                         @click="chooseDay(n)"
                         :key="n.value"
-                        class="h-8 text-sm cursor-pointer w-8 hover:bg-blue-50 flex items-center justify-center rounded-full border-gray-300 border-2 text-center ml-4"
+                        class="h-8 text-sm cursor-pointer w-8 hover:bg-blue-50 flex items-center justify-center rounded-full border-gray-300 border-2 text-center mr-4"
                         :class="{
                          'bg-blue-50': isDayActive(n),
                          'border-blue-500': isDayActive(n),
@@ -115,7 +117,7 @@
                 ></date-picker>
             </div>
             <div class="pt-4">
-                <div class="w-[140px] items-center">
+                <div class="w-[140px] items-center text-gray-500">
                     <div>Ends</div>
                 </div>
                 <div class="w-[130px] py-2">
@@ -196,7 +198,7 @@
                         </label>
                     </div>
                     <div class="w-[300px] px-2 flex flex-row items-center">
-                        <div class="w-[175px]">
+                        <div class="w-[90px]">
                             <GwInputField
                                 v-model="after"
                                 label=""
@@ -207,7 +209,7 @@
                                 autocomplete="text"
                             />
                         </div>
-                        <div class="pl-2">
+                        <div class="pl-2 text-gray-500">
                             Occurances
                         </div>
                     </div>
@@ -246,7 +248,7 @@ export default {
       montSelect: undefined,
       endsOn: undefined,
       repeats: [],
-      period: null,
+      period: 1,
       after: null,
       isNever: false,
       isOn: false,
