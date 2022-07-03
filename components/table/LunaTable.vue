@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="items-center mb-3 py-2">
-      <LunaFilter v-model="filterList" :filter-types="filterTypes" @filter="tableFiltered" />
+      <LunaFilter v-model="computedFilterList" :filter-types="filterTypes" />
     </div>
     <div class="luna-table overflow-scroll lg:overflow-hidden border bg-white rounded-2xl">
       <table class="table-auto table w-full text-xs" align="center">
@@ -12,8 +12,8 @@
                 <input v-model="selectAll" class="cursor-pointer h-4 w-4 border-grey-500" type="checkbox">
               </div>
             </th>
-            <th v-for="(header, headerIndex) in headings" :key="headerIndex" :class="[headerIndex === 0 ? 'w' : '']" class="py-3 pl-1">
-              <div class="flex items-center justify-center select-none text-slate-700">
+            <th v-for="(header, headerIndex) in headings" :key="headerIndex" :class="[headerIndex === 0 ? 'w' : '']" class="py-3">
+              <div class="flex items-center justify-start ml-5 select-none text-slate-700">
                 <div :class="[sort.text === header.text ? 'font-bold' : 'font-medium']">
                   <slot name="tableHeader" :tableHeaderData="header">
                     {{ header.text || '' }}
@@ -75,6 +75,11 @@ export default {
     prop: 'filteredList',
     event: 'table-filter'
   },
+  provide() {
+    return {
+      filterTypes: this.filterTypes
+    }
+  },
   props: {
     totalPages: {
       type: Number,
@@ -102,7 +107,7 @@ export default {
       validator: (value) => {
         return value.every(item =>
           typeof item === 'object' &&
-          (Object.prototype.hasOwnProperty.call((item, '_id')) || Object.prototype.hasOwnProperty.call((item, 'id'))) &&
+          (Object.prototype.hasOwnProperty.call(item, '_id') || Object.prototype.hasOwnProperty.call(item, 'id')) &&
           Object.keys(item).length > 1)
       }
     },
@@ -114,12 +119,12 @@ export default {
         return value.every(item => typeof item === 'object')
       }
     },
-    filteredList: {}
   },
   data () {
     return {
       selectAll: false,
       checkedItems: [],
+      tableState: {},
       filterList: {}
     }
   },
@@ -131,26 +136,59 @@ export default {
       },
       deep: true
     },
-    selectAll (val) {
-      if (val) {
-        this.checkedItems = this.tableData.map((item, index) => item.id || item._id)
-        this.$emit('checked-items-changed', this.checkedItems)
-      } else {
-        this.checkedItems = []
+    "$route": {
+      // immediate: true,
+      deep: true,
+      handler: function (val) {
+        const { query } = val
+        for (const key in query) {
+         if(key === 'date-range') {
+           const dateQuery = query[key].split('-')
+           this.filterList = {
+             ...this.filterList,
+             [key]: {
+               from: new Date(parseInt(dateQuery[0]) * 1000),
+               to: new Date(parseInt(dateQuery[1]) * 1000)
+             }
+           }
+          } else {
+            this.filterList[key] = query[key]
+         }
+        }
       }
-    },
-    filteredList: {
-      immediate: true,
-      handler (val) {
-        this.filterList = val
-      },
-      deep: true
     }
   },
   methods: {
     tableFiltered () {
       this.$emit('table-filter', this.filterList)
     }
+  },
+  computed: {
+    computedFilterList: {
+      get () {
+        return this.filterList
+      },
+      set (val) {
+        this.filterList = {}
+        let query = {}
+        for(let key in val) {
+          if(key === 'date-range') {
+            this.filterList[key] = val[key]
+            query[key] = `${new Date(val[key].from)/1000}-${new Date(val[key].to)/1000}`
+          } else {
+            this.filterList[key] = val[key]
+            query[key] = val[key].toLowerCase()
+          }
+        }
+        
+        this.$router.push({
+          name: this.$route.name,
+          query: {
+            ...query
+          }
+        })
+      }
+    },
   }
 }
 </script>

@@ -7,7 +7,7 @@
             <a class="px-4 cursor-pointer relative" style="min-width: 56px" @click="filterByStatus(status)">
               <div class="pt-4 pb-4 relative flex justify-center items-center">
                 <span class="select-none">{{ status | capitalize }}</span>
-                <div v-show="filterObj.status === status || (status === 'all' && !filterObj.status )" class="indicator absolute bottom-0 h-[4px] bg-blue-500"></div>
+                <div v-show="statusHasRoute === status || (status === 'all' && !statusHasRoute )" class="indicator absolute bottom-0 h-[4px] bg-blue-500"></div>
               </div>
             </a>
           </div>
@@ -28,8 +28,8 @@
         @sort-column="sort = $event"
       >
         <template v-slot:tableRows="{rowData}">
-          <td class="w-4/12">
-            <div class="flex justify-center items-center">
+          <td class="w-3/12" align="left">
+            <div class="flex justify-start ml-5 items-center">
               <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
               <div class="text-sm text-slate-700 font-medium w-40">
                 {{ rowData.customerId.firstName }}
@@ -37,7 +37,7 @@
               </div>
             </div>
           </td>
-          <td class="w-1/12">
+          <td class="w-1/12 flex justify-start ml-5">
             <div>
               {{ rowData.total }}
             </div>
@@ -47,23 +47,23 @@
               <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
             </div>
           </td>
-          <td>
-            <div>
+          <td class="w-2/12">
+            <div class="justify-start ml-5 flex">
               {{ rowData.invoiceNo || '---' }}
             </div>
           </td>
           <td>
-            <div>
+            <div class="justify-start ml-5 flex">
               {{ formatDate(rowData.dueDate, 'MMM d') }}
             </div>
           </td>
           <td>
-            <div>
+            <div class="justify-start ml-5 flex">
               {{ formatDate(rowData.createdAt, 'MMM d, h:m b') }}
             </div>
           </td>
-          <td class="w-1/12">
-            <div>
+          <td class="w-1/12"> 
+            <div >
               <button type="button">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
               </button>
@@ -84,6 +84,12 @@ import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 import LunaTable from '~/components/table/LunaTable'
 export default {
   name: 'SentInvoice',
+  provide() {
+    return {
+      filterTypes: this.filterTypes,
+      number: this.number
+    }
+  },
   components: { LunaTable, InvoiceDetailModal },
   data () {
     return {
@@ -180,6 +186,7 @@ export default {
         } else {
           this.$router.push({
             name: this.$route.name,
+            ...this.$route.query,
             status: 'all'
           })
         }
@@ -190,8 +197,6 @@ export default {
       immediate: true,
       async handler (query) {
         const { page, status } = query
-        this.currentPage = page ? parseInt(page) : 1
-        this.filterObj.status = status || ''
         this.filter.page = this.currentPage
         this.filter.status = status === 'all' ? '' : status
         await this.$fetch()
@@ -199,6 +204,9 @@ export default {
     }
   },
   computed: {
+    statusHasRoute() {
+      return this.$route.query.status
+    },
     ...mapGetters({
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       invoices: 'invoice/getAllInvoices'
@@ -225,9 +233,9 @@ export default {
   },
   methods: {
     filterByStatus (status) {
-      this.filterObj = Object.assign({}, this.filterObj, {
-        status
-      })
+      // this.filterObj = Object.assign({}, this.filterObj, {
+      //   status
+      // })
     },
     fetchPage (data) {
       this.$router.push({

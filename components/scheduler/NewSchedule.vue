@@ -157,7 +157,6 @@ import { format, fromUnixTime } from 'date-fns'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import ClientSelect from './ClientSelect.vue'
-// import ReminderSelect from './ReminderSelect.vue'
 import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
@@ -282,7 +281,6 @@ export default {
       return time
     },
     computeToTime () {
-      console.log(this.time)
       return this.form.from && [...this.time].slice(this.time.indexOf(this.form.from) + 1)
     },
     timezoneArr () {
