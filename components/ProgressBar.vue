@@ -1,13 +1,13 @@
 <template>
   <div class="relative">
-    <div class="flex text-sm font-semibold mb-2 pt-0 pb-3 px-4 uppercase rounded-2xl text-white bg-blue-200">
+    <div class="flex text-md font-bold mb-2 pt-4 pb-3 px-4 uppercase rounded-2xl text-blue-500 bg-blue-200">
       <div class="pb-1.5">
         <span>
           Uploading...
         </span>
       </div>
       <div class="text-right">
-        <span class="font-semibold inline-block text-white">
+        <span class="font-semibold inline-block">
           {{ ` ${this.uploadPercentage}%` }}
         </span>
       </div>
