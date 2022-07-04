@@ -40,7 +40,7 @@
           </td>
           <td>
             <div class="flex ml-4">
-              <InvoiceStatusComponent class="py-1.5" :status="rowData.workflowStatus ? rowData.workflowStatus : rowData.status" />
+              <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
             </div>
           </td>
           <td class="w-2/12">
