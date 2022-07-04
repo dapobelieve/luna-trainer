@@ -114,6 +114,7 @@
               </div>
             </template>
           </GwSelector>
+          <PlaceSelector />
           <small v-if="$v.form.color.$error" class="text-red-600">Select a color</small>
         </div>
         <div class="flex flex-col mb-3">
@@ -145,9 +146,10 @@ import RepeatSelect from './RepeatSelect.vue'
 import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
+import PlaceSelector from '~/components/PlaceSelector.vue'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect },
+  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect, PlaceSelector },
   props: {
     event: {
       type: Object

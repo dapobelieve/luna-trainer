@@ -38,6 +38,11 @@ export default {
         src: 'https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js',
         async: true
       },
+      {
+        defer: true,
+        src: `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API_KEY}&libraries=places`,
+        async: true,
+      },
       hotjar
     ]
   },
@@ -78,7 +83,8 @@ export default {
     PAYMENT_HOST_URL: process.env.PAYMENT_HOST_URL,
     SENDBIRD_APP_ID: process.env.SENDBIRD_APP_ID,
     REPORTING_HOST: process.env.REPORTING_HOST,
-    SEARCH_HOST: process.env.SEARCH_HOST
+    SEARCH_HOST: process.env.SEARCH_HOST,
+    GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY,
   },
   loading: '~/components/loading.vue',
   buildModules: [
