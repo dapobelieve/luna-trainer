@@ -15,19 +15,15 @@
       </div>
       <LunaTable
         v-if="invoices.data"
-        v-model="filterObj"
         class="mb-6"
         check-able
-        :sort="sort"
-        :current-page="currentPage"
         :total-pages="invoices && invoices.size"
         :headings="headings"
         :filter-types="filterTypes"
         :table-data="filteredData"
-        @page-clicked="fetchPage"
-        @sort-column="sort = $event"
+        @item-clicked="itemClicked"
       >
-        <template v-slot:tableRows="{rowData}">
+        <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }" class="relative">
           <td class="w-3/12" align="left">
             <div class="flex justify-start ml-5 items-center">
               <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
@@ -37,14 +33,14 @@
               </div>
             </div>
           </td>
-          <td class="w-1/12 flex justify-start ml-5">
+          <td class="flex justify-start ml-5 items-center">
             <div>
-              {{ rowData.total }}
+              {{ rowData.total | amount }}
             </div>
           </td>
           <td>
-            <div>
-              <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
+            <div class="flex ml-4">
+              <InvoiceStatusComponent class="py-1.5" :status="rowData.workflowStatus ? rowData.workflowStatus : rowData.status" />
             </div>
           </td>
           <td class="w-2/12">
@@ -62,11 +58,24 @@
               {{ formatDate(rowData.createdAt, 'MMM d, h:m b') }}
             </div>
           </td>
-          <td class="w-1/12"> 
-            <div >
-              <button type="button">
+          <td class="w-1/12 ">
+            <div>
+              <button type="button" @click="setActiveItem(rowData._id)">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
               </button>
+              <div
+                v-show="optionOpen == rowData._id"
+                class="origin-top-right top-[1] absolute right-0 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+              >
+                <div class="py-2 flex flex-col" role="none">
+                  <button type="button" class="dropdown-button" @click.stop="">
+                    Download PDF
+                  </button>
+                  <button type="button" class="dropdown-button" @click.stop="">
+                    Copy payment ID
+                  </button>
+                </div>
+              </div>
             </div>
           </td>
         </template>
@@ -84,13 +93,13 @@ import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 import LunaTable from '~/components/table/LunaTable'
 export default {
   name: 'SentInvoice',
-  provide() {
+  components: { LunaTable, InvoiceDetailModal },
+  provide () {
     return {
       filterTypes: this.filterTypes,
       number: this.number
     }
   },
-  components: { LunaTable, InvoiceDetailModal },
   data () {
     return {
       statuses: ['all', 'sent', 'draft', 'paid', 'pending', 'overdue'],
@@ -143,77 +152,28 @@ export default {
       ],
       sort: {},
       exporting: false,
-      currentPage: this.$route.query.page || 1,
       options: [],
-      filterObj: {},
-      demo: '',
       allClients: [],
-      checkedItems: [],
-      filter: {
-        customerUserId: '',
-        page: 1
-      }
+      checkedItems: []
     }
   },
   watch: {
-    sort: {
-      deep: true,
-      handler (val) {
-        const order = val.order === 'asc' ? '' : '-'
-        this.$router.push({
-          query: {
-            ...this.$route.query,
-            sort: `${order}${val.value}`
-          }
-        })
-      }
-    },
-    filterObj: {
-      // immediate: true,
-      deep: true,
-      handler (val) {
-        const query = {}
-        if (Object.keys(val).length > 0) {
-          for (const key in val) {
-            query[key] = key === 'status' ? val[key].toLowerCase() : val[key]
-          }
-          this.$router.push({
-            query: {
-              ...this.$route.query,
-              ...query
-            }
-          })
-        } else {
-          this.$router.push({
-            name: this.$route.name,
-            ...this.$route.query,
-            status: 'all'
-          })
-        }
-      }
-    },
     '$route.query': {
       deep: true,
       immediate: true,
-      async handler (query) {
-        const { page, status } = query
-        this.filter.page = this.currentPage
-        this.filter.status = status === 'all' ? '' : status
+      async handler () {
         await this.$fetch()
       }
     }
   },
   computed: {
-    statusHasRoute() {
+    statusHasRoute () {
       return this.$route.query.status
     },
     ...mapGetters({
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       invoices: 'invoice/getAllInvoices'
     }),
-    activeStatus () {
-      return this.filterObj.status || 'All'
-    },
     filteredData () {
       let records = this.invoices.data
 
@@ -227,22 +187,28 @@ export default {
     }
   },
   async fetch () {
-    // eslint-disable-next-line no-unused-expressions
-    this.filter.status === 'all' ? this.filter.status = '' : this.filter.status
-    await this.getInvoices(this.filter)
+    this.$route.query.status === 'all' ? this.$route.query.status = '' : this.$route.query.status
+    let newFilterObj = {}
+    if (['draft'].includes(this.$route.query.status)) {
+      newFilterObj.workflowStatus = this.$route.query.status
+      newFilterObj.status = 'pending'
+    }
+    await this.getInvoices({
+      ...this.$route.query,
+      ...newFilterObj
+    })
   },
   methods: {
-    filterByStatus (status) {
-      // this.filterObj = Object.assign({}, this.filterObj, {
-      //   status
-      // })
+    itemClicked (item) {
+      this.selectedInvoice = item
+      this.$modal.show('invoice-details')
     },
-    fetchPage (data) {
+    filterByStatus (status) {
       this.$router.push({
         name: this.$route.name,
         query: {
           ...this.$route.query,
-          page: data
+          status
         }
       })
     },

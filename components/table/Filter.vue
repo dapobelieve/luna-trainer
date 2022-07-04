@@ -50,18 +50,20 @@
           </div>
         </button>
       </ClickOutside>
-      <div v-if="Object.keys(filterHashCompute).length" v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 inline-flex">
-        <template v-if="key !== 'delete'">
-          <span v-if="key === 'date-range'" :key="index" class="border rounded-full py-1 px-3 text-gray-600">
-            <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
-            <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
-          </span>
-            <span v-else :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+      <template v-if="Object.keys(filterHashCompute).length">
+        <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
+          <template v-if="key === 'date-range'">
+            <span :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+              <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
+              <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
+            </span>
+          </template>
+          <span v-else :key="index" class="border rounded-full py-1 px-3 text-gray-600">
             <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
             <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
           </span>
-        </template>
-      </div>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -72,6 +74,7 @@ import ClickOutside from '~/components/util/ClickOutside'
 import GwSelector from '~/components/GwSelector'
 export default {
   components: { GwSelector, ClickOutside, AppCheckboxComponent, DatePicker },
+  inject: ['filterTypes'],
   model: {
     prop: 'filterHash',
     event: 'filter'
@@ -81,10 +84,6 @@ export default {
       type: Object,
       default: () => ({}),
       required: true
-    },
-    filterTypes: {
-      type: Array,
-      default: () => []
     }
   },
   data () {
@@ -107,39 +106,66 @@ export default {
       show: false
     }
   },
-  watch: {
-    dateRanges: {
-      handler (val) {
-        if(this.checkedVars.includes('date-range'))
-          this.filterObj['date-range'] = val
-      },
-      deep: true
-    }
-  }, 
   computed: {
     computedStatus: {
-      get() {
-        return this.filterObj['status']
+      get () {
+        return this.filterObj.status
       },
-      set(val) {
-        this.filterObj['status'] = val
+      set (val) {
+        this.filterObj.status = val
       }
     },
     computedCheckedVars: {
-      get() {
+      get () {
         return Array.from(new Set(this.checkedVars))
       },
-      set(val) {
+      set (val) {
         this.checkedVars = Array.from(val)
       }
     },
     filterHashCompute: {
-      get() {
+      get () {
         return this.filterHash
       },
-      set(val) {
-        // this.filterObj = Object.assign({}, this.filterObj, {...val})
+      set (val) {
         console.log('filterHasCompute', val)
+      }
+    }
+  },
+  watch: {
+    dateRanges: {
+      handler (val) {
+        if (this.checkedVars.includes('date-range')) { this.filterObj['date-range'] = val }
+      },
+      deep: true
+    },
+    $route: {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        const { query } = val
+        for (const key in query) {
+          if (!['sort', 'page'].includes(key)) {
+            if (key === 'date-range') {
+              const dateQuery = query[key].split('-')
+              this.filterObj = {
+                ...this.filterObj,
+                [key]: {
+                  from: new Date(parseInt(dateQuery[0]) * 1000),
+                  to: new Date(parseInt(dateQuery[1]) * 1000)
+                }
+              }
+            } else {
+              this.filterObj[key] = query[key]
+            }
+          } else {
+            this.$parent.others = {
+              ...this.$parent.others,
+              [key]: query[key]
+            }
+          }
+        }
+        this.$emit('filter', { ...this.filterObj })
       }
     }
   },
@@ -147,7 +173,7 @@ export default {
     close () { this.show = false },
     removeFilterItem (key) {
       this.$delete(this.filterObj, key)
-      if(key === 'date-range') {
+      if (key === 'date-range') {
         this.dateRanges = {
           from: null,
           to: null
@@ -174,10 +200,10 @@ export default {
       // this.show = false
     },
     filter () {
-      // if (Object.keys(this.filterObj).length > 0) {
+      if (Object.keys(this.filterObj).length > 0) {
         this.$emit('filter', { ...this.filterObj })
         this.close()
-      // }
+      }
     }
   }
 }
