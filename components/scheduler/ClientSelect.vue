@@ -79,7 +79,46 @@
                   <template v-else>
                     {{ client.name }}
                   </template>
+<<<<<<< HEAD
                 </p>
+=======
+                </GwSelector>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div v-if="participants" class="flex flex-row flex-wrap">
+              <div v-for="(client, cId) in participants" :key="cId" class="mr-2 py-1">
+                <div class="flex items-center rounded-full border p-0">
+                    <div class="bg-[#CAE5CE] h-8 w-8 relative flex-shrink-0 rounded-full flex justify-center items-center overflow-hidden" style="left: -1px">
+                        <ClientAvatar
+                            v-if="client.firstName"
+                            :width="2"
+                            :height="2"
+                            :client-info="client"
+                        />
+                        <ClientAvatar
+                            v-else
+                            :width="2"
+                            :height="2"
+                            :client-info="{firstName: client.name}"
+                        />
+                    </div>
+                    <div class="ml-2">
+                        <p class="capitalize text-sm text-gray-700">
+                        <template v-if="client.firstName">
+                            {{ client.firstName }} {{ $utils.optional(client.lastName) }}
+                        </template>
+                        <template v-else>
+                            {{ client.name }}
+                        </template>
+                        </p>
+                    </div>
+                    <button v-if="hasSchedule || participants.length" class="ml-3 mr-2 flex items-center" @click.prevent="removeClient(client)">
+                        <i class="fi-rr-cross text-gray-500 bg-gray-200 rounded-full p-1.5 font-bold text-[9px] flex items-center"></i>
+                    </button>
+                </div>
+>>>>>>> develop
               </div>
               <span v-if="hasSchedule || participants.length" class="ml-5 mr-3 cursor-pointer" @click="removeClient(client)">
                 <i class="fi-rr-cross text-black font-bold text-[8px]"></i>
