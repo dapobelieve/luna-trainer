@@ -73,7 +73,12 @@
           </div>
           <small v-if="$v.form.from.$error" class="text-red-600">Select a time for the meeting</small>
         </div>
-        <RepeatSelect :showOptions="form.date" v-if="!hasSchedule" v-model="form.repeat" />
+        <RepeatSelect
+          :showOptions="form.date"
+          v-if="!hasSchedule"
+          v-model="form.repeat"
+          :parentValue="'RRULE:FREQ=MONTHLY;BYDAY=SU;UNTIL=20220703T230000Z;BYMONTHDAY=3;BYMONTH=5'"
+        />
         <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-globe mt-1 text-md text-gray-500"></i>
