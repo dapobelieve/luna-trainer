@@ -82,7 +82,7 @@ export default {
   },
   loading: '~/components/loading.vue',
   buildModules: [
-    // '@nuxtjs/eslint-module',
+    '@nuxtjs/eslint-module',
     '@nuxtjs/tailwindcss',
     'nuxt-compress',
     '@nuxtjs/date-fns'

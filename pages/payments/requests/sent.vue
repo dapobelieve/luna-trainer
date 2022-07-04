@@ -39,7 +39,10 @@
             </div>
           </td>
           <td>
-            <div class="flex ml-4">
+            <div v-if="statusHasRoute === 'draft'" class="flex ml-4">
+              <InvoiceStatusComponent class="py-1.5" status="draft" />
+            </div>
+            <div v-else class="flex ml-4">
               <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
             </div>
           </td>
@@ -60,7 +63,7 @@
           </td>
           <td class="w-1/12 ">
             <div>
-              <button type="button" @click="setActiveItem(rowData._id)">
+              <button type="button" @click.stop="setActiveItem(rowData._id)">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
               </button>
               <div
@@ -188,7 +191,7 @@ export default {
   },
   async fetch () {
     this.$route.query.status === 'all' ? this.$route.query.status = '' : this.$route.query.status
-    let newFilterObj = {}
+    const newFilterObj = {}
     if (['draft'].includes(this.$route.query.status)) {
       newFilterObj.workflowStatus = this.$route.query.status
       newFilterObj.status = 'pending'

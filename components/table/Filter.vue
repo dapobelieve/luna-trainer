@@ -58,7 +58,7 @@
               <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
             </span>
           </template>
-          <span v-else :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+          <span v-else-if="item !== ''" :key="index" class="border rounded-full py-1 px-3 text-gray-600">
             <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
             <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
           </span>
