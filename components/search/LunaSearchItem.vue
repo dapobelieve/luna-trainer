@@ -41,7 +41,7 @@ export default {
     },
     gotToPayments () {
       this.$router.push({
-        name: 'payments-requests-sent',
+        name: 'payments-requests',
         query: {
           name: this.result.userId
         }

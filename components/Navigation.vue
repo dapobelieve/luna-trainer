@@ -282,7 +282,7 @@ export default {
         {
           icon: 'fi-rr-receipt',
           title: 'Payments',
-          path: 'payments-requests-sent'
+          path: 'payments-requests'
         }
       ],
       showNotification: false,

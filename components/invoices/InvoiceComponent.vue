@@ -522,7 +522,7 @@ export default {
           recipient: this.invoice.customer.email
         })
         this.$lunaToast.success('Invoice sending successful')
-        this.$router.push({ name: 'payments-requests-sent' })
+        this.$router.push({ name: 'payments-requests' })
       } catch (e) {
         this.$lunaToast.error(`Error: ${e.message}`)
       } finally {

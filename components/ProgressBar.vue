@@ -8,7 +8,7 @@
       </div>
       <div class="text-right">
         <span class="font-semibold inline-block">
-          {{ ` ${this.uploadPercentage}%` }}
+          {{ ` ${uploadPercentage}%` }}
         </span>
       </div>
     </div>
