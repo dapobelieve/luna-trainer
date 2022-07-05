@@ -278,12 +278,8 @@ export default {
       type: [Object, Date],
       default: () => undefined
     },
-    parentValue: {
-      type: String,
-      default: () => null
-    },
     value: {
-      type: Object,
+      type: [Object, String],
       default: () => {}
     }
   },
@@ -465,10 +461,10 @@ export default {
     }
   },
   mounted () {
-    if (this.parentValue === null) {
+    if (this.value === null || this.value === undefined) {
       return
     }
-    const rRuleParent = RRule.fromString(this.parentValue)
+    const rRuleParent = RRule.fromString(this.value)
     if (rRuleParent.options.interval > 0) {
       this.period = rRuleParent?.options?.freq
     }
@@ -482,7 +478,6 @@ export default {
         const q = new Date()
         const month = rRuleParent.options.bymonth?.[0] ?? 0
         const date = rRuleParent.options.bymonthday?.[0] ?? 0
-        console.log(month, date)
         q.setMonth(month)
         q.setDate(date)
         this.montSelect = q
