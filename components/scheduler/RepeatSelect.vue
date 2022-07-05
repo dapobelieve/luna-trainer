@@ -111,7 +111,7 @@
                     style="width: 100% !important; height: 100%"
                     class="w-full relative"
                     :disabled-date="date => date > new Date()"
-                    format="DDDD MMM, YYYY"
+                    format="dddd MMM, YYYY"
                     placeholder="Monthly on day 14"
                     :clearable="false"
                 ></date-picker>
@@ -279,7 +279,7 @@ export default {
       default: () => undefined
     },
     value: {
-      type: Object,
+      type: [Object, String],
       default: () => {}
     }
   },
@@ -371,7 +371,6 @@ export default {
     },
     'endsOn' (newValue) {
       if (newValue && this.isOn) {
-        console.log(newValue)
         const dateData = new Date(newValue ?? Date.now())
         this.rRule = { ...this.rRule, until: dateData }
       }
@@ -459,6 +458,47 @@ export default {
     return {
       period: { shouldBeChecked: and(required, minValue(1), maxValue(60), integer) },
       reminderPeriod: { required }
+    }
+  },
+  mounted () {
+    if (this.value === null || this.value === undefined) {
+      return
+    }
+    const rRuleParent = RRule.fromString(this.value)
+    if (rRuleParent.options.interval > 0) {
+      this.period = rRuleParent?.options?.freq
+    }
+    if ((rRuleParent.options.freq > 0)) {
+      const arr = this.reminderPeriods.find((i) => {
+        return i.value === rRuleParent.options.freq
+      })
+      this.reminderPeriod = arr
+
+      if (this.reminderPeriod.value === RRule.MONTHLY) {
+        const q = new Date()
+        const month = rRuleParent.options.bymonth?.[0] ?? 0
+        const date = rRuleParent.options.bymonthday?.[0] ?? 0
+        q.setMonth(month)
+        q.setDate(date)
+        this.montSelect = q
+      }
+    }
+    if ((rRuleParent.options.byweekday?.length ?? 0) > 0) {
+      this.dayValue = rRuleParent.options.byweekday.map((i, index) => {
+        return this.weekly[index].value
+      })
+    }
+    if ((rRuleParent.options.count !== null)) {
+      this.isAfter = true
+      this.after = rRuleParent.options.count ?? 1
+    }
+    if ((rRuleParent.options.until !== null)) {
+      this.isOn = true
+      this.endsOn = new Date(rRuleParent.options.until ?? Date.now()) ?? new Date()
+    }
+
+    if ((rRuleParent.options.count === null) && (rRuleParent.options.until === null)) {
+      this.isNever = true
     }
   }
 }
