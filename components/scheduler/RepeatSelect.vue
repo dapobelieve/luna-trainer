@@ -14,7 +14,7 @@
             <span v-if="optionObject.name.includes('weekday')" class="ml-1"> Mon - Fri</span>
           </div>
         </template>
-        <template v-if="showOptions" v-slot:footer @click.stop="">
+        <template v-if="showOptions" v-slot:footer>
           <button
             type="button"
             class="flex items-left py-2 outline-none"
@@ -213,7 +213,6 @@
           <button class="button-fill" @click.prevent="done">
             Done
           </button>
-          <slot name="confirm" />
         </div>
       </div>
     </modal>
