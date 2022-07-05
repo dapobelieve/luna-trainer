@@ -15,7 +15,7 @@
                 </label>
                 <template>
                   <div v-if="computedCheckedVars.includes('status') && filter=== 'status'" class="status mt-3 w-full">
-                    <GwSelector v-model="filterObj.status" :options="statusOptions" />
+                    <GwSelector v-model="status" :options="statusOptions" />
                   </div>
                   <div v-if="checkedVars.includes('date-range') && filter=== 'date-range'" class="date-range mt-2 rounded flex w-full" @click.stop>
                     <div class="flex items-center justify-between w-full p-2 bg-slate-50">
@@ -112,9 +112,7 @@ export default {
         return this.filterObj.status
       },
       set (val) {
-        console.log('updating status', val)
         this.filterObj = Object.assign({}, this.filterObj, { status: val })
-        // this.filterObj.status = val
       }
     },
     computedCheckedVars: {
