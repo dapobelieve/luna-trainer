@@ -86,6 +86,14 @@ export default {
         class: 'fi-rr-angle-down font-bold text-base cursor-pointer absolute right-0 p-3'
       }
     }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler (val) {
+        console.log('value changed', val)
+      }
+    }
   }
 }
 </script>

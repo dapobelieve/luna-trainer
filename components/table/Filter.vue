@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center">
       <ClickOutside :do="shouldCloseFilter">
-        <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">
+        <button class="inline-flex relative ring-black ring-1 ring-opacity-10 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">
           <i class="fi-rr-filter mt-1 mr-2"></i>
           <span class="mr-2 ">Filter</span>
           <i class="fi-rr-caret-down mt-1"></i>
@@ -15,7 +15,7 @@
                 </label>
                 <template>
                   <div v-if="computedCheckedVars.includes('status') && filter=== 'status'" class="status mt-3 w-full">
-                    <GwSelector v-model="computedStatus" :options="statusOptions" />
+                    <GwSelector v-model="filterObj.status" :options="statusOptions" />
                   </div>
                   <div v-if="checkedVars.includes('date-range') && filter=== 'date-range'" class="date-range mt-2 rounded flex w-full" @click.stop>
                     <div class="flex items-center justify-between w-full p-2 bg-slate-50">
@@ -53,12 +53,12 @@
       <template v-if="Object.keys(filterHashCompute).length">
         <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
           <template v-if="key === 'date-range'">
-            <span :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+            <span :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
               <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
               <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
             </span>
           </template>
-          <span v-else-if="item !== ''" :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+          <span v-else-if="item !== ''" :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
             <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
             <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
           </span>
@@ -107,12 +107,14 @@ export default {
     }
   },
   computed: {
-    computedStatus: {
+    status: {
       get () {
         return this.filterObj.status
       },
       set (val) {
-        this.filterObj.status = val
+        console.log('updating status', val)
+        this.filterObj = Object.assign({}, this.filterObj, { status: val })
+        // this.filterObj.status = val
       }
     },
     computedCheckedVars: {
@@ -156,7 +158,7 @@ export default {
                 }
               }
             } else {
-              this.filterObj[key] = query[key]
+              this.filterObj = Object.assign({}, this.filterObj, { [key]: query[key] })
             }
           } else {
             this.$parent.others = {

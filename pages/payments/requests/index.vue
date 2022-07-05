@@ -23,7 +23,7 @@
         :table-data="filteredData"
         @item-clicked="itemClicked"
       >
-        <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }" class="relative">
+        <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }">
           <td class="w-3/12" align="left">
             <div class="flex justify-start ml-5 items-center">
               <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
@@ -39,7 +39,7 @@
             </div>
           </td>
           <td>
-            <div v-if="statusHasRoute === 'draft'" class="flex ml-4">
+            <div v-if="rowData.workflowStatus === 'draft'" class="flex ml-4">
               <InvoiceStatusComponent class="py-1.5" status="draft" />
             </div>
             <div v-else class="flex ml-4">
@@ -61,7 +61,7 @@
               {{ formatDate(rowData.createdAt, 'MMM d, h:m b') }}
             </div>
           </td>
-          <td class="w-1/12 ">
+          <td class="w-1/12 relative">
             <div>
               <button type="button" @click.stop="setActiveItem(rowData._id)">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
@@ -71,7 +71,7 @@
                 class="origin-top-right top-[1] absolute right-0 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
               >
                 <div class="py-2 flex flex-col" role="none">
-                  <button type="button" class="dropdown-button" @click.stop="">
+                  <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
                     Download PDF
                   </button>
                   <button type="button" class="dropdown-button" @click.stop="">
@@ -134,7 +134,7 @@ export default {
         {
           text: 'Invoice Number',
           value: 'invoiceNo',
-          sortable: true
+          sortable: false
         },
         {
           text: 'Due',
@@ -201,9 +201,17 @@ export default {
     })
   },
   methods: {
+    async downloadInvoice (item) {
+      const res = await this.$store.dispatch('invoice/downloadInvoicePdf', item._id)
+      console.log(res)
+    },
     itemClicked (item) {
-      this.selectedInvoice = item
-      this.$modal.show('invoice-details')
+      if (item.workflowStatus === 'draft') {
+        location.href = `/payments/request/${item._id}`
+      } else {
+        this.selectedInvoice = item
+        this.$modal.show('invoice-details')
+      }
     },
     filterByStatus (status) {
       this.$router.push({

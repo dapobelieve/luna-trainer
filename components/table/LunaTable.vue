@@ -2,13 +2,13 @@
   <div>
     <div class="flex justify-between items-center mb-3 py-2">
       <LunaFilter v-model="computedFilterList" />
-      <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">
-        <i class="fi-rr-apps-sort mt-1 mr-2"></i>
-        <span class="mr-2 ">Sort</span>
-      </button>
+      <!--      <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">-->
+      <!--        <i class="fi-rr-apps-sort mt-1 mr-2"></i>-->
+      <!--        <span class="mr-2 ">Sort</span>-->
+      <!--      </button>-->
     </div>
     <div class="luna-table bg-white rounded-2xl ring-1 ring-black ring-opacity-5">
-      <div class="overflow-scroll lg:overflow-hidden rounded-2xl">
+      <div class="overflow-scroll lg:overflow-x-hidden rounded-2xl">
         <table class="table-auto table w-full text-xs" align="center">
           <thead style="vertical-align: middle" class="bg-slate-50">
             <tr class="uppercase tracking-wider text-gray-500">
@@ -19,7 +19,7 @@
               </th>
               <th v-for="(header, headerIndex) in headings" :key="headerIndex" :class="[headerIndex === 0 ? 'w' : '']" class="py-3 ">
                 <div class="flex items-center justify-start ml-5 select-none text-slate-700">
-                  <div :class="[sort.indexOf(header.value) > -1 ? 'font-bold' : 'font-medium']">
+                  <div :class="[sort.indexOf(header.value) > -1 ? 'font-bold' : 'font-medium', header.sortable ? 'cursor-pointer' : '']" @click="sortColumn(header)">
                     <slot name="tableHeader" :tableHeaderData="header">
                       {{ header.text || '' }}
                     </slot>
@@ -28,15 +28,12 @@
                     <i
                       :class="[(sort.indexOf('-') !== -1 && sort.indexOf(header.value) > -1) ? 'text-gray-200' : '']"
                       class="fi-rr-caret-up cursor-pointer"
-                      @click.stop="sortColumn(header, '')"
                     >
-
                     </i>
                     <i
                       :class="[(sort.indexOf('-') === -1 && sort.indexOf(header.value) > -1) ? 'text-gray-200' : '']"
                       class="fi-rr-caret-down cursor-pointer"
                       style="margin-top: -0.69rem"
-                      @click.stop="sortColumn(header, '-')"
                     ></i>
                   </div>
                 </div>
@@ -199,9 +196,19 @@ export default {
         }
       })
     },
-    sortColumn (header, order) {
-      this.others.sort = `${order}${header.value}`
-      this.route()
+    sortColumn (header) {
+      let sort
+      if (header.sortable) {
+        if (this.others.sort === header.value) {
+          sort = `-${header.value}`
+        } else {
+          sort = header.value
+        }
+        this.others = Object.assign({}, this.others, {
+          sort
+        })
+        this.route()
+      }
     },
     route (query) {
       query = query || this.$route.query
@@ -220,8 +227,8 @@ export default {
 <style scoped lang="scss">
 .luna-table {
   tbody {
-    tr:nth-child(even) {
-      //@apply bg-blue-50; //stripped styling
+    tr {
+      @apply hover:bg-gray-100;
     }
   }
 
