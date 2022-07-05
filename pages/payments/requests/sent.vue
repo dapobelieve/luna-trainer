@@ -99,8 +99,7 @@ export default {
   components: { LunaTable, InvoiceDetailModal },
   provide () {
     return {
-      filterTypes: this.filterTypes,
-      number: this.number
+      filterTypes: this.filterTypes
     }
   },
   data () {
