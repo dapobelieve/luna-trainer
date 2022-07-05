@@ -347,6 +347,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions({
+      getPaymentMethods: 'payment-methods/getPaymentMethods'
+    }),
     goToPaymentRequest () {
       if (!this.hasActivePaymentMethods) {
         this.$modal.show('payment-method-status')
@@ -408,6 +411,11 @@ export default {
       this.$router.push({ name: path })
       this.showSidebarMenu = false
     }
+  },
+  async mounted () {
+    try {
+      await this.getPaymentMethods()
+    } catch (error) {}
   }
 }
 </script>
