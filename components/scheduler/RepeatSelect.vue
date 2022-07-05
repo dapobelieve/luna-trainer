@@ -135,7 +135,6 @@
                 class="h-7 w-5 rounded-full checkbox-round"
               />
               <span
-                id="reinforcement-0-label"
                 class="ml-2 font-medium"
               >Never</span>
             </label>
@@ -154,7 +153,6 @@
                   class="h-10 w-5 rounded-full checkbox-round"
                 />
                 <span
-                  id="reinforcement-0-label"
                   class="ml-2 font-medium"
                 >On</span>
               </label>
