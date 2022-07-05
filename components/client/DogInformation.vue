@@ -109,7 +109,6 @@
                 @change="focusField"
               />
               <span
-                id="reinforcement-0-label"
                 class="ml-2 font-medium"
               >Yes</span>
             </label>
@@ -129,7 +128,6 @@
                 @change="focusField"
               />
               <span
-                id="reinforcement-0-label"
                 class="ml-2 font-medium"
               >No</span>
             </label>

@@ -14,7 +14,7 @@
             <span v-if="optionObject.name.includes('weekday')" class="ml-1"> Mon - Fri</span>
           </div>
         </template>
-        <template v-if="showOptions" v-slot:footer @click.stop="">
+        <template v-if="showOptions" v-slot:footer>
           <button
             type="button"
             class="flex items-left py-2 outline-none"
@@ -130,15 +130,11 @@
               }"
             >
               <input
-                id="spaying"
                 v-model="isNever"
-                name="spaying"
-                value="spaying"
                 type="checkbox"
                 class="h-7 w-5 rounded-full checkbox-round"
               />
               <span
-                id="reinforcement-0-label"
                 class="ml-2 font-medium"
               >Never</span>
             </label>
@@ -152,15 +148,11 @@
                 }"
               >
                 <input
-                  id="spaying"
                   v-model="isOn"
-                  name="spaying"
-                  value="spaying"
                   type="checkbox"
                   class="h-10 w-5 rounded-full checkbox-round"
                 />
                 <span
-                  id="reinforcement-0-label"
                   class="ml-2 font-medium"
                 >On</span>
               </label>
@@ -186,10 +178,7 @@
                 }"
               >
                 <input
-                  id="spaying"
                   v-model="isAfter"
-                  name="spaying"
-                  value="spaying"
                   type="checkbox"
                   class="h-5 w-5 rounded-full checkbox-round"
                 />
@@ -222,7 +211,6 @@
           <button class="button-fill" @click.prevent="done">
             Done
           </button>
-          <slot name="confirm" />
         </div>
       </div>
     </modal>
