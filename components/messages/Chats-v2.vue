@@ -57,7 +57,7 @@
             border-t
             flex
             items-end
-            justify-center
+            justify-end
             bg-white
             rounded-b-xl
             shadow-sm
@@ -75,7 +75,7 @@
             placeholder="Type a message, press enter to send or shift + enter for new line"
             @keydown.enter.exact.prevent="sendTextMessage"
           />
-          <div class="absolute mb-12 bg-white right-10 rounded-md text-gray-800">
+          <div class="absolute mb-12 bg-white rounded-md text-gray-800">
             <transition name="fadeIn">
               <div v-if="showUpload">
                 <li class="flex p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('imageFile')">

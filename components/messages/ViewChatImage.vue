@@ -15,6 +15,9 @@
         </div>
       </div>
       <div class="space-x-4 text-xl cursor-pointer">
+        <button class="md:inline-block text-white" type="button" @click="downloadImage(imageDetails.url)">
+          <i class="fi-rr-download text-md"></i>
+        </button>
         <i class="fi-rr-cross" @click="$emit('close')"></i>
       </div>
     </div>
@@ -35,6 +38,19 @@ export default {
     imageDetails: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    downloadImage ({ url, label }) {
+      this.$axios.get(JSON.stringify(url), { responseType: 'blob' })
+        .then((response) => {
+          const blob = new Blob([response.data], { type: 'image/*' })
+          const link = document.createElement('a')
+          link.href = URL.createObjectURL(blob)
+          link.download = 'download.jpg'
+          link.click()
+          URL.revokeObjectURL(link.href)
+        }).catch(console.error)
     }
   }
 }
