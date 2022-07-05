@@ -130,10 +130,7 @@
               }"
             >
               <input
-                id="spaying"
                 v-model="isNever"
-                name="spaying"
-                value="spaying"
                 type="checkbox"
                 class="h-7 w-5 rounded-full checkbox-round"
               />
@@ -152,10 +149,7 @@
                 }"
               >
                 <input
-                  id="spaying"
                   v-model="isOn"
-                  name="spaying"
-                  value="spaying"
                   type="checkbox"
                   class="h-10 w-5 rounded-full checkbox-round"
                 />
@@ -186,10 +180,7 @@
                 }"
               >
                 <input
-                  id="spaying"
                   v-model="isAfter"
-                  name="spaying"
-                  value="spaying"
                   type="checkbox"
                   class="h-5 w-5 rounded-full checkbox-round"
                 />
