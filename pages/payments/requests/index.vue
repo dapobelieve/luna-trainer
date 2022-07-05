@@ -74,7 +74,7 @@
                   <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
                     Download PDF
                   </button>
-                  <button type="button" class="dropdown-button" @click.stop="">
+                  <button @click.stop="copyId(rowData._id)" type="button" class="dropdown-button">
                     Copy payment ID
                   </button>
                 </div>
@@ -201,6 +201,18 @@ export default {
     })
   },
   methods: {
+    copyId (text) {
+      const el = document.createElement('textarea')
+      el.value = text
+      el.setAttribute('readonly', '')
+      el.style.position = 'absolute'
+      el.style.left = '-9999px'
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      this.$lunaToast.show('Copied to clipboard')
+    },
     async downloadInvoice (item) {
       const res = await this.$store.dispatch('invoice/downloadInvoicePdf', item._id)
       console.log(res)
