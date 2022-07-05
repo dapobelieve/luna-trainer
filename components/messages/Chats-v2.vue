@@ -93,30 +93,29 @@
               </div>
             </transition>
             <input
+              id="imageFile"
               type="file"
               multiple
-              id="imageFile"
               hidden
               accept="image/*"
               @change="onChange"
             />
             <input
+              id="videoFile"
               type="file"
               multiple
-              id="videoFile"
               hidden
               accept="video/*"
               @change="onChange"
             />
             <input
+              id="pdfFile"
               type="file"
               multiple
-              id="pdfFile"
               hidden
               accept=".pdf"
               @change="onChange"
             />
-
           </div>
           <button
             class="button-text button-sm w-8 ml-2"

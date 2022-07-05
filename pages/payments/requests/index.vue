@@ -7,7 +7,7 @@
             <a class="px-4 cursor-pointer relative" style="min-width: 56px" @click="filterByStatus(status)">
               <div class="pt-4 pb-4 relative flex justify-center items-center">
                 <span class="select-none">{{ status | capitalize }}</span>
-                <div v-show="filterObj.status === status || (status === 'all' && !filterObj.status )" class="indicator absolute bottom-0 h-[4px] bg-blue-500"></div>
+                <div v-show="statusHasRoute === status || (status === 'all' && !statusHasRoute )" class="indicator absolute bottom-0 h-[4px] bg-blue-500"></div>
               </div>
             </a>
           </div>
@@ -15,21 +15,17 @@
       </div>
       <LunaTable
         v-if="invoices.data"
-        v-model="filterObj"
         class="mb-6"
         check-able
-        :sort="sort"
-        :current-page="currentPage"
         :total-pages="invoices && invoices.size"
         :headings="headings"
         :filter-types="filterTypes"
         :table-data="filteredData"
-        @page-clicked="fetchPage"
-        @sort-column="sort = $event"
+        @item-clicked="itemClicked"
       >
-        <template v-slot:tableRows="{rowData}">
-          <td class="w-4/12">
-            <div class="flex justify-center items-center">
+        <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }">
+          <td class="w-3/12" align="left">
+            <div class="flex justify-start ml-5 items-center">
               <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
               <div class="text-sm text-slate-700 font-medium w-40">
                 {{ rowData.customerId.firstName }}
@@ -37,36 +33,52 @@
               </div>
             </div>
           </td>
-          <td class="w-1/12">
+          <td class="flex justify-start ml-5 items-center">
             <div>
-              {{ rowData.total }}
+              {{ rowData.total | amount }}
             </div>
           </td>
           <td>
-            <div>
+            <div v-if="rowData.workflowStatus === 'draft'" class="flex ml-4">
+              <InvoiceStatusComponent class="py-1.5" status="draft" />
+            </div>
+            <div v-else class="flex ml-4">
               <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
             </div>
           </td>
-          <td>
-            <div>
+          <td class="w-2/12">
+            <div class="justify-start ml-5 flex">
               {{ rowData.invoiceNo || '---' }}
             </div>
           </td>
           <td>
-            <div>
+            <div class="justify-start ml-5 flex">
               {{ formatDate(rowData.dueDate, 'MMM d') }}
             </div>
           </td>
           <td>
-            <div>
+            <div class="justify-start ml-5 flex">
               {{ formatDate(rowData.createdAt, 'MMM d, h:m b') }}
             </div>
           </td>
-          <td class="w-1/12">
+          <td class="w-1/12 relative">
             <div>
-              <button type="button">
+              <button type="button" @click.stop="setActiveItem(rowData._id)">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
               </button>
+              <div
+                v-show="optionOpen == rowData._id"
+                class="origin-top-right top-[1] absolute right-0 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+              >
+                <div class="py-2 flex flex-col" role="none">
+                  <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
+                    Download PDF
+                  </button>
+                  <button @click.stop="copyId(rowData._id)" type="button" class="dropdown-button">
+                    Copy payment ID
+                  </button>
+                </div>
+              </div>
             </div>
           </td>
         </template>
@@ -85,6 +97,11 @@ import LunaTable from '~/components/table/LunaTable'
 export default {
   name: 'SentInvoice',
   components: { LunaTable, InvoiceDetailModal },
+  provide () {
+    return {
+      filterTypes: this.filterTypes
+    }
+  },
   data () {
     return {
       statuses: ['all', 'sent', 'draft', 'paid', 'pending', 'overdue'],
@@ -117,7 +134,7 @@ export default {
         {
           text: 'Invoice Number',
           value: 'invoiceNo',
-          sortable: true
+          sortable: false
         },
         {
           text: 'Due',
@@ -137,75 +154,28 @@ export default {
       ],
       sort: {},
       exporting: false,
-      currentPage: this.$route.query.page || 1,
       options: [],
-      filterObj: {},
-      demo: '',
       allClients: [],
-      checkedItems: [],
-      filter: {
-        customerUserId: '',
-        page: 1
-      }
+      checkedItems: []
     }
   },
   watch: {
-    sort: {
-      deep: true,
-      handler (val) {
-        const order = val.order === 'asc' ? '' : '-'
-        this.$router.push({
-          query: {
-            ...this.$route.query,
-            sort: `${order}${val.value}`
-          }
-        })
-      }
-    },
-    filterObj: {
-      // immediate: true,
-      deep: true,
-      handler (val) {
-        const query = {}
-        if (Object.keys(val).length > 0) {
-          for (const key in val) {
-            query[key] = key === 'status' ? val[key].toLowerCase() : val[key]
-          }
-          this.$router.push({
-            query: {
-              ...this.$route.query,
-              ...query
-            }
-          })
-        } else {
-          this.$router.push({
-            name: this.$route.name,
-            status: 'all'
-          })
-        }
-      }
-    },
     '$route.query': {
       deep: true,
       immediate: true,
-      async handler (query) {
-        const { page, status } = query
-        this.currentPage = page ? parseInt(page) : 1
-        this.filterObj.status = status || ''
-        this.filter.page = this.currentPage
-        this.filter.status = status === 'all' ? '' : status
+      async handler () {
         await this.$fetch()
       }
     }
   },
   computed: {
+    statusHasRoute () {
+      return this.$route.query.status
+    },
     ...mapGetters({
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       invoices: 'invoice/getAllInvoices'
     }),
-    activeStatus () {
-      return this.filterObj.status || 'All'
-    },
     filteredData () {
       let records = this.invoices.data
 
@@ -219,22 +189,48 @@ export default {
     }
   },
   async fetch () {
-    // eslint-disable-next-line no-unused-expressions
-    this.filter.status === 'all' ? this.filter.status = '' : this.filter.status
-    await this.getInvoices(this.filter)
+    this.$route.query.status === 'all' ? this.$route.query.status = '' : this.$route.query.status
+    const newFilterObj = {}
+    if (['draft'].includes(this.$route.query.status)) {
+      newFilterObj.workflowStatus = this.$route.query.status
+      newFilterObj.status = 'pending'
+    }
+    await this.getInvoices({
+      ...this.$route.query,
+      ...newFilterObj
+    })
   },
   methods: {
-    filterByStatus (status) {
-      this.filterObj = Object.assign({}, this.filterObj, {
-        status
-      })
+    copyId (text) {
+      const el = document.createElement('textarea')
+      el.value = text
+      el.setAttribute('readonly', '')
+      el.style.position = 'absolute'
+      el.style.left = '-9999px'
+      document.body.appendChild(el)
+      el.select()
+      document.execCommand('copy')
+      document.body.removeChild(el)
+      this.$lunaToast.show('Copied to clipboard')
     },
-    fetchPage (data) {
+    async downloadInvoice (item) {
+      const res = await this.$store.dispatch('invoice/downloadInvoicePdf', item._id)
+      console.log(res)
+    },
+    itemClicked (item) {
+      if (item.workflowStatus === 'draft') {
+        location.href = `/payments/request/${item._id}`
+      } else {
+        this.selectedInvoice = item
+        this.$modal.show('invoice-details')
+      }
+    },
+    filterByStatus (status) {
       this.$router.push({
         name: this.$route.name,
         query: {
           ...this.$route.query,
-          page: data
+          status
         }
       })
     },

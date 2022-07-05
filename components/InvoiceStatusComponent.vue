@@ -30,6 +30,11 @@ export default {
           bgColor: 'bg-red-50',
           text: 'Outstanding'
         },
+        draft: {
+          textColor: 'text-slate-600',
+          bgColor: 'bg-slate-100',
+          text: 'Draft'
+        },
         pending: {
           textColor: 'text-sky-700',
           bgColor: 'bg-sky-100',

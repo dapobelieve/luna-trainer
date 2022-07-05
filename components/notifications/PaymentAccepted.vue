@@ -50,7 +50,7 @@ export default {
     }),
     async gotoPayment () {
       await this.readNotification({ id: this.notification._id })
-      this.$router.replace({ name: 'payments-requests-sent', params: { id: this.notification.data._id } })
+      this.$router.replace({ name: 'payments-requests', params: { id: this.notification.data._id } })
     }
   }
 }

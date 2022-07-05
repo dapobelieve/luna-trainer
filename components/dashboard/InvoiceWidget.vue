@@ -2,7 +2,7 @@
   <DashboardCard
     :view-all="widgetData && widgetData.length > 0"
     class="pt-4"
-    @action="$router.push({ name: 'payments-requests-sent' })"
+    @action="$router.push({ name: 'payments-requests' })"
   >
     <div class="flex items-center px-4">
       <div class="inline-flex items-center">

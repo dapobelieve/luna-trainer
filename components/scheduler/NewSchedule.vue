@@ -73,7 +73,11 @@
           </div>
           <small v-if="$v.form.from.$error" class="text-red-600">Select a time for the meeting</small>
         </div>
-        <RepeatSelect :showOptions="form.date" v-if="!hasSchedule" v-model="form.repeat" />
+        <RepeatSelect
+          :showOptions="form.date"
+          v-if="!hasSchedule"
+          v-model="form.repeat"
+        />
         <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
             <i class="fi-rr-globe mt-1 text-md text-gray-500"></i>
@@ -96,7 +100,7 @@
         </div>
       </div>
       <div id="clients">
-        <ClientSelect :event="event" v-model="form.participants" />
+        <ClientSelect v-model="form.participants" :event="event" />
         <!-- <ReminderSelect :event="event" /> -->
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
@@ -141,15 +145,13 @@ import { format, fromUnixTime } from 'date-fns'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import ClientSelect from './ClientSelect.vue'
-import ReminderSelect from './ReminderSelect.vue'
-import RepeatSelect from './RepeatSelect.vue'
 import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
 import PlaceSelector from '~/components/PlaceSelector.vue'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect, PlaceSelector },
+  components: { Conference, DatePicker, ClientSelect },
   props: {
     event: {
       type: Object
@@ -268,7 +270,6 @@ export default {
       return time
     },
     computeToTime () {
-      console.log(this.time)
       return this.form.from && [...this.time].slice(this.time.indexOf(this.form.from) + 1)
     },
     timezoneArr () {
@@ -321,6 +322,7 @@ export default {
       this.form.participants = this.event.participants
       this.form.color = this.colors.find(item => item.value === this.event.color)
     }
+    this.form.repeat = 'RRULE:FREQ=MONTHLY;BYDAY=SU;UNTIL=20220703T230000Z;BYMONTHDAY=3;BYMONTH=5'
   },
   methods: {
     close () {
