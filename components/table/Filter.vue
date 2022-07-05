@@ -10,14 +10,14 @@
             <div class="bg-white rounded-lg pt-4 pb-2 px-3 ring-1 ring-black ring-opacity-5">
               <div v-for="(filter, filterIndex) in filterTypes" :key="filterIndex" class="flex flex-col justify-start items-start py-1.5 font-light">
                 <label class="flex items-center cursor-pointer w-full">
-                  <AppCheckboxComponent v-model="checkedVars" :value="filter" class="mt-1.5 mr-4" />
+                  <AppCheckboxComponent v-model="computedCheckedVars" :value="filter" class="mt-1.5 mr-4" />
                   {{ filter | capitalize }}
                 </label>
                 <template>
-                  <div v-if="checkedVars.includes('status') && filter=== 'status'" class="status mt-3 w-full">
-                    <GwSelector :options="statusOptions" @change="setStatusValue($event)" />
+                  <div v-if="computedCheckedVars.includes('status') && filter=== 'status'" class="status mt-3 w-full">
+                    <GwSelector v-model="computedStatus" :options="statusOptions" />
                   </div>
-                  <div v-if="checkedVars.includes('date-range') && filter=== 'date-range'" class="date-range mt-2 rounded flex w-full" @click.stop="">
+                  <div v-if="checkedVars.includes('date-range') && filter=== 'date-range'" class="date-range mt-2 rounded flex w-full" @click.stop>
                     <div class="flex items-center justify-between w-full p-2 bg-slate-50">
                       <div class="text-gray-500 inline-flex flex-col items-start mr-4 relative">
                         <span class="text-sm">From</span>
@@ -50,16 +50,20 @@
           </div>
         </button>
       </ClickOutside>
-      <div v-for="(item, key, index) in filterHash" :key="index" class="mr-1 inline-flex">
-        <span v-if="key === 'date-range'" :key="index" class="border rounded-full py-1 px-3 text-gray-600">
-          <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
-          <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
-        </span>
-        <span v-else :key="index" class="border rounded-full py-1 px-3 text-gray-600">
-          <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
-          <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
-        </span>
-      </div>
+      <template v-if="Object.keys(filterHashCompute).length">
+        <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
+          <template v-if="key === 'date-range'">
+            <span :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+              <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
+              <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
+            </span>
+          </template>
+          <span v-else-if="item !== ''" :key="index" class="border rounded-full py-1 px-3 text-gray-600">
+            <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
+            <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
+          </span>
+        </div>
+      </template>
     </div>
   </div>
 </template>
@@ -70,6 +74,7 @@ import ClickOutside from '~/components/util/ClickOutside'
 import GwSelector from '~/components/GwSelector'
 export default {
   components: { GwSelector, ClickOutside, AppCheckboxComponent, DatePicker },
+  inject: ['filterTypes'],
   model: {
     prop: 'filterHash',
     event: 'filter'
@@ -79,10 +84,6 @@ export default {
       type: Object,
       default: () => ({}),
       required: true
-    },
-    filterTypes: {
-      type: Array,
-      default: () => []
     }
   },
   data () {
@@ -101,42 +102,85 @@ export default {
         to: null
       },
       checkedVars: [],
-      filterObj: this.filterHash,
+      filterObj: {},
       show: false
     }
   },
+  computed: {
+    computedStatus: {
+      get () {
+        return this.filterObj.status
+      },
+      set (val) {
+        this.filterObj.status = val
+      }
+    },
+    computedCheckedVars: {
+      get () {
+        return Array.from(new Set(this.checkedVars))
+      },
+      set (val) {
+        this.checkedVars = Array.from(val)
+      }
+    },
+    filterHashCompute: {
+      get () {
+        return this.filterHash
+      },
+      set (val) {
+        console.log('filterHasCompute', val)
+      }
+    }
+  },
   watch: {
-    filterHash: {
-      immediate: true,
-      handler (val) {
-        this.filterObj = { ...val }
-      },
-      deep: true
-    },
-    checkedVars: {
-      handler (vars) {
-        const obj = {}
-        vars.forEach((v) => {
-          obj[v] = this.filterObj[v]
-        })
-        this.filterObj = obj
-      },
-      deep: true
-    },
     dateRanges: {
       handler (val) {
-        this.filterObj['date-range'] = val
+        if (this.checkedVars.includes('date-range')) { this.filterObj['date-range'] = val }
       },
       deep: true
+    },
+    $route: {
+      immediate: true,
+      deep: true,
+      handler (val) {
+        const { query } = val
+        for (const key in query) {
+          if (!['sort', 'page'].includes(key)) {
+            if (key === 'date-range') {
+              const dateQuery = query[key].split('-')
+              this.filterObj = {
+                ...this.filterObj,
+                [key]: {
+                  from: new Date(parseInt(dateQuery[0]) * 1000),
+                  to: new Date(parseInt(dateQuery[1]) * 1000)
+                }
+              }
+            } else {
+              this.filterObj[key] = query[key]
+            }
+          } else {
+            this.$parent.others = {
+              ...this.$parent.others,
+              [key]: query[key]
+            }
+          }
+        }
+        this.$emit('filter', { ...this.filterObj })
+      }
     }
   },
   methods: {
     close () { this.show = false },
     removeFilterItem (key) {
       this.$delete(this.filterObj, key)
-      this.$emit('filter', { ...this.filterObj })
-      this.$emit('filter-item-removed', key)
-      this.removeChecked(key)
+      if (key === 'date-range') {
+        this.dateRanges = {
+          from: null,
+          to: null
+        }
+      }
+      this.checkedVars = this.checkedVars.filter(item => item !== key)
+      this.$emit('filter', this.filterObj)
     },
     removeChecked (key) {
       this.checkedVars = this.checkedVars.filter(item => item !== key.toLowerCase())
@@ -157,7 +201,6 @@ export default {
     },
     filter () {
       if (Object.keys(this.filterObj).length > 0) {
-        this.filterBtn = true
         this.$emit('filter', { ...this.filterObj })
         this.close()
       }

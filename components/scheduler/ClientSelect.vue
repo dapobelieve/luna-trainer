@@ -1,95 +1,95 @@
 <template>
-    <div>
-         <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
-          Clients
-        </h6>
-        <div class="mb-6">
-          <div class="flex flex-col">
-            <div class="flex items-center">
-              <i class="fi-rr-user mt-1 text-md text-gray-500"></i>
-              <div class="ml-3 text-gray-500 w-full">
-                <GwSelector
-                  v-model="participants"
-                  placeholder="Participants"
-                  multiple
-                  label="firstName"
-                  class="w-full clients-selector repeat-selector"
-                  :options="allClients"
-                >
-                 <template>
-                    <div class="flex items-center" style="z-index: 3000">
-                      <span class="text-gray-700">Participants</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }">
-                    <div class="flex justify-between min-w-full items-center">
-                      <div class="flex items-center content-center py-1">
-                        <ClientAvatar
-                          :width="2.3"
-                          :height="2.3"
-                          :client-info="optionObject"
-                        />
-                        <p class="capitalize text-gray-700 ml-4">
-                          {{ optionObject.firstName }} {{ $utils.optional(optionObject.lastName) }}
-                        </p>
-                      </div>
-                    </div>
-                  </template>
-                  <template v-slot:footer @click.stop="">
-                    <button
-                      type="button"
-                      class="flex items-center w-full py-2 outline-none"
-                      @click.prevent="$modal.show('invite-client')"
-                    >
-                      <div class="flex px-2 ml-1 items-center justify-center">
-                        <i
-                          class="fi-rr-plus text-base text-blue-500 p-1 mt-1"
-                        />
-                        <span class="text-primary-color text-base pl-2">Create new Client</span>
-                      </div>
-                    </button>
-                  </template>
-                </GwSelector>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div v-if="participants" class="flex flex-row flex-wrap">
-              <div v-for="(client, cId) in participants" :key="cId" class="mr-2 py-1">
-                <div class="flex items-center rounded-full border p-0">
-                    <div class="bg-[#CAE5CE] h-8 w-8 relative flex-shrink-0 rounded-full flex justify-center items-center overflow-hidden" style="left: -1px">
-                        <ClientAvatar
-                            v-if="client.firstName"
-                            :width="2"
-                            :height="2"
-                            :client-info="client"
-                        />
-                        <ClientAvatar
-                            v-else
-                            :width="2"
-                            :height="2"
-                            :client-info="{firstName: client.name}"
-                        />
-                    </div>
-                    <div class="ml-2">
-                        <p class="capitalize text-sm text-gray-700">
-                        <template v-if="client.firstName">
-                            {{ client.firstName }} {{ $utils.optional(client.lastName) }}
-                        </template>
-                        <template v-else>
-                            {{ client.name }}
-                        </template>
-                        </p>
-                    </div>
-                    <button v-if="hasSchedule || participants.length" class="ml-3 mr-2 flex items-center" @click.prevent="removeClient(client)">
-                        <i class="fi-rr-cross text-gray-500 bg-gray-200 rounded-full p-1.5 font-bold text-[9px] flex items-center"></i>
-                    </button>
+  <div>
+    <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
+      Clients
+    </h6>
+    <div class="mb-6">
+      <div class="flex flex-col">
+        <div class="flex items-center">
+          <i class="fi-rr-user mt-1 text-md text-gray-500"></i>
+          <div class="ml-3 text-gray-500 w-full">
+            <GwSelector
+              v-model="participants"
+              placeholder="Participants"
+              multiple
+              label="firstName"
+              class="w-full clients-selector repeat-selector"
+              :options="allClients"
+            >
+              <template>
+                <div class="flex items-center" style="z-index: 3000">
+                  <span class="text-gray-700">Participants</span>
                 </div>
+              </template>
+              <template v-slot:dropdownOption="{ optionObject }">
+                <div class="flex justify-between min-w-full items-center">
+                  <div class="flex items-center content-center py-1">
+                    <ClientAvatar
+                      :width="2.3"
+                      :height="2.3"
+                      :client-info="optionObject"
+                    />
+                    <p class="capitalize text-gray-700 ml-4">
+                      {{ optionObject.firstName }} {{ $utils.optional(optionObject.lastName) }}
+                    </p>
+                  </div>
+                </div>
+              </template>
+              <template v-slot:footer @click.stop="">
+                <button
+                  type="button"
+                  class="flex items-center w-full py-2 outline-none"
+                  @click.prevent="$modal.show('invite-client')"
+                >
+                  <div class="flex px-2 ml-1 items-center justify-center">
+                    <i
+                      class="fi-rr-plus text-base text-blue-500 p-1 mt-1"
+                    />
+                    <span class="text-primary-color text-base pl-2">Create new Client</span>
+                  </div>
+                </button>
+              </template>
+            </GwSelector>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div v-if="participants" class="flex flex-row flex-wrap">
+          <div v-for="(client, cId) in participants" :key="cId" class="mr-2 py-1">
+            <div class="flex items-center rounded-full border-2 p-0">
+              <div class="bg-[#CAE5CE] h-10 w-10 relative flex-shrink-0 rounded-full flex justify-center items-center overflow-hidden" style="left: -1px">
+                <ClientAvatar
+                  v-if="client.firstName"
+                  :width="2.3"
+                  :height="2.3"
+                  :client-info="client"
+                />
+                <ClientAvatar
+                  v-else
+                  :width="2.3"
+                  :height="2.3"
+                  :client-info="{firstName: client.name}"
+                />
               </div>
+              <div class="ml-2">
+                <p class="capitalize text-md text-gray-700">
+                  <template v-if="client.firstName">
+                    {{ client.firstName }} {{ $utils.optional(client.lastName) }}
+                  </template>
+                  <template v-else>
+                    {{ client.name }}
+                  </template>
+                </p>
+              </div>
+              <span v-if="hasSchedule || participants.length" class="ml-5 mr-3 cursor-pointer" @click="removeClient(client)">
+                <i class="fi-rr-cross text-black font-bold text-[8px]"></i>
+              </span>
             </div>
           </div>
         </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>

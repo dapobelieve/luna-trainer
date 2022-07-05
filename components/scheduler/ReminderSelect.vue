@@ -1,149 +1,149 @@
 <template>
-    <div>
-         <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
-          Reminder
-        </h6>
-        <div class="mb-6">
-          <div class="flex flex-col">
-            <div class="flex items-center">
-              <i class="fi-rr-bell mt-1 text-md text-gray-500"></i>
-              <div class="ml-3 text-gray-500 w-full">
-                <GwSelector
-                  v-model="reminder"
-                  placeholder="Add Notification"
-                  class="w-full repeat-selector"
-                  :options="defaultReminders"
-                  :menuProps="{ top: true, offsetY: true }"
-                  :label="name"
-                  :reduce="reminder => reminder.value"
+  <div>
+    <h6 class="text-xs uppercase font-bold tracking-normal mb-4">
+      Reminder
+    </h6>
+    <div class="mb-6">
+      <div class="flex flex-col">
+        <div class="flex items-center">
+          <i class="fi-rr-bell mt-1 text-md text-gray-500"></i>
+          <div class="ml-3 text-gray-500 w-full">
+            <GwSelector
+              v-model="reminder"
+              placeholder="Add Notification"
+              class="w-full repeat-selector"
+              :options="defaultReminders"
+              :menu-props="{ top: true, offsetY: true }"
+              :label="name"
+              :reduce="reminder => reminder.value"
+            >
+              <template>
+                <div class="flex items-center">
+                  <span>Add notification</span>
+                </div>
+              </template>
+              <template v-slot:selectedOption="{selected}">
+                <div class="flex">
+                  <span :class="selected.class" class="color-circle rounded-full"></span>
+                  <span class="text-gray-700">{{ selected.name }}</span>
+                </div>
+              </template>
+              <template v-slot:dropdownOption="{ optionObject }">
+                <div class="flex py-3">
+                  <span :class="optionObject.class" class="color-circle rounded-full"></span>
+                  <span class="text-gray-700">{{ optionObject.name }}</span>
+                </div>
+              </template>
+              <template v-slot:footer @click.stop="">
+                <button
+                  type="button"
+                  class="flex items-center w-full py-2 outline-none"
+                  @click.prevent="$modal.show('reminder-modal')"
                 >
-                  <template>
-                    <div class="flex items-center">
-                      <span>Add notification</span>
-                    </div>
-                  </template>
-                  <template v-slot:selectedOption="{selected}">
-                    <div class="flex">
-                      <span :class="selected.class" class="color-circle rounded-full"></span>
-                      <span class="text-gray-700">{{ selected.name }}</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }">
-                    <div class="flex py-3">
-                      <span :class="optionObject.class" class="color-circle rounded-full"></span>
-                      <span class="text-gray-700">{{ optionObject.name }}</span>
-                    </div>
-                  </template>
-                  <template v-slot:footer @click.stop="">
-                    <button
-                      type="button"
-                      class="flex items-center w-full py-2 outline-none"
-                      @click.prevent="$modal.show('reminder-modal')"
-                    >
-                      <div class="flex px-2 ml-1 items-center justify-center">
-                        <i
-                          class="fi-rr-plus text-base text-blue-500 p-1 mt-1"
-                        />
-                        <span class="text-primary-color text-base pl-2">Custom reminder</span>
-                      </div>
-                    </button>
-                  </template>
-                </GwSelector>
-              </div>
+                  <div class="flex px-2 ml-1 items-center justify-center">
+                    <i
+                      class="fi-rr-plus text-base text-blue-500 p-1 mt-1"
+                    />
+                    <span class="text-primary-color text-base pl-2">Custom reminder</span>
+                  </div>
+                </button>
+              </template>
+            </GwSelector>
+          </div>
+        </div>
+      </div>
+    </div>
+    <modal name="reminder-modal" height="auto" :adaptive="true">
+      <div class="px-4 py-2" style="overflow: scroll">
+        <div class="flex flex-row">
+          <p class="text-lg text-gray-700 font-normal py-4 w-3/4">
+            Custom notification
+          </p>
+          <p class="w-1/4 flex justify-end py-4">
+            <i class="fi-rr-cross text-lg cursor-pointer text-primary" @click="closeModal"></i>
+          </p>
+        </div>
+        <div class="flex flex-row pt-4">
+          <div class="w-[190px]">
+            <GwSelector
+              v-model="reminderType"
+              :options="reminderTypes"
+              placeholder="Reminder Type"
+              :reduce="reminderType => reminderType.value"
+              label="name"
+            >
+              <template v-slot:selectedOption="{selected}">
+                <div class="flex items-center" style="z-index: 3000">
+                  <span class="text-gray-700">{{ selected.name }}</span>
+                </div>
+              </template>
+              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                <div class="flex items-center py-2" style="z-index: 3000">
+                  <span class="text-gray-700">{{ optionObject.name }}</span>
+                </div>
+              </template>
+            </GwSelector>
+            <div
+              v-if="submitting && $v.reminderType.$invalid"
+              class="text-xs text-red-500 mt-2"
+            >
+              Please select a type
+            </div>
+          </div>
+          <div class="w-[190px] pl-2">
+            <GwInputField
+              v-model="period"
+              label=""
+              placeholder="Type here"
+              type="number"
+              :min="1"
+              :max="60"
+              class="information_box"
+              autocomplete="text"
+            />
+            <div
+              v-if="submitting && $v.period.$invalid"
+              class="text-xs text-red-500 mt-2"
+            >
+              Please add a valid number
+            </div>
+          </div>
+          <div class="w-[190px] pl-2">
+            <GwSelector
+              v-model="reminderPeriod"
+              :options="reminderPeriods"
+              placeholder="Time Periods"
+              :reduce="reminderPeriod => reminderPeriod.value"
+              label="name"
+            >
+              <template v-slot:selectedOption="{selected}">
+                <div class="flex items-center" style="z-index: 3000">
+                  <span class="text-gray-700">{{ selected.name }}</span>
+                </div>
+              </template>
+              <template v-slot:dropdownOption="{ optionObject }" class="p-4">
+                <div class="flex items-center py-2" style="z-index: 3000">
+                  <span class="text-gray-700">{{ optionObject.name }}</span>
+                </div>
+              </template>
+            </GwSelector>
+            <div
+              v-if="submitting && $v.reminderPeriod.$invalid"
+              class="text-xs text-red-500 mt-2"
+            >
+              Please select a type
             </div>
           </div>
         </div>
-        <modal name="reminder-modal" height="auto" :adaptive="true">
-          <div class="px-4 py-2" style="overflow: scroll">
-            <div class="flex flex-row">
-              <p class="text-lg text-gray-700 font-normal py-4 w-3/4">
-                Custom notification
-              </p>
-              <p class="w-1/4 flex justify-end py-4">
-                <i @click="closeModal" class="fi-rr-cross text-lg cursor-pointer text-primary"></i>
-              </p>
-            </div>
-            <div class="flex flex-row pt-4">
-             <div class="w-[190px]">
-                <GwSelector
-                  v-model='reminderType'
-                  :options="reminderTypes"
-                  placeholder="Reminder Type"
-                  :reduce="reminderType => reminderType.value"
-                  label="name"
-                >
-                  <template v-slot:selectedOption="{selected}">
-                    <div class="flex items-center" style="z-index: 3000">
-                      <span class="text-gray-700">{{ selected.name }}</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                    <div class="flex items-center py-2" style="z-index: 3000">
-                      <span class="text-gray-700">{{ optionObject.name }}</span>
-                    </div>
-                  </template>
-                </GwSelector>
-                <div
-                  class='text-xs text-red-500 mt-2'
-                  v-if='submitting && $v.reminderType.$invalid'
-                >
-                  Please select a type
-                </div>
-             </div>
-             <div class="w-[190px] pl-2">
-                <GwInputField
-                  v-model="period"
-                  label=""
-                  placeholder="Type here"
-                  type="number"
-                  :min="1"
-                  :max="60"
-                  class="information_box"
-                  autocomplete="text"
-                />
-                <div
-                  class='text-xs text-red-500 mt-2'
-                  v-if='submitting && $v.period.$invalid'
-                >
-                  Please add a valid number
-                </div>
-             </div>
-             <div class="w-[190px] pl-2">
-                 <GwSelector
-                  v-model='reminderPeriod'
-                  :options="reminderPeriods"
-                  placeholder="Time Periods"
-                  :reduce="reminderPeriod => reminderPeriod.value"
-                  label="name"
-                >
-                  <template v-slot:selectedOption="{selected}">
-                    <div class="flex items-center" style="z-index: 3000">
-                      <span class="text-gray-700">{{ selected.name }}</span>
-                    </div>
-                  </template>
-                  <template v-slot:dropdownOption="{ optionObject }" class="p-4">
-                    <div class="flex items-center py-2" style="z-index: 3000">
-                      <span class="text-gray-700">{{ optionObject.name }}</span>
-                    </div>
-                  </template>
-                </GwSelector>
-                 <div
-                  class='text-xs text-red-500 mt-2'
-                  v-if='submitting && $v.reminderPeriod.$invalid'
-                >
-                  Please select a type
-                </div>
-             </div>
-            </div>
-            <div class="mt-10 flex justify-end space-x-4">
-              <button class="button-fill" @click.prevent="done">
-                Done
-              </button>
-              <slot name="confirm" />
-            </div>
-          </div>
-        </modal>
-    </div>
+        <div class="mt-10 flex justify-end space-x-4">
+          <button class="button-fill" @click.prevent="done">
+            Done
+          </button>
+          <slot name="confirm" />
+        </div>
+      </div>
+    </modal>
+  </div>
 </template>
 
 <script>
