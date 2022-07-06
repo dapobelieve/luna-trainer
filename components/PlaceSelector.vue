@@ -11,7 +11,7 @@
       Type to search places...
     </template>
     <template slot="option" slot-scope="option">
-      <div>
+      <div class="flex flex-row items-center">
         <i class="mr-2" :class="option.icon"></i>
         <span>{{option.description}}</span>
       </div>
@@ -19,7 +19,7 @@
     <template slot="selected-option" slot-scope="option">
       <div>
         <i class="mr-2" :class="option.icon"></i>
-        <span class="pb-4">{{option.description}}</span>
+        <span class="pb-2">{{option.description}}</span>
       </div>
     </template>
   </v-select>
@@ -79,5 +79,11 @@ export default {
 <style lang="scss" scoped>
 .v-select {
   @apply border-none
+}
+.v-select .dropdown li a {
+  padding: 10px 20px;
+  width: 100%;
+  font-size: 1.25em;
+  color: #3c3c3c;
 }
 </style>
