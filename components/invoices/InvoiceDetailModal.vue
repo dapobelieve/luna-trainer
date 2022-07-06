@@ -252,7 +252,7 @@ export default {
       return this.invoice.supportedPaymentMethods.map(m => m.type)
     },
     paymentPaymentMethod () {
-      console.log(this.invoice.paymentReceipts)
+      // console.log(this.invoice.paymentReceipts)
       return this.invoice.paymentReceipts && this.invoice.paymentReceipts.find(x => x.status === 'accepted')?.paymentType
     },
     status () {

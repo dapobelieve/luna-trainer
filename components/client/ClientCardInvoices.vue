@@ -16,7 +16,7 @@
         <template>
           <ul v-if="invoices && invoices.length" role="list" class="relative z-0 px-1">
             <li v-for="invoice in invoices" :key="invoice.id" class="cursor">
-              <NuxtLink :to="{ name: 'payments-requests-sent', params: { id: invoice._id } }">
+              <NuxtLink :to="{ name: 'payments-requests', params: { id: invoice._id } }">
                 <containers-summary-information-with-avatar>
                   <template v-slot:avatar class="w-6 h-6">
                     <ClientAvatar :client-info="invoice.customerId" />
@@ -86,7 +86,7 @@ export default {
     }),
     goToClientInvoices () {
       this.$router.push({
-        name: 'payments-requests-sent',
+        name: 'payments-requests',
         query: { name: this.$route.params.id }
       })
     }

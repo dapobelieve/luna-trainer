@@ -6,32 +6,10 @@
       </template>
       <template v-slot:buttons>
         <div class="flex items-center">
-          <ClickOutside :do="() => showDrop = false">
-            <div class="relative">
-              <span class="font-medium flex items-center cursor-pointer text-primary-color mr-5" @click="showDrop = !showDrop">
-                <span>{{ currentInvoice }}</span>
-                <i class="fi-rr-caret-down ml-2 text-lg"></i>
-              </span>
-              <div
-                v-show="showDrop"
-                id="sent"
-                class="origin-top-right cursor-pointer absolute right-0 mt-2 w-44 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-40"
-              >
-                <div class="py-1" role="none">
-                  <a
-                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'payments-requests-sent'}); showDrop=false"
-                  >Sent
-                  </a>
-                  <a
-                    class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-100"
-                    @click.prevent="$router.push({name: 'payments-requests-drafts'}); showDrop=false"
-                  >Drafts
-                  </a>
-                </div>
-              </div>
-            </div>
-          </ClickOutside>
+          <button class="flex items-center mr-2">
+            <i class="fi-rr-download text-[#3B82F6] mt-1"></i>
+            <span class="mx-2 text-[#3B82F6]">Export</span>
+          </button>
           <NuxtLink
             id="plus"
             :to="{ name: 'payments-request'}"
@@ -83,7 +61,7 @@ export default {
   },
   computed: {
     currentInvoice () {
-      const t = this.$route.name.split('payments-requests-')?.[1] ?? ''
+      const t = this.$route.name.split('payments-requests')?.[1] ?? ''
       return `${String(t).split('').map((_, i) => (i === 0) ? _.toUpperCase() : _).join('')}`
     },
     ...mapGetters({

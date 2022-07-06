@@ -61,6 +61,7 @@
             bg-white
             rounded-b-xl
             shadow-sm
+            relative
             px-4
             py-2
           "
@@ -71,55 +72,56 @@
             type="text"
             rows="1"
             style="white-space: pre-wrap"
-            class="w-full focus:outline-none text-sm py-2 max-h-40 min-h-10 box-border resize-none"
+            class="w-full focus:outline-none text-sm py-2 max-h-40 min-h-10 box-border resize-none relative"
             placeholder="Type a message, press enter to send or shift + enter for new line"
             @keydown.enter.exact.prevent="sendTextMessage"
           />
-          <div class="absolute mb-12 bg-white right-10 rounded-md text-gray-800">
-            <transition name="fadeIn">
-              <div v-if="showUpload">
-                <li class="flex p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('imageFile')">
-                  <i class="fi fi-rr-picture flex items-center" />
-                  <span class="ml-2">Photo</span>
-                </li>
-                <li class="flex  p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('videoFile')">
-                  <i class="fi fi-rr-play-alt flex items-center" />
-                  <span class="ml-2">Video</span>
-                </li>
-                <li class="flex  p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('pdfFile')">
-                  <i class="fi fi-rr-document flex items-center" />
-                  <span class="ml-2">PDF</span>
-                </li>
-              </div>
-            </transition>
+          <div class="absolute mb-12 bg-white right-5 rounded-md text-gray-800 shadow-xl min-w-32">
+            <ClickOutside :do="hideUploadOptions">
+              <transition name="fadeIn">
+                <div v-if="showUpload">
+                  <li class="flex p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('imageFile')">
+                    <i class="fi fi-rr-picture flex items-center" />
+                    <span class="ml-2">Photo</span>
+                  </li>
+                  <li class="flex  p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('videoFile')">
+                    <i class="fi fi-rr-play-alt flex items-center" />
+                    <span class="ml-2">Video</span>
+                  </li>
+                  <li class="flex  p-4 py-3 hover:bg-gray-100" role="button" @click="addFile('pdfFile')">
+                    <i class="fi fi-rr-document flex items-center" />
+                    <span class="ml-2">PDF</span>
+                  </li>
+                </div>
+              </transition>
+            </ClickOutside>
             <input
+              id="imageFile"
               type="file"
               multiple
-              id="imageFile"
               hidden
               accept="image/*"
               @change="onChange"
             />
             <input
+              id="videoFile"
               type="file"
               multiple
-              id="videoFile"
               hidden
               accept="video/*"
               @change="onChange"
             />
             <input
+              id="pdfFile"
               type="file"
               multiple
-              id="pdfFile"
               hidden
               accept=".pdf"
               @change="onChange"
             />
-
           </div>
           <button
-            class="button-text button-sm w-8 ml-2"
+            class="button-text button-sm w-8 ml-2 show-upload-options"
             type="button"
             @click="showUpload = !showUpload"
           >
@@ -141,6 +143,7 @@
 
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex'
+import ClickOutside from '../util/ClickOutside.vue'
 import PreviewImage from '~/components/messages/PreviewImage.vue'
 import PreviewVideo from '~/components/messages/PreviewVideo.vue'
 import OpponentMessage from '~/components/messages/OpponentMessage.vue'
@@ -150,7 +153,8 @@ export default {
   name: 'ChatsV2',
   components: {
     OpponentMessage,
-    SenderMessages
+    SenderMessages,
+    ClickOutside
   },
   props: {
     receipientId: {
@@ -302,6 +306,11 @@ export default {
     onChange (e) {
       this.uploadFile = e.target.files[0]
       this.showImagePreview(e.srcElement.accept)
+    },
+    hideUploadOptions (e) {
+      if (!e.target.closest('.show-upload-options')) {
+        this.showUpload = false
+      }
     },
     addFile (fileType) {
       this.showOptions = false

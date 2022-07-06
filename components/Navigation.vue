@@ -115,7 +115,7 @@
                       </button>
                       <button
                         class="hover:bg-blue-50 py-2 pl-3"
-                        @click="$router.push({ name: 'payments-request' })"
+                        @click="goToPaymentRequest"
                       >
                         <span class="w-full flex mt-1">
                           <i class="fi-rr-receipt mr-3 text-gray-500"></i>
@@ -235,16 +235,18 @@
       <!-- force sidebar to shrink to fit close icon -->
     </div>
     <LunaSearch @close="$modal.hide('luna-search-modal')" />
+    <PaymentMethodStatusModal />
   </div>
 </template>
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import PaymentMethodStatusModal from './modals/PaymentMethodStatusModal.vue'
 import LunaSearch from '~/components/LunaSearch'
 import sendbirdHandlers from '~/mixins/sendbirdHandlers'
 export default {
   name: 'Navigation',
-  components: { LunaSearch },
+  components: { LunaSearch, PaymentMethodStatusModal },
   mixins: [sendbirdHandlers],
   data () {
     return {
@@ -280,7 +282,7 @@ export default {
         {
           icon: 'fi-rr-receipt',
           title: 'Payments',
-          path: 'payments-requests-sent'
+          path: 'payments-requests'
         }
       ],
       showNotification: false,
@@ -344,6 +346,9 @@ export default {
     }
   },
   methods: {
+    goToPaymentRequest () {
+      this.$router.push({ name: 'payments-request' })
+    },
     getId (e) {
       switch (e) {
         case 'Report':
@@ -398,6 +403,11 @@ export default {
       this.$router.push({ name: path })
       this.showSidebarMenu = false
     }
+  },
+  async mounted () {
+    try {
+      await this.getPaymentMethods()
+    } catch (error) {}
   }
 }
 </script>
