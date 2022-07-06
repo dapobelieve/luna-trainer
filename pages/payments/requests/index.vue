@@ -16,6 +16,7 @@
       <LunaTable
         v-if="invoices.data"
         class="mb-6"
+        :loading="loading"
         check-able
         :total-pages="invoices && invoices.size"
         :headings="headings"
@@ -24,7 +25,7 @@
         @item-clicked="itemClicked"
       >
         <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }">
-          <td class="w-3/12" align="left">
+          <td class="w-3/12">
             <div class="flex justify-start ml-5 items-center">
               <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
               <div class="text-sm text-slate-700 font-medium w-40">
@@ -61,20 +62,20 @@
               {{ rowData.createdAt | howLongAgo }}
             </div>
           </td>
-          <td class="w-1/12 relative">
+          <td class="w-1/12">
             <div>
               <button type="button" @click.stop="setActiveItem(rowData._id)">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
               </button>
               <div
                 v-show="optionOpen == rowData._id"
-                class="origin-top-right top-[1] absolute right-0 w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-50"
+                class="top-[1] absolute right-[33px] w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[500]"
               >
                 <div class="py-2 flex flex-col" role="none">
                   <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
                     Download PDF
                   </button>
-                  <button @click.stop="copyId(rowData._id)" type="button" class="dropdown-button">
+                  <button type="button" class="dropdown-button" @click.stop="copyId(rowData._id), setActiveItem(rowData._id)">
                     Copy payment ID
                   </button>
                 </div>
@@ -106,14 +107,10 @@ export default {
     return {
       statuses: ['all', 'sent', 'draft', 'paid', 'pending', 'overdue'],
       selectedInvoice: null,
+      loading: false,
       filterTypes: [
-        // 'amount',
-        // 'client',
-        // 'date',
         'status',
         'date-range'
-        // 'date',
-        // 'amount'
       ],
       headings: [
         {
@@ -177,28 +174,28 @@ export default {
       invoices: 'invoice/getAllInvoices'
     }),
     filteredData () {
-      let records = this.invoices.data
-
-      if (this.sort?.value) {
-        records = _orderby(records, (i) => {
-          return i[this.sort.value]
-        }, this.sort.order)
-      }
-
+      const records = this.invoices.data
       return records
     }
   },
   async fetch () {
-    this.$route.query.status === 'all' ? this.$route.query.status = '' : this.$route.query.status
-    const newFilterObj = {}
-    if (['draft'].includes(this.$route.query.status)) {
-      newFilterObj.workflowStatus = this.$route.query.status
-      newFilterObj.status = 'pending'
+    try {
+      this.loading = true
+      this.$route.query.status === 'all' ? this.$route.query.status = '' : this.$route.query.status
+      const newFilterObj = {}
+      if (['draft', 'sent'].includes(this.$route.query.status)) {
+        newFilterObj.workflowStatus = this.$route.query.status
+        newFilterObj.status = 'pending'
+      }
+      await this.getInvoices({
+        ...this.$route.query,
+        ...newFilterObj
+      })
+    } catch (e) {
+      //
+    } finally {
+      this.loading = false
     }
-    await this.getInvoices({
-      ...this.$route.query,
-      ...newFilterObj
-    })
   },
   methods: {
     copyId (text) {

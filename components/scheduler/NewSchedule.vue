@@ -74,9 +74,9 @@
           <small v-if="$v.form.from.$error" class="text-red-600">Select a time for the meeting</small>
         </div>
         <RepeatSelect
-          :showOptions="form.date"
           v-if="!hasSchedule"
           v-model="form.repeat"
+          :show-options="form.date"
         />
         <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
@@ -100,7 +100,7 @@
         </div>
       </div>
       <div id="clients">
-        <ClientSelect :event="event" v-model="form.participants" />
+        <ClientSelect v-model="form.participants" :event="event" />
         <!-- <ReminderSelect :event="event" /> -->
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
@@ -153,7 +153,7 @@ import time from '~/utils/time'
 import PlaceSelector from '~/components/PlaceSelector.vue'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect },
+  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect, PlaceSelector },
   props: {
     event: {
       type: Object
@@ -325,7 +325,6 @@ export default {
       this.form.participants = this.event.participants
       this.form.color = this.colors.find(item => item.value === this.event.color)
     }
-    this.form.repeat = 'RRULE:FREQ=MONTHLY;BYDAY=SU;UNTIL=20220703T230000Z;BYMONTHDAY=3;BYMONTH=5'
   },
   methods: {
     close () {

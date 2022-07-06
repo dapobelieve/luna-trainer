@@ -1,7 +1,7 @@
 <template>
   <div>
     <skip v-if="skip" />
-    <modal name="welcome-modal" height="auto" :width="500" @closed="exitTour; skip=false">
+    <modal name="welcome-modal" height="auto" :width="500" @closed="exitTour;">
       <div>
         <div class="space" />
         <div class="grid m-6">
