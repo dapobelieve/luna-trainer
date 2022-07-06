@@ -27,7 +27,6 @@
       </div>
     </div>
     <PaymentWelcomeModal
-
       :exit-tour="() => {
         closeModal()
         doNotShowHints = true
