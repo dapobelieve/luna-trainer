@@ -11,7 +11,7 @@
       </a>
       <a
         class="tail-text-gray-700 tail-block tail-px-4 tail-py-2 tail-text-sm hover:tail-bg-gray-100"
-        @click.prevent="$router.push({name: 'payments-requests-drafts'});"
+        @click.prevent="$router.push({name: 'payments-requests'});"
       >Delete
       </a>
     </div>
