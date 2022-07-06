@@ -323,7 +323,6 @@ export default {
       this.form.participants = this.event.participants
       this.form.color = this.colors.find(item => item.value === this.event.color)
     }
-    this.form.repeat = 'RRULE:FREQ=MONTHLY;BYDAY=SU;UNTIL=20220703T230000Z;BYMONTHDAY=3;BYMONTH=5'
   },
   methods: {
     close () {
