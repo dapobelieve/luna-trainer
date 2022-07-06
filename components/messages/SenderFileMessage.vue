@@ -22,7 +22,7 @@
     class="msg overflow-hidden relative"
   >
     <div class="bg-white imgSize border-4 border-blue-500">
-      <span class="flex justify-center text-blue-500 text-lg pt-2"> {{ msg.name }} </span>
+      <span class="flex justify-center text-blue-500 p-2 text-sm"> {{ msg.name }} </span>
       <div class="absolute inset-0 grid place-content-center">
         <i class="fi fi-rr-document"></i>
       </div>
