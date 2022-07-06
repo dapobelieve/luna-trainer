@@ -74,9 +74,9 @@
           <small v-if="$v.form.from.$error" class="text-red-600">Select a time for the meeting</small>
         </div>
         <RepeatSelect
-          :showOptions="form.date"
           v-if="!hasSchedule"
           v-model="form.repeat"
+          :show-options="form.date"
         />
         <div v-if="!hasSchedule" class="flex flex-col mb-3">
           <div class="flex items-center">
@@ -100,7 +100,7 @@
         </div>
       </div>
       <div id="clients">
-        <ClientSelect :event="event" v-model="form.participants" />
+        <ClientSelect v-model="form.participants" :event="event" />
         <!-- <ReminderSelect :event="event" /> -->
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">

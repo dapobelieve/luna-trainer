@@ -1,10 +1,19 @@
+import Vue from 'vue'
+const queryString = require('query-string')
+
 export const state = () => ({
   clients: [],
+  newClients: {},
   clientsCount: 0,
   isLoading: false
 })
 
 export const mutations = {
+  setStates (state, data) {
+    Object.keys(data).forEach((key) => {
+      Vue.set(state, key, data[key])
+    })
+  },
   SET_ALL_CLIENTS (state, clients) {
     state.clients = clients.data
     state.clientsCount = clients.size
@@ -20,8 +29,19 @@ export const mutations = {
 }
 
 export const actions = {
-  async archive ({ }, payload) {
-    return await this.$axios.post(`${process.env.BASEURL_HOST}/profile/${payload._id}/archive`)
+  async archive ({ dispatch }, payload) {
+    const res = await this.$axios.$patch(`${process.env.BASEURL_HOST}/profile/${payload._id}/archive`)
+    if (res.status === 'success') {
+      dispatch('fetchClients', { status: 'accepted' })
+    }
+    return res
+  },
+  async revoke ({ dispatch }, payload) {
+    const res = await this.$axios.$patch(`${process.env.BASEURL_HOST}/client/revoke-link/${payload._id}`)
+    if (res.status === 'success') {
+      dispatch('fetchClients', { status: 'invited' })
+    }
+    return res
   },
   updateClientProfile ({ commit }, details) {
     return this.$axios
@@ -88,6 +108,22 @@ export const actions = {
         commit('IS_LOADING', false)
       })
   },
+  async fetchClients ({ commit, dispatch }, payload) {
+    const q = {
+      status: undefined,
+      limit: 10,
+      page: 1
+    }
+
+    const queryObj = queryString.stringify({ ...q, ...payload })
+    try {
+      const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/client?${queryObj}`)
+      commit('setStates', { newClients: response })
+      return response
+    } catch (e) {
+      return e
+    }
+  },
   getSingleClientById ({ commit, dispatch }, id) {
     dispatch('loader/startProcess', null, { root: true })
     return this.$axios
@@ -100,7 +136,8 @@ export const actions = {
 }
 
 export const getters = {
-  getAllClients: state => state.clients,
+  getAllClients: state => state.newClients.data,
+  getAllClients2: state => state.newClients,
   acceptedClients: (state, getters) => {
     return getters.getAllClients.filter(c => c.status === 'accepted')
   },
