@@ -223,9 +223,9 @@
                 <span
                   class="font-light"
                 >
-                  <div v-if="activePaymentMethod.type === 'bank'" >
+                  <div v-if="activePaymentMethod.type === 'bank'">
                     <i class="fi-rr-bank"></i>
-                    {{ `Accept ${activePaymentMethod.type } payments`}}
+                    {{ `Accept ${activePaymentMethod.type } payments` }}
                   </div>
                   <div v-else-if="activePaymentMethod.type === 'stripe'">
                     <span>Accept</span>
