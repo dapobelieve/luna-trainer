@@ -29,6 +29,19 @@
                       </div>
                     </div>
                   </div>
+                  <div v-if="checkedVars.includes('invited-date') && filter=== 'invited-date'" class="date-range mt-2 rounded flex w-full" @click.stop>
+                    <div class="flex items-center justify-between w-full p-2 bg-slate-50">
+                      <div class="text-gray-500 inline-flex flex-col items-start mr-4 relative">
+                        <span class="text-sm">From</span>
+                        
+                        <date-picker :value="filterObj[filter]['from']" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {from: $event})" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+                      </div>
+                      <div class="text-gray-500 inline-flex flex-col items-start">
+                        <span class="text-sm">To</span>
+                        <date-picker :value="filterObj[filter]['to']" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {to: $event})"  class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+                      </div>
+                    </div>
+                  </div>
                   <div v-if="checkedVars.includes('date') && filter=== 'date'" class="date-range mt-2 rounded flex w-full">
                     <div class="flex items-center justify-between w-full p-2 bg-slate-50">
                       <div class="text-gray-500 inline-flex flex-col items-start">
@@ -52,9 +65,9 @@
       </ClickOutside>
       <template v-if="Object.keys(filterHashCompute).length">
         <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
-          <template v-if="key === 'date-range'">
+          <template v-if="key === 'date-range' || key === 'invited-date'">
             <span :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
-              <span class="mr-3 select-none">{{ 'date range:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
+              <span class="mr-3 select-none">{{  key === 'date-range' ? 'date range:' : 'invited date:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
               <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
             </span>
           </template>
@@ -125,7 +138,12 @@ export default {
     },
     filterHashCompute: {
       get () {
-        return this.filterHash
+        return Object.keys(this.filterHash).reduce((acc, key) => {
+          if (this.filterTypes.includes(key)) {
+            acc[key] = this.filterHash[key]
+          }
+          return acc
+        }, {})
       },
       set (val) {
         console.log('filterHasCompute', val)
@@ -133,6 +151,16 @@ export default {
     }
   },
   watch: {
+    show: {
+      immediate: true,
+      handler(val) {
+        if(val) {
+          this.filterTypes.map(item => {
+            this.filterObj = Object.assign({}, this.filterObj, { [item]: item === 'date-range' || item === 'invited-date' ?  {from: null, to: null} : '' })
+          })
+        }
+      }
+    },
     dateRanges: {
       handler (val) {
         if (this.checkedVars.includes('date-range')) { this.filterObj['date-range'] = val }
@@ -146,7 +174,7 @@ export default {
         const { query } = val
         for (const key in query) {
           if (!['sort', 'page'].includes(key)) {
-            if (key === 'date-range') {
+            if (key === 'date-range' || key === 'invited-date') {
               const dateQuery = query[key].split('-')
               this.filterObj = {
                 ...this.filterObj,
@@ -159,8 +187,8 @@ export default {
               this.filterObj = Object.assign({}, this.filterObj, { [key]: query[key] })
             }
           } else {
-            this.$parent.others = {
-              ...this.$parent.others,
+            this.$parent.sortingAndPaginationOptions = {
+              ...this.$parent.sortingAndPaginationOptions,
               [key]: query[key]
             }
           }
@@ -180,7 +208,7 @@ export default {
         }
       }
       this.checkedVars = this.checkedVars.filter(item => item !== key)
-      this.$emit('filter', this.filterObj)
+      this.$emit('filter', {...this.filterObj})
     },
     removeChecked (key) {
       this.checkedVars = this.checkedVars.filter(item => item !== key.toLowerCase())

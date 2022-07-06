@@ -102,11 +102,8 @@ import LunaFilter from '~/components/table/Filter'
 import SingleLoader from '~/components/util/SingleLoader'
 export default {
   name: 'LunaTable',
+  inject: ['filterTypes'],
   components: { SingleLoader, LunaTablePagination, AppCheckboxComponent, LunaFilter },
-  model: {
-    prop: 'filteredList',
-    event: 'table-filter'
-  },
   props: {
     loading: {
       type: Boolean,
@@ -145,7 +142,7 @@ export default {
       selectAll: false,
       checkedItems: [],
       filterList: {},
-      others: {}
+      sortingAndPaginationOptions: {}
     }
   },
   computed: {
@@ -163,15 +160,16 @@ export default {
         this.filterList = {}
         const query = {}
         for (const key in val) {
-          if (key === 'date-range') {
+          if (key === 'date-range' || key === 'invited-date') {
             this.filterList[key] = val[key]
             query[key] = `${new Date(val[key].from) / 1000}-${new Date(val[key].to) / 1000}`
           } else {
             this.filterList[key] = val[key]
-            query[key] = val[key]?.toLowerCase()
+            query[key] = val[key].toLowerCase()
           }
         }
-        this.route(query)
+        this.$emit('table-changed', {...query, ...this.sortingAndPaginationOptions})
+        this.route({...query, ...this.sortingAndPaginationOptions})
       }
     }
   },
@@ -197,23 +195,19 @@ export default {
       this.activeItem = this.activeItem === item ? null : item
     },
     pageClicked (page) {
-      this.$router.push({
-        name: this.$route.name,
-        query: {
-          ...this.$route.query,
-          page
-        }
-      })
+      this.sortingAndPaginationOptions = Object.assign({}, this.sortingAndPaginationOptions, {page})
+      this.route({...this.filterList, ...this.sortingAndPaginationOptions})
+      this.$emit('table-changed', {...this.filterList, ...this.sortingAndPaginationOptions})
     },
     sortColumn (header) {
       let sort
       if (header.sortable) {
-        if (this.others.sort === header.value) {
+        if (this.sortingAndPaginationOptions.sort === header.value) {
           sort = `-${header.value}`
         } else {
           sort = header.value
         }
-        this.others = Object.assign({}, this.others, {
+        this.sortingAndPaginationOptions = Object.assign({}, this.sortingAndPaginationOptions, {
           sort
         })
         this.route()
@@ -225,7 +219,7 @@ export default {
         name: this.$route.name,
         query: {
           ...query,
-          ...this.others
+          ...this.sortingAndPaginationOptions
         }
       })
     }
@@ -243,6 +237,12 @@ export default {
 
   table {
     font-size: 0.875rem;
+    thead th:first-child {
+      border-top-left-radius: 19px;
+    }
+    thead th:last-child {
+      border-top-right-radius: 19px;
+    }
   }
   tr {
     td {

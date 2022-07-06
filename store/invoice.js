@@ -86,7 +86,7 @@ export const actions = {
     )
   },
   async downloadInvoicePdf ({ commit }, id) {
-    return await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/pdf/${id}`)
+    return this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/pdf/${id}`)
   },
   async getInvoicePayment ({ commit }, id) {
     return await this.$axios

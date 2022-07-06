@@ -20,15 +20,15 @@
         check-able
         :total-pages="invoices && invoices.size"
         :headings="headings"
-        :filter-types="filterTypes"
         :table-data="filteredData"
+        @table-changed="updateTable"
         @item-clicked="itemClicked"
       >
         <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }">
           <td class="w-3/12">
             <div class="flex justify-start ml-5 items-center">
               <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
-              <div class="text-sm text-slate-700 font-medium w-40">
+              <div class="text-sm text-slate-700 text-left font-medium w-40">
                 {{ rowData.customerId.firstName }}
                 {{ rowData.customerId.lastName }}
               </div>
@@ -64,22 +64,27 @@
           </td>
           <td class="w-1/12">
             <div>
-              <button type="button" @click.stop="setActiveItem(rowData._id)">
+              <div v-if="clientActionLoading && activeId == rowData._id" class="flex justify-center">
+                <SingleLoader />
+              </div>
+              <button v-else type="button" @click.stop="setActiveItem(rowData._id), activeId = rowData._id">
                 <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
               </button>
-              <div
-                v-show="optionOpen == rowData._id"
-                class="top-[1] absolute right-[33px] w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[500]"
-              >
-                <div class="py-2 flex flex-col" role="none">
-                  <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
-                    Download PDF
-                  </button>
-                  <button type="button" class="dropdown-button" @click.stop="copyId(rowData._id), setActiveItem(rowData._id)">
-                    Copy payment ID
-                  </button>
+              <ClickOutside :do="() => { setActiveItem('') }">
+                <div
+                  v-show="optionOpen == rowData._id"
+                  class="top-[1] absolute right-[33px] w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[500]"
+                >
+                  <div class="py-2 flex flex-col" role="none">
+                    <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
+                      Download PDF
+                    </button>
+                    <button type="button" class="dropdown-button" @click.stop="copyId(rowData._id), setActiveItem('')">
+                      Copy payment ID
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </ClickOutside>
             </div>
           </td>
         </template>
@@ -90,14 +95,14 @@
 </template>
 
 <script>
-import _orderby from 'lodash.orderby'
 import { format } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 import LunaTable from '~/components/table/LunaTable'
+import ClickOutside from "~/components/util/ClickOutside";
 export default {
   name: 'SentInvoice',
-  components: { LunaTable, InvoiceDetailModal },
+  components: {ClickOutside, LunaTable, InvoiceDetailModal },
   provide () {
     return {
       filterTypes: this.filterTypes
@@ -105,6 +110,8 @@ export default {
   },
   data () {
     return {
+      clientActionLoading: false,
+      activeId: '',
       statuses: ['all', 'sent', 'draft', 'paid', 'pending', 'overdue'],
       selectedInvoice: null,
       loading: false,
@@ -112,6 +119,7 @@ export default {
         'status',
         'date-range'
       ],
+      filterList: {},
       headings: [
         {
           text: 'Client',
@@ -153,17 +161,10 @@ export default {
       exporting: false,
       options: [],
       allClients: [],
-      checkedItems: []
+      checkedItems: [],
     }
   },
   watch: {
-    '$route.query': {
-      deep: true,
-      immediate: true,
-      async handler () {
-        await this.$fetch()
-      }
-    }
   },
   computed: {
     statusHasRoute () {
@@ -178,26 +179,22 @@ export default {
       return records
     }
   },
-  async fetch () {
-    try {
-      this.loading = true
-      this.$route.query.status === 'all' ? this.$route.query.status = '' : this.$route.query.status
-      const newFilterObj = {}
-      if (['draft', 'sent'].includes(this.$route.query.status)) {
-        newFilterObj.workflowStatus = this.$route.query.status
-        newFilterObj.status = 'pending'
-      }
-      await this.getInvoices({
-        ...this.$route.query,
-        ...newFilterObj
-      })
-    } catch (e) {
-      //
-    } finally {
-      this.loading = false
-    }
-  },
   methods: {
+    async updateTable(filterList) {
+      try {
+        this.loading = true
+        if (['draft', 'sent'].includes(filterList.status)) {
+          filterList.workflowStatus = filterList.status
+          filterList.status = 'pending'
+        }
+        filterList.status === 'all' ? filterList.status = '' : filterList.status
+        await this.getInvoices({...filterList})
+      }catch (e) {
+        console.log(e)
+      }finally {
+        this.loading = false
+      }
+    },
     copyId (text) {
       const el = document.createElement('textarea')
       el.value = text
@@ -208,11 +205,19 @@ export default {
       el.select()
       document.execCommand('copy')
       document.body.removeChild(el)
-      this.$lunaToast.show('Copied to clipboard')
+      this.$lunaToast.show('Copied to clipboard', {
+        timeout: 1000,
+      })
     },
     async downloadInvoice (item) {
-      const res = await this.$store.dispatch('invoice/downloadInvoicePdf', item._id)
-      console.log(res)
+      try {
+        this.clientActionLoading = false
+        await this.$store.dispatch('invoice/downloadInvoicePdf', item._id)
+      }catch (e) {
+        this.$lunaToast.error(e.message)
+      }finally {
+        this.clientActionLoading = false
+      }
     },
     itemClicked (item) {
       if (item.workflowStatus === 'draft') {
@@ -284,6 +289,10 @@ export default {
         'Exported Successfully'
       )
     }
+  },
+  async mounted () {
+    // await this.checkPaymentMethods()
+    await this.getInvoices({})
   },
   async beforeMount () {
     try {

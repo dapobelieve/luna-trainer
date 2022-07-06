@@ -5,10 +5,10 @@
         Clients
       </template>
       <template v-slot:buttons>
-        <button class="flex items-center mr-2">
-          <i class="fi-rr-download text-[#3B82F6] mt-1"></i>
-          <span class="mx-2 text-[#3B82F6]">Export</span>
-        </button>
+<!--        <button class="flex items-center mr-2">-->
+<!--          <i class="fi-rr-download text-[#3B82F6] mt-1"></i>-->
+<!--          <span class="mx-2 text-[#3B82F6]">Export</span>-->
+<!--        </button>-->
         <button type="button" class="button-fill" @click="inviteClient">
           Invite Client
         </button>
@@ -30,12 +30,12 @@
         </div>
         <LunaTable
           v-if="clients.data"
-          check-able
           :loading="loading"
           :total-pages="clients && clients.size"
           :table-data="computedClients"
           :headings="headings"
-          @item-clicked=""
+          @table-changed="updateTable"
+          @item-clicked="$router.push({name: 'client-id-information', params: {id: $event._id}})"
         >
           <template v-slot:tableRows="{rowData, setActiveItem, activeRow: optionOpen}">
             <td>
@@ -186,22 +186,13 @@ export default {
       statuses: ['all', 'accepted', 'pending', 'archived'],
       openModal: false,
       filterTypes: [
-        'date-range'
+        'invited-date'
       ]
     }
   },
   head () {
     return {
       title: 'Clients'
-    }
-  },
-  watch: {
-    '$route.query': {
-      deep: true,
-      immediate: true,
-      async handler () {
-        await this.$fetch()
-      }
     }
   },
   computed: {
@@ -215,7 +206,8 @@ export default {
       return this.clients.data
     }
   },
-  mounted () {
+  async mounted () {
+    await this.$store.dispatch('client/fetchClients', {})
     const client = window.localStorage.getItem('client-tour')
     if (client) {
       this.$router?.push({ query: { new: true } })
@@ -231,10 +223,10 @@ export default {
     async resendInvite (id) {
       try {
         this.clientActionLoading = true
-        const res = await this.$store.dispatch('client/resendClientInvite', id)
+        await this.$store.dispatch('client/resendClientInvite', id)
         this.$lunaToast.success('Invite Resent')
       } catch (e) {
-        console.log(error)
+        console.log(e)
       } finally {
         this.clientActionLoading = false
       }
@@ -245,7 +237,7 @@ export default {
         await this.$store.dispatch('client/revoke', client)
         this.$lunaToast.success('Link Revoked')
       } catch (e) {
-        console.log(error)
+        console.log(e)
       } finally {
         this.clientActionLoading = false
       }
@@ -253,10 +245,10 @@ export default {
     async archiveClient (client) {
       try {
         this.clientActionLoading = true
-        const res = await this.$store.dispatch('client/archive', client)
+        await this.$store.dispatch('client/archive', client)
         this.$lunaToast.success('Client Archived')
       } catch (e) {
-        console.log(error)
+        console.log(e)
       } finally {
         this.clientActionLoading = false
       }
@@ -276,9 +268,6 @@ export default {
     ...mapActions({
       fetchAllClients: 'client/fetchClients'
     }),
-    filterInvoice (link) {
-      this.filter = link
-    },
     inviteClient () {
       this.$modal.show('invite-client')
     },
@@ -314,27 +303,21 @@ export default {
       const skip = document.getElementById('skip')
       skip.classList.remove('opacity-0')
       this.$intro().showHints()
-    }
-  },
-  async fetch () {
-    try {
-      this.loading = true
-      let status
-      if (this.$route.query.status === 'pending') {
-        status = 'invited'
-      } else if (this.$route.query.status === 'all') {
-        status = undefined
-      } else {
-        status = this.$route.query.status
+    },
+    async updateTable(filterList) {
+      try {
+        this.loading = true
+        if (filterList.status === 'pending') {
+          filterList.status = 'invited'
+        } else if (filterList.status === 'all') {
+          filterList.status = undefined
+        }
+        await this.$store.dispatch('client/fetchClients', {...filterList})
+      } catch (e) {
+        console.log(e)
+      } finally {
+        this.loading = false
       }
-      await this.fetchAllClients({
-        ...this.$route.query,
-        status
-      })
-    } catch (e) {
-
-    } finally {
-      this.loading = false
     }
   }
 }
