@@ -20,14 +20,14 @@
             class="flex items-left py-2 outline-none"
             @click.prevent="$modal.show('repeat-modal')"
           >
-            <span class="text-gray-500 pl-5 text-base pl-2">Custom...</span>
+            <span class="text-gray-500 text-base pl-2">Custom...</span>
           </button>
         </template>
       </GwSelector>
     </span>
 
     <modal name="repeat-modal" height="auto" width="550" :adaptive="true">
-      <div class="px-4 py-2" style="overflow: scroll">
+      <div class="px-4 py-2 overflow-auto">
         <div class="flex flex-row">
           <p class="text-lg text-gray-500 font-normal py-4 w-3/4">
             Custom recurrence
@@ -157,7 +157,7 @@
                 >On</span>
               </label>
             </div>
-            <div class="py-4 flex w-[200px]" v-if="isMonthSelected">
+            <div class="py-4 ml-2 flex w-[200px]" v-if="isMonthSelected">
                 <date-picker
                     v-model="montSelect"
                     style="width: 100% !important; height: 100%"
