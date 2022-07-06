@@ -5289,10 +5289,10 @@ internal-slot@^1.0.3:
     has "^1.0.3"
     side-channel "^1.0.4"
 
-intro.js@2.7.0:
-  version "2.7.0"
-  resolved "https://registry.npmjs.org/intro.js/-/intro.js-2.7.0.tgz"
-  integrity sha512-FyP0bw+GVAf9anhpeRX57zkIskdsTi+zZv5itoH/7YBKMZwVVQgI2ZgMH8ZVytdFGLNhutlINO8A3KUCy9HkJw==
+intro.js@3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/intro.js/-/intro.js-3.2.1.tgz#fb13f03c13d54aab8485d538a719fe4af0b7bf36"
+  integrity sha512-empgAlW/vlIEAZWw19rLMR+1J75sw6bvjqrQd9fhgXJnV/ds0bzASil3k5fCWSJeVBKXFbLlWJ3nvtimDmTIFw==
 
 ip@^1.1.5:
   version "1.1.5"
@@ -9692,7 +9692,7 @@ vue-hot-reload-api@^2.3.0:
 
 vue-introjs@^1.3.2:
   version "1.3.2"
-  resolved "https://registry.npmjs.org/vue-introjs/-/vue-introjs-1.3.2.tgz"
+  resolved "https://registry.yarnpkg.com/vue-introjs/-/vue-introjs-1.3.2.tgz#ff2e3628adaab6c54cae47c12234cce00dd1db34"
   integrity sha512-Bj27iGimO6VKr/Ngxs5hr/Fh8ONSHmvTUj2gh1f5CGZC5vfF1Vb5VyetjXiDdMXhLsqeGSIhac6SbVNHwUh9yQ==
 
 vue-js-modal@^2.0.1:

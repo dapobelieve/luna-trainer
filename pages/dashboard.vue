@@ -318,12 +318,12 @@ export default {
         })
         .onexit(() => {
           const skip = document.getElementById('skip')
-          skip.classList.add('opacity-0')
+          skip?.classList?.add('opacity-0')
         })
         .start()
 
       const skip = document.getElementById('skip')
-      skip.classList.remove('opacity-0')
+      skip?.classList?.remove('opacity-0')
       this.$intro().showHints()
     },
     closeModal () {
