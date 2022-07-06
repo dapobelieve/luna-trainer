@@ -265,7 +265,6 @@ export default {
           cancel: {
             text: 'Not Now',
             resolver: () => {
-              console.log('cancelling')
               window.localStorage.setItem('welcome', new Date())
             }
           },

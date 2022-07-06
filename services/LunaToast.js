@@ -84,6 +84,7 @@ export class LunaToast {
     document.body.appendChild(toast)
 
     const timeout = setTimeout(() => {
+      options.close()
       toast.remove()
     }, currentOptions.timeout)
 
