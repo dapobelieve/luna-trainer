@@ -314,16 +314,11 @@ export default {
         .onexit(() => {
           this.removeQueryParams()
         })
-        .onafterchange(() => {
-        })
         .onexit(() => {
           const skip = document.getElementById('skip')
-          skip?.classList?.add('opacity-0')
+          skip.remove()
         })
         .start()
-
-      const skip = document.getElementById('skip')
-      skip?.classList?.remove('opacity-0')
       this.$intro().showHints()
     },
     closeModal () {
