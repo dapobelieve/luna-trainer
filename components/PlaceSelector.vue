@@ -43,27 +43,17 @@ export default {
     MapsInit () {
       this.service = new window.google.maps.places.AutocompleteService()
     },
-    displaySuggestions (predictions, status) {
-      if (status !== window.google.maps.places.PlacesServiceStatus.OK) {
-        this.searchResults = []
-        return
-      }
-      predictions.forEach((prediction) => {
-        prediction.icon = 'fi fi-rr-marker'
-      })
-
-      this.searchResults = predictions
-    },
-    onSearch (search, loading) {
+    async onSearch (search, loading) {
       if (search === '') {
         this.searchResults = []
       }
       if (search) {
         loading(true)
-        this.service.getPlacePredictions({
-          input: search,
-          types: ['(cities)']
-        }, this.displaySuggestions)
+        const predictions = await this.service.getPlacePredictions({ input: search, types: ['(cities)'] })
+        predictions.predictions.forEach((prediction) => {
+          prediction.icon = 'fi fi-rr-marker'
+        })
+        this.searchResults = predictions.predictions
         loading(false)
       }
     }
