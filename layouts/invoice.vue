@@ -1,7 +1,7 @@
 <template>
   <div class="bg-gray-100 w-full min-h-screen">
     <div
-      class="flex justify-between  lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
+      class="flex justify-between lg:grid grid-cols-3 bg-white px-4 py-3 items-center border-b border-gray-200"
     >
       <span class="text-2xl to-gray-700 font-normal">
         {{ sharedPage.page }}

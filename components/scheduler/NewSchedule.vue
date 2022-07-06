@@ -100,7 +100,7 @@
         </div>
       </div>
       <div id="clients">
-        <ClientSelect v-model="form.participants" :event="event" />
+        <ClientSelect :event="event" v-model="form.participants" />
         <!-- <ReminderSelect :event="event" /> -->
         <Conference v-if="showConference" class="mb-4" @conference="attachConference" />
         <div class="flex flex-col mb-3">
@@ -145,13 +145,15 @@ import { format, fromUnixTime } from 'date-fns'
 import { required } from 'vuelidate/lib/validators'
 import { mapGetters } from 'vuex'
 import ClientSelect from './ClientSelect.vue'
+import ReminderSelect from './ReminderSelect.vue'
+import RepeatSelect from './RepeatSelect.vue'
 import Conference from '~/components/conference/index'
 import timezones from '~/timezones.json'
 import time from '~/utils/time'
 import PlaceSelector from '~/components/PlaceSelector.vue'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect },
+  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect },
   props: {
     event: {
       type: Object
@@ -270,6 +272,7 @@ export default {
       return time
     },
     computeToTime () {
+      console.log(this.time)
       return this.form.from && [...this.time].slice(this.time.indexOf(this.form.from) + 1)
     },
     timezoneArr () {

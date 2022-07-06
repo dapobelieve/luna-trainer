@@ -58,7 +58,7 @@
           </td>
           <td>
             <div class="justify-start ml-5 flex">
-              {{ formatDate(rowData.createdAt, 'MMM d, h:m b') }}
+              {{ rowData.createdAt | howLongAgo }}
             </div>
           </td>
           <td class="w-1/12 relative">

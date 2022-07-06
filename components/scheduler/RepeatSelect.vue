@@ -14,20 +14,20 @@
             <span v-if="optionObject.name.includes('weekday')" class="ml-1"> Mon - Fri</span>
           </div>
         </template>
-        <template v-if="showOptions" v-slot:footer @click.stop="">
+        <template v-if="showOptions" v-slot:footer>
           <button
             type="button"
             class="flex items-left py-2 outline-none"
             @click.prevent="$modal.show('repeat-modal')"
           >
-            <span class="text-gray-500 pl-5 text-base pl-2">Custom...</span>
+            <span class="text-gray-500 text-base pl-2">Custom...</span>
           </button>
         </template>
       </GwSelector>
     </span>
 
     <modal name="repeat-modal" height="auto" width="550" :adaptive="true">
-      <div class="px-4 py-2" style="overflow: scroll">
+      <div class="px-4 py-2 overflow-auto">
         <div class="flex flex-row">
           <p class="text-lg text-gray-500 font-normal py-4 w-3/4">
             Custom recurrence
@@ -130,15 +130,11 @@
               }"
             >
               <input
-                id="spaying"
                 v-model="isNever"
-                name="spaying"
-                value="spaying"
                 type="checkbox"
                 class="h-7 w-5 rounded-full checkbox-round"
               />
               <span
-                id="reinforcement-0-label"
                 class="ml-2 font-medium"
               >Never</span>
             </label>
@@ -152,20 +148,16 @@
                 }"
               >
                 <input
-                  id="spaying"
                   v-model="isOn"
-                  name="spaying"
-                  value="spaying"
                   type="checkbox"
                   class="h-10 w-5 rounded-full checkbox-round"
                 />
                 <span
-                  id="reinforcement-0-label"
                   class="ml-2 font-medium"
                 >On</span>
               </label>
             </div>
-            <div class="py-4 flex w-[200px]" v-if="isMonthSelected">
+            <div class="py-4 ml-2 flex w-[200px]" v-if="isMonthSelected">
                 <date-picker
                     v-model="montSelect"
                     style="width: 100% !important; height: 100%"
@@ -186,10 +178,7 @@
                 }"
               >
                 <input
-                  id="spaying"
                   v-model="isAfter"
-                  name="spaying"
-                  value="spaying"
                   type="checkbox"
                   class="h-5 w-5 rounded-full checkbox-round"
                 />
@@ -222,7 +211,6 @@
           <button class="button-fill" @click.prevent="done">
             Done
           </button>
-          <slot name="confirm" />
         </div>
       </div>
     </modal>

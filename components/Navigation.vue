@@ -293,7 +293,6 @@ export default {
   computed: {
     ...mapGetters({
       acceptedClients: 'client/acceptedClients',
-      hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       getNotificationsSummary: 'notifications/getNotificationsSummary',
       getUnreadMessagesCount: 'sendbird-v2/getUnreadMessagesCount'
     }),
@@ -347,15 +346,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions({
-      getPaymentMethods: 'payment-methods/getPaymentMethods'
-    }),
     goToPaymentRequest () {
-      if (!this.hasActivePaymentMethods) {
-        this.$modal.show('payment-method-status')
-      } else {
-        this.$router.push({ name: 'payments-request' })
-      }
+      this.$router.push({ name: 'payments-request' })
     },
     getId (e) {
       switch (e) {

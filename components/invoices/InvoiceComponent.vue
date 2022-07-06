@@ -217,20 +217,25 @@
                   v-model="invoice.supportedPaymentMethods"
                   class="mr-2"
                   :value="activePaymentMethod._id"
-                  :disabled="activePaymentMethod.isDefault"
+                  :disabled="invoice.supportedPaymentMethods.length == 1 && invoice.supportedPaymentMethods[0] == activePaymentMethod._id"
                   :hidden="activePaymentMethods.length == 1"
                 />
                 <span
                   class="font-light"
                 >
-                  <i v-if="activePaymentMethod.type === 'bank'" class="fi-rr-bank"></i>
-                  <img
-                    v-else-if="activePaymentMethod.type == 'stripe'"
-                    class="h-6 inline-block"
-                    src="~/assets/img/stripe.png"
-                    alt="stripe logo"
-                  />
-                  Pay with {{ activePaymentMethod.type }}
+                  <div v-if="activePaymentMethod.type === 'bank'" >
+                    <i class="fi-rr-bank"></i>
+                    {{ `Accept ${activePaymentMethod.type } payments`}}
+                  </div>
+                  <div v-else-if="activePaymentMethod.type === 'stripe'">
+                    <span>Accept</span>
+                    <img
+                      class="h-6 inline-block"
+                      src="~/assets/img/stripe.png"
+                      alt="stripe logo"
+                    />
+                    <span>payments</span>
+                  </div>
                 </span>
               </div>
               <span
@@ -298,6 +303,7 @@
         />
       </modal>
     </div>
+    <ModalsPaymentMethodStatusModal />
   </div>
 </template>
 
@@ -342,14 +348,11 @@ export default {
       showDropDown: false
     }
   },
-  created () {
-    this.invoice.customer = this.$route.params?.clientData
-    this.invoice.dueDate = new Date().toISOString()
-  },
   computed: {
     ...mapGetters({
       allClients: 'client/getAllClients',
       allServices: 'services/allServices',
+      hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       activePaymentMethods: 'payment-methods/getActivePaymentMethods',
       defaultPaymentMethod: 'payment-methods/getDefaultPaymentMethod'
     }),
@@ -396,6 +399,9 @@ export default {
     ...mapActions('invoice', {
       createNewInvoice: 'createInvoice',
       fetchInvoices: 'getInvoices'
+    }),
+    ...mapActions({
+      getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
     ...mapActions({ getServices: 'services/getServices' }),
     async saveForm () {
@@ -553,8 +559,16 @@ export default {
       this.invoice.items.splice(itemIdx, 1)
     }
   },
+  created () {
+    this.invoice.customer = this.$route.params?.clientData
+    this.invoice.dueDate = new Date().toISOString()
+  },
   async mounted () {
-    await this.getServices() // this will be revmove once we can enusre the global state of the application is consistent
+    await this.getPaymentMethods()
+    await this.getServices() // this will be revmoving this once we can enusre the global state of the application is consistent
+    if (!this.hasActivePaymentMethods) {
+      this.$modal.show('payment-method-status')
+    }
     if (this.invoice._id) {
       this.$set(
         this.invoice,
