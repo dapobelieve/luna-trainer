@@ -57,7 +57,7 @@
             border-t
             flex
             items-end
-            justify-center
+            justify-end
             bg-white
             rounded-b-xl
             shadow-sm

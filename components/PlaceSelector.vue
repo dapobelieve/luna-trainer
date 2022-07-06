@@ -1,4 +1,5 @@
 <template>
+
 <div class="flex flex-row">
   <v-select
   v-model="location"
@@ -24,6 +25,7 @@
     </template>
   </v-select>
 </div>
+
 </template>
 <script>
 export default {
@@ -49,6 +51,7 @@ export default {
       predictions.forEach((prediction) => {
         prediction.icon = 'fi fi-rr-marker'
       })
+
       this.searchResults = predictions
     },
     onSearch (search, loading) {

@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import ViewChatImage from './ViewChatImage.vue'
 export default {
   name: 'OpponentMessages',
   props: {
@@ -60,19 +61,25 @@ export default {
     }
   },
   methods: {
-    viewImage (image) {
-      this.$store.commit('sendBird/VIEW_IMAGE', {
-        imageDetails: {
-          url: image.url,
-          nickname: image._sender.nickname,
-          profileImg: image._sender.plainProfileUrl,
-          dateTime: image.createdAt
+    viewImage (msg) {
+      this.$modal.show(
+        ViewChatImage,
+        {
+          imageDetails: {
+            url: msg.url,
+            nickname: msg._sender.nickname,
+            profileImg: msg._sender.plainProfileUrl,
+            dateTime: msg.createdAt
+          }
         },
-        status: true
-      })
+        {
+          height: '100%',
+          width: '100%'
+        }
+      )
     },
     downloadItem ({ url, label }) {
-      this.$axios.get(url, { responseType: 'blob' })
+      this.$axios.get(JSON.stringify(url), { responseType: 'blob' })
         .then((response) => {
           const blob = new Blob([response.data], { type: 'application/pdf' })
           const link = document.createElement('a')
