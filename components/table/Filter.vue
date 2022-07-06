@@ -33,12 +33,12 @@
                     <div class="flex items-center justify-between w-full p-2 bg-slate-50">
                       <div class="text-gray-500 inline-flex flex-col items-start mr-4 relative">
                         <span class="text-sm">From</span>
-                        
-                        <date-picker :value="filterObj[filter]['from']" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {from: $event})" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+
+                        <date-picker :value="filterObj[filter]['from']" class="date-picker" format="ddd MMM D" placeholder="Date" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {from: $event})"></date-picker>
                       </div>
                       <div class="text-gray-500 inline-flex flex-col items-start">
                         <span class="text-sm">To</span>
-                        <date-picker :value="filterObj[filter]['to']" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {to: $event})"  class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+                        <date-picker :value="filterObj[filter]['to']" class="date-picker" format="ddd MMM D" placeholder="Date" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {to: $event})"></date-picker>
                       </div>
                     </div>
                   </div>
@@ -67,7 +67,7 @@
         <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
           <template v-if="key === 'date-range' || key === 'invited-date'">
             <span :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
-              <span class="mr-3 select-none">{{  key === 'date-range' ? 'date range:' : 'invited date:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
+              <span class="mr-3 select-none">{{ key === 'date-range' ? 'date range:' : 'invited date:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
               <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
             </span>
           </template>
@@ -153,10 +153,10 @@ export default {
   watch: {
     show: {
       immediate: true,
-      handler(val) {
-        if(val) {
-          this.filterTypes.map(item => {
-            this.filterObj = Object.assign({}, this.filterObj, { [item]: item === 'date-range' || item === 'invited-date' ?  {from: null, to: null} : '' })
+      handler (val) {
+        if (val) {
+          this.filterTypes.forEach((item) => {
+            this.filterObj = Object.assign({}, this.filterObj, { [item]: item === 'date-range' || item === 'invited-date' ? { from: null, to: null } : '' })
           })
         }
       }
@@ -208,7 +208,7 @@ export default {
         }
       }
       this.checkedVars = this.checkedVars.filter(item => item !== key)
-      this.$emit('filter', {...this.filterObj})
+      this.$emit('filter', { ...this.filterObj })
     },
     removeChecked (key) {
       this.checkedVars = this.checkedVars.filter(item => item !== key.toLowerCase())

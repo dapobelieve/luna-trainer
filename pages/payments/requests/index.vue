@@ -99,10 +99,10 @@ import { format } from 'date-fns'
 import { mapActions, mapGetters } from 'vuex'
 import InvoiceDetailModal from '~/components/invoices/InvoiceDetailModal'
 import LunaTable from '~/components/table/LunaTable'
-import ClickOutside from "~/components/util/ClickOutside";
+import ClickOutside from '~/components/util/ClickOutside'
 export default {
   name: 'SentInvoice',
-  components: {ClickOutside, LunaTable, InvoiceDetailModal },
+  components: { ClickOutside, LunaTable, InvoiceDetailModal },
   provide () {
     return {
       filterTypes: this.filterTypes
@@ -161,7 +161,7 @@ export default {
       exporting: false,
       options: [],
       allClients: [],
-      checkedItems: [],
+      checkedItems: []
     }
   },
   watch: {
@@ -180,7 +180,7 @@ export default {
     }
   },
   methods: {
-    async updateTable(filterList) {
+    async updateTable (filterList) {
       try {
         this.loading = true
         if (['draft', 'sent'].includes(filterList.status)) {
@@ -188,10 +188,10 @@ export default {
           filterList.status = 'pending'
         }
         filterList.status === 'all' ? filterList.status = '' : filterList.status
-        await this.getInvoices({...filterList})
-      }catch (e) {
+        await this.getInvoices({ ...filterList })
+      } catch (e) {
         console.log(e)
-      }finally {
+      } finally {
         this.loading = false
       }
     },
@@ -206,16 +206,16 @@ export default {
       document.execCommand('copy')
       document.body.removeChild(el)
       this.$lunaToast.show('Copied to clipboard', {
-        timeout: 1000,
+        timeout: 1000
       })
     },
     async downloadInvoice (item) {
       try {
         this.clientActionLoading = false
         await this.$store.dispatch('invoice/downloadInvoicePdf', item._id)
-      }catch (e) {
+      } catch (e) {
         this.$lunaToast.error(e.message)
-      }finally {
+      } finally {
         this.clientActionLoading = false
       }
     },

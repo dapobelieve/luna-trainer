@@ -102,8 +102,8 @@ import LunaFilter from '~/components/table/Filter'
 import SingleLoader from '~/components/util/SingleLoader'
 export default {
   name: 'LunaTable',
-  inject: ['filterTypes'],
   components: { SingleLoader, LunaTablePagination, AppCheckboxComponent, LunaFilter },
+  inject: ['filterTypes'],
   props: {
     loading: {
       type: Boolean,
@@ -168,8 +168,8 @@ export default {
             query[key] = val[key].toLowerCase()
           }
         }
-        this.$emit('table-changed', {...query, ...this.sortingAndPaginationOptions})
-        this.route({...query, ...this.sortingAndPaginationOptions})
+        this.$emit('table-changed', { ...query, ...this.sortingAndPaginationOptions })
+        this.route({ ...query, ...this.sortingAndPaginationOptions })
       }
     }
   },
@@ -195,9 +195,9 @@ export default {
       this.activeItem = this.activeItem === item ? null : item
     },
     pageClicked (page) {
-      this.sortingAndPaginationOptions = Object.assign({}, this.sortingAndPaginationOptions, {page})
-      this.route({...this.filterList, ...this.sortingAndPaginationOptions})
-      this.$emit('table-changed', {...this.filterList, ...this.sortingAndPaginationOptions})
+      this.sortingAndPaginationOptions = Object.assign({}, this.sortingAndPaginationOptions, { page })
+      this.route({ ...this.filterList, ...this.sortingAndPaginationOptions })
+      this.$emit('table-changed', { ...this.filterList, ...this.sortingAndPaginationOptions })
     },
     sortColumn (header) {
       let sort

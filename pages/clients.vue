@@ -5,10 +5,10 @@
         Clients
       </template>
       <template v-slot:buttons>
-<!--        <button class="flex items-center mr-2">-->
-<!--          <i class="fi-rr-download text-[#3B82F6] mt-1"></i>-->
-<!--          <span class="mx-2 text-[#3B82F6]">Export</span>-->
-<!--        </button>-->
+        <!--        <button class="flex items-center mr-2">-->
+        <!--          <i class="fi-rr-download text-[#3B82F6] mt-1"></i>-->
+        <!--          <span class="mx-2 text-[#3B82F6]">Export</span>-->
+        <!--        </button>-->
         <button type="button" class="button-fill" @click="inviteClient">
           Invite Client
         </button>
@@ -304,7 +304,7 @@ export default {
       skip.classList.remove('opacity-0')
       this.$intro().showHints()
     },
-    async updateTable(filterList) {
+    async updateTable (filterList) {
       try {
         this.loading = true
         if (filterList.status === 'pending') {
@@ -312,7 +312,7 @@ export default {
         } else if (filterList.status === 'all') {
           filterList.status = undefined
         }
-        await this.$store.dispatch('client/fetchClients', {...filterList})
+        await this.$store.dispatch('client/fetchClients', { ...filterList })
       } catch (e) {
         console.log(e)
       } finally {
