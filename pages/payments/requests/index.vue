@@ -291,7 +291,7 @@ export default {
     }
   },
   async mounted () {
-    // await this.checkPaymentMethods()
+    await this.checkPaymentMethods()
     await this.getInvoices({})
   },
   async beforeMount () {
