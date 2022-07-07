@@ -122,7 +122,7 @@ export default {
       const link = document.createElement('a')
 
       link.href = url
-      link.setAttribute('download', 'Sent_Invoices.csv')
+      link.setAttribute('download', 'Exported invoices.xls')
       document.body.appendChild(link)
       link.click()
 
