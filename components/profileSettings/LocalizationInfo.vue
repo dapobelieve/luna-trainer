@@ -22,17 +22,9 @@
         v-model="profile.dateFormat"
         class="bg-white h-10 flex justify-center py-2 px-3 w-full border shadow-sm rounded-md focus:outline-none focus:bg-white focus:border-blue-500"
       >
-        <option value="dd/mm/yyyy">
-          DD/MM/YYYY
-        </option>
-        <option value="dd/mm/yy">
-          DD/MM/YY
-        </option>
+        <!--- when adding new date format ensure it works with invoice due date during ccreatino of invoice and update-->
         <option value="yyyy/mm/dd">
           YYYY/MM/DD
-        </option>
-        <option value="yy/mm/dd">
-          YY/MM/DD
         </option>
       </select>
     </div>

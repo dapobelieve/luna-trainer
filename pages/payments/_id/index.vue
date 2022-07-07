@@ -181,10 +181,10 @@
         <Modal name="pay-with-bank" height="auto" :adaptive="true" width="500">
           <template v-slot>
             <div class="p-4 py-5">
-              <h1 class="font-bold pb-6">
+              <h1 class="font-bold text-xl mb-2">
                 Pay With Bank
               </h1>
-              <p class="font-100 text-slate-500">
+              <p class="font-100 text-gray-500 text-sm">
                 Make your payment directly to the bank account provided below
               </p>
               <div
@@ -207,33 +207,23 @@
                   <div
                     v-for="v in bankData"
                     :key="v.title"
-                    class="flex flex-row my-4"
+                    class=" mt-3 grid grid-cols-2 grid-flow-col-dense"
                   >
-                    <div style="">
-                      <div class="pb-1">
+                    <div>
+                      <div class="pb-1 text-sm">
                         {{ v.title }}
                       </div>
                       <div class="font-bold">
-                        {{ v.value }}
+                        <span>{{ v.value }}</span>
+                        <button
+                          @click.prevent="copyToClipboard(v.value)">
+                          <i class="fi-rr-copy w-5 h-5 text-blue-500" />
+                        </button>
                       </div>
-                    </div>
-                    <div
-                      class="
-                        text-primary-500
-                        justify-center
-                        align-center
-                        py-1
-                        mx-8
-                        flex flex-row
-                        cursor-pointer
-                      "
-                      @click="copyToClipboard(v.value)"
-                    >
-                      <i class="fi-rr-copy text-primary-1000" />
                     </div>
                   </div>
                 </div>
-                <div class="my-4 text-green-1000">
+                <div class="my-4 text-gray-600 text-sm">
                   Note - When making your payment, add the reference code along
                   with your transfer for easy confirmation
                 </div>
@@ -242,7 +232,7 @@
                 <button class="button-outline mx-2" @click="closeModal">
                   Pay Later
                 </button>
-                <button-spinner class="button-fill" @click="goToNotifyTrainerPage">
+                <button-spinner class="button-fill ml-2" @click="goToNotifyTrainerPage">
                   Notify trainer of payment
                 </button-spinner>
               </div>
@@ -511,7 +501,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.button-outline {
+.button-outline,.button-fill {
   @apply py-6
 }
 .base-button {

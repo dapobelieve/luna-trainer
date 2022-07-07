@@ -84,7 +84,7 @@ export class LunaToast {
     document.body.appendChild(toast)
 
     setTimeout(() => {
-      currentOptions.close()
+      this.#instanceOptions.close.resolver()
       toast.remove()
     }, currentOptions.timeout)
   }
