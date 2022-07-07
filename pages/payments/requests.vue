@@ -6,9 +6,10 @@
       </template>
       <template v-slot:buttons>
         <div class="flex items-center">
-          <button class="flex items-center mr-2">
+          <button :disabled="exporting" @click="exportInvoice" class="flex items-center mr-2">
             <i class="fi-rr-download text-[#3B82F6] mt-1"></i>
-            <span class="mx-2 text-[#3B82F6]">Export</span>
+            <SingleLoader v-if="exporting" />
+            <span class="mx-2 text-[#3B82F6]" v-else>Export</span>
           </button>
           <NuxtLink
             id="plus"
@@ -23,7 +24,7 @@
     </PageHeader>
     <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center minimum-height ">
       <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
-        <NuxtChild />
+        <NuxtChild v-model="checkedItems"  />
       </div>
     </div>
     <PaymentWelcomeModal
@@ -50,7 +51,9 @@ export default {
   data () {
     return {
       showDrop: false,
-      active: true
+      active: true,
+      checkedItems: [],
+      exporting: false
     }
   },
   head () {
@@ -97,6 +100,35 @@ export default {
         .start()
 
       this.$intro().showHints()
+    },
+    async exportInvoice () {
+      try {
+        if (this.checkedItems.length <= 0) {
+          return
+        }
+        this.exporting = true
+        const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export?ids=${this.checkedItems}`, {
+          responseType: 'blob'
+        })
+        this.downloadDocument(res)
+      } catch (e) {
+
+      } finally {
+        this.exporting = false
+      }
+    },
+    downloadDocument (response) {
+      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
+      const link = document.createElement('a')
+
+      link.href = url
+      link.setAttribute('download', 'Exported invoices.xls')
+      document.body.appendChild(link)
+      link.click()
+
+      this.$lunaToast.success(
+        'Exported Successfully'
+      )
     }
   },
   mounted () {
