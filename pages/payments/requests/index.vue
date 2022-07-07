@@ -23,6 +23,7 @@
         :filter-types="filterTypes"
         :table-data="filteredData"
         @item-clicked="itemClicked"
+        @checked-items-changed="itemChecked"
       >
         <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }">
           <td class="w-3/12">
@@ -98,6 +99,16 @@ import LunaTable from '~/components/table/LunaTable'
 export default {
   name: 'SentInvoice',
   components: { LunaTable, InvoiceDetailModal },
+  model: {
+    prop: 'checkedItems',
+    event: 'change'
+  },
+  props: {
+    checkedItems: {
+      type: [Array],
+      default: () => []
+    }
+  },
   provide () {
     return {
       filterTypes: this.filterTypes
@@ -153,7 +164,7 @@ export default {
       exporting: false,
       options: [],
       allClients: [],
-      checkedItems: []
+      checkedInvoices: []
     }
   },
   watch: {
@@ -198,6 +209,10 @@ export default {
     }
   },
   methods: {
+    itemChecked (result) {
+      this.checkedInvoices = result
+      this.$emit('change', result)
+    },
     copyId (text) {
       const el = document.createElement('textarea')
       el.value = text
@@ -254,35 +269,6 @@ export default {
       } catch (e) {
         console.log(e)
       }
-    },
-    async exportInvoice () {
-      try {
-        this.exporting = true
-        const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export`, {
-          responseType: 'blob',
-          params: {
-            ids: [...this.checkedItems]
-          }
-        })
-        this.downloadDocument(res)
-      } catch (e) {
-
-      } finally {
-        this.exporting = false
-      }
-    },
-    downloadDocument (response) {
-      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
-      const link = document.createElement('a')
-
-      link.href = url
-      link.setAttribute('download', 'Sent_Invoices.csv')
-      document.body.appendChild(link)
-      link.click()
-
-      this.$lunaToast.success(
-        'Exported Successfully'
-      )
     }
   },
   async beforeMount () {
