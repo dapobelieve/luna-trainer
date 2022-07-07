@@ -1,85 +1,135 @@
 <template>
-  <div class="pt-2">
+  <div class='pt-2'>
     <async-view>
-      <div class="mb-4 overflow-x-auto">
-        <div class="tasbs w-72 flex">
-          <div v-for="(status, statusIndex) in statuses" :key="statusIndex" role="presentation" class="flex items-center justify-center">
-            <a class="px-4 cursor-pointer relative" style="min-width: 56px" @click="filterByStatus(status)">
-              <div class="pt-4 pb-4 relative flex justify-center items-center">
-                <span class="select-none">{{ status | capitalize }}</span>
-                <div v-show="statusHasRoute === status || (status === 'all' && !statusHasRoute )" class="indicator absolute bottom-0 h-[4px] bg-blue-500"></div>
+      <div class='mb-4 overflow-x-auto'>
+        <div class='tasbs w-72 flex'>
+          <div
+            v-for='(status, statusIndex) in statuses'
+            :key='statusIndex'
+            role='presentation'
+            class='flex items-center justify-center'
+          >
+            <a
+              class='px-4 cursor-pointer relative'
+              style='min-width: 56px'
+              @click='filterByStatus(status)'
+            >
+              <div class='pt-4 pb-4 relative flex justify-center items-center'>
+                <span class='select-none'>{{ status | capitalize }}</span>
+                <div
+                  v-show='
+                    statusHasRoute === status ||
+                    (status === "all" && !statusHasRoute)
+                  '
+                  class='indicator absolute bottom-0 h-[4px] bg-blue-500'
+                ></div>
               </div>
             </a>
           </div>
         </div>
       </div>
       <LunaTable
-        v-if="invoices.data"
-        class="mb-6"
-        :loading="loading"
+        v-if='invoices.data'
+        class='mb-6'
+        :loading='loading'
         check-able
-        :total-pages="invoices && invoices.size"
-        :headings="headings"
-        :table-data="filteredData"
-        @table-changed="updateTable"
-        @item-clicked="itemClicked"
+        :total-pages='invoices && invoices.size'
+        :headings='headings'
+        :table-data='filteredData'
+        @table-changed='updateTable'
+        @item-clicked='itemClicked'
+        @checked-items-changed='itemChecked'
       >
-        <template v-slot:tableRows="{ rowData, setActiveItem, activeRow: optionOpen }">
-          <td class="w-3/12">
-            <div class="flex justify-start ml-5 items-center">
-              <ClientAvatar class="mr-3" :width="2.5" :height="2.5" :client-info="{firstName: rowData.customerId.firstName, imgUrl: rowData.customerId.imgURL}" />
-              <div class="text-sm text-slate-700 text-left font-medium w-40">
+        <template
+          v-slot:tableRows='{ rowData, setActiveItem, activeRow: optionOpen }'
+        >
+          <td class='w-3/12'>
+            <div class='flex justify-start ml-5 items-center'>
+              <ClientAvatar
+                class='mr-3'
+                :width='2.5'
+                :height='2.5'
+                :client-info='{
+                  firstName: rowData.customerId.firstName,
+                  imgUrl: rowData.customerId.imgURL,
+                }'
+              />
+              <div class='text-sm text-slate-700 text-left font-medium w-40'>
                 {{ rowData.customerId.firstName }}
                 {{ rowData.customerId.lastName }}
               </div>
             </div>
           </td>
-          <td class="flex justify-start ml-5 items-center">
+          <td class='flex justify-start ml-5 items-center'>
             <div>
               {{ rowData.total | amount }}
             </div>
           </td>
           <td>
-            <div v-if="rowData.workflowStatus === 'draft'" class="flex ml-4">
-              <InvoiceStatusComponent class="py-1.5" status="draft" />
+            <div v-if="rowData.workflowStatus === 'draft'" class='flex ml-4'>
+              <InvoiceStatusComponent class='py-1.5' status='draft' />
             </div>
-            <div v-else class="flex ml-4">
-              <InvoiceStatusComponent class="py-1.5" :status="rowData.status" />
+            <div v-else class='flex ml-4'>
+              <InvoiceStatusComponent class='py-1.5' :status='rowData.status' />
             </div>
           </td>
-          <td class="w-2/12">
-            <div class="justify-start ml-5 flex">
+          <td class='w-2/12'>
+            <div class='justify-start ml-5 flex'>
               {{ rowData.invoiceNo || '---' }}
             </div>
           </td>
           <td>
-            <div class="justify-start ml-5 flex">
+            <div class='justify-start ml-5 flex'>
               {{ formatDate(rowData.dueDate, 'MMM d') }}
             </div>
           </td>
           <td>
-            <div class="justify-start ml-5 flex">
+            <div class='justify-start ml-5 flex'>
               {{ rowData.createdAt | howLongAgo }}
             </div>
           </td>
-          <td class="w-1/12">
+          <td class='w-1/12'>
             <div>
-              <div v-if="clientActionLoading && activeId == rowData._id" class="flex justify-center">
+              <div
+                v-if='clientActionLoading && activeId == rowData._id'
+                class='flex justify-center'
+              >
                 <SingleLoader />
               </div>
-              <button v-else type="button" @click.stop="setActiveItem(rowData._id), activeId = rowData._id">
-                <img src="~/assets/img/svgs/ellipsis.svg" alt="" />
+              <button
+                v-else
+                type='button'
+                @click.stop='
+                  setActiveItem(rowData._id), (activeId = rowData._id)
+                '
+              >
+                <img src='~/assets/img/svgs/ellipsis.svg' alt='' />
               </button>
-              <ClickOutside :do="() => { setActiveItem('') }">
+              <ClickOutside
+                :do='
+                  () => {
+                    setActiveItem("");
+                  }
+                '
+              >
                 <div
-                  v-show="optionOpen == rowData._id"
-                  class="top-[1] absolute right-[33px] w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[500]"
+                  v-show='optionOpen == rowData._id'
+                  class='top-[1] absolute right-[33px] w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[500]'
                 >
-                  <div class="py-2 flex flex-col" role="none">
-                    <button v-if="rowData.status === 'paid'" type="button" class="dropdown-button" @click.stop="downloadInvoice(rowData)">
+                  <div class='py-2 flex flex-col' role='none'>
+                    <button
+                      v-if='rowData.status === "paid"'
+                      type='button'
+                      class='dropdown-button'
+                      @click.stop='downloadInvoice(rowData)'
+                    >
                       Download PDF
                     </button>
-                    <button type="button" class="dropdown-button" @click.stop="copyId(rowData._id), setActiveItem('')">
+                    <button
+                      type='button'
+                      class='dropdown-button'
+                      @click.stop='copyId(rowData._id), setActiveItem("")'
+                    >
                       Copy payment ID
                     </button>
                   </div>
@@ -89,7 +139,11 @@
           </td>
         </template>
       </LunaTable>
-      <InvoiceDetailModal id="invoice-details" :invoice="selectedInvoice" @close="$modal.hide('invoice-details')" />
+      <InvoiceDetailModal
+        id='invoice-details'
+        :invoice='selectedInvoice'
+        @close='$modal.hide("invoice-details")'
+      />
     </async-view>
   </div>
 </template>
@@ -102,6 +156,16 @@ import LunaTable from '~/components/table/LunaTable'
 import ClickOutside from '~/components/util/ClickOutside'
 export default {
   name: 'SentInvoice',
+  model: {
+    prop: 'checkedItems',
+    event: 'change'
+  },
+  props: {
+    checkedItems: {
+      type: [Array],
+      default: () => []
+    }
+  },
   components: { ClickOutside, LunaTable, InvoiceDetailModal },
   provide () {
     return {
@@ -115,10 +179,7 @@ export default {
       statuses: ['all', 'sent', 'draft', 'paid', 'pending', 'overdue'],
       selectedInvoice: null,
       loading: false,
-      filterTypes: [
-        'status',
-        'date-range'
-      ],
+      filterTypes: ['status', 'date-range'],
       filterList: {},
       headings: [
         {
@@ -161,11 +222,10 @@ export default {
       exporting: false,
       options: [],
       allClients: [],
-      checkedItems: []
+      checkedInvoices: []
     }
   },
-  watch: {
-  },
+  watch: {},
   computed: {
     statusHasRoute () {
       return this.$route.query.status
@@ -180,6 +240,10 @@ export default {
     }
   },
   methods: {
+    itemChecked (result) {
+      this.checkedInvoices = result
+      this.$emit('change', result)
+    },
     async updateTable (filterList) {
       try {
         this.loading = true
@@ -187,7 +251,9 @@ export default {
           filterList.workflowStatus = filterList.status
           filterList.status = 'pending'
         }
-        filterList.status === 'all' ? filterList.status = '' : filterList.status
+        filterList.status === 'all'
+          ? (filterList.status = '')
+          : filterList.status
         await this.getInvoices({ ...filterList })
       } catch (e) {
         console.log(e)
@@ -246,7 +312,9 @@ export default {
     },
     async checkPaymentMethods () {
       await this.getPaymentMethods()
-      if (!this.hasActivePaymentMethods) { this.$modal.show('payment-method-status') }
+      if (!this.hasActivePaymentMethods) {
+        this.$modal.show('payment-method-status')
+      }
     },
     async archive () {
       try {
@@ -259,35 +327,6 @@ export default {
       } catch (e) {
         console.log(e)
       }
-    },
-    async exportInvoice () {
-      try {
-        this.exporting = true
-        const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export`, {
-          responseType: 'blob',
-          params: {
-            ids: [...this.checkedItems]
-          }
-        })
-        this.downloadDocument(res)
-      } catch (e) {
-
-      } finally {
-        this.exporting = false
-      }
-    },
-    downloadDocument (response) {
-      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
-      const link = document.createElement('a')
-
-      link.href = url
-      link.setAttribute('download', 'Sent_Invoices.csv')
-      document.body.appendChild(link)
-      link.click()
-
-      this.$lunaToast.success(
-        'Exported Successfully'
-      )
     }
   },
   async mounted () {
@@ -309,7 +348,7 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .indicator {
   height: 4px;
   align-self: center;
@@ -329,7 +368,7 @@ export default {
     position: absolute;
     top: 124px;
     z-index: 9;
-    left: 0
+    left: 0;
   }
 }
 .client >>> span {
