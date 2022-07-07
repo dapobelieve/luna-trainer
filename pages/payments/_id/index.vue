@@ -81,14 +81,14 @@
                       <div class="flex justify-between items-center">
                         <div class="text-left">
                           <p class="text-slate-700 font-medium text-md">
-                            {{  item.description}}
+                            {{ item.description }}
                           </p>
                           <p class="text-sm text-gray-500">
                             Qty {{ item.qty }}
                           </p>
                         </div>
                         <p class="font-medium text-slate-700 text-md">
-                          {{ formatNumber(item.price, currency)  }}
+                          {{ formatNumber(item.price, currency) }}
                         </p>
                       </div>
                     </div>
@@ -102,14 +102,14 @@
                       </div>
                     </div>
                   </div>
-                  <div v-show="payingWithStripe && !stripeLoading" >
+                  <div v-show="payingWithStripe && !stripeLoading">
                     <h4 class="mt-9 text-slate-600 font-semibold flex justify-between">
                       <div class="flex items-center">
                         <span>Pay with</span>
                         <img
-                            src="~/assets/img/stripe.png"
-                            class="h-6"
-                          />
+                          src="~/assets/img/stripe.png"
+                          class="h-6"
+                        />
                       </div>
                       <button class="rounded-full p-2 w-6 h-6 bg-gray-300 text-white" @click.prevent="closePaymentWithStripe">
                         <i class="fi-rr-cross text-xs flex justify-between items-center"></i>
@@ -118,13 +118,16 @@
                     <div>
                       <form id="stripe-payment-form" @submit.prevent="payWithStripeCard">
                         <div id="stripe-card-element" class="p-2 py-4 border border-blue-500 shadow-sm rounded-md mt-4"></div>
-                        <div id="stripe-card-error" class="mt-4 text-red-500">{{stripeMessage}}</div>
+                        <div id="stripe-card-error" class="mt-4 text-red-500">
+                          {{ stripeMessage }}
+                        </div>
                         <button
                           type="submit"
                           :disabled="stripeError || stripeCompleting"
-                          class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white" >
+                          class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white"
+                        >
                           <span> Pay for invoice </span>
-                          <SingleLoader class="ml-4" v-if="stripeCompleting" />
+                          <SingleLoader v-if="stripeCompleting" class="ml-4" />
                         </button>
                       </form>
                     </div>
@@ -146,7 +149,7 @@
                           alt=""
                           class="w-15 h-5"
                         />
-                        <SingleLoader class="ml-4" v-if="stripeLoading" />
+                        <SingleLoader v-if="stripeLoading" class="ml-4" />
                       </button>
                       <button
                         v-if="supportedPaymentMethods.includes('paypal')"
@@ -216,7 +219,8 @@
                       <div class="font-bold">
                         <span>{{ v.value }}</span>
                         <button
-                          @click.prevent="copyToClipboard(v.value)">
+                          @click.prevent="copyToClipboard(v.value)"
+                        >
                           <i class="fi-rr-copy w-5 h-5 text-blue-500" />
                         </button>
                       </div>
@@ -259,12 +263,12 @@ import { format } from 'date-fns'
 import SingleLoader from '~/components/util/SingleLoader'
 export default {
   name: 'InvoicePayment',
-  layout: 'empty',
-  middleware: 'validToken',
-  auth: false,
   components: {
     SingleLoader
   },
+  layout: 'empty',
+  middleware: 'validToken',
+  auth: false,
   data () {
     return {
       loading: false,
