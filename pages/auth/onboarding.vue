@@ -262,7 +262,7 @@ export default {
       this.setCurrentPage(this.step)
     },
     checkDraftService () {
-      if (this.$refs.service._data.service.description !== '' || this.$refs.service._data.service.pricing.amount !== '') {
+      if (this.$refs.service._data.service.description !== '' || this.$refs.service._data.service.pricing.amount) {
         this.$modal.show('dialog', {
           title: 'Confirm Exit Page',
           text: 'Leaving this page will discard your changes. This cannot be undone.',

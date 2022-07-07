@@ -83,14 +83,10 @@ export class LunaToast {
     toast.append(this.#composeClose(currentOptions))
     document.body.appendChild(toast)
 
-    const timeout = setTimeout(() => {
-      options.close()
+    setTimeout(() => {
+      currentOptions.close()
       toast.remove()
     }, currentOptions.timeout)
-
-    toast.addEventListener('mouseover', () => {
-      // clearTimeout(timeout)
-    })
   }
 
   #composeActions (options) {

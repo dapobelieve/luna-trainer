@@ -85,6 +85,7 @@ export default {
     REPORTING_HOST: process.env.REPORTING_HOST,
     SEARCH_HOST: process.env.SEARCH_HOST,
     GOOGLE_PLACES_API_KEY: process.env.GOOGLE_PLACES_API_KEY,
+    STRIPE_PK: process.env.STRIPE_PK,
   },
   loading: '~/components/loading.vue',
   buildModules: [
