@@ -342,6 +342,7 @@ export default {
         items: [],
         supportedPaymentMethods: []
       },
+      allClients: [],
       autoSaving: false,
       isLoading: false,
       showDropDown: false
@@ -349,7 +350,6 @@ export default {
   },
   computed: {
     ...mapGetters({
-      allClients: 'client/getAllClients',
       allServices: 'services/allServices',
       hasActivePaymentMethods: 'payment-methods/hasActivePaymentMethods',
       activePaymentMethods: 'payment-methods/getActivePaymentMethods',
@@ -400,6 +400,7 @@ export default {
       fetchInvoices: 'getInvoices'
     }),
     ...mapActions({
+      fetchConciseClients: 'client/allConciseClients',
       getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
     ...mapActions({ getServices: 'services/getServices' }),
@@ -570,6 +571,7 @@ export default {
     this.invoice.dueDate = new Date().toISOString()
   },
   async mounted () {
+    this.allClients = await this.fetchConciseClients()
     await this.getPaymentMethods()
     await this.getServices() // this will be revmoving this once we can enusre the global state of the application is consistent
     if (!this.hasActivePaymentMethods) {

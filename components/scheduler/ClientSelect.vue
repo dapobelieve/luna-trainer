@@ -93,7 +93,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   name: 'ClientSelect',
@@ -112,19 +112,22 @@ export default {
   },
   data () {
     return {
-      participants: [...(this.value ?? [])]
+      participants: [...(this.value ?? [])],
+      allClients: []
     }
   },
+  async mounted () {
+    this.allClients = await this.fetchConciseClients()
+  },
   methods: {
+    ...mapActions({
+      fetchConciseClients: 'client/allConciseClients'
+    }),
     removeClient (client) {
       this.participants = this.participants.filter(item => item.userId !== client.userId)
     }
   },
   computed: {
-    ...mapGetters({
-      activeCalendar: 'scheduler/getCalendar',
-      allClients: 'client/getAllClients'
-    }),
     hasSchedule () {
       return !!this.event.id
     }
