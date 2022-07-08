@@ -124,16 +124,10 @@
                         <button
                           type="submit"
                           :disabled="stripeError || stripeCompleting"
-<<<<<<< HEAD
-                          class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white" >
-                          <span>Pay invoice </span>
-                          <SingleLoader class="ml-4" v-if="stripeCompleting" />
-=======
                           class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white"
                         >
                           <span> Pay for invoice </span>
                           <SingleLoader v-if="stripeCompleting" class="ml-4" />
->>>>>>> b224b2b9a0399ba3e69bac1ebd0412c73d8b4846
                         </button>
                       </form>
                     </div>
@@ -430,6 +424,7 @@ export default {
       })
       this.stripeClientSecret = response.data.clientSecret
       this.stripeConnectedAccount = response.data.connectedStripeAccount
+      console.log(response, this.stripeConnectedAccount, this.stripeClientSecret,process.env.STRIPE_PK)
       if (response.statusText === 'OK' && this.stripeClientSecret) {
         this.stripe = window.Stripe(process.env.STRIPE_PK, {
           stripeAccount: this.stripeConnectedAccount
