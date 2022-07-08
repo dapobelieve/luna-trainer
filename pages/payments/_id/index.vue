@@ -13,117 +13,156 @@
         justify-center
       "
     >
-      <div class="inline-flex flex-col items-center w-full">
-        <img class="h-8 mb-3" src="~/assets/img/logo-v2.svg" />
+      <div class="inline-flex flex-col items-center w-full py-4">
         <SingleLoader height="20px" width="20px" />
       </div>
     </div>
 
     <div class="h-screen md:w-full xl:max-w-[1384px] lg:max-w-full w-full m-auto">
-      <div class="lg:w-1/4 md:w-full m-auto shadow-sm">
+      <div class="lg:w-2/6 md:w-full m-auto shadow-md">
         <main else class="place-content-center">
           <div class="mt-10">
             <div class="justify-center">
-              <div class="bg-white rounded-lg pb-4">
-                <div class="bg-[#3b82f6] rounded-t-lg py-3 pl-4 flex">
+              <div class="bg-white rounded-xl pb-4">
+                <div class="bg-[#3b82f6] rounded-t-lg py-6 pl-4 flex">
                   <NuxtLink to="/">
                     <img class="h-10" src="~/assets/img/logo-v2-fff.svg" />
                   </NuxtLink>
                 </div>
                 <div class="px-4 my-2 bg-white">
-                  <div>
-                    <p class="text-1xl font-semibold text-gray-600 flex items-end">
+                  <div class="flex items-center justify-between my-4">
+                    <p class="text-2xl font-semibold text-gray-600 flex items-end">
                       <span>Invoice </span>
-                      <InvoiceStatusComponent
-                        v-if="!isPayable"
-                        :status="status"
-                      />
                     </p>
-
-                    <div class="flex justify-between space-x-9">
-                      <div class="w-2/4">
-                        <p class="text-xs py-4 text-slate-500">
+                    <InvoiceStatusComponent
+                      v-if="!isPayable"
+                      :status="status"
+                    />
+                  </div>
+                  <div>
+                    <div class="flex justify-between space-x-9 mt-4">
+                      <div>
+                        <p class="text-sm text-gray-500">
                           From
                         </p>
-                        <p class="text-sm font-bold text-gray-900">
+                        <p class="font-bold text-gray-900">
                           {{ from }}
                         </p>
                       </div>
-                      <div class="w-2/4">
-                        <p class="text-xs py-4 text-slate-500">
+                      <div>
+                        <p class="text-sm text-gray-500">
                           To
                         </p>
-                        <p class="text-sm font-bold font-100 text-gray-900">
+                        <p class="font-bold font-100 text-gray-900">
                           {{ to }}
                         </p>
                       </div>
                     </div>
                   </div>
                   <div
-                    class="bg-slate-50 py-2 my-4 px-5 shadow-sm rounded-lg border-slate"
+                    class="bg-slate-50 py-4 my-4 px-5 shadow-sm rounded-lg border-slate"
                     style="background-color: rgba(248, 250, 252, 1); border-width: 1px;"
                   >
-                    <p class="text-slate-500 text-sm">
+                    <p class="text-gray-500 text-sm">
                       Amount
                     </p>
-                    <p class="text-slate-700 text-2xl font-medium">
+                    <p class="text-gray-700 text-2xl font-medium">
                       {{ total }}
                     </p>
-                    <p class="text-xs text-slate-700 my-2 mb-1">
-                      <span class="h-1 w-1 mr-1 text-red-500 bg-red-500 rounded-2xl inline-block mb-0"></span>
+                    <p class="text-xs text-gray-700 my-2 mb-1">
+                      <span class="h-2 w-2 mr-1 text-red-500 bg-red-500 rounded-full inline-block mb-0"></span>
                       Due on
                       {{ dueDate }}
                     </p>
                   </div>
 
                   <div>
-                    <div v-for="item in items" :key="item._id" class="my-5 mt-8">
-                      <p class="text-xs font-bold text-slate-700">
-                        {{ item.description }}
-                      </p>
-                      <div class="flex justify-between">
-                        <p class="text-xs text-slate-500">
-                          Qty {{ item.qty }}
-                        </p>
-                        <p class="text-xs text-slate-700 font-bold">
+                    <div v-for="item in items" :key="item._id" class="my-4 mt-8">
+                      <div class="flex justify-between items-center">
+                        <div class="text-left">
+                          <p class="text-slate-700 font-medium text-md">
+                            {{ item.description }}
+                          </p>
+                          <p class="text-sm text-gray-500">
+                            Qty {{ item.qty }}
+                          </p>
+                        </div>
+                        <p class="font-medium text-slate-700 text-md">
                           {{ formatNumber(item.price, currency) }}
                         </p>
                       </div>
                     </div>
                     <hr class="bg-lightgray" style="margin-bottom: 20px" />
                     <div class="flex justify-between">
-                      <div class="text-sm text-slate-700">
+                      <div class="text-slate-700">
                         Total
                       </div>
-                      <div class="text-sm text-slate-700 font-bold">
+                      <div class="text-2xl text-slate-700 font-medium">
                         {{ total }}
                       </div>
                     </div>
                   </div>
-
-                  <div v-if="isPayable">
-                    <h4 class="mt-9 text-slate-700 text-xs">
+                  <div v-show="payingWithStripe && !stripeLoading">
+                    <h4 class="mt-9 text-slate-600 font-semibold flex justify-between">
+                      <div class="flex items-center">
+                        <span>Pay with</span>
+                        <img
+                          src="~/assets/img/stripe.png"
+                          class="h-6"
+                        />
+                      </div>
+                      <button class="rounded-full p-2 w-6 h-6 bg-gray-300 text-white" @click.prevent="closePaymentWithStripe">
+                        <i class="fi-rr-cross text-xs flex justify-between items-center"></i>
+                      </button>
+                    </h4>
+                    <div>
+                      <form id="stripe-payment-form" @submit.prevent="payWithStripeCard">
+                        <div id="stripe-card-element" class="p-2 py-4 border border-blue-500 shadow-sm rounded-md mt-4"></div>
+                        <div id="stripe-card-error" class="mt-4 text-red-500">
+                          {{ stripeMessage }}
+                        </div>
+                        <button
+                          type="submit"
+                          :disabled="stripeError || stripeCompleting"
+<<<<<<< HEAD
+                          class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white" >
+                          <span>Pay invoice </span>
+                          <SingleLoader class="ml-4" v-if="stripeCompleting" />
+=======
+                          class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white"
+                        >
+                          <span> Pay for invoice </span>
+                          <SingleLoader v-if="stripeCompleting" class="ml-4" />
+>>>>>>> b224b2b9a0399ba3e69bac1ebd0412c73d8b4846
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                  <div v-if="isPayable && !payingWithStripe">
+                    <h4 class="mt-9 text-slate-600 font-medium">
                       Payment Options
                     </h4>
-                    <div class="flex flex-col mt-4">
+                    <div class="flex flex-col">
                       <button
                         v-if="supportedPaymentMethods.includes('stripe')"
                         class="button-outline my-2"
+                        :disabled="stripeLoading"
                         @click="openModal('stripe')"
                       >
-                        <span class="text-xs font-bold"> Pay with </span>
+                        <span class="font-bold"> Pay with </span>
                         <img
                           src="~/assets/img/stripe.png"
                           alt=""
                           class="w-15 h-5"
                         />
+                        <SingleLoader v-if="stripeLoading" class="ml-4" />
                       </button>
                       <button
                         v-if="supportedPaymentMethods.includes('paypal')"
                         class="button-outline my-2"
                         @click="openModal('paypal')"
                       >
-                        <span class="text-xs font-bold mr-1"> Pay with </span>
+                        <span class="font-bold mr-1"> Pay with </span>
                         <img
                           src="~/assets/img/paypal.png"
                           alt=""
@@ -135,9 +174,8 @@
                         class="button-outline my-2"
                         @click="openModal('bank')"
                       >
-                        <span class="text-xs font-bold mr-1"> Pay with Bank</span>
+                        <span class="font-bold mr-1">Pay with Bank</span>
                         <i
-                          data-v-3a2f61b0=""
                           role="button"
                           class="fi-rr-bank mr-2 text-gray-700 h-5 w-5"
                         ></i>
@@ -152,10 +190,10 @@
         <Modal name="pay-with-bank" height="auto" :adaptive="true" width="500">
           <template v-slot>
             <div class="p-4 py-5">
-              <h1 class="text-1xl font-bold pb-6">
+              <h1 class="font-bold text-xl mb-2">
                 Pay With Bank
               </h1>
-              <p class="text-sm text-slate-500 font-100 text-slate-700">
+              <p class="font-100 text-gray-500 text-sm">
                 Make your payment directly to the bank account provided below
               </p>
               <div
@@ -178,33 +216,24 @@
                   <div
                     v-for="v in bankData"
                     :key="v.title"
-                    class="flex flex-row my-4"
+                    class=" mt-3 grid grid-cols-2 grid-flow-col-dense"
                   >
-                    <div style="">
-                      <div class="text-xs pb-1">
+                    <div>
+                      <div class="pb-1 text-sm">
                         {{ v.title }}
                       </div>
-                      <div class="font-bold text-xs">
-                        {{ v.value }}
+                      <div class="font-bold">
+                        <span>{{ v.value }}</span>
+                        <button
+                          @click.prevent="copyToClipboard(v.value)"
+                        >
+                          <i class="fi-rr-copy w-5 h-5 text-blue-500" />
+                        </button>
                       </div>
-                    </div>
-                    <div
-                      class="
-                        text-primary-500
-                        justify-center
-                        align-center
-                        py-1
-                        mx-8
-                        flex flex-row
-                        cursor-pointer
-                      "
-                      @click="copyToClipboard(v.value)"
-                    >
-                      <i class="fi-rr-copy text-primary-1000" />
                     </div>
                   </div>
                 </div>
-                <div class="my-4 text-xs text-green-1000">
+                <div class="my-4 text-gray-600 text-sm">
                   Note - When making your payment, add the reference code along
                   with your transfer for easy confirmation
                 </div>
@@ -213,7 +242,7 @@
                 <button class="button-outline mx-2" @click="closeModal">
                   Pay Later
                 </button>
-                <button-spinner class="button-fill" @click="goToNotifyTrainerPage">
+                <button-spinner class="button-fill ml-2" @click="goToNotifyTrainerPage">
                   Notify trainer of payment
                 </button-spinner>
               </div>
@@ -221,8 +250,7 @@
           </template>
         </Modal>
       </div>
-
-      <a href="https://web.goluna.app/privacy" class="absolute bottom-20 w-screen text-center my-5 text-[#64748B] xl:max-w-[1384px] lg:max-w-full ">
+      <a href="https://web.goluna.app/privacy" class="w-screen text-center my-10 block text-gray-400 xl:max-w-[1384px] lg:max-w-full ">
         <div>
           Privacy . Terms
         </div>
@@ -238,15 +266,19 @@
 <script>
 import { mapActions } from 'vuex'
 import { format } from 'date-fns'
-
+import SingleLoader from '~/components/util/SingleLoader'
 export default {
   name: 'InvoicePayment',
+  components: {
+    SingleLoader
+  },
   layout: 'empty',
   middleware: 'validToken',
   auth: false,
   data () {
     return {
       loading: false,
+      payingWithStripe: false,
       date: format(new Date(Date.now()), 'yyyy'),
       showCopyButtons: false,
       isOpen: false,
@@ -262,7 +294,15 @@ export default {
       total: 0,
       status: '',
       isPayable: false,
-      invoiceDetails: {}
+      invoiceDetails: {},
+      stripe: null,
+      stripeLoading: false,
+      stripeCompleting: false,
+      stripeCard: null,
+      stripeMessage: '',
+      stripeError: false,
+      stripeClientSecret: '',
+      stripeConnectedAccount: ''
     }
   },
   computed: {
@@ -319,11 +359,13 @@ export default {
         new Date(data?.dueDate ?? Date.now()),
         'MMM dd yyyy'
       )
-      this.isPayable = data?.status === 'pending'
-      this.supportedPaymentMethods = data.supportedPaymentMethods?.map(
-        i => i.type
-      )
-      this.items = data?.items
+      if (data) {
+        this.isPayable = data.status === 'pending'
+        this.supportedPaymentMethods = data.supportedPaymentMethods?.map(
+          i => i.type
+        )
+        this.items = data.items
+      }
       this.getBankDetails()
     },
     closeModal () {
@@ -358,9 +400,7 @@ export default {
       }
     },
     handleStripeClick () {
-      window.location = `${process.env.PAYMENT_HOST_URL}/pay/${
-        this.$route?.params?.id ?? ''
-      }`
+      this.mountStripePaymentElements()
     },
     handlePaypalClick () {
       window.location = `${process.env.PAYMENT_HOST_URL}/pay/${
@@ -382,16 +422,98 @@ export default {
         }
       ]
       return data
+    },
+    async mountStripePaymentElements () {
+      this.stripeLoading = true
+      const response = await this.$axios.post(process.env.PAYMENT_HOST_URL + '/create-payment-intent', {
+        id: this.invoiceDetails._id
+      })
+      this.stripeClientSecret = response.data.clientSecret
+      this.stripeConnectedAccount = response.data.connectedStripeAccount
+      if (response.statusText === 'OK' && this.stripeClientSecret) {
+        this.stripe = window.Stripe(process.env.STRIPE_PK, {
+          stripeAccount: this.stripeConnectedAccount
+        })
+        const elements = this.stripe.elements()
+        const style = {
+          base: {
+            color: '#32325d',
+            fontFamily: 'Arial, sans-serif',
+            fontSmoothing: 'antialiased',
+            fontSize: '16px',
+            '::placeholder': {
+              color: '#32325d'
+            }
+          },
+          invalid: {
+            fontFamily: 'Arial, sans-serif',
+            color: '#fa755a',
+            iconColor: '#fa755a'
+          }
+        }
+        this.stripeCard = elements.create('card', { style })
+        this.stripeCard.mount('#stripe-card-element')
+        this.stripeCard.on('change', (event) => {
+          this.stripeError = event.empty
+          this.showStripeError(event.error ? event.error.message : '')
+        })
+        this.stripeCard.on('ready', () => {
+          this.payingWithStripe = true
+          this.stripeLoading = false
+        })
+      } else {
+        this.stripeLoading = false
+        this.$lunaToast.error('An error occured durinng setup')
+      }
+    },
+    payWithStripeCard () {
+      this.stripeCompleting = true
+      this.stripe
+        .confirmCardPayment(this.stripeClientSecret, {
+          payment_method: {
+            card: this.stripeCard
+          }
+        })
+        .then((result) => {
+          if (result.error) {
+            this.stripeCompleting = false
+            this.showStripeError(result.error.message)
+          } else {
+            this.stripeCompleting = false
+            this.stripePaymentCompleted()
+          }
+        })
+    },
+    stripePaymentCompleted () {
+      this.stripeMessage = 'Payment received! Thank you!'
+      this.$router.push({
+        name: 'payments-id-success',
+        params: { id: this.$route.params.id }
+      })
+    },
+    showStripeError (errorMsgText) {
+      this.stripeMessage = errorMsgText
+    },
+    closePaymentWithStripe () {
+      this.payingWithStripe = false
     }
   },
   head () {
     return {
-      title: 'InvoicePayment'
+      title: 'Invoice payment',
+      script: [
+        {
+          src: 'https://js.stripe.com/v3/'
+        }
+      ]
     }
   }
 }
 </script>
 <style lang="scss" scoped>
+.button-outline,.button-fill {
+  @apply py-6
+}
 .base-button {
   &:hover {
     background: #46a6c8;
@@ -403,4 +525,99 @@ export default {
 .error {
   @apply border-red-500;
 }
+
+/* Variables */
+#card-stripe-error {
+  color: rgb(105, 115, 134);
+  text-align: left;
+  font-size: 13px;
+  line-height: 17px;
+  margin-top: 12px;
+}
+
+#card-stripe-element {
+  border-radius: 4px 4px 0 0 ;
+  padding: 12px;
+  border: 1px solid rgba(50, 50, 93, 0.1);
+  height: 44px;
+  width: 100%;
+  background: white;
+  margin: 2em 0;
+}
+/* spinner/processing state, errors */
+.spinner,
+.spinner:before,
+.spinner:after {
+  border-radius: 50%;
+}
+.spinner {
+  color: #ffffff;
+  font-size: 22px;
+  text-indent: -99999px;
+  margin: 0px auto;
+  position: relative;
+  width: 20px;
+  height: 20px;
+  box-shadow: inset 0 0 0 2px;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+.spinner:before,
+.spinner:after {
+  position: absolute;
+  content: "";
+}
+.spinner:before {
+  width: 10.4px;
+  height: 20.4px;
+  background: #5469d4;
+  border-radius: 20.4px 0 0 20.4px;
+  top: -0.2px;
+  left: -0.2px;
+  -webkit-transform-origin: 10.4px 10.2px;
+  transform-origin: 10.4px 10.2px;
+  -webkit-animation: loading 2s infinite ease 1.5s;
+  animation: loading 2s infinite ease 1.5s;
+}
+.spinner:after {
+  width: 10.4px;
+  height: 10.2px;
+  background: #5469d4;
+  border-radius: 0 10.2px 10.2px 0;
+  top: -0.1px;
+  left: 10.2px;
+  -webkit-transform-origin: 0px 10.2px;
+  transform-origin: 0px 10.2px;
+  -webkit-animation: loading 2s infinite ease;
+  animation: loading 2s infinite ease;
+}
+
+@-webkit-keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes loading {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  form {
+    width: 80vw;
+  }
+}
+
 </style>

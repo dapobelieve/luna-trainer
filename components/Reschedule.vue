@@ -2,7 +2,7 @@
   <div>
     <div class="m-3">
       <client-only>
-        <v-date-picker v-model="date" mode="date" :format="$auth.user.dateFormat.toUpperCase()" style="width: 100% !important" />
+        <v-date-picker v-model="date" mode="date" style="width: 100% !important" />
       </client-only>
     </div>
     <TimeTag />

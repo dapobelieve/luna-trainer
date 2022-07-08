@@ -25,7 +25,7 @@
           <div class="flex items-center">
             <i class="fi-rr-calendar mt-1 text-md text-gray-500"></i>
             <div class="ml-3 text-gray-500 w-full">
-              <date-picker v-model="form.date" class="date-picker" :format="$auth.user.dateFormat.toUpperCase()" placeholder="Date" @change="updateDate"></date-picker>
+              <date-picker v-model="form.date" class="date-picker" format="DD-MMM-YYYY" placeholder="Date" @change="updateDate"></date-picker>
             </div>
           </div>
           <small v-if="$v.form.date.$error" class="text-red-600">Select a date</small>
@@ -118,7 +118,8 @@
               </div>
             </template>
           </GwSelector>
-          <PlaceSelector />
+          <PlaceSelector v-if="true == false" />
+          <ReminderSelect v-if="true == false" />
           <small v-if="$v.form.color.$error" class="text-red-600">Select a color</small>
         </div>
         <div class="flex flex-col mb-3">
@@ -153,7 +154,7 @@ import time from '~/utils/time'
 import PlaceSelector from '~/components/PlaceSelector.vue'
 
 export default {
-  components: { Conference, DatePicker, ClientSelect, ReminderSelect, RepeatSelect, PlaceSelector },
+  components: { Conference, DatePicker, ClientSelect, RepeatSelect, ReminderSelect, PlaceSelector },
   props: {
     event: {
       type: Object

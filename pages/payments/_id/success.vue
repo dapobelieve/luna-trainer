@@ -4,12 +4,6 @@
     <p slot="description">
       Your payment on invoice <b class="text-black">#{{ invoice }}</b> was <br /> successful. Thank you
     </p>
-    <button
-      slot="button"
-      class="button-fill"
-    >
-      Done
-    </button>
   </payment-feedback>
 </template>
 

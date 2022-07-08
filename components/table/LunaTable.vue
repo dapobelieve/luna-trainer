@@ -2,10 +2,10 @@
   <div>
     <div class="flex justify-between items-center mb-3 py-2">
       <LunaFilter v-model="computedFilterList" />
-      <!--      <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">-->
-      <!--        <i class="fi-rr-apps-sort mt-1 mr-2"></i>-->
-      <!--        <span class="mr-2 ">Sort</span>-->
-      <!--      </button>-->
+      <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color mr-2">
+        <i class="fi-rr-apps-sort mt-1 mr-2"></i>
+        <span class="md:block hidden mr-2 ">Sort</span>
+      </button>
     </div>
     <div class="luna-table bg-white rounded-2xl ring-1 ring-black ring-opacity-5">
       <div class="overflow-x-scroll lg:overflow-x-visible rounded-2xl">
@@ -103,9 +103,10 @@ import SingleLoader from '~/components/util/SingleLoader'
 export default {
   name: 'LunaTable',
   components: { SingleLoader, LunaTablePagination, AppCheckboxComponent, LunaFilter },
-  model: {
-    prop: 'filteredList',
-    event: 'table-filter'
+  provide () {
+    return {
+      filterTypes: this.filterTypes
+    }
   },
   props: {
     loading: {
@@ -119,6 +120,10 @@ export default {
     checkAble: {
       type: Boolean,
       default: false
+    },
+    filterTypes: {
+      type: Array,
+      required: true
     },
     tableData: {
       type: Array,
@@ -145,7 +150,7 @@ export default {
       selectAll: false,
       checkedItems: [],
       filterList: {},
-      others: {}
+      sortingAndPaginationOptions: {}
     }
   },
   computed: {
@@ -163,15 +168,18 @@ export default {
         this.filterList = {}
         const query = {}
         for (const key in val) {
-          if (key === 'date-range') {
-            this.filterList[key] = val[key]
-            query[key] = `${new Date(val[key].from) / 1000}-${new Date(val[key].to) / 1000}`
+          if (this.filterTypes.filter(item => item.value === key)[0].type === 'date-range') {
+            const dateString = `${parseInt(new Date(val[key].start) / 1000)}-${parseInt(new Date(val[key].end) / 1000)}`
+            query[key] = dateString
+            this.filterList[key] = dateString
           } else {
+            query[key] = val[key]
             this.filterList[key] = val[key]
-            query[key] = val[key]?.toLowerCase()
           }
         }
-        this.route(query)
+
+        this.$emit('table-changed', { ...query, ...this.sortingAndPaginationOptions })
+        this.route({ ...query, ...this.sortingAndPaginationOptions })
       }
     }
   },
@@ -179,14 +187,14 @@ export default {
     checkedItems: {
       handler (val) {
         this.selectAll = val.length === this.tableData.length
-        this.$emit('checked-items-changed', val)
+        this.$emit('checked-items', val)
       },
       deep: true
     },
     selectAll (val) {
       if (val) {
         this.checkedItems = this.tableData.map((item, index) => item.id || item._id)
-        this.$emit('checked-items-changed', this.checkedItems)
+        this.$emit('checked-items', this.checkedItems)
       } else {
         this.checkedItems = []
       }
@@ -197,23 +205,19 @@ export default {
       this.activeItem = this.activeItem === item ? null : item
     },
     pageClicked (page) {
-      this.$router.push({
-        name: this.$route.name,
-        query: {
-          ...this.$route.query,
-          page
-        }
-      })
+      this.sortingAndPaginationOptions = Object.assign({}, this.sortingAndPaginationOptions, { page })
+      this.route({ ...this.filterList, ...this.sortingAndPaginationOptions })
+      this.$emit('table-changed', { ...this.filterList, ...this.sortingAndPaginationOptions })
     },
     sortColumn (header) {
       let sort
       if (header.sortable) {
-        if (this.others.sort === header.value) {
+        if (this.sortingAndPaginationOptions.sort === header.value) {
           sort = `-${header.value}`
         } else {
           sort = header.value
         }
-        this.others = Object.assign({}, this.others, {
+        this.sortingAndPaginationOptions = Object.assign({}, this.sortingAndPaginationOptions, {
           sort
         })
         this.route()
@@ -225,7 +229,7 @@ export default {
         name: this.$route.name,
         query: {
           ...query,
-          ...this.others
+          ...this.sortingAndPaginationOptions
         }
       })
     }
@@ -243,6 +247,12 @@ export default {
 
   table {
     font-size: 0.875rem;
+    thead th:first-child {
+      border-top-left-radius: 19px;
+    }
+    thead th:last-child {
+      border-top-right-radius: 19px;
+    }
   }
   tr {
     td {
