@@ -424,8 +424,7 @@ export default {
       })
       this.stripeClientSecret = response.data.clientSecret
       this.stripeConnectedAccount = response.data.connectedStripeAccount
-      console.log(response, this.stripeConnectedAccount, this.stripeClientSecret,process.env.STRIPE_PK)
-      if (response.statusText === 'OK' && this.stripeClientSecret) {
+      if (response.status === 200 && this.stripeClientSecret) {
         this.stripe = window.Stripe(process.env.STRIPE_PK, {
           stripeAccount: this.stripeConnectedAccount
         })
