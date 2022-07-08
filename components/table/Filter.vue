@@ -4,48 +4,41 @@
       <ClickOutside :do="shouldCloseFilter">
         <button class="inline-flex relative ring-black ring-1 ring-opacity-10 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">
           <i class="fi-rr-filter mt-1 mr-2"></i>
-          <span class="mr-2 ">Filter</span>
-          <i class="fi-rr-caret-down mt-1"></i>
+          <template class="md:block hidden">
+            <span class=" mr-2 ">Filter</span>
+            <i class="fi-rr-caret-down mt-1"></i>
+          </template>
           <div v-show="show" class="absolute rounded-lg md:w-64 z-40 shadow-xl text-gray-600 top-10 left-0" @click.stop="">
             <div class="bg-white rounded-lg pt-4 pb-2 px-3 ring-1 ring-black ring-opacity-5">
               <div v-for="(filter, filterIndex) in filterTypes" :key="filterIndex" class="flex flex-col justify-start items-start py-1.5 font-light">
                 <label class="flex items-center cursor-pointer w-full">
-                  <AppCheckboxComponent v-model="computedCheckedVars" :value="filter" class="mt-1.5 mr-4" />
-                  {{ filter | capitalize }}
+                  <AppCheckboxComponent v-model="computedCheckedVars" :value="filter.value" class="mt-1.5 mr-4" />
+                  {{ `${filter.label}` | capitalize }}
                 </label>
                 <template>
-                  <div v-if="computedCheckedVars.includes('status') && filter=== 'status'" class="status mt-3 w-full">
-                    <GwSelector v-model="status" :options="statusOptions" />
+                  <div v-if="filter.type === 'select' && computedCheckedVars.includes(filter.value)" class="status mt-3 w-full">
+                    <GwSelector
+                      :value="filterObj[filter.value]"
+                      label="value"
+                      :options="filter.options"
+                      @change="filterObj[filter.value] = $event.value"
+                    >
+                      <template v-slot:dropdownOption="{optionObject: ops}">
+                        <div class="flex items-center py-1">
+                          <span class="text-gray-700">{{ ops.text }}</span>
+                        </div>
+                      </template>
+                    </GwSelector>
                   </div>
-                  <div v-if="checkedVars.includes('date-range') && filter=== 'date-range'" class="date-range mt-2 rounded flex w-full" @click.stop>
+                  <div v-else-if="filter.type === 'date-range' && computedCheckedVars.includes(filter.value)" class="date-range mt-2 rounded flex w-full" @click.stop>
                     <div class="flex items-center justify-between w-full p-2 bg-slate-50">
                       <div class="text-gray-500 inline-flex flex-col items-start mr-4 relative">
                         <span class="text-sm">From</span>
-                        <date-picker v-model="dateRanges.from" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+                        <date-picker v-model="filterObj[filter.value].start" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
                       </div>
                       <div class="text-gray-500 inline-flex flex-col items-start">
                         <span class="text-sm">To</span>
-                        <date-picker v-model="dateRanges.to" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if="checkedVars.includes('invited-date') && filter=== 'invited-date'" class="date-range mt-2 rounded flex w-full" @click.stop>
-                    <div class="flex items-center justify-between w-full p-2 bg-slate-50">
-                      <div class="text-gray-500 inline-flex flex-col items-start mr-4 relative">
-                        <span class="text-sm">From</span>
-
-                        <date-picker :value="filterObj[filter]['from']" class="date-picker" format="ddd MMM D" placeholder="Date" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {from: $event})"></date-picker>
-                      </div>
-                      <div class="text-gray-500 inline-flex flex-col items-start">
-                        <span class="text-sm">To</span>
-                        <date-picker :value="filterObj[filter]['to']" class="date-picker" format="ddd MMM D" placeholder="Date" @input="filterObj[filter] = Object.assign({}, filterObj[filter], {to: $event})"></date-picker>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if="checkedVars.includes('date') && filter=== 'date'" class="date-range mt-2 rounded flex w-full">
-                    <div class="flex items-center justify-between w-full p-2 bg-slate-50">
-                      <div class="text-gray-500 inline-flex flex-col items-start">
-                        <date-picker v-model="form.date" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
+                        <date-picker v-model="filterObj[filter.value].end" class="date-picker" format="ddd MMM D" placeholder="Date"></date-picker>
                       </div>
                     </div>
                   </div>
@@ -65,13 +58,16 @@
       </ClickOutside>
       <template v-if="Object.keys(filterHashCompute).length">
         <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
-          <template v-if="key === 'date-range' || key === 'invited-date'">
+          <template v-if="item.indexOf('-') > -1">
             <span :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
-              <span class="mr-3 select-none">{{ key === 'date-range' ? 'date range:' : 'invited date:' | capitalize }}  <strong>{{ item.from | shortDate }} - {{ item.to | shortDate }}</strong></span>
+              <span class="mr-3 select-none">
+                {{ key | capitalize }}  :
+
+                <strong>{{ (item.split('-')[0] * 1000) | shortDate }} - {{ (item.split('-')[1] * 1000) | shortDate }}</strong></span>
               <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
             </span>
           </template>
-          <span v-else-if="item !== ''" :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
+          <span v-else :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
             <span class="mr-3 select-none">{{ key | capitalize }}: <strong>{{ item | capitalize }}</strong></span>
             <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
           </span>
@@ -101,32 +97,14 @@ export default {
   },
   data () {
     return {
-      form: {},
-      statusOptions: [
-        'All',
-        'Sent',
-        'Draft',
-        'Paid',
-        'Pending',
-        'Overdue'
-      ],
-      dateRanges: {
-        from: null,
-        to: null
-      },
       checkedVars: [],
       filterObj: {},
       show: false
     }
   },
   computed: {
-    status: {
-      get () {
-        return this.filterObj.status
-      },
-      set (val) {
-        this.filterObj = Object.assign({}, this.filterObj, { status: val })
-      }
+    filterTypesValues () {
+      return this.filterTypes.map(item => item.value)
     },
     computedCheckedVars: {
       get () {
@@ -139,7 +117,7 @@ export default {
     filterHashCompute: {
       get () {
         return Object.keys(this.filterHash).reduce((acc, key) => {
-          if (this.filterTypes.includes(key)) {
+          if (this.filterTypesValues.includes(key)) {
             acc[key] = this.filterHash[key]
           }
           return acc
@@ -156,37 +134,31 @@ export default {
       handler (val) {
         if (val) {
           this.filterTypes.forEach((item) => {
-            this.filterObj = Object.assign({}, this.filterObj, { [item]: item === 'date-range' || item === 'invited-date' ? { from: null, to: null } : '' })
+            this.filterObj = Object.assign({}, this.filterObj, {
+              [item.value]: item.default
+            })
           })
         }
       }
-    },
-    dateRanges: {
-      handler (val) {
-        if (this.checkedVars.includes('date-range')) { this.filterObj['date-range'] = val }
-      },
-      deep: true
     },
     $route: {
       immediate: true,
       deep: true,
       handler (val) {
         const { query } = val
+        this.filterObj = {}
         for (const key in query) {
-          if (!['sort', 'page'].includes(key)) {
-            if (key === 'date-range' || key === 'invited-date') {
-              const dateQuery = query[key].split('-')
-              this.filterObj = {
-                ...this.filterObj,
-                [key]: {
-                  from: new Date(parseInt(dateQuery[0]) * 1000),
-                  to: new Date(parseInt(dateQuery[1]) * 1000)
-                }
+          if (this.filterTypesValues.includes(key)) {
+            if (this.filterTypes.filter(item => item.value === key)[0].type === 'date-range') {
+              this.filterObj[key] = {
+                start: new Date(query[key].split('-')[0] * 1000),
+                end: new Date(query[key].split('-')[1] * 1000)
               }
             } else {
-              this.filterObj = Object.assign({}, this.filterObj, { [key]: query[key] })
+              this.filterObj[key] = query[key]
             }
           } else {
+            console.log(key, query[key])
             this.$parent.sortingAndPaginationOptions = {
               ...this.$parent.sortingAndPaginationOptions,
               [key]: query[key]
@@ -201,25 +173,12 @@ export default {
     close () { this.show = false },
     removeFilterItem (key) {
       this.$delete(this.filterObj, key)
-      if (key === 'date-range') {
-        this.dateRanges = {
-          from: null,
-          to: null
-        }
-      }
       this.checkedVars = this.checkedVars.filter(item => item !== key)
       this.$emit('filter', { ...this.filterObj })
     },
-    removeChecked (key) {
-      this.checkedVars = this.checkedVars.filter(item => item !== key.toLowerCase())
-    },
     clear () {
       this.checkedVars = []
-      this.$set(this, 'filterObj', {})
       this.close()
-    },
-    setStatusValue (data) {
-      this.filterObj.status = data.toLowerCase()
     },
     shouldCloseFilter (event) {
       // console.log(event.target)
@@ -228,10 +187,14 @@ export default {
       // this.show = false
     },
     filter () {
-      if (Object.keys(this.filterObj).length > 0) {
-        this.$emit('filter', { ...this.filterObj })
-        this.close()
+      const query = {}
+      for (const key in this.filterObj) {
+        if (this.checkedVars.includes(key)) {
+          query[key] = this.filterObj[key]
+        }
       }
+      this.$emit('filter', query)
+      this.close()
     }
   }
 }

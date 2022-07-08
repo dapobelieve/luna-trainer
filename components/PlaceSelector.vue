@@ -1,31 +1,30 @@
 <template>
-
-<div class="flex flex-row">
-  <v-select
-  v-model="location"
-  class="w-full"
-  label="description"
-  :filterable="false"
-  :options="searchResults"
-  @search="onSearch">
-    <template slot="no-options">
-      Type to search places...
-    </template>
-    <template slot="option" slot-scope="option">
-      <div class="flex flex-row items-center">
-        <i class="mr-2" :class="option.icon"></i>
-        <span>{{option.description}}</span>
-      </div>
-    </template>
-    <template slot="selected-option" slot-scope="option">
-      <div>
-        <i class="mr-2" :class="option.icon"></i>
-        <span class="pb-2">{{option.description}}</span>
-      </div>
-    </template>
-  </v-select>
-</div>
-
+  <div class="flex flex-row">
+    <v-select
+      v-model="location"
+      class="w-full"
+      label="description"
+      :filterable="false"
+      :options="searchResults"
+      @search="onSearch"
+    >
+      <template slot="no-options">
+        Type to search places...
+      </template>
+      <template slot="option" slot-scope="option">
+        <div class="flex flex-row items-center">
+          <i class="mr-2" :class="option.icon"></i>
+          <span>{{ option.description }}</span>
+        </div>
+      </template>
+      <template slot="selected-option" slot-scope="option">
+        <div>
+          <i class="mr-2" :class="option.icon"></i>
+          <span class="pb-2">{{ option.description }}</span>
+        </div>
+      </template>
+    </v-select>
+  </div>
 </template>
 <script>
 export default {
@@ -34,6 +33,15 @@ export default {
       location: '',
       searchResults: [],
       service: null
+    }
+  },
+  watch: {
+    location (newValue) {
+      if (newValue !== null) {
+        this.$emit('place', newValue.description)
+      } else {
+        this.$emit('place', '')
+      }
     }
   },
   created () {
@@ -65,15 +73,6 @@ export default {
           types: ['(cities)']
         }, this.displaySuggestions)
         loading(false)
-      }
-    }
-  },
-  watch: {
-    location (newValue) {
-      if (newValue !== null) {
-        this.$emit('place', newValue.description)
-      } else {
-        this.$emit('place', '')
       }
     }
   }

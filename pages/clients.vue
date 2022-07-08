@@ -34,6 +34,7 @@
           :total-pages="clients && clients.size"
           :table-data="computedClients"
           :headings="headings"
+          :filter-types="filterTypes"
           @table-changed="updateTable"
           @item-clicked="$router.push({name: 'client-id-information', params: {id: $event._id}})"
         >
@@ -186,7 +187,39 @@ export default {
       statuses: ['all', 'accepted', 'pending', 'archived'],
       openModal: false,
       filterTypes: [
-        'invited-date'
+        {
+          type: 'select',
+          label: 'Status',
+          value: 'status',
+          options: [
+            {
+              text: 'All',
+              value: 'all'
+            },
+            {
+              text: 'Accepted',
+              value: 'accepted'
+            },
+            {
+              text: 'Pending',
+              value: 'pending'
+            },
+            {
+              text: 'Archived',
+              value: 'archived'
+            }
+          ],
+          default: 'all'
+        },
+        {
+          type: 'date-range',
+          label: 'Invited date',
+          value: 'createdAt',
+          default: {
+            start: new Date(),
+            end: new Date()
+          }
+        }
       ]
     }
   },
