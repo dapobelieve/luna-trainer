@@ -359,7 +359,7 @@ export default {
         const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export?ids=[${ids}]`, {
           responseType: 'blob'
         })
-        this.download(res, 'application/vnd.ms-excel', 'invoices.csv')
+        this.download(res, 'application/vnd.ms-excel', 'invoices.xls')
         this.$lunaToast.success('Invoices exported')
       } catch (e) {
         console.log(e)
