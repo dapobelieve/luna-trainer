@@ -84,8 +84,15 @@ export default {
   }
 }
 </script>
-<style>
-.vs__dropdown-toggle {
-  border: none !important
+<style lang="scss">
+.v-select {
+  .vs__open-indicator{
+    display: none;
+  }
+  @apply border-none
+}
+
+.vs--searchable .vs__dropdown-toggle{
+  @apply border-none
 }
 </style>
