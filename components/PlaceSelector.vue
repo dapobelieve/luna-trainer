@@ -40,6 +40,15 @@ export default {
       service: null
     }
   },
+  watch: {
+    location (newValue) {
+      if (newValue !== null) {
+        this.$emit('place', newValue.description)
+      } else {
+        this.$emit('place', '')
+      }
+    }
+  },
   created () {
     this.MapsInit()
   },
@@ -70,15 +79,6 @@ export default {
         }, this.displaySuggestions))
         this.searchResults = placeHolder[0].predictions
         loading(false)
-      }
-    }
-  },
-  watch: {
-    location (newValue) {
-      if (newValue !== null) {
-        this.$emit('place', newValue.description)
-      } else {
-        this.$emit('place', '')
       }
     }
   }

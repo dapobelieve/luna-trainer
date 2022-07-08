@@ -2,7 +2,7 @@
   <div class="bg-[#F1F5F9] w-screen justify-center item-center flex" style="height: 100vh;">
     <div class="text-center my-20">
       <div class="flex justify-center item-center my-5">
-        <div class="bg-[#E8505B] flex justify-center justify-items-center item-center place-content-center text-center rounded-[100px] w-16 h-16">
+        <div class="bg-red-400 flex justify-center justify-items-center item-center place-content-center text-center rounded-full w-16 h-16">
           <slot name="icon"></slot>
         </div>
       </div>

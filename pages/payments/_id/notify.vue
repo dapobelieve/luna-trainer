@@ -4,13 +4,6 @@
     <p slot="description">
       Your trainer has been notified of payment on <br /> invoice <b class="text-black">#{{ invoice }}</b>. Thank you
     </p>
-    <button
-      slot="button"
-      class="button-fill"
-      @click="goToHome()"
-    >
-      Done
-    </button>
   </payment-feedback>
 </template>
 

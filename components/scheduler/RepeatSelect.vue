@@ -158,15 +158,15 @@
               </label>
             </div>
             <div class="py-4 ml-2 flex w-[200px]">
-                <date-picker
-                    v-model="montSelect"
-                    style="width: 100% !important; height: 100%"
-                    class="w-full relative"
-                    :disabled-date="date => date < new Date()"
-                    format="dddd MMM, YYYY"
-                    placeholder="Monthly on day 14"
-                    :clearable="false"
-                ></date-picker>
+              <date-picker
+                v-model="montSelect"
+                style="width: 100% !important; height: 100%"
+                class="w-full relative"
+                :disabled-date="date => date < new Date()"
+                format="dddd MMM, YYYY"
+                placeholder="Monthly on day 14"
+                :clearable="false"
+              ></date-picker>
             </div>
           </div>
           <div class="flex flex-row py-2 items-center">

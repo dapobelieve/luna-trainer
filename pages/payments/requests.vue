@@ -1,31 +1,6 @@
 <template>
   <div class="h-full">
-    <PageHeader>
-      <template v-slot:title>
-        <span class="font-normal">Payments</span>
-      </template>
-      <template v-slot:buttons>
-        <div class="flex items-center">
-          <button class="flex items-center mr-2">
-            <i class="fi-rr-download text-[#3B82F6] mt-1"></i>
-            <span class="mx-2 text-[#3B82F6]">Export</span>
-          </button>
-          <NuxtLink
-            id="plus"
-            :to="{ name: 'payments-request'}"
-            exact-active-class="active"
-            class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
-          >
-            <i class="fi-rr-plus mt-1 text-base text-white"></i>
-          </NuxtLink>
-        </div>
-      </template>
-    </PageHeader>
-    <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center minimum-height ">
-      <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
-        <NuxtChild />
-      </div>
-    </div>
+    <NuxtChild />
     <PaymentWelcomeModal
       :exit-tour="() => {
         closeModal()
@@ -47,10 +22,18 @@ import { paymentTourSteps } from '~/tour/PaymentTourSteps'
 export default {
   name: 'PaymentRequests',
   components: { PaymentWelcomeModal },
+  provide () {
+    return {
+      showExport: this.showExport
+    }
+  },
   data () {
     return {
+      showExport: false,
       showDrop: false,
-      active: true
+      active: true,
+      checkedItems: [],
+      exporting: false
     }
   },
   head () {
@@ -97,6 +80,35 @@ export default {
         .start()
 
       this.$intro().showHints()
+    },
+    async exportInvoice () {
+      try {
+        if (this.checkedItems.length <= 0) {
+          return
+        }
+        this.exporting = true
+        const res = await this.$axios.$get(`${process.env.PAYMENT_HOST_URL}/invoice/export?ids=${this.checkedItems}`, {
+          responseType: 'blob'
+        })
+        this.downloadDocument(res)
+      } catch (e) {
+
+      } finally {
+        this.exporting = false
+      }
+    },
+    downloadDocument (response) {
+      const url = window.URL.createObjectURL(new Blob([response], { type: 'application/vnd.ms-excel' }))
+      const link = document.createElement('a')
+
+      link.href = url
+      link.setAttribute('download', 'Exported invoices.xls')
+      document.body.appendChild(link)
+      link.click()
+
+      this.$lunaToast.success(
+        'Exported Successfully'
+      )
     }
   },
   mounted () {

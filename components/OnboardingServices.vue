@@ -129,7 +129,7 @@ export default {
   computed: {
     maxServicesReached () {
       this.$emit('validity', this.services.length < 1 || (this.service.idx || this.service._id))
-      return this.services.length >= 5 && !!(!this.service.idx && !this.service._id)
+      return this.services.length >= 10 && !!(!this.service.idx && !this.service._id)
     },
     ...mapState({
       services (state) {
@@ -146,12 +146,6 @@ export default {
     value: {
       handler () {
         this.service = JSON.parse(JSON.stringify(this.value))
-      },
-      immediate: true,
-      deep: true
-    },
-    $services: {
-      handler () {
       },
       immediate: true,
       deep: true
@@ -194,7 +188,7 @@ export default {
       this.$v.$reset()
       this.service = {
         description: '',
-        appointmentTypes: ['in-person'],
+        appointmentTypes: [],
         pricing: {
           amount: 0,
           plan: 'hourly'

@@ -176,8 +176,7 @@
               class="w-full"
               :disabled="!invoice.customer"
               :disabled-date="(d) => { let date = new Date(); date.setDate(date.getDate() - 1); return d < date; }"
-              value-type="format"
-              :format="$auth.user.dateFormat.toUpperCase()"
+              format="DD-MMM-YYYY"
               placeholder="Select a due date for this invoice"
             ></date-picker>
           </div>
@@ -270,7 +269,7 @@
               :disabled="!invoice.customer"
               type="button"
               style="width: fit-content; margin-right: 1em"
-              @click.prevent="saveForm"
+              @click.prevent="saveForm(false)"
             >
               {{ autoSaving ? 'Saving' : 'Save' }}
             </button-spinner>
@@ -404,16 +403,22 @@ export default {
       getPaymentMethods: 'payment-methods/getPaymentMethods'
     }),
     ...mapActions({ getServices: 'services/getServices' }),
-    async saveForm () {
-      this.autoSaving = true
-      this.$nuxt.$emit('autosaving-invoice')
+    async saveForm (autoSave) {
+      if (autoSave === undefined) {
+        this.autoSaving = autoSave
+        this.$nuxt.$emit('autosaving-invoice')
+      }
       if (this.invoiceId === null && this.invoice.customer) {
         await this.createInvoice()
       } else if (this.invoiceId) {
         await this.updateInvoice()
       }
-      this.$nuxt.$emit('autosaving-invoice-completed')
-      this.autoSaving = false
+      if (autoSave === undefined) {
+        this.autoSaving = false
+        this.$nuxt.$emit('autosaving-invoice-completed')
+      } else {
+        this.$lunaToast.success('Invoice saved successfully')
+      }
     },
     addOneTime () {
       this.$modal.show(
@@ -542,6 +547,7 @@ export default {
           this.getInvoicePayload()
         )
       } catch (error) {
+        this.$lunaToast.error(error)
         console.error(error)
       }
     },
@@ -595,6 +601,7 @@ export default {
   beforeMount () {
     if (!isEmpty(this.invoiceData)) {
       this.invoice = { ...this.invoiceData }
+      this.invoice.dueDate = new Date(this.invoice.dueDate)
       this.invoiceId = this.invoice._id
     }
   }
