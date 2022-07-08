@@ -82,8 +82,12 @@ export const actions = {
         return response
       })
   },
-  allConciseClients () {
-    return this.$axios.$get(`${process.env.BASEURL_HOST}/client/concise`)
+  async allConciseClients () {
+    const response = await this.$axios.$get(`${process.env.BASEURL_HOST}/client/concise`)
+    if (response && response.data) {
+      return response.data
+    }
+    return []
   },
   fetchAllClients ({ commit, dispatch }, payload) {
     const stat =
