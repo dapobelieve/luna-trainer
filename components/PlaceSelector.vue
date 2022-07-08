@@ -1,30 +1,35 @@
 <template>
-  <div class="flex flex-row">
-    <v-select
-      v-model="location"
-      class="w-full"
-      label="description"
-      :filterable="false"
-      :options="searchResults"
-      @search="onSearch"
-    >
-      <template slot="no-options">
-        Type to search places...
-      </template>
-      <template slot="option" slot-scope="option">
-        <div class="flex flex-row items-center">
-          <i class="mr-2" :class="option.icon"></i>
-          <span>{{ option.description }}</span>
+<div class="flex flex-row mt-2">
+  <i class="fi fi-rr-marker pt-3 pl-0.5 mr-1 text-lg"></i>
+  <v-select
+  v-model="location"
+  class="w-full repeat-selector pt-1"
+  label="description"
+  :filterable="false"
+  :options="searchResults"
+  placeholder="Location"
+  @search="onSearch">
+    <template slot="no-options">
+      Type to search places...
+    </template>
+    <template slot="option" slot-scope="option">
+      <div class="flex flex-row items-center">
+        <div class="pb-3 mr-2">
+          <img class="w-5 h-5" src="../assets/img/svgs/icon/map-marker-icon.png" alt="">
         </div>
-      </template>
-      <template slot="selected-option" slot-scope="option">
-        <div>
-          <i class="mr-2" :class="option.icon"></i>
-          <span class="pb-2">{{ option.description }}</span>
+        <div class="flex flex-col">
+          <span class="font-medium">{{option.description.split(',')[0]}}</span>
+          <span class="text-xs">{{option.description}}</span>
         </div>
-      </template>
-    </v-select>
-  </div>
+      </div>
+    </template>
+    <template slot="selected-option" slot-scope="option">
+      <div>
+        <span>{{option.description}}</span>
+      </div>
+    </template>
+  </v-select>
+</div>
 </template>
 <script>
 export default {
@@ -59,33 +64,35 @@ export default {
       predictions.forEach((prediction) => {
         prediction.icon = 'fi fi-rr-marker'
       })
-
-      this.searchResults = predictions
+      return predictions
     },
-    onSearch (search, loading) {
+    async onSearch (search, loading) {
+      const placeHolder = []
       if (search === '') {
         this.searchResults = []
       }
       if (search) {
         loading(true)
-        this.service.getPlacePredictions({
+        placeHolder.push(await this.service.getPlacePredictions({
           input: search,
           types: ['(cities)']
-        }, this.displaySuggestions)
+        }, this.displaySuggestions))
+        this.searchResults = placeHolder[0].predictions
         loading(false)
       }
     }
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .v-select {
+  .vs__open-indicator{
+    display: none;
+  }
   @apply border-none
 }
-.v-select .dropdown li a {
-  padding: 10px 20px;
-  width: 100%;
-  font-size: 1.25em;
-  color: #3c3c3c;
+
+.vs--searchable .vs__dropdown-toggle{
+  @apply border-none
 }
 </style>
