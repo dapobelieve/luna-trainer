@@ -1,13 +1,13 @@
 <template>
 <div class="flex flex-row mt-2">
-  <i class="fi fi-rr-marker pt-3 pl-0.5 mr-1.5 text-lg"></i>
+  <i class="fi fi-rr-marker pt-3 pl-0.5 mr-1 text-lg"></i>
   <v-select
   v-model="location"
-  class="w-full repeat-selector"
+  class="w-full repeat-selector pt-1"
   label="description"
   :filterable="false"
   :options="searchResults"
-  placeholder="Select a place"
+  placeholder="Location"
   @search="onSearch">
     <template slot="no-options">
       Type to search places...
