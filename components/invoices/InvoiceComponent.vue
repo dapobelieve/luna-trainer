@@ -176,8 +176,7 @@
               class="w-full"
               :disabled="!invoice.customer"
               :disabled-date="(d) => { let date = new Date(); date.setDate(date.getDate() - 1); return d < date; }"
-              value-type="format"
-              :format="$auth.user.dateFormat.toUpperCase()"
+              format="DD-MMM-YYYY"
               placeholder="Select a due date for this invoice"
             ></date-picker>
           </div>
@@ -548,7 +547,7 @@ export default {
           this.getInvoicePayload()
         )
       } catch (error) {
-        this.$lunaToast.error(error.message)
+        this.$lunaToast.error(error)
         console.error(error)
       }
     },
@@ -602,6 +601,7 @@ export default {
   beforeMount () {
     if (!isEmpty(this.invoiceData)) {
       this.invoice = { ...this.invoiceData }
+      this.invoice.dueDate = new Date(this.invoice.dueDate)
       this.invoiceId = this.invoice._id
     }
   }

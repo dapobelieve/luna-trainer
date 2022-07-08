@@ -1,32 +1,6 @@
 <template>
   <div class="h-full">
-    <PageHeader>
-      <template v-slot:title>
-        <span class="font-normal">Payments</span>
-      </template>
-      <template v-slot:buttons>
-        <div class="flex items-center">
-          <button :disabled="exporting" @click="exportInvoice" class="flex items-center mr-2">
-            <i class="fi-rr-download text-[#3B82F6] mt-1"></i>
-            <SingleLoader v-if="exporting" />
-            <span class="mx-2 text-[#3B82F6]" v-else>Export</span>
-          </button>
-          <NuxtLink
-            id="plus"
-            :to="{ name: 'payments-request'}"
-            exact-active-class="active"
-            class="grid place-content-center primary-color h-8 w-8 text-sm font-medium rounded-lg shadow-sm hover:bg-blue-500 focus:outline-none "
-          >
-            <i class="fi-rr-plus mt-1 text-base text-white"></i>
-          </NuxtLink>
-        </div>
-      </template>
-    </PageHeader>
-    <div class="w-full p-4 pb-24 bg-gray-100 flex justify-center minimum-height ">
-      <div class="max-w-xl md:max-w-4xl 2xl:max-w-7xl lg:max-w-full w-full">
-        <NuxtChild v-model="checkedItems"  />
-      </div>
-    </div>
+    <NuxtChild />
     <PaymentWelcomeModal
       :exit-tour="() => {
         closeModal()
@@ -48,8 +22,14 @@ import { paymentTourSteps } from '~/tour/PaymentTourSteps'
 export default {
   name: 'PaymentRequests',
   components: { PaymentWelcomeModal },
+  provide () {
+    return {
+      showExport: this.showExport
+    }
+  },
   data () {
     return {
+      showExport: false,
       showDrop: false,
       active: true,
       checkedItems: [],
