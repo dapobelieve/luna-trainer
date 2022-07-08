@@ -123,7 +123,7 @@
                           type="submit"
                           :disabled="stripeError || stripeCompleting"
                           class="rounded-md p-2 py-4 w-full mt-4 bg-blue-500 shadow-sm text-white" >
-                          <span> Pay for invoice </span>
+                          <span>Pay invoice </span>
                           <SingleLoader class="ml-4" v-if="stripeCompleting" />
                         </button>
                       </form>
@@ -490,7 +490,7 @@ export default {
   },
   head () {
     return {
-      title: 'Payment for invoice',
+      title: 'Invoice payment',
       script: [
         {
           src: 'https://js.stripe.com/v3/'
