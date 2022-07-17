@@ -1,14 +1,28 @@
 <template>
   <div>
     <div class="flex justify-between items-center mb-3 py-2">
-      <LunaFilter v-model="computedFilterList" />
-      <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color mr-2">
-        <i class="fi-rr-apps-sort mt-1 mr-2"></i>
-        <span class="md:block hidden mr-2 ">Sort</span>
-      </button>
+      <LunaFilter v-model="computedFilterList" class="mr-1" />
+      <div class="relative">
+        <ClickOutside :do="() => { showSort = false }">
+          <button class="inline-flex relative ring-black ring-1 ring-opacity-5 rounded-lg px-2 py-1 text-primary-color  md:mr-2" @click.stop.exact="showSort = !showSort">
+            <i class="fi-rr-apps-sort mt-1 md:mr-2"></i>
+            <span class="md:block hidden mr-2 ">Sort</span>
+            <div
+              v-show="showSort"
+              class="absolute right-0 top-[41px] w-40 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none z-[5]"
+            >
+              <div class="py-2 flex flex-col" role="none">
+                <button type="button" class="dropdown-button" @click="$router.push({name: $route.name, query: { ...$route.query, sort: 'createdAt'}})">
+                  Latest (asc)
+                </button>
+              </div>
+            </div>
+          </button>
+        </ClickOutside>
+      </div>
     </div>
     <div class="luna-table bg-white rounded-2xl ring-1 ring-black ring-opacity-5">
-      <div class="overflow-x-scroll lg:overflow-x-visible rounded-2xl">
+      <div class="overflow-x-scroll lg:overflow-x-visible rounded-2xl h-scroll">
         <table class="table-auto relative table w-full text-xs" align="center">
           <thead class="bg-slate-50">
             <tr class="uppercase tracking-wider text-gray-500">
@@ -146,6 +160,7 @@ export default {
   },
   data () {
     return {
+      showSort: false,
       activeItem: null,
       selectAll: false,
       checkedItems: [],
@@ -177,9 +192,8 @@ export default {
             this.filterList[key] = val[key]
           }
         }
-
-        this.$emit('table-changed', { ...query, ...this.sortingAndPaginationOptions })
         this.route({ ...query, ...this.sortingAndPaginationOptions })
+        this.$emit('table-changed', { ...query, ...this.sortingAndPaginationOptions })
       }
     }
   },
@@ -238,6 +252,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.h-scroll {
+  &::-webkit-scrollbar {
+    height: 2px;
+  }
+}
 .luna-table {
   tbody {
     tr {

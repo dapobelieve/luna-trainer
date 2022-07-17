@@ -1,5 +1,4 @@
-FROM node:erbium
-
+FROM node:14
 # create destination directory
 RUN mkdir -p /var/www
 WORKDIR /var/www/

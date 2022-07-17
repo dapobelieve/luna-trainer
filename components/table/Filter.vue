@@ -2,12 +2,11 @@
   <div>
     <div class="flex items-center">
       <ClickOutside :do="shouldCloseFilter">
-        <button class="inline-flex relative ring-black ring-1 ring-opacity-10 rounded-lg px-2 py-1 text-primary-color mr-2" @click.exact="show = !show">
-          <i class="fi-rr-filter mt-1 mr-2"></i>
-          <template class="md:block hidden">
+        <button class="inline-flex relative ring-black ring-1 ring-opacity-10 rounded-lg px-2 py-1 text-primary-color mr-1 md:mr-2" @click.exact="show = !show">
+          <i class="fi-rr-filter mt-1 md:mr-2"></i>
+          <span class="md:block hidden">
             <span class=" mr-2 ">Filter</span>
-            <i class="fi-rr-caret-down mt-1"></i>
-          </template>
+          </span>
           <div v-show="show" class="absolute rounded-lg md:w-64 z-40 shadow-xl text-gray-600 top-10 left-0" @click.stop="">
             <div class="bg-white rounded-lg pt-4 pb-2 px-3 ring-1 ring-black ring-opacity-5">
               <div v-for="(filter, filterIndex) in filterTypes" :key="filterIndex" class="flex flex-col justify-start items-start py-1.5 font-light">
@@ -56,8 +55,8 @@
           </div>
         </button>
       </ClickOutside>
-      <template v-if="Object.keys(filterHashCompute).length">
-        <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink flex">
+      <div v-if="Object.keys(filterHashCompute).length" class="overflow-x-auto h-scroll flex">
+        <div v-for="(item, key, index) in filterHashCompute" :key="index" class="mr-1 flex-shrink-0 mx-0.5 my-0.5 flex">
           <template v-if="item.indexOf('-') > -1">
             <span :key="index" class="ring-black ring-1 ring-opacity-10 rounded-full py-1 px-3 text-gray-600">
               <span class="mr-3 select-none">
@@ -72,7 +71,7 @@
             <button class="w-2" @click=" removeFilterItem(key)">&times;</button>
           </span>
         </div>
-      </template>
+      </div>
     </div>
   </div>
 </template>
@@ -103,8 +102,11 @@ export default {
     }
   },
   computed: {
-    filterTypesValues () {
-      return this.filterTypes.map(item => item.value)
+    filterMap () {
+      return this.filterTypes.reduce((acc, item) => {
+        acc[item.value] = item
+        return acc
+      }, {})
     },
     computedCheckedVars: {
       get () {
@@ -117,7 +119,7 @@ export default {
     filterHashCompute: {
       get () {
         return Object.keys(this.filterHash).reduce((acc, key) => {
-          if (this.filterTypesValues.includes(key)) {
+          if (this.filterMap[key] && this.filterHash[key] !== 'all') {
             acc[key] = this.filterHash[key]
           }
           return acc
@@ -130,35 +132,36 @@ export default {
   },
   watch: {
     show: {
-      immediate: true,
+      // immediate: true,
       handler (val) {
         if (val) {
-          this.filterTypes.forEach((item) => {
-            this.filterObj = Object.assign({}, this.filterObj, {
-              [item.value]: item.default
-            })
-          })
+          this.setupFilter()
         }
       }
     },
     $route: {
       immediate: true,
       deep: true,
-      handler (val) {
+      handler (val, oldVal) {
         const { query } = val
+        this.show = false
         this.filterObj = {}
+        this.$parent.sortingAndPaginationOptions = {}
         for (const key in query) {
-          if (this.filterTypesValues.includes(key)) {
-            if (this.filterTypes.filter(item => item.value === key)[0].type === 'date-range') {
-              this.filterObj[key] = {
-                start: new Date(query[key].split('-')[0] * 1000),
-                end: new Date(query[key].split('-')[1] * 1000)
-              }
+          if (this.filterMap[key]) {
+            this.checkedVars = Array.from(new Set(this.checkedVars.concat(key)))
+            if (this.filterMap[key].type === 'date-range') {
+              this.filterObj = Object.assign({}, this.filterObj, {
+                [key]: {
+                  start: new Date(query[key].split('-')[0] * 1000),
+                  end: new Date(query[key].split('-')[1] * 1000)
+                }
+              })
             } else {
-              this.filterObj[key] = query[key]
+              this.filterObj = Object.assign({}, this.filterObj, { [key]: query[key] })
             }
           } else {
-            console.log(key, query[key])
+            console.log('where is this key', key)
             this.$parent.sortingAndPaginationOptions = {
               ...this.$parent.sortingAndPaginationOptions,
               [key]: query[key]
@@ -170,14 +173,26 @@ export default {
     }
   },
   methods: {
+    setupFilter () {
+      this.filterTypes.forEach((item) => {
+        if (!this.filterObj[item.value] && !this.checkedVars.includes(item.value)) {
+          this.filterObj = Object.assign({}, this.filterObj, {
+            [item.value]: item.default
+          })
+        }
+      })
+    },
     close () { this.show = false },
     removeFilterItem (key) {
-      this.$delete(this.filterObj, key)
       this.checkedVars = this.checkedVars.filter(item => item !== key)
-      this.$emit('filter', { ...this.filterObj })
+      this.filterObj[key] = this.filterMap[key].default
+      const { [key]: value, ...rest } = this.filterObj
+      this.$emit('filter', { ...rest })
     },
     clear () {
       this.checkedVars = []
+      this.$emit('filter', {})
+      this.setupFilter()
       this.close()
     },
     shouldCloseFilter (event) {
@@ -203,6 +218,11 @@ export default {
 <style scoped lang="scss">
 .mx-datepicker {
   width: 100%;
+}
+.h-scroll {
+  &::-webkit-scrollbar {
+    height: 2px;
+  }
 }
 .date-picker {
   ::v-deep .mx-input-wrapper {
